@@ -31,7 +31,109 @@ private $participantes;
       }
       return $this->codigos;
   }
-    //-------- SET DATOS Para registar consolidacion-------------------------------------//
+
+    //------------------------------------------------------Registrar discipulado ----------------------//
+    public function registrar_discipulado()
+    {
+        //buscando ultimo id agregando
+        $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $contador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $id = $contador['id'];
+        //sumandole un numero para que sea dinamico 
+        $id++;
+
+        $sql = "INSERT INTO celula_discipulado (codigo_celula_discipulado,cedula_lider,
+        cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
+        VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direc)";
+
+        $stmt = $this->conexion->prepare($sql);
+
+        $stmt->execute(array(
+            ":codigo" => 'CC' . $id,
+            ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
+            ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
+            ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc"=>$this->direccion
+        ));
+
+        //agregando codigo de celula a codigo de usuario
+        //agregando a lider
+        $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+        $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":codigo" => $codigo_lider['codigo'] . '-' . 'CC' . $id,
+            ":cedula" => $this->cedula_lider
+        ));
+
+        //comprobando que el anfitrion y el asistente sean la misma cedula
+        if ($this->cedula_anfitrion == $this->cedula_asistente) {
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array());
+
+            $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CC' . $id,
+                ":cedula" => $this->cedula_anfitrion
+            ));
+        } else {
+            //agregando codigo de celula por separado de anfitrion y asistente
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array());
+
+            $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CC' . $id,
+                ":cedula" => $this->cedula_anfitrion
+            ));
+
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
+
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
+
+            $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo" => $codigo_asistente['codigo']  . '-' . 'CC' . $id,
+                ":cedula" => $this->cedula_asistente
+            ));
+        }
+    }
+    //-------- SET DATOS Para registar discipulado-------------------------------------//
   public function setDiscipulado($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion,$participantes)
   {
       $this->cedula_lider = $cedula_lider;
