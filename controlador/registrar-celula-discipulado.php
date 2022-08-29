@@ -14,7 +14,15 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_asistente = $_POST['codigoAsistente'];
         $dia = $_POST['dia'];
         $hora = $_POST['hora'];
-        echo $cedula_lider;
+        $direccion = $_POST['direccion'];
+        $participantes = $_POST['participantes'];
+        echo $cedula_lider . '<br>';
+        echo $cedula_anfitrion . '<br>';
+        echo $cedula_asistente . '<br>';
+        echo $dia . '<br>';
+        echo $hora . '<br>';
+        echo $direccion . '<br>';
+        print_r($participantes) . '<br>';
         exit();
         $objeto->setDatos($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora);
 
