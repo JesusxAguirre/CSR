@@ -79,6 +79,16 @@ private $participantes;
             ":cedula" => $this->cedula_lider
         ));
 
+        //comienzo de funcion de pasar id foraneo con respecto a la cedula en este caso primero del lider
+        //primero vamos a buscar el id que queremos pasar como clave foranea
+
+        $sql = ("SELECT id FROM celula_discipulado 
+        WHERE cedula_lider= '$this->cedula_lider'
+        AND cedula_anfitrion = '$this->cedula_anfitrion'
+        AND cedula_asistente = '$this->cedula_asistente'");
+        
+        $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
+
         //comprobando que el anfitrion y el asistente sean la misma cedula
         if ($this->cedula_anfitrion == $this->cedula_asistente) {
             $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
