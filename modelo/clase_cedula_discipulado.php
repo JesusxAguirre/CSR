@@ -86,7 +86,14 @@ private $participantes;
         WHERE cedula_lider= '$this->cedula_lider'
         AND cedula_anfitrion = '$this->cedula_anfitrion'
         AND cedula_asistente = '$this->cedula_asistente'");
-        
+       
+       $stmt = $this->conexion()->prepare($sql);
+       
+        $stmt->execute(array());
+       
+        $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
+       
+        $id_discipulado = $id_discipulado['id'];
         $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
 
         //comprobando que el anfitrion y el asistente sean la misma cedula
