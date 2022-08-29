@@ -16,17 +16,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $hora = $_POST['hora'];
         $direccion = $_POST['direccion'];
         $participantes = $_POST['participantes'];
-        echo $cedula_lider . '<br>';
-        echo $cedula_anfitrion . '<br>';
-        echo $cedula_asistente . '<br>';
-        echo $dia . '<br>';
-        echo $hora . '<br>';
-        echo $direccion . '<br>';
-        print_r($participantes) . '<br>';
-        exit();
-        $objeto->setDatos($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora);
+       
+        $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
 
-        $objeto->registrar_consolidacion();
 
     }
     require_once 'vista/'.$pagina.'.php';
