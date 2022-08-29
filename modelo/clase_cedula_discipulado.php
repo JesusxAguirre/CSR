@@ -75,7 +75,7 @@ private $participantes;
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":codigo" => $codigo_lider['codigo'] . '-' . 'CC' . $id,
+            ":codigo" => $codigo_lider['codigo'] . '-' . 'CD' . $id,
             ":cedula" => $this->cedula_lider
         ));
 
@@ -94,7 +94,7 @@ private $participantes;
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CC' . $id,
+                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
                 ":cedula" => $this->cedula_anfitrion
             ));
         } else {
@@ -112,7 +112,7 @@ private $participantes;
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CC' . $id,
+                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
                 ":cedula" => $this->cedula_anfitrion
             ));
 
@@ -128,7 +128,7 @@ private $participantes;
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_asistente['codigo']  . '-' . 'CC' . $id,
+                ":codigo" => $codigo_asistente['codigo']  . '-' . 'CD' . $id,
                 ":cedula" => $this->cedula_asistente
             ));
         }
