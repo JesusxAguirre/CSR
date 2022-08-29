@@ -1,0 +1,68 @@
+body{
+    background-color: wheat;
+    background-image: url('../img/sky.jpg');
+    background-size: cover;
+}
+.image{
+    background-image: url('../img/paisaje.jpg');
+    background-size: cover;
+    width: 60% !important;
+    border-radius: 6px;
+    margin: 130px auto;
+    box-shadow: 0px 0px 30px black;
+}
+.loginCard{
+    backdrop-filter: blur(3px);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 6px;
+    color: white;
+    height: 540px;
+}
+.inputF{
+    color: white;
+    background: none;
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
+}
+.inputF:focus{
+    color: white;
+    background: none;
+    border: none;
+    box-shadow: none;
+    border-bottom: 2px solid gold;
+}
+.botonLogin{
+    color: white;
+    border-color: gold;
+}
+.botonLogin:hover{
+    background-color: white;
+    color: black;
+    border-color: gold;
+}
+
+.input-icon{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 89%;
+	top: 70.5%;
+	transform: translateY(-67.5%);
+}
+.input-icon2{
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 89%;
+	top: 70.5%;
+	transform: translateY(-67.5%);
+}
+
+.relative{
+    position: relative;
+}
+
+.text-check{
+    color: #05e08c	;
+}

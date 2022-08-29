@@ -1,0 +1,156 @@
+body{
+    background-image: url('../img/background1.jpg');
+    background-repeat: no-repeat;
+    background-size: fill;
+    background-attachment: fixed;
+}
+/* INICIO DE BIENVENIDOS */
+.bienvenidos{
+    height: auto;
+}
+.card{
+    background-color: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(2px);
+    margin: 0px 0px 0px 20px;
+    border-radius: 10px;
+}
+.texto1{
+    text-align: left;
+    font-size: 19px;
+    font-weight: 600;
+}
+.cardFooter{
+    text-align: center;
+    margin-top: 80px;
+}
+.boton1{
+    background: none;
+    color: #262626;
+    border: 2px solid;
+    border-radius: 20px;
+    padding-left: 18px;
+    padding-right: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+/* FIN DE LA FILA DE BIENVENIDOS */
+
+
+/* INICIO DE LA FILA DE UBICANOS */
+.fondo2{
+    margin: 0px 0px 0px 20px !important;
+    background-image: url('../img/fondoMapa.PNG');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 300px;
+    text-align: center;
+    border-radius: 10px;
+}
+.boton2{
+    margin: 90px auto;
+    padding: 40px 80px 40px 80px;
+    background: none;
+    border-radius: 60px;
+    color: #262626;
+    font-weight: bold;
+    font-size: 30px;
+    border: 2px solid black;
+}
+.boton2:hover{
+    color: #262626;
+    background: white;
+    border: none;
+    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.50);
+}
+/* FIN DE LA FILA DE UBICANOS */
+
+
+
+/* FILA DE REDES SOCIALES */
+.redCard1{
+    background-color: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(3px);
+    border-radius: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+}
+.redCard2{
+    text-align: left;
+}
+.redCard2_1{
+    font-size: 80px;
+    font-weight: bold;
+}
+.botonFB{
+    color: steelblue;
+    font-size: 55px;
+    background: none;
+    border: none;
+}
+.botonIG{
+    color: violet;
+    font-size: 55px;
+    background: none;
+    border: none;
+}
+.botonWS{
+    color: greenyellow;
+    font-size: 55px;
+    background: none;
+    border: none;
+}
+.botonRed:hover{
+    background: none;
+    color: #262626;
+}
+/* FIN DE FILAS DE REDES SOCIALES */
+
+
+/* INICIO DE INFO ECAM */
+.ecamFondo1{
+    background-color: sienna;
+    margin-left: 20px;
+}
+.ecamFondo2{
+    background-color: sienna;
+    margin-right: 20px;
+}
+.vectorLibro{
+    width: 330px;
+    height: 400px;
+    margin: 50px auto;
+}
+.ecamTitle{
+    margin-left: 20px;
+    margin-top: 50px;
+    font-size: 250px;
+    font-weight: bold;
+    color: white;
+}
+.ecamInfo{
+    font-size: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: -10px;
+    color: white;
+}
+
+
+/* BOTON FLOTANTE */
+.botonF{
+    width: 250px;
+    margin: auto;
+    margin-bottom: 20px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.70);
+    border-radius: 40px;
+    border: none;
+}
+.botonF:hover{
+    background-color: rgb(38, 38, 38);
+    color: gold;
+}
+/* FIN BOTON FLOTATE */
