@@ -55,7 +55,7 @@ private $participantes;
         $stmt = $this->conexion->prepare($sql);
 
         $stmt->execute(array(
-            ":codigo" => 'CC' . $id,
+            ":codigo" => 'CD' . $id,
             ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
             ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
             ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc"=>$this->direccion
