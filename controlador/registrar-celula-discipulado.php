@@ -19,7 +19,7 @@ if (is_file('vista/'.$pagina.'.php')) {
        
         $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
 
-
+        $objeto->registrar_discipulado();
     }
     require_once 'vista/'.$pagina.'.php';
 }
