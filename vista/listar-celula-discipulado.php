@@ -75,7 +75,7 @@
                     <?php foreach ($matriz_celula as $celula) : ?>
                       <tr role='row'>
                         <td style="display: none;" class="id" role='cell'><?php echo $celula['id'] ?></td>
-                        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_consolidacion'] ?></td>
+                        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
                         <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
                                                       echo $hora; ?></td>
@@ -87,6 +87,8 @@
                         <td style="display: none;" class="cedula_asistente" role='cell'><?php echo $celula['asistente']['cedula'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary edit-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
                       </tr>
@@ -113,7 +115,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="editForm" action="?pagina=listar-celula-consolidacion">
+          <form class="form" method="post" id="editForm" action="?pagina=listar-celula-discipulado">
             <div class="mb-3">
               <div id="grupo__codigo" class="">
                 <div class="relative">
@@ -210,6 +212,46 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="update" class="btn btn-primary" form="editForm">Guardar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal agregar_usuario -->
+  <div class="modal fade edit-modal" id="agregar_usuario" tabindex="-1" aria-labelledby="Modalagregar_usuario" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light">
+          <h5 class="modal-title">agregar_usuario a Celula de discipulado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-discipulado">
+            <div class="mb-3">
+              <div id="grupo__codigo" class="">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="rolInput">
+                    <i class="input-icon fs-5"></i>
+                    Codigo de celula
+                  </label>
+                  <input type="text" name="usuarios[]" id="codigoInput" class="form-control" placeholder="CC1">
+                </div>
+                <p class="text-danger d-none">No puede dejar este campo vacio </p>
+              </div>
+            </div>
+           
+            
+            </div>
+            <input hidden class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
+            <input hidden class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
+            <input hidden name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
+
+            <input type="hidden" name="id" id="idInput">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="update" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
 
         </div>
       </div>
