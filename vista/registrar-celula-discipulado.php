@@ -73,7 +73,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                      <p class="text-danger d-none">Escriba el codigo correctamente cedula-nivel-nacionalidad-estado-sexo-estado_civil o seleccione </p>
                     </div>
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
@@ -90,7 +90,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                      <p class="text-danger d-none">Escriba el codigo correctamente cedula-nivel-nacionalidad-estado-sexo-estado_civil o seleccione </p>
                     </div>
                     <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                       <div class="relative">
@@ -107,7 +107,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                      <p class="text-danger d-none">Escriba el codigo correctamente cedula-nivel-nacionalidad-estado-sexo-estado_civil o seleccione  </p>
                     </div>
                   </div>
                   <div class="mb-3 row">
