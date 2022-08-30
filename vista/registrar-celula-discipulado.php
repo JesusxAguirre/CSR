@@ -131,7 +131,7 @@
                   <div class="mb-3 row">
                     <div id="grupo__participantes" class="col-sm col-md-6">
                       <div class="relative">
-                        <label class="form-label fw-bold" for="formGridCity">Personas que asisten a la celula</label>
+                        <label class="form-label fw-bold" for="">Personas que asisten a la celula</label>
                         <i class="input-icon fs-5"></i>
                           <select multiple name="participantes[]"  id="participantes" class="form-control">
                           <?php

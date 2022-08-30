@@ -2,10 +2,10 @@ const formulario = document.getElementById('formulario'); //declarando una const
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
-  allowHTML : true,
-    removeItems: true,
-    removeItemButton: true,
-    noResultsText: 'No hay coicidencias',
+  allowHTML: true,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
 });
 
 
@@ -113,12 +113,31 @@ formulario.addEventListener('submit', (e) => {
 //probando elimnar option value
 
 $("#codigoLider").on('change', function () {
-  let codigo=$('#codigoLider').val();
+  var val = $('#codigoLider').val();
+  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
+
+
+
+  let codigo = $('#codigoLider').val();
   console.log(codigo)
-  $('#anfitrion option').each(function() {
+
+  $('#anfitrion option').each(function () {
     console.log('entra a la funcion')
-    if ( $(this).val() == codigo) {
-        $(this).remove();
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  });
+  $('#asistente option').each(function () {
+    console.log('entra a la funcion')
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  })
+
+  $('#participantes option').each(function () {
+    console.log('entra a la funcion de choice js')
+    if ($(this).val() == cedula) {
+      $(this).remove();
     }
   });
 });
