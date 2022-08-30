@@ -241,18 +241,18 @@
             </div>
            
             
-            </div>
+            
             <input hidden class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
             <input hidden class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
             <input hidden name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
 
             <input type="hidden" name="id" id="idInput">
           </form>
-        </div>
+          </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="update" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
-
+                    
         </div>
       </div>
     </div>

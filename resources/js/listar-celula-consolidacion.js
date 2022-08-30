@@ -1,9 +1,10 @@
 // Actualizar contenido del modal Editar
 const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
-const agregar = document.getElementById('agregar_usuarios'); //declarando una constante con la id formulario
+const agregar = document.getElementById('table td .edit-btn'); //declarando una constante con la id formulario
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
+
 
 
 const campos = {
@@ -52,6 +53,30 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 
 
 }))
+agregar.forEach(boton => boton.addEventListener('click', () => {
+  let fila = boton.parentElement.parentElement
+  let id = fila.querySelector('.id')
+  let lider = fila.querySelector('.lider')
+  let anfitrion = fila.querySelector('.anfitrion')
+  let asistente = fila.querySelector('.asistente')
+
+
+  const idInput = document.getElementById('idInput')
+ 
+  const liderInput = document.getElementById('codigoLider')
+  const anfitrionInput = document.getElementById('codigoAnfitrion')
+  const asistenteInput = document.getElementById('codigoAsistente')
+
+  liderInput.value = lider.textContent
+  anfitrionInput.value = anfitrion.textContent
+  asistenteInput.value = asistente.textContent
+  idInput.value = id.textContent
+
+  //cedulas de usuarios
+
+
+}))
+
 
 
 const ValidarFormulario = (e) => {
