@@ -1,8 +1,8 @@
 <?php 
-require_once("clase_celula_consolidacion.php");
-class Discipulado extends Consolidacion{
+require_once("clase_usuario.php");
+class Discipulado extends Usuarios{
 
-private $variable;
+private $listar;
 private $codigos;
 private $direccion;
 private $participantes;
@@ -14,7 +14,21 @@ private $participantes;
   }
 
 
+  public function listar()
+    {
+        $sql = ("SELECT * FROM celula_discipulado");
 
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar[] = $filas;
+        }
+        return $this->listar;
+    }
   public function listar_codigos()
   {
 

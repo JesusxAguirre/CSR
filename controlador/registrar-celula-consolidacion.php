@@ -17,7 +17,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_asistente = $_POST['codigoAsistente'];
         $dia = $_POST['dia'];
         $hora = $_POST['hora'];
-
+        
 
         $cedula_lider = substr($cedula_lider, 0, 8); //guardando el valor de la cedula del lider
         $cedula_anfitrion = substr($cedula_anfitrion, 0, 8); //guardando el valor de la cedula del lider
