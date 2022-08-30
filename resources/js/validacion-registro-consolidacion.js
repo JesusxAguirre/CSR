@@ -112,14 +112,15 @@ formulario.addEventListener('submit', (e) => {
 
 //probando elimnar option value
 
-$("#codigoLider").on('input', function () {
-  var val=$('#codigoLider').val();
-  var ejemplo = $('#lider').find('option[value="'+val+'"]').data('ejemplo');
-  alert(ejemplo);
+$("#codigoLider").on('change', function () {
+  let codigo=$('#codigoLider').val();
+  console.log(codigo)
+  $('#anfitrion option').each(function() {
+    console.log('entra a la funcion')
+    if ( $(this).val() == codigo) {
+        $(this).remove();
+    }
+  });
 });
 
-$('#anfitrion option').each(function() {
-  if ( $(this).val() == 'X' ) {
-      $(this).remove();
-  }
-});
+

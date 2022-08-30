@@ -84,7 +84,7 @@
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
                           ?>
-                            <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo']; ?>" > 
                           <?php
                           endforeach;
                           ?>
@@ -101,7 +101,7 @@
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
                           ?>
-                            <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo']; ?>" >
                           <?php
                           endforeach;
                           ?>
