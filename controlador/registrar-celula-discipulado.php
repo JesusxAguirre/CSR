@@ -1,5 +1,5 @@
 <?php
-require_once("modelo\clase_cedula_discipulado.php");
+require_once("modelo/clase_celula_discipulado.php");
 session_start();
 
 if($_SESSION['verdadero'] > 0){

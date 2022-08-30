@@ -1,11 +1,11 @@
 <?php
-require_once("modelo/clase_celula_consolidacion.php");
+require_once("modelo/clase_celula_discipulado.php");
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
-    $objeto = new Consolidacion();
+    $objeto = new Discipulado();
    
     $matriz_celula = $objeto->listar_celula_discipulado();
 
@@ -21,11 +21,11 @@ if (is_file('vista/'.$pagina.'.php')) {
         $dia = $_POST['dia'];
         $hora = $_POST['hora'];
         $codigo = $_POST['codigo'];
-        $id = $_POST['id'];
+        $id = $_POST['id']; 
 
-        $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
+        /* $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
 
-        $objeto->update_consolidacion();
+        $objeto->update_consolidacion(); */
     }
     require_once 'vista/'.$pagina.'.php';
 }
