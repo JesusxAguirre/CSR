@@ -134,12 +134,7 @@ $("#codigoLider").on('change', function () {
     }
   })
 
-  $('#participantes option').each(function () {
-    console.log('entra a la funcion de choice js')
-    if ($(this).val() == cedula) {
-      $(this).remove();
-    }
-  });
+
 });
 
 

@@ -133,7 +133,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Personas que asisten a la celula</label>
                         <i class="input-icon fs-5"></i>
-                          <select multiple name="participantes[]"  id="participantes" class="form-control">
+                          <select multiple name="participantes[]"  id="participantes" class="form-control ct">
                           <?php
                             foreach ($matriz_usuarios as $usuario) :
                             ?>
