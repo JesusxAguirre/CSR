@@ -29,6 +29,51 @@ private $participantes;
         }
         return $this->listar;
     }
+
+    public function listar_celula_discipulado()
+    {
+        $celulas = $this->listar();
+        $sql = ("SELECT cedula,codigo, nombre, apellido, telefono
+        FROM usuarios 
+        WHERE cedula = :cedula");
+        $sql = $this->conexion()->prepare($sql);
+
+        $index = 0;
+        foreach ($celulas as $celula) {
+            $this->cedula_lider = $celula['cedula_lider'];
+            $this->cedula_anfitrion = $celula['cedula_anfitrion'];
+            $this->cedula_asistente = $celula['cedula_asistente'];
+
+            $sql->execute(array(":cedula" => $this->cedula_lider));
+
+
+            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+                $celulas[$index]["lider"] = $filas;
+            }
+            $sql->execute(array(":cedula" => $this->cedula_anfitrion));
+            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+                $celulas[$index]["anfitrion"] = $filas;
+            }
+
+
+            $sql->execute(array(":cedula" => $this->cedula_asistente));
+            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+                $celulas[$index]['asistente']  = $filas;
+            }
+
+
+            $index++;
+        }
+
+
+        return $celulas;
+    }
+
+
   public function listar_codigos()
   {
 
