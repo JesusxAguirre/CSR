@@ -21,22 +21,22 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_anfitrion = substr($cedula_anfitrion, 0, 8); //guardando el valor de la cedula del lider
         $cedula_asistente = substr($cedula_asistente, 0, 8); //guardando el valor de la cedula del lider
         
-       //borrando del array participantes las coicidencias en los valores
+       //borrando del array participantes las coicidencias en los valores con las cedulas de lider, anfitrion y asistente
         if (($clave = array_search($cedula_lider, $participantes)) !== false) {
             unset($participantes[$clave]);
-            print_r($participantes);
+            
         }
         if (($clave = array_search($cedula_anfitrion, $participantes)) !== false) {
             unset($participantes[$clave]);
-            print_r($participantes);
+            
         }
         if (($clave = array_search($cedula_asistente, $participantes)) !== false) {
             unset($participantes[$clave]);
-            print_r($participantes);
+            
         }
 
         $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
-            exit();
+       
         $objeto->registrar_discipulado();
     }
     require_once 'vista/'.$pagina.'.php';

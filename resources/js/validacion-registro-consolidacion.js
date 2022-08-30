@@ -25,8 +25,8 @@ const campos = {
 const expresiones = { //objeto con varias expresiones regulares
 
   dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
-  hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/ //formato de hora
-
+  hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
+  codigo: /^[0-9]{7,8}[-]{1}[N]{1}[0-9]{1}[-]{1}[a-zA-ZÀ-ÿ]{2}[-]{1}[a-zA-ZÀ-ÿ]{2}[-]{1}[a-zA-ZÀ-ÿ]{1}[-]{1}[a-zA-ZÀ-ÿ]{1}$/ //expresion regular de codigo de usuario
 }
 
 const ValidarFormulario = (e) => {
@@ -34,21 +34,27 @@ const ValidarFormulario = (e) => {
     case "dia":
       ValidarCampo(expresiones.dia, e.target, 'dia');
       break;
+
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
       break;
+
     case "codigoLider":
-      ValidarSelect(e.target, 'codigoLider');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
       break;
+
     case "codigoAnfitrion":
-      ValidarSelect(e.target, 'codigoAnfitrion');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoAnfitrion');
       break;
+
     case "codigoAsistente":
-      ValidarSelect(e.target, 'codigoAsistente');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
       break;
+
     case "participantes[]":
       ValidarSelect(e.target, 'participantes');
       break;
+
     case "direccion":
       ValidarSelect(e.target, 'direccion');
       break;
