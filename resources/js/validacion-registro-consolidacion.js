@@ -112,16 +112,4 @@ formulario.addEventListener('submit', (e) => {
 
 
 
-//prueba de elimnar valores datalist 
-const datalist = document.getElementById('codigoLider')
 
-datalist.addEventListener('keyup', () => {
-
-  $('#lider option').each(function () {
-    console.log('entra a la funcion')
-    var abd = $(this).val();
-    $('#anfitrion option[value=' + abd + ']').remove();
-
-
-  });
-})
