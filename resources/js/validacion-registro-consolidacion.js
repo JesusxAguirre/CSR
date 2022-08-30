@@ -110,6 +110,16 @@ formulario.addEventListener('submit', (e) => {
   }
 })
 
+//probando elimnar option value
 
+$("#codigoLider").on('input', function () {
+  var val=$('#codigoLider').val();
+  var ejemplo = $('#lider').find('option[value="'+val+'"]').data('ejemplo');
+  alert(ejemplo);
+});
 
-
+$('#anfitrion option').each(function() {
+  if ( $(this).val() == 'X' ) {
+      $(this).remove();
+  }
+});

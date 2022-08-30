@@ -67,7 +67,7 @@
                           <?php
                           foreach ($matriz_lideres as $lider) :
                           ?>
-                            <option data-value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
+                            <option data-ejemplo="<?php echo $lider['cedula']; ?>" value="<?php echo $lider['codigo']; ?>">
                           <?php
                           endforeach;
                           ?>
