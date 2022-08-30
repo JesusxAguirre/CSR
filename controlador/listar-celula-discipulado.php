@@ -27,6 +27,19 @@ if (is_file('vista/'.$pagina.'.php')) {
 
         $objeto->update_consolidacion(); */
     }
+    if(isset($_POST['agregar'])){
+        $cedula_lider = $_POST['codigoLider'];
+        $cedula_anfitrion= $_POST['codigoAnfitrion'];
+        $cedula_asistente = $_POST['codigoAsistente'];
+
+        $id = $_POST['id']; 
+        echo $cedula_lider . '<br>';
+        echo $id . '<br>';
+        exit;
+        /* $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
+
+        $objeto->update_consolidacion(); */
+    }
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

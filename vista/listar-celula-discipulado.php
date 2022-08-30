@@ -87,7 +87,7 @@
                         <td style="display: none;" class="cedula_asistente" role='cell'><?php echo $celula['asistente']['cedula'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary edit-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
@@ -232,27 +232,25 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="rolInput">
                     <i class="input-icon fs-5"></i>
-                    Codigo de celula
+                    agrega usuarios 
                   </label>
                   <input type="text" name="usuarios[]" id="codigoInput" class="form-control" placeholder="CC1">
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
             </div>
-           
-            
-            
-            <input hidden class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
-            <input hidden class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
-            <input hidden name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
 
-            <input type="hidden" name="id" id="idInput">
+            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
+            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
+            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
+
+            <input type="hidden" name="id" id="idInput2">
           </form>
-          </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="update" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
-                    
+          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+
         </div>
       </div>
     </div>
