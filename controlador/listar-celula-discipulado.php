@@ -39,6 +39,14 @@ if (is_file('vista/'.$pagina.'.php')) {
 
         $objeto->update_consolidacion(); */
     }
+    if(isset($_POST['eliminar_participante'])){
+        $cedula_participante = $_POST['eliminar_participante'];
+
+        
+        $objeto->setParticipante($cedula_participante);
+
+        $objeto->eliminar_participantes();
+    }
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

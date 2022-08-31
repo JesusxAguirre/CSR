@@ -30,7 +30,7 @@
 
   <!-- Menu.php -->
   <?php
-require_once "resources/View_Components/Menu.php";
+  require_once "resources/View_Components/Menu.php";
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -77,7 +77,8 @@ require_once "resources/View_Components/Menu.php";
                         <td style="display: none;" class="id" role='cell'><?php echo $celula['id'] ?></td>
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3); echo $hora; ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
+                                                      echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
@@ -267,48 +268,41 @@ require_once "resources/View_Components/Menu.php";
         </div>
         <div class="modal-body">
           <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-discipulado">
-          <div class="table-responsive mt-4">
+            <div class="table-responsive mt-4">
 
-<table role='table' class='table table-centered'>
-  <thead>
+              <table role='table' class='table table-centered'>
+                <thead>
 
-    <tr role='row'>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
-      <th colspan='1' role='columnheader' class=''>Codigo participante</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
-    </tr>
-  </thead>
+                  <tr role='row'>
+                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
+                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
+                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
+                    <th colspan='1' role='columnheader' class=''>Codigo participante</th>
+                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
+                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
+                  </tr>
+                </thead>
 
-  <tbody id="datos" role='rowgroup'>
-    <?php foreach ($matriz_participantes as $participante) : ?>
-      <tr role='row'>
-        <td hidden class="id" role='cell'><?php echo $participante['id'] ?></td>
-        <td class="codigo" role='cell'><?php echo $participante['codigo_celula'] ?></td>
-        <td class="participantes_nombre" role='cell'><?php echo  $participante['participantes_nombre'] ?></td>
-        <td class="participantes_apellido" role='cell'><?php echo $participante['participantes_apellido'] ?></td>
-        <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
-        <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td> 
-        <td class="" role="cell">
-          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
-          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
-          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
-        </td>
-      </tr>
-    <?php endforeach;       ?>
-  </tbody>
-</table>
-</div>
+                <tbody id="datos" role='rowgroup'>
+                  <?php foreach ($matriz_participantes as $participante) : ?>
+                    <tr role='row'>
+                      <td hidden class="id" role='cell'><?php echo $participante['id'] ?></td>
+                      <td class="codigo" role='cell'><?php echo $participante['codigo_celula'] ?></td>
+                      <td class="participantes_nombre" role='cell'><?php echo  $participante['participantes_nombre'] ?></td>
+                      <td class="participantes_apellido" role='cell'><?php echo $participante['participantes_apellido'] ?></td>
+                      <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
+                      <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td>
+                      <td class="" role="cell">
+                        <button type="submit" name="eliminar_participante" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+                      </td>
+                    </tr>
+                  <?php endforeach;       ?>
+                </tbody>
+              </table>
+            </div>
           </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="eliminar_usuarios" class="btn btn-primary" form="eliminar_usuarios">Guardar</button>
 
-        </div>
       </div>
     </div>
   </div>

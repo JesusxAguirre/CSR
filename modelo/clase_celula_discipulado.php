@@ -6,7 +6,7 @@ private $listar;
 private $codigos;
 private $direccion;
 private $participantes;
-
+private $cedula_participante;
 
   public function __construct()
   {
@@ -37,8 +37,8 @@ private $participantes;
     public function listar_participantes()
     {
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
-        participantes.nombre AS participantes_nombre,participantes.apellido AS participantes_apellido,
-        participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
+        participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
+        AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_discipulado 
         INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado");
 
@@ -214,6 +214,14 @@ private $participantes;
 
     }
 
+    public function eliminar_participantes(){
+        $sql =("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$this->cedula_participante'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+    }
+
     //-------- SET DATOS Para registar discipulado-------------------------------------//
   public function setDiscipulado($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion,$participantes)
   {
@@ -227,7 +235,9 @@ private $participantes;
       $this->participantes = $participantes;
   }
 
-
+  public function setParticipante($cedula_participante){
+    $this->cedula_participante = $cedula_participante;
+  }
 
 }
 
