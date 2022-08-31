@@ -222,21 +222,27 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">agregar_usuario a Celula de discipulado</h5>
+          <h5 class="modal-title">Agregar participante a Celula de discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-discipulado">
             <div class="mb-3">
-              <div id="grupo__codigo" class="">
+              <div id="grupo__participantes" class="col-sm col-md-6">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="rolInput">
-                    <i class="input-icon fs-5"></i>
-                    agrega usuarios 
-                  </label>
-                  <input type="text" name="usuarios[]" id="codigoInput" class="form-control" placeholder="CC1">
+                  <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
+                  <i class="input-icon fs-5"></i>
+                  <select multiple name="participantes[]" id="participantes" class="form-control ct">
+                    <?php
+                    foreach ($matriz_usuarios as $usuario) :
+                    ?>
+                      <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                    <?php
+                    endforeach;
+                    ?>
+                  </select>
                 </div>
-                <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                <p class="text-danger d-none">Este campos no puede estar vacio</p>
               </div>
             </div>
 

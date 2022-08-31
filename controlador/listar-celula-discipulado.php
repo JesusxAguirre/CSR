@@ -10,8 +10,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $matriz_celula = $objeto->listar_celula_discipulado();
 
 
-    $matriz_lideres = $objeto->listar_usuarios_N2();
-    $matriz_usuarios = $objeto->listar_usuarios_N1();
+    $matriz_usuarios = $objeto->listar_codigos();
 
   
     if(isset($_POST['update'])){
