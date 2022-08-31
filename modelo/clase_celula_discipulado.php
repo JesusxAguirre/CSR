@@ -14,9 +14,14 @@ private $participantes;
   }
 
 
-  public function listar()
+  public function listar_celula_discipulado()
     {
-        $sql = ("SELECT * FROM celula_discipulado");
+        $sql = ("SELECT celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
+        lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente 
+        FROM celula_discipulado 
+        INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
+        INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
+        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -30,48 +35,6 @@ private $participantes;
         return $this->listar;
     }
 
-    public function listar_celula_discipulado()
-    {
-        $celulas = $this->listar();
-        $sql = ("SELECT cedula,codigo, nombre, apellido, telefono
-        FROM usuarios 
-        WHERE cedula = :cedula");
-        $sql = $this->conexion()->prepare($sql);
-
-        $index = 0;
-        foreach ($celulas as $celula) {
-            $this->cedula_lider = $celula['cedula_lider'];
-            $this->cedula_anfitrion = $celula['cedula_anfitrion'];
-            $this->cedula_asistente = $celula['cedula_asistente'];
-
-            $sql->execute(array(":cedula" => $this->cedula_lider));
-
-
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-
-                $celulas[$index]["lider"] = $filas;
-            }
-            $sql->execute(array(":cedula" => $this->cedula_anfitrion));
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                $celulas[$index]["anfitrion"] = $filas;
-            }
-
-
-            $sql->execute(array(":cedula" => $this->cedula_asistente));
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                $celulas[$index]['asistente']  = $filas;
-            }
-
-
-            $index++;
-        }
-
-
-        return $celulas;
-    }
 
 
   public function listar_codigos()
@@ -240,3 +203,51 @@ private $participantes;
 
 
 }
+
+
+
+
+
+/* 
+    public function listar_celula_discipulado()
+    {
+        $celulas = $this->listar();
+        $sql = ("SELECT cedula,codigo, nombre, apellido, telefono
+        FROM usuarios 
+        WHERE cedula = :cedula");
+        $sql = $this->conexion()->prepare($sql);
+
+        $index = 0;
+        foreach ($celulas as $celula) {
+            $this->cedula_lider = $celula['cedula_lider'];
+            $this->cedula_anfitrion = $celula['cedula_anfitrion'];
+            $this->cedula_asistente = $celula['cedula_asistente'];
+
+            $sql->execute(array(":cedula" => $this->cedula_lider));
+
+
+            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+                $celulas[$index]["lider"] = $filas;
+            }
+            $sql->execute(array(":cedula" => $this->cedula_anfitrion));
+            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+                $celulas[$index]["anfitrion"] = $filas;
+            }
+
+
+            $sql->execute(array(":cedula" => $this->cedula_asistente));
+            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+                $celulas[$index]['asistente']  = $filas;
+            }
+
+
+            $index++;
+        }
+
+
+        return $celulas;
+    } */
