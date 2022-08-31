@@ -40,7 +40,8 @@ private $participantes;
   public function listar_codigos()
   {
 
-      $consulta = ("SELECT cedula,codigo FROM usuarios WHERE id_discipulado IS  NULL ");
+      $consulta = ("SELECT usuarios.cedula,usuarios.codigo FROM usuarios 
+      INNER JOIN celula_discipulado ON celula_discipulado.cedula_lider <> usuarios.cedula WHERE id_discipulado IS NULL; ");
 
       $sql = $this->conexion()->prepare($consulta);
 
@@ -97,7 +98,8 @@ private $participantes;
         $stmt->execute(array());
        
         $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
- 
+        
+        
         foreach($this->participantes as $participantes){
         $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
 

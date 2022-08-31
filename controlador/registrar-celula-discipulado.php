@@ -17,7 +17,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $hora = $_POST['hora'];
         $direccion = $_POST['direccion'];
         $participantes = $_POST['participantes'];
-        print_r($participantes);
+
         $cedula_lider = substr($cedula_lider, 0, 8); //guardando el valor de la cedula del lider
         $cedula_anfitrion = substr($cedula_anfitrion, 0, 8); //guardando el valor de la cedula del lider
         $cedula_asistente = substr($cedula_asistente, 0, 8); //guardando el valor de la cedula del lider
@@ -35,8 +35,7 @@ if (is_file('vista/'.$pagina.'.php')) {
             unset($participantes[$clave]);
             
         }
-        print_r($participantes);
-        exit;
+        
         $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
        
         $objeto->registrar_discipulado();
