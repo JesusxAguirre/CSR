@@ -17,11 +17,14 @@ private $participantes;
   public function listar_celula_discipulado()
     {
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
-        lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente 
+        lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente,
+        participantes.nombre AS participantes_nombre,participantes.apellido AS participantes_apellido,
+        participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_discipulado 
         INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
         INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
-        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula");
+        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
+        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado");
 
         $stmt = $this->conexion()->prepare($sql);
 
