@@ -8,7 +8,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new Discipulado();
    
     $matriz_celula = $objeto->listar_celula_discipulado();
-
+    print_r($matriz_celula);
 
     $matriz_usuarios = $objeto->listar_codigos();
 

@@ -16,7 +16,7 @@ private $participantes;
 
   public function listar_celula_discipulado()
     {
-        $sql = ("SELECT celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
+        $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
         lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente 
         FROM celula_discipulado 
         INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
