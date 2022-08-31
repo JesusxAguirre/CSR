@@ -26,7 +26,8 @@ const expresiones = { //objeto con varias expresiones regulares
 
   dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
-  codigo: /^[0-9]{7,8}[-]{1}[N]{1}[0-9]{1}[-]{1}[a-zA-ZÀ-ÿ]{2}[-]{1}[a-zA-ZÀ-ÿ]{2}[-]{1}[H|M]{1}[-]{1}[M|S]{1}$/ //expresion regular de codigo de usuario
+  codigo: /^[0-9]{7,8}[-]{1}[N]{1}[0-9]{1}[-]{1}[a-zA-ZÀ-ÿ]{2}[-]{1}[a-zA-ZÀ-ÿ]{2}[-]{1}[H|M]{1}[-]{1}[M|S]{1}$/, //expresion regular de codigo de usuario
+ //expresion regular de codigo de usuario
 }
 
 const ValidarFormulario = (e) => {
@@ -40,7 +41,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "codigoLider":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
+      ValidarSelect( e.target, 'codigoLider');
       break;
 
     case "codigoAnfitrion":

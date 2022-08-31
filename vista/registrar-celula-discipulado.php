@@ -73,7 +73,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Escriba el codigo correctamente cedula-nivel-nacionalidad-estado-sexo-estado_civil o seleccione </p>
+                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
@@ -135,9 +135,9 @@
                         <i class="input-icon fs-5"></i>
                           <select multiple name="participantes[]"  id="participantes" class="form-control ct">
                           <?php
-                            foreach ($matriz_usuarios as $usuario) :
+                            foreach ($matriz_participantes as $participante) :
                             ?>
-                              <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                              <option value="<?php echo $participante['cedula']; ?>"> <?php echo $participante['codigo']; ?></option>
                             <?php
                             endforeach;
                             ?> 

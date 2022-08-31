@@ -122,13 +122,12 @@ private $participantes;
         $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-        $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+        $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             ":codigo" => $codigo_lider['codigo'] . '-' . 'CD' . $id,
-            ":id" => $id_discipulado['id'],
             ":cedula" => $this->cedula_lider
         ));
 
