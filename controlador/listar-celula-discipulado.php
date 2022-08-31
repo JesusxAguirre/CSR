@@ -12,7 +12,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     $matriz_usuarios = $objeto->listar_codigos();
 
-  
+  print_r($matriz_usuarios);
     if(isset($_POST['update'])){
         $cedula_lider = $_POST['codigoLider'];
         $cedula_anfitrion= $_POST['codigoAnfitrion'];

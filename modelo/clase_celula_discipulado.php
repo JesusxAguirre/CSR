@@ -58,14 +58,14 @@ private $cedula_participante;
   public function listar_codigos()
   {
 
-      $consulta = ("SELECT usuarios.cedula,usuarios.codigo FROM usuarios 
+      $sql = ("SELECT usuarios.cedula,usuarios.codigo FROM usuarios 
       INNER JOIN celula_discipulado ON celula_discipulado.cedula_lider <> usuarios.cedula WHERE id_discipulado IS NULL; ");
 
-      $sql = $this->conexion()->prepare($consulta);
+      $stmt = $this->conexion()->prepare($sql);
 
-      $sql->execute(array());
+      $stmt->execute(array());
 
-      while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+      while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
           $this->codigos[] = $filas;

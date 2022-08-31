@@ -229,7 +229,8 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
                   <i class="input-icon fs-5"></i>
-                  <select multiple name="participantes[]" id="participantes" class="form-control ct">
+         
+                  <select multiple name="participantes[]" id="participantes" class="form-control">
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
                     ?>
