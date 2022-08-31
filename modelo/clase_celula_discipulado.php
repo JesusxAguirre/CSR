@@ -40,7 +40,7 @@ private $participantes;
   public function listar_codigos()
   {
 
-      $consulta = ("SELECT cedula,codigo FROM usuarios WHERE id_discipulado = 'NULL'");
+      $consulta = ("SELECT cedula,codigo FROM usuarios WHERE id_discipulado IS  NULL ");
 
       $sql = $this->conexion()->prepare($consulta);
 
