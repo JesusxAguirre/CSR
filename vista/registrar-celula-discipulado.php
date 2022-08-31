@@ -135,9 +135,9 @@
                         <i class="input-icon fs-5"></i>
                           <select multiple name="participantes[]"  id="participantes" class="form-control ct">
                           <?php
-                            foreach ($matriz_participantes as $participante) :
+                            foreach ($matriz_usuarios as $usuario) :
                             ?>
-                              <option value="<?php echo $participante['cedula']; ?>"> <?php echo $participante['codigo']; ?></option>
+                              <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
                             <?php
                             endforeach;
                             ?> 
