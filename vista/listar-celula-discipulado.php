@@ -30,7 +30,7 @@
 
   <!-- Menu.php -->
   <?php
-  require_once "resources/View_Components/Menu.php";
+require_once "resources/View_Components/Menu.php";
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -274,26 +274,23 @@
 
     <tr role='row'>
       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>dia de reunion</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>hora</th>
-      <th colspan='1' role='columnheader' class=''>codigo de lider</th>
-
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>codigo anfitrion</th>
-      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>codigo asistente</th>
+      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
+      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
+      <th colspan='1' role='columnheader' class=''>Codigo participante</th>
+      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
     </tr>
   </thead>
 
   <tbody id="datos" role='rowgroup'>
-    <?php foreach ($matriz_celula as $celula) : ?>
+    <?php foreach ($matriz_participantes as $participante) : ?>
       <tr role='row'>
-        <td style="display: none;" class="id" role='cell'><?php echo $celula['id'] ?></td>
-        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
-        <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3); echo $hora; ?></td>
-        <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
-        <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
-        <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
+        <td hidden class="id" role='cell'><?php echo $participante['id'] ?></td>
+        <td class="codigo" role='cell'><?php echo $participante['codigo_celula'] ?></td>
+        <td class="participantes_nombre" role='cell'><?php echo  $participante['participantes_nombre'] ?></td>
+        <td class="participantes_apellido" role='cell'><?php echo $participante['participantes_apellido'] ?></td>
+        <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
+        <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td> 
         <td class="" role="cell">
           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
