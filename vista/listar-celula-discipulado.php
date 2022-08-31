@@ -84,7 +84,7 @@
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
                       </tr>
@@ -252,6 +252,27 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal eliminar usuario -->
+  <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light">
+          <h5 class="modal-title">eliminar participante de Celula de discipulado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-discipulado">
+           
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="eliminar_usuarios" class="btn btn-primary" form="eliminar_usuarios">Guardar</button>
 
         </div>
       </div>
