@@ -6,9 +6,8 @@ if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new Discipulado();
    
-    $matriz_usuarios = $objeto->listar_usuarios_N1();
     $matriz_lideres = $objeto->listar_usuarios_N2();
-    $matriz_participantes = $objeto->listar_codigos();
+    $matriz_usuarios = $objeto->listar_codigos();
     if(isset($_POST['registrar'])){
         $cedula_lider = $_POST['codigoLider'];
         $cedula_anfitrion= $_POST['codigoAnfitrion'];
@@ -35,7 +34,7 @@ if (is_file('vista/'.$pagina.'.php')) {
             unset($participantes[$clave]);
             
         }
-        
+
         $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
        
         $objeto->registrar_discipulado();
