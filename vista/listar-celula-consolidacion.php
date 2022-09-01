@@ -74,17 +74,13 @@
                   <tbody id="datos" role='rowgroup'>
                     <?php foreach ($matriz_celula as $celula) : ?>
                       <tr role='row'>
-                        <td style="display: none;" class="id" role='cell'><?php echo $celula['id'] ?></td>
+                        <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_consolidacion'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
-                                                      echo $hora; ?></td>
-                        <td class="lider" role='cell'><?php echo  $celula['lider']['codigo'] ?></td>
-                        <td style="display: none;" class="cedula_lider" role='cell'><?php echo $celula['lider']['cedula'] ?></td>
-                        <td class="anfitrion" role='cell'><?php echo  $celula['anfitrion']['codigo'] ?></td>
-                        <td style="display: none;" class="cedula_anfitrion" role='cell'><?php echo $celula['anfitrion']['cedula'] ?></td>
-                        <td class="asistente" role='cell'><?php echo  $celula['asistente']['codigo'] ?></td>
-                        <td style="display: none;" class="cedula_asistente" role='cell'><?php echo $celula['asistente']['cedula'] ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);  echo $hora; ?></td>
+                        <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
+                        <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
+                        <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
