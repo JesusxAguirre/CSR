@@ -19,6 +19,7 @@ class Consolidacion extends Usuarios
     private $codigos;
     private $consolidacion;
     private $participantes;
+    private $direccion;
 
     public function __construct()
     {
@@ -158,9 +159,33 @@ class Consolidacion extends Usuarios
             ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
             ":fecha" => $this->fecha, ":hora" => $this->hora
         ));
-
+         //---------Comienzo de funcion de pasar id foraneo con respecto a los participantes de la celula------------------------//
         //agregando codigo de celula a codigo de usuario
         //agregando a lider
+        $sql = ("SELECT id FROM celula_discipulado 
+        WHERE cedula_lider= '$this->cedula_lider'
+        AND cedula_anfitrion = '$this->cedula_anfitrion'
+        AND cedula_asistente = '$this->cedula_asistente'");
+       
+       $stmt = $this->conexion()->prepare($sql);
+       
+        $stmt->execute(array());
+       
+        $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        foreach($this->participantes as $participantes){
+            $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
+    
+            $stmt = $this->conexion()->prepare($sql);
+    
+            $stmt->execute(array(
+                ":id" => $id_discipulado['id'],
+                ":cedula" => $participantes
+            ));
+            }//fin del foreach
+            //id foraneo agregado por cada participante
+
+
         $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -398,7 +423,7 @@ class Consolidacion extends Usuarios
     //---------------------------------------------------FIN DE UPDATE------------------------------------//
 
     //-------- SET DATOS Para registar consolidacion-------------------------------------//
-    public function setDatos($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora)
+    public function setConsolidacion($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora,$direccion,$participantes)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
@@ -406,6 +431,9 @@ class Consolidacion extends Usuarios
         $this->dia = $dia;
         $this->hora = $hora;
         $this->fecha = gmdate("y-m-d", time());
+        $this->direccion = $direccion;
+        $this->participantes = $participantes;
+
     }
     //-------- SET DATOS para actualizar consolidacions-------------------------------------//
     public function setDatos2($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $codigo, $id)
