@@ -58,8 +58,7 @@ private $cedula_participante;
   public function listar_codigos()
   {
 
-      $sql = ("SELECT usuarios.cedula,usuarios.codigo FROM usuarios 
-      INNER JOIN celula_discipulado ON celula_discipulado.cedula_lider <> usuarios.cedula WHERE id_discipulado IS NULL; ");
+      $sql = ("SELECT * FROM usuarios WHERE id_discipulado IS NULL AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
 
       $stmt = $this->conexion()->prepare($sql);
 

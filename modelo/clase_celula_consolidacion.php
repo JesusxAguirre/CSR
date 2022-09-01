@@ -39,14 +39,14 @@ class Consolidacion extends Usuarios
     }
     //-------------------------------------------------------Buscar consolidacion con Ajax---------------------//
     public function buscar_consolidacion($busqueda){
-        $sql = ("SELECT * FROM celula_consolidacion  
+        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' FROM celula_consolidacion JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
         WHERE codigo_celula_consolidacion LIKE '%" . $busqueda . "%' 
         OR fecha LIKE '%" . $busqueda . "%' 
         OR dia_reunion LIKE '%" . $busqueda . "%'
         OR hora LIKE '%" . $busqueda . "%'
-        OR cedula_lider LIKE (SELECT cedula FROM usuarios WHERE codigo LIKE '%" . $busqueda . "%' LIMIT 1) 
-        OR cedula_anfitrion LIKE (SELECT cedula FROM usuarios WHERE codigo LIKE '%" . $busqueda . "%' LIMIT 1)
-        OR cedula_asistente LIKE (SELECT cedula FROM usuarios WHERE codigo LIKE '%" . $busqueda . "%' LIMIT 1)");
+        OR lider.codigo LIKE '%" . $busqueda . "%'
+        OR anfitrion.codigo LIKE '%" . $busqueda . "%'
+        OR asistente.codigo LIKE '%" . $busqueda . "%'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -61,48 +61,6 @@ class Consolidacion extends Usuarios
             }
         }
         return $this->busqueda;
-    }
-
-    public function listar_buscar_consolidacion($busqueda){
-        $celulas = $this->buscar_consolidacion($busqueda);
-        $sql = ("SELECT cedula,codigo, nombre, apellido, telefono
-        FROM usuarios 
-        WHERE cedula = :cedula");
-        $sql = $this->conexion()->prepare($sql);
-
-        $index = 0;
-        foreach ($celulas as $celula) {
-            $this->cedula_lider = $celula['cedula_lider'];
-            $this->cedula_anfitrion = $celula['cedula_anfitrion'];
-            $this->cedula_asistente = $celula['cedula_asistente'];
-
-            $sql->execute(array(":cedula" => $this->cedula_lider));
-
-
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-
-                $celulas[$index]["lider"] = $filas;
-            }
-            $sql->execute(array(":cedula" => $this->cedula_anfitrion));
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                $celulas[$index]["anfitrion"] = $filas;
-            }
-
-
-            $sql->execute(array(":cedula" => $this->cedula_asistente));
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                $celulas[$index]['asistente']  = $filas;
-            }
-
-
-            $index++;
-        }
-
-
-        return $celulas;
     }
 
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
