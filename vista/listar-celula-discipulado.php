@@ -74,11 +74,10 @@
                   <tbody id="datos" role='rowgroup'>
                     <?php foreach ($matriz_celula as $celula) : ?>
                       <tr role='row'>
-                        <td style="display: none;" class="id" role='cell'><?php echo $celula['id'] ?></td>
+                        <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
-                                                      echo $hora; ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3); echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
