@@ -84,7 +84,7 @@ class Consolidacion extends Usuarios
 
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
  
-    public function listar_celula_discipulado()
+    public function listar_celula_consolidacion()
     {
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
         lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
