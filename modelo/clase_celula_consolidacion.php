@@ -68,7 +68,7 @@ class Consolidacion extends Usuarios
     public function listar_no_participantes()
     {
   
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_consolidacion IS NULL AND id_discipulado IS NULL AND  codigo LIKE  '%N1%' AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion);");
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_consolidacion IS NULL AND  codigo LIKE  '%N1%' AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion);");
   
         $stmt = $this->conexion()->prepare($sql);
   
