@@ -17,6 +17,8 @@ class Consolidacion extends Usuarios
     private $id;
     private $busqueda;
     private $codigos;
+    private $consolidacion;
+
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -81,47 +83,26 @@ class Consolidacion extends Usuarios
     }
 
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
-    public function listar_celula_consolidacion()
+ 
+    public function listar_celula_discipulado()
     {
-        $celulas = $this->listar();
-        $sql = ("SELECT cedula,codigo, nombre, apellido, telefono
-        FROM usuarios 
-        WHERE cedula = :cedula");
-        $sql = $this->conexion()->prepare($sql);
+        $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
+        lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
+        FROM celula_consolidacion 
+        INNER JOIN usuarios AS lider  ON   celula_consolidacion.cedula_lider = lider.cedula
+        INNER JOIN usuarios AS anfitrion  ON   celula_consolidacion.cedula_anfitrion = anfitrion.cedula
+        INNER JOIN usuarios AS asistente  ON   celula_consolidacion.cedula_asistente = asistente.cedula");
 
-        $index = 0;
-        foreach ($celulas as $celula) {
-            $this->cedula_lider = $celula['cedula_lider'];
-            $this->cedula_anfitrion = $celula['cedula_anfitrion'];
-            $this->cedula_asistente = $celula['cedula_asistente'];
+        $stmt = $this->conexion()->prepare($sql);
 
-            $sql->execute(array(":cedula" => $this->cedula_lider));
+        $stmt->execute(array());
 
-
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-                $celulas[$index]["lider"] = $filas;
-            }
-            $sql->execute(array(":cedula" => $this->cedula_anfitrion));
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                $celulas[$index]["anfitrion"] = $filas;
-            }
-
-
-            $sql->execute(array(":cedula" => $this->cedula_asistente));
-            while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-                $celulas[$index]['asistente']  = $filas;
-            }
-
-
-            $index++;
+            $this->consolidacion[] = $filas;
         }
-
-
-        return $celulas;
+        return $this->consolidacion;
     }
     //-------------------------------------------------------Buscar datos de anfitrion por celula----------------------//
 
