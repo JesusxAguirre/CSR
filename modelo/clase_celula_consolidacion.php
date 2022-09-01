@@ -18,6 +18,7 @@ class Consolidacion extends Usuarios
     private $busqueda;
     private $codigos;
     private $consolidacion;
+    private $participantes;
 
     public function __construct()
     {
@@ -39,6 +40,27 @@ class Consolidacion extends Usuarios
         }
         return $this->listar;
     }
+        //------------------------------------------------------Listar participantes por celulal de consolidacion---------------------//
+    public function listar_participantes()
+    {
+        $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion AS codigo_celula,
+        participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
+        AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
+        FROM celula_consolidacion 
+        INNER JOIN usuarios AS participantes ON celula_consolidacion.id = participantes.id_consolidacion");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->participantes[] = $filas;
+        }
+        return $this->participantes;
+    }
+
     //-------------------------------------------------------Buscar consolidacion con Ajax---------------------//
     public function buscar_consolidacion($busqueda){
         $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' FROM celula_consolidacion JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
