@@ -16,7 +16,7 @@ class Consolidacion extends Usuarios
     private $codigo;
     private $id;
     private $busqueda;
-
+    private $codigos;
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -61,6 +61,23 @@ class Consolidacion extends Usuarios
             }
         }
         return $this->busqueda;
+    }
+
+    public function listar_no_participantes()
+    {
+  
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
+  
+        $stmt = $this->conexion()->prepare($sql);
+  
+        $stmt->execute(array());
+  
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+  
+  
+            $this->codigos[] = $filas;
+        }
+        return $this->codigos;
     }
 
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//

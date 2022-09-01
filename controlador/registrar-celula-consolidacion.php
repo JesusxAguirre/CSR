@@ -8,7 +8,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new Consolidacion();
    
     $matriz_lideres = $objeto->listar_usuarios_N2();
-    $matriz_usuarios = $objeto->listar_usuarios_N1();
+    $matriz_usuarios = $objeto->listar_no_participantes();
         
     if(isset($_POST['registrar'])){
         $cedula_lider = $_POST['codigoLider'];
