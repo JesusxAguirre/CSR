@@ -191,14 +191,14 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 <li>
                   <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-clipboard-check"></i></span>
+                  <i class="bi bi-box-seam-fill"></i></span>
                   <span>Registrar celula discipulado</span>
                   </a>
                 </li>
                 <li>
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-clipboard-check"></i></span>
+                  <i class="bi bi-clipboard2-plus-fill"></i></span>
                   <span>Reporte celula discipulado</span>
                   </a>
                 </li>
@@ -230,14 +230,14 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 <li>
                   <a href="?pagina=registrar-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-clipboard-check"></i></span>
+                  <i class="bi bi-box-seam-fill"></i></span>
                   <span>Registrar celula consolidacion</span>
                   </a>
                 </li>
                 <li>
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-clipboard-check"></i></span>
+                  <i class="bi bi-clipboard2-plus-fill"></i></span>
                   <span>Reporte celula consolidacion</span>
                   </a>
                 </li>
