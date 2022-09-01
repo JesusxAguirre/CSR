@@ -232,12 +232,13 @@ class Consolidacion extends Usuarios
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo, id_consolidacion = :id WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CC' . $id,
+                ":id" => $id_consolidacion['id'],
                 ":cedula" => $this->cedula_anfitrion
             ));
 
@@ -248,12 +249,13 @@ class Consolidacion extends Usuarios
 
             $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo, id_consolidacion = :id WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_asistente['codigo']  . '-' . 'CC' . $id,
+                ":id" => $id_consolidacion['id'],
                 ":cedula" => $this->cedula_asistente
             ));
         }
