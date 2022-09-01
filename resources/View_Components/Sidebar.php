@@ -171,7 +171,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
-            <i class="bi bi-box-arrow-right fs-3"></i></span>
+            <i class="bi bi-cloud-check-fill fs-3"></i></span>
               <span >Gestionar celula discipulado</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
@@ -210,7 +210,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
-            <i class="bi bi-people-fill fs-3"></i></span>
+            <i class="bi bi-patch-check-fill fs-3"></i></span>
               <span >Gestionar celula consolidacion</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
