@@ -271,7 +271,7 @@
         </div>
         <div class="modal-body">
           <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-consolidacion ">
-            <div class="table-responsive mt-4">
+            <div  style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
 
               <table role='table' class='table table-centered'>
                 <thead>

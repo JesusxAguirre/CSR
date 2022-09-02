@@ -433,7 +433,7 @@ class Consolidacion extends Usuarios
 
     public function agregar_participantes(){
         $sql = ("UPDATE usuarios SET id_consolidacion= :id WHERE cedula = :cedula");
-
+        
         foreach ($this->participantes as $participantes) {
 
             $stmt = $this->conexion()->prepare($sql);
