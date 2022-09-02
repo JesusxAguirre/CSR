@@ -27,12 +27,13 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_lider = $_POST['codigoLider'];
         $cedula_anfitrion= $_POST['codigoAnfitrion'];
         $cedula_asistente = $_POST['codigoAsistente'];
-
+        $participantes = $_POST['participantes'];
+        print_r($participantes);
         $id = $_POST['id']; 
         echo $cedula_lider . '<br>';
         echo $id . '<br>';
         exit;
-      
+        
     }
     if(isset($_POST['eliminar_participante'])){
         $cedula_participante = $_POST['eliminar_participante'];
