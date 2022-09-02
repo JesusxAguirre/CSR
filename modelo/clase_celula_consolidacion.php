@@ -111,7 +111,9 @@ class Consolidacion extends Usuarios
     public function listar_celula_consolidacion()
     {
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
-        lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
+        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
+        anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
+        asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente
         FROM celula_consolidacion 
         INNER JOIN usuarios AS lider  ON   celula_consolidacion.cedula_lider = lider.cedula
         INNER JOIN usuarios AS anfitrion  ON   celula_consolidacion.cedula_anfitrion = anfitrion.cedula

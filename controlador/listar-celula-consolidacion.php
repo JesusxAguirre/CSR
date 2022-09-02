@@ -34,7 +34,10 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_asistente = $_POST['codigoAsistente'];
 
         $id = $_POST['id']; 
+        echo "Entra a la funcion" . "<br>";
         echo $cedula_lider . '<br>';
+        echo $cedula_anfitrion . '<br>';
+        echo $cedula_asistente . '<br>';
         echo $id . '<br>';
         exit;
      

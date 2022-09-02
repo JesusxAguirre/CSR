@@ -22,9 +22,6 @@ if (is_file('vista/'.$pagina.'.php')) {
         $codigo = $_POST['codigo'];
         $id = $_POST['id']; 
 
-        /* $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
-
-        $objeto->update_consolidacion(); */
     }
     if(isset($_POST['agregar'])){
         $cedula_lider = $_POST['codigoLider'];
@@ -35,9 +32,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         echo $cedula_lider . '<br>';
         echo $id . '<br>';
         exit;
-        /* $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
-
-        $objeto->update_consolidacion(); */
+      
     }
     if(isset($_POST['eliminar_participante'])){
         $cedula_participante = $_POST['eliminar_participante'];
