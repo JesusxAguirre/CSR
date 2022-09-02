@@ -266,7 +266,7 @@ class Consolidacion extends Usuarios
             ));
         }//fin del else
     }
-    //---------------------------------------------------COMIEZNO DE UPDATE-----------------------------------//
+    //---------------------------------------------------COMIENZO DE UPDATE-----------------------------------//
     public function update_consolidacion()
     {
         //buscando las cedulas de los usuarios por id de celula
