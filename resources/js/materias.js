@@ -1,4 +1,7 @@
-listarMaterias();
+window.onload= function () {
+    listarMaterias();
+  }
+
 
 //BUSCAR MATERIAS POR AJAX
 const buscarMateria = document.getElementById("buscarMateria");
@@ -17,6 +20,44 @@ buscarMateria.addEventListener("keyup", () => {
 });
 
 
+//LISTAR MATERIAS POR AJAX
+function listarMaterias() {
+  let listadoMaterias = document.getElementById("datosMaterias");
+  $.ajax({
+    type: "post",
+    url: "controlador/ajax/listar-materias.php",
+  }).done((data) => {
+    listadoMaterias.innerHTML = data;
+  });
+}
+
+
+//ELIMINAR MATERIAS
+$(document).on('click', '#eliminarMateria', function () {
+
+  let elemento = $(this)[0].parentElement.parentElement;
+  let idMateria= elemento.querySelector('.idMateria').textContent;
+  let botonEliminar= $(this)[0].value;
+
+  Swal.fire({
+    icon: 'warning',
+    title: 'Estas seguro que deseas eliminar?',
+    showDenyButton: true,
+    confirmButtonText: `Eliminar`,
+    confirmButtonColor: 'red',
+    denyButtonText: `Cancelar`,
+    denyButtonColor: 'black'
+  }).then((result) => {
+      if (result.isConfirmed) {
+        $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response){
+          listarMaterias();
+          console.log(response);
+        })
+      }
+    })
+});
+
+
 //AGREGAR MATERIAS POR AJAX
 $("#agregarMateria").on("click", function (e) {
   e.preventDefault();
@@ -26,46 +67,10 @@ $("#agregarMateria").on("click", function (e) {
     nombreMateria: $("#nombreMateria").val(),
     seleccionarNivel: $("#seleccionarNivel").val(),
   };
-  $.post("controlador/ajax/agregar-materias.php", data, function (response) {
+  $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
     listarMaterias();
     $("#formAgregarMateria").trigger("reset");
   });
 });
 
-
-//LISTAR MATERIAS POR AJAX
-function listarMaterias() {
-  const listadoMaterias = document.getElementById("datosMaterias");
-  $.ajax({
-    type: "post",
-    url: "controlador/ajax/listar-materias.php",
-  }).done((data) => {
-    datosMaterias.innerHTML = data;
-  });
-}
-
-//ELIMINAR MATERIAS
-$(document).on('click', '.eliminarMateria', function (e) { 
-    let elemento = $(this)[0].parentElement.parentElement;
-    var idMateria= elemento.querySelector('.idMateria').textContent;
-
-    Swal.fire({
-      icon: 'warning',
-      title: 'Estas seguro que deseas eliminar?',
-      showDenyButton: true,
-      confirmButtonText: `Eliminar`,
-      confirmButtonColor: 'black',
-      denyButtonText: `Cancelar`,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log('jijiji');
-      } 
-    })
-
-    /*$.post("controlador/ajax/actualizar-eliminar-materias.php", {idMateria},
-        function (response) {
-            console.log(response);
-        },
-    );*/
-    
-});
+  

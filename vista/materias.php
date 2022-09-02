@@ -73,7 +73,7 @@
                                 </div>
                             </div>
                             <div class="row mt-3">
-                                <button type="submit" id="agregarMateria" name="agregarMateria">GUARDAR</button>
+                                <button type="submit" id="agregarMateria">GUARDAR</button>
                             </div>
                             </form>
                         </div>

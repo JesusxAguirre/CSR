@@ -50,11 +50,18 @@ class ecam extends Conectar{
         if ($stmt->rowCount() > 0) {
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-
                 $this->listarMaterias[] = $filas;
             }
         }
         return $this->listarMaterias;
+    }
+
+    public function eliminarMateria($idMateria){
+        $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute();
     }
 
     public function setMaterias($nombre, $nivel){
