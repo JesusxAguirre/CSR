@@ -31,8 +31,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     if(isset($_POST['eliminar_participante'])){
         $cedula_participante = $_POST['eliminar_participante'];
-        echo $cedula_participante;
-        exit;
+      
         $objeto->setParticipante($cedula_participante);
 
         $objeto->eliminar_participantes();

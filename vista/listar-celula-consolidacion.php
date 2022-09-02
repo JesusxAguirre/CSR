@@ -267,7 +267,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-discipulado">
+          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-consolidacion">
             <div class="table-responsive mt-4">
 
               <table role='table' class='table table-centered'>
