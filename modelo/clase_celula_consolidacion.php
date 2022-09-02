@@ -429,6 +429,23 @@ class Consolidacion extends Usuarios
     //---------------------------------------------------FIN DE UPDATE------------------------------------//
 
 
+    //---------------------------------------------------Agregar participantes------------------------------------//
+
+    public function agregar_participantes(){
+        $sql = ("UPDATE usuarios SET id_consolidacion= :id WHERE cedula = :cedula");
+
+        foreach ($this->participantes as $participantes) {
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":id" => $this->id,
+                ":cedula" => $participantes
+            ));
+        } //fin del foreach
+       
+       
+    }
 
     //---------------------------------------------------Eliminar participantes------------------------------------//
     public function eliminar_participantes(){
@@ -438,6 +455,8 @@ class Consolidacion extends Usuarios
 
         $stmt->execute(array());
     }
+
+
     //-------- SET DATOS Para registar consolidacion-------------------------------------//
     public function setConsolidacion($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $participantes)
     {
@@ -467,8 +486,9 @@ class Consolidacion extends Usuarios
         $this->cedula_participante = $cedula_participante;
       } 
 
-    public function setParticipantes($participantes){
+    public function setParticipantes($participantes, $id){
         $this->participantes = $participantes;
+        $this->id = $participantes;
       } 
 
 
