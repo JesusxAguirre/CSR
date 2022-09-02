@@ -284,9 +284,9 @@ class Consolidacion extends Usuarios
         //guardando en un array asociativo las cedulas
         $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
         $codigo = $cedulas['codigo_celula'];
+        $codigo1 = $cedulas['codigo_celula'];
         $codigo2 = $cedulas['codigo_celula']; //esto es porque aveces se sobreescribian la variable dependiendo de que if entrara entonces fue mas facil hacer 3 variables que arreglar eso
         $codigo3 = $cedulas['codigo_celula'];
-        
         $codigo_lider_antiguo = $cedulas['codigo_lider'];
         $codigo_anfitrion_antiguo = $cedulas['codigo_anfitrion'];
         $codigo_asistente_antiguo = $cedulas['codigo_asistente'];
@@ -304,8 +304,8 @@ class Consolidacion extends Usuarios
             $stmt->execute(array());
         } //eliminando el codigo si se cambia el usuario
         else {
-            $codigo = '-' . $codigo;
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','') WHERE cedula = '$cedula_lider_antiguo'");
+            $codigo1 = '-' . $codigo;
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = '$cedula_lider_antiguo'");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -323,7 +323,7 @@ class Consolidacion extends Usuarios
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_lider['codigo'] . $codigo,
+                ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
                 ":cedula" => $this->cedula_lider
             ));
         }
@@ -337,8 +337,8 @@ class Consolidacion extends Usuarios
 
                 $stmt->execute(array());
             } else {
-                $codigo2 = '-' . $codigo2;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+                $codigo2 = '-' . $codigo;
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
 
@@ -356,7 +356,7 @@ class Consolidacion extends Usuarios
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_anfitrion['codigo'] . $codigo2,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
             }
@@ -369,8 +369,8 @@ class Consolidacion extends Usuarios
 
                 $stmt->execute(array());
             } else {
-                $codigo2 = '-' . $codigo2;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+                $codigo2 = '-' . $codigo;
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
 
@@ -388,7 +388,7 @@ class Consolidacion extends Usuarios
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_lider['codigo'] . $codigo2,
+                    ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
             }
@@ -400,8 +400,8 @@ class Consolidacion extends Usuarios
 
                 $stmt->execute(array());
             } else {
-                $codigo3 = '-' . $codigo3;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','') WHERE cedula = '$cedula_asistente_antiguo'");
+                $codigo3 = '-' . $codigo;
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
 
@@ -413,13 +413,12 @@ class Consolidacion extends Usuarios
                 $stmt->execute(array());
                 $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-
                 $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_asistente['codigo'] . $codigo2,
+                    ":codigo" => $codigo_asistente['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_asistente
                 ));
             }
