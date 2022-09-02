@@ -92,7 +92,11 @@ class Consolidacion extends Usuarios
     public function listar_no_participantes()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_consolidacion IS NULL AND  codigo LIKE  '%N1%' AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion);");
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_consolidacion IS NULL 
+        AND  codigo LIKE  '%N1%' 
+        AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion)
+        AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_consolidacion)
+        AND usuarios.cedula NOT IN (SELECT cedula_asistente FROM celula_consolidacion)");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -433,7 +437,7 @@ class Consolidacion extends Usuarios
 
     public function agregar_participantes(){
         $sql = ("UPDATE usuarios SET id_consolidacion= :id WHERE cedula = :cedula");
-        
+
         foreach ($this->participantes as $participantes) {
 
             $stmt = $this->conexion()->prepare($sql);
