@@ -38,7 +38,7 @@ if (is_file('vista/'.$pagina.'.php')) {
             
         }
 
-
+        
         $objeto->setConsolidacion($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
 
         $objeto->registrar_consolidacion();
