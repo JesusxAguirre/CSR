@@ -1,0 +1,17 @@
+.contenedorMaterias{
+    background-color: rgb(204, 204, 204);
+    font-size: 18px;
+}
+.buscarMateria{
+    font-size: 18px;
+}
+
+
+.botonActualizar{
+    width: 100% !important;
+    border-radius: 0%;
+}
+.botonEliminar{
+    width: 100% !important;
+    border-radius: 0%;
+}

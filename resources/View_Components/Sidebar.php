@@ -99,10 +99,10 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
             <div>
               <ul class="navbar-nav ps-3">
                 <li>
-                  <a href="?pagina=listar-secciones" class="nav-link px-3">
+                  <a href="?pagina=materias" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-book-half"></i></span>
-                  <span>Listar Secciones</span>
+                  <span>Materias</span>
                   </a>
                 </li>
              
