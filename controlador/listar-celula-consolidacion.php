@@ -33,27 +33,10 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_anfitrion= $_POST['codigoAnfitrion'];
         $cedula_asistente = $_POST['codigoAsistente'];
         $participantes = $_POST['participantes'];
-        print_r($participantes);
         $id = $_POST['id']; 
-        echo "Entra a la funcion" . "<br>";
-        echo $cedula_lider . '<br>';
-        echo $cedula_anfitrion . '<br>';
-        echo $cedula_asistente . '<br>';
-        echo $id . '<br>';
-        exit;
-         //borrando del array participantes las coicidencias en los valores con las cedulas de lider, anfitrion y asistente
-         if (($clave = array_search($cedula_lider, $participantes)) !== false) {
-            unset($participantes[$clave]);
-            
-        }
-        if (($clave = array_search($cedula_anfitrion, $participantes)) !== false) {
-            unset($participantes[$clave]);
-            
-        }
-        if (($clave = array_search($cedula_asistente, $participantes)) !== false) {
-            unset($participantes[$clave]);
-            
-        }
+        
+        $objeto->setParticipantes($participantes);
+       
      
     }
 
