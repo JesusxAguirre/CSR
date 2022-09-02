@@ -286,9 +286,7 @@ class Consolidacion extends Usuarios
         $codigo = $cedulas['codigo_celula'];
         $codigo2 = $cedulas['codigo_celula']; //esto es porque aveces se sobreescribian la variable dependiendo de que if entrara entonces fue mas facil hacer 3 variables que arreglar eso
         $codigo3 = $cedulas['codigo_celula'];
-        $codigo4 = $cedulas['codigo_celula'];
-        $codigo5 = $cedulas['codigo_celula'];
-        $codigo6 = $cedulas['codigo_celula'];
+        
         $codigo_lider_antiguo = $cedulas['codigo_lider'];
         $codigo_anfitrion_antiguo = $cedulas['codigo_anfitrion'];
         $codigo_asistente_antiguo = $cedulas['codigo_asistente'];
@@ -330,8 +328,40 @@ class Consolidacion extends Usuarios
             ));
         }
         //comprobando si las cedulas de anfitrion y asistente son iguales
-        if ($this->cedula_anfitrion == $this->asistente) {
-            if ($codigo_anfitrion_antiguo == $this->anfitrion) {
+        if ($this->cedula_anfitrion == $this->cedula_asistente) {
+            if ($codigo_anfitrion_antiguo == $this->cedula_anfitrion) {
+
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_anfitrion_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+            } else {
+                $codigo2 = '-' . $codigo2;
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+                //agregando el codigo a el usuario nuevo
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+                $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":codigo" => $codigo_anfitrion['codigo'] . $codigo2,
+                    ":cedula" => $this->cedula_anfitrion
+                ));
+            }
+        } else {
+            if ($codigo_anfitrion_antiguo == $this->cedula_anfitrion) {
 
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -360,6 +390,37 @@ class Consolidacion extends Usuarios
                 $stmt->execute(array(
                     ":codigo" => $codigo_lider['codigo'] . $codigo2,
                     ":cedula" => $this->cedula_anfitrion
+                ));
+            }
+            if ($codigo_asistente_antiguo == $this->cedula_asistente) {
+
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_asistente_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+            } else {
+                $codigo3 = '-' . $codigo3;
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','') WHERE cedula = '$cedula_asistente_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+                //agregando el codigo a el usuario nuevo
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+                $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":codigo" => $codigo_asistente['codigo'] . $codigo2,
+                    ":cedula" => $this->cedula_asistente
                 ));
             }
         }
