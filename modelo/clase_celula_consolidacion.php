@@ -282,7 +282,16 @@ class Consolidacion extends Usuarios
         $cedula_lider = $cedulas['cedula_lider'];
         $cedula_anfitrion = $cedulas['cedula_anfitrion'];
         $cedula_asistente = $cedulas['cedula_asistente'];
-
+        echo $cedula_anfitrion;
+        echo $this->cedula_anfitrion;
+        exit;
+        switch($cedula_anfitrion)
+        {
+            case ($cedula_anfitrion == $this->cedula_anfitrion ):
+                echo "la cedula de anfitrion antigua es igual a la cedula de anfitrion nueva";
+                exit;
+                break;
+        }
         if ($cedula_lider == $this->cedula_lider) {
             //remplazando la cadena del codigo por la nueva
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_lider'");
