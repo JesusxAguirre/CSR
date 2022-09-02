@@ -9,7 +9,7 @@ if (is_file('vista/'.$pagina.'.php')) {
    
     $matriz_lideres = $objeto->listar_usuarios_N2();
     $matriz_usuarios = $objeto->listar_no_participantes();
-        
+      
     if(isset($_POST['registrar'])){
         $cedula_lider = $_POST['codigoLider'];
          
@@ -19,8 +19,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $hora = $_POST['hora'];
         $direccion = $_POST['direccion'];
         $participantes = $_POST['participantes'];
-
-        
+       
        //borrando del array participantes las coicidencias en los valores con las cedulas de lider, anfitrion y asistente
         if (($clave = array_search($cedula_lider, $participantes)) !== false) {
             unset($participantes[$clave]);
@@ -34,9 +33,8 @@ if (is_file('vista/'.$pagina.'.php')) {
             unset($participantes[$clave]);
             
         }
-
-        print_r($participantes);
-        exit;
+       
+      
         $objeto->setConsolidacion($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
 
         $objeto->registrar_consolidacion();
