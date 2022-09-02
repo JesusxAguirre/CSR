@@ -29,13 +29,11 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->update_consolidacion();
     }
     if(isset($_POST['agregar'])){
-        $cedula_lider = $_POST['codigoLider'];
-        $cedula_anfitrion= $_POST['codigoAnfitrion'];
-        $cedula_asistente = $_POST['codigoAsistente'];
+     
         $participantes = $_POST['participantes'];
         $id = $_POST['id']; 
         
-        $objeto->setParticipantes($participantes);
+        $objeto->setParticipantes($participantes,$id);
        
      
     }

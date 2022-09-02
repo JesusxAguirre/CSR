@@ -67,23 +67,14 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 agregar.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
-  let lider = fila.querySelector('.cedula_lider')
-  let anfitrion = fila.querySelector('.cedula_anfitrion')
-  let asistente = fila.querySelector('.cedula_asistente')
-
+ 
 
   const idInput = document.getElementById('idInput2')
  
-  const liderInput = document.getElementById('codigoLider2')
-  const anfitrionInput = document.getElementById('codigoAnfitrion2')
-  const asistenteInput = document.getElementById('codigoAsistente2')
 
-  liderInput.value = lider.textContent
-  anfitrionInput.value = anfitrion.textContent
-  asistenteInput.value = asistente.textContent
   idInput.value = id.textContent
 
-  //cedulas de usuarios
+
 
 
 }))
