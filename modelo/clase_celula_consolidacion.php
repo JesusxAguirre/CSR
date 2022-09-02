@@ -466,4 +466,10 @@ class Consolidacion extends Usuarios
     public function setParticipante($cedula_participante){
         $this->cedula_participante = $cedula_participante;
       } 
+
+    public function setParticipantes($participantes){
+        $this->participantes = $participantes;
+      } 
+
+
 }
