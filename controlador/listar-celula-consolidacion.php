@@ -35,7 +35,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         
         $objeto->setParticipantes($participantes,$id);
        
-     
+        $objeto->agregar_participantes();
     }
 
     if(isset($_POST['eliminar_participante'])){

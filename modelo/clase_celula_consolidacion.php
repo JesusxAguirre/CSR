@@ -488,7 +488,7 @@ class Consolidacion extends Usuarios
 
     public function setParticipantes($participantes, $id){
         $this->participantes = $participantes;
-        $this->id = $participantes;
+        $this->id = $id;
       } 
 
 
