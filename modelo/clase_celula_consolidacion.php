@@ -258,7 +258,7 @@ class Consolidacion extends Usuarios
                 ":id" => $id_consolidacion['id'],
                 ":cedula" => $this->cedula_asistente
             ));
-        }
+        }//fin del else
     }
     //---------------------------------------------------COMIEZNO DE UPDATE-----------------------------------//
     public function update_consolidacion()
@@ -426,6 +426,16 @@ class Consolidacion extends Usuarios
     }
     //---------------------------------------------------FIN DE UPDATE------------------------------------//
 
+
+
+    //---------------------------------------------------Eliminar participantes------------------------------------//
+    public function eliminar_participantes(){
+        $sql =("UPDATE usuarios SET id_consolidacion  = NULL WHERE cedula = '$this->cedula_participante'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+    }
     //-------- SET DATOS Para registar consolidacion-------------------------------------//
     public function setConsolidacion($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $participantes)
     {
@@ -450,4 +460,8 @@ class Consolidacion extends Usuarios
         $this->codigo = $codigo;
         $this->id = $id;
     }
+
+    public function setParticipante($cedula_participante){
+        $this->cedula_participante = $cedula_participante;
+      }
 }

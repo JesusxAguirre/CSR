@@ -28,6 +28,15 @@ if (is_file('vista/'.$pagina.'.php')) {
 
         $objeto->update_consolidacion();
     }
+
+    if(isset($_POST['eliminar_participante'])){
+        $cedula_participante = $_POST['eliminar_participante'];
+        echo $cedula_participante;
+        exit;
+        $objeto->setParticipante($cedula_participante);
+
+        $objeto->eliminar_participantes();
+    }
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
@@ -44,5 +53,4 @@ if(isset( $_POST['cerrar'])){
     alert('Sesion Cerrada');
     window.location= 'index.php'
 </script>";
-}     
-?>
+}
