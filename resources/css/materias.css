@@ -6,7 +6,10 @@
     font-size: 18px;
 }
 
-
+.botonGuardar{
+    width: 100% !important;
+    border-radius: 0%;
+}
 .botonActualizar{
     width: 100% !important;
     border-radius: 0%;

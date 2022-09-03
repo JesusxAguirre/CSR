@@ -52,31 +52,34 @@
                                 <h2>AGREGAR MATERIA</h2>
                             </div>
                         </div>
-                        
-                        <div class="card-body">
-                            <form id="formAgregarMateria">
-                            <div class="row">
-                                <div class="col text-center">
-                                    <h5>Nombre de la materia</h5>
-                                    <input type="text" id="nombreMateria" name="nombreMateria" placeholder="XXXXX">
+
+                        <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
+                        <form id="formularioMateria">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <h5>Nombre de la materia</h5>
+                                        <input type="text" name="nombreMateria" id="nombreMateria" class="form-control" placeholder="N0MBR3">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col text-center">
+                                        <h5>Nivel de doctrina</h5>
+                                        <select class="form-select" name="seleccionarNivel" id="seleccionarNivel">
+                                            <option selected>Selecciona el nivel</option>
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                            <option value="especial">Especial</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row mt-3">
-                                <div class="col text-center">
-                                    <h5>Nivel de doctrina</h5>
-                                    <select name="seleccionarNivel" class="w-50 text-center" id="seleccionarNivel">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="especial">Especial</option>
-                                    </select>
-                                </div>
+                            <div>
+                                <button type="submit" class="btn btn-success botonGuardar" id="agregarMateria">GUARDAR</button>
                             </div>
-                            <div class="row mt-3">
-                                <button type="submit" id="agregarMateria">GUARDAR</button>
-                            </div>
-                            </form>
-                        </div>
+                        </form>
+                        <!--FIN DEl FORMULARIO PARA AGREGAR MATERIAS -->
                     </div>
                 </div>
 
@@ -99,7 +102,7 @@
                                 </tr>
                             </thead>
                             <tbody id="datosMaterias">
-                                
+                                <!-- AQUI MOSTRARA LAS MATERIAS DE LA BD -->
                             </tbody>
                         </table>
                     </div>
@@ -134,7 +137,7 @@
                 </div>
                 <div>
                     <button type="button" class="btn btn-success botonActualizar" id="actualizarMateria">ACTUALIZAR</button>
-                </div>  
+                </div>
                 <div>
                     <button type="button" class="btn btn-danger botonEliminar" data-bs-dismiss="modal">CANCELAR</button>
                 </div>

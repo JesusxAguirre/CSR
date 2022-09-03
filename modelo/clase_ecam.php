@@ -9,6 +9,7 @@ class ecam extends Conectar{
     private $nombre;
     private $nivel;
     private $listarMaterias;
+    private $materiasBuscadas;
 
     public function __construct(){
         $this->conexion= parent::conexion();
@@ -40,7 +41,7 @@ class ecam extends Conectar{
     }
 
     public function buscarMateria($busqueda){
-        $sql = "SELECT nombre, nivelDoctrina FROM materias WHERE nombre LIKE '%" . $busqueda . "%' 
+        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nombre LIKE '%" . $busqueda . "%' 
         OR nivelDoctrina LIKE '%" . $busqueda. "%'";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -50,10 +51,10 @@ class ecam extends Conectar{
         if ($stmt->rowCount() > 0) {
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                $this->listarMaterias[] = $filas;
+                $this->materiasBuscadas[] = $filas;
             }
         }
-        return $this->listarMaterias;
+        return $this->materiasBuscadas;
     }
 
     public function eliminarMateria($idMateria){

@@ -5,9 +5,10 @@ window.onload= function () {
 
 //BUSCAR MATERIAS POR AJAX
 const buscarMateria = document.getElementById("buscarMateria");
-const datosMaterias = document.getElementById("datosMaterias");
+
 
 buscarMateria.addEventListener("keyup", () => {
+  let datosMaterias = document.getElementById("datosMaterias");
   $.ajax({
     data: {
       buscarMateria: document.getElementById("buscarMateria").value,
@@ -72,5 +73,30 @@ $("#agregarMateria").on("click", function (e) {
     $("#formAgregarMateria").trigger("reset");
   });
 });
+
+
+
+//INICIO DE VALIDACIONES ALIAS "COCAINE"
+
+const expresiones = {
+	usuario: /^[a-zA-Z0-9\_\-]{4,16}$/, // Letras, numeros, guion y guion_bajo
+	nombre: /^[a-zA-ZÀ-ÿ\s]{1,40}$/, // Letras y espacios, pueden llevar acentos.
+	password: /^.{4,12}$/, // 4 a 12 digitos.
+	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+	telefono: /^\d{7,14}$/ // 7 a 14 numeros.
+}
+
+const formularioMateria= document.getElementById('formularioMateria');
+const inputsFC= document.querySelectorAll('#formularioMateria input');
+const selectsFormularioA= document.querySelectorAll('#formularioMateria select option');
+
+inputsFC.forEach((evento) => {
+  evento.addEventListener("keyup", () => {
+    console.log('oligui');
+  });
+})
+
+
+
 
   

@@ -9,14 +9,15 @@ $busquedaMaterias= $objeto->buscarMateria($busqueda);
 if (!empty($busquedaMaterias)) {
     foreach ($busquedaMaterias as $b_materias) { ?>
         <tr>
+            <td hidden class="idMateria"><?php echo $b_materias['id_materia']; ?></td>
             <td><?php echo $b_materias['nombre']; ?></td>
             <td><?php echo $b_materias['nivelDoctrina']; ?></td>
             <td>
-                <button class="btn bg-primary text-white"><i class="bi bi-pencil"></i></button>
-                <button class="btn bg-danger"><i class="bi bi-x-lg"></i></button>
+                <button class="btn btn-success text-white" id="actualizarMateria" data-bs-toggle="modal" data-bs-target="#modalActualizar"><i class="bi bi-pencil"></i></button>
+                <button class="btn bg-danger" id="eliminarMateria" value="eliminar"><i class="bi bi-x-lg"></i></button>
             </td>
         </tr>
-    <?php } ?>
-<?php }
-
-?>
+<?php } ?>
+<?php } else { ?>
+    <h1>vacio</h1>
+<?php } ?>
