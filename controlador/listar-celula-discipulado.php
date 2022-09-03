@@ -21,7 +21,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $hora = $_POST['hora'];
         $codigo = $_POST['codigo'];
         $id = $_POST['id']; 
+        $objeto->setActualizar($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
 
+        $objeto->actualizar_discipulado();
     }
     if(isset($_POST['agregar'])){
      
