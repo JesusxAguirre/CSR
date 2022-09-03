@@ -27,13 +27,13 @@ const expresiones = { //objeto con varias expresiones regulares
   dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
   codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
- //expresion regular de codigo de usuario
+  //expresion regular de codigo de usuario
 }
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "dia":
-      ValidarCampo(expresiones.dia, e.target, 'dia');
+      ValidarDia(e.target, 'dia');
       break;
 
     case "hora":
@@ -60,6 +60,25 @@ const ValidarFormulario = (e) => {
       ValidarSelect(e.target, 'direccion');
       break;
 
+  }
+}
+
+
+const ValidarDia = (input, campo) => {
+  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
+    console.log("entra en la funcion DE DIA");
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+    console.log("entra en la funcion else");
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
   }
 }
 
