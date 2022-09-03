@@ -1,20 +1,21 @@
-<?php 
+<?php
 require_once("clase_usuario.php");
-class Discipulado extends Usuarios{
+class Discipulado extends Usuarios
+{
 
-private $listar;
-private $codigos;
-private $direccion;
-private $participantes;
-private $cedula_participante;
+    private $listar;
+    private $codigos;
+    private $direccion;
+    private $participantes;
+    private $cedula_participante;
 
-  public function __construct()
-  {
-      $this->conexion = parent::conexion();
-  }
+    public function __construct()
+    {
+        $this->conexion = parent::conexion();
+    }
 
 
-  public function listar_celula_discipulado()
+    public function listar_celula_discipulado()
     {
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
         lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
@@ -55,22 +56,22 @@ private $cedula_participante;
     }
 
 
-  public function listar_no_participantes()
-  {
+    public function listar_no_participantes()
+    {
 
-      $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL  AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL  AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
 
-      $stmt = $this->conexion()->prepare($sql);
+        $stmt = $this->conexion()->prepare($sql);
 
-      $stmt->execute(array());
+        $stmt->execute(array());
 
-      while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-          $this->codigos[] = $filas;
-      }
-      return $this->codigos;
-  }
+            $this->codigos[] = $filas;
+        }
+        return $this->codigos;
+    }
 
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -98,10 +99,10 @@ private $cedula_participante;
             ":codigo" => 'CD' . $id,
             ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
             ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
-            ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc"=>$this->direccion
+            ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc" => $this->direccion
         ));
 
-        
+
         //---------Comienzo de funcion de pasar id foraneo con respecto a los participantes de la celula------------------------//
         //primero vamos a buscar el id que queremos pasar como clave foranea
 
@@ -109,28 +110,28 @@ private $cedula_participante;
         WHERE cedula_lider= '$this->cedula_lider'
         AND cedula_anfitrion = '$this->cedula_anfitrion'
         AND cedula_asistente = '$this->cedula_asistente'");
-       
-       $stmt = $this->conexion()->prepare($sql);
-       
-        $stmt->execute(array());
-       
-        $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        
-        foreach($this->participantes as $participantes){
-        $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(
-            ":id" => $id_discipulado['id'],
-            ":cedula" => $participantes
-        ));
-        }//fin del foreach
+        $stmt->execute(array());
+
+        $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        foreach ($this->participantes as $participantes) {
+            $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":id" => $id_discipulado['id'],
+                ":cedula" => $participantes
+            ));
+        } //fin del foreach
         //id foraneo agregado por cada participante
 
 
-  
+
         //---------Comienzo de funcion de pasar id foraneo con respecto a el lider de la celula------------------------//
         //agregando codigo de celula a codigo de usuario
         //agregando a lider
@@ -205,7 +206,7 @@ private $cedula_participante;
                 ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_asistente
             ));
-        }//fin del else si el asitente de la celula y el anfitrion son distintos
+        } //fin del else si el asitente de la celula y el anfitrion son distintos
 
 
 
@@ -213,8 +214,25 @@ private $cedula_participante;
 
     }
 
-    public function eliminar_participantes(){
-        $sql =("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$this->cedula_participante'");
+    public function agregar_participantes()
+    {
+        $sql = ("UPDATE usuarios SET id_discipulado= :id WHERE cedula = :cedula");
+
+        foreach ($this->participantes as $participantes) {
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":id" => $this->id,
+                ":cedula" => $participantes
+            ));
+        } //fin del foreach
+
+    }
+
+    public function eliminar_participantes()
+    {
+        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$this->cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -222,22 +240,22 @@ private $cedula_participante;
     }
 
     //-------- SET DATOS Para registar discipulado-------------------------------------//
-  public function setDiscipulado($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion,$participantes)
-  {
-      $this->cedula_lider = $cedula_lider;
-      $this->cedula_anfitrion = $cedula_anfitrion;
-      $this->cedula_asistente = $cedula_asistente;
-      $this->dia = $dia;
-      $this->hora = $hora;
-      $this->fecha = gmdate("y-m-d", time());
-      $this->direccion = $direccion;
-      $this->participantes = $participantes;
-  }
+    public function setDiscipulado($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $participantes)
+    {
+        $this->cedula_lider = $cedula_lider;
+        $this->cedula_anfitrion = $cedula_anfitrion;
+        $this->cedula_asistente = $cedula_asistente;
+        $this->dia = $dia;
+        $this->hora = $hora;
+        $this->fecha = gmdate("y-m-d", time());
+        $this->direccion = $direccion;
+        $this->participantes = $participantes;
+    }
 
-  public function setParticipante($cedula_participante){
-    $this->cedula_participante = $cedula_participante;
-  }
-
+    public function setParticipante($cedula_participante)
+    {
+        $this->cedula_participante = $cedula_participante;
+    }
 }
 
 
