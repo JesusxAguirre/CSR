@@ -234,6 +234,7 @@ class Discipulado extends Usuarios
         $stmt->execute(array());
         //guardando en un array asociativo las cedulas
         $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
+
         $codigo = $cedulas['codigo_celula'];
         $codigo1 = $cedulas['codigo_celula'];
         $codigo2 = $cedulas['codigo_celula']; //esto es porque aveces se sobreescribian la variable dependiendo de que if entrara entonces fue mas facil hacer 3 variables que arreglar eso
@@ -436,6 +437,10 @@ class Discipulado extends Usuarios
         $this->fecha = gmdate("y-m-d", time());
         $this->codigo = $codigo;
         $this->id = $id;
+
+     
+
+        
     }
 
 

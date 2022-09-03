@@ -29,7 +29,7 @@ const campos = {
 
 const expresiones = { //objeto con varias expresiones regulares
 
-  dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
+  dia: /^[Lunes|Martes|Miercoles|Jueves|Viernes|Sabado|Domingo]{1}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
   codigo: /^[CD]{2}[0-9]{1,5}$/ //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
 }
