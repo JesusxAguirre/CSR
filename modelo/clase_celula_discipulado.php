@@ -300,14 +300,7 @@ class Discipulado extends Usuarios
                 ));
             }
         } else {
-            if ($codigo_anfitrion_antiguo == $this->cedula_anfitrion) {
-
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_anfitrion_antiguo'");
-
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array());
-            } else {
+            if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
                 $codigo2 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -327,18 +320,12 @@ class Discipulado extends Usuarios
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
             }
-            if ($codigo_asistente_antiguo == $this->cedula_asistente) {
+            if ($codigo_asistente_antiguo != $this->cedula_asistente) {
 
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_asistente_antiguo'");
-
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array());
-            } else {
                 $codigo3 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
 
@@ -357,7 +344,7 @@ class Discipulado extends Usuarios
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_asistente['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_asistente['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_asistente
                 ));
             }
@@ -423,10 +410,6 @@ class Discipulado extends Usuarios
         $this->hora = $hora;
         $this->fecha = gmdate("y-m-d", time());
         $this->id = $id;
-
-     
-
-        
     }
 
 
@@ -441,6 +424,4 @@ class Discipulado extends Usuarios
         $this->participantes = $participantes;
         $this->id = $id;
     }
-
 }
-
