@@ -212,8 +212,8 @@
         </div>
         <div class="modal-body">
           <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-discipulado">
-            <div class="mb-3">
-              <div id="grupo__participantes" class="col-sm col-md-6">
+            <div class="mb-3 row">
+              <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
                   <i class="input-icon fs-5"></i>
@@ -297,18 +297,18 @@
   </div>
 
 
-<!-- Modal agregar_asistentcia -->
-<div class="modal fade edit-modal" id="agregar_asistentcia" tabindex="-1" aria-labelledby="Modalagregar_asistentcia" aria-hidden="true">
+<!-- Modal agregar_asistencia -->
+<div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Agregar participante a Celula de discipulado</h5>
+          <h5 class="modal-title">Agregar Asistencias</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="agregar_asistentcias" action="?pagina=listar-celula-discipulado">
-            <div class="mb-3">
-              <div id="grupo__participantes" class="col-sm col-md-6">
+          <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
+            <div class="mb-3 row">
+              <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
@@ -322,6 +322,15 @@
                     endforeach;
                     ?>
                   </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            <div class="mb-3 row">
+              <div id="grupo__fecha" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
+                  <i class="input-icon fs-5"></i>
+                  <input id="startDate" class="form-control" type="date" />                
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
