@@ -239,7 +239,7 @@
                     ?>
                   </select>
                 </div>
-                <p class="text-danger d-none">Este campos no puede estar vacio</p>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
             </div>
 
