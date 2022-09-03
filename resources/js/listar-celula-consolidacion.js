@@ -1,7 +1,7 @@
 // Actualizar contenido del modal Editar
 const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
-const formulario2 = document.getElementById('#agregar_usuarios')
+const formulario2 = document.getElementById('agregar_usuarios')
 const agregar = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
@@ -171,6 +171,17 @@ formulario.addEventListener('submit', (e) => {
 })
 
 
+formulario2.addEventListener('submit', (e) => {
+  if (!(campos.participantes)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  }
+})
+
 
 
 inputs.forEach((input) => {
@@ -179,6 +190,12 @@ inputs.forEach((input) => {
 
 });
 
+inputs2.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
+
+});
+participantes.addEventListener('hideDropdown', ValidarFormulario);
 
 
 //busqueda ajax 
