@@ -26,7 +26,9 @@ const campos = {
   hora: true,
   codigo: true,
 }
-
+const campos2={
+  participantes : false
+}
 const expresiones = { //objeto con varias expresiones regulares
 
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
@@ -100,7 +102,9 @@ const ValidarFormulario = (e) => {
     case "codigoAsistente":
       ValidarSelect(e.target, 'codigoAsistente');
       break;
-
+      case "participantes[]":
+        ValidarSelect(e.target, 'participantes');
+        break;
   }
 }
 
@@ -160,6 +164,16 @@ const ValidarCampo = (expresion, input, campo) => {
 
 formulario.addEventListener('submit', (e) => {
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  }
+})
+formulario2.addEventListener('submit', (e) => {
+  if (!(campos2.participantes)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
