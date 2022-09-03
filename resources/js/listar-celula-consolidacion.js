@@ -195,7 +195,7 @@ inputs2.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 
 });
-participantes.addEventListener('hideDropdown', ValidarFormulario);
+participantes.addEventListener('hideDropdown', ValidarFormulario);  
 
 
 //busqueda ajax 
