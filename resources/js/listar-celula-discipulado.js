@@ -101,9 +101,9 @@ const ValidarFormulario = (e) => {
     case "codigoAsistente":
       ValidarSelect(e.target, 'codigoAsistente');
       break;
-      case "participantes[]":
-        ValidarSelect(e.target, 'participantes');
-        break;
+    case "participantes[]":
+      ValidarSelect(e.target, 'participantes');
+      break;
   }
 }
 

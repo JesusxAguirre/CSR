@@ -25,6 +25,7 @@ const campos = {
   dia: true,
   hora: true,
   codigo: true,
+  participantes: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -101,7 +102,9 @@ const ValidarFormulario = (e) => {
     case "codigoAsistente":
       ValidarSelect(e.target, 'codigoAsistente');
       break;
-
+    case "participantes[]":
+      ValidarSelect(e.target, 'participantes');
+      break;
   }
 }
 const ValidarDia = (input, campo) => {
@@ -195,7 +198,7 @@ inputs2.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 
 });
-participantes.addEventListener('hideDropdown', ValidarFormulario);  
+participantes.addEventListener('hideDropdown', ValidarFormulario);
 
 
 //busqueda ajax 
