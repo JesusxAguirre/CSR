@@ -27,8 +27,7 @@ if (is_file('vista/'.$pagina.'.php')) {
      
         $participantes = $_POST['participantes'];
         $id = $_POST['id']; 
-        
-        exit;
+     
         $objeto->setParticipantes($participantes,$id);
        
         $objeto->agregar_participantes();
