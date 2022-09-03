@@ -66,10 +66,10 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 agregar.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
- 
+
 
   const idInput = document.getElementById('idInput2')
- 
+
 
   idInput.value = id.textContent
 
@@ -121,8 +121,8 @@ const ValidarSelect = (select, campo) => {
   }
 }
 
-const ValidarDia = (input,campo)=>{
-  if( input.value === "Lunes" ||input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves"  || input.value === "Viernes" ||input.value === "Sabado" || input.value === "Domingo"){
+const ValidarDia = (input, campo) => {
+  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
     console.log("entra en la funcion DE DIA");
     document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
@@ -138,7 +138,7 @@ const ValidarDia = (input,campo)=>{
     campos[campo] = false;
   }
 
-  }
+}
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
     console.log("entra en la funcion");
@@ -186,13 +186,13 @@ const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
 
 busquedaEl.addEventListener('keyup', () => {
-	let busqueda = busquedaEl.value
+  let busqueda = busquedaEl.value
 
-	$.ajax({
-		data: 'busqueda='+busqueda,
-		url: "controlador/ajax/buscar-consolidacion.php",
-		type: "get",
-	}).done(data => {
-		datosEl.innerHTML = data
-	})
+  $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-consolidacion.php",
+    type: "get",
+  }).done(data => {
+    datosEl.innerHTML = data
+  })
 })

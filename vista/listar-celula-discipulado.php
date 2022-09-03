@@ -133,7 +133,7 @@
                   <i class="input-icon fs-5"></i>
                   <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
-                <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes  </p>
               </div>
             </div>
             <div class="mb-3">

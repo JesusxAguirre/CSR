@@ -67,10 +67,10 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 agregar.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
- 
+
 
   const idInput = document.getElementById('idInput2')
- 
+
 
   idInput.value = id.textContent
 
@@ -84,7 +84,7 @@ agregar.forEach(boton => boton.addEventListener('click', () => {
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "dia":
-      ValidarCampo(expresiones.dia, e.target, 'dia');
+      ValidarDia(e.target, 'dia');
       break;
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
@@ -103,6 +103,24 @@ const ValidarFormulario = (e) => {
       break;
 
   }
+}
+const ValidarDia = (input, campo) => {
+  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
+    console.log("entra en la funcion DE DIA");
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+    console.log("entra en la funcion else");
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
+  }
+
 }
 
 const ValidarSelect = (select, campo) => {
@@ -169,13 +187,13 @@ const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
 
 busquedaEl.addEventListener('keyup', () => {
-	let busqueda = busquedaEl.value
+  let busqueda = busquedaEl.value
 
-	$.ajax({
-		data: 'busqueda='+busqueda,
-		url: "controlador/ajax/buscar-consolidacion.php",
-		type: "get",
-	}).done(data => {
-		datosEl.innerHTML = data
-	})
+  $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-consolidacion.php",
+    type: "get",
+  }).done(data => {
+    datosEl.innerHTML = data
+  })
 })
