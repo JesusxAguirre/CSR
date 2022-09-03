@@ -312,5 +312,5 @@
       $('#myInput').trigger('focus')
     })
   </script>
-  <script type="text/javascript" src="resources/js/listar-celula-consolidacion.js"></script>
+  <script type="text/javascript" src="resources/js/listar-celula-discipulado.js"></script>
 </body>

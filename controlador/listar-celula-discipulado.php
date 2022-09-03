@@ -21,6 +21,16 @@ if (is_file('vista/'.$pagina.'.php')) {
         $hora = $_POST['hora'];
         $codigo = $_POST['codigo'];
         $id = $_POST['id']; 
+
+
+        echo $cedula_lider . "<br>";
+        echo $cedula_asistente . "<br>";
+        echo $cedula_anfitrion . "<br>";
+        echo $dia . "<br>";
+        echo $hora . "<br>";
+        echo $codigo . "<br>";
+        echo $id . "<br>";
+        exit;
         $objeto->setActualizar($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
 
         $objeto->actualizar_discipulado();
