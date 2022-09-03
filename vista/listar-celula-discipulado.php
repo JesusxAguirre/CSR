@@ -84,6 +84,7 @@
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
@@ -291,6 +292,53 @@
           </form>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+
+<!-- Modal agregar_asistentcia -->
+<div class="modal fade edit-modal" id="agregar_asistentcia" tabindex="-1" aria-labelledby="Modalagregar_asistentcia" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light">
+          <h5 class="modal-title">Agregar participante a Celula de discipulado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form" method="post" id="agregar_asistentcias" action="?pagina=listar-celula-discipulado">
+            <div class="mb-3">
+              <div id="grupo__participantes" class="col-sm col-md-6">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
+                  <i class="input-icon fs-5"></i>
+         
+                  <select multiple name="participantes[]" id="participantes" class="form-control">
+                    <?php
+                    foreach ($matriz_participantes as $participante) :
+                    ?>
+                      <option value="<?php echo $participante['participantes_cedula']; ?>"> <?php echo $participante['participantes_codigo']; ?></option>
+                    <?php
+                    endforeach;
+                    ?>
+                  </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+
+            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
+            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
+            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
+
+            <input type="hidden" name="id" id="idInput2">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+
+        </div>
       </div>
     </div>
   </div>
