@@ -8,6 +8,13 @@ class Discipulado extends Usuarios
     private $direccion;
     private $participantes;
     private $cedula_participante;
+    private $dia;
+    private $hora;
+    private $id;
+    private $fecha;
+    private $cedula_lider;
+    private $cedula_anfitrion;
+    private $cedula_asistente;
 
     public function __construct()
     {
@@ -418,6 +425,19 @@ class Discipulado extends Usuarios
         $this->direccion = $direccion;
         $this->participantes = $participantes;
     }
+
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $codigo, $id)
+    {
+        $this->cedula_lider = $cedula_lider;
+        $this->cedula_anfitrion = $cedula_anfitrion;
+        $this->cedula_asistente = $cedula_asistente;
+        $this->dia = $dia;
+        $this->hora = $hora;
+        $this->fecha = gmdate("y-m-d", time());
+        $this->codigo = $codigo;
+        $this->id = $id;
+    }
+
 
     public function setParticipante($cedula_participante)
     {
