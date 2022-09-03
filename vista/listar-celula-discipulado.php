@@ -325,7 +325,7 @@
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
-            <div class="mb-3 row">
+            <div class="mt-4 mb-3 row">
               <div id="grupo__fecha" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
