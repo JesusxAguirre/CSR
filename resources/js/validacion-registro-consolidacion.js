@@ -6,6 +6,7 @@ var choices1 = new Choices(participantes, {
   removeItems: true,
   removeItemButton: true,
   noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
 });
 
 

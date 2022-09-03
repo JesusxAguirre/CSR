@@ -25,10 +25,9 @@ const campos = {
   dia: true,
   hora: true,
   codigo: true,
+  participantes: false,
 }
-const campos2={
-  participantes : false
-}
+
 const expresiones = { //objeto con varias expresiones regulares
 
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
@@ -172,6 +171,7 @@ formulario.addEventListener('submit', (e) => {
     })
   }
 })
+
 formulario2.addEventListener('submit', (e) => {
   if (!(campos2.participantes)) {
     e.preventDefault();
@@ -191,7 +191,7 @@ inputs.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 
 });
-
+participantes.addEventListener('hideDropdown', ValidarFormulario);
 
 
 //busqueda ajax 
