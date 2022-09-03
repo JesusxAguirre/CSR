@@ -207,11 +207,6 @@ class Discipulado extends Usuarios
                 ":cedula" => $this->cedula_asistente
             ));
         } //fin del else si el asitente de la celula y el anfitrion son distintos
-
-
-
-
-
     }
 
     public function agregar_participantes()
