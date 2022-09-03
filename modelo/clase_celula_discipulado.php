@@ -256,6 +256,14 @@ class Discipulado extends Usuarios
     {
         $this->cedula_participante = $cedula_participante;
     }
+
+
+    public function setParticipantes($participantes, $id)
+    {
+        $this->participantes = $participantes;
+        $this->id = $id;
+    }
+
 }
 
 

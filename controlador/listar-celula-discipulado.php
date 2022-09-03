@@ -24,16 +24,14 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     }
     if(isset($_POST['agregar'])){
-        $cedula_lider = $_POST['codigoLider'];
-        $cedula_anfitrion= $_POST['codigoAnfitrion'];
-        $cedula_asistente = $_POST['codigoAsistente'];
+     
         $participantes = $_POST['participantes'];
-        print_r($participantes);
         $id = $_POST['id']; 
-        echo $cedula_lider . '<br>';
-        echo $id . '<br>';
-        exit;
         
+        exit;
+        $objeto->setParticipantes($participantes,$id);
+       
+        $objeto->agregar_participantes();
     }
     if(isset($_POST['eliminar_participante'])){
         $cedula_participante = $_POST['eliminar_participante'];
@@ -59,5 +57,4 @@ if(isset( $_POST['cerrar'])){
     alert('Sesion Cerrada');
     window.location= 'index.php'
 </script>";
-}     
-?>
+}

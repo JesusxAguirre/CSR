@@ -137,7 +137,7 @@
                           <?php
                             foreach ($matriz_usuarios as $usuario) :
                             ?>
-                              <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                              <option value="<?php echo $usuario['codigo']; ?>"> <?php echo $usuario['codigo']; ?></option>
                             <?php
                             endforeach;
                             ?> 
