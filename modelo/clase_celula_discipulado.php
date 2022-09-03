@@ -247,15 +247,8 @@ class Discipulado extends Usuarios
         $cedula_asistente_antiguo = $cedulas['cedula_asistente'];
 
 
-        if ($codigo_lider_antiguo == $this->cedula_lider) {
-            //remplazando la cadena del codigo por la nueva
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_lider_antiguo'");
+        if ($codigo_lider_antiguo != $this->cedula_lider) {
 
-            $stmt = $this->conexion()->prepare($sql);
-
-            $stmt->execute(array());
-        } //eliminando el codigo si se cambia el usuario
-        else {
             $codigo1 = '-' . $codigo;
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = '$cedula_lider_antiguo'");
 
@@ -275,20 +268,14 @@ class Discipulado extends Usuarios
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
+                ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
                 ":cedula" => $this->cedula_lider
             ));
         }
         //comprobando si las cedulas de anfitrion y asistente son iguales
         if ($this->cedula_anfitrion == $this->cedula_asistente) {
-            if ($codigo_anfitrion_antiguo == $this->cedula_anfitrion) {
+            if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
 
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_anfitrion_antiguo'");
-
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array());
-            } else {
                 $codigo2 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -308,7 +295,7 @@ class Discipulado extends Usuarios
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
             }
@@ -376,13 +363,13 @@ class Discipulado extends Usuarios
             }
         }
 
-        $sql = ("UPDATE celula_discipulado SET codigo_celula_discipulado= :codigo_celula, cedula_lider = :cedula_lider , 
+        $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
             cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora WHERE id= :id");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":codigo_celula" => $this->codigo, ":cedula_lider" => $this->cedula_lider,
+            ":cedula_lider" => $this->cedula_lider,
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
             ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
         ));
@@ -427,7 +414,7 @@ class Discipulado extends Usuarios
         $this->participantes = $participantes;
     }
 
-    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $codigo, $id)
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
@@ -435,7 +422,6 @@ class Discipulado extends Usuarios
         $this->dia = $dia;
         $this->hora = $hora;
         $this->fecha = gmdate("y-m-d", time());
-        $this->codigo = $codigo;
         $this->id = $id;
 
      
