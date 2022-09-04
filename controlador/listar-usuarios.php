@@ -6,7 +6,7 @@ require_once('modelo/clase_usuario.php');
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Usuarios();
-        $matriz_usuario = $objeto->listar();
+
         if(isset($_POST['update'])){
             $cedula= $_POST['cedula'];
             $cedula_antigua= $_POST['cedula_antigua'];

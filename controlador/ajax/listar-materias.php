@@ -14,7 +14,7 @@ if (!empty($listarMaterias)) {
                 <button class="btn bg-danger" id="eliminarMateria" value="eliminar"><i class="bi bi-x-lg"></i></button>
             </td>
         </tr>
-    <?php } ?>
+<?php } ?>
 <?php } else { ?>
     <h1>vacio</h1>
 <?php } ?>

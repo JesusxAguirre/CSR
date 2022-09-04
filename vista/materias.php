@@ -59,19 +59,21 @@
                                 <div class="row">
                                     <div class="col text-center">
                                         <h5>Nombre de la materia</h5>
-                                        <input type="text" name="nombreMateria" id="nombreMateria" class="form-control" placeholder="N0MBR3">
+                                        <input type="text" name="nombreMateria" id="nombreMateria" class="form-control inputMateria" placeholder="N0MBR3">
+                                        <p hidden id="nomMateriaMal">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col text-center">
                                         <h5>Nivel de doctrina</h5>
-                                        <select class="form-select" name="seleccionarNivel" id="seleccionarNivel">
-                                            <option selected>Selecciona el nivel</option>
+                                        <select class="form-select selectNivel" name="seleccionarNivel" id="seleccionarNivel">
+                                            <option selected value="ninguno">Selecciona el nivel</option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
                                             <option value="especial">Especial</option>
                                         </select>
+                                        <p hidden id="nivMateriaMal">Deberias seleccionar un nivel de doctrina</p>
                                     </div>
                                 </div>
                             </div>
@@ -87,13 +89,13 @@
                     <div class="contenedorMaterias">
 
                         <!-- BUSCADOR DE MATERIA -->
-                        <div class="input-group mb-3">
+                        <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-search"></i></span>
                             <input type="text" class="form-control text-center buscarMateria" id="buscarMateria" placeholder="Nombre o nivel de doctrina">
                         </div>
                         <!-- FIN DE BUSCADOR DE MATERIA -->
 
-                        <table class="table text-center mt-3">
+                        <table class="table text-center">
                             <thead class="table-dark">
                                 <tr>
                                     <th>MATERIAS</th>
