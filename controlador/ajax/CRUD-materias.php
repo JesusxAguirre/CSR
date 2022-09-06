@@ -7,7 +7,7 @@ if (isset($_POST['agregarMateria'])) {
     $nombreMateria= $_POST['nombreMateria'];
     $nivelSeleccionado= $_POST['seleccionarNivel'];
 
-    $objeto->setMaterias($nombreMateria, $nivelSeleccionado);
+    $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado);
     $objeto->agregarMaterias();
 }
 
@@ -21,7 +21,15 @@ if ($_POST['botonEliminar']) {
 
 
 //ACTUALIZANDO MATERIAS
+if (isset($_POST['actualizarMateria'])) {
+    echo 'si entre o que';
+    $idMateria2= $_POST['idMateria2'];
+    $nombreMateria2= $_POST['nombreMateria2'];
+    $nivelSeleccionado2= $_POST['seleccionarNivel2'];
 
+    $objeto->setActualizar($idMateria2, $nombreMateria2, $nivelSeleccionado2);
+    $objeto->actualizarMateria();
+}
 
 ?>
 

@@ -46,7 +46,7 @@
 
             <div class="row">
                 <div class="col-4">
-                    <div class="card cardMateria text-white bg-dark">
+                    <div class="card text-white bg-dark">
                         <div class="card-header text-center">
                             <div>
                                 <h2>AGREGAR MATERIA</h2>
@@ -71,7 +71,7 @@
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
-                                            <option value="especial">Especial</option>
+                                            <option value="Especial">Especial</option>
                                         </select>
                                         <p hidden id="nivMateriaMal">Deberias seleccionar un nivel de doctrina</p>
                                     </div>
@@ -114,34 +114,37 @@
         </div>
     </main>
 
-    <div class="modal fade" id="modalActualizar" aria-hidden="true">
+    <div class="modal fade" id="modalActualizar" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">ACTUALIZAR DATOS DE LA MATERIA</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close cancelarActualizar" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    <input hidden type="text" id="idMateria2">
                     <div class="mb-3">
                         <label for="nombreMateria2" class="form-label">Nombre de la materia</label>
-                        <input type="text" class="form-control" id="nombreMateria2" placeholder="NOMBREXXXX">
+                        <input type="text" class="form-control inputMateria" id="nombreMateria2" placeholder="NOMBREXXXX">
+                        <p hidden id="nomMateriaMal2">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
                     </div>
                     <div class="mb-3">
                         <label for="seleccionarNivel2" class="form-label">Nivel de doctrina</label>
-                        <select class="form-select" id="seleccionarNivel2">
-                            <option selected>Open this select menu</option>
+                        <select class="form-select selectNivel" id="seleccionarNivel2">
+                            <option value="ninguno">Selecciona el nivel</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            <option value="especial">Especial</option>
+                            <option value="Especial">Especial</option>
                         </select>
+                        <p hidden id="nivMateriaMal2">Deberias seleccionar un nivel de doctrina</p>
                     </div>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-success botonActualizar" id="actualizarMateria">ACTUALIZAR</button>
+                    <button type="submit" class="btn btn-success botonActualizar" id="actualizarMateria" value="actualizarMateria">ACTUALIZAR</button>
                 </div>
                 <div>
-                    <button type="button" class="btn btn-danger botonEliminar" data-bs-dismiss="modal">CANCELAR</button>
+                    <button type="button" class="btn btn-warning botonEliminar cancelarActualizar" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>

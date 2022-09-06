@@ -6,6 +6,7 @@ require_once ('clase_conexion.php');
 
 class ecam extends Conectar{
     private $conexion;
+    private $idMateria;
     private $nombre;
     private $nivel;
     private $listarMaterias;
@@ -15,6 +16,7 @@ class ecam extends Conectar{
         $this->conexion= parent::conexion();
     }
     
+    //AGREGAR MATERIAS
     public function agregarMaterias(){
         $sql= "INSERT INTO materias (nombre, nivelDoctrina) VALUES (:nom, :nivelD)";
 
@@ -25,6 +27,7 @@ class ecam extends Conectar{
         ));
     }
 
+    //LISTAR TODAS LAS MATERIAS
     public function listarMaterias(){
         $sql= "SELECT id_materia, nombre, nivelDoctrina FROM materias";
 
@@ -40,6 +43,7 @@ class ecam extends Conectar{
         return $this->listarMaterias;
     }
 
+    //BUSCAR MATERIAS POR AJAX
     public function buscarMateria($busqueda){
         $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nombre LIKE '%" . $busqueda . "%' 
         OR nivelDoctrina LIKE '%" . $busqueda. "%'";
@@ -57,6 +61,7 @@ class ecam extends Conectar{
         return $this->materiasBuscadas;
     }
 
+    //ELIMINAR MATERIAS
     public function eliminarMateria($idMateria){
         $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
 
@@ -65,7 +70,26 @@ class ecam extends Conectar{
         $stmt->execute();
     }
 
+    //ACTUALIZAR MATERIAS
+    public function actualizarMateria(){
+        $sql= "UPDATE `materias` SET `nombre` = :nom, `nivelDoctrina` = :nivelD WHERE `materias`.`id_materia` = :idMa";
+        
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":idMa"=> $this->idMateria,
+            ":nom"=> $this->nombre,
+            ":nivelD"=> $this->nivel
+        ));
+    }
+
+
     public function setMaterias($nombre, $nivel){
+        $this->nombre= $nombre;
+        $this->nivel= $nivel;
+    }
+    public function setActualizar($idMateria, $nombre, $nivel){
+        $this->idMateria= $idMateria;
         $this->nombre= $nombre;
         $this->nivel= $nivel;
     }
