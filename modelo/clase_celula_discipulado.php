@@ -448,3 +448,4 @@ class Discipulado extends Usuarios
 
     }
 }
+//SELECT COUNT(*) AS numero_asistencias, cedula_participante FROM reporte_celula_discipulado WHERE MONTH(fecha) = 9 AND YEAR(fecha) = 2022 GROUP BY cedula_participante
