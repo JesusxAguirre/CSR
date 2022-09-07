@@ -48,11 +48,10 @@ if (is_file('vista/'.$pagina.'.php')) {
     $fecha = $_POST['fecha'];
     $asistentes = $_POST['asistentes'];
     $id = $_POST['id']; 
-    echo $fecha . "<br>";
-    echo $id . "<br>";
-    print_r($participantes);
-    exit;
+ 
     $objeto->setAsistencias($asistentes,$id,$fecha);
+
+    $objeto->registrar_asistencias();
     }
     require_once 'vista/'.$pagina.'.php';
 }

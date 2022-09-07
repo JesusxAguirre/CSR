@@ -445,5 +445,6 @@ class Discipulado extends Usuarios
         $this->asistentes = $asistentes;
         $this->id = $id;
         $this->fecha = $fecha;
+
     }
 }
