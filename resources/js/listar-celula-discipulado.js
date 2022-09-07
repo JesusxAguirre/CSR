@@ -18,6 +18,14 @@ var choices1 = new Choices(participantes, {
   noResultsText: 'No hay coicidencias',
   noChoicesText: 'No hay participantes disponibles',
 });
+var asistentes = document.getElementById('asistentes');
+var choices2 = new Choices(asistentes, {
+  allowHTML: true,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
+});
 
 const campos = {
   codigoLider: true,

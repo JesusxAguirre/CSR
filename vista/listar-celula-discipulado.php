@@ -313,7 +313,7 @@
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
          
-                  <select multiple name="participantes[]" id="participantes" class="form-control">
+                  <select multiple name="asistentes[]" id="asistentes" class="form-control">
                     <?php
                     foreach ($matriz_participantes as $participante) :
                     ?>
