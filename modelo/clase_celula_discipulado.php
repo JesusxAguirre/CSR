@@ -7,6 +7,7 @@ class Discipulado extends Usuarios
     private $codigos;
     private $direccion;
     private $participantes;
+    private $asistentes;
     private $cedula_participante;
     private $dia;
     private $hora;
@@ -423,5 +424,11 @@ class Discipulado extends Usuarios
     {
         $this->participantes = $participantes;
         $this->id = $id;
+    }
+    public function setAsistencias($asistentes, $id,$fecha)
+    {
+        $this->asistentes = $asistentes;
+        $this->id = $id;
+        $this->fecha = $fecha;
     }
 }
