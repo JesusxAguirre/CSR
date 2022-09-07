@@ -35,18 +35,21 @@ const campos = {
   hora: true,
   codigo: true,
   participantes: false,
+  fecha: false,
+  asistentes: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
 
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
-  codigo: /^[CD]{2}[0-9]{1,5}$/ //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
+  codigo: /^[CD]{2}[0-9]{1,5}$/, //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
+  codigo2: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
 }
 
 editButtons.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
- 
+
   let dia = fila.querySelector('.dia')
   let hora = fila.querySelector('.hora')
   let lider = fila.querySelector('.lider')
@@ -102,16 +105,22 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.codigo, e.target, 'codigo');
       break;
     case "codigoLider":
-      ValidarSelect(e.target, 'codigoLider');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
       break;
     case "codigoAnfitrion":
-      ValidarSelect(e.target, 'codigoAnfitrion');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoAnfitrion');
       break;
     case "codigoAsistente":
-      ValidarSelect(e.target, 'codigoAsistente');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
       break;
     case "participantes[]":
       ValidarSelect(e.target, 'participantes');
+      break;
+    case "asistente[]":
+      ValidarSelect(e.target, 'asistente');
+      break;
+    case "fecha":
+      ValidarSelect(e.target, 'fecha');
       break;
   }
 }
@@ -192,6 +201,17 @@ formulario2.addEventListener('submit', (e) => {
   }
 })
 
+formulario3.addEventListener('submit', (e) => {
+  if (!(campos.participantes)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  }
+})
+
 
 
 
@@ -205,8 +225,15 @@ inputs2.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 
 });
-participantes.addEventListener('hideDropdown', ValidarFormulario);
+inputs3.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
 
+});
+
+//listando eventos selects libreria choice
+participantes.addEventListener('hideDropdown', ValidarFormulario);
+asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 //busqueda ajax 
 
