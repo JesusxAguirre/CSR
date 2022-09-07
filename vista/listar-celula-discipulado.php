@@ -309,7 +309,7 @@
         <div class="modal-body">
           <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
             <div class="mb-3 row">
-              <div id="grupo__participantes" class="col-sm ">
+              <div id="grupo__asistentes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
