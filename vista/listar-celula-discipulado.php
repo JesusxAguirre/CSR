@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Listar celula consolidacion</title>
+  <title>Listar celula discipulado</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
 
@@ -43,7 +43,7 @@
       <div class="row">
         <div class="col-12">
           <div class="page-title-box">
-            <h4 class="page-title">Listar celula consolidacion</h4>
+            <h4 class="page-title">Listar celula discipulado</h4>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="header-title mb-3 fw-bold">Celula consolidacion</h4>
+              <h4 class="header-title mb-3 fw-bold">Celula discipulado</h4>
 
               <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, estado_civil, nombre" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
@@ -75,18 +75,16 @@
                     <?php foreach ($matriz_celula as $celula) : ?>
                       <tr role='row'>
                         <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
-                        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_consolidacion'] ?></td>
+                        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);  echo $hora; ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3); echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
-                        <td hidden class="cedula_lider" role='cell'><?php echo  $celula['cedula_lider'] ?></td>
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
-                        <td hidden class="cedula_anfitrion" role='cell'><?php echo  $celula['cedula_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
-                        <td hidden class="cedula_asistente" role='cell'><?php echo  $celula['cedula_asistente'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
@@ -110,23 +108,11 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Editar Celula de Consolidacion</h5>
+          <h5 class="modal-title">Editar Celula de discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="editForm" action="?pagina=listar-celula-consolidacion">
-            <div class="mb-3">
-              <div id="grupo__codigo" class="">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="rolInput">
-                    <i class="input-icon fs-5"></i>
-                    Codigo de celula
-                  </label>
-                  <input type="text" name="codigo" id="codigoInput" class="form-control" placeholder="CC1">
-                </div>
-                <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>
-            </div>
+          <form class="form" method="post" id="editForm" action="?pagina=listar-celula-discipulado">
             <div class="mb-3">
               <div id="grupo__dia" class="">
                 <div class="relative">
@@ -136,7 +122,7 @@
                   <i class="input-icon fs-5"></i>
                   <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
-                <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes  </p>
               </div>
             </div>
             <div class="mb-3">
@@ -221,13 +207,13 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Agregar participante a Celula de Consolidacion</h5>
+          <h5 class="modal-title">Agregar participante a Celula de discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-consolidacion">
-            <div class="mb-3">
-              <div id="grupo__participantes" class="col-sm col-md-6">
+          <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-discipulado">
+            <div class="mb-3 row">
+              <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
                   <i class="input-icon fs-5"></i>
@@ -242,7 +228,7 @@
                     ?>
                   </select>
                 </div>
-                <p class="text-danger d-none">Este campos no puede estar vacio</p>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
             </div>
 
@@ -270,8 +256,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-consolidacion ">
-            <div  style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
+          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-discipulado">
+            <div class="table-responsive mt-4">
 
               <table role='table' class='table table-centered'>
                 <thead>
@@ -309,10 +295,67 @@
       </div>
     </div>
   </div>
+
+
+<!-- Modal agregar_asistencia -->
+<div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light">
+          <h5 class="modal-title">Agregar Asistencias</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
+            <div class="mb-3 row">
+              <div id="grupo__participantes" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
+                  <i class="input-icon fs-5"></i>
+         
+                  <select multiple name="participantes[]" id="participantes" class="form-control">
+                    <?php
+                    foreach ($matriz_participantes as $participante) :
+                    ?>
+                      <option value="<?php echo $participante['participantes_cedula']; ?>"> <?php echo $participante['participantes_codigo']; ?></option>
+                    <?php
+                    endforeach;
+                    ?>
+                  </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            <div class="mt-4 mb-3 row">
+              <div id="grupo__fecha" class="col-sm ">
+                
+                  <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
+                  <i class="input-icon fs-5"></i>
+                  <input id="startDate" class="form-control" type="date" />                
+              
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+
+            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
+            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
+            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
+
+            <input type="hidden" name="id" id="idInput2">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     $('#myModal').on('shown.bs.modal', function() {
       $('#myInput').trigger('focus')
     })
   </script>
-  <script type="text/javascript" src="resources/js/listar-celula-consolidacion.js"></script>
+  <script type="text/javascript" src="resources/js/listar-celula-discipulado.js"></script>
 </body>
