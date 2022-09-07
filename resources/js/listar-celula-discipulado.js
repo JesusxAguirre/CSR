@@ -18,6 +18,7 @@ var choices1 = new Choices(participantes, {
   noResultsText: 'No hay coicidencias',
   noChoicesText: 'No hay participantes disponibles',
 });
+
 var asistentes = document.getElementById('asistentes');
 var choices2 = new Choices(asistentes, {
   allowHTML: true,
@@ -105,13 +106,13 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.codigo, e.target, 'codigo');
       break;
     case "codigoLider":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
+      ValidarCampo(expresiones.codigo2, e.target, 'codigoLider');
       break;
     case "codigoAnfitrion":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoAnfitrion');
+      ValidarCampo(expresiones.codigo2, e.target, 'codigoAnfitrion');
       break;
     case "codigoAsistente":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
+      ValidarCampo(expresiones.codigo2, e.target, 'codigoAsistente');
       break;
     case "participantes[]":
       ValidarSelect(e.target, 'participantes');

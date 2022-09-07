@@ -77,7 +77,8 @@
                         <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3); echo $hora; ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
+                                                      echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
@@ -122,7 +123,7 @@
                   <i class="input-icon fs-5"></i>
                   <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
-                <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes  </p>
+                <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes </p>
               </div>
             </div>
             <div class="mb-3">
@@ -217,7 +218,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
                   <i class="input-icon fs-5"></i>
-         
+
                   <select multiple name="participantes[]" id="participantes" class="form-control">
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
@@ -297,8 +298,8 @@
   </div>
 
 
-<!-- Modal agregar_asistencia -->
-<div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
+  <!-- Modal agregar_asistencia -->
+  <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
@@ -312,7 +313,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
-         
+
                   <select multiple name="asistentes[]" id="asistentes" class="form-control">
                     <?php
                     foreach ($matriz_participantes as $participante) :
@@ -325,13 +326,14 @@
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
+            </div>
             <div class="mt-4 mb-3 row">
               <div id="grupo__fecha" class="col-sm ">
-                
+                <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
                   <i class="input-icon fs-5"></i>
-                  <input id="fecha" name="fecha" class="form-control" type="date" />                
-              
+                  <input id="fecha" name="fecha" class="form-control" type="date" />
+                </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
             </div>
