@@ -67,13 +67,13 @@
                           <?php
                           foreach ($matriz_lideres as $lider) :
                           ?>
-                            <option data-ejemplo="<?php echo $lider['cedula']; ?>" value="<?php echo $lider['codigo']; ?>">
+                            <option data-value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
                           <?php
                           endforeach;
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
                     </div>
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
@@ -84,13 +84,13 @@
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
                           ?>
-                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo']; ?>" > 
+                            <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
                           <?php
                           endforeach;
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Escriba el codigo correctamente cedula-nivel-nacionalidad-estado-sexo-estado_civil o seleccione </p>
+                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
                     </div>
                     <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                       <div class="relative">
@@ -101,13 +101,13 @@
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
                           ?>
-                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo']; ?>" >
+                            <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
                           <?php
                           endforeach;
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Escriba el codigo correctamente cedula-nivel-nacionalidad-estado-sexo-estado_civil o seleccione  </p>
+                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -131,13 +131,13 @@
                   <div class="mb-3 row">
                     <div id="grupo__participantes" class="col-sm col-md-6">
                       <div class="relative">
-                        <label class="form-label fw-bold" for="">Personas que asisten a la celula</label>
+                        <label class="form-label fw-bold" for="formGridCity">Personas que asisten a la celula</label>
                         <i class="input-icon fs-5"></i>
-                          <select multiple name="participantes[]"  id="participantes" class="form-control ct">
+                          <select multiple name="participantes[]"  id="participantes" class="form-control">
                           <?php
                             foreach ($matriz_usuarios as $usuario) :
                             ?>
-                              <option value="<?php echo $usuario['codigo']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                              <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
                             <?php
                             endforeach;
                             ?> 

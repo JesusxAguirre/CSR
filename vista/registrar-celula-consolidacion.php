@@ -73,7 +73,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Seleccione un codigo , este campo no puede quedar vacio </p>
+                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
                     </div>
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
@@ -90,7 +90,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Seleccione un codigo , este campo no puede quedar vacio </p>
+                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
                     </div>
                     <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                       <div class="relative">
@@ -107,7 +107,7 @@
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Seleccione un codigo , este campo no puede quedar vacio </p>
+                      <p class="text-danger d-none">No puede dejar este campo vacio </p>
                     </div>
                   </div>
                   <div class="mb-3 row">
@@ -137,7 +137,7 @@
                           <?php
                             foreach ($matriz_usuarios as $usuario) :
                             ?>
-                              <option value="<?php echo $usuario['codigo']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                              <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
                             <?php
                             endforeach;
                             ?> 

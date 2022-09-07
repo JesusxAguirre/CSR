@@ -11,9 +11,12 @@ if (is_file('vista/'.$pagina.'.php')) {
 
 
     $matriz_lideres = $objeto->listar_usuarios_N2();
-    $matriz_usuarios = $objeto->listar_no_participantes();
-    $matriz_participantes = $objeto->listar_participantes();
-    
+    $matriz_usuarios = $objeto->listar_usuarios_N1();
+
+    if(isset($_POST['buscar'])){
+  
+
+    }
       
     if(isset($_POST['update'])){
         $cedula_lider = $_POST['codigoLider'];
@@ -27,23 +30,6 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
 
         $objeto->update_consolidacion();
-    }
-    if(isset($_POST['agregar'])){
-     
-        $participantes = $_POST['participantes'];
-        $id = $_POST['id']; 
-        
-        $objeto->setParticipantes($participantes,$id);
-       
-        $objeto->agregar_participantes();
-    }
-
-    if(isset($_POST['eliminar_participante'])){
-        $cedula_participante = $_POST['eliminar_participante'];
-      
-        $objeto->setParticipante($cedula_participante);
-
-        $objeto->eliminar_participantes();
     }
     require_once 'vista/'.$pagina.'.php';
 }
@@ -61,4 +47,5 @@ if(isset( $_POST['cerrar'])){
     alert('Sesion Cerrada');
     window.location= 'index.php'
 </script>";
-}
+}     
+?>

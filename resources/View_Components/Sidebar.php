@@ -171,7 +171,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
-            <i class="bi bi-cloud-check-fill fs-3"></i></span>
+            <i class="bi bi-box-arrow-right fs-3"></i></span>
               <span >Gestionar celula discipulado</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
@@ -191,14 +191,14 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 <li>
                   <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-box-seam-fill"></i></span>
+                  <i class="bi bi-clipboard-check"></i></span>
                   <span>Registrar celula discipulado</span>
                   </a>
                 </li>
                 <li>
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-clipboard2-plus-fill"></i></span>
+                  <i class="bi bi-clipboard-check"></i></span>
                   <span>Reporte celula discipulado</span>
                   </a>
                 </li>
@@ -210,7 +210,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
-            <i class="bi bi-patch-check-fill fs-3"></i></span>
+            <i class="bi bi-people-fill fs-3"></i></span>
               <span >Gestionar celula consolidacion</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
@@ -230,14 +230,14 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 <li>
                   <a href="?pagina=registrar-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-box-seam-fill"></i></span>
+                  <i class="bi bi-clipboard-check"></i></span>
                   <span>Registrar celula consolidacion</span>
                   </a>
                 </li>
                 <li>
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-clipboard2-plus-fill"></i></span>
+                  <i class="bi bi-clipboard-check"></i></span>
                   <span>Reporte celula consolidacion</span>
                   </a>
                 </li>
