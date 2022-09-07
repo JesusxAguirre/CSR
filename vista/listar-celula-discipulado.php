@@ -242,7 +242,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+          <button type="submit" name="agregar_participantes" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
 
         </div>
       </div>
@@ -347,7 +347,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+          <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
 
         </div>
       </div>

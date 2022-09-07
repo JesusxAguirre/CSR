@@ -27,7 +27,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
         $objeto->actualizar_discipulado();
     }
-    if(isset($_POST['agregar'])){
+    if(isset($_POST['agregar_participantes'])){
      
         $participantes = $_POST['participantes'];
         $id = $_POST['id']; 
@@ -43,6 +43,14 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setParticipante($cedula_participante);
 
         $objeto->eliminar_participantes();
+    }
+    if(isset($_POST['agregar_asistencia'])){
+    $fecha = $_POST['fecha'];
+    $participantes = $_POST['participantes'];
+
+    echo $fecha . "<br>";
+    print_r($participantes);
+    exit;
     }
     require_once 'vista/'.$pagina.'.php';
 }
