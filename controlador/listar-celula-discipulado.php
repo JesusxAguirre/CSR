@@ -12,7 +12,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     $matriz_usuarios = $objeto->listar_no_participantes();
 
-
+    $matriz_asistencias = $objeto->listar_asistencias_septiembre();
     if(isset($_POST['update'])){
         $cedula_lider = $_POST['codigoLider'];
         $cedula_anfitrion= $_POST['codigoAnfitrion'];
