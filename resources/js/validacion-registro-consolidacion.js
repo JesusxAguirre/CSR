@@ -2,10 +2,11 @@ const formulario = document.getElementById('formulario'); //declarando una const
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
-  allowHTML : true,
-    removeItems: true,
-    removeItemButton: true,
-    noResultsText: 'No hay coicidencias',
+  allowHTML: true,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
 });
 
 
@@ -25,34 +26,60 @@ const campos = {
 const expresiones = { //objeto con varias expresiones regulares
 
   dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
-  hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/ //formato de hora
-
+  hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
+  codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
+  //expresion regular de codigo de usuario
 }
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "dia":
-      ValidarCampo(expresiones.dia, e.target, 'dia');
+      ValidarDia(e.target, 'dia');
       break;
+
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
       break;
+
     case "codigoLider":
-      ValidarSelect(e.target, 'codigoLider');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
       break;
+
     case "codigoAnfitrion":
-      ValidarSelect(e.target, 'codigoAnfitrion');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoAnfitrion');
       break;
+
     case "codigoAsistente":
-      ValidarSelect(e.target, 'codigoAsistente');
+      ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
       break;
+
     case "participantes[]":
       ValidarSelect(e.target, 'participantes');
       break;
+
     case "direccion":
       ValidarSelect(e.target, 'direccion');
       break;
 
+  }
+}
+
+
+const ValidarDia = (input, campo) => {
+  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
+    console.log("entra en la funcion DE DIA");
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+    console.log("entra en la funcion else");
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
   }
 }
 
@@ -110,18 +137,31 @@ formulario.addEventListener('submit', (e) => {
   }
 })
 
+//probando elimnar option value
+
+$("#codigoLider").on('change', function () {
+  var val = $('#codigoLider').val();
+  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
 
 
-//prueba de elimnar valores datalist 
-const datalist = document.getElementById('codigoLider')
 
-datalist.addEventListener('keyup', () => {
+  let codigo = $('#codigoLider').val();
+  console.log(codigo)
 
-  $('#lider option').each(function () {
+  $('#anfitrion option').each(function () {
     console.log('entra a la funcion')
-    var abd = $(this).val();
-    $('#anfitrion option[value=' + abd + ']').remove();
-
-
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
   });
-})
+  $('#asistente option').each(function () {
+    console.log('entra a la funcion')
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  })
+
+
+});
+
+
