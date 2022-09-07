@@ -7,7 +7,7 @@ const agregar = document.querySelectorAll('table td .agregar-btn'); //declarando
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
-const inptus3 = document.querySelectorAll('#agregar_asistencias input')
+const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
 
 var participantes = document.getElementById('participantes');
