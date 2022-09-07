@@ -2,10 +2,13 @@
 const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('agregar_usuarios')
+const formulario3 = document.getElementById('agregar_asistencias')
 const agregar = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
+const inptus3 = document.querySelectorAll('#agregar_asistencias input')
+
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
@@ -15,8 +18,6 @@ var choices1 = new Choices(participantes, {
   noResultsText: 'No hay coicidencias',
   noChoicesText: 'No hay participantes disponibles',
 });
-
-
 
 const campos = {
   codigoLider: true,
