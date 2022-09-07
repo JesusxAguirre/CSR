@@ -80,7 +80,22 @@ class Discipulado extends Usuarios
         }
         return $this->codigos;
     }
+    //------------------------------------------------------Registrar Asitencias de discipulado ----------------------//
+    public function registrar_asistencias()
+    {
+        $sql = "INSERT INTO reporte_celula_discipulado (id_discipulado,cedula_participante,fecha) 
+        VALUES(:id_discipulado,:cedula_participante,:fecha)";
 
+        $stmt = $this->conexion->prepare($sql);
+        //recorriendo arreglo de asistentes
+        foreach($this->asistentes AS $asistente){
+        $stmt->execute(array(
+            ":id_discipulado" => $this->id,
+            ":cedula_participante" => $asistente, 
+            ":fecha" => $this->fecha
+        ));
+        }//fin del foeach
+    }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
     {
@@ -425,7 +440,7 @@ class Discipulado extends Usuarios
         $this->participantes = $participantes;
         $this->id = $id;
     }
-    public function setAsistencias($asistentes, $id,$fecha)
+    public function setAsistencias($asistentes, $id, $fecha)
     {
         $this->asistentes = $asistentes;
         $this->id = $id;
