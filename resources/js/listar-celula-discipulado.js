@@ -3,7 +3,8 @@ const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
-const agregar = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
+const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
+const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
@@ -77,12 +78,26 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 
 
 }))
-agregar.forEach(boton => boton.addEventListener('click', () => {
+agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
 
 
   const idInput = document.getElementById('idInput2')
+
+
+  idInput.value = id.textContent
+
+
+
+
+}))
+agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
+  let fila = boton.parentElement.parentElement
+  let id = fila.querySelector('.id')
+
+
+  const idInput = document.getElementById('idInput3')
 
 
   idInput.value = id.textContent

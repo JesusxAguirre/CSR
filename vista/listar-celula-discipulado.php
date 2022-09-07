@@ -85,7 +85,7 @@
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
@@ -338,11 +338,8 @@
               </div>
             </div>
 
-            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
-            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
-            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
 
-            <input type="hidden" name="id" id="idInput2">
+            <input type="hidden" name="id" id="idInput3">
           </form>
         </div>
         <div class="modal-footer">
