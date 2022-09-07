@@ -117,7 +117,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                   <a href="?pagina=registrar-profesores" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-mortarboard-fill"></i> </span>
-                  <span>Registrar Profesores</span>
+                  <span>Secciones</span>
                   </a>
                 </li>
                 <li>
