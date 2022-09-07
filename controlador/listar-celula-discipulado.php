@@ -46,7 +46,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     }
     if(isset($_POST['agregar_asistencia'])){
     $fecha = $_POST['fecha'];
-    $participantes = $_POST['participantes'];
+    $participantes = $_POST['asistentes'];
 
     echo $fecha . "<br>";
     print_r($participantes);
