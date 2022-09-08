@@ -295,15 +295,7 @@ class Consolidacion extends Usuarios
         $cedula_asistente_antiguo = $cedulas['cedula_asistente'];
 
 
-        if ($codigo_lider_antiguo == $this->cedula_lider) {
-            //remplazando la cadena del codigo por la nueva
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_lider_antiguo'");
-
-            $stmt = $this->conexion()->prepare($sql);
-
-            $stmt->execute(array());
-        } //eliminando el codigo si se cambia el usuario
-        else {
+        if ($codigo_lider_antiguo != $this->cedula_lider) {
             $codigo1 = '-' . $codigo;
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = '$cedula_lider_antiguo'");
 
@@ -329,14 +321,8 @@ class Consolidacion extends Usuarios
         }
         //comprobando si las cedulas de anfitrion y asistente son iguales
         if ($this->cedula_anfitrion == $this->cedula_asistente) {
-            if ($codigo_anfitrion_antiguo == $this->cedula_anfitrion) {
+            if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
 
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_anfitrion_antiguo'");
-
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array());
-            } else {
                 $codigo2 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -361,14 +347,8 @@ class Consolidacion extends Usuarios
                 ));
             }
         } else {
-            if ($codigo_anfitrion_antiguo == $this->cedula_anfitrion) {
+            if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
 
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_anfitrion_antiguo'");
-
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array());
-            } else {
                 $codigo2 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -392,14 +372,8 @@ class Consolidacion extends Usuarios
                     ":cedula" => $this->cedula_anfitrion
                 ));
             }
-            if ($codigo_asistente_antiguo == $this->cedula_asistente) {
+            if ($codigo_asistente_antiguo != $this->cedula_asistente) {
 
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo','$this->codigo') WHERE cedula = '$cedula_asistente_antiguo'");
-
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array());
-            } else {
                 $codigo3 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
 
