@@ -60,7 +60,7 @@
                 <div class="mb-3 row">
                   <div id="grupo__codigo_discipulado" class="col-sm ">
                     <div class="relative">
-                      <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
+                      <label class="form-label fw-bold" for="">Codigo de la celula</label>
                       <i class="input-icon2 fs-5"></i>
                       <select name="codigo_discipulado" id="codigo_discipulado" class="form-control">
                         <option value="">Seleccione una opcion</option>
@@ -117,7 +117,7 @@
     </div>
   </main>
 
-  <script src="resources/js/reporte-celula-discipulado.js"></script>
+  <script src="resources/js/reporte-celula-consolidacion.js"></script>
   <script>
 
   </script>
