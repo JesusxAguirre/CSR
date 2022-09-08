@@ -1,9 +1,9 @@
 // Actualizar contenido del modal Editar
-const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
+const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
 
-const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
-const inputs2 = document.querySelectorAll('#agregar_usuarios input');
+const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
+
 
 var codigo_discipulado = document.getElementById('codigo_discipulado');
 var choices1 = new Choices(codigo_discipulado, {
@@ -63,9 +63,6 @@ const ValidarSelect = (select, campo) => {
   }
 }
 
-
-
-
 formulario.addEventListener('submit', (e) => {
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
     e.preventDefault();
@@ -77,31 +74,30 @@ formulario.addEventListener('submit', (e) => {
   }
 })
 
-
-
-
-
-
 inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 
 });
 
-
 codigo_discipulado.addEventListener('hideDropdown', ValidarFormulario);
-
 
 //busqueda ajax 
 
-const busquedaEl = document.getElementById('caja_busqueda')
-const datosEl = document.getElementById('datos')
+const codigo_discipulado = document.getElementById('codigo_discipulado')
+const fecha_inicio = document.getElementById('fecha_inicio')
+const fecha_final = document.getElementById('fecha_final')
+const enviar = document.getElementById('consultar')
 
-busquedaEl.addEventListener('keyup', () => {
-  let busqueda = busquedaEl.value
+enviar.addEventListener('click', () => {
+  let codigo_discipulado = codigo_discipulado.value
 
   $.ajax({
-    data: 'busqueda=' + busqueda,
+    data :{
+      codigo_discipulado : codigo_discipulado,
+      fecha_inicio : fecha_inicio,
+      fecha_final : fecha_final,
+    },
     url: "controlador/ajax/buscar-codigo_discipulado.php",
     type: "get",
   }).done(data => {
