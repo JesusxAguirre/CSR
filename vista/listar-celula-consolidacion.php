@@ -77,7 +77,8 @@
                         <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_consolidacion'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);  echo $hora; ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
+                                                      echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
                         <td hidden class="cedula_lider" role='cell'><?php echo  $celula['cedula_lider'] ?></td>
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
@@ -87,6 +88,7 @@
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                         </td>
@@ -219,7 +221,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
                   <i class="input-icon fs-5"></i>
-         
+
                   <select multiple name="participantes[]" id="participantes" class="form-control">
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
@@ -259,7 +261,7 @@
         </div>
         <div class="modal-body">
           <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-consolidacion ">
-            <div  style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
+            <div style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
 
               <table role='table' class='table table-centered'>
                 <thead>
@@ -294,6 +296,59 @@
           </form>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal agregar_asistencia -->
+  <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-light">
+          <h5 class="modal-title">Agregar Asistencias</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
+            <div class="mb-3 row">
+              <div id="grupo__asistentes" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
+                  <i class="input-icon fs-5"></i>
+
+                  <select multiple name="asistentes[]" id="asistentes" class="form-control">
+                    <?php
+                    foreach ($matriz_participantes as $participante) :
+                    ?>
+                      <option value="<?php echo $participante['participantes_cedula']; ?>"> <?php echo $participante['participantes_codigo']; ?></option>
+                    <?php
+                    endforeach;
+                    ?>
+                  </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mt-4 mb-3 row">
+              <div id="grupo__fecha" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
+                  <i class="input-icon fs-5"></i>
+                  <input id="fecha" name="fecha" class="form-control" type="date" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+
+
+            <input type="hidden" name="id" id="idInput3">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
+
+        </div>
       </div>
     </div>
   </div>
