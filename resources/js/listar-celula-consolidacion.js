@@ -38,7 +38,7 @@ const expresiones = { //objeto con varias expresiones regulares
 editButtons.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
-  let codigo = fila.querySelector('.codigo')
+
   let dia = fila.querySelector('.dia')
   let hora = fila.querySelector('.hora')
   let lider = fila.querySelector('.lider')
@@ -47,7 +47,7 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 
 
   const idInput = document.getElementById('idInput')
-  const codigoInput = document.getElementById('codigoInput')
+  
   const diaInput = document.getElementById('diaInput')
   const horaInput = document.getElementById('horaInput')
   const liderInput = document.getElementById('codigoLider')
@@ -58,7 +58,6 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
   anfitrionInput.value = anfitrion.textContent
   asistenteInput.value = asistente.textContent
   idInput.value = id.textContent
-  codigoInput.value = codigo.textContent
   diaInput.value = dia.textContent
   horaInput.value = hora.textContent
   //cedulas de usuarios

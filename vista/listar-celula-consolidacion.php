@@ -116,18 +116,6 @@
         <div class="modal-body">
           <form class="form" method="post" id="editForm" action="?pagina=listar-celula-consolidacion">
             <div class="mb-3">
-              <div id="grupo__codigo" class="">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="rolInput">
-                    <i class="input-icon fs-5"></i>
-                    Codigo de celula
-                  </label>
-                  <input type="text" name="codigo" id="codigoInput" class="form-control" placeholder="CC1">
-                </div>
-                <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>
-            </div>
-            <div class="mb-3">
               <div id="grupo__dia" class="">
                 <div class="relative">
                   <label class="form-label fw-bold" for="descripcionInput">
