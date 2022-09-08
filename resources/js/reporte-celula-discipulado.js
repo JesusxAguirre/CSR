@@ -17,7 +17,7 @@ var choices1 = new Choices(codigo_discipulado, {
 
 
 const campos = {
-  codigo_celula: false,
+  codigo_discipulado: false,
   fecha_inicio: false,
   fecha_final: false,
 }
@@ -33,7 +33,6 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
-
     case "codigo_discipulado":
       ValidarSelect(e.target, 'codigo_discipulado');
       break;
@@ -64,7 +63,7 @@ const ValidarSelect = (select, campo) => {
 }
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
+  if (!(campos.codigo_discipulado && campos.fecha_inicio && campos.fecha_final)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -95,10 +94,10 @@ enviar.addEventListener('click', () => {
   let fecha_final2 = fecha_final.value
 
   $.ajax({
-    data :{
-      codigo_discipulado : codigo_discipulado2,
-      fecha_inicio : fecha_inicio2,
-      fecha_final : fecha_final2,
+    data: {
+      codigo_discipulado: codigo_discipulado2,
+      fecha_inicio: fecha_inicio2,
+      fecha_final: fecha_final2,
     },
     url: "controlador/ajax/buscar-asistencias-discipulado.php",
     type: "get",

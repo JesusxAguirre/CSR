@@ -58,7 +58,7 @@
               <div class="container-fluid">
                 <form id="formulario" method="POST" action="?pagina=reporte-celula-discipulado">
                   <div class="mb-3 row">
-                    <div id="grupo__codigoDiscipulado" class="col-sm ">
+                    <div id="grupo__codigo_discipulado" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
                         <i class="input-icon2 fs-5"></i>
@@ -77,7 +77,7 @@
                     </div>
                   </div>
                   <div class="mb-3 row">
-                    <div id="grupo__fecha" class="col-sm ">
+                    <div id="grupo__fecha_inicio" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
                         <i class="input-icon fs-5"></i>
@@ -85,7 +85,7 @@
                       </div>
                       <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>
-                    <div id="grupo__fecha" class="col-sm ">
+                    <div id="grupo__fecha_final" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
                         <i class="input-icon fs-5"></i>
