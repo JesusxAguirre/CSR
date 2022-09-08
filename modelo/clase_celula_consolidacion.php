@@ -7,6 +7,8 @@ class Consolidacion extends Usuarios
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
+    private $asistentes;
+
     private $dia;
     private $hora;
     private $fecha;
@@ -134,9 +136,22 @@ class Consolidacion extends Usuarios
         }
         return $this->consolidacion;
     }
-    //-------------------------------------------------------Buscar datos de anfitrion por celula----------------------//
+    //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
+    public function registrar_asistencias()
+    {
+        $sql = "INSERT INTO reporte_celula_consolidacion (id_consolidacion,cedula_participante,fecha) 
+            VALUES(:id_consolidacion,:cedula_participante,:fecha)";
 
-
+        $stmt = $this->conexion->prepare($sql);
+        //recorriendo arreglo de asistentes
+        foreach ($this->asistentes as $asistente) {
+            $stmt->execute(array(
+                ":id_consolidacion" => $this->id,
+                ":cedula_participante" => $asistente,
+                ":fecha" => $this->fecha
+            ));
+        } //fin del foeach
+    }
 
     //------------------------------------------------------Registrar consolidacion ----------------------//
     public function registrar_consolidacion()
@@ -476,5 +491,12 @@ class Consolidacion extends Usuarios
     {
         $this->participantes = $participantes;
         $this->id = $id;
+    }
+
+    public function setAsistencias($asistentes, $id, $fecha)
+    {
+        $this->asistentes = $asistentes;
+        $this->id = $id;
+        $this->fecha = $fecha;
     }
 }
