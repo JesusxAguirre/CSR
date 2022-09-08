@@ -112,6 +112,25 @@ class Consolidacion extends Usuarios
         return $this->codigos;
     }
 
+    public function listar_asistencias($id,$fecha_inicio,$fecha_final){
+        $sql = ("SELECT COUNT(reporte_celula_consolidacion.fecha) AS numero_asistencias, reporte_celula_consolidacion.cedula_participante, usuarios.nombre,
+        usuarios.codigo, usuarios.telefono
+        FROM reporte_celula_consolidacion 
+        INNER JOIN usuarios ON reporte_celula_consolidacion.cedula_participante = usuarios.cedula
+        WHERE reporte_celula_consolidacion.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
+        AND  reporte_celula_consolidacion.id_consolidacion = '$id'
+        GROUP BY cedula_participante");
+        
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->septiembre[] = $filas;
+        }
+        return $this->septiembre;
+    }   
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
 
     public function listar_celula_consolidacion()
