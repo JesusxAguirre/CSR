@@ -63,10 +63,11 @@
                         <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
                         <i class="input-icon2 fs-5"></i>
                         <select  name="codigo_discipulado" id="codigo_discipulado" class="form-control">
+                          <option value="">Seleccione una opcion</option>
                           <?php
                           foreach ($matriz_codigo as $consolidacion) :
                           ?>
-                            <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo']; ?></option>
+                            <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo_celula_discipulado']; ?></option>
                           <?php
                           endforeach;
                           ?>

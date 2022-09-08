@@ -5,9 +5,10 @@ session_start();
 require_once('modelo/clase_celula_discipulado.php');
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
-      $objeto = new Consolidacion();
+      $objeto = new Discipulado();
 
-      $matriz_codigo = $objeto->listar_celula_consolidacion();
+      $matriz_codigo = $objeto->listar_celula_discipulado();
+    
         require_once 'vista/' . $pagina . '.php';
     }
 } else {
