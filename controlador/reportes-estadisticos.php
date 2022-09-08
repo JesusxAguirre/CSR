@@ -2,10 +2,12 @@
 
 //destruye la sesion si se tenia una abierta
 session_start();
+require_once('modelo/clase_celula_consolidacion.php');
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
-
+    $objeto = new Consolidacion();
+    $matriz_meses = $objeto->listar_asistencias_meses();
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
