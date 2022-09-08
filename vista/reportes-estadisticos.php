@@ -79,11 +79,11 @@
 
       data: {
 
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
 
         datasets: [{
 
-          data: [12, 19, 3, 5, 2, 3],
+          data: [12, 19, 3, 5, 2, 3,19, 3, 5, 2, 3,4],
 
           backgroundColor: [
 
