@@ -64,12 +64,13 @@ class Discipulado extends Usuarios
     }
 
 
-    public function listar_asistencias_septiembre(){
+    public function listar_asistencias($id,$fecha_inicio,$fecha_final){
         $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_discipulado 
         INNER JOIN usuarios ON reporte_celula_discipulado.cedula_participante = usuarios.cedula
-        WHERE reporte_celula_discipulado.fecha BETWEEN '2022-09-01' AND  '2022-09-31' 
+        WHERE reporte_celula_discipulado.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
+        AND  reporte_celula_discipulado.id_discipulado = '$id'
         GROUP BY cedula_participante");
         
         $stmt = $this->conexion()->prepare($sql);
