@@ -2,10 +2,12 @@
 
 //destruye la sesion si se tenia una abierta
 session_start();
-require_once('modelo/clase_usuario.php');
+require_once('modelo/clase_celula_discipulado.php');
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
-      
+      $objeto = new Consolidacion();
+
+      $matriz_codigo = $objeto->listar_celula_consolidacion();
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

@@ -5,7 +5,7 @@ const formulario = document.getElementById('editForm'); //declarando una constan
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 
-var participantes = document.getElementById('participantes');
+var participantes = document.getElementById('codigo_discipulado');
 var choices1 = new Choices(participantes, {
   allowHTML: true,
   removeItems: true,

@@ -58,20 +58,19 @@
               <div class="container-fluid">
                 <form id="formulario" method="POST" action="?pagina=registrar-celula-discipulado">
                   <div class="mb-3 row">
-                  <div id="grupo__codigoDiscipulado" class="col-sm col-md-4">
+                    <div id="grupo__codigoDiscipulado" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
                         <i class="input-icon2 fs-5"></i>
-                        <input name="codigoDiscipulado" class="form-control" list="lider" id="codigoDiscipulado" placeholder="Escribe para buscar...">
-                        <datalist id="lider">
+                        <select  name="codigo_discipulado" id="codigo_discipulado" class="form-control">
                           <?php
-                          foreach ($matriz_lideres as $lider) :
+                          foreach ($matriz_codigo as $consolidacion) :
                           ?>
-                            <option data-ejemplo="<?php echo $lider['cedula']; ?>" value="<?php echo $lider['codigo']; ?>">
+                            <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo']; ?></option>
                           <?php
                           endforeach;
                           ?>
-                        </datalist>
+                        </select>
                       </div>
                       <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>
