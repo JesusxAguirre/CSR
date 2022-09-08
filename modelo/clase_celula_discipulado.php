@@ -16,7 +16,7 @@ class Discipulado extends Usuarios
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
-    private $septiembre;
+
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -64,7 +64,8 @@ class Discipulado extends Usuarios
     }
 
 
-    public function listar_asistencias($id,$fecha_inicio,$fecha_final){
+    public function listar_asistencias($id, $fecha_inicio, $fecha_final)
+    {
         $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_discipulado 
@@ -72,7 +73,7 @@ class Discipulado extends Usuarios
         WHERE reporte_celula_discipulado.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
         AND  reporte_celula_discipulado.id_discipulado = '$id'
         GROUP BY cedula_participante");
-        
+
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
@@ -82,8 +83,28 @@ class Discipulado extends Usuarios
             $this->septiembre[] = $filas;
         }
         return $this->septiembre;
-    }   
+    }
+    public function listar_asistencias_meses()
+    {
+        $sql = ("SELECT 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febbrero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+       FROM celula_consolidacion
+       WHERE celula_consolidacion.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
+        $stmt = $this->conexion()->prepare($sql);
 
+        $stmt->execute(array());
+    }
     public function listar_no_participantes()
     {
 
@@ -108,13 +129,13 @@ class Discipulado extends Usuarios
 
         $stmt = $this->conexion->prepare($sql);
         //recorriendo arreglo de asistentes
-        foreach($this->asistentes AS $asistente){
-        $stmt->execute(array(
-            ":id_discipulado" => $this->id,
-            ":cedula_participante" => $asistente, 
-            ":fecha" => $this->fecha
-        ));
-        }//fin del foeach
+        foreach ($this->asistentes as $asistente) {
+            $stmt->execute(array(
+                ":id_discipulado" => $this->id,
+                ":cedula_participante" => $asistente,
+                ":fecha" => $this->fecha
+            ));
+        } //fin del foeach
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -465,7 +486,6 @@ class Discipulado extends Usuarios
         $this->asistentes = $asistentes;
         $this->id = $id;
         $this->fecha = $fecha;
-
     }
 }
 //SELECT COUNT(*) AS numero_asistencias, cedula_participante FROM reporte_celula_discipulado WHERE MONTH(fecha) = 9 AND YEAR(fecha) = 2022 GROUP BY cedula_participante
