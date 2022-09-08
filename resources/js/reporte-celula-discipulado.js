@@ -1,5 +1,5 @@
 // Actualizar contenido del modal Editar
-const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
+const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
 
 
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
@@ -62,7 +62,7 @@ const ValidarSelect = (select, campo) => {
   }
 }
 
-formulario.addEventListener('submit', (e) => {
+formulario.addEventListener('click', (e) => {
   if (!(campos.codigo_discipulado && campos.fecha_inicio && campos.fecha_final)) {
     e.preventDefault();
     Swal.fire({
