@@ -16,7 +16,7 @@ class Discipulado extends Usuarios
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
-
+    private $septiembre;
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -65,7 +65,7 @@ class Discipulado extends Usuarios
 
 
     public function listar_asistencias_septiembre(){
-        $sql = ("SELECT reporte_celula_discipulado.COUNT(*) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
+        $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_discipulado 
         INNER JOIN usuarios ON reporte_celula_discipulado.cedula_participante = usuarios.cedula
@@ -76,9 +76,12 @@ class Discipulado extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $septiembre = $stmt->fetch(PDO::FETCH_ASSOC);
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        return $septiembre;
+
+            $this->septiembre[] = $filas;
+        }
+        return $this->septiembre;
     }   
 
     public function listar_no_participantes()

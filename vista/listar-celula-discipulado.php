@@ -319,14 +319,16 @@
                   </tr>
                 </thead>
 
-                <tbody  role='rowgroup'>
-
-                  <tr role='row'>
-                    <td   role='cell'>Jesus Aguirre</td>
-                    <td class="" role='cell'>0414</td>
-                    <td class="" role='cell'>codigo</td>
-                    <td colspan='1' role='columnheader' class=' sortable' style='cursor: pointer;'>Septiembre</td>
-                    <td colspan='1' role='columnheader' class=' sortable' style='cursor: pointer;'>5</td>
+                <tbody role='rowgroup'>
+                  <?php foreach ($matriz_asistencias as $asistencias) : ?>
+                    <tr role='row'>
+                      <td role='cell'><?php echo $asistencias['nombre'] ?></td>
+                      <td class="" role='cell'><?php echo $asistencias['telefono'] ?></td>
+                      <td class="" role='cell'><?php echo $asistencias['codigo'] ?></td>
+                      <td colspan='1' role='columnheader' class=' sortable' style='cursor: pointer;'>Septiembre</td>
+                      <td colspan='1' role='columnheader' class=' sortable' style='cursor: pointer;'><?php echo $asistencias['numero_asistencias'] ?></td>
+                    </tr>
+                  <?php endforeach;     ?>
                 </tbody>
               </table>
             </div>
