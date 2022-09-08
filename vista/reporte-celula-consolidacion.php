@@ -67,7 +67,7 @@
                         <?php
                         foreach ($matriz_codigo as $consolidacion) :
                         ?>
-                          <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo_celula_discipulado']; ?></option>
+                          <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo_celula_consolidacion']; ?></option>
                         <?php
                         endforeach;
                         ?>

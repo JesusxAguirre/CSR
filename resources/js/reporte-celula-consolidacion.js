@@ -5,19 +5,19 @@ const formulario = document.getElementById('consultar'); //declarando una consta
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 
-var codigo_discipulado = document.getElementById('codigo_discipulado');
-var choices1 = new Choices(codigo_discipulado, {
+var codigo_discipulado = document.getElementById('codigo_consolidacion');
+var choices1 = new Choices(codigo_consolidacion, {
   allowHTML: true,
   removeItems: true,
   removeItemButton: true,
   noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay codigo_discipulado disponibles',
+  noChoicesText: 'No hay codigo_consolidacion disponibles',
 });
 
 
 
 const campos = {
-  codigo_discipulado: false,
+  codigo_consolidacion: false,
   fecha_inicio: false,
   fecha_final: false,
 }
@@ -33,8 +33,8 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
-    case "codigo_discipulado":
-      ValidarSelect(e.target, 'codigo_discipulado');
+    case "codigo_consolidacion":
+      ValidarSelect(e.target, 'codigo_consolidacion');  
       break;
     case "fecha_inicio":
       ValidarSelect(e.target, 'fecha_inicio');
@@ -63,7 +63,7 @@ const ValidarSelect = (select, campo) => {
 }
 
 formulario.addEventListener('click', (e) => {
-  if (!(campos.codigo_discipulado && campos.fecha_inicio && campos.fecha_final)) {
+  if (!(campos.codigo_consolidacion && campos.fecha_inicio && campos.fecha_final)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
