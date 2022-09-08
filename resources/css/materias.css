@@ -1,0 +1,48 @@
+.contenedorMaterias{
+    background-color: rgb(225, 225, 225);
+    font-size: 18px;
+}
+.buscarMateria{
+    font-size: 18px;
+}
+
+
+.botonGuardar{
+    width: 100% !important;
+    border-radius: 0%;
+}
+.botonActualizar{
+    width: 100%;
+    border-radius: 0%;
+}
+.botonEliminar{
+    width: 100%;
+    border-radius: 0%;
+}
+
+
+/* COLORES PARA VALIDAR CAMPOS */
+.inputMateria:focus{
+    box-shadow: none;
+}
+
+.selectNivel:focus{
+    box-shadow: none;
+}
+
+.validarBien{
+    border: solid 3px greenyellow;
+}
+.validarBien:focus{
+    box-shadow: none;
+    border: solid 3px greenyellow;
+}
+
+.validarMal{
+    border: solid 3px red;
+}
+.validarMal:focus{
+    box-shadow: none;
+    border: solid 3px red;
+}
+/* FIN COLORES PARA VALIDAR CAMPOS */

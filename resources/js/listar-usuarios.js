@@ -1,7 +1,10 @@
+listarUsuarios();
+
 const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#editForm select'); //declarando una constante con todos los inputs dentro de la id formulario
+
 const campos = {
 	nombre: true,
 	apellido: true,
@@ -194,8 +197,19 @@ busquedaEl.addEventListener('keyup', () => {
 	$.ajax({
 		data: 'busqueda='+busqueda,
 		url: "controlador/ajax/buscar-usuarios.php",
-		type: "get",
+		type: "post",
 	}).done(data => {
 		datosEl.innerHTML = data
 	})
 })
+
+//Listado de AJAX
+function listarUsuarios() {
+	let listadoUsuarios = document.getElementById("datos");
+	$.ajax({
+	  type: "post",
+	  url: "controlador/ajax/listar-usuarios.php",
+	}).done((data) => {
+	  listadoUsuarios.innerHTML = data;
+	});
+}

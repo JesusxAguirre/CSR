@@ -28,7 +28,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
         $objeto->update_consolidacion();
     }
-    if(isset($_POST['agregar'])){
+    if(isset($_POST['agregar_participante'])){
      
         $participantes = $_POST['participantes'];
         $id = $_POST['id']; 
@@ -45,6 +45,16 @@ if (is_file('vista/'.$pagina.'.php')) {
 
         $objeto->eliminar_participantes();
     }
+
+    if(isset($_POST['agregar_asistencia'])){
+        $fecha = $_POST['fecha'];
+        $asistentes = $_POST['asistentes'];
+        $id = $_POST['id']; 
+     
+        $objeto->setAsistencias($asistentes,$id,$fecha);
+    
+        $objeto->registrar_asistencias();
+        }
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
