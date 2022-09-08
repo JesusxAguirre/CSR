@@ -5,25 +5,21 @@ const formulario = document.getElementById('editForm'); //declarando una constan
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 
-var participantes = document.getElementById('codigo_discipulado');
-var choices1 = new Choices(participantes, {
+var codigo_discipulado = document.getElementById('codigo_discipulado');
+var choices1 = new Choices(codigo_discipulado, {
   allowHTML: true,
   removeItems: true,
   removeItemButton: true,
   noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
+  noChoicesText: 'No hay codigo_discipulado disponibles',
 });
 
 
 
 const campos = {
-  codigoLider: true,
-  codigoAnfitrion: true,
-  codigoAsistente: true,
-  dia: true,
-  hora: true,
-  codigo: true,
-  participantes: false,
+  codigo_celula: false,
+  fecha_inicio: false,
+  fecha_final: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -37,46 +33,17 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
-    case "dia":
-      ValidarDia(e.target, 'dia');
-      break;
-    case "hora":
-      ValidarCampo(expresiones.hora, e.target, 'hora');
-      break;
-    case "codigo":
-      ValidarCampo(expresiones.codigo, e.target, 'codigo');
-      break;
-    case "codigoLider":
-      ValidarSelect(e.target, 'codigoLider');
-      break;
-    case "codigoAnfitrion":
-      ValidarSelect(e.target, 'codigoAnfitrion');
-      break;
-    case "codigoAsistente":
-      ValidarSelect(e.target, 'codigoAsistente');
-      break;
-    case "participantes[]":
-      ValidarSelect(e.target, 'participantes');
-      break;
-  }
-}
-const ValidarDia = (input, campo) => {
-  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
-    console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = true;
-  } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  }
 
+    case "codigo_discipulado":
+      ValidarSelect(e.target, 'codigo_discipulado');
+      break;
+    case "fecha_inicio":
+      ValidarSelect(e.target, 'fecha_inicio');
+      break;
+    case "fecha_final":
+      ValidarSelect(e.target, 'fecha_final');
+      break;
+  }
 }
 
 const ValidarSelect = (select, campo) => {
@@ -96,23 +63,7 @@ const ValidarSelect = (select, campo) => {
   }
 }
 
-const ValidarCampo = (expresion, input, campo) => {
-  if (expresion.test(input.value)) {
-    console.log("entra en la funcion");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = true;
-  } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  }
-}
+
 
 
 formulario.addEventListener('submit', (e) => {
@@ -137,12 +88,8 @@ inputs.forEach((input) => {
 
 });
 
-inputs2.forEach((input) => {
-  input.addEventListener('keyup', ValidarFormulario);
-  input.addEventListener('blur', ValidarFormulario);
 
-});
-participantes.addEventListener('hideDropdown', ValidarFormulario);
+codigo_discipulado.addEventListener('hideDropdown', ValidarFormulario);
 
 
 //busqueda ajax 
@@ -155,7 +102,7 @@ busquedaEl.addEventListener('keyup', () => {
 
   $.ajax({
     data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-consolidacion.php",
+    url: "controlador/ajax/buscar-codigo_discipulado.php",
     type: "get",
   }).done(data => {
     datosEl.innerHTML = data
