@@ -70,6 +70,30 @@ formulario.addEventListener('submit', (e) => {
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
+  } else {
+    //busqueda ajax 
+    const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
+    const fecha_inicio = document.getElementById('fecha_inicio')
+    const fecha_final = document.getElementById('fecha_final')
+    const enviar = document.getElementById('consultar')
+    const respuesta = document.getElementById('respuesta');
+    enviar.addEventListener('click', () => {
+      let codigo_discipulado2 = codigo_discipulado_ajax.value
+      let fecha_inicio2 = fecha_inicio.value
+      let fecha_final2 = fecha_final.value
+
+      $.ajax({
+        data: {
+          codigo_discipulado: codigo_discipulado2,
+          fecha_inicio: fecha_inicio2,
+          fecha_final: fecha_final2,
+        },
+        url: "controlador/ajax/buscar-asistencias-discipulado.php",
+        type: "get",
+      }).done(data => {
+        respuesta.innerHTML = data
+      })
+    })
   }
 })
 
@@ -81,31 +105,3 @@ inputs.forEach((input) => {
 
 codigo_discipulado.addEventListener('hideDropdown', ValidarFormulario);
 
-//busqueda ajax 
-
-const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
-const fecha_inicio = document.getElementById('fecha_inicio')
-const fecha_final = document.getElementById('fecha_final')
-const enviar = document.getElementById('consultar')
-const respuesta = document.getElementById('respuesta');
-enviar.addEventListener('click', () => {
-  let codigo_discipulado2 = codigo_discipulado_ajax.value
-  console.log(codigo_discipulado2)
-
-  let fecha_inicio2 = fecha_inicio.value
-  console.log(fecha_inicio2)
-
-  let fecha_final2 = fecha_final.value
- 
-  $.ajax({
-    data: {
-      codigo_discipulado: codigo_discipulado2,
-      fecha_inicio: fecha_inicio2,
-      fecha_final: fecha_final2,
-    },
-    url: "controlador/ajax/buscar-asistencias-discipulado.php",
-    type: "get",
-  }).done(data => {
-    respuesta.innerHTML = data
-  })
-})
