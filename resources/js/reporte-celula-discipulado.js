@@ -84,21 +84,23 @@ codigo_discipulado.addEventListener('hideDropdown', ValidarFormulario);
 
 //busqueda ajax 
 
-const codigo_discipulado = document.getElementById('codigo_discipulado')
+const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
 const fecha_inicio = document.getElementById('fecha_inicio')
 const fecha_final = document.getElementById('fecha_final')
 const enviar = document.getElementById('consultar')
 
 enviar.addEventListener('click', () => {
-  let codigo_discipulado = codigo_discipulado.value
+  let codigo_discipulado2 = codigo_discipulado_ajax.value
+  let fecha_inicio2 = fecha_inicio.value
+  let fecha_final2 = fecha_final.value
 
   $.ajax({
     data :{
-      codigo_discipulado : codigo_discipulado,
-      fecha_inicio : fecha_inicio,
-      fecha_final : fecha_final,
+      codigo_discipulado : codigo_discipulado2,
+      fecha_inicio : fecha_inicio2,
+      fecha_final : fecha_final2,
     },
-    url: "controlador/ajax/buscar-codigo_discipulado.php",
+    url: "controlador/ajax/buscar-asistencias-discipulado.php",
     type: "get",
   }).done(data => {
     datosEl.innerHTML = data
