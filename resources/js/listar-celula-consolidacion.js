@@ -47,7 +47,6 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 
 
   const idInput = document.getElementById('idInput')
-  
   const diaInput = document.getElementById('diaInput')
   const horaInput = document.getElementById('horaInput')
   const liderInput = document.getElementById('codigoLider')
@@ -68,14 +67,9 @@ agregar.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
 
-
   const idInput = document.getElementById('idInput2')
 
-
   idInput.value = id.textContent
-
-
-
 
 }))
 
