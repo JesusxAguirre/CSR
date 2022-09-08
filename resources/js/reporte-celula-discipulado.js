@@ -87,12 +87,16 @@ const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
 const fecha_inicio = document.getElementById('fecha_inicio')
 const fecha_final = document.getElementById('fecha_final')
 const enviar = document.getElementById('consultar')
-
+const respuesta = document.getElementById('respuesta');
 enviar.addEventListener('click', () => {
   let codigo_discipulado2 = codigo_discipulado_ajax.value
-  let fecha_inicio2 = fecha_inicio.value
-  let fecha_final2 = fecha_final.value
+  console.log(codigo_discipulado2)
 
+  let fecha_inicio2 = fecha_inicio.value
+  console.log(fecha_inicio2)
+
+  let fecha_final2 = fecha_final.value
+ 
   $.ajax({
     data: {
       codigo_discipulado: codigo_discipulado2,
@@ -102,6 +106,6 @@ enviar.addEventListener('click', () => {
     url: "controlador/ajax/buscar-asistencias-discipulado.php",
     type: "get",
   }).done(data => {
-    datosEl.innerHTML = data
+    respuesta.innerHTML = data
   })
 })
