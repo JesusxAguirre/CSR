@@ -72,23 +72,23 @@ formulario.addEventListener('click', (e) => {
     })
   } else {
     //busqueda ajax 
-    const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
+    const codigo_consolidacion_ajax = document.getElementById('codigo_consolidacion')
     const fecha_inicio = document.getElementById('fecha_inicio')
     const fecha_final = document.getElementById('fecha_final')
     const enviar = document.getElementById('consultar')
     const respuesta = document.getElementById('respuesta');
     enviar.addEventListener('click', () => {
-      let codigo_discipulado2 = codigo_discipulado_ajax.value
+      let codigo_consolidacion2 = codigo_consolidacion_ajax.value
       let fecha_inicio2 = fecha_inicio.value
       let fecha_final2 = fecha_final.value
 
       $.ajax({
         data: {
-          codigo_discipulado: codigo_discipulado2,
+          codigo_consolidacion: codigo_consolidacion2,
           fecha_inicio: fecha_inicio2,
           fecha_final: fecha_final2,
         },
-        url: "controlador/ajax/buscar-asistencias-discipulado.php",
+        url: "controlador/ajax/buscar-asistencias-consolidacion.php",
         type: "get",
       }).done(data => {
         respuesta.innerHTML = data
