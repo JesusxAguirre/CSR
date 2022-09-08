@@ -69,8 +69,7 @@ class Discipulado extends Usuarios
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_discipulado 
         INNER JOIN usuarios ON reporte_celula_discipulado.cedula_participante = usuarios.cedula
-        WHERE MONTH(fecha) = 9 
-        AND YEAR(fecha) = 2022 
+        WHERE reporte_celula_discipulado.fecha BETWEEN '2022-09-01' AND  '2022-09-31' 
         GROUP BY cedula_participante");
         
         $stmt = $this->conexion()->prepare($sql);
