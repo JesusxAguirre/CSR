@@ -37,6 +37,8 @@ const campos = {
   hora: true,
   codigo: true,
   participantes: false,
+  fecha: false,
+  asistentes: false
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -74,16 +76,18 @@ editButtons.forEach(boton => boton.addEventListener('click', () => {
 
 
 }))
-agregar.forEach(boton => boton.addEventListener('click', () => {
+agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
-
   const idInput = document.getElementById('idInput2')
-
   idInput.value = id.textContent
-
 }))
-
+agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
+  let fila = boton.parentElement.parentElement
+  let id = fila.querySelector('.id')
+  const idInput = document.getElementById('idInput3')
+  idInput.value = id.textContent
+}))
 
 
 const ValidarFormulario = (e) => {
@@ -108,6 +112,12 @@ const ValidarFormulario = (e) => {
       break;
     case "participantes[]":
       ValidarSelect(e.target, 'participantes');
+      break;
+    case "asistentes[]":
+      ValidarSelect(e.target, 'asistentes');
+      break;
+    case "fecha":
+      ValidarSelect(e.target, 'fecha');
       break;
   }
 }
@@ -189,7 +199,16 @@ formulario2.addEventListener('submit', (e) => {
   }
 })
 
-
+formulario3.addEventListener('submit', (e) => {
+  if (!(campos.asistentes && campos.fecha)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  }
+})
 
 inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
@@ -202,7 +221,14 @@ inputs2.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 
 });
+inputs3.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
+
+});
+
 participantes.addEventListener('hideDropdown', ValidarFormulario);
+asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 
 //busqueda ajax 
