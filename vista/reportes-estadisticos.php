@@ -20,10 +20,10 @@
 
   <!-- Js fontawesone -->
   <script src="./resources/library/fontawesone/js/all.js"></script>
-  <!-- CHART JS -->
-  <script src="resources/js/chart.min.js"></script>
+
   <!-- estilos del archivo-->
   <link rel="stylesheet" href="resources/css/reportes-estadisticos.css">
+  <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
 </head>
 
@@ -57,7 +57,7 @@
                 <h4 class="header-title">Reporte celula de consolidacion creadas en 2022 </h4>
               </div>
               <div dir="ltr">
-                <div class="mt-3 ">
+                <div class="mt-3 " id="grafico">
                 </div>
               </div>
             </div>
@@ -70,4 +70,33 @@
 
   </main>
 
+  <script type="module"  src="node_modules\highcharts\highcharts.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('grafico', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Fruit Consumption'
+            },
+            xAxis: {
+                categories: ['Apples', 'Bananas', 'Oranges']
+            },
+            yAxis: {
+                title: {
+                    text: 'Fruit eaten'
+                }
+            },
+            series: [{
+                name: 'Jane',
+                data: [1, 0, 4]
+            }, {
+                name: 'John',
+                data: [5, 7, 3]
+            }]
+        });
+    });
+  </script>
 </body>
