@@ -64,7 +64,6 @@
                 <h4 class="header-title">Reporte celula de consolidacion creadas en 2022 </h4>
               </div>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico celula discipulado</a>
-              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
 
               <div id="respuesta"></div>
 
@@ -115,9 +114,31 @@
   <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
 
   <script>
-    /*   var myModal = new bootstrap.Modal(document.getElementById("discipulado-form"), {});
-  document.onreadystatechange = function () {
-    myModal.show();
-  }; */
+   document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('grafico', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Fruit Consumption'
+            },
+            xAxis: {
+                categories: ['Apples', 'Bananas', 'Oranges']
+            },
+            yAxis: {
+                title: {
+                    text: 'Fruit eaten'
+                }
+            },
+            series: [{
+                name: 'Jane',
+                data: [1, 0, 4]
+            }, {
+                name: 'John',
+                data: [5, 7, 3]
+            }]
+        });
+    });
   </script>
+
 </body>
