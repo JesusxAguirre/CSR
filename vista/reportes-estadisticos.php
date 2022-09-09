@@ -56,47 +56,59 @@
               <div class="d-flex align-items-center justify-content-between mb-2">
                 <h4 class="header-title">Reporte celula de consolidacion creadas en 2022 </h4>
               </div>
-              <div dir="ltr">
-                <div class="mt-3 " id="grafico">
-                </div>
-              </div>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico celula discipulado</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
+
+
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
-
+    </div>
   </main>
-
-  <script type="module"  src="node_modules\highcharts\highcharts.js"></script>
+  <!-- Modal para formulario de fechas de-->
+  <div class="modal fade" id="discipulado-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio" id="fecha_inicio" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final" id="fecha_final" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar" name="consultar" type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="node_modules\highcharts\highcharts.js"></script>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const chart = Highcharts.chart('grafico', {
-            chart: {
-                type: 'bar'
-            },
-            title: {
-                text: 'Fruit Consumption'
-            },
-            xAxis: {
-                categories: ['Apples', 'Bananas', 'Oranges']
-            },
-            yAxis: {
-                title: {
-                    text: 'Fruit eaten'
-                }
-            },
-            series: [{
-                name: 'Jane',
-                data: [1, 0, 4]
-            }, {
-                name: 'John',
-                data: [5, 7, 3]
-            }]
-        });
-    });
+/*   var myModal = new bootstrap.Modal(document.getElementById("discipulado-form"), {});
+  document.onreadystatechange = function () {
+    myModal.show();
+  }; */
   </script>
 </body>
