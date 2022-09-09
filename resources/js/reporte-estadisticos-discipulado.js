@@ -59,7 +59,7 @@ formulario.addEventListener('click', (e) => {
           fecha_inicio: fecha_inicio2,
           fecha_final: fecha_final2,
         },
-        url: "controlador/ajax/mostar-grafico-discipulado.php",
+        url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "get",
       }).done(data => {
         respuesta.innerHTML = data

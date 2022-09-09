@@ -26,6 +26,10 @@
   <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
 
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+
+
   <!-- SWEETT ALERT-->
   <script src="resources/js/sweetalert2.js"></script>
 </head>
@@ -62,6 +66,7 @@
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico celula discipulado</a>
               <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
 
+              <div id="respuesta"></div>
 
             </div>
           </div>
