@@ -6,14 +6,14 @@ $objeto = new ecam();
 if (isset($_POST['agregarMateria'])) {
     $nombreMateria= $_POST['nombreMateria'];
     $nivelSeleccionado= $_POST['seleccionarNivel'];
-
-    $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado);
+    $cedulaProf= $_POST['cedulaProf'];
+    $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado, $cedulaProf);
     $objeto->agregarMaterias();
 }
 
 
 //ELIMINANDO MATERIAS
-if ($_POST['botonEliminar']) {
+if (isset($_POST['botonEliminar'])) {
     $idMateria= $_POST['idMateria'];
 
     $objeto->eliminarMateria($idMateria);
@@ -22,7 +22,6 @@ if ($_POST['botonEliminar']) {
 
 //ACTUALIZANDO MATERIAS
 if (isset($_POST['actualizarMateria'])) {
-    echo 'si entre o que';
     $idMateria2= $_POST['idMateria2'];
     $nombreMateria2= $_POST['nombreMateria2'];
     $nivelSeleccionado2= $_POST['seleccionarNivel2'];
@@ -30,6 +29,8 @@ if (isset($_POST['actualizarMateria'])) {
     $objeto->setActualizar($idMateria2, $nombreMateria2, $nivelSeleccionado2);
     $objeto->actualizarMateria();
 }
+
+
 
 ?>
 

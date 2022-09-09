@@ -9,7 +9,9 @@ class ecam extends Conectar{
     private $idMateria;
     private $nombre;
     private $nivel;
+    private $cedulaProf;
     private $listarMaterias;
+    private $listarProfesoresMaterias;
     private $materiasBuscadas;
 
     public function __construct(){
@@ -25,6 +27,17 @@ class ecam extends Conectar{
             ":nom"=> $this->nombre,
             ":nivelD"=> $this->nivel
         ));
+
+        /*Buscando ultimo ID de la materia agregada para guardar ese valor, luego ese valor es
+        introducido en la consulta de aqui abajo para que sea dinamico*/
+        foreach ($this->cedulaProf as $cedulaP) {
+            $sql3= "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaProf, (SELECT MAX(id_materia) FROM `materias`))";
+            $stmt3 = $this->conexion->prepare($sql3);
+            $stmt3->execute(array(
+                ":cedulaProf"=> $cedulaP,
+            ));
+        }//Fin del  Foreach
+        //Profesores vinculados con la materia
     }
 
     //LISTAR TODAS LAS MATERIAS
@@ -83,10 +96,29 @@ class ecam extends Conectar{
         ));
     }
 
+    //LISTAR PROFESORES DE LAS MATERIAS
+    public function listarProfesores($idMateriaProf){
 
-    public function setMaterias($nombre, $nivel){
+        $sql= "SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `profesores-materias`.`cedula_profesor`, `profesores-materias`.`id_materia` FROM `profesores-materias` 
+        INNER JOIN usuarios ON `profesores-materias`.`cedula_profesor` = `usuarios`.`cedula` 
+        INNER JOIN materias ON `profesores-materias`.`id_materia` = `materias`.`id_materia` WHERE `profesores-materias`.`id_materia` = '" . $idMateriaProf . "'";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        
+            $this->listarProfesoresMaterias[] = $filas;
+        }
+        return $this->listarProfesoresMaterias;
+    }
+
+
+    public function setMaterias($nombre, $nivel, $cedulaProf){
         $this->nombre= $nombre;
         $this->nivel= $nivel;
+        $this->cedulaProf= $cedulaProf;
     }
     public function setActualizar($idMateria, $nombre, $nivel){
         $this->idMateria= $idMateria;
@@ -94,4 +126,3 @@ class ecam extends Conectar{
         $this->nivel= $nivel;
     }
 }
-?>

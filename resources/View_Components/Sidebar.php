@@ -107,10 +107,10 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 </li>
              
                 <li>
-                  <a href="?pagina=registrar-cursos" class="nav-link px-3">
+                  <a href="?pagina=registrar-secciones" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-grid-3x3-gap-fill"></i> </span>
-                  <span>Registrar Materias</span>
+                  <span>Registrar Secciones</span>
                   </a>
                 </li>
                 <li>

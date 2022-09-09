@@ -19,6 +19,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $hora = $_POST['hora'];
         $direccion = $_POST['direccion'];
         $participantes = $_POST['participantes'];
+    
        
        //borrando del array participantes las coicidencias en los valores con las cedulas de lider, anfitrion y asistente
         if (($clave = array_search($cedula_lider, $participantes)) !== false) {
