@@ -63,9 +63,10 @@ formulario.addEventListener('click', (e) => {
         },
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "get",
+        dataType:"json",
       }).done(data => {
         options.series[0].data = data;
-        chart1 = new Highcharts.Chart(options);
+        chart1 =new Highcharts.Chart(options);
         console.log(data);
       })
       datos();
@@ -83,17 +84,17 @@ function datos() {
   options = {
     chart: {
       renderTo: 'grafico',
-      type: 'column'
+      type: 'column',
     },
     title: {
-      text: 'Numero de celulas creadas'
+      text: 'Numero de celulas creadas',
     },
     xAxys: {
-      type: 'category'
+      type: 'category',
     },
     yAxys: {
       title: {
-        text: 'cantidad'
+        text: 'cantidad',
       }
     },
     plotOptions: {
@@ -107,7 +108,7 @@ function datos() {
     },
     tooltip: {
       headerFormat: "<span style='font-size: 11px'> {series.name}</span> <br>",
-      pointFormat: "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y.0f}</b>"
+      pointFormat: "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y.0f}</b>",
     },
     series: [{
       name: "Celulas",
