@@ -5,6 +5,6 @@ $objeto = new Discipulado();
 $fecha_inicio = $_GET['fecha_inicio'];
 $fecha_final = $_GET['fecha_final'];
 
-$datos = $objeto->listar_asistencias_meses($fecha_inicio, $fecha_final);
-print json_encode($datos);
+$data= $objeto->listar_asistencias_meses($fecha_inicio, $fecha_final);
+print json_encode($data);
 ?>

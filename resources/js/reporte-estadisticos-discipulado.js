@@ -1,6 +1,6 @@
 // Actualizar contenido del modal Editar
 const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
-
+var chart1,options;
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
@@ -62,14 +62,19 @@ formulario.addEventListener('click', (e) => {
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "get",
       }).done(data => {
-        respuesta = data
+        respuesta.innerHTML = data
       })
 
       $.ajax({
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "POST",
         dataType:"json",
-        success: function(datos){}
+        success: function(data){
+          //options.series[0].data = data;
+          //chart1 = new Highcharts.Chart(options);
+          console.log(data);
+          console.log('entra al segundo ajax')
+        }
       })
       $('#discipulado-grafico').modal("show");
 
