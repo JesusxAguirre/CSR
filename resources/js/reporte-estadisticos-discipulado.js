@@ -62,8 +62,19 @@ formulario.addEventListener('click', (e) => {
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "get",
       }).done(data => {
-        respuesta.innerHTML = data
+        respuesta = data
       })
+
+      $.ajax({
+        url: "controlador/ajax/mostrar-grafico-discipulado.php",
+        type: "POST",
+        dataType:"json",
+        success: function(datos){}
+      })
+      $('#discipulado-grafico').modal("show");
+
+
+
     })
   }
 })

@@ -110,6 +110,21 @@
       </div>
     </div>
   </div>
+
+    <!-- Modal para formulario de fechas de-->
+    <div class="modal fade" id="discipulado-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" >
+        <div id="grafico"></div>  
+      </div>
+      </div>
+    </div>
+  </div>
   <script type="module" src="node_modules\highcharts\highcharts.js"></script>
   <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
 
