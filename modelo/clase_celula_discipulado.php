@@ -494,15 +494,14 @@ class Discipulado extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $fila = $stmt->fetch(PDO::FETCH_ASSOC);
             array_push($resultado, array(
                 $fila['Enero'], $fila['Febrero'],
                 $fila['Marzo'], $fila['Abril'], $fila['Mayo'], $fila['Junio'],
                 $fila['Julio'], $fila['Agosto'], $fila['Septiembre'], $fila['Octubre'],
                 $fila['Noviembre'], $fila['Diciembre']
             ));
-        }
-
+    
         return $resultado;
     }
 }

@@ -1,8 +1,8 @@
-const { dateFormats } = require("highcharts");
 
 // Actualizar contenido del modal Editar
 const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
-var chart1, options;
+var chart1;
+var options;
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
@@ -64,7 +64,7 @@ formulario.addEventListener('click', (e) => {
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "get",
       }).done(data => {
-        option.series[0].data = data;
+        options.series[0].data = data;
         chart1 = new Highcharts.Chart(options);
         console.log(data);
       })

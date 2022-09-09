@@ -6,5 +6,6 @@ $fecha_inicio = $_GET['fecha_inicio'];
 $fecha_final = $_GET['fecha_final'];
 
 $resultado = $objeto->listar_asistencias_meses($fecha_inicio, $fecha_final);
-echo json_encode($resultado, JSON_NUMERIC_CHECK);
+
+print json_encode($resultado, JSON_NUMERIC_CHECK);
 ?>
