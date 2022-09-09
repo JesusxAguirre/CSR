@@ -54,11 +54,10 @@
           <div class="card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between mb-2">
-                <h4 class="header-title">Reporte estadistico </h4>
+                <h4 class="header-title">Reporte celula de consolidacion creadas en 2022 </h4>
               </div>
               <div dir="ltr">
-                <div class="mt-3 chartjs-chart" style="height: 70vh;">
-                  <canvas id="myChart" role="img" height="400" width="941" style="display: block; box-sizing: border-box; height: 320px; width: 941px;"></canvas>
+                <div class="mt-3 ">
                 </div>
               </div>
             </div>
@@ -70,68 +69,5 @@
 
 
   </main>
-  <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
 
-    var myChart = new Chart(ctx, {
-
-      type: 'bar',
-
-      data: {
-
-        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-
-        datasets: [{
-
-          data: [12, 19, 3, 5, 2, 3,19, 3, 5, 2, 3,4],
-
-          backgroundColor: [
-
-            'rgba(255, 99, 132, 0.2)',
-
-            'rgba(54, 162, 235, 0.2)',
-
-            'rgba(255, 206, 86, 0.2)',
-
-            'rgba(75, 192, 192, 0.2)',
-
-            'rgba(153, 102, 255, 0.2)',
-
-            'rgba(255, 159, 64, 0.2)'
-          ],
-
-          borderColor: [
-
-            'rgba(255, 99, 132, 1)',
-
-            'rgba(54, 162, 235, 1)',
-
-            'rgba(255, 206, 86, 1)',
-
-            'rgba(75, 192, 192, 1)',
-
-            'rgba(153, 102, 255, 1)',
-
-            'rgba(255, 159, 64, 1)'
-          ],
-
-          borderWidth: 1
-        }]
-      },
-      options: {
-
-        scales: {
-
-          yAxes: [{
-
-            ticks: {
-
-              beginAtZero: true
-            }
-
-          }]
-        }
-      }
-    });
-  </script>
 </body>
