@@ -25,6 +25,9 @@
   <link rel="stylesheet" href="resources/css/reportes-estadisticos.css">
   <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
+
+  <!-- SWEETT ALERT-->
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -69,7 +72,7 @@
   </main>
   <!-- Modal para formulario de fechas de-->
   <div class="modal fade" id="discipulado-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulado</h5>
@@ -104,9 +107,10 @@
     </div>
   </div>
   <script type="module" src="node_modules\highcharts\highcharts.js"></script>
+  <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
 
   <script>
-/*   var myModal = new bootstrap.Modal(document.getElementById("discipulado-form"), {});
+    /*   var myModal = new bootstrap.Modal(document.getElementById("discipulado-form"), {});
   document.onreadystatechange = function () {
     myModal.show();
   }; */

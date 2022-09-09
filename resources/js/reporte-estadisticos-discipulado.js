@@ -1,23 +1,12 @@
 // Actualizar contenido del modal Editar
 const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
 
-
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
-
 
 const campos = {
   fecha_inicio: false,
   fecha_final: false,
 }
-
-const expresiones = { //objeto con varias expresiones regulares
-
-  dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
-  hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
-  codigo: /^[CC]{2}[0-9]{1,5}$/ //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
-}
-
-
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
@@ -32,7 +21,6 @@ const ValidarFormulario = (e) => {
 
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
-
     document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
     document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
@@ -86,5 +74,4 @@ inputs.forEach((input) => {
 
 });
 
-codigo_discipulado.addEventListener('hideDropdown', ValidarFormulario);
 
