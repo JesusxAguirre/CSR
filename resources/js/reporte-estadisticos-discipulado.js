@@ -65,7 +65,7 @@ formulario.addEventListener('click', (e) => {
         type: "get",
       }).done(data => {
         option.series[0].data = data;
-        chart1 - new Highcharts.Chart(options);
+        chart1 = new Highcharts.Chart(options);
         console.log(data);
       })
       datos();

@@ -84,7 +84,7 @@ class Discipulado extends Usuarios
         }
         return $this->septiembre;
     }
-  
+
     public function listar_no_participantes()
     {
 
@@ -469,12 +469,13 @@ class Discipulado extends Usuarios
     }
 
 
-        //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+    //------------------------------------------------------Reportes estadisticos consultas ----------------------//
 
 
-        public function listar_asistencias_meses($fecha_inicio,$fecha_final)
-        {
-            $sql = ("SELECT 
+    public function listar_asistencias_meses($fecha_inicio, $fecha_final)
+    {
+        $resultado = array();
+        $sql = ("SELECT 
             SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
             SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
             SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
@@ -489,34 +490,19 @@ class Discipulado extends Usuarios
             SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
            FROM celula_consolidacion
            WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
-    
-            $stmt = $this->conexion()->prepare($sql);
-    
-            $stmt->execute(array());
-    
-            $meses = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-            return $meses;
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            array_push($resultado, array(
+                $fila['Enero'], $fila['Febrero'],
+                $fila['Marzo'], $fila['Abril'], $fila['Mayo'], $fila['Junio'],
+                $fila['Julio'], $fila['Agosto'], $fila['Septiembre'], $fila['Octubre'],
+                $fila['Noviembre'], $fila['Diciembre']
+            ));
         }
-    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        return $resultado;
+    }
 }
-//SELECT COUNT(*) AS numero_asistencias, cedula_participante FROM reporte_celula_discipulado WHERE MONTH(fecha) = 9 AND YEAR(fecha) = 2022 GROUP BY cedula_participante

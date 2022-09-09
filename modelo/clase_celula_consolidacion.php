@@ -132,7 +132,7 @@ class Consolidacion extends Usuarios
        WHERE celula_consolidacion.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
 
         $stmt = $this->conexion()->prepare($sql);
-
+$resultado = array();
         $stmt->execute(array());
 
         $meses = $stmt->fetch(PDO::FETCH_ASSOC);
