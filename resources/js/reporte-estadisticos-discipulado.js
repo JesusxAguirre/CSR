@@ -1,6 +1,8 @@
+const { dateFormats } = require("highcharts");
+
 // Actualizar contenido del modal Editar
 const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
-var chart1,options;
+var chart1, options;
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
@@ -36,7 +38,7 @@ const ValidarSelect = (select, campo) => {
 }
 
 formulario.addEventListener('click', (e) => {
-  if (!( campos.fecha_inicio && campos.fecha_final)) {
+  if (!(campos.fecha_inicio && campos.fecha_final)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -62,27 +64,64 @@ formulario.addEventListener('click', (e) => {
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "get",
       }).done(data => {
-        respuesta.innerHTML = data
+        option.series[0].data = data;
+        chart1 - new Highcharts.Chart(options);
+        console.log(data);
       })
-
-      $.ajax({
-        url: "controlador/ajax/mostrar-grafico-discipulado.php",
-        type: "POST",
-        dataType:"json",
-        success: function(data){
-          //options.series[0].data = data;
-          //chart1 = new Highcharts.Chart(options);
-          console.log(data);
-          console.log('entra al segundo ajax')
-        }
-      })
-      $('#discipulado-grafico').modal("show");
+      datos();
 
 
 
     })
   }
 })
+
+
+function datos() {
+  var v_modal = $('#discipulado-grafico').modal({ show: false });
+
+  options = {
+    chart: {
+      renderTo: 'grafico',
+      type: 'column'
+    },
+    title: {
+      text: 'Numero de celulas creadas'
+    },
+    xAxys: {
+      type: 'category'
+    },
+    yAxys: {
+      title: {
+        text: 'cantidad'
+      }
+    },
+    plotOptions: {
+      series: {
+        borderWidth: 1,
+        dataLabels: {
+          enabled: true,
+          format: '{point.y:of}',
+        }
+      }
+    },
+    tooltip: {
+      headerFormat: "<span style='font-size: 11px'> {series.name}</span> <br>",
+      pointFormat: "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y.0f}</b>"
+    },
+    series: [{
+      name: "Celulas",
+      colorByPoint: true,
+      data: [],
+    }]
+  }
+
+
+  v_modal.on("show", function () { })
+  v_modal.modal("show");
+}
+
+
 
 inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
