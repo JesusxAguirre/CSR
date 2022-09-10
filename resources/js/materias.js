@@ -1,18 +1,6 @@
-window.onload= function () {
-    listarMaterias();
-  }
-
-//VINCULANDO LOS PROFESORES CON LAS MATERIAS
-var profesores = document.getElementById('seleccionarProf');
-var choices1 = new Choices(profesores, {
-  allowHTML: true,
-  maxItemText: 3,
-  removeItems: true,
-  removeItemButton: true,
-  noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
-  placeholderValue: 'Buscar profesor',
-});
+window.onload = function () {
+  listarMaterias();
+}
 
 
 //BUSCAR MATERIAS POR AJAX
@@ -36,18 +24,19 @@ buscarMateria.addEventListener("keyup", () => {
 //RELLENANDO DATOS PARA ACTUALIZAR MATERIA
 $(document).on('click', '#actualizarM', function () {
   //console.log('verigud Macheturrio');
-  var elementoR= $(this)[0].parentElement.parentElement;
-  const valoresMateria= elementoR.querySelectorAll('td');
+  var elementoR = $(this)[0].parentElement.parentElement;
+  const valoresMateria = elementoR.querySelectorAll('td');
 
   document.getElementById('idMateria2').value = valoresMateria[0].textContent;
   document.getElementById('nombreMateria2').value = valoresMateria[1].textContent;
   document.querySelector('#seleccionarNivel2').value = valoresMateria[2].textContent;
-  campos2[0]= true;
-  campos2[1]= true;
+  campos2[0] = true;
+  campos2[1] = true;
 });
 
 
-function listarProfesoresMateria (idMateriaProf) {
+//LISTAR PROFESORES DE LA MATERIAS
+function listarProfesoresMateria(idMateriaProf) {
   let listadoProfesores = document.getElementById("datos2");
 
   $.ajax({
@@ -61,103 +50,68 @@ function listarProfesoresMateria (idMateriaProf) {
   });
 }
 
+//CONSULTANDO PROFESOR QUE NO ESTEN VINCULADOS A LA MATERIA PARA AGREGAR
+function consultaDeProfesores(idNoMateria, botonEditarProfM) {
+  let listadoCDP = document.getElementById("datos3");
 
-
-//LISTAR PROFESOR 1
-$(document).on('click', '#editarProf', function (e) { 
-  e.preventDefault();
-
-  let elemento = $(this)[0].parentElement.parentElement;
-  let idMateria= elemento.querySelector('.idMateria').textContent;
-  
-  listarProfesoresMateria(idMateria);
-});
-
-
-//LISTAR MATERIAS POR AJAX
-function listarMaterias() {
-  let listadoMaterias = document.getElementById("datosMaterias");
   $.ajax({
+    data: {
+      idNoMateria: idNoMateria,
+      botonEditarProfM: botonEditarProfM,
+    },
     type: "post",
-    url: "controlador/ajax/listar-materias.php",
+    url: "controlador/ajax/CRUD-materias.php",
   }).done((data) => {
-    listadoMaterias.innerHTML = data;
+    listadoCDP.innerHTML = data;
+    choices2();
   });
 }
 
+//SELECT PARA LA ACTUALIZACION VINCULACION DE PROFESOR CON LA MATERIA
+function choices2() {
+  var profesores2 = document.getElementById('seleccionarProf2');
+  new Choices(profesores2, {
+    allowHTML: true,
+    maxItemText: 3,
+    removeItems: true,
+    removeItemButton: true,
+    noResultsText: 'No hay coicidencias',
+    noChoicesText: 'No hay participantes disponibles',
+    placeholderValue: 'Buscar profesor',
+  });
+}
 
-//ELIMINAR MATERIAS
-$(document).on('click', '#eliminarMateria', function () {
+//BOTON DEL MODAL PARA EDITAR PROFESORES DE LA MATERIA (ABRIR MODAL)
+$(document).on('click', '#editarProf', function (e) {
+  e.preventDefault();
 
+  let botonEditarProfM = $(this)[0].value;
   let elemento = $(this)[0].parentElement.parentElement;
-  let idMateria= elemento.querySelector('.idMateria').textContent;
-  let botonEliminar= $(this)[0].value;
+  let idMateria = elemento.querySelector('.idMateria').textContent;
 
-  Swal.fire({
-    icon: 'warning',
-    title: 'Estas seguro que deseas eliminar?',
-    showDenyButton: true,
-    confirmButtonText: `Eliminar`,
-    confirmButtonColor: 'red',
-    denyButtonText: `Cancelar`,
-    denyButtonColor: 'black'
-  }).then((result) => {
-      if (result.isConfirmed) {
-        $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response){
-          listarMaterias();
-        })
-      }
-    })
+  listarProfesoresMateria(idMateria);
+  consultaDeProfesores(idMateria, botonEditarProfM);
 });
+///////////////////////////////////////////////////////////////
 
 
-//ELIMINAR PROFESORES VINCULADOS A LA MATERIA
-$(document).on('click', '#eliminarProfesorMateria', function () {
-
-  let elemento = $(this)[0].parentElement.parentElement;
-  let cedulaProfesor= elemento.querySelector('#cedulaProfesor').textContent;
-  let idMateriaProfesor= elemento.querySelector('#idMateriaProfesor').textContent;
-  let eliminarProfMat= $(this)[0].value;
-
-  Swal.fire({
-    icon: 'warning',
-    title: 'Estas seguro que deseas eliminar?',
-    showDenyButton: true,
-    confirmButtonText: `Eliminar`,
-    confirmButtonColor: 'red',
-    denyButtonText: `Cancelar`,
-    denyButtonColor: 'black'
-  }).then((result) => {
-      if (result.isConfirmed) {
-        $.post("controlador/ajax/CRUD-materias.php", {cedulaProfesor, idMateriaProfesor, eliminarProfMat}, function (response){
-          listarProfesoresMateria(idMateria);
-        })
-      }
-    })
-});
-
-
-//AGREGAR MATERIAS POR AJAX
-$("#agregarMateria").on("click", function (e) {
+//ACTUALIZAR Y AGREGAR PROFESORES A LA MATERIA DINAMICAMENTE POR AJAX
+$("#actualizarProfesor").on("click", function (e) {
   e.preventDefault();
 
   const data = {
-    agregarMateria: $("#agregarMateria").val(),
-    nombreMateria: $("#nombreMateria").val(),
-    seleccionarNivel: $("#seleccionarNivel").val(),
-    cedulaProf: $("#seleccionarProf").val(),
+  
+    cedulaProfesor: $("#seleccionarProf").val(),
   };
 
   if (campos[0] && campos[1]) {
     $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
-      console.log(response);
-      listarMaterias();
-      $("#formularioMateria").trigger("reset");
-      document.getElementById('nombreMateria').classList.remove('validarBien');
-      document.getElementById('seleccionarNivel').classList.remove('validarBien');
+
+      $('#formularioAgregarProf').trigger('reset');
+      $('#formularioAgregarProf').load('vista\materias.php');
     });
-  }else{
-    const toast= Swal.mixin({
+  } else {
+    const toast = Swal.mixin({
       toast: true,
       background: 'red',
       color: 'white',
@@ -172,6 +126,131 @@ $("#agregarMateria").on("click", function (e) {
     })
   }
 });
+
+
+//LISTAR MATERIAS POR AJAX
+function listarMaterias() {
+  let listadoMaterias = document.getElementById("datosMaterias");
+  $.ajax({
+    type: "post",
+    url: "controlador/ajax/listar-materias.php",
+  }).done((data) => {
+    listadoMaterias.innerHTML = data;
+  });
+}
+///////////////////////////////////////////////////////////////////
+
+
+//ELIMINAR MATERIAS
+$(document).on('click', '#eliminarMateria', function () {
+
+  let elemento = $(this)[0].parentElement.parentElement;
+  let idMateria = elemento.querySelector('.idMateria').textContent;
+  let botonEliminar = $(this)[0].value;
+
+  Swal.fire({
+    icon: 'warning',
+    title: 'Estas seguro que deseas eliminar?',
+    showDenyButton: true,
+    confirmButtonText: `Eliminar`,
+    confirmButtonColor: 'red',
+    denyButtonText: `Cancelar`,
+    denyButtonColor: 'black'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("controlador/ajax/CRUD-materias.php", {
+        idMateria,
+        botonEliminar
+      }, function (response) {
+        listarMaterias();
+      })
+    }
+  })
+});
+
+
+//ELIMINAR PROFESORES VINCULADOS A LA MATERIA
+$(document).on('click', '#eliminarProfesorMateria', function () {
+
+  let elemento = $(this)[0].parentElement.parentElement;
+  let cedulaProf = elemento.querySelector('#cedulaProfesor').textContent;
+  let idMateria2 = elemento.querySelector('#idMateriaProfesor').textContent;
+  let eliminarProfMat = $(this)[0].value;
+
+  Swal.fire({
+    icon: 'warning',
+    title: 'Estas segur@ que deseas desvincular al profesor de la materia?',
+    showDenyButton: true,
+    confirmButtonText: `Eliminar`,
+    confirmButtonColor: 'red',
+    denyButtonText: `Cancelar`,
+    denyButtonColor: 'black'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("controlador/ajax/CRUD-materias.php", {
+        cedulaProf,
+        idMateria2,
+        eliminarProfMat
+      }, function (response) {
+        listarProfesoresMateria(idMateria2);
+      })
+    }
+  })
+});
+
+$("#culo").on("click", function (e) {
+  console.log($("#idMateriaRef").val());
+});
+//AGREGAR MATERIAS POR AJAX
+$("#agregarMateria").on("click", function (e) {
+  e.preventDefault();
+
+  const data = {
+    agregarMateria: $("#agregarMateria").val(),
+    nombreMateria: $("#nombreMateria").val(),
+    seleccionarNivel: $("#seleccionarNivel").val(),
+    cedulaProfesor: $("#seleccionarProf").val(),
+  };
+
+  if (campos[0] && campos[1]) {
+    $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
+
+      listarMaterias();
+      $('#formularioAgregarProf').trigger('reset');
+      $('#formularioAgregarProf').load('vista\materias.php');
+      $("#formularioMateria").trigger("reset");
+      document.getElementById('nombreMateria').classList.remove('validarBien');
+      document.getElementById('seleccionarNivel').classList.remove('validarBien');
+    });
+  } else {
+    const toast = Swal.mixin({
+      toast: true,
+      background: 'red',
+      color: 'white',
+      showConfirmButton: false,
+      timer: 2000,
+    });
+
+    toast.fire({
+      icon: 'error',
+      iconColor: 'white',
+      title: 'Debes cumplir con los requisitos de los campos',
+    })
+  }
+});
+
+//SELECT PARA AGREGAR LOS PROFESORES CON LAS MATERIAS
+var profesores = document.getElementById('seleccionarProf');
+var choices1 = new Choices(profesores, {
+  allowHTML: true,
+  maxItemText: 3,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
+  placeholderValue: 'Buscar profesor',
+});
+
 
 //ACTUALIZANDO MATERIAS
 $("#actualizarMateria").on("click", function (e) {
@@ -189,8 +268,8 @@ $("#actualizarMateria").on("click", function (e) {
       document.getElementById('nombreMateria2').classList.remove('validarBien');
       document.getElementById('seleccionarNivel2').classList.remove('validarBien');
     });
-  }else{
-    const toast= Swal.mixin({
+  } else {
+    const toast = Swal.mixin({
       toast: true,
       background: 'red',
       color: 'white',
@@ -214,36 +293,36 @@ $("#actualizarMateria").on("click", function (e) {
 /////////////////////////////////////////////
 
 const expresionesMaterias = {
-	nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,30}$/, // Letras y espacios, pueden llevar acentos.
+  nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,30}$/, // Letras y espacios, pueden llevar acentos.
 }
 
-var campos= {
+var campos = {
   nombreMateria: false,
   nivelMateria: false,
 }
 
 
 //VALIDAR NOMBRE DE LAS MATERIAS
-const inputsFC= document.querySelectorAll('#formularioMateria input');
+const inputsFC = document.querySelectorAll('#formularioMateria input');
 
-var validarNombreMateria= (evento) => {
+var validarNombreMateria = (evento) => {
 
   switch (evento.target.name) {
     case 'nombreMateria':
-        //console.log('Si funciona');
-        if (expresionesMaterias.nombreMateria.test(evento.target.value)) {
-          document.getElementById('nombreMateria').classList.remove('validarMal');
-          document.getElementById('nombreMateria').classList.add('validarBien');
-          document.getElementById("nomMateriaMal").setAttribute("hidden", "hidden");
-          campos[0]= true;
-        }else{
-          document.getElementById('nombreMateria').classList.remove('validarBien');
-          document.getElementById('nombreMateria').classList.add('validarMal');
-          document.getElementById("nomMateriaMal").removeAttribute("hidden");
-          campos[0]= false;
-        }
+      //console.log('Si funciona');
+      if (expresionesMaterias.nombreMateria.test(evento.target.value)) {
+        document.getElementById('nombreMateria').classList.remove('validarMal');
+        document.getElementById('nombreMateria').classList.add('validarBien');
+        document.getElementById("nomMateriaMal").setAttribute("hidden", "hidden");
+        campos[0] = true;
+      } else {
+        document.getElementById('nombreMateria').classList.remove('validarBien');
+        document.getElementById('nombreMateria').classList.add('validarMal');
+        document.getElementById("nomMateriaMal").removeAttribute("hidden");
+        campos[0] = false;
+      }
       break;
-   
+
   }
 }
 
@@ -255,20 +334,20 @@ inputsFC.forEach((evento) => {
 
 
 //VALIDAR SELECTS DE LA MATERIA
-const selectsFC= document.querySelectorAll('#formularioMateria select');
+const selectsFC = document.querySelectorAll('#formularioMateria select');
 
-var validarNivelMateria= (evento) => {
-  
-  if(evento.target.value == '1' || evento.target.value == '2' || evento.target.value == '3' || evento.target.value == 'Especial') {
+var validarNivelMateria = (evento) => {
+
+  if (evento.target.value == '1' || evento.target.value == '2' || evento.target.value == '3' || evento.target.value == 'Especial') {
     document.getElementById('seleccionarNivel').classList.remove('validarMal');
     document.getElementById('seleccionarNivel').classList.add('validarBien');
     document.getElementById("nivMateriaMal").setAttribute("hidden", "hidden");
-    campos[1]= true;
-  }else{
+    campos[1] = true;
+  } else {
     document.getElementById('seleccionarNivel').classList.remove('validarBien');
     document.getElementById('seleccionarNivel').classList.add('validarMal');
     document.getElementById("nivMateriaMal").removeAttribute("hidden");
-    campos[1]= false;
+    campos[1] = false;
   }
 
 }
@@ -289,10 +368,10 @@ selectsFC.forEach((evento) => {
 //INICIO DE VALIDACIONES AL ACTUALIZAR MATERIAS
 ///////////////////////////////////////////////
 const expresionesMaterias2 = {
-	nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,30}$/, // Letras y espacios, pueden llevar acentos.
+  nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,30}$/, // Letras y espacios, pueden llevar acentos.
 }
 
-var campos2= {
+var campos2 = {
   nombreMateria: false,
   nivelMateria: false,
 }
@@ -300,54 +379,54 @@ var campos2= {
 
 //VALIDAR NOMBRE DE LAS MATERIAS AL ACTUALIZAR
 
-var validarNombreMateria2= function () {
+var validarNombreMateria2 = function () {
   if (expresionesMaterias2.nombreMateria.test(document.getElementById('nombreMateria2').value)) {
     document.getElementById('nombreMateria2').classList.remove('validarMal');
     document.getElementById('nombreMateria2').classList.add('validarBien');
     document.getElementById("nomMateriaMal2").setAttribute("hidden", "hidden");
-    campos2[0]= true;
-  }else{
+    campos2[0] = true;
+  } else {
     document.getElementById('nombreMateria2').classList.remove('validarBien');
     document.getElementById('nombreMateria2').classList.add('validarMal');
     document.getElementById("nomMateriaMal2").removeAttribute("hidden");
-    campos2[0]= false;
+    campos2[0] = false;
   }
 }
 
-$('#nombreMateria2').keyup(function (e) { 
+$('#nombreMateria2').keyup(function (e) {
   validarNombreMateria2();
 });
-$('#nombreMateria2').blur(function (e) { 
+$('#nombreMateria2').blur(function (e) {
   validarNombreMateria2();
 });
 //FIN DE VALIDAR NOMBRES DE LAS MATERIAS AL ACTUALIZAR
 
 
 //VALIDAR SELECTS DE LA MATERIA AL ACTUALIZAR
-const selectsFA= document.getElementById('seleccionarNivel2');
+const selectsFA = document.getElementById('seleccionarNivel2');
 
-var validarNivelMateria2= function (){
+var validarNivelMateria2 = function () {
 
-  if(selectsFA.value == '1' || selectsFA.value == '2' || selectsFA.value == '3' || selectsFA.value == 'Especial') {
+  if (selectsFA.value == '1' || selectsFA.value == '2' || selectsFA.value == '3' || selectsFA.value == 'Especial') {
     document.getElementById('seleccionarNivel2').classList.remove('validarMal');
     document.getElementById('seleccionarNivel2').classList.add('validarBien');
     document.getElementById("nivMateriaMal2").setAttribute("hidden", "hidden");
-    campos2[1]= true;
-  }else{
+    campos2[1] = true;
+  } else {
     document.getElementById('seleccionarNivel2').classList.remove('validarBien');
     document.getElementById('seleccionarNivel2').classList.add('validarMal');
     document.getElementById("nivMateriaMal2").removeAttribute("hidden");
-    campos2[1]= false;
+    campos2[1] = false;
   }
 }
 
-$('#seleccionarNivel2').click(function (e) { 
+$('#seleccionarNivel2').click(function (e) {
   validarNivelMateria2();
 });
-$('#seleccionarNivel2').blur(function (e) { 
+$('#seleccionarNivel2').blur(function (e) {
   validarNivelMateria2();
 });
-$('.cancelarActualizar').click(function (e) { 
+$('.cancelarActualizar').click(function (e) {
   document.getElementById('nombreMateria2').classList.remove('validarMal');
   document.getElementById('nombreMateria2').classList.remove('validarBien');
   document.getElementById("nomMateriaMal2").setAttribute("hidden", "hidden");
@@ -368,5 +447,3 @@ const expresiones = {
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^\d{7,14}$/ // 7 a 14 numeros.
 }*/
-
-  

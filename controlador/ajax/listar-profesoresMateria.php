@@ -3,7 +3,7 @@ require_once('../../modelo/clase_ecam.php');
 $objeto= new ecam;
 
 $idMateriaProf= $_POST['idMateriaProf'];
-$listarProfMat= $objeto->listarProfesores($idMateriaProf);
+$listarProfMat= $objeto->listarProfesoresMateria($idMateriaProf);
 
 if (!empty($listarProfMat)) {
     foreach ($listarProfMat as $profesorMateria) { ?>

@@ -48,25 +48,25 @@
             </div>
 
             <div class="row">
+                <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
                 <div class="col-4">
                     <div class="card bg-dark">
                         <div class="card-header text-center">
                             <label class="form-label fw-bold text-white">AGREGAR MATERIAS</label>
                         </div>
 
-                        <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
-                        <form id="formularioMateria">
-                            <div class="card-body">
+                        <div class="card-body">
+                            <form id="formularioMateria">
                                 <div class="row">
                                     <div class="col">
-                                        <label class="form-label fw-bold text-white" for="nombreMateria">Nombre de la materia</label>
+                                        <label class="form-label fst-italic fw-bold text-white" for="nombreMateria">Nombre de la materia</label>
                                         <input type="text" name="nombreMateria" id="nombreMateria" class="form-control inputMateria" placeholder="N0MBR3">
                                         <p hidden id="nomMateriaMal" class="text-danger">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col">
-                                        <label class="form-label fw-bold text-white" for="seleccionarNivel">Nivel de doctrina</label>
+                                        <label class="form-label fst-italic fw-bold text-white" for="seleccionarNivel">Nivel de doctrina</label>
                                         <select class="form-select selectNivel" name="seleccionarNivel" id="seleccionarNivel">
                                             <option selected value="ninguno">Selecciona el nivel</option>
                                             <option value="1">1</option>
@@ -77,22 +77,25 @@
                                         <p hidden id="nivMateriaMal" class="text-danger">Deberias seleccionar un nivel de doctrina</p>
                                     </div>
                                 </div>
-                                <div class="row mt-3">
-                                    <label class="form-label fw-bold text-white">Profesores que dictan la materia</label>
-                                    <select multiple id="seleccionarProf" class="form-control">
-                                        <?php foreach ($profesores as $prof) : ?>
-                                            <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre']; ?></option>
-                                        <?php endforeach; ?>
-                                    </select>
-                                </div>
+                            </form>
+                            <div class="row mt-3">
+                                <form id="formularioAgregarProf">
+                                <label class="form-label fst-italic fw-bold text-white">Profesores que dictan la materia</label>
+                                <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
+                                    <?php foreach ($profesores as $prof) : ?>
+                                        <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                </form>
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn-success botonGuardar" id="agregarMateria">GUARDAR</button>
-                            </div>
-                        </form>
-                        <!--FIN DEl FORMULARIO PARA AGREGAR MATERIAS -->
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-success botonGuardar" id="agregarMateria">GUARDAR</button>
+                        </div>
                     </div>
                 </div>
+                <!--FIN DEl FORMULARIO PARA AGREGAR MATERIAS -->
+
 
                 <div class="col">
                     <div class="contenedorMaterias">
@@ -119,7 +122,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
@@ -163,6 +165,7 @@
     <!-- FIN DEL MODAL DE EDITAR DATOS DE LA MATERIA -->
 
 
+
     <!-- MODAL DE EDITAR PROFESORES QUE DICTAN LA MATERIA -->
     <div class="modal fade" id="modalProf" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -172,7 +175,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3">
+                    <div class="mb-4">
                         <table class="table table-success table-striped text-center">
                             <thead class="table-dark">
                                 <tr>
@@ -182,22 +185,19 @@
                                     <th>Opcion</th>
                                 </tr>
                             <tbody id="datos2">
-                            <!-- TABLA DE LOS PROFESORES ASIGNADOS A ESA MATERIA -->
+                                <!-- TABLA DE LOS PROFESORES ASIGNADOS A ESA MATERIA -->
                             </tbody>
                             </thead>
                         </table>
                     </div>
-                    <div class="div">
-                        <label class="form-label fw-bold text-white">Profesores que dictan la materia</label>
-                        <select multiple id="seleccionarProf" class="form-control">
-                            <?php foreach ($profesores as $prof) : ?>
-                                <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                    <hr>
+                        <label class="form-label fst-italic fw-bold">Agregar profesores</label>
+                        <div id="datos3">
+                            
+                        </div>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-success botonActualizar" id="" value="">AGREGAR PROFESORES</button>
+                    <button type="submit" class="btn btn-success botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>
                 </div>
             </div>
         </div>
