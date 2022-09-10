@@ -89,9 +89,6 @@ function datos() {
     title: {
       text: 'Numero de celulas creadas',
     },
-    xAxys: {
-      type: 'category',
-    },
     yAxys: {
       title: {
         text: 'cantidad',
@@ -99,7 +96,7 @@ function datos() {
     },
     plotOptions: {
       series: {
-        borderWidth: 1,
+        borderWidth: 50,
         dataLabels: {
           enabled: true,
           format: '{point.y:of}',
