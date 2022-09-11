@@ -491,19 +491,15 @@ class Discipulado extends Usuarios
            FROM celula_consolidacion
            WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
 
-        $stmt = $this->conexion()->prepare($sql);
+        $stmt = $this->conexion()   ->prepare($sql);
 
         $stmt->execute(array());
-        while ($fila = $stmt->fetch(PDO::FETCH_ASSOC)) {
-          
-            array_push($resultado, array(
-                $fila['Enero'], $fila['Febrero'],
-                $fila['Marzo'], $fila['Abril'], $fila['Mayo'], $fila['Junio'],
-                $fila['Julio'], $fila['Agosto'], $fila['Septiembre'], $fila['Octubre'],
-                $fila['Noviembre'], $fila['Diciembre']
-            ));
-        }
-        $resultado2[] = array("Enero"=>'1');
+       $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado2 = [];  
+       foreach($fila as $elemento) {
+        $resultado2[]=['name'=>$elemento];
+    }
+            
         return $resultado2;
     }
 }

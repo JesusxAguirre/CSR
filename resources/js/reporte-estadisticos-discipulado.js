@@ -69,7 +69,7 @@ formulario.addEventListener('click', (e) => {
         options.series[0].data = data;
         chart1 =new Highcharts.Chart(options);
         console.log(data);
-       
+        console.log(data[0]); 
       })
       datos();
 
@@ -112,7 +112,7 @@ function datos() {
     series:[{
       name: "Celulas",
       colorByPoint:true,
-      data:[],
+      data:{},
   }]   
   }
 
