@@ -125,7 +125,7 @@
       </div>
     </div>
   </div>
-  <script type="module" src="resources\library\highchart\code\highcharts.js"></script>
+  <script type="module" src="resources/js/chart.min.js"></script>
   <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
 
   

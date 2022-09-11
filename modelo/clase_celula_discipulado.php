@@ -500,6 +500,6 @@ class Discipulado extends Usuarios
         $resultado2[]=['name'=>$elemento];
     }
             
-        return $fila;
+        return $resultado2;
     }
 }

@@ -64,24 +64,64 @@ formulario.addEventListener('click', (e) => {
         },
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
         type: "post",
-        dataType:"json",
+        dataType: "json",
       }).done(data => {
-        options.series[0].data = data;
-        chart1 =new Highcharts.Chart(options);
+        var titulo = [];
+        var cantidad = [];
         console.log(data);
-        console.log(data[0]); 
+        for (var i = 0; i < data.lenght; i++) {
+          titulo.push(data[i][1]);
+          cantidad.push(data[i][2]);
+        }
+        var v_modal = $('#discipulado-grafico').modal({ show: false });
+        const ctx = document.getElementById('grafico');
+        const myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: titulo,
+            datasets: [{
+              label: 'Cantidad de celulas creadas',
+              data: cantidad,
+              backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+
+
+
+        v_modal.on("show", function () { })
+        v_modal.modal("show");
       })
-      datos();
-
-
-
     })
   }
 })
 
 
 function datos() {
-  var v_modal = $('#discipulado-grafico').modal({ show: false });
 
   options = {
     chart: {
@@ -109,16 +149,15 @@ function datos() {
       headerFormat: "<span style='font-size: 11px'> {series.name}</span> <br>",
       pointFormat: "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y.0f}</b>",
     },
-    series:[{
+    series: [{
       name: "Celulas",
-      colorByPoint:true,
-      data:{},
-  }]   
+      colorByPoint: true,
+      data: {},
+    }]
   }
 
 
-  v_modal.on("show", function () { })
-  v_modal.modal("show");
+
 }
 
 
