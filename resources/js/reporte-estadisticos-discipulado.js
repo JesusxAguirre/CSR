@@ -3,6 +3,7 @@
 const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
 var chart1;
 var options;
+var enero;
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
@@ -68,6 +69,7 @@ formulario.addEventListener('click', (e) => {
         options.series[0].data = data;
         chart1 =new Highcharts.Chart(options);
         console.log(data);
+       
       })
       datos();
 
@@ -107,11 +109,11 @@ function datos() {
       headerFormat: "<span style='font-size: 11px'> {series.name}</span> <br>",
       pointFormat: "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y.0f}</b>",
     },
-    series: [{
+    series:[{
       name: "Celulas",
-      colorByPoint: true,
-      data: [],
-    }]
+      colorByPoint:true,
+      data:[],
+  }]   
   }
 
 
