@@ -6,5 +6,6 @@ $fecha_inicio = $_POST['fecha_inicio'];
 $fecha_final = $_POST['fecha_final'];
 
 $resultado = $objeto->listar_asistencias_meses($fecha_inicio, $fecha_final);
-print_r($resultado);
+
+print_r(json_encode($resultado));
 ?>

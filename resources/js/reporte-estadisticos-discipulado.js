@@ -63,15 +63,15 @@ formulario.addEventListener('click', (e) => {
           fecha_final: fecha_final2,
         },
         url: "controlador/ajax/mostrar-grafico-discipulado.php",
-        type: "POST",
+        type: "post",
+        dataType:"json",
       }).done(data => {
-        respuesta.innerHTML = data;
-      /*   options.series[0].data = data;
+        options.series[0].data = data;
         chart1 =new Highcharts.Chart(options);
         console.log(data);
-        console.log(data[0]);  */
+        console.log(data[0]); 
       })
-      //datos();
+      datos();
 
 
 
@@ -79,7 +79,7 @@ formulario.addEventListener('click', (e) => {
   }
 })
 
-/* 
+
 function datos() {
   var v_modal = $('#discipulado-grafico').modal({ show: false });
 
@@ -119,7 +119,7 @@ function datos() {
 
   v_modal.on("show", function () { })
   v_modal.modal("show");
-} */
+}
 
 
 
