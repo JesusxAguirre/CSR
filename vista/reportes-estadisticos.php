@@ -125,8 +125,10 @@
       </div>
     </div>
   </div>
-  <script type="module" src="resources/js/chart.min.js"></script>
+  <script type="module" src="node_modules\highcharts\modules\accessibility.js"></script>
   <script type="module" src="node_modules\highcharts\highcharts.js"></script>
+  <script type="module" src="node_modules\highcharts\modules\export-data.js"></script>
+  <script type="module" src="node_modules\highcharts\modules\exporting.js"></script>
   <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
 
   
