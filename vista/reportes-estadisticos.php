@@ -120,7 +120,6 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" >
-        <canvas id="grafico"></canvas>  
         <div id="grafico2"></div>
       </div>
       </div>
