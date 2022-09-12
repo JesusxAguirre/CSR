@@ -474,32 +474,54 @@ class Discipulado extends Usuarios
 
     public function listar_asistencias_meses($fecha_inicio, $fecha_final)
     {
-        $resultado = array();
         $sql = ("SELECT 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
-            SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
-           FROM celula_consolidacion
-           WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+           FROM celula_discipulado
+           WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
 
-        $stmt = $this->conexion()   ->prepare($sql);
+        $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-       $fila = $stmt->fetch(PDO::FETCH_ASSOC);
-        $resultado2 = [];  
-       foreach($fila as $elemento) {
-        $resultado2[]=['name'=>$elemento];
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
     }
-            
-        return $fila;
+    public function listar_numero_discipulos($fecha_inicio,$fecha_final)
+    {
+        $sql = ("SELECT usuarios.id_discipulado
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+       FROM celula_discipulado 
+       INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+       WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
     }
 }
