@@ -69,12 +69,14 @@ formulario.addEventListener('click', (e) => {
         var titulo = [];
         var cantidad = [];
         console.log(data);
-        for (var i = 0; i < data.lenght; i++) {
-          titulo.push(data[i][1]);
-          cantidad.push(data[i][2]);
+        for (prop in data) {
+          titulo.push(prop);
+          cantidad.push(data[prop]);
         }
+        console.log(titulo);
+        console.log(cantidad);
         var v_modal = $('#discipulado-grafico').modal({ show: false });
-        const ctx = document.getElementById('grafico');
+        const ctx = document.getElementById('grafico').getContext('2d');
         const myChart = new Chart(ctx, {
           type: 'bar',
           data: {

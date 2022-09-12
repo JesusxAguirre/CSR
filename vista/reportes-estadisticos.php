@@ -120,12 +120,14 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body" >
-        <div id="grafico"></div>  
+        <canvas id="grafico"></canvas>  
+        <div id="grafico2"></div>
       </div>
       </div>
     </div>
   </div>
   <script type="module" src="resources/js/chart.min.js"></script>
+  <script type="module" src="node_modules\highcharts\highcharts.js"></script>
   <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
 
   
