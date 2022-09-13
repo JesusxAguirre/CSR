@@ -149,7 +149,7 @@
       </div>
     </div>
   </div>
-  <!-- Modal para formulario de fechas de discipulados creados-->
+  <!-- Modal para formulario de fechas de celulas de consolidacion creados-->
   <div class="modal fade" id="consolidacion-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
@@ -197,7 +197,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulado</h5>
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -211,12 +211,26 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico numero de discipulado</h5>
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de discipulos</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
 
           <div id="grafico2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal grafico de consolidacion -->
+  <div class="modal fade" id="discipulado-grafico2" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de consolidacion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico3"></div>
         </div>
       </div>
     </div>
