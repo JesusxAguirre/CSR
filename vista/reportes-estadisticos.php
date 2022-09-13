@@ -62,11 +62,13 @@
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between mb-2">
               </div>
-              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico celula discipulado</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico cantidad de celulas de discipulado</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Reporte estadistico numero de discipulos</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Reporte estadistico cantidad de celulas de consolidacion</a>
 
               <div id="respuesta"></div>
               <div id="respuesta2"></div>
+              <div id="respuesta3"></div>
 
             </div>
           </div>
@@ -119,7 +121,7 @@
           <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico para cantidad de discipulos</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div  class="modal-body">
+        <div class="modal-body">
           <div id="formulario2" class="container-fluid">
             <div class="mb-3 row">
               <div id="grupo__fecha_inicio2" class="col-sm ">
@@ -147,7 +149,42 @@
       </div>
     </div>
   </div>
-
+  <!-- Modal para formulario de fechas de discipulados creados-->
+  <div class="modal fade" id="consolidacion-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario3" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio3" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio3" id="fecha_inicio3" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final3" id="fecha_final3" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar3" name="consultar" 3 type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -163,7 +200,7 @@
           <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div  class="modal-body">
+        <div class="modal-body">
           <div id="grafico"></div>
         </div>
       </div>
