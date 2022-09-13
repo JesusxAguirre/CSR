@@ -472,7 +472,7 @@ class Discipulado extends Usuarios
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
 
 
-    public function listar_asistencias_meses($fecha_inicio, $fecha_final)
+    public function listar_cantidad_celulas_discipulado($fecha_inicio, $fecha_final)
     {
         $sql = ("SELECT 
             SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
