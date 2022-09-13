@@ -21,6 +21,12 @@ const ValidarFormulario = (e) => {
     case "fecha_final":
       ValidarSelect(e.target, 'fecha_final');
       break;
+    case "fecha_inicio2":
+      ValidarSelect(e.target, 'fecha_inicio2');
+      break;
+    case "fecha_final2":
+      ValidarSelect(e.target, 'fecha_final2');
+      break;
   }
 }
 
@@ -110,46 +116,76 @@ formulario.addEventListener('click', (e) => {
     })
   }
 })
+formulario2.addEventListener('click', (e) => {
+  if (!(campos.fecha_inicio && campos.fecha_final)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  } else {
+    //busqueda ajax 
+    const fecha_inicio = document.getElementById('fecha_inicio2')
+    const fecha_final = document.getElementById('fecha_final2')
+    const enviar = document.getElementById('consultar2')
+    const respuesta = document.getElementById('respuesta2');
+    enviar.addEventListener('click', () => {
 
+      let fecha_inicio2 = fecha_inicio.value
+      let fecha_final2 = fecha_final.value
 
-function datos() {
-
-  options = {
-    chart: {
-      renderTo: 'grafico',
-      type: 'column',
-    },
-    title: {
-      text: 'Numero de celulas creadas',
-    },
-    yAxys: {
-      title: {
-        text: 'cantidad',
-      }
-    },
-    plotOptions: {
-      series: {
-        borderWidth: 50,
-        dataLabels: {
-          enabled: true,
-          format: '{point.y:of}',
+      $.ajax({
+        data: {
+          fecha_inicio: fecha_inicio2,
+          fecha_final: fecha_final2,
+        },
+        url: "controlador/ajax/mostrar-grafico-discipulado.php",
+        type: "post",
+        dataType: "json",
+      }).done(data => {
+        var titulo = [];
+        var cantidad = [];
+        console.log(data);
+        for (prop in data) {
+          titulo.push(prop);
+          cantidad.push(data[prop]);
         }
-      }
-    },
-    tooltip: {
-      headerFormat: "<span style='font-size: 11px'> {series.name}</span> <br>",
-      pointFormat: "<span style='color:{point.color}'>{point.name}</span>: <b>{point.y.0f}</b>",
-    },
-    series: [{
-      name: "Celulas",
-      colorByPoint: true,
-      data: {},
-    }]
+        console.log(titulo);
+        console.log(cantidad);
+        var v_modal = $('#discipulado-grafico').modal({ show: false });
+        Highcharts.chart('grafico2', {
+          chart: {
+            type: 'column'
+          },
+          title: {
+            text: 'Cantidad de celulas de discipulado'
+          },
+          xAxis: {
+            categories: titulo
+          },
+          yAxis: {
+            title: {
+              text: 'Cantidad'
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: 'Celulas de discipulado',
+            data: cantidad
+          }],
+        });
+
+
+
+        v_modal.on("show", function () { })
+        v_modal.modal("show");
+      })
+    })
   }
-
-
-
-}
+})
 
 
 
@@ -157,6 +193,11 @@ inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 
+});
+
+inputs2.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
 });
 
 

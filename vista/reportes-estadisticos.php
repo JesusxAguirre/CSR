@@ -122,19 +122,19 @@
         <div class="modal-body">
           <div id="formulario2" class="container-fluid">
             <div class="mb-3 row">
-              <div id="grupo__fecha_inicio" class="col-sm ">
+              <div id="grupo__fecha_inicio2" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
                   <i class="input-icon fs-5"></i>
-                  <input name="fecha_inicio" id="fecha_inicio" class="form-control" type="month" />
+                  <input name="fecha_inicio2" id="fecha_inicio2" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
-              <div id="grupo__fecha_final" class="col-sm ">
+              <div id="grupo__fecha_final2" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
                   <i class="input-icon fs-5"></i>
-                  <input name="fecha_final" id="fecha_final" class="form-control" type="month" />
+                  <input name="fecha_final2" id="fecha_final2" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
