@@ -80,7 +80,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulados creadis</h5>
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -116,11 +116,11 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico para numero de discipulados</h5>
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico para cantidad de discipulados</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div id="formulario" class="container-fluid">
+          <div id="formulario2" class="container-fluid">
             <div class="mb-3 row">
               <div id="grupo__fecha_inicio" class="col-sm ">
                 <div class="relative">

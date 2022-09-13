@@ -1,10 +1,12 @@
 
 // Actualizar contenido del modal Editar
 const formulario = document.getElementById('consultar'); //declarando una constante con la id formulario
+const formulario2 = document.getElementById('consultar2'); //declarando una constante con la id formulario
 var chart1;
 var options;
 var enero;
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
+const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
   fecha_inicio: false,
