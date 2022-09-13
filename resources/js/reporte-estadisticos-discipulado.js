@@ -11,6 +11,8 @@ const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando un
 const campos = {
   fecha_inicio: false,
   fecha_final: false,
+  fecha_inicio2: false,
+  fecha_final2: false,
 }
 
 const ValidarFormulario = (e) => {
@@ -117,7 +119,7 @@ formulario.addEventListener('click', (e) => {
   }
 })
 formulario2.addEventListener('click', (e) => {
-  if (!(campos.fecha_inicio && campos.fecha_final)) {
+  if (!(campos.fecha_inicio2 && campos.fecha_final2)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -126,21 +128,21 @@ formulario2.addEventListener('click', (e) => {
     })
   } else {
     //busqueda ajax 
-    const fecha_inicio = document.getElementById('fecha_inicio2')
-    const fecha_final = document.getElementById('fecha_final2')
+    const fecha_inicio2 = document.getElementById('fecha_inicio2')
+    const fecha_final2 = document.getElementById('fecha_final2')
     const enviar = document.getElementById('consultar2')
     const respuesta = document.getElementById('respuesta2');
     enviar.addEventListener('click', () => {
 
-      let fecha_inicio2 = fecha_inicio.value
-      let fecha_final2 = fecha_final.value
+      let fecha_inicio = fecha_inicio2.value
+      let fecha_final = fecha_final2.value
 
       $.ajax({
         data: {
-          fecha_inicio: fecha_inicio2,
-          fecha_final: fecha_final2,
+          fecha_inicio: fecha_inicio,
+          fecha_final: fecha_final,
         },
-        url: "controlador/ajax/mostrar-grafico-discipulado.php",
+        url: "controlador/ajax/mostrar-grafico-cantidad-discipulos.php",
         type: "post",
         dataType: "json",
       }).done(data => {
@@ -153,7 +155,7 @@ formulario2.addEventListener('click', (e) => {
         }
         console.log(titulo);
         console.log(cantidad);
-        var v_modal = $('#discipulado-grafico').modal({ show: false });
+        var v_modal = $('#discipulado-grafico2').modal({ show: false });
         Highcharts.chart('grafico2', {
           chart: {
             type: 'column'
