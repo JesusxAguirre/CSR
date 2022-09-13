@@ -86,7 +86,7 @@ formulario.addEventListener('click', (e) => {
         console.log(titulo);
         console.log(cantidad);
         var v_modal = $('#discipulado-grafico').modal({ show: false });
-        Highcharts.chart('grafico2', {
+        Highcharts.chart('grafico', {
           chart: {
             type: 'column'
           },
@@ -157,11 +157,8 @@ formulario2.addEventListener('click', (e) => {
         console.log(cantidad);
         var v_modal = $('#discipulado-grafico2').modal({ show: false });
         Highcharts.chart('grafico2', {
-          chart: {
-            type: 'column'
-          },
           title: {
-            text: 'Cantidad de celulas de discipulado'
+            text: 'Cantidad de discipulos'
           },
           xAxis: {
             categories: titulo
@@ -175,7 +172,7 @@ formulario2.addEventListener('click', (e) => {
             enabled: false
           },
           series: [{
-            name: 'Celulas de discipulado',
+            name: 'Cantidad de discipulos',
             data: cantidad
           }],
         });

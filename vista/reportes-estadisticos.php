@@ -119,7 +119,7 @@
           <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico para cantidad de discipulados</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div  class="modal-body">
           <div id="formulario2" class="container-fluid">
             <div class="mb-3 row">
               <div id="grupo__fecha_inicio2" class="col-sm ">
@@ -163,8 +163,8 @@
           <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div id="grafico2"></div>
+        <div  class="modal-body">
+          <div id="grafico"></div>
         </div>
       </div>
     </div>
@@ -178,16 +178,16 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div id="grafico3"></div>
+          <div id="grafico2"></div>
         </div>
       </div>
     </div>
   </div>
-  <script type="module" src="node_modules\highcharts\modules\accessibility.js"></script>
+  <script type="module" src="node_modules\highcharts\es-modules\Accessibility\Accessibility.js"></script>
   <script type="module" src="node_modules\highcharts\highcharts.js"></script>
   <script type="module" src="node_modules\highcharts\modules\export-data.js"></script>
   <script type="module" src="node_modules\highcharts\modules\exporting.js"></script>
-  <script src="resources/js/reporte-estadisticos-discipulado.js"></script>
+  <script src="resources/js/reporte-estadisticos-celulas.js"></script>
 
 
 </body>
