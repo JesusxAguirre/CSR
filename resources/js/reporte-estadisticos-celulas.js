@@ -116,7 +116,9 @@ formulario.addEventListener('click', (e) => {
           },
           series: [{
             name: 'Celulas de discipulado',
-            data: cantidad
+            data: cantidad,
+            colorByPoint: true,
+
           }],
         });
 
@@ -183,7 +185,9 @@ formulario2.addEventListener('click', (e) => {
           },
           series: [{
             name: 'Cantidad de discipulos',
-            data: cantidad
+            data: cantidad,
+            colorByPoint: true,
+
           }],
         });
 
@@ -219,7 +223,7 @@ formulario3.addEventListener('click', (e) => {
           fecha_inicio: fecha_inicio,
           fecha_final: fecha_final,
         },
-        url: "controlador/ajax/mostrar-grafico-cantidad-discipulos.php",
+        url: "controlador/ajax/mostrar-grafico-consolidacion.php",
         type: "post",
         dataType: "json",
       }).done(data => {
@@ -232,10 +236,13 @@ formulario3.addEventListener('click', (e) => {
         }
         console.log(titulo);
         console.log(cantidad);
-        var v_modal = $('#discipulado-grafico2').modal({ show: false });
-        Highcharts.chart('grafico2', {
+        var v_modal = $('#consolidacion-grafico').modal({ show: false });
+        Highcharts.chart('grafico3', {
+          chart: {
+            type: 'area'
+          },
           title: {
-            text: 'Cantidad de discipulos'
+            text: 'Cantidad de celulas de consolidacion'
           },
           xAxis: {
             categories: titulo
@@ -249,8 +256,9 @@ formulario3.addEventListener('click', (e) => {
             enabled: false
           },
           series: [{
-            name: 'Cantidad de discipulos',
-            data: cantidad
+            name: "cantidad de celulas de consolidacion",
+            data: cantidad,
+            colorByPoint: true,
           }],
         });
 

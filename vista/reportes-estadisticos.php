@@ -168,7 +168,7 @@
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
-              <div id="grupo__fecha_final" class="col-sm ">
+              <div id="grupo__fecha_final3" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
                   <i class="input-icon fs-5"></i>
@@ -222,7 +222,7 @@
     </div>
   </div>
   <!-- Modal grafico de consolidacion -->
-  <div class="modal fade" id="discipulado-grafico2" aria-hidden="true" aria-labelledby="" tabindex="-1">
+  <div class="modal fade" id="consolidacion-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
