@@ -178,12 +178,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
+
           <div id="grafico2"></div>
         </div>
       </div>
     </div>
   </div>
-  <script type="module" src="node_modules\highcharts\es-modules\Accessibility\Accessibility.js"></script>
   <script type="module" src="node_modules\highcharts\highcharts.js"></script>
   <script type="module" src="node_modules\highcharts\modules\export-data.js"></script>
   <script type="module" src="node_modules\highcharts\modules\exporting.js"></script>
