@@ -552,7 +552,7 @@ $resultado = array();
       //------------------------------------------------------Reportes estadisticos consultas ----------------------//
 
 
-      public function listar_listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
+      public function listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
       {
           $sql = ("SELECT 
               SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
