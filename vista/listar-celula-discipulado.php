@@ -247,7 +247,7 @@
       </div>
     </div>
   </div>
- 
+ <div id="modal_eliminar_participantes"></div>
 <!-- Modal Eliminar  Participante -->
 <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
 		<div class="modal-dialog">

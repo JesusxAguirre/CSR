@@ -3,12 +3,15 @@ const formulario = document.getElementById('editForm'); //declarando una constan
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
 const formulario4 = document.getElementById('eliminar_participante')
-const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
-const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
+
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
+
+
+
+const modal_eliminar_participates = document.getElementById('modal_eliminar_participantes')
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
 
@@ -49,18 +52,7 @@ const expresiones = { //objeto con varias expresiones regulares
   codigo2: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
 }
 
-agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
-  let fila = boton.parentElement.parentElement
-  let id = fila.querySelector('.id')
-  const idInput = document.getElementById('idInput2')
-  idInput.value = id.textContent
-}))
-agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
-  let fila = boton.parentElement.parentElement
-  let id = fila.querySelector('.id')
-  const idInput = document.getElementById('idInput3')
-  idInput.value = id.textContent
-}))
+
 
 
 
@@ -216,7 +208,7 @@ busquedaEl.addEventListener('keyup', () => {
 
   $.ajax({
     data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-consolidacion.php",
+    url: "controlador/ajax/buscar-discipulado.php",
     type: "get",
   }).done(data => {
     datosEl.innerHTML = data
@@ -255,85 +247,115 @@ if (registrar_asistencia == false) {
 const deleteButton = document.getElementById('deleteButton')
 
 deleteButton.addEventListener('click', () => {
-	let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
+  let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
 
-	$.ajax({
-		data: 'participante_cedula='+participante_cedula,
-		url: "controlador/ajax/eliminar-participante-discipulado.php",
-		type: "post",
-	}).done(data => {
-		if (data == '1') {
-			fireAlert('success', 'Participante  eliminado correctamente')
-		} else {
-			console.log(data)
-			fireAlert('error', 'El participante que intenta eliminar no existe')
-		}
-	}).then(() => {
-		document.querySelector('#eliminar .btn-close').click()
+  $.ajax({
+    data: 'participante_cedula=' + participante_cedula,
+    url: "controlador/ajax/eliminar-participante-discipulado.php",
+    type: "post",
+  }).done(data => {
+    if (data == '1') {
+      fireAlert('success', 'Participante  eliminado correctamente')
+    } else {
+      console.log(data)
+      fireAlert('error', 'El participante que intenta eliminar no existe')
+    }
+  }).then(() => {
+    document.querySelector('#eliminar .btn-close').click()
 
-		buscarDiscipulado('')
-	})
+    buscarDiscipulado('')
+  })
 })
 
 function fireAlert(icon, msg) {
-	Swal.fire({
-		icon: icon,
-		title: msg
-	})
+  Swal.fire({
+    icon: icon,
+    title: msg
+  })
 }
 
 
+function buscarParticipantes(busqueda) {
+  return $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-roles.php",
+    type: "get"
+  }).done(data => {
+    modal_eliminar_participates.innerHTML = data
+    var v_modal = $('#eliminar_usuario').modal({ show: false });
+    v_modal.on("show", function () { })
+    v_modal.modal("show");
+    addEvents()
+  })
+}
 
 function addEvents() {
-	// Actualizar contenido del modal Editar
-	const editButtons = document.querySelectorAll('table td .edit-btn')
+  // Actualizar contenido del modal Editar
+  const editButtons = document.querySelectorAll('table td .edit-btn')
 
   editButtons.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
-  
+
     let dia = fila.querySelector('.dia')
     let hora = fila.querySelector('.hora')
     let lider = fila.querySelector('.lider')
     let anfitrion = fila.querySelector('.anfitrion')
     let asistente = fila.querySelector('.asistente')
-  
-  
+
+
     const idInput = document.getElementById('idInput')
-  
+
     const diaInput = document.getElementById('diaInput')
     const horaInput = document.getElementById('horaInput')
     const liderInput = document.getElementById('codigoLider')
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
-  
+
     liderInput.value = lider.textContent
     anfitrionInput.value = anfitrion.textContent
     asistenteInput.value = asistente.textContent
     idInput.value = id.textContent
-  
+
     diaInput.value = dia.textContent
     horaInput.value = hora.textContent
     //cedulas de usuarios
-  
-  
+
+
   }))
 
-	// Actualizar contenido del modal Eliminar
-	const deleteButtons = document.querySelectorAll('table td .delete-btn')
+  // Actualizar contenido del modal Eliminar
+  const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
-	deleteButtons.forEach(boton => boton.addEventListener('click', () => {
-		let fila = boton.parentElement.parentElement
-		let cedula_participante = fila.querySelector('.participantes_cedula')
-		let nombre = fila.querySelector('.participantes_nombre')
-		let apellido = fila.querySelector('.participantes_apellido')
-    
-		const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
-		const nombre_participante = document.getElementById('deleteParticipanteName')
-		const apellido_participante = document.getElementById('deleteParticipanteApellido')
+  deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let cedula_participante = fila.querySelector('.participantes_cedula')
+    let nombre = fila.querySelector('.participantes_nombre')
+    let apellido = fila.querySelector('.participantes_apellido')
 
-		cedulaInput.value = cedula_participante.textContent
-		nombre_participante.textContent = nombre.textContent
-		apellido_participante.textContent = apellido.textContent
-	}))
+    const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
+    const nombre_participante = document.getElementById('deleteParticipanteName')
+    const apellido_participante = document.getElementById('deleteParticipanteApellido')
+
+    cedulaInput.value = cedula_participante.textContent
+    nombre_participante.textContent = nombre.textContent
+    apellido_participante.textContent = apellido.textContent
+  }))
+
+  const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
+
+  agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+    const idInput = document.getElementById('idInput2')
+    idInput.value = id.textContent
+  }))
+
+  const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
+  agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+    const idInput = document.getElementById('idInput3')
+    idInput.value = id.textContent
+  }))
 }
