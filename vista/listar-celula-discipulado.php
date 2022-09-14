@@ -292,7 +292,29 @@
       </div>
     </div>
   </div>
-
+<!-- Modal Eliminar  Participante -->
+<div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger text-light">
+					<h5 class="modal-title" id="Modaleliminar">¿Eliminar Rol?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body fs-5">
+					<p>Se eliminará el rol <b id="deleteParticipanteName"></b> permanetemente.</p>
+					<form method="post" id="deleteForm">
+						<input type="hidden" name="id" class="id">
+						<input type="hidden" name="delete">
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-danger" id="deleteButton">Confirmar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Modal Eliminar Participante -->
 
   <!-- Modal agregar_asistencia -->
   <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">

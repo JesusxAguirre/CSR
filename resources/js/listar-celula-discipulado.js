@@ -1,5 +1,4 @@
 // Actualizar contenido del modal Editar
-const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
@@ -50,36 +49,6 @@ const expresiones = { //objeto con varias expresiones regulares
   codigo2: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
 }
 
-editButtons.forEach(boton => boton.addEventListener('click', () => {
-  let fila = boton.parentElement.parentElement
-  let id = fila.querySelector('.id')
-
-  let dia = fila.querySelector('.dia')
-  let hora = fila.querySelector('.hora')
-  let lider = fila.querySelector('.lider')
-  let anfitrion = fila.querySelector('.anfitrion')
-  let asistente = fila.querySelector('.asistente')
-
-
-  const idInput = document.getElementById('idInput')
-
-  const diaInput = document.getElementById('diaInput')
-  const horaInput = document.getElementById('horaInput')
-  const liderInput = document.getElementById('codigoLider')
-  const anfitrionInput = document.getElementById('codigoAnfitrion')
-  const asistenteInput = document.getElementById('codigoAsistente')
-
-  liderInput.value = lider.textContent
-  anfitrionInput.value = anfitrion.textContent
-  asistenteInput.value = asistente.textContent
-  idInput.value = id.textContent
-
-  diaInput.value = dia.textContent
-  horaInput.value = hora.textContent
-  //cedulas de usuarios
-
-
-}))
 agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
@@ -228,25 +197,7 @@ formulario3.addEventListener('submit', (e) => {
     })
   }
 })
-$('#eliminar_participante').on('submit', function (e) {
-  e.preventDefault()
-  Swal.fire({
-    title: '¿Estás seguro(a)?',
-    text: "¡No podrás revertir esta accion!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '¡Sí, eliminalo!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      //aqui ira el return true para activar el evento
-      $(this).unbind('submit').submit();
 
-    }
-  })
-
-})
 
 
 
@@ -338,4 +289,56 @@ if (registrar_asistencia == false) {
   function recarga() {
     window.location = "index.php?pagina=listar-celula-discipulado";
   }
+}
+
+function addEvents() {
+	// Actualizar contenido del modal Editar
+	const editButtons = document.querySelectorAll('table td .edit-btn')
+
+  editButtons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+  
+    let dia = fila.querySelector('.dia')
+    let hora = fila.querySelector('.hora')
+    let lider = fila.querySelector('.lider')
+    let anfitrion = fila.querySelector('.anfitrion')
+    let asistente = fila.querySelector('.asistente')
+  
+  
+    const idInput = document.getElementById('idInput')
+  
+    const diaInput = document.getElementById('diaInput')
+    const horaInput = document.getElementById('horaInput')
+    const liderInput = document.getElementById('codigoLider')
+    const anfitrionInput = document.getElementById('codigoAnfitrion')
+    const asistenteInput = document.getElementById('codigoAsistente')
+  
+    liderInput.value = lider.textContent
+    anfitrionInput.value = anfitrion.textContent
+    asistenteInput.value = asistente.textContent
+    idInput.value = id.textContent
+  
+    diaInput.value = dia.textContent
+    horaInput.value = hora.textContent
+    //cedulas de usuarios
+  
+  
+  }))
+
+
+	// Actualizar contenido del modal Eliminar
+	const deleteButtons = document.querySelectorAll('table td .delete-btn')
+
+	deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+		let fila = boton.parentElement.parentElement
+		let id = fila.querySelector('.id')
+		let nombre = fila.querySelector('.nombre')
+
+		const idInput = document.querySelector('#deleteForm .id')
+		const rolText = document.getElementById('deleteRolName')
+
+		idInput.value = id.textContent
+		rolText.textContent = nombre.textContent
+	}))
 }
