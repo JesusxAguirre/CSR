@@ -249,10 +249,10 @@
   </div>
 
 
- <div id="modal_eliminar_participantes">
-
- </div>
  
+ <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
+ </div>
+
 <!-- Modal Eliminar  Participante -->
 <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
 		<div class="modal-dialog">

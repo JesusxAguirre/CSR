@@ -11,7 +11,7 @@ const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
 const eliminar__participantes =  document.getElementById('eliminar__participantes')
 
-const modal_eliminar_participates = document.getElementById('modal_eliminar_participantes')
+const modal_eliminar_participates = document.getElementById('eliminar_usuario')
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
 

@@ -7,7 +7,7 @@ $matriz_participantes = $objeto->listar_participantes($busqueda);
 ?>
 <?php if (!empty($matriz_participantes)) : ?>
   <!-- Modal eliminar usuario -->
-  <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
+  
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
@@ -48,6 +48,6 @@ $matriz_participantes = $objeto->listar_participantes($busqueda);
         </div>
       </div>
     </div>
-  </div>
+
   <!-- Modal eliminar usuario -->
 <?php endif ?>
