@@ -266,7 +266,7 @@ busquedaEl.addEventListener('keyup', () => {
     datosEl.innerHTML = data
   })
 })
-
+//alerta de actualizar
 if (actualizar == false) {
 	Swal.fire({
 		icon: 'success',
@@ -278,7 +278,35 @@ function recarga() {
 window.location="index.php?pagina=listar-celula-discipulado";
 } 
 }
+
+//alerta registrar participante
+
 if (registrar_participante == false) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Se registro correctamente el participante'
+	})
+setTimeout(recarga, 2000);
+
+function recarga() {
+window.location="index.php?pagina=listar-celula-discipulado";
+} 
+}
+//alerta eliminar participante
+
+if (eliminar_participante == false) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Se registro correctamente el participante'
+	})
+setTimeout(recarga, 2000);
+
+function recarga() {
+window.location="index.php?pagina=listar-celula-discipulado";
+} 
+}
+//alerta registrar asistencia
+if (registrar_asistencia == false) {
 	Swal.fire({
 		icon: 'success',
 		title: 'Se registro correctamente el participante'
