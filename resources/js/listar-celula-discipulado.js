@@ -9,7 +9,7 @@ const inputs = document.querySelectorAll('#editForm input'); //declarando una co
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
-
+const eliminar__participantes =  document.getElementById('eliminar__participantes')
 
 const modal_eliminar_participates = document.getElementById('modal_eliminar_participantes')
 // Agrega los eventos para actualizar y eliminar 
@@ -274,11 +274,16 @@ function fireAlert(icon, msg) {
   })
 }
 
+//busqueda de participantes
+eliminar__participantes.addEventListener('click', () => {
+	buscarParticipantes()
+  console.log("entra a la funcion")
 
-function buscarParticipantes(busqueda) {
+})
+function buscarParticipantes() {
   return $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-roles.php",
+    data: 'busqueda=' + idInput.value,
+    url: "controlador/ajax/buscar-participante-discipulado.php",
     type: "get"
   }).done(data => {
     modal_eliminar_participates.innerHTML = data
@@ -286,6 +291,7 @@ function buscarParticipantes(busqueda) {
     v_modal.on("show", function () { })
     v_modal.modal("show");
     addEvents()
+    console.log("sale de la funcion")
   })
 }
 

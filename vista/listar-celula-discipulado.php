@@ -86,7 +86,7 @@
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger "><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
+                          <button type="button" id="eliminar__participantes" class="btn btn-outline-danger "><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                           </td>
                       </tr>
                     <?php endforeach;       ?>
@@ -247,7 +247,12 @@
       </div>
     </div>
   </div>
- <div id="modal_eliminar_participantes"></div>
+
+
+ <div id="modal_eliminar_participantes">
+
+ </div>
+ 
 <!-- Modal Eliminar  Participante -->
 <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
 		<div class="modal-dialog">
