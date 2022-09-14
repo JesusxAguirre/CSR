@@ -11,7 +11,7 @@ const inputs = document.querySelectorAll('#editForm input'); //declarando una co
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
-const eliminacion = false;
+var eliminacion = false;
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
@@ -228,8 +228,8 @@ formulario3.addEventListener('submit', (e) => {
     })
   }
 })
+$('#eliminar_participante').on('submit', function(e) {
 
-formulario4.addEventListener('submit', (e) => {
   if (!eliminacion) {
     e.preventDefault();
     Swal.fire({
