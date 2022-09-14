@@ -223,35 +223,10 @@ busquedaEl.addEventListener('keyup', () => {
   })
 })
 
-//alerta de actualizar
-if (actualizar == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se actualizo correctamente la celula'
-  })
-  setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=listar-celula-discipulado";
-  }
-}
 
 //alerta registrar participante
 
 if (registrar_participante == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro correctamente el participante'
-  })
-  setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=listar-celula-discipulado";
-  }
-}
-//alerta eliminar participante
-
-if (eliminar_participante == false) {
   Swal.fire({
     icon: 'success',
     title: 'Se registro correctamente el participante'
@@ -274,6 +249,40 @@ if (registrar_asistencia == false) {
     window.location = "index.php?pagina=listar-celula-discipulado";
   }
 }
+
+
+// Eliminación con Ajax
+const deleteButton = document.getElementById('deleteButton')
+
+deleteButton.addEventListener('click', () => {
+	let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
+
+	$.ajax({
+		data: 'participante_cedula='+participante_cedula,
+		url: "controlador/ajax/eliminar-participante-discipulado.php",
+		type: "post",
+	}).done(data => {
+		if (data == '1') {
+			fireAlert('success', 'Participante  eliminado correctamente')
+		} else {
+			console.log(data)
+			fireAlert('error', 'El participante que intenta eliminar no existe')
+		}
+	}).then(() => {
+		document.querySelector('#eliminar .btn-close').click()
+
+		buscarDiscipulado('')
+	})
+})
+
+function fireAlert(icon, msg) {
+	Swal.fire({
+		icon: icon,
+		title: msg
+	})
+}
+
+
 
 function addEvents() {
 	// Actualizar contenido del modal Editar
