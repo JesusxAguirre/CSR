@@ -274,15 +274,10 @@ function fireAlert(icon, msg) {
   })
 }
 
-//busqueda de participantes
-eliminar__participantes.addEventListener('click', () => {
-	buscarParticipantes()
-  console.log("entra a la funcion")
 
-})
-function buscarParticipantes() {
+function buscarParticipantes(busqueda) {
   return $.ajax({
-    data: 'busqueda=' + idInput.value,
+    data: 'busqueda=' + busqueda,
     url: "controlador/ajax/buscar-participante-discipulado.php",
     type: "get"
   }).done(data => {
@@ -331,6 +326,16 @@ function addEvents() {
   }))
 
   const participanteModal = document.querySelectorAll('table td .modal-btn')
+
+  participanteModal.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+  
+    const busqueda = id.textContent
+
+
+    buscarParticipantes(busqueda);  
+  }))
 
   // Actualizar contenido del modal Eliminar
   const deleteButtons = document.querySelectorAll('table td .delete-btn')
