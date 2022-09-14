@@ -86,9 +86,8 @@
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
-                        </td>
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger "><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
+                          </td>
                       </tr>
                     <?php endforeach;       ?>
                   </tbody>
@@ -257,7 +256,6 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="eliminar_participante" action="?pagina=listar-celula-discipulado">
             <div class="table-responsive mt-4">
               <table role='table' class='table table-centered'>
                 <thead>
@@ -279,15 +277,15 @@
                       <td class="participantes_apellido" role='cell'><?php echo $participante['participantes_apellido'] ?></td>
                       <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
                       <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td>
-                      <td class="" role="cell">
-                        <button type="submit" name="eliminar_participantes" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+                      <td class="participantes_cedula" role="cell">
+                      <button type="submit" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn" name="eliminar_participantes" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                       </td>
                     </tr>
                   <?php endforeach;       ?>
                 </tbody>
               </table>
             </div>
-          </form>
+          
         </div>
       </div>
     </div>
@@ -297,13 +295,13 @@
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header bg-danger text-light">
-					<h5 class="modal-title" id="Modaleliminar">¿Eliminar Rol?</h5>
+					<h5 class="modal-title" id="Modaleliminar">Estas seguro(a) que deseas eliminar este participante?</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body fs-5">
-					<p>Se eliminará el rol <b id="deleteParticipanteName"></b> permanetemente.</p>
+					<p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b>  permanetemente.</p>
 					<form method="post" id="deleteForm">
-						<input type="hidden" name="id" class="id">
+						<input type="hidden" name="cedula_participante" class="cedula_participante">
 						<input type="hidden" name="delete">
 					</form>
 				</div>

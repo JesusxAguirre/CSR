@@ -9,8 +9,8 @@ const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
-
-var eliminacion = false;
+// Agrega los eventos para actualizar y eliminar 
+addEvents()
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
@@ -52,30 +52,14 @@ const expresiones = { //objeto con varias expresiones regulares
 agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
-
-
   const idInput = document.getElementById('idInput2')
-
-
   idInput.value = id.textContent
-
-
-
-
 }))
 agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
   let fila = boton.parentElement.parentElement
   let id = fila.querySelector('.id')
-
-
   const idInput = document.getElementById('idInput3')
-
-
   idInput.value = id.textContent
-
-
-
-
 }))
 
 
@@ -326,19 +310,21 @@ function addEvents() {
   
   }))
 
-
 	// Actualizar contenido del modal Eliminar
 	const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
 	deleteButtons.forEach(boton => boton.addEventListener('click', () => {
 		let fila = boton.parentElement.parentElement
-		let id = fila.querySelector('.id')
-		let nombre = fila.querySelector('.nombre')
+		let cedula_participante = fila.querySelector('.participantes_cedula')
+		let nombre = fila.querySelector('.participantes_nombre')
+		let apellido = fila.querySelector('.participantes_apellido')
+    
+		const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
+		const nombre_participante = document.getElementById('deleteParticipanteName')
+		const apellido_participante = document.getElementById('deleteParticipanteApellido')
 
-		const idInput = document.querySelector('#deleteForm .id')
-		const rolText = document.getElementById('deleteRolName')
-
-		idInput.value = id.textContent
-		rolText.textContent = nombre.textContent
+		cedulaInput.value = cedula_participante.textContent
+		nombre_participante.textContent = nombre.textContent
+		apellido_participante.textContent = apellido.textContent
 	}))
 }
