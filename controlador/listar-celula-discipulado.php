@@ -46,7 +46,7 @@ if ($_SESSION['verdadero'] > 0) {
         // eliminar participantes
         $eliminar_participante = true;
         if (isset($_POST['eliminar_participantes'])) {
-            $cedula_participante = $_POST['eliminar_participante'];
+            $cedula_participante = $_POST['eliminar_participantes'];
             echo $eliminar_participante;
             print_r($cedula_participante);
             exit;
