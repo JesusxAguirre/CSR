@@ -227,7 +227,7 @@ formulario3.addEventListener('submit', (e) => {
     })
   }
 })
-formulario3.addEventListener('submit', (e) => {
+formulario4.addEventListener('submit', (e) => {
   e.preventDefault();
   Swal.fire({
     title: 'Are you sure?',
@@ -291,6 +291,7 @@ busquedaEl.addEventListener('keyup', () => {
     datosEl.innerHTML = data
   })
 })
+
 //alerta de actualizar
 if (actualizar == false) {
   Swal.fire({

@@ -257,12 +257,10 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-discipulado">
+          <form class="form" method="post" id="eliminar_participante" action="?pagina=listar-celula-discipulado">
             <div class="table-responsive mt-4">
-
               <table role='table' class='table table-centered'>
                 <thead>
-
                   <tr role='row'>
                     <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
                     <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
@@ -272,7 +270,6 @@
                     <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
                   </tr>
                 </thead>
-
                 <tbody id="datos" role='rowgroup'>
                   <?php foreach ($matriz_participantes as $participante) : ?>
                     <tr role='row'>
@@ -283,7 +280,7 @@
                       <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
                       <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td>
                       <td class="" role="cell">
-                        <button type="submit" id="eliminar_participante" name="eliminar_participante" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+                        <button type="submit" name="eliminar_participante" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                       </td>
                     </tr>
                   <?php endforeach;       ?>
