@@ -9,7 +9,7 @@ if (is_file('vista/'.$pagina.'.php')) {
    
     $matriz_lideres = $objeto->listar_usuarios_N2();
     $matriz_usuarios = $objeto->listar_no_participantes();
-      
+    $error = true;
     if(isset($_POST['registrar'])){
         $cedula_lider = $_POST['codigoLider'];
          
@@ -38,7 +38,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setConsolidacion($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
 
         $objeto->registrar_consolidacion();
-
+        $error = false;
     }
     require_once 'vista/'.$pagina.'.php';
 }
