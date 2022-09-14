@@ -17,6 +17,7 @@
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
     <!-- Js boostrap -->
     <script src="./resources/js/bootstrap.min.js"></script>
+    
     <!-- CHOICE 2 -->
     <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
     <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
@@ -78,15 +79,15 @@
                                     </div>
                                 </div>
                             </form>
-                            <div class="row mt-3">
-                                <form id="formularioAgregarProf">
+                            <div class="row mt-3" id="formularioAgregarProf">
+                                
                                 <label class="form-label fst-italic fw-bold text-white">Profesores que dictan la materia</label>
                                 <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
                                     <?php foreach ($profesores as $prof) : ?>
                                         <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                </form>
+                                
                             </div>
                         </div>
                         <div>
@@ -107,7 +108,7 @@
                         </div>
                         <!-- FIN DE BUSCADOR DE MATERIA -->
 
-                        <table class="table text-center">
+                        <table class="table table-light table-striped text-center">
                             <thead class="table-dark">
                                 <tr>
                                     <th>MATERIAS</th>
@@ -192,9 +193,11 @@
                     </div>
                     <hr>
                         <label class="form-label fst-italic fw-bold">Agregar profesores</label>
+                        <form id="formularioVincularProf">
                         <div id="datos3">
                             
                         </div>
+                        </form>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-success botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>

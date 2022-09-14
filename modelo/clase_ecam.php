@@ -93,6 +93,18 @@ class ecam extends Conectar
         //Profesores vinculados con la materia
     }
 
+    //ELIMINAR PROFESORES DE LAS MATERIAS
+    public function desvincularProfesor($cedulaProfDV, $idMateriaDV)
+    {
+        $sql = "DELETE FROM `profesores-materias` 
+        WHERE `profesores-materias`.`cedula_profesor` = $cedulaProfDV 
+        AND `profesores-materias`.`id_materia` = $idMateriaDV";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute();
+    }
+
 
     //LISTAR TODAS LAS MATERIAS
     public function listarMaterias()
@@ -134,18 +146,6 @@ class ecam extends Conectar
     public function eliminarMateria($idMateria)
     {
         $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute();
-    }
-
-    //ELIMINAR PROFESORES DE LAS MATERIAS
-    public function desvincularProfesor($cedulaProf, $idMateria2)
-    {
-        $sql = "DELETE FROM `profesores-materias` 
-        WHERE `profesores-materias`.`cedula_profesor` = $cedulaProf 
-        AND `profesores-materias`.`id_materia` = $idMateria2";
 
         $stmt = $this->conexion()->prepare($sql);
 

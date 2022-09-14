@@ -14,7 +14,7 @@ if (!empty($listarProfMat)) {
             <td><?php echo $profesorMateria['nombre']; ?></td>
             <td><?php echo $profesorMateria['apellido']; ?></td>
             <td>
-                <button class="btn bg-danger" id="eliminarProfesorMateria"><i class="bi bi-x-lg"></i></button>
+                <button class="btn btn-danger" id="eliminarProfesorMateria"><i class="bi bi-x-lg"></i></button>
             </td>
         </tr>
 <?php } ?>

@@ -1,11 +1,9 @@
-window.onload = function () {
-  listarMaterias();
-}
+listarMaterias();
+choices1();
 
 
 //BUSCAR MATERIAS POR AJAX
 const buscarMateria = document.getElementById("buscarMateria");
-
 
 buscarMateria.addEventListener("keyup", () => {
   let datosMaterias = document.getElementById("datosMaterias");
@@ -36,12 +34,12 @@ $(document).on('click', '#actualizarM', function () {
 
 
 //LISTAR PROFESORES DE LA MATERIAS
-function listarProfesoresMateria(idMateriaProf) {
+function listarProfesoresMateria(idMateriaP) {
   let listadoProfesores = document.getElementById("datos2");
 
   $.ajax({
     data: {
-      idMateriaProf: idMateriaProf,
+      idMateriaProf: idMateriaP,
     },
     type: "post",
     url: "controlador/ajax/listar-profesoresMateria.php",
@@ -69,7 +67,7 @@ function consultaDeProfesores(idNoMateria, botonEditarProfM) {
 
 //SELECT PARA LA ACTUALIZACION VINCULACION DE PROFESOR CON LA MATERIA
 function choices2() {
-  var profesores2 = document.getElementById('seleccionarProf2');
+  var profesores2 = document.getElementById('seleccionarProfV');
   new Choices(profesores2, {
     allowHTML: true,
     maxItemText: 3,
@@ -95,22 +93,18 @@ $(document).on('click', '#editarProf', function (e) {
 ///////////////////////////////////////////////////////////////
 
 
-//ACTUALIZAR Y AGREGAR PROFESORES A LA MATERIA DINAMICAMENTE POR AJAX
-$("#actualizarProfesor").on("click", function (e) {
+//ACTUALIZAR Y AGREGAR(VINCULAR) PROFESORES A LA MATERIA DINAMICAMENTE POR AJAX
+$(document).on('click', '#actualizarProfesores', function (e) {
   e.preventDefault();
-
-  const data = {
   
-    cedulaProfesor: $("#seleccionarProf").val(),
+  const data2 = {
+    actualizarProfesores: $("#actualizarProfesores").val(),
+    idMateriaV: $("#idMateriaV").val(),
+    cedulaProfesorV: $("#seleccionarProfV").val(),
   };
+  
+  if (data2.cedulaProfesorV == '') {
 
-  if (campos[0] && campos[1]) {
-    $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
-
-      $('#formularioAgregarProf').trigger('reset');
-      $('#formularioAgregarProf').load('vista\materias.php');
-    });
-  } else {
     const toast = Swal.mixin({
       toast: true,
       background: 'red',
@@ -122,10 +116,46 @@ $("#actualizarProfesor").on("click", function (e) {
     toast.fire({
       icon: 'error',
       iconColor: 'white',
-      title: 'Debes cumplir con los requisitos de los campos',
-    })
+      title: 'No seleccionaste ninguno de los profesores disponibles',
+    });
+  } else {
+    $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
+      listarProfesoresMateria(data2.idMateriaV);
+      $('#formularioVincularProf').trigger('reset');
+      consultaDeProfesores(data2.idMateriaV, data2.actualizarProfesores);
+    });
   }
-});
+})
+
+//ELIMINAR(DESVINCULAR) PROFESORES VINCULADOS A LA MATERIA
+$(document).on('click', '#eliminarProfesorMateria', function () {
+
+  let elemento = $(this)[0].parentElement.parentElement;
+  let cedulaProf = elemento.querySelector('#cedulaProfesor').textContent;
+  let idMateria2 = elemento.querySelector('#idMateriaProfesor').textContent;
+  let eliminarProfMat = $(this)[0].value;
+
+  Swal.fire({
+    icon: 'warning',
+    title: 'Estas segur@ que deseas desvincular al profesor de la materia?',
+    showDenyButton: true,
+    confirmButtonText: `Eliminar`,
+    confirmButtonColor: 'red',
+    denyButtonText: `Cancelar`,
+    denyButtonColor: 'black'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("controlador/ajax/CRUD-materias.php", {
+        cedulaProf,
+        idMateria2,
+        eliminarProfMat
+      }, function (response) {
+        listarProfesoresMateria(idMateria2);
+        consultaDeProfesores(idMateria2, eliminarProfMat);
+      })
+    }
+  })
+})
 
 
 //LISTAR MATERIAS POR AJAX
@@ -169,38 +199,6 @@ $(document).on('click', '#eliminarMateria', function () {
 });
 
 
-//ELIMINAR PROFESORES VINCULADOS A LA MATERIA
-$(document).on('click', '#eliminarProfesorMateria', function () {
-
-  let elemento = $(this)[0].parentElement.parentElement;
-  let cedulaProf = elemento.querySelector('#cedulaProfesor').textContent;
-  let idMateria2 = elemento.querySelector('#idMateriaProfesor').textContent;
-  let eliminarProfMat = $(this)[0].value;
-
-  Swal.fire({
-    icon: 'warning',
-    title: 'Estas segur@ que deseas desvincular al profesor de la materia?',
-    showDenyButton: true,
-    confirmButtonText: `Eliminar`,
-    confirmButtonColor: 'red',
-    denyButtonText: `Cancelar`,
-    denyButtonColor: 'black'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      $.post("controlador/ajax/CRUD-materias.php", {
-        cedulaProf,
-        idMateria2,
-        eliminarProfMat
-      }, function (response) {
-        listarProfesoresMateria(idMateria2);
-      })
-    }
-  })
-});
-
-$("#culo").on("click", function (e) {
-  console.log($("#idMateriaRef").val());
-});
 //AGREGAR MATERIAS POR AJAX
 $("#agregarMateria").on("click", function (e) {
   e.preventDefault();
@@ -214,14 +212,22 @@ $("#agregarMateria").on("click", function (e) {
 
   if (campos[0] && campos[1]) {
     $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
-
+      Swal.fire({
+        icon: 'success',
+        iconColor: 'white',
+        title: 'Agregado correctamente',
+        toast: true,
+        background: 'green',
+        color: 'white',
+        showConfirmButton: false,
+        timer: 2000,
+      });
       listarMaterias();
-      $('#formularioAgregarProf').trigger('reset');
-      $('#formularioAgregarProf').load('vista\materias.php');
       $("#formularioMateria").trigger("reset");
       document.getElementById('nombreMateria').classList.remove('validarBien');
       document.getElementById('seleccionarNivel').classList.remove('validarBien');
     });
+    
   } else {
     const toast = Swal.mixin({
       toast: true,
@@ -239,17 +245,20 @@ $("#agregarMateria").on("click", function (e) {
   }
 });
 
+
 //SELECT PARA AGREGAR LOS PROFESORES CON LAS MATERIAS
-var profesores = document.getElementById('seleccionarProf');
-var choices1 = new Choices(profesores, {
-  allowHTML: true,
-  maxItemText: 3,
-  removeItems: true,
-  removeItemButton: true,
-  noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
-  placeholderValue: 'Buscar profesor',
-});
+function choices1 () {
+  var profesores = document.getElementById('seleccionarProf');
+  new Choices(profesores, {
+    allowHTML: true,
+    maxItemText: 3,
+    removeItems: true,
+    removeItemButton: true,
+    noResultsText: 'No hay coicidencias',
+    noChoicesText: 'No hay participantes disponibles',
+    placeholderValue: 'Buscar profesor',
+  });
+}
 
 
 //ACTUALIZANDO MATERIAS
@@ -263,7 +272,6 @@ $("#actualizarMateria").on("click", function (e) {
 
   if (campos2[0] && campos2[1]) {
     $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
-      console.log(response);
       listarMaterias();
       document.getElementById('nombreMateria2').classList.remove('validarBien');
       document.getElementById('seleccionarNivel2').classList.remove('validarBien');
@@ -275,7 +283,6 @@ $("#actualizarMateria").on("click", function (e) {
       color: 'white',
       showConfirmButton: false,
       timer: 2000,
-      position: 'bottom',
     });
 
     toast.fire({

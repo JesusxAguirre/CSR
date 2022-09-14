@@ -31,12 +31,20 @@ if (isset($_POST['actualizarMateria'])) {
 }
 
 
-//ELIMINANDO PROFESOR DE LA MATERIA
+//ELIMINANDO(DESVINCULANDO) PROFESOR DE LA MATERIA
 if (isset($_POST['eliminarProfMat'])) {
     $cedulaProf= $_POST['cedulaProf'];
     $idMateria2= $_POST['idMateria2'];
 
     $objeto->desvincularProfesor($cedulaProf, $idMateria2);
+}
+
+//AGREGANDO(VINCULANDO) PROFESOR A LA MATERIA
+if (isset($_POST['actualizarProfesores'])) {
+    $idMateriaV= $_POST['idMateriaV'];
+    $cedulaProfesorV= $_POST['cedulaProfesorV'];
+
+    $objeto->vincularProfesor($cedulaProfesorV, $idMateriaV);
 }
 
 
@@ -46,12 +54,12 @@ if (isset($_POST['botonEditarProfM'])) {
     
     $profesores2 = $objeto->listarSelectProfesores($idNoMateria);
 
-    ?><select multiple name="seleccionarProf2" id="seleccionarProf2" class="form-control">
+    ?><select multiple name="seleccionarProfV" id="seleccionarProfV" class="form-control">
     <?php foreach ($profesores2 as $prof2) { ?>
             <option value="<?php echo $prof2['cedula']; ?>"> <?php echo $prof2['codigo'] . ' ' . $prof2['nombre']; ?></option>
     <?php } ?>
       </select>
-      <input hidden id="idMateriaRef" value="<?php echo $profesores2[0]['id_materia']; ?>">
+      <input hidden id="idMateriaV" value="<?php echo $profesores2[0]['id_materia']; ?>">
 <?php }
 
 ?>

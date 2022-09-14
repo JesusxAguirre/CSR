@@ -1,3 +1,0 @@
-# Tarea para el Sabado temprano
-
-Continuar con la consulta Sql del select de los profesores. Debes buscar la manera de enviar el ID de la materia dinamicamente gracias a esa consulta para que el listarProferes pueda tomar el valor de alli por si se queda vacio, ten cuidado en que no se repitan consulta. Ademas, creo que tendras que enviar ese ID por el actualizarProfesor; gracias a la funcion de ella podras enviar ese dato por parametro a la funcion y que lo tome. Asi no ocurriria ningun problema (Creo yo jeje)
