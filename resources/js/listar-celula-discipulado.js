@@ -266,3 +266,15 @@ busquedaEl.addEventListener('keyup', () => {
     datosEl.innerHTML = data
   })
 })
+
+if (actualizar == false) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Se actualizo correctamente la celula'
+	})
+setTimeout(recarga, 2000);
+
+function recarga() {
+window.location="index.php?pagina=listar-celula-discipulado";
+} 
+}

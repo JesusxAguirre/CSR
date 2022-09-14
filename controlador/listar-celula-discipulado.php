@@ -12,7 +12,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     $matriz_usuarios = $objeto->listar_no_participantes();
 
-  
+    $actualizar = true;
     if(isset($_POST['update'])){
         $cedula_lider = $_POST['codigoLider'];
         $cedula_anfitrion= $_POST['codigoAnfitrion'];
@@ -26,6 +26,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setActualizar($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$id);
 
         $objeto->actualizar_discipulado();
+        $actualizar = false;
     }
     if(isset($_POST['agregar_participantes'])){
      

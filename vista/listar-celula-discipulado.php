@@ -350,10 +350,11 @@
     </div>
   </div>
 
-  <script>
+  <script type="text/javascript">
     $('#myModal').on('shown.bs.modal', function() {
       $('#myInput').trigger('focus')
     })
+    error = <?php echo ($error) ? 'true' : 'false'; ?>
   </script>
   <script type="text/javascript" src="resources/js/listar-celula-discipulado.js"></script>
 </body>
