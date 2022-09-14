@@ -14,6 +14,7 @@ if ($_SESSION['verdadero'] > 0) {
 
         //actualizar celula
         $actualizar = true;
+        
         if (isset($_POST['update'])) {
             $cedula_lider = $_POST['codigoLider'];
             $cedula_anfitrion = $_POST['codigoAnfitrion'];
@@ -46,7 +47,9 @@ if ($_SESSION['verdadero'] > 0) {
         
         // eliminar participantes
         $eliminar_participante = true;
+      
         if (isset($_POST['eliminar_participantes'])) {
+            
             $cedula_participante = $_POST['eliminar_participantes'];
             echo $eliminar_participante;
             print_r($cedula_participante);

@@ -228,25 +228,24 @@ formulario3.addEventListener('submit', (e) => {
     })
   }
 })
-$('#eliminar_participante').on('submit', function(e) {
-  if (!eliminacion) {
-    e.preventDefault();
-    Swal.fire({
-      title: '¿Estás seguro(a)?',
-      text: "¡No podrás revertir esta accion!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: '¡Sí, eliminalo!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        //aqui ira el return true para activar el evento
-        eliminacion = true;
-        $(this).unbind('submit').submit()
-      }
-    })
-  }
+$('#eliminar_participante').on('submit', function (e) {
+  e.preventDefault()
+  Swal.fire({
+    title: '¿Estás seguro(a)?',
+    text: "¡No podrás revertir esta accion!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '¡Sí, eliminalo!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      //aqui ira el return true para activar el evento
+      $(this).unbind('submit').submit();
+
+    }
+  })
+
 })
 
 
