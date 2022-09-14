@@ -25,7 +25,7 @@ const campos = {
 
 const expresiones = { //objeto con varias expresiones regulares
 
-  dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
+  direccion: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
   codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
   //expresion regular de codigo de usuario
@@ -58,7 +58,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "direccion":
-      ValidarSelect(e.target, 'direccion');
+      ValidarCampo(expresiones.direccion,e.target, 'direccion');
       break;
 
   }
