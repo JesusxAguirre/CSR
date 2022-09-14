@@ -227,6 +227,30 @@ formulario3.addEventListener('submit', (e) => {
     })
   }
 })
+formulario3.addEventListener('submit', (e) => {
+  e.preventDefault();
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, delete it!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire(
+        'Deleted!',
+        'Your file has been deleted.',
+        'success'
+      )
+      setTimeout(devolver_verdadero, 2000);
+      function devolver_verdadero() {
+        return true;
+      }
+    }
+  })
+})
 
 
 
@@ -269,52 +293,52 @@ busquedaEl.addEventListener('keyup', () => {
 })
 //alerta de actualizar
 if (actualizar == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se actualizo correctamente la celula'
-	})
-setTimeout(recarga, 2000);
+  Swal.fire({
+    icon: 'success',
+    title: 'Se actualizo correctamente la celula'
+  })
+  setTimeout(recarga, 2000);
 
-function recarga() {
-window.location="index.php?pagina=listar-celula-discipulado";
-} 
+  function recarga() {
+    window.location = "index.php?pagina=listar-celula-discipulado";
+  }
 }
 
 //alerta registrar participante
 
 if (registrar_participante == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se registro correctamente el participante'
-	})
-setTimeout(recarga, 2000);
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro correctamente el participante'
+  })
+  setTimeout(recarga, 2000);
 
-function recarga() {
-window.location="index.php?pagina=listar-celula-discipulado";
-} 
+  function recarga() {
+    window.location = "index.php?pagina=listar-celula-discipulado";
+  }
 }
 //alerta eliminar participante
 
 if (eliminar_participante == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se registro correctamente el participante'
-	})
-setTimeout(recarga, 2000);
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro correctamente el participante'
+  })
+  setTimeout(recarga, 2000);
 
-function recarga() {
-window.location="index.php?pagina=listar-celula-discipulado";
-} 
+  function recarga() {
+    window.location = "index.php?pagina=listar-celula-discipulado";
+  }
 }
 //alerta registrar asistencia
 if (registrar_asistencia == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se registro correctamente el participante'
-	})
-setTimeout(recarga, 2000);
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro correctamente el participante'
+  })
+  setTimeout(recarga, 2000);
 
-function recarga() {
-window.location="index.php?pagina=listar-celula-discipulado";
-} 
+  function recarga() {
+    window.location = "index.php?pagina=listar-celula-discipulado";
+  }
 }
