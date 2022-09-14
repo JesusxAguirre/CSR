@@ -11,7 +11,6 @@ if($_SESSION['verdadero'] > 0){
             $idRol       = $_POST['idRol'];
             $permisosRol = $_POST['permisos'];
 
-            
             if ($objeto->update_permisos($idRol, $permisosRol)) {
                 $alert['status'] = true;
                 $alert['msg'] = "Permisos modificados correctamente";
@@ -51,19 +50,6 @@ if($_SESSION['verdadero'] > 0){
             } else {
                 $alert['status'] = 'false';
                 $alert = "Ha ocurrido un error al modificar el rol";
-            }
-        }
-
-        // Eliminar rol
-        if (isset($_POST['delete'])) {
-            $idRol = $_POST['id'];
-
-            if ($objeto->delete_rol($idRol)) {
-                $alert['status'] = true;
-                $alert['msg'] = "Rol eliminado correctamente";
-            } else {
-                $alert['status'] = 'false';
-                $alert['msg'] = "Ha ocurrido un error al eliminar el rol";
             }
         }
 

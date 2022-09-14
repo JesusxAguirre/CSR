@@ -118,6 +118,22 @@ class Roles extends Conectar {
 
 	public function delete_rol($idRol)
 	{
+		// Verifica si existe el rol a eliminar
+		$sql = "SELECT * FROM roles WHERE id = :id";
+		$stmt = $this->conexion->prepare($sql);
+		$stmt->bindParam(':id', $idRol);
+		$stmt->execute();
+
+		if ($stmt->rowCount() == 0) {
+			return false;
+		}
+
+		// Elimina primero los permisos
+		$sql = "DELETE FROM intermediaria WHERE id_rol = :id";
+		$stmt = $this->conexion->prepare($sql);
+		$stmt->bindParam(':id', $idRol);
+		$stmt->execute();
+
 		$sql = "DELETE FROM roles WHERE id = :id";
 
 		try {
