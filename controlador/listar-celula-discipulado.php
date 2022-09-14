@@ -43,6 +43,7 @@ if ($_SESSION['verdadero'] > 0) {
             $registrar_participante = false;
         }
 
+        
         // eliminar participantes
         $eliminar_participante = true;
         if (isset($_POST['eliminar_participantes'])) {
@@ -56,6 +57,7 @@ if ($_SESSION['verdadero'] > 0) {
             $eliminar_participante = false;
         }
 
+        
         //registrar asistencia
         $registrar_asistencia = true;
         if (isset($_POST['agregar_asistencia'])) {

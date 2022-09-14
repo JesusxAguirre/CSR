@@ -270,7 +270,7 @@
                     <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
                   </tr>
                 </thead>
-                <tbody id="datos" role='rowgroup'>
+                <tbody  role='rowgroup'>
                   <?php foreach ($matriz_participantes as $participante) : ?>
                     <tr role='row'>
                       <td hidden class="id" role='cell'><?php echo $participante['id'] ?></td>

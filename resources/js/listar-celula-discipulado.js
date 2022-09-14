@@ -229,7 +229,6 @@ formulario3.addEventListener('submit', (e) => {
   }
 })
 $('#eliminar_participante').on('submit', function(e) {
-
   if (!eliminacion) {
     e.preventDefault();
     Swal.fire({
@@ -244,7 +243,7 @@ $('#eliminar_participante').on('submit', function(e) {
       if (result.isConfirmed) {
         //aqui ira el return true para activar el evento
         eliminacion = true;
-        $(this).trigger('submit');
+        $(this).unbind('submit').submit()
       }
     })
   }
