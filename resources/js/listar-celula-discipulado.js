@@ -11,6 +11,7 @@ const inputs = document.querySelectorAll('#editForm input'); //declarando una co
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
+const eliminacion = false;
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
@@ -229,25 +230,24 @@ formulario3.addEventListener('submit', (e) => {
 })
 
 formulario4.addEventListener('submit', (e) => {
-  e.preventDefault();
-  Swal.fire({
-    title: '¿Estás seguro(a)?',
-    text: "¡No podrás revertir esta accion!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '¡Sí, eliminalo!'
-  }).then((result) => {
-    if (result.isConfirmed) {
-      Swal.fire(
-        '¡Eliminado!',
-        'El participante ha sido eliminado.',
-        'success'
-      )
-     return true;
-    }
-  })
+  if (!eliminacion) {
+    e.preventDefault();
+    Swal.fire({
+      title: '¿Estás seguro(a)?',
+      text: "¡No podrás revertir esta accion!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Sí, eliminalo!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        //aqui ira el return true para activar el evento
+        eliminacion = true;
+        $(this).trigger('submit');
+      }
+    })
+  }
 })
 
 
