@@ -170,7 +170,7 @@ if (error == false) {
 		icon: 'success',
 		title: 'Se registro la celula correctamente'
 	})
-const myTimeout = setTimeout(recarga, 3000);
+const myTimeout = setTimeout(recarga, 2000);
 
 function recarga() {
 window.location="index.php?pagina=registrar-celula-discipulado";
