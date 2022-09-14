@@ -283,7 +283,7 @@
                       <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
                       <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td>
                       <td class="" role="cell">
-                        <button type="submit" name="eliminar_participante" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+                        <button type="submit" id="eliminar_participante" name="eliminar_participante" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
                       </td>
                     </tr>
                   <?php endforeach;       ?>

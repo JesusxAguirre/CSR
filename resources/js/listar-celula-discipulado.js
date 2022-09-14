@@ -3,6 +3,7 @@ const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
+const formulario4 = document.getElementById('eliminar_participante')
 const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
 const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
 
