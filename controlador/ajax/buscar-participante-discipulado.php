@@ -3,7 +3,7 @@ require_once('../../modelo/clase_celula_discipulado.php');
 $objeto = new Discipulado();
 
 $busqueda = $_GET['busqueda'];
-$matriz_discipulado = $objeto->buscar_discipulado($busqueda);
+$matriz_discipulado = $objeto->($busqueda);
 ?>
 <?php if (!empty($matriz_discipulado)) : ?>
   <?php foreach ($matriz_discipulado as $discipulado) : ?>
