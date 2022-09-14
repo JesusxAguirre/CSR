@@ -8,7 +8,6 @@ if ($_SESSION['verdadero'] > 0) {
         $objeto = new Discipulado();
 
         $matriz_celula = $objeto->listar_celula_discipulado();
-        $matriz_participantes = $objeto->listar_participantes();
 
         $matriz_usuarios = $objeto->listar_no_participantes();
 

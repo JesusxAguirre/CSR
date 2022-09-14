@@ -43,13 +43,14 @@ class Discipulado extends Usuarios
         }
         return $this->listar;
     }
-    public function listar_participantes()
+    public function listar_participantes($busqueda)
     {
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_discipulado 
-        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado");
+        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        WHERE celula_discipulado.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
 
