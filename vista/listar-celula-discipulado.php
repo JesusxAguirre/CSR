@@ -354,7 +354,10 @@
     $('#myModal').on('shown.bs.modal', function() {
       $('#myInput').trigger('focus')
     })
-    error = <?php echo ($error) ? 'true' : 'false'; ?>
+    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>
+    registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>
+    eliminar_participante = <?php echo ($eliminar_participante) ? 'true' : 'false'; ?>
+    registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>
   </script>
   <script type="text/javascript" src="resources/js/listar-celula-discipulado.js"></script>
 </body>

@@ -28,6 +28,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->actualizar_discipulado();
         $actualizar = false;
     }
+    $registrar_participante = true;
     if(isset($_POST['agregar_participantes'])){
      
         $participantes = $_POST['participantes'];
@@ -36,7 +37,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setParticipantes($participantes,$id);
        
         $objeto->agregar_participantes();
+        $registrar_participante = false;
     }
+    $eliminar_participante = true;
     if(isset($_POST['eliminar_participante'])){
         $cedula_participante = $_POST['eliminar_participante'];
 
@@ -44,7 +47,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setParticipante($cedula_participante);
 
         $objeto->eliminar_participantes();
+        $eliminar_participante = false;
     }
+    $registrar_asistencia = true;
     if(isset($_POST['agregar_asistencia'])){
     $fecha = $_POST['fecha'];
     $asistentes = $_POST['asistentes'];
@@ -53,6 +58,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $objeto->setAsistencias($asistentes,$id,$fecha);
 
     $objeto->registrar_asistencias();
+    $registrar_asistencia = false;
     }
     require_once 'vista/'.$pagina.'.php';
 }

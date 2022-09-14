@@ -278,3 +278,14 @@ function recarga() {
 window.location="index.php?pagina=listar-celula-discipulado";
 } 
 }
+if (registrar_participante == false) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Se registro correctamente el participante'
+	})
+setTimeout(recarga, 2000);
+
+function recarga() {
+window.location="index.php?pagina=listar-celula-discipulado";
+} 
+}
