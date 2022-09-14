@@ -11,7 +11,7 @@ const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
 const eliminar__participantes =  document.getElementById('eliminar__participantes')
 
-const modal_eliminar_participates = document.getElementById('eliminar_usuario')
+const modal_eliminar_participates = document.getElementById('datos4')
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
 
@@ -288,7 +288,7 @@ function buscarParticipantes() {
   }).done(data => {
     modal_eliminar_participates.innerHTML = data
     var v_modal = $('#eliminar_usuario').modal({ show: false });
-    v_modal.on("show", function () { })
+ 
     v_modal.modal("show");
     addEvents()
     console.log("sale de la funcion")
