@@ -165,3 +165,9 @@ $("#codigoLider").on('change', function () {
 });
 
 
+if (error == false) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Se registro la celula correctamente'
+	})
+}
