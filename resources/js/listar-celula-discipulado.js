@@ -330,6 +330,8 @@ function addEvents() {
 
   }))
 
+  const participanteModal = document.querySelectorAll('table td .modal-btn')
+
   // Actualizar contenido del modal Eliminar
   const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
