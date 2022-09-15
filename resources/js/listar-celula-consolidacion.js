@@ -237,21 +237,48 @@ asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 
 //busqueda ajax 
-
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
+  buscarConsolidacion(busqueda);
+})
+
+
+//FUCNIONES QUE SE LLAMAN MAS ARRIBA
+function buscarConsolidacion(busqueda){
   $.ajax({
     data: 'busqueda=' + busqueda,
     url: "controlador/ajax/buscar-consolidacion.php",
     type: "get",
   }).done(data => {
     datosEl.innerHTML = data
+    addEvents()
   })
-})
+}
 
+function fireAlert(icon, msg) {
+  Swal.fire({
+    icon: icon,
+    title: msg
+  })
+}
+function recarga() {
+  window.location = "index.php?pagina=listar-celula-discipulado";
+}
 
+function buscarParticipantes(busqueda) {
+  return $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-participante-discipulado.php",
+    type: "get"
+  }).done(data => {
+    modal_eliminar_participates.innerHTML = data
+    var v_modal = $('#eliminar_usuario').modal({ show: false });
 
+    v_modal.modal("show");
+    addEvents()
+  })
+}
 
 
 function addEvents() {

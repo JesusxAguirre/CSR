@@ -237,23 +237,14 @@ if (registrar_asistencia == false) {
 
 //funciones ajax
 
-//busqueda consolidacion
+//busqueda discipulado
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
   buscarDiscipulado(busqueda);
 })
 
-function buscarDiscipulado(busqueda) {
-  $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-discipulado.php",
-    type: "get",
-  }).done(data => {
-    datosEl.innerHTML = data
-    addEvents()
-  })
-}
+
 
 
 // Eliminación con Ajax
@@ -280,6 +271,16 @@ deleteButton.addEventListener('click', () => {
 
 
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
+function buscarDiscipulado(busqueda) {
+  $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-discipulado.php",
+    type: "get",
+  }).done(data => {
+    datosEl.innerHTML = data
+    addEvents()
+  })
+}
 
 function fireAlert(icon, msg) {
   Swal.fire({

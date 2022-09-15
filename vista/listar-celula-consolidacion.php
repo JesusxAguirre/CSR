@@ -234,22 +234,20 @@
                 <p class="text-danger d-none">Este campos no puede estar vacio</p>
               </div>
             </div>
-
             <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
             <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
             <input hidden name="codigoLider" class="form-control" id="codigoLider2">
-
             <input type="hidden" name="id" id="idInput2">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
-
         </div>
       </div>
     </div>
   </div>
+  
   <!-- Modal eliminar usuario -->
   <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -279,7 +277,6 @@
             </div>
           </form>
         </div>
-
       </div>
     </div>
   </div>
@@ -346,15 +343,12 @@
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
             </div>
-
-
             <input type="hidden" name="id" id="idInput3">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
-
         </div>
       </div>
     </div>
