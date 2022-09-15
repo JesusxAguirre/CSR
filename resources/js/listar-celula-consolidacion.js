@@ -11,7 +11,7 @@ const eliminar__participantes = document.getElementById('eliminar__participantes
 const modal_eliminar_participates = document.getElementById('datos4')
 const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
-const expandir =  document.getElementById('datos4')
+const expandir =  document.getElementById('asistencias4')
 
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
@@ -25,14 +25,7 @@ var choices1 = new Choices(participantes, {
   noChoicesText: 'No hay participantes disponibles',
 });
 
-const asistentes = document.getElementById('asistentes');
-var choices2 = new Choices(asistentes, {
-  allowHTML: true,
-  removeItems: true,
-  removeItemButton: true,
-  noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
-});
+
 
 const campos = {
   codigoLider: true,
@@ -192,7 +185,6 @@ inputs3.forEach((input) => {
 });
 
 participantes.addEventListener('hideDropdown', ValidarFormulario);
-asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 //alerta registrar participante
 
@@ -294,6 +286,15 @@ function buscarParticipantesAsistencias(busqueda) {
     type: "get"
   }).done(data => {
     expandir.innerHTML = data
+    const asistentes = document.getElementById('asistentes');
+    var choices2 = new Choices(asistentes, {
+      allowHTML: true,
+      removeItems: true,
+      removeItemButton: true,
+      noResultsText: 'No hay coicidencias',
+      noChoicesText: 'No hay participantes disponibles',
+    });
+    asistentes.addEventListener('hideDropdown', ValidarFormulario);
     addEvents()
   })
 }
@@ -378,7 +379,7 @@ function addEvents() {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
     let idInput = document.getElementById('idInput3')
-    let busqueda = id.textContents
+    let busqueda = id.textContent
     idInput.value = id.textContent
 
     buscarParticipantesAsistencias(busqueda);
