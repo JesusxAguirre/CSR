@@ -21,6 +21,35 @@ class Discipulado extends Usuarios
     {
         $this->conexion = parent::conexion();
     }
+    public function buscar_discipulado($busqueda)
+    {
+        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
+        FROM celula_discipulado 
+        JOIN usuarios AS lider ON celula_discipulado.cedula_lider = lider.cedula 
+        JOIN usuarios AS anfitrion ON celula_discipulado.cedula_anfitrion = anfitrion.cedula 
+        JOIN usuarios AS asistente ON celula_discipulado.cedula_asistente = asistente.cedula  
+        WHERE codigo_celula_discipulado LIKE '%" . $busqueda . "%' 
+        OR fecha LIKE '%" . $busqueda . "%' 
+        OR dia_reunion LIKE '%" . $busqueda . "%'
+        OR hora LIKE '%" . $busqueda . "%'
+        OR lider.codigo LIKE '%" . $busqueda . "%'
+        OR anfitrion.codigo LIKE '%" . $busqueda . "%'
+        OR asistente.codigo LIKE '%" . $busqueda . "%'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+
+        if ($stmt->rowCount() > 0) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+                $this->busqueda[] = $filas;
+            }
+        }
+        return $this->busqueda;
+    }
 
 
     public function listar_celula_discipulado()

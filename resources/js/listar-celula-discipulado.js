@@ -9,7 +9,7 @@ const inputs = document.querySelectorAll('#editForm input'); //declarando una co
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
-const eliminar__participantes =  document.getElementById('eliminar__participantes')
+const eliminar__participantes = document.getElementById('eliminar__participantes')
 
 const modal_eliminar_participates = document.getElementById('datos4')
 // Agrega los eventos para actualizar y eliminar 
@@ -206,6 +206,10 @@ const datosEl = document.getElementById('datos')
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
+
+})
+
+function buscarDiscipulado(busqueda) {
   $.ajax({
     data: 'busqueda=' + busqueda,
     url: "controlador/ajax/buscar-discipulado.php",
@@ -213,8 +217,7 @@ busquedaEl.addEventListener('keyup', () => {
   }).done(data => {
     datosEl.innerHTML = data
   })
-})
-
+}
 
 //alerta registrar participante
 
@@ -283,7 +286,7 @@ function buscarParticipantes(busqueda) {
   }).done(data => {
     modal_eliminar_participates.innerHTML = data
     var v_modal = $('#eliminar_usuario').modal({ show: false });
- 
+
     v_modal.modal("show");
     addEvents()
     console.log("sale de la funcion")
@@ -330,11 +333,11 @@ function addEvents() {
   participanteModal.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
-  
+
     const busqueda = id.textContent
 
 
-    buscarParticipantes(busqueda);  
+    buscarParticipantes(busqueda);
   }))
 
   // Actualizar contenido del modal Eliminar
