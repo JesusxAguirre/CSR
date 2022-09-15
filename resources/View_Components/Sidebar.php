@@ -246,6 +246,14 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
             </div>
           </div>
         </li>
+        <li>
+          <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos" >
+            <span class="me-2">
+            <i class="bi bi-clipboard-data-fill fs-3"></i></span>
+              <span >Reportes estadisticos de celulas </span>
+              
+          </a>
+        </li>
 
         <!-- PRUEBITA -->
 
