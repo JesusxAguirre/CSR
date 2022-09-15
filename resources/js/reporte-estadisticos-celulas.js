@@ -332,8 +332,8 @@ formulario4.addEventListener('click', (e) => {
         }
         console.log(titulo);
         console.log(cantidad);
-        var v_modal = $('#consolidacion-grafico').modal({ show: false });
-        Highcharts.chart('grafico3', {
+        var v_modal = $('#lider-grafico').modal({ show: false });
+        Highcharts.chart('grafico4', {
           chart: {
             type: 'area'
           },
