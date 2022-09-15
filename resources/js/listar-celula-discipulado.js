@@ -203,27 +203,6 @@ inputs3.forEach((input) => {
 participantes.addEventListener('hideDropdown', ValidarFormulario);
 asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
-
-
-//busqueda ajax 
-
-busquedaEl.addEventListener('keyup', () => {
-  let busqueda = busquedaEl.value
-
-  buscarDiscipulado(busqueda);
-})
-
-function buscarDiscipulado(busqueda) {
-  $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-discipulado.php",
-    type: "get",
-  }).done(data => {
-    datosEl.innerHTML = data
-    addEvents()
-  })
-}
-
 //alerta registrar participante
 
 if (actualizar == false) {
@@ -254,9 +233,28 @@ if (registrar_asistencia == false) {
   setTimeout(recarga, 2000);
 }
 
-function recarga() {
-  window.location = "index.php?pagina=listar-celula-discipulado";
+
+
+//funciones ajax
+
+//busqueda consolidacion
+busquedaEl.addEventListener('keyup', () => {
+  let busqueda = busquedaEl.value
+
+  buscarDiscipulado(busqueda);
+})
+
+function buscarDiscipulado(busqueda) {
+  $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-discipulado.php",
+    type: "get",
+  }).done(data => {
+    datosEl.innerHTML = data
+    addEvents()
+  })
 }
+
 
 // Eliminación con Ajax
 const deleteButton = document.getElementById('deleteButton')
@@ -265,7 +263,7 @@ deleteButton.addEventListener('click', () => {
   let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
   console.log(participante_cedula)
   $.ajax({
-    data: 'participante_cedula='+participante_cedula,
+    data: 'participante_cedula=' + participante_cedula,
     url: "controlador/ajax/eliminar-participante-discipulado.php",
     type: "post",
   }).done(data => {
@@ -280,13 +278,18 @@ deleteButton.addEventListener('click', () => {
   })
 })
 
+
+//FUCNIONES QUE SE LLAMAN MAS ARRIBA
+
 function fireAlert(icon, msg) {
   Swal.fire({
     icon: icon,
     title: msg
   })
 }
-
+function recarga() {
+  window.location = "index.php?pagina=listar-celula-discipulado";
+}
 
 function buscarParticipantes(busqueda) {
   return $.ajax({
