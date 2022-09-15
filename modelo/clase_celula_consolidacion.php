@@ -499,9 +499,9 @@ $resultado = array();
     }
 
     //---------------------------------------------------Eliminar participantes------------------------------------//
-    public function eliminar_participantes()
+    public function eliminar_participantes($cedula_participante)
     {
-        $sql = ("UPDATE usuarios SET id_consolidacion  = NULL WHERE cedula = '$this->cedula_participante'");
+        $sql = ("UPDATE usuarios SET id_consolidacion  = NULL WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -534,10 +534,7 @@ $resultado = array();
         $this->id = $id;
     }
 
-    public function setParticipante($cedula_participante)
-    {
-        $this->cedula_participante = $cedula_participante;
-    }
+
 
     public function setParticipantes($participantes, $id)
     {

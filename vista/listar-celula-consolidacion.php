@@ -253,13 +253,11 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Eliminar participante de Celula de discipulado</h5>
+          <h5 class="modal-title">Eliminar participante de Celula de Consolidacion</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-consolidacion ">
             <div style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
-
               <table role='table' class='table table-centered'>
                 <thead>
                   <tr role='row'>
@@ -275,7 +273,6 @@
                 </tbody>
               </table>
             </div>
-          </form>
         </div>
       </div>
     </div>

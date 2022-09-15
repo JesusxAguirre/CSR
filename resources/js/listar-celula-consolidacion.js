@@ -194,6 +194,36 @@ inputs3.forEach((input) => {
 participantes.addEventListener('hideDropdown', ValidarFormulario);
 asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
+//alerta registrar participante
+
+if (actualizar == false) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Se actualizo la informacion correctamente'
+  })
+  setTimeout(recarga, 2000);
+
+  function recarga() {
+    window.location = "index.php?pagina=listar-celula-discipulado";
+  }
+}
+
+if (registrar_participante == false) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro correctamente el(la) ó los(as)participante'
+  })
+  setTimeout(recarga, 2000);
+}
+//alerta registrar asistencia
+if (registrar_asistencia == false) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro correctamente la asistencia'
+  })
+  setTimeout(recarga, 2000);
+}
+
 
 //busqueda ajax 
 busquedaEl.addEventListener('keyup', () => {
@@ -202,6 +232,28 @@ busquedaEl.addEventListener('keyup', () => {
   buscarConsolidacion(busqueda);
 })
 
+
+// Eliminación con Ajax
+const deleteButton = document.getElementById('deleteButton')
+
+deleteButton.addEventListener('click', () => {
+  let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
+  console.log(participante_cedula)
+  $.ajax({
+    data: 'participante_cedula=' + participante_cedula,
+    url: "controlador/ajax/eliminar-participante-consolidacion.php",
+    type: "post",
+  }).done(data => {
+    if (data == '1') {
+      fireAlert('success', 'Participante  eliminado correctamente')
+    } else {
+      console.log(data)
+      fireAlert('error', 'El participante que intenta eliminar no existe')
+    }
+  }).then(() => {
+    setTimeout(recarga, 2000);
+  })
+})
 
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
 function buscarConsolidacion(busqueda) {
