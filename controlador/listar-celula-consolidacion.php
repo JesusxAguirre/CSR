@@ -20,10 +20,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_asistente = $_POST['codigoAsistente'];
         $dia = $_POST['dia'];
         $hora = $_POST['hora'];
-        $codigo = $_POST['codigo'];
         $id = $_POST['id'];
 
-        $objeto->setDatos2($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$codigo,$id);
+        $objeto->setActualizar($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$id);
 
         $objeto->update_consolidacion();
         $actualizar = false;
@@ -31,7 +30,8 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     //agregar participantes
     $registrar_participante = true;
-    if(isset($_POST['participantes'])){
+    if(isset($_POST['agregar_participantes'])){
+   
         $participantes = $_POST['participantes'];
         $id = $_POST['id']; 
         

@@ -465,13 +465,13 @@ class Consolidacion extends Usuarios
             }
         }
 
-        $sql = ("UPDATE celula_consolidacion SET codigo_celula_consolidacion= :codigo_celula, cedula_lider = :cedula_lider , 
+        $sql = ("UPDATE celula_consolidacion SET  cedula_lider = :cedula_lider , 
             cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora WHERE id= :id");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":codigo_celula" => $this->codigo, ":cedula_lider" => $this->cedula_lider,
+           ":cedula_lider" => $this->cedula_lider,
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
             ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
         ));
@@ -523,8 +523,8 @@ class Consolidacion extends Usuarios
         $this->direccion = $direccion;
         $this->participantes = $participantes;
     }
-    //-------- SET DATOS para actualizar consolidacions-------------------------------------//
-    public function setDatos2($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $codigo, $id)
+    //-------- SET actualizar para actualizar consolidacions-------------------------------------//
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
@@ -532,7 +532,6 @@ class Consolidacion extends Usuarios
         $this->dia = $dia;
         $this->hora = $hora;
         $this->fecha = gmdate("y-m-d", time());
-        $this->codigo = $codigo;
         $this->id = $id;
     }
 
