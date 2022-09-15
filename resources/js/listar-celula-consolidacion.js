@@ -25,7 +25,7 @@ var choices1 = new Choices(participantes, {
   noChoicesText: 'No hay participantes disponibles',
 });
 
-var asistentes = document.getElementById('asistentes');
+const asistentes = document.getElementById('asistentes');
 var choices2 = new Choices(asistentes, {
   allowHTML: true,
   removeItems: true,
@@ -283,6 +283,16 @@ function buscarParticipantes(busqueda) {
     var v_modal = $('#eliminar_usuario').modal({ show: false });
 
     v_modal.modal("show");
+    addEvents()
+  })
+}
+function buscarParticipantesAsistencias(busqueda) {
+  return $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-participante-asistencias-consolidacion.php",
+    type: "get"
+  }).done(data => {
+    asistentes.innerHTML = data
     addEvents()
   })
 }
