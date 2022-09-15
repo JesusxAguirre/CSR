@@ -65,10 +65,12 @@
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico cantidad de celulas de discipulado</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Reporte estadistico numero de discipulos</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Reporte estadistico cantidad de celulas de consolidacion</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#lider-form" role="button">Reporte estadistico crecimiento de lider</a>
 
               <div id="respuesta"></div>
               <div id="respuesta2"></div>
               <div id="respuesta3"></div>
+              <div id="respuesta4"></div>
 
             </div>
           </div>
@@ -185,6 +187,56 @@
       </div>
     </div>
   </div>
+  <!-- Modal para formulario de fechas de celulas de consolidacion creados-->
+  <div class="modal fade" id="lider-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario3" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__lider" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <select multiple name="lider[]" id="lider" class="form-control">
+                    <?php foreach ($matriz_lideres as $lider) :?>
+                      <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
+                    <?php endforeach;?>
+                  </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio4" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio3" id="fecha_inicio3" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final4" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final4" id="fecha_final4" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar3" name="consultar" 3 type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -231,6 +283,20 @@
         </div>
         <div class="modal-body">
           <div id="grafico3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal grafico de lider -->
+  <div class="modal fade" id="lider-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico crecimiento de lider</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico4"></div>
         </div>
       </div>
     </div>

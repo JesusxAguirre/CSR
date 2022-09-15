@@ -6,7 +6,9 @@ require_once('modelo/clase_celula_consolidacion.php');
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
-   
+   $objeto = new Consolidacion();
+
+   $matriz_lideres = $objeto->listar_usuarios_N2();
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
