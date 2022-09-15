@@ -358,5 +358,5 @@
     registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>;
     registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>;
   </script>
-  <script type="text/javascript" src="resources/js/listar-celula-consolidacion.js"></script>
+  <script  src="resources/js/listar-celula-consolidacion.js"></script>
 </body>

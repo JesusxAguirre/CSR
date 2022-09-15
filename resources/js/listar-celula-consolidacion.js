@@ -53,47 +53,6 @@ const expresiones = { //objeto con varias expresiones regulares
   codigo: /^[CC]{2}[0-9]{1,5}$/ //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
 }
 
-editButtons.forEach(boton => boton.addEventListener('click', () => {
-  let fila = boton.parentElement.parentElement
-  let id = fila.querySelector('.id')
-
-  let dia = fila.querySelector('.dia')
-  let hora = fila.querySelector('.hora')
-  let lider = fila.querySelector('.lider')
-  let anfitrion = fila.querySelector('.anfitrion')
-  let asistente = fila.querySelector('.asistente')
-
-
-  const idInput = document.getElementById('idInput')
-  const diaInput = document.getElementById('diaInput')
-  const horaInput = document.getElementById('horaInput')
-  const liderInput = document.getElementById('codigoLider')
-  const anfitrionInput = document.getElementById('codigoAnfitrion')
-  const asistenteInput = document.getElementById('codigoAsistente')
-
-  liderInput.value = lider.textContent
-  anfitrionInput.value = anfitrion.textContent
-  asistenteInput.value = asistente.textContent
-  idInput.value = id.textContent
-  diaInput.value = dia.textContent
-  horaInput.value = hora.textContent
-  //cedulas de usuarios
-
-
-}))
-agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
-  let fila = boton.parentElement.parentElement
-  let id = fila.querySelector('.id')
-  const idInput = document.getElementById('idInput2')
-  idInput.value = id.textContent
-}))
-agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
-  let fila = boton.parentElement.parentElement
-  let id = fila.querySelector('.id')
-  const idInput = document.getElementById('idInput3')
-  idInput.value = id.textContent
-}))
-
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
@@ -245,7 +204,7 @@ busquedaEl.addEventListener('keyup', () => {
 
 
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
-function buscarConsolidacion(busqueda){
+function buscarConsolidacion(busqueda) {
   $.ajax({
     data: 'busqueda=' + busqueda,
     url: "controlador/ajax/buscar-consolidacion.php",
