@@ -29,7 +29,7 @@ class Discipulado extends Usuarios
         JOIN usuarios AS lider ON celula_discipulado.cedula_lider = lider.cedula 
         JOIN usuarios AS anfitrion ON celula_discipulado.cedula_anfitrion = anfitrion.cedula 
         JOIN usuarios AS asistente ON celula_discipulado.cedula_asistente = asistente.cedula  
-        WHERE codigo_celula_discipulado LIKE '%" . $busqueda . "%' 
+        WHERE codigo_celula_discipulado  LIKE '%" . $busqueda . "%' 
         OR fecha LIKE '%" . $busqueda . "%' 
         OR dia_reunion LIKE '%" . $busqueda . "%'
         OR hora LIKE '%" . $busqueda . "%'

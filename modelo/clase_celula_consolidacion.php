@@ -67,7 +67,11 @@ class Consolidacion extends Usuarios
     //-------------------------------------------------------Buscar consolidacion con Ajax---------------------//
     public function buscar_consolidacion($busqueda)
     {
-        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' FROM celula_consolidacion JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
+        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
+        FROM celula_consolidacion 
+        JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula 
+        JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula 
+        JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
         WHERE codigo_celula_consolidacion LIKE '%" . $busqueda . "%' 
         OR fecha LIKE '%" . $busqueda . "%' 
         OR dia_reunion LIKE '%" . $busqueda . "%'
