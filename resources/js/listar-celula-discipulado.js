@@ -203,6 +203,8 @@ inputs3.forEach((input) => {
 participantes.addEventListener('hideDropdown', ValidarFormulario);
 asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
+
+
 //busqueda ajax 
 
 busquedaEl.addEventListener('keyup', () => {
@@ -218,6 +220,7 @@ function buscarDiscipulado(busqueda) {
     type: "get",
   }).done(data => {
     datosEl.innerHTML = data
+    addEvents()
   })
 }
 
@@ -253,9 +256,9 @@ const deleteButton = document.getElementById('deleteButton')
 
 deleteButton.addEventListener('click', () => {
   let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
-
+  console.log(participante_cedula)
   $.ajax({
-    data: 'participante_cedula=' + participante_cedula,
+    data: 'participante_cedula='+participante_cedula,
     url: "controlador/ajax/eliminar-participante-discipulado.php",
     type: "post",
   }).done(data => {

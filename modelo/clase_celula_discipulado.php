@@ -447,9 +447,9 @@ class Discipulado extends Usuarios
 
     }
 
-    public function eliminar_participantes()
+    public function eliminar_participantes($cedula_participante)
     {
-        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$this->cedula_participante'");
+        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -480,11 +480,6 @@ class Discipulado extends Usuarios
         $this->id = $id;
     }
 
-
-    public function setParticipante($cedula_participante)
-    {
-        $this->cedula_participante = $cedula_participante;
-    }
 
 
     public function setParticipantes($participantes, $id)
