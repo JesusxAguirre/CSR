@@ -454,6 +454,8 @@ class Discipulado extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
+
+        return true;
     }
 
     //-------- SET DATOS Para registar discipulado-------------------------------------//

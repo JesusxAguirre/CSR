@@ -241,13 +241,9 @@ if (actualizar == false) {
 if (registrar_participante == false) {
   Swal.fire({
     icon: 'success',
-    title: 'Se registro correctamente el participante'
+    title: 'Se registro correctamente el(la) ó los(as)participante'
   })
   setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=listar-celula-discipulado";
-  }
 }
 //alerta registrar asistencia
 if (registrar_asistencia == false) {
@@ -256,12 +252,11 @@ if (registrar_asistencia == false) {
     title: 'Se registro correctamente la asistencia'
   })
   setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=listar-celula-discipulado";
-  }
 }
 
+function recarga() {
+  window.location = "index.php?pagina=listar-celula-discipulado";
+}
 
 // Eliminación con Ajax
 const deleteButton = document.getElementById('deleteButton')
@@ -281,9 +276,7 @@ deleteButton.addEventListener('click', () => {
       fireAlert('error', 'El participante que intenta eliminar no existe')
     }
   }).then(() => {
-    document.querySelector('#eliminar .btn-close').click()
-
-    buscarDiscipulado('')
+    setTimeout(recarga, 2000);
   })
 })
 
@@ -306,7 +299,6 @@ function buscarParticipantes(busqueda) {
 
     v_modal.modal("show");
     addEvents()
-    console.log("sale de la funcion")
   })
 }
 
