@@ -29,6 +29,9 @@ const campos = {
   fecha_final2: false,
   fecha_inicio3: false,
   fecha_final3: false,
+  lider: false,
+  fecha_inicio4: false,
+  fecha_final4: false,
 }
 
 const ValidarFormulario = (e) => {
@@ -50,6 +53,15 @@ const ValidarFormulario = (e) => {
       break;
     case "fecha_final3":
       ValidarSelect(e.target, 'fecha_final3');
+      break;
+    case "lider[]":
+      ValidarSelect(e.target, 'lider');
+      break;
+    case "fecha_inicio4":
+      ValidarSelect(e.target, 'fecha_inicio4');
+      break;
+    case "fecha_final4":
+      ValidarSelect(e.target, 'fecha_final4');
       break;
   }
 }
@@ -299,5 +311,10 @@ inputs3.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 });
+inputs4.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
+});
 
 
+lider.addEventListener('hideDropdown', ValidarFormulario);

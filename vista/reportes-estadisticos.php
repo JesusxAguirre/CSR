@@ -220,7 +220,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
                   <i class="input-icon fs-5"></i>
-                  <input name="fecha_inicio3" id="fecha_inicio3" class="form-control" type="month" />
+                  <input name="fecha_inicio4" id="fecha_inicio4" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
@@ -235,7 +235,7 @@
             </div>
             <div class="mb-3" id="formGridCheckbox">
             </div>
-            <button id="consultar3" name="consultar" 3 type="submit" class="btn btn-primary">Enviar</button>
+            <button id="consultar4" name="consultar" 3 type="submit" class="btn btn-primary">Enviar</button>
           </div>
         </div>
       </div>
