@@ -1,15 +1,20 @@
-// Actualizar contenido del modal Editar
-const editButtons = document.querySelectorAll('table td .edit-btn')
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
-const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
-const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
 
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
+
+const eliminar__participantes = document.getElementById('eliminar__participantes')
+const modal_eliminar_participates = document.getElementById('datos4')
+const busquedaEl = document.getElementById('caja_busqueda')
+const datosEl = document.getElementById('datos')
+
+
+// Agrega los eventos para actualizar y eliminar 
+addEvents()
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
@@ -233,9 +238,6 @@ asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 //busqueda ajax 
 
-const busquedaEl = document.getElementById('caja_busqueda')
-const datosEl = document.getElementById('datos')
-
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
@@ -247,3 +249,90 @@ busquedaEl.addEventListener('keyup', () => {
     datosEl.innerHTML = data
   })
 })
+
+
+
+
+
+function addEvents() {
+  // Actualizar contenido del modal Editar
+  const editButtons = document.querySelectorAll('table td .edit-btn')
+
+  editButtons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+
+    let dia = fila.querySelector('.dia')
+    let hora = fila.querySelector('.hora')
+    let lider = fila.querySelector('.lider')
+    let anfitrion = fila.querySelector('.anfitrion')
+    let asistente = fila.querySelector('.asistente')
+
+
+    const idInput = document.getElementById('idInput')
+
+    const diaInput = document.getElementById('diaInput')
+    const horaInput = document.getElementById('horaInput')
+    const liderInput = document.getElementById('codigoLider')
+    const anfitrionInput = document.getElementById('codigoAnfitrion')
+    const asistenteInput = document.getElementById('codigoAsistente')
+
+    liderInput.value = lider.textContent
+    anfitrionInput.value = anfitrion.textContent
+    asistenteInput.value = asistente.textContent
+    idInput.value = id.textContent
+
+    diaInput.value = dia.textContent
+    horaInput.value = hora.textContent
+    //cedulas de usuarios
+
+
+  }))
+
+  const participanteModal = document.querySelectorAll('table td .modal-btn')
+
+  participanteModal.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+
+    const busqueda = id.textContent
+
+
+    buscarParticipantes(busqueda);
+  }))
+
+  // Actualizar contenido del modal Eliminar
+  const deleteButtons = document.querySelectorAll('table td .delete-btn')
+
+  deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let cedula_participante = fila.querySelector('.participantes_cedula')
+    let nombre = fila.querySelector('.participantes_nombre')
+    let apellido = fila.querySelector('.participantes_apellido')
+
+    const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
+    const nombre_participante = document.getElementById('deleteParticipanteName')
+    const apellido_participante = document.getElementById('deleteParticipanteApellido')
+
+    cedulaInput.value = cedula_participante.textContent
+    nombre_participante.textContent = nombre.textContent
+    apellido_participante.textContent = apellido.textContent
+  }))
+
+  const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
+
+  agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+    const idInput = document.getElementById('idInput2')
+    idInput.value = id.textContent
+  }))
+
+  const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
+  agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let id = fila.querySelector('.id')
+    const idInput = document.getElementById('idInput3')
+    idInput.value = id.textContent
+  }))
+}
