@@ -44,13 +44,14 @@ class Consolidacion extends Usuarios
         return $this->listar;
     }
     //------------------------------------------------------Listar participantes por celulal de consolidacion---------------------//
-    public function listar_participantes()
+    public function listar_participantes($busqueda)
     {
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion AS codigo_celula,
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_consolidacion 
-        INNER JOIN usuarios AS participantes ON celula_consolidacion.id = participantes.id_consolidacion");
+        INNER JOIN usuarios AS participantes ON celula_consolidacion.id = participantes.id_consolidacion
+        WHERE celula_consolidacion.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -136,7 +137,6 @@ class Consolidacion extends Usuarios
        WHERE celula_consolidacion.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
 
         $stmt = $this->conexion()->prepare($sql);
-$resultado = array();
         $stmt->execute(array());
 
         $meses = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -506,6 +506,8 @@ $resultado = array();
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
+
+        return true;
     }
 
 

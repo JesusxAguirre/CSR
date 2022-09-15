@@ -6,7 +6,6 @@ $busqueda = $_GET['busqueda'];
 $matriz_participantes = $objeto->listar_participantes($busqueda);
 ?>
 <?php if (!empty($matriz_participantes)) : ?>
-  <!-- Modal eliminar usuario -->
   <?php foreach ($matriz_participantes as $participante) : ?>
     <tr role='row'>
       <td hidden class="id" role='cell'><?php echo $participante['id'] ?></td>
@@ -21,5 +20,4 @@ $matriz_participantes = $objeto->listar_participantes($busqueda);
       </td>
     </tr>
   <?php endforeach;       ?>
-  <!-- Modal eliminar usuario -->
 <?php endif ?>

@@ -274,13 +274,13 @@ function fireAlert(icon, msg) {
   })
 }
 function recarga() {
-  window.location = "index.php?pagina=listar-celula-discipulado";
+  window.location = "index.php?pagina=listar-celula-consolidacion";
 }
 
 function buscarParticipantes(busqueda) {
   return $.ajax({
     data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-participante-discipulado.php",
+    url: "controlador/ajax/buscar-participante-consolidacion.php",
     type: "get"
   }).done(data => {
     modal_eliminar_participates.innerHTML = data
