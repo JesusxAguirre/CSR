@@ -12,6 +12,11 @@ const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 const eliminar__participantes = document.getElementById('eliminar__participantes')
 
 const modal_eliminar_participates = document.getElementById('datos4')
+
+
+const busquedaEl = document.getElementById('caja_busqueda')
+const datosEl = document.getElementById('datos')
+
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
 
@@ -200,13 +205,10 @@ asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 //busqueda ajax 
 
-const busquedaEl = document.getElementById('caja_busqueda')
-const datosEl = document.getElementById('datos')
-
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
-
+  buscarDiscipulado(busqueda);
 })
 
 function buscarDiscipulado(busqueda) {

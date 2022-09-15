@@ -16,6 +16,7 @@ class Discipulado extends Usuarios
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
+    private $busqueda;
 
     public function __construct()
     {
