@@ -44,22 +44,6 @@ if ($_SESSION['verdadero'] > 0) {
         }
 
         
-        // eliminar participantes
-        $eliminar_participante = true;
-      
-        if (isset($_POST['eliminar_participantes'])) {
-            
-            $cedula_participante = $_POST['eliminar_participantes'];
-            echo $eliminar_participante;
-            print_r($cedula_participante);
-            exit;
-            $objeto->setParticipante($cedula_participante);
-
-            $objeto->eliminar_participantes();
-            $eliminar_participante = false;
-        }
-
-        
         //registrar asistencia
         $registrar_asistencia = true;
         if (isset($_POST['agregar_asistencia'])) {

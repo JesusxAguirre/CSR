@@ -357,6 +357,7 @@
   </div>
 
   <script type="text/javascript">
+    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
     registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>;
     registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>;
   </script>

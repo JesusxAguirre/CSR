@@ -226,6 +226,18 @@ function buscarDiscipulado(busqueda) {
 
 //alerta registrar participante
 
+if (actualizar == false) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Se actualizo la informacion correctamente'
+  })
+  setTimeout(recarga, 2000);
+
+  function recarga() {
+    window.location = "index.php?pagina=listar-celula-discipulado";
+  }
+}
+
 if (registrar_participante == false) {
   Swal.fire({
     icon: 'success',
@@ -241,7 +253,7 @@ if (registrar_participante == false) {
 if (registrar_asistencia == false) {
   Swal.fire({
     icon: 'success',
-    title: 'Se registro correctamente el participante'
+    title: 'Se registro correctamente la asistencia'
   })
   setTimeout(recarga, 2000);
 
