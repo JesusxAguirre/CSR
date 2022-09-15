@@ -28,9 +28,10 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->update_consolidacion();
         $actualizar = false;
     }
+
+    //agregar participantes
     $registrar_participante = true;
-    if(isset($_POST['agregar_participante'])){
-     
+    if(isset($_POST['participantes'])){
         $participantes = $_POST['participantes'];
         $id = $_POST['id']; 
         

@@ -231,11 +231,6 @@
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
             </div>
-
-            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
-            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
-            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
-
             <input type="hidden" name="id" id="idInput2">
           </form>
         </div>

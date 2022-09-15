@@ -234,20 +234,17 @@
                 <p class="text-danger d-none">Este campos no puede estar vacio</p>
               </div>
             </div>
-            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
-            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
-            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
             <input type="hidden" name="id" id="idInput2">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
+          <button type="submit" name="agregar_participantes" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
         </div>
       </div>
     </div>
   </div>
-  
+
   <!-- Modal eliminar usuario -->
   <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -257,22 +254,22 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
-              <table role='table' class='table table-centered'>
-                <thead>
-                  <tr role='row'>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
-                    <th colspan='1' role='columnheader' class=''>Codigo participante</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody id="datos4" role='rowgroup'>
-                </tbody>
-              </table>
-            </div>
+          <div style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
+            <table role='table' class='table table-centered'>
+              <thead>
+                <tr role='row'>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
+                  <th colspan='1' role='columnheader' class=''>Codigo participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="datos4" role='rowgroup'>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -355,5 +352,5 @@
     registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>;
     registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>;
   </script>
-  <script  src="resources/js/listar-celula-consolidacion.js"></script>
+  <script src="resources/js/listar-celula-consolidacion.js"></script>
 </body>
