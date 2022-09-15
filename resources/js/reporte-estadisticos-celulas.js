@@ -294,6 +294,78 @@ formulario3.addEventListener('click', (e) => {
     })
   }
 })
+formulario4.addEventListener('click', (e) => {
+  if (!(campos.fecha_inicio4 && campos.fecha_final4 && campos.lider)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  } else {
+    //busqueda ajax 
+    const fecha_inicio4 = document.getElementById('fecha_inicio4')
+    const fecha_final4 = document.getElementById('fecha_final4')
+    const lider = document.getElementById('lider')
+    const enviar4 = document.getElementById('consultar4')
+    const respuesta4 = document.getElementById('respuesta4');
+    enviar4.addEventListener('click', () => {
+      let cedula_lider =  lider.value
+      let fecha_inicio = fecha_inicio4.value
+      let fecha_final = fecha_final4.value
+      $.ajax({
+        data: {
+          fecha_inicio: fecha_inicio,
+          fecha_final: fecha_final,
+          cedula_lider: cedula_lider,
+        },
+        url: "controlador/ajax/mostrar-grafico-lider.php",
+        type: "post",
+        dataType: "json",
+      }).done(data => {
+        var titulo = [];
+        var cantidad = [];
+        console.log(data);
+        for (prop in data) {
+          titulo.push(prop);
+          cantidad.push(data[prop]);
+        }
+        console.log(titulo);
+        console.log(cantidad);
+        var v_modal = $('#consolidacion-grafico').modal({ show: false });
+        Highcharts.chart('grafico3', {
+          chart: {
+            type: 'area'
+          },
+          title: {
+            text: 'Cantidad de celulas de consolidacion'
+          },
+          xAxis: {
+            categories: titulo
+          },
+          yAxis: {
+            title: {
+              text: 'Cantidad'
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: "cantidad de celulas de consolidacion",
+            data: cantidad,
+            colorByPoint: true,
+          }],
+        });
+
+
+
+        v_modal.on("show", function () { })
+        v_modal.modal("show");
+      })
+    })
+  }
+})
 
 
 
