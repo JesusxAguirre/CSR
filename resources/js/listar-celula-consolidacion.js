@@ -11,7 +11,7 @@ const eliminar__participantes = document.getElementById('eliminar__participantes
 const modal_eliminar_participates = document.getElementById('datos4')
 const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
-
+const expandir =  document.getElementById('datos4')
 
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
@@ -286,13 +286,14 @@ function buscarParticipantes(busqueda) {
     addEvents()
   })
 }
+
 function buscarParticipantesAsistencias(busqueda) {
   return $.ajax({
     data: 'busqueda=' + busqueda,
     url: "controlador/ajax/buscar-participante-asistencias-consolidacion.php",
     type: "get"
   }).done(data => {
-    asistentes.innerHTML = data
+    expandir.innerHTML = data
     addEvents()
   })
 }
@@ -339,7 +340,7 @@ function addEvents() {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
 
-    const busqueda = id.textContent
+    let busqueda = id.textContent
 
 
     buscarParticipantes(busqueda);
@@ -376,7 +377,10 @@ function addEvents() {
   agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
-    const idInput = document.getElementById('idInput3')
+    let idInput = document.getElementById('idInput3')
+    let busqueda = id.textContents
     idInput.value = id.textContent
+
+    buscarParticipantesAsistencias(busqueda);
   }))
 }

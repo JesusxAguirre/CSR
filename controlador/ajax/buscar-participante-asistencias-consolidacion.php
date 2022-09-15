@@ -4,6 +4,7 @@ $objeto = new Consolidacion();
 
 $busqueda = $_GET['busqueda'];
 $matriz_participantes = $objeto->listar_participantes($busqueda);
+echo $busqueda;
 ?>
 <?php if (!empty($matriz_participantes)) : ?>
   <?php foreach ($matriz_participantes as $participante) : ?>
