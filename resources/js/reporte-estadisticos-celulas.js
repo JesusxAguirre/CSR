@@ -310,6 +310,8 @@ formulario4.addEventListener('click', (e) => {
     const enviar4 = document.getElementById('consultar4')
     const respuesta4 = document.getElementById('respuesta4');
     enviar4.addEventListener('click', () => {
+      console.log("inicio de la funcion")
+
       let cedula_lider =  lider.value
       let fecha_inicio = fecha_inicio4.value
       let fecha_final = fecha_final4.value
@@ -358,7 +360,7 @@ formulario4.addEventListener('click', (e) => {
           }],
         });
 
-
+        console.log("final de la funcion")
 
         v_modal.on("show", function () { })
         v_modal.modal("show");

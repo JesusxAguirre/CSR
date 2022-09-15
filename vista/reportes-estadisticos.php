@@ -206,7 +206,8 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
                   <i class="input-icon fs-5"></i>
-                  <select multiple name="lider[]" id="lider" class="form-control">
+                  <select  name="lider[]" id="lider" class="form-control">
+                    <option value="" >Seleccione una opcion</option>
                     <?php foreach ($matriz_lideres as $lider) :?>
                       <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
                     <?php endforeach;?>

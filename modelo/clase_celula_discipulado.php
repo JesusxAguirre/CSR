@@ -573,7 +573,7 @@ class Discipulado extends Usuarios
        INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
        WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
        AND usuarios.id_discipulado IS NOT NULL
-       AND celula_discipulado.cedula_lider='$cedula_lider's");
+       AND celula_discipulado.cedula_lider='$cedula_lider'");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
