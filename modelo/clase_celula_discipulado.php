@@ -470,6 +470,7 @@ class Discipulado extends Usuarios
         $this->direccion = $direccion;
         $this->participantes = $participantes;
     }
+    //-------- SET actualizar para actualizar disicpulados-------------------------------------//
 
     public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
     {

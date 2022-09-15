@@ -211,10 +211,6 @@ if (actualizar == false) {
     title: 'Se actualizo la informacion correctamente'
   })
   setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=listar-celula-discipulado";
-  }
 }
 
 if (registrar_participante == false) {
