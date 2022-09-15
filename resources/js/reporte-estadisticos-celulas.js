@@ -10,6 +10,16 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 
+
+var lider = document.getElementById('lider');
+var choices1 = new Choices(lider, {
+  allowHTML: true,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
+});
+
 const campos = {
   fecha_inicio: false,
   fecha_final: false,

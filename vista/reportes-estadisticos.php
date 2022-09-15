@@ -26,6 +26,10 @@
   <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
 
+<!-- CHOICE 2 -->
+<link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+
   <!-- JQUERY -->
   <script src="./resources/js/jquery-3.6.0.min.js"></script>
 
