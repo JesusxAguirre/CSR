@@ -45,11 +45,15 @@
           </div>
         </div>
       </div>
-      <div class="row mt-5">
+      <div class="row mt-3">
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="">
+              <form class="" action="?pagina=registrar-casa">
+                <div class="mb-3 row">
+                  <div class="col"><label class="form-label fw-bold" for="formGridEmail">Codigo de lider</label>
+                  <input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control"></div>
+                </div>
                 <div class="mb-3 row">
                   <div class="col"><label class="form-label fw-bold" for="formGridEmail">Direccion</label><input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control"></div>
                   <div class="col"><label class="form-label fw-bold" for="formGridPassword">Nombre de Anfitrion</label><input placeholder="Juan Jimenez" type="text" id="formGridPassword" class="form-control"></div>
@@ -66,7 +70,8 @@
                 </div>
              
                 <div class="mb-3" id="formGridCheckbox">
-                </div><button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>

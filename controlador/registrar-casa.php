@@ -1,11 +1,14 @@
 <?php
+require_once("modelo/clase_casa_sobre_la_roca.php");
 
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
+    $objeto = new LaRoca();
 
+    $matriz_lider = $objeto->listar_usuarios_N2();
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
