@@ -557,7 +557,7 @@ class Discipulado extends Usuarios
 
     public function listar_numero_discipulos_por_lider($fecha_inicio,$fecha_final,$cedula_lider)
     {
-        $sql = ("SELECT 
+        $sql = ("SELECT lider.nombre,lider.apellido,
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
@@ -572,6 +572,7 @@ class Discipulado extends Usuarios
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
        FROM celula_discipulado 
        INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+       INNER JOIN usuarios AS lider ON celula_discipulado.cedula_lider = lider.cedula
        WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
        AND usuarios.id_discipulado IS NOT NULL
        AND celula_discipulado.cedula_lider='$cedula_lider'");
@@ -611,4 +612,18 @@ class Discipulado extends Usuarios
 
         return $resultado;
     }
+
+    public function listar_lider($cedula_lider)
+    {
+        $sql = ("SELECT lider.nombre,lider.apellido,
+       FROM celula_discipulado 
+       INNER JOIN usuarios AS lider ON celula_discipulado.cedula_lider = lider.cedula
+       WHERE celula_discipulado.cedula_lider='$cedula_lider'");
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
+
 }

@@ -329,6 +329,7 @@ formulario4.addEventListener('click', (e) => {
         var titulo = [];
         var cantidad1 = [];
         var cantidad2 = [];
+        console.log(data)
         for (prop in data) {
           objeto.push(data[prop]);
         }
