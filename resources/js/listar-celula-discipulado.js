@@ -190,7 +190,6 @@ inputs3.forEach((input) => {
 
 //listando eventos selects libreria choice
 participantes.addEventListener('hideDropdown', ValidarFormulario);
-asistentes.addEventListener('hideDropdown', ValidarFormulario);
 
 //alerta registrar participante
 
