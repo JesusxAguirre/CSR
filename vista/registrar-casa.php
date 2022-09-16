@@ -11,16 +11,14 @@
   <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
   <link rel="stylesheet" href="./resources/css/style.css">
   <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
-
-  <!-- Fontawesone css -->
-  <link rel="stylesheet" href="./resources/library/fontawesome/css/all.css">
   <!-- Js boostrap -->
   <script src="./resources/js/bootstrap.min.js"></script>
-
-  <!-- Js fontawesone -->
-  <script src="./resources/library/fontawesone/js/all.js"></script>
-
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -40,7 +38,6 @@
       <div class="row">
         <div class="col-12">
           <div class="page-title-box">
-
             <h4 class="page-title">Registrar Casa Sobre La Roca</h4>
           </div>
         </div>
@@ -51,8 +48,19 @@
             <div class="card-body">
               <form class="" action="?pagina=registrar-casa">
                 <div class="mb-3 row">
-                  <div class="col"><label class="form-label fw-bold" for="formGridEmail">Codigo de lider</label>
-                  <input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control"></div>
+                  <div id="grupo__lider" class="col-sm ">
+                    <div class="relative">
+                      <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                      <i class="input-icon fs-5"></i>
+                      <select name="lider[]" id="lider" class="form-control">
+                        <option value="">Seleccione una opcion</option>
+                        <?php foreach ($matriz_lideres as $lider) : ?>
+                          <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
+                        <?php endforeach; ?>
+                      </select>
+                    </div>
+                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                  </div>
                 </div>
                 <div class="mb-3 row">
                   <div class="col"><label class="form-label fw-bold" for="formGridEmail">Direccion</label><input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control"></div>
@@ -66,9 +74,9 @@
                 </div>
                 <div class="mb-3 row">
                   <div class="col"><label class="form-label fw-bold" for="formGridCity">Fecha</label><input type="date" placeholder="Jueves" id="dia" class="form-control" disabled></div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridState">Codigo asignado</label><input   placeholder="" id="197" class="form-control" disabled></div>
+                  <div class="col"><label class="form-label fw-bold" for="formGridState">Codigo asignado</label><input placeholder="" id="197" class="form-control" disabled></div>
                 </div>
-             
+
                 <div class="mb-3" id="formGridCheckbox">
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
