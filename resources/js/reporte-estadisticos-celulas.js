@@ -312,7 +312,7 @@ formulario4.addEventListener('click', (e) => {
     enviar4.addEventListener('click', () => {
       console.log("inicio de la funcion")
 
-      let cedula_lider =  lider.value
+      let cedula_lider = lider.value
       let fecha_inicio = fecha_inicio4.value
       let fecha_final = fecha_final4.value
       $.ajax({
@@ -325,25 +325,32 @@ formulario4.addEventListener('click', (e) => {
         type: "post",
         dataType: "json",
       }).done(data => {
+        var objeto = [];
         var titulo = [];
-        var cantidad = [];
-        console.log(data);
+        var cantidad1 = [];
+        var cantidad2 = [];
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          objeto.push(data[prop]);
         }
-        console.log(titulo);
-        console.log(cantidad);
+        console.log(objeto);
+        for (prop in objeto[0]) {
+          titulo.push(prop);
+          cantidad1.push(objeto[0][prop]);
+        }
+        for (prop in objeto[1]) {
+          cantidad2.push(objeto[1][prop]);
+        }
+        console.log(objeto[0]);
         var v_modal = $('#lider-grafico').modal({ show: false });
         Highcharts.chart('grafico4', {
           chart: {
             type: 'area'
           },
           title: {
-            text: 'Cantidad de celulas de consolidacion'
+            text: 'Reporte de crecimiento de lider'
           },
           xAxis: {
-            categories: titulo
+            categories: titulo,
           },
           yAxis: {
             title: {
@@ -354,10 +361,15 @@ formulario4.addEventListener('click', (e) => {
             enabled: false
           },
           series: [{
-            name: "cantidad de celulas de consolidacion",
-            data: cantidad,
-            colorByPoint: true,
-          }],
+            name: 'cantidad de discipulos',
+            data: cantidad1,
+
+          }, {
+            name: 'Cantidad de celulas de discipulado',
+            data: cantidad2,
+
+          },
+          ],
         });
 
         console.log("final de la funcion")
