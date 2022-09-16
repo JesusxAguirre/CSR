@@ -341,7 +341,8 @@ formulario4.addEventListener('click', (e) => {
         for (prop in objeto[1]) {
           cantidad2.push(objeto[1][prop]);
         }
-        console.log(objeto[0]);
+        console.log(data.datos_lider.nombre)
+        console.log(data.datos_lider.apellido)
         var v_modal = $('#lider-grafico').modal({ show: false });
         Highcharts.chart('grafico4', {
           chart: {
@@ -350,6 +351,9 @@ formulario4.addEventListener('click', (e) => {
           title: {
             text: 'Reporte de crecimiento de lider'
           },
+          subtitle: {
+            text: 'lider: ' +data.datos_lider.nombre+' ' +data.datos_lider.apellido + '',
+           },
           xAxis: {
             categories: titulo,
           },
