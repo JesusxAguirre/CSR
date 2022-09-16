@@ -313,15 +313,8 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
+                  <div id="asistencias4" ></div>
 
-                  <select multiple name="asistentes[]" id="asistentes" class="form-control">
-                    <?php
-                    foreach ($matriz_participantes as $participante) :
-                    ?>
-                      <option value="<?php echo $participante['participantes_cedula']; ?>"> <?php echo $participante['participantes_codigo']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
                   </select>
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>

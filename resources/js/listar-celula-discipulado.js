@@ -10,27 +10,16 @@ const inputs2 = document.querySelectorAll('#agregar_usuarios input');
 const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
 const eliminar__participantes = document.getElementById('eliminar__participantes')
-
 const modal_eliminar_participates = document.getElementById('datos4')
-
-
 const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
+const expandir = document.getElementById('asistencias4')
 
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
 
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
-  allowHTML: true,
-  removeItems: true,
-  removeItemButton: true,
-  noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
-});
-
-var asistentes = document.getElementById('asistentes');
-var choices2 = new Choices(asistentes, {
   allowHTML: true,
   removeItems: true,
   removeItemButton: true,
@@ -302,6 +291,29 @@ function buscarParticipantes(busqueda) {
   })
 }
 
+
+function buscarParticipantesAsistencias(busqueda) {
+  return $.ajax({
+    data: 'busqueda=' + busqueda,
+    url: "controlador/ajax/buscar-participante-asistencias-discipulado.php",
+    type: "get"
+  }).done(data => {
+    expandir.innerHTML = data
+    const asistentes = document.getElementById('asistentes');
+    var choices2 = new Choices(asistentes, {
+      allowHTML: true,
+      removeItems: true,
+      removeItemButton: true,
+      noResultsText: 'No hay coicidencias',
+      noChoicesText: 'No hay participantes disponibles',
+    });
+    asistentes.addEventListener('hideDropdown', ValidarFormulario);
+    addEvents()
+  })
+}
+
+
+
 function addEvents() {
   // Actualizar contenido del modal Editar
   const editButtons = document.querySelectorAll('table td .edit-btn')
@@ -372,7 +384,7 @@ function addEvents() {
   agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
-    const idInput = document.getElementById('idInput2')
+    let idInput = document.getElementById('idInput2')
     idInput.value = id.textContent
   }))
 
@@ -380,7 +392,11 @@ function addEvents() {
   agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
-    const idInput = document.getElementById('idInput3')
+    let idInput = document.getElementById('idInput3')
+    let busqueda = id.textContent
     idInput.value = id.textContent
+
+    buscarParticipantesAsistencias(busqueda);
+
   }))
 }
