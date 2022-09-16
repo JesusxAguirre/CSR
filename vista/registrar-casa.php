@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
   <link rel="stylesheet" href="./resources/css/style.css">
   <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./resources/css/consolidacion.css">
+
   <!-- Js boostrap -->
   <script src="./resources/js/bootstrap.min.js"></script>
   <!-- JQUERY -->
@@ -67,7 +69,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold" for="formGridEmail">Direccion</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control">
+                      <input placeholder="Calle 19 con calle 40" type="text" name="direccion" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo no puede estar vacio</p>
                   </div>
@@ -88,14 +90,14 @@
                     </div>
                     <p class="text-danger d-none">Este campo no puede estar vacio</p>
                   </div>
-                  <div class="mb-3 row">
+                  <div class="mb-3 row mt-4">
                     <div id="grupo__dia" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridEmail">Dia de visita</label>
                         <i class="input-icon fs-5"></i>
                         <input placeholder="Jueves" id="dia" name="dia" class="form-control">
                       </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                      <p class="text-danger d-none">Escriba un dia de la semana con la primera letra mayuscula</p>
                     </div>
                     <div id="grupo__hora" class="col-sm ">
                       <div class="relative">

@@ -14,13 +14,11 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
-  codigoLider: false,
-  codigoAnfitrion: false,
-  codigoAsistente: false,
   dia: false,
   hora: false,
-  participantes: false,
   direccion: false,
+  nombre : false,
+  telefono: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -28,6 +26,9 @@ const expresiones = { //objeto con varias expresiones regulares
   direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
   codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
+  nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/,
+  telefono: /^[0-9]{11}$/,
+  direccion: /^[A-Za-z0-9\s]{10,200}$/,
   //expresion regular de codigo de usuario
 }
 
@@ -36,21 +37,8 @@ const ValidarFormulario = (e) => {
     case "dia":
       ValidarDia(e.target, 'dia');
       break;
-
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
-      break;
-
-    case "codigoLider":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
-      break;
-
-    case "codigoAnfitrion":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoAnfitrion');
-      break;
-
-    case "codigoAsistente":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
       break;
 
     case "lider[]":
