@@ -26,8 +26,8 @@
   <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
 
-<!-- CHOICE 2 -->
-<link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
   <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
 
   <!-- JQUERY -->
@@ -185,7 +185,7 @@
             </div>
             <div class="mb-3" id="formGridCheckbox">
             </div>
-            <button id="consultar3" name="consultar" 3 type="submit" class="btn btn-primary">Enviar</button>
+            <button id="consultar3" name="consultar3" type="submit" class="btn btn-primary">Enviar</button>
           </div>
         </div>
       </div>
@@ -206,11 +206,11 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
                   <i class="input-icon fs-5"></i>
-                  <select  name="lider[]" id="lider" class="form-control">
-                    <option value="" >Seleccione una opcion</option>
-                    <?php foreach ($matriz_lideres as $lider) :?>
+                  <select name="lider[]" id="lider" class="form-control">
+                    <option value="">Seleccione una opcion</option>
+                    <?php foreach ($matriz_lideres as $lider) : ?>
                       <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
-                    <?php endforeach;?>
+                    <?php endforeach; ?>
                   </select>
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -236,7 +236,7 @@
             </div>
             <div class="mb-3" id="formGridCheckbox">
             </div>
-            <button id="consultar4" name="consultar" 3 type="submit" class="btn btn-primary">Enviar</button>
+            <button id="consultar4" name="consultar4" type="submit" class="btn btn-primary">Enviar</button>
           </div>
         </div>
       </div>
