@@ -40,18 +40,19 @@ class LaRoca extends Usuarios
         VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora)";
 
         $stmt = $this->conexion->prepare($sql);
-
+        foreach($this->cedula_lider AS $cedula_lider){
+           
+      
         $stmt->execute(array(
             ":codigo" => 'CSR' . $id,
-            ":cedula_lider" => $this->cedula_lider, ":nombre" => $this->nombre_anfitricion,
+            ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
             ":telefono" => $this->telefono, ":cantidad"=>$this->cantidad_integrantes,
              ":dia" => $this->dia,
             ":fecha" => $this->fecha, ":hora" => $this->hora
         ));
         //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
-     
 
-        $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+        $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -64,19 +65,20 @@ class LaRoca extends Usuarios
 
         $stmt->execute(array(
             ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
-            ":cedula" => $this->cedula_lider
+            ":cedula" => $cedula_lider
         ));
+    }//fin del foreach
         return true;
     }
   
     public function setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes){
         $this->cedula_lider = $cedula_lider;
         $this->direccion = $direccion;
-        $this->nombre_anfitricion = $nombre_anfitrion;
+        $this->nombre_anfitrion = $nombre_anfitrion;
         $this->telefono = $telefono;
         $this->hora = $hora;
         $this->dia = $dia;
         $this->cantidad_integrantes = $cantidad_integrantes;
-
+        $this->fecha = gmdate("y-m-d", time());
     }
 }
