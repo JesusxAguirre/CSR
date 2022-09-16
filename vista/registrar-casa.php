@@ -48,7 +48,7 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form id="formulario" class="" action="?pagina=registrar-casa">
+              <form id="formulario" class="" method="POST" action="?pagina=registrar-casa">
                 <div class="mb-3 row">
                   <div id="grupo__lider" class="col-sm ">
                     <div class="relative">
@@ -119,7 +119,7 @@
                 </div>
                 <div class="mb-3" id="">
                 </div>
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button name="registrar" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>

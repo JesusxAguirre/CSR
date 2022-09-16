@@ -9,6 +9,26 @@ if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
 
     $matriz_lider = $objeto->listar_usuarios_N2();
+
+    //registrando casa sobre la roca
+
+
+    if(isset($_POST['registrar'])){
+
+        $cedula_lider = $_POST['lider'];
+        $direccion = $_POST['direccion'];
+        $nombre_anfitrion = $_POST['nombre'];
+        $telefono = $_POST['telefono'];
+        $dia = $_POST['dia'];
+        $hora = $_POST['hora'];
+        $cantidad_integrantes = $_POST['integrantes'];
+       
+    }
+
+
+
+
+
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
