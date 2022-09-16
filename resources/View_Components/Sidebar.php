@@ -107,10 +107,10 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 </li>
              
                 <li>
-                  <a href="?pagina=agregar-notas" class="nav-link px-3">
+                  <a href="?pagina=crear-seccion" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-grid-3x3-gap-fill"></i> </span>
-                  <span>Agregar notas</span>
+                  <span>Crear seccion</span>
                   </a>
                 </li>
                 <li>

@@ -1,6 +1,116 @@
-const { ajaxSetup, ajaxPrefilter } = require("jquery");
+ejecutar();
 
-let spanish= {
+$("#nivelSeccion").click(function () {
+    let nivel = document.getElementById("nivelSeccion").value;
+    let div = document.getElementById("datos_PM");
+    if (nivel == "1" || nivel == "2" || nivel == "3") {
+        $.ajax({
+            data: {
+                nivel: nivel,
+            },
+            type: "post",
+            url: "controlador/ajax/dinamica-seccion.php",
+        }).done((data) => {
+            div.innerHTML = data;
+            $(".seleccionarMaterias").select2({
+                placeholder: "Select a state",
+            });
+            $(".seleccionarProfesores").select2();
+        });
+    }
+});
+
+$("#crear").click(function () {
+    //ALMACENANDO TODOS LOS VALORES DE LOS SELECT DE MATERIAS
+    let seleccionarMaterias = document.querySelectorAll(".seleccionarMaterias");
+    let arregloMateria = [];
+    seleccionarMaterias.forEach((sm) => {
+        arregloMateria.push(sm.value);
+    });
+
+    //ALMACENANDO TODOS LOS VALORES DE LOS SELECT DE PROFESOR
+    let seleccionarProfesores = document.querySelectorAll(".seleccionarProfesores");
+    let arregloProfesores = [];
+    seleccionarProfesores.forEach((sp) => {
+        arregloProfesores.push(sp.value);
+    });
+
+    let nombreSeccion= document.getElementById('nombreSeccion');
+    let nivelSeccion= document.getElementById('nombreSeccion');
+
+    let data = {
+        crear: $('#crear').val(),
+        nombreSeccion: nombreSeccion.value,
+        nivelSeccion: nivelSeccion.value,
+        idMateriaSeccion: arregloMateria,
+        cedulaProfSeccion: arregloProfesores,
+        cedulaEstSeccion: $('#seleccionarEstudiantes').val(),
+    };
+    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        console.log(response);
+    });
+});
+
+function ejecutar() {
+    let div = document.getElementById("datos_E");
+    let verEstudiantes = "valor";
+    $.ajax({
+        data: {
+            verEstudiantes: verEstudiantes,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+        $("#seleccionarEstudiantes").select2({
+            placeholder: "Seleccione los estudiantes",
+            closeOnSelect: false,
+            amdLanguageBase: "es",
+        });
+    });
+}
+
+/*function choices1() {
+    
+    let mat= document.getElementsByClassName('seleccionarMaterias');
+
+    for (let i = 0; i < mat.length; i++) {
+        var materias = document.querySelector('.seleccionarMaterias');
+        new Choices(materias,{
+            allowHTML: true,
+            maxItemText: 4,
+            removeItems: true,
+            removeItemButton: true,
+            noResultsText: 'No hay coicidencias',
+            noChoicesText: 'No hay participantes disponibles',
+            placeholderValue: 'Buscar profesor',
+          });
+    }
+        
+}
+function choices2() {
+    var profesores = document.querySelector('.seleccionarProfesores');
+    new Choices(profesores, {
+      allowHTML: true,
+      maxItemText: 4,
+      removeItems: true,
+      removeItemButton: true,
+      noResultsText: 'No hay coicidencias',
+      noChoicesText: 'No hay participantes disponibles',
+      placeholderValue: 'Buscar profesor',
+    });
+}*/
+
+/*$('#ver').click(function () { 
+    var div= document.getElementsByClassName('1');
+    var cu= ['cuenca', 'sas', 'culoemono'];
+    for(var i = 0; i < div.length; i++){
+        console.log(div[i].value);
+      }
+    //console.log(cu);
+});*/
+
+/*let spanish= {
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -247,16 +357,17 @@ let fun= 'fun'
 $('#example').DataTable({
     ajax:{
         method: "POST",
-        url: "url",
-        data: {fun},
+        url: "controlador/ajax/prueba.php",
+        data: {fun: fun},
     },
     columns: [
-        { data: 'name' },
-        { data: 'position' },
-        { data: 'office' },
-        { data: 'extn' },
-        { data: 'start_date' },
-        { data: 'salary' },
+        { data: 'codigo' },
+        { data: 'nombre' },
+        {data: 'cedula',
+        render: function ( data, type, row, meta ) {
+            return '<input type="text" value="'+data+'">';
+          }
+        }
     ],
     language: spanish
-});
+});*/

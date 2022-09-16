@@ -345,7 +345,7 @@ const selectsFC = document.querySelectorAll('#formularioMateria select');
 
 var validarNivelMateria = (evento) => {
 
-  if (evento.target.value == '1' || evento.target.value == '2' || evento.target.value == '3' || evento.target.value == 'Especial') {
+  if (evento.target.value == '1' || evento.target.value == '2' || evento.target.value == '3' || evento.target.value == 'Seminario') {
     document.getElementById('seleccionarNivel').classList.remove('validarMal');
     document.getElementById('seleccionarNivel').classList.add('validarBien');
     document.getElementById("nivMateriaMal").setAttribute("hidden", "hidden");
@@ -414,7 +414,7 @@ const selectsFA = document.getElementById('seleccionarNivel2');
 
 var validarNivelMateria2 = function () {
 
-  if (selectsFA.value == '1' || selectsFA.value == '2' || selectsFA.value == '3' || selectsFA.value == 'Especial') {
+  if (selectsFA.value == '1' || selectsFA.value == '2' || selectsFA.value == '3' || selectsFA.value == 'Seminario') {
     document.getElementById('seleccionarNivel2').classList.remove('validarMal');
     document.getElementById('seleccionarNivel2').classList.add('validarBien');
     document.getElementById("nivMateriaMal2").setAttribute("hidden", "hidden");

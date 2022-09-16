@@ -73,7 +73,7 @@
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
-                                            <option value="Especial">Especial</option>
+                                            <option value="Seminario">Seminario</option>
                                         </select>
                                         <p hidden id="nivMateriaMal" class="text-danger">Deberias seleccionar un nivel de doctrina</p>
                                     </div>
@@ -148,7 +148,7 @@
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
-                            <option value="Especial">Especial</option>
+                            <option value="Seminario">Seminario</option>
                         </select>
                         <p hidden id="nivMateriaMal2">Deberias seleccionar un nivel de doctrina</p>
                     </div>

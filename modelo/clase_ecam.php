@@ -12,15 +12,38 @@ class ecam extends Conectar
     private $nivel;
     private $cedulaProfesor;
     private $listarMaterias;
+    private $listarMateriasNivel;
     private $listarProfesoresMaterias;
     private $materiasBuscadas;
     private $todosProfesores;
     private $todosProfesores2;
+    private $listarEstudiantes;
+    private $nombreSeccion;
+    private $nivelSeccion;
+    private $cedulaProfSeccion;
+    private $cedulaEstSeccion;
+    private $idMateriaSeccion;
 
 
     public function __construct()
     {
         $this->conexion = parent::conexion();
+    }
+
+    //LISTAR ESTUDIANTES
+    public function listarEstudiantes()
+    {
+
+        $sql = "SELECT cedula,codigo,nombre,apellido FROM usuarios WHERE `id_seccion`IS NULL";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->listarEstudiantes[] = $filas;
+        }
+        return $this->listarEstudiantes;
     }
 
     //LISTAR PROFESORES TODOS LOS PROFESORES
@@ -38,13 +61,15 @@ class ecam extends Conectar
         }
         return $this->todosProfesores;
     }
+
+    //LISTAR LOS PROFESORES QUE NO ESTEN ASIGNADOS A X MATERIA
     public function listarSelectProfesores($idNoMateria)
     {
 
         $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`id_materia` FROM `usuarios`, `materias` 
         WHERE NOT EXISTS (SELECT * FROM `profesores-materias` 
         WHERE `usuarios`.`cedula` = `profesores-materias`.`cedula_profesor` 
-        AND `profesores-materias`.`id_materia` = $idNoMateria) AND `materias`.`id_materia` = $idNoMateria";
+        AND `profesores-materias`.`id_materia` = $idNoMateria) AND `materias`.`id_materia` = $idNoMateria AND `usuarios`.`status_profesor` = '1'";
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -106,6 +131,19 @@ class ecam extends Conectar
     }
 
 
+    //CANTIDAD DE FILAS POR NIVELES PARA GENERAR SELECT
+    public function cantidadFilasNiveles()
+    {
+        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nivelDoctrina = 1";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $filas= $stmt->rowCount();
+
+        return $filas;
+    }
+
     //LISTAR TODAS LAS MATERIAS
     public function listarMaterias()
     {
@@ -121,6 +159,23 @@ class ecam extends Conectar
             $this->listarMaterias[] = $filas;
         }
         return $this->listarMaterias;
+    }
+
+    //LISTAR MATERIAS POR NIVEL SELECCIONADO
+    public function listarMateriasNivel($nivel)
+    {
+        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nivelDoctrina = $nivel";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listarMateriasNivel[] = $filas;
+        }
+        return $this->listarMateriasNivel;
     }
 
     //BUSCAR MATERIAS POR AJAX
@@ -185,6 +240,37 @@ class ecam extends Conectar
         return $this->listarProfesoresMaterias;
     }
 
+    //CREAR SECCIONES
+    public function crearSeccion()
+    {
+        $sql= "INSERT INTO `secciones` (`id_seccion`, `nombre`, `nivel_doctrina`, `status_seccion`, `fecha_creacion`) 
+        VALUES (NULL, :nomSeccion, :nivDoc, '1', current_timestamp())";
+
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(array(
+            ":nomSeccion" => $this->nombreSeccion,
+            ":nivDoc" => $this->nivelSeccion,
+        ));
+
+        //AGREGANDO ESTUDIANTES A LA SECCION
+        foreach ($this->cedulaEstSeccion as $cedulaEst) {
+            $sql2= "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones) WHERE `usuarios`.`cedula` = :cedulaEst";
+            $stmt2 = $this->conexion->prepare($sql2);
+            $stmt2->execute(array(
+                ":cedulaEst" => $cedulaEst,
+            ));
+        } //Fin del  Foreach
+        //Estudiantes vinculados con la seccion
+
+        //AGREGANDO MATERIAS CON LOS PROFESORES
+        foreach ($this->idMateriaSeccion as $matId) {
+            foreach ($this->cedulaProfSeccion as $profCi) {
+                $sql3= "";
+            }
+        }
+
+    }
+
 
     public function setMaterias($nombre, $nivel, $cedulaProfesor)
     {
@@ -197,5 +283,13 @@ class ecam extends Conectar
         $this->idMateria = $idMateria;
         $this->nombre = $nombre;
         $this->nivel = $nivel;
+    }
+    public function setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion,)
+    {
+        $this->nombreSeccion = $nombreSeccion;
+        $this->nivelSeccion = $nivelSeccion;
+        $this->cedulaProfSeccion = $cedulaProfSeccion;
+        $this->cedulaEstSeccion = $cedulaEstSeccion;
+        $this->idMateriaSeccion = $idMateriaSeccion;
     }
 }
