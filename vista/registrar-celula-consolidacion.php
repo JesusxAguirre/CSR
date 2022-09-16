@@ -133,14 +133,14 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridCity">Personas que asisten a la celula</label>
                         <i class="input-icon fs-5"></i>
-                          <select multiple name="participantes[]"  id="participantes" class="form-control">
+                        <select multiple name="participantes[]" id="participantes" class="form-control">
                           <?php
-                            foreach ($matriz_usuarios as $usuario) :
-                            ?>
-                              <option value="<?php echo $usuario['codigo']; ?>"> <?php echo $usuario['codigo']; ?></option>
-                            <?php
-                            endforeach;
-                            ?> 
+                          foreach ($matriz_usuarios as $usuario) :
+                          ?>
+                            <option value="<?php echo $usuario['codigo']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                          <?php
+                          endforeach;
+                          ?>
                         </select>
                       </div>
                       <p class="text-danger d-none">Este campos no puede estar vacio</p>
@@ -166,9 +166,9 @@
 
     </div>
   </main>
-
-  <script src="resources/js/validacion-registro-consolidacion.js"></script>
-  <script>
-
+  <script type="text/javascript">
+    error = <?php echo ($error) ? 'true' : 'false'; ?>
   </script>
+  <script src="resources/js/validacion-registro-consolidacion.js"></script>
+
 </body>

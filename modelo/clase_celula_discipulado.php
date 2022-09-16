@@ -16,10 +16,40 @@ class Discipulado extends Usuarios
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
-    private $septiembre;
+    private $busqueda;
+
     public function __construct()
     {
         $this->conexion = parent::conexion();
+    }
+    public function buscar_discipulado($busqueda)
+    {
+        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
+        FROM celula_discipulado 
+        JOIN usuarios AS lider ON celula_discipulado.cedula_lider = lider.cedula 
+        JOIN usuarios AS anfitrion ON celula_discipulado.cedula_anfitrion = anfitrion.cedula 
+        JOIN usuarios AS asistente ON celula_discipulado.cedula_asistente = asistente.cedula  
+        WHERE codigo_celula_discipulado  LIKE '%" . $busqueda . "%' 
+        OR fecha LIKE '%" . $busqueda . "%' 
+        OR dia_reunion LIKE '%" . $busqueda . "%'
+        OR hora LIKE '%" . $busqueda . "%'
+        OR lider.codigo LIKE '%" . $busqueda . "%'
+        OR anfitrion.codigo LIKE '%" . $busqueda . "%'
+        OR asistente.codigo LIKE '%" . $busqueda . "%'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+
+        if ($stmt->rowCount() > 0) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+                $this->busqueda[] = $filas;
+            }
+        }
+        return $this->busqueda;
     }
 
 
@@ -43,13 +73,14 @@ class Discipulado extends Usuarios
         }
         return $this->listar;
     }
-    public function listar_participantes()
+    public function listar_participantes($busqueda)
     {
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_discipulado 
-        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado");
+        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        WHERE celula_discipulado.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -64,7 +95,8 @@ class Discipulado extends Usuarios
     }
 
 
-    public function listar_asistencias($id,$fecha_inicio,$fecha_final){
+    public function listar_asistencias($id, $fecha_inicio, $fecha_final)
+    {
         $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_discipulado 
@@ -72,7 +104,7 @@ class Discipulado extends Usuarios
         WHERE reporte_celula_discipulado.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
         AND  reporte_celula_discipulado.id_discipulado = '$id'
         GROUP BY cedula_participante");
-        
+
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
@@ -82,7 +114,7 @@ class Discipulado extends Usuarios
             $this->septiembre[] = $filas;
         }
         return $this->septiembre;
-    }   
+    }
 
     public function listar_no_participantes()
     {
@@ -108,13 +140,13 @@ class Discipulado extends Usuarios
 
         $stmt = $this->conexion->prepare($sql);
         //recorriendo arreglo de asistentes
-        foreach($this->asistentes AS $asistente){
-        $stmt->execute(array(
-            ":id_discipulado" => $this->id,
-            ":cedula_participante" => $asistente, 
-            ":fecha" => $this->fecha
-        ));
-        }//fin del foeach
+        foreach ($this->asistentes as $asistente) {
+            $stmt->execute(array(
+                ":id_discipulado" => $this->id,
+                ":cedula_participante" => $asistente,
+                ":fecha" => $this->fecha
+            ));
+        } //fin del foeach
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -415,13 +447,15 @@ class Discipulado extends Usuarios
 
     }
 
-    public function eliminar_participantes()
+    public function eliminar_participantes($cedula_participante)
     {
-        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$this->cedula_participante'");
+        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
+
+        return true;
     }
 
     //-------- SET DATOS Para registar discipulado-------------------------------------//
@@ -436,6 +470,7 @@ class Discipulado extends Usuarios
         $this->direccion = $direccion;
         $this->participantes = $participantes;
     }
+    //-------- SET actualizar para actualizar disicpulados-------------------------------------//
 
     public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
     {
@@ -449,11 +484,6 @@ class Discipulado extends Usuarios
     }
 
 
-    public function setParticipante($cedula_participante)
-    {
-        $this->cedula_participante = $cedula_participante;
-    }
-
 
     public function setParticipantes($participantes, $id)
     {
@@ -465,7 +495,134 @@ class Discipulado extends Usuarios
         $this->asistentes = $asistentes;
         $this->id = $id;
         $this->fecha = $fecha;
-
     }
+
+
+    //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+
+
+    public function listar_cantidad_celulas_discipulado($fecha_inicio, $fecha_final)
+    {
+        $sql = ("SELECT 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+           FROM celula_discipulado
+           WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
+    }
+    public function listar_numero_discipulos($fecha_inicio,$fecha_final)
+    {
+        $sql = ("SELECT 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+       FROM celula_discipulado 
+       INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+       WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+       AND usuarios.id_discipulado IS NOT NULL ");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
+    }
+
+    public function listar_numero_discipulos_por_lider($fecha_inicio,$fecha_final,$cedula_lider)
+    {
+        $sql = ("SELECT
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+       FROM celula_discipulado 
+       INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+       WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+       AND usuarios.id_discipulado IS NOT NULL
+       AND celula_discipulado.cedula_lider='$cedula_lider'");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
+    }
+
+    public function listar_cantidad_celulas_discipulado_por_lider($fecha_inicio, $fecha_final,$cedula_lider)
+    {
+        $sql = ("SELECT 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+           FROM celula_discipulado
+           WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+           AND celula_discipulado.cedula_lider='$cedula_lider'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
+    }
+
+    public function listar_lider($cedula_lider)
+    {
+        $sql = ("SELECT lider.nombre,lider.apellido
+       FROM celula_discipulado 
+       INNER JOIN usuarios AS lider ON celula_discipulado.cedula_lider = lider.cedula
+       WHERE celula_discipulado.cedula_lider='$cedula_lider'");
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
+
 }
-//SELECT COUNT(*) AS numero_asistencias, cedula_participante FROM reporte_celula_discipulado WHERE MONTH(fecha) = 9 AND YEAR(fecha) = 2022 GROUP BY cedula_participante

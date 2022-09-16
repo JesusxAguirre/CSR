@@ -44,13 +44,14 @@ class Consolidacion extends Usuarios
         return $this->listar;
     }
     //------------------------------------------------------Listar participantes por celulal de consolidacion---------------------//
-    public function listar_participantes()
+    public function listar_participantes($busqueda)
     {
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion AS codigo_celula,
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_consolidacion 
-        INNER JOIN usuarios AS participantes ON celula_consolidacion.id = participantes.id_consolidacion");
+        INNER JOIN usuarios AS participantes ON celula_consolidacion.id = participantes.id_consolidacion
+        WHERE celula_consolidacion.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -67,7 +68,11 @@ class Consolidacion extends Usuarios
     //-------------------------------------------------------Buscar consolidacion con Ajax---------------------//
     public function buscar_consolidacion($busqueda)
     {
-        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' FROM celula_consolidacion JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
+        $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
+        FROM celula_consolidacion 
+        JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula 
+        JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula 
+        JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
         WHERE codigo_celula_consolidacion LIKE '%" . $busqueda . "%' 
         OR fecha LIKE '%" . $busqueda . "%' 
         OR dia_reunion LIKE '%" . $busqueda . "%'
@@ -112,6 +117,53 @@ class Consolidacion extends Usuarios
         return $this->codigos;
     }
 
+
+    public function listar_asistencias_meses()
+    {
+        $sql = ("SELECT 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+       FROM celula_consolidacion
+       WHERE celula_consolidacion.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        $meses = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $meses;
+    }
+
+
+    public function listar_asistencias($id,$fecha_inicio,$fecha_final){
+        $sql = ("SELECT COUNT(reporte_celula_consolidacion.fecha) AS numero_asistencias, reporte_celula_consolidacion.cedula_participante, usuarios.nombre,
+        usuarios.codigo, usuarios.telefono
+        FROM reporte_celula_consolidacion 
+        INNER JOIN usuarios ON reporte_celula_consolidacion.cedula_participante = usuarios.cedula
+        WHERE reporte_celula_consolidacion.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
+        AND  reporte_celula_consolidacion.id_consolidacion = '$id'
+        GROUP BY cedula_participante");
+        
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->septiembre[] = $filas;
+        }
+        return $this->septiembre;
+    }   
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
 
     public function listar_celula_consolidacion()
@@ -413,13 +465,13 @@ class Consolidacion extends Usuarios
             }
         }
 
-        $sql = ("UPDATE celula_consolidacion SET codigo_celula_consolidacion= :codigo_celula, cedula_lider = :cedula_lider , 
+        $sql = ("UPDATE celula_consolidacion SET  cedula_lider = :cedula_lider , 
             cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora WHERE id= :id");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":codigo_celula" => $this->codigo, ":cedula_lider" => $this->cedula_lider,
+           ":cedula_lider" => $this->cedula_lider,
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
             ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
         ));
@@ -447,13 +499,15 @@ class Consolidacion extends Usuarios
     }
 
     //---------------------------------------------------Eliminar participantes------------------------------------//
-    public function eliminar_participantes()
+    public function eliminar_participantes($cedula_participante)
     {
-        $sql = ("UPDATE usuarios SET id_consolidacion  = NULL WHERE cedula = '$this->cedula_participante'");
+        $sql = ("UPDATE usuarios SET id_consolidacion  = NULL WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
+
+        return true;
     }
 
 
@@ -469,8 +523,8 @@ class Consolidacion extends Usuarios
         $this->direccion = $direccion;
         $this->participantes = $participantes;
     }
-    //-------- SET DATOS para actualizar consolidacions-------------------------------------//
-    public function setDatos2($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $codigo, $id)
+    //-------- SET actualizar para actualizar consolidacions-------------------------------------//
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
@@ -478,14 +532,10 @@ class Consolidacion extends Usuarios
         $this->dia = $dia;
         $this->hora = $hora;
         $this->fecha = gmdate("y-m-d", time());
-        $this->codigo = $codigo;
         $this->id = $id;
     }
 
-    public function setParticipante($cedula_participante)
-    {
-        $this->cedula_participante = $cedula_participante;
-    }
+
 
     public function setParticipantes($participantes, $id)
     {
@@ -499,4 +549,35 @@ class Consolidacion extends Usuarios
         $this->id = $id;
         $this->fecha = $fecha;
     }
+
+
+      //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+
+
+      public function listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
+      {
+          $sql = ("SELECT 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+              SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+             FROM celula_consolidacion
+             WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'");
+  
+          $stmt = $this->conexion()->prepare($sql);
+  
+          $stmt->execute(array());
+          $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+  
+  
+          return $resultado;
+      }
 }

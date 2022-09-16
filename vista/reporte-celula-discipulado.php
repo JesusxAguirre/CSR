@@ -60,14 +60,14 @@
                 <div class="mb-3 row">
                   <div id="grupo__codigo_discipulado" class="col-sm ">
                     <div class="relative">
-                      <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
+                      <label class="form-label fw-bold" for="">Codigo de la celula</label>
                       <i class="input-icon2 fs-5"></i>
                       <select name="codigo_discipulado" id="codigo_discipulado" class="form-control">
                         <option value="">Seleccione una opcion</option>
                         <?php
-                        foreach ($matriz_codigo as $consolidacion) :
+                        foreach ($matriz_codigo as $discipulado) :
                         ?>
-                          <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo_celula_discipulado']; ?></option>
+                          <option value="<?php echo $discipulado['id']; ?>"> <?php echo $discipulado['codigo_celula_discipulado']; ?></option>
                         <?php
                         endforeach;
                         ?>

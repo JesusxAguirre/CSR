@@ -20,11 +20,22 @@
 
   <!-- Js fontawesone -->
   <script src="./resources/library/fontawesone/js/all.js"></script>
-  <!-- CHART JS -->
-  <script src="resources/js/chart.min.js"></script>
+
   <!-- estilos del archivo-->
   <link rel="stylesheet" href="resources/css/reportes-estadisticos.css">
+  <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
+
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+
+
+  <!-- SWEETT ALERT-->
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -54,84 +65,251 @@
           <div class="card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between mb-2">
-                <h4 class="header-title">Reporte estadistico </h4>
               </div>
-              <div dir="ltr">
-                <div class="mt-3 chartjs-chart" style="height: 70vh;">
-                  <canvas id="myChart" role="img" height="400" width="941" style="display: block; box-sizing: border-box; height: 320px; width: 941px;"></canvas>
-                </div>
-              </div>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico cantidad de celulas de discipulado</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Reporte estadistico numero de discipulos</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Reporte estadistico cantidad de celulas de consolidacion</a>
+              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#lider-form" role="button">Reporte estadistico crecimiento de lider</a>
+
+              <div id="respuesta"></div>
+              <div id="respuesta2"></div>
+              <div id="respuesta3"></div>
+              <div id="respuesta4"></div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
-
+    </div>
   </main>
-  <script>
-    var ctx = document.getElementById('myChart').getContext('2d');
+  <!-- Modal para formulario de fechas de discipulados creados-->
+  <div class="modal fade" id="discipulado-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio" id="fecha_inicio" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final" id="fecha_final" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar" name="consultar" type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal para formulario de fechas de discipulados asignados a una celula-->
+  <div class="modal fade" id="discipulado-form2" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico para cantidad de discipulos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario2" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio2" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio2" id="fecha_inicio2" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final2" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final2" id="fecha_final2" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar2" name="consultar2" type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal para formulario de fechas de celulas de consolidacion creados-->
+  <div class="modal fade" id="consolidacion-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario3" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio3" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio3" id="fecha_inicio3" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final3" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final3" id="fecha_final3" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar3" name="consultar3" type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal para formulario de fechas de celulas de consolidacion creados-->
+  <div class="modal fade" id="lider-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario4" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__lider" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <select name="lider[]" id="lider" class="form-control">
+                    <option value="">Seleccione una opcion</option>
+                    <?php foreach ($matriz_lideres as $lider) : ?>
+                      <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio4" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio4" id="fecha_inicio4" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final4" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final4" id="fecha_final4" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar4" name="consultar4" type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    var myChart = new Chart(ctx, {
 
-      type: 'bar',
 
-      data: {
 
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
 
-        datasets: [{
 
-          data: [12, 19, 3, 5, 2, 3],
+  <!-- Modal de graficos-->
+  <!-- Modal para formulario de fechas de-->
+  <div class="modal fade" id="discipulado-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal para formulario para consultar numero de discipulos por fecha-->
+  <div class="modal fade" id="discipulado-grafico2" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de discipulos</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
 
-          backgroundColor: [
+          <div id="grafico2"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal grafico de consolidacion -->
+  <div class="modal fade" id="consolidacion-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de consolidacion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal grafico de lider -->
+  <div class="modal fade" id="lider-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico crecimiento de lider</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="node_modules\highcharts\highcharts.js"></script>
+  <script type="module" src="node_modules\highcharts\modules\export-data.js"></script>
+  <script type="module" src="node_modules\highcharts\modules\exporting.js"></script>
+  <script src="resources/js/reporte-estadisticos-celulas.js"></script>
 
-            'rgba(255, 99, 132, 0.2)',
 
-            'rgba(54, 162, 235, 0.2)',
-
-            'rgba(255, 206, 86, 0.2)',
-
-            'rgba(75, 192, 192, 0.2)',
-
-            'rgba(153, 102, 255, 0.2)',
-
-            'rgba(255, 159, 64, 0.2)'
-          ],
-
-          borderColor: [
-
-            'rgba(255, 99, 132, 1)',
-
-            'rgba(54, 162, 235, 1)',
-
-            'rgba(255, 206, 86, 1)',
-
-            'rgba(75, 192, 192, 1)',
-
-            'rgba(153, 102, 255, 1)',
-
-            'rgba(255, 159, 64, 1)'
-          ],
-
-          borderWidth: 1
-        }]
-      },
-      options: {
-
-        scales: {
-
-          yAxes: [{
-
-            ticks: {
-
-              beginAtZero: true
-            }
-
-          }]
-        }
-      }
-    });
-  </script>
 </body>

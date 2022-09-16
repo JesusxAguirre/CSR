@@ -41,7 +41,7 @@
 	require_once "./resources/View_Components/Sidebar.php";
 	?>
 	<!-- sidebar.php -->
-	<main style="height: 100vh" class="pt-3">
+	<main class="pt-3">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">
@@ -236,7 +236,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-					<button type="submit" class="btn btn-danger" form="deleteForm">Confirmar</button>
+					<button type="button" class="btn btn-danger" id="deleteButton">Confirmar</button>
 				</div>
 			</div>
 		</div>

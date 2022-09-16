@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
   <title>Registrar Celula Discipulado</title>
@@ -166,9 +166,8 @@
 
     </div>
   </main>
-
-  <script src="resources/js/validacion-registro-consolidacion.js"></script>
-  <script>
-
-  </script>
+  <script type="text/javascript">
+        error = <?php echo ($error) ? 'true' : 'false' ; ?>
+    </script>
+  <script src="resources/js/validacion-registro-discipulado.js"></script>
 </body>

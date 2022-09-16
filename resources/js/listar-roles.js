@@ -1,3 +1,10 @@
+// Elementos
+const busquedaEl = document.getElementById('search-input')
+const rolesEl = document.getElementById('roles')
+
+// Agrega los eventos para actualizar y eliminar cada rol
+addEvents()
+
 // Notificación SweetAlert
 if (alertMsg != "") {
 	let iconText
@@ -25,51 +32,88 @@ botones.forEach(boton => boton.addEventListener('click', () => {
 	}
 }))
 
-// Actualizar contenido del modal Editar
-const editButtons = document.querySelectorAll('table td .edit-btn')
-
-editButtons.forEach(boton => boton.addEventListener('click', () => {
-	let fila = boton.parentElement.parentElement
-	let id = fila.querySelector('.id')
-	let nombre = fila.querySelector('.nombre')
-	let descripcion = fila.querySelector('.descripcion')
-
-	const idInput = document.getElementById('idInput')
-	const rolInput = document.getElementById('rolInput')
-	const descripcionInput = document.getElementById('descripcionInput')
-
-	idInput.value = id.textContent
-	rolInput.value = nombre.textContent
-	descripcionInput.value = descripcion.textContent
-}))
-
-// Actualizar contenido del modal Eliminar
-const deleteButtons = document.querySelectorAll('table td .delete-btn')
-
-deleteButtons.forEach(boton => boton.addEventListener('click', () => {
-	let fila = boton.parentElement.parentElement
-	let id = fila.querySelector('.id')
-	let nombre = fila.querySelector('.nombre')
-
-	const idInput = document.querySelector('#deleteForm .id')
-	const rolText = document.getElementById('deleteRolName')
-
-	idInput.value = id.textContent
-	rolText.textContent = nombre.textContent
-}))
-
 // Busqueda con Ajax
-const busquedaEl = document.getElementById('search-input')
-const rolesEl = document.getElementById('roles')
-
 busquedaEl.addEventListener('keyup', () => {
 	let busqueda = busquedaEl.value
 
+	buscarRoles(busqueda)
+})
+
+// Eliminación con Ajax
+const deleteButton = document.getElementById('deleteButton')
+
+deleteButton.addEventListener('click', () => {
+	let rolId = document.querySelector('#deleteForm .id').value
+
 	$.ajax({
-		data: 'busqueda='+busqueda,
-		url: "controlador/ajax/buscar-roles.php",
-		type: "get",
+		data: 'id='+rolId,
+		url: "controlador/ajax/eliminar-rol.php",
+		type: "post",
 	}).done(data => {
-		rolesEl.innerHTML = data
+		if (data == '1') {
+			fireAlert('success', 'Rol eliminado correctamente')
+		} else {
+			console.log(data)
+			fireAlert('error', 'El rol que intenta eliminar no existe')
+		}
+	}).then(() => {
+		document.querySelector('#eliminar .btn-close').click()
+
+		buscarRoles('')
 	})
 })
+
+function fireAlert(icon, msg) {
+	Swal.fire({
+		icon: icon,
+		title: msg
+	})
+}
+
+// Buscar roles con Ajax
+function buscarRoles(busqueda) {
+	return $.ajax({
+		data: 'busqueda='+busqueda,
+		url: "controlador/ajax/buscar-roles.php",
+		type: "get"
+	}).done(data => {
+		rolesEl.innerHTML = data
+		addEvents()
+	})
+}
+
+// Agrega los eventos para editar y eliminar cada rol
+function addEvents() {
+	// Actualizar contenido del modal Editar
+	const editButtons = document.querySelectorAll('table td .edit-btn')
+
+	editButtons.forEach(boton => boton.addEventListener('click', () => {
+		let fila = boton.parentElement.parentElement
+		let id = fila.querySelector('.id')
+		let nombre = fila.querySelector('.nombre')
+		let descripcion = fila.querySelector('.descripcion')
+
+		const idInput = document.getElementById('idInput')
+		const rolInput = document.getElementById('rolInput')
+		const descripcionInput = document.getElementById('descripcionInput')
+
+		idInput.value = id.textContent
+		rolInput.value = nombre.textContent
+		descripcionInput.value = descripcion.textContent
+	}))
+
+	// Actualizar contenido del modal Eliminar
+	const deleteButtons = document.querySelectorAll('table td .delete-btn')
+
+	deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+		let fila = boton.parentElement.parentElement
+		let id = fila.querySelector('.id')
+		let nombre = fila.querySelector('.nombre')
+
+		const idInput = document.querySelector('#deleteForm .id')
+		const rolText = document.getElementById('deleteRolName')
+
+		idInput.value = id.textContent
+		rolText.textContent = nombre.textContent
+	}))
+}

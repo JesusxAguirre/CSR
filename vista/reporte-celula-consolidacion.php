@@ -58,16 +58,16 @@
               <div id="formulario" class="container-fluid">
 
                 <div class="mb-3 row">
-                  <div id="grupo__codigo_discipulado" class="col-sm ">
+                  <div id="grupo__codigo_consolidacion" class="col-sm ">
                     <div class="relative">
-                      <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
+                      <label class="form-label fw-bold" for="">Codigo de la celula</label>
                       <i class="input-icon2 fs-5"></i>
-                      <select name="codigo_discipulado" id="codigo_discipulado" class="form-control">
+                      <select name="codigo_consolidacion" id="codigo_consolidacion" class="form-control">
                         <option value="">Seleccione una opcion</option>
                         <?php
                         foreach ($matriz_codigo as $consolidacion) :
                         ?>
-                          <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo_celula_discipulado']; ?></option>
+                          <option value="<?php echo $consolidacion['id']; ?>"> <?php echo $consolidacion['codigo_celula_consolidacion']; ?></option>
                         <?php
                         endforeach;
                         ?>
@@ -117,7 +117,7 @@
     </div>
   </main>
 
-  <script src="resources/js/reporte-celula-discipulado.js"></script>
+  <script src="resources/js/reporte-celula-consolidacion.js"></script>
   <script>
 
   </script>

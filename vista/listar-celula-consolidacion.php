@@ -80,17 +80,13 @@
                         <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
                                                       echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
-                        <td hidden class="cedula_lider" role='cell'><?php echo  $celula['cedula_lider'] ?></td>
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
-                        <td hidden class="cedula_anfitrion" role='cell'><?php echo  $celula['cedula_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
-                        <td hidden class="cedula_asistente" role='cell'><?php echo  $celula['cedula_asistente'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuario" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+                          <button type="button" class="btn btn-outline-danger modal-btn"><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                         </td>
                       </tr>
                     <?php endforeach;       ?>
@@ -235,71 +231,70 @@
                 <p class="text-danger d-none">Este campos no puede estar vacio</p>
               </div>
             </div>
-
-            <input hidden class="form-control" name="codigoAsistente" id="codigoAsistente2">
-            <input hidden class="form-control" name="codigoAnfitrion" id="codigoAnfitrion2">
-            <input hidden name="codigoLider" class="form-control" id="codigoLider2">
-
             <input type="hidden" name="id" id="idInput2">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
-
+          <button type="submit" name="agregar_participantes" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Modal eliminar usuario -->
   <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Eliminar participante de Celula de discipulado</h5>
+          <h5 class="modal-title">Eliminar participante de Celula de Consolidacion</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="eliminar_usuarios" action="?pagina=listar-celula-consolidacion ">
-            <div style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
-
-              <table role='table' class='table table-centered'>
-                <thead>
-
-                  <tr role='row'>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
-                    <th colspan='1' role='columnheader' class=''>Codigo participante</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
-                    <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
-                  </tr>
-                </thead>
-
-                <tbody id="datos" role='rowgroup'>
-                  <?php foreach ($matriz_participantes as $participante) : ?>
-                    <tr role='row'>
-                      <td hidden class="id" role='cell'><?php echo $participante['id'] ?></td>
-                      <td class="codigo" role='cell'><?php echo $participante['codigo_celula'] ?></td>
-                      <td class="participantes_nombre" role='cell'><?php echo  $participante['participantes_nombre'] ?></td>
-                      <td class="participantes_apellido" role='cell'><?php echo $participante['participantes_apellido'] ?></td>
-                      <td class="participantes_codigo" role='cell'><?php echo  $participante['participantes_codigo'] ?></td>
-                      <td class="participantes_telefono" role='cell'><?php echo  $participante['participantes_telefono'] ?></td>
-                      <td class="" role="cell">
-                        <button type="submit" name="eliminar_participante" value="<?php echo $participante['participantes_cedula'] ?>" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
-                      </td>
-                    </tr>
-                  <?php endforeach;       ?>
-                </tbody>
-              </table>
-            </div>
-          </form>
+          <div style="height: 388px; overflow-y: scroll;" class="table-responsive mt-4">
+            <table role='table' class='table table-centered'>
+              <thead>
+                <tr role='row'>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
+                  <th colspan='1' role='columnheader' class=''>Codigo participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="datos4" role='rowgroup'>
+              </tbody>
+            </table>
+          </div>
         </div>
-
       </div>
     </div>
   </div>
-
+  <!-- Modal Eliminar  usuario -->
+  <!-- Modal Eliminar  Participante -->
+  <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-light">
+          <h5 class="modal-title" id="Modaleliminar">Estas seguro(a) que deseas eliminar este participante?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fs-5">
+          <p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b> permanetemente.</p>
+          <form method="post" id="deleteForm">
+            <input type="hidden" name="cedula_participante" class="cedula_participante">
+            <input type="hidden" name="delete">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="deleteButton">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Eliminar Participante -->
   <!-- Modal agregar_asistencia -->
   <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -315,16 +310,8 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
-
-                  <select multiple name="asistentes[]" id="asistentes" class="form-control">
-                    <?php
-                    foreach ($matriz_participantes as $participante) :
-                    ?>
-                      <option value="<?php echo $participante['participantes_cedula']; ?>"> <?php echo $participante['participantes_codigo']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
-                  </select>
+                  <div id="asistencias4" ></div>
+                
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
@@ -339,23 +326,20 @@
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>
             </div>
-
-
             <input type="hidden" name="id" id="idInput3">
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
           <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
-
         </div>
       </div>
     </div>
   </div>
-  <script>
-    $('#myModal').on('shown.bs.modal', function() {
-      $('#myInput').trigger('focus')
-    })
+  <script type="text/javascript">
+    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
+    registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>;
+    registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>;
   </script>
-  <script type="text/javascript" src="resources/js/listar-celula-consolidacion.js"></script>
+  <script src="resources/js/listar-celula-consolidacion.js"></script>
 </body>
