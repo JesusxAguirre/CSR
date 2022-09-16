@@ -12,7 +12,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     //registrando casa sobre la roca
 
-
+    $error = true;
     if(isset($_POST['registrar'])){
 
         $cedula_lider = $_POST['lider'];
@@ -22,7 +22,11 @@ if (is_file('vista/'.$pagina.'.php')) {
         $dia = $_POST['dia'];
         $hora = $_POST['hora'];
         $cantidad_integrantes = $_POST['integrantes'];
-       
+
+        $objeto->setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes);
+
+        $objeto->registrar_CSR();
+        $error = true;
     }
 
 
