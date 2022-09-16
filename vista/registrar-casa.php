@@ -79,7 +79,7 @@
                       <i class="input-icon fs-5"></i>
                       <input placeholder="Juan Jimenez" type="text" id="" name="nombre" class="form-control">
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">Este campo lleva minimo 3 letras</p>
                   </div>
                   <div id="grupo__telefono" class="col-sm ">
                     <div class="relative">
@@ -88,7 +88,7 @@
                       <label class="form-label fw-bold" for="formGridPassword">Telefono de Anfitrion</label>
                       <input placeholder="0414-XXXXXXXX" type="text" id="" name="telefono" class="form-control">
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">Escriba un numero de telefono valido</p>
                   </div>
                   <div class="mb-3 row mt-4">
                     <div id="grupo__dia" class="col-sm ">
@@ -107,10 +107,11 @@
                       </div>
                       <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>
-                    <div id="grupo__personas-hogar" class="col-sm ">
+                    <div id="grupo__integrantes" class="col-sm ">
                       <div class="relative">
-                        <label class="form-label fw-bold" for="formGridZip">Número de personas que integran el hogar</label>
-                        <input placeholder="1" name="personas-hogar" class="form-control">
+                        <label class="form-label fw-bold" for="">Número de personas que integran el hogar</label>
+                        <i class="input-icon fs-5"></i>
+                        <input placeholder="1" name="integrantes" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>

@@ -19,6 +19,7 @@ const campos = {
   direccion: false,
   nombre : false,
   telefono: false,
+  integrantes: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -29,6 +30,7 @@ const expresiones = { //objeto con varias expresiones regulares
   nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/,
   telefono: /^[0-9]{11}$/,
   direccion: /^[A-Za-z0-9\s]{10,200}$/,
+  integrantes: /^[0-9]{1,2}$/,
   //expresion regular de codigo de usuario
 }
 
@@ -39,6 +41,15 @@ const ValidarFormulario = (e) => {
       break;
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
+      break;
+    case "nombre":
+      ValidarCampo(expresiones.nombre, e.target, 'nombre');
+      break;
+    case "telefono":
+      ValidarCampo(expresiones.telefono, e.target, 'telefono');
+      break;
+    case "integrantes":
+      ValidarCampo(expresiones.integrantes, e.target, 'integrantes');
       break;
 
     case "lider[]":
@@ -124,32 +135,6 @@ formulario.addEventListener('submit', (e) => {
   }
 })
 
-//probando elimnar option value
-
-$("#codigoLider").on('change', function () {
-  var val = $('#codigoLider').val();
-  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
-
-
-
-  let codigo = $('#codigoLider').val();
-  console.log(codigo)
-
-  $('#anfitrion option').each(function () {
-    console.log('entra a la funcion')
-    if ($(this).val() == codigo) {
-      $(this).remove();
-    }
-  });
-  $('#asistente option').each(function () {
-    console.log('entra a la funcion')
-    if ($(this).val() == codigo) {
-      $(this).remove();
-    }
-  })
-
-
-});
 
 
 if (error == false) {
@@ -160,6 +145,6 @@ if (error == false) {
   const myTimeout = setTimeout(recarga, 2000);
 
   function recarga() {
-    window.location = "index.php?pagina=registrar-celula-discipulado";
+    window.location = "index.php?pagina=registrar-casa";
   }
 }
