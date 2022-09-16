@@ -63,20 +63,30 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <div class="col"><label class="form-label fw-bold" for="formGridEmail">Direccion</label><input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control"></div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridPassword">Nombre de Anfitrion</label><input placeholder="Juan Jimenez" type="text" id="formGridPassword" class="form-control"></div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridPassword">Telefono de Anfitrion</label><input placeholder="0414-XXXXXXXX" type="text" id="formGridPassword" class="form-control"></div>
+                  <div class="col">
+                    <label class="form-label fw-bold" for="formGridEmail">Direccion</label>
+                    <input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control">
+                  </div>
+                  <div class="col">
+                    <label class="form-label fw-bold" for="formGridPassword">Nombre de Anfitrion</label>
+                    <input placeholder="Juan Jimenez" type="text" id="formGridPassword" class="form-control">
+                  </div>
+                  <div class="col">
+                    <label class="form-label fw-bold" for="formGridPassword">Telefono de Anfitrion</label>
+                    <input placeholder="0414-XXXXXXXX" type="text" id="formGridPassword" class="form-control">
+                  </div>
                 </div>
                 <div class="mb-3 row">
-                  <div class="col"><label class="form-label fw-bold" for="formGridCity">Dia de visita</label><input placeholder="Jueves" id="dia" class="form-control"></div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridState">Hora pautada</label><input type="time" placeholder="8:30" id="197" class="form-control"></div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridZip">Número de personas que integran el hogar</label><input placeholder="1" id="formGridZip" class="form-control"></div>
+                  <div class="col"><label class="form-label fw-bold" for="formGridCity">Dia de visita</label>
+                    <input placeholder="Jueves" id="dia" class="form-control">
+                  </div>
+                  <div class="col"><label class="form-label fw-bold" for="formGridState">Hora pautada</label>
+                    <input type="time" placeholder="8:30" id="197" class="form-control">
+                  </div>
+                  <div class="col"><label class="form-label fw-bold" for="formGridZip">Número de personas que integran el hogar</label>
+                    <input placeholder="1" id="formGridZip" class="form-control">
+                  </div>
                 </div>
-                <div class="mb-3 row">
-                  <div class="col"><label class="form-label fw-bold" for="formGridCity">Fecha</label><input type="date" placeholder="Jueves" id="dia" class="form-control" disabled></div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridState">Codigo asignado</label><input placeholder="" id="197" class="form-control" disabled></div>
-                </div>
-
                 <div class="mb-3" id="formGridCheckbox">
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
@@ -86,7 +96,6 @@
         </div>
       </div>
     </div>
-
   </main>
   <script src="resources/js/validacion-registro-csr.js"></script>
 </body>

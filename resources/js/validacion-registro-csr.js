@@ -53,10 +53,9 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
       break;
 
-    case "participantes[]":
-      ValidarSelect(e.target, 'participantes');
+    case "lider[]":
+      ValidarSelect(e.target, 'lider');
       break;
-
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
       break;
@@ -123,7 +122,7 @@ inputs.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 });
 
-participantes.addEventListener('hideDropdown', ValidarFormulario);
+lideres.addEventListener('hideDropdown', ValidarFormulario);
 
 
 formulario.addEventListener('submit', (e) => {
