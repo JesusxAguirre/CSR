@@ -554,6 +554,7 @@ class Discipulado extends Usuarios
 
         return $resultado;
     }
+
     public function listar_numero_discipulos_por_lider($fecha_inicio,$fecha_final,$cedula_lider)
     {
         $sql = ("SELECT 
@@ -574,6 +575,34 @@ class Discipulado extends Usuarios
        WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
        AND usuarios.id_discipulado IS NOT NULL
        AND celula_discipulado.cedula_lider='$cedula_lider'");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+        return $resultado;
+    }
+
+    public function listar_cantidad_celulas_discipulado_por_lider($fecha_inicio, $fecha_final,$cedula_lider)
+    {
+        $sql = ("SELECT 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+            SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+           FROM celula_discipulado
+           WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+           AND celula_discipulado.cedula_lider='$cedula_lider'");
+
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
