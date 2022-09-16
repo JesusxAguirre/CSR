@@ -46,7 +46,7 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="" action="?pagina=registrar-casa">
+              <form id="formulario" class="" action="?pagina=registrar-casa">
                 <div class="mb-3 row">
                   <div id="grupo__lider" class="col-sm ">
                     <div class="relative">
@@ -63,31 +63,58 @@
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <div class="col">
-                    <label class="form-label fw-bold" for="formGridEmail">Direccion</label>
-                    <input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control">
+                  <div id="grupo__direccion" class="col-sm ">
+                    <div class="relative">
+                      <label class="form-label fw-bold" for="formGridEmail">Direccion</label>
+                      <i class="input-icon fs-5"></i>
+                      <input placeholder="Calle 19 con calle 40" type="email" id="formGridEmail" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
                   </div>
-                  <div class="col">
-                    <label class="form-label fw-bold" for="formGridPassword">Nombre de Anfitrion</label>
-                    <input placeholder="Juan Jimenez" type="text" id="formGridPassword" class="form-control">
+                  <div id="grupo__nombre" class="col-sm ">
+                    <div class="relative">
+                      <label class="form-label fw-bold" for="formGridEmail">Nombre de Anfitrion</label>
+                      <i class="input-icon fs-5"></i>
+                      <input placeholder="Juan Jimenez" type="text" id="" name="nombre" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
                   </div>
-                  <div class="col">
-                    <label class="form-label fw-bold" for="formGridPassword">Telefono de Anfitrion</label>
-                    <input placeholder="0414-XXXXXXXX" type="text" id="formGridPassword" class="form-control">
+                  <div id="grupo__telefono" class="col-sm ">
+                    <div class="relative">
+                      <label class="form-label fw-bold" for="formGridEmail">Telefono de Anfitrion</label>
+                      <i class="input-icon fs-5"></i>
+                      <label class="form-label fw-bold" for="formGridPassword">Telefono de Anfitrion</label>
+                      <input placeholder="0414-XXXXXXXX" type="text" id="" name="telefono" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                  </div>
+                  <div class="mb-3 row">
+                    <div id="grupo__dia" class="col-sm ">
+                      <div class="relative">
+                        <label class="form-label fw-bold" for="formGridEmail">Dia de visita</label>
+                        <i class="input-icon fs-5"></i>
+                        <input placeholder="Jueves" id="dia" name="dia" class="form-control">
+                      </div>
+                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    </div>
+                    <div id="grupo__hora" class="col-sm ">
+                      <div class="relative">
+                        <label class="form-label fw-bold">Hora pautada</label>
+                        <i class="input-icon fs-5"></i>
+                        <input type="time" placeholder="8:30" id="197" name="hora" class="form-control">
+                      </div>
+                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    </div>
+                    <div id="grupo__personas-hogar" class="col-sm ">
+                      <div class="relative">
+                        <label class="form-label fw-bold" for="formGridZip">Número de personas que integran el hogar</label>
+                        <input placeholder="1" name="personas-hogar" class="form-control">
+                      </div>
+                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    </div>
                   </div>
                 </div>
-                <div class="mb-3 row">
-                  <div class="col"><label class="form-label fw-bold" for="formGridCity">Dia de visita</label>
-                    <input placeholder="Jueves" id="dia" class="form-control">
-                  </div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridState">Hora pautada</label>
-                    <input type="time" placeholder="8:30" id="197" class="form-control">
-                  </div>
-                  <div class="col"><label class="form-label fw-bold" for="formGridZip">Número de personas que integran el hogar</label>
-                    <input placeholder="1" id="formGridZip" class="form-control">
-                  </div>
-                </div>
-                <div class="mb-3" id="formGridCheckbox">
+                <div class="mb-3" id="">
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
               </form>
