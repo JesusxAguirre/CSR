@@ -17,7 +17,7 @@ const campos = {
   dia: false,
   hora: false,
   direccion: false,
-  nombre : false,
+  nombre: false,
   telefono: false,
   integrantes: false,
 }
@@ -137,7 +137,7 @@ formulario.addEventListener('submit', (e) => {
 
 
 
-if (error == false) {
+if (error == false) { 
   Swal.fire({
     icon: 'success',
     title: 'Se registro la casa sobre la roca correctamente'
