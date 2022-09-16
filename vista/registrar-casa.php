@@ -21,6 +21,8 @@
   <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
   <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
   <script src="resources/js/sweetalert2.js"></script>
+
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>

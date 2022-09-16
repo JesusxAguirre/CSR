@@ -140,7 +140,7 @@ formulario.addEventListener('submit', (e) => {
 if (error == false) {
   Swal.fire({
     icon: 'success',
-    title: 'Se registro la celula correctamente'
+    title: 'Se registro la casa sobre la roca correctamente'
   })
   const myTimeout = setTimeout(recarga, 2000);
 

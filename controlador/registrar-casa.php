@@ -26,7 +26,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes);
 
         $objeto->registrar_CSR();
-        $error = true;
+        $error = false;
     }
 
 
