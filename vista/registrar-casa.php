@@ -50,11 +50,11 @@
                 <div class="mb-3 row">
                   <div id="grupo__lider" class="col-sm ">
                     <div class="relative">
-                      <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                      <label class="form-label fw-bold" for="">Selecciona el lider que esta abriendo la casa sobre la roca</label>
                       <i class="input-icon fs-5"></i>
                       <select name="lider[]" id="lider" class="form-control">
                         <option value="">Seleccione una opcion</option>
-                        <?php foreach ($matriz_lideres as $lider) : ?>
+                        <?php foreach ($matriz_lider as $lider) : ?>
                           <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
                         <?php endforeach; ?>
                       </select>
@@ -87,7 +87,6 @@
       </div>
     </div>
 
-    </div>
   </main>
-  </div>
+  <script src="resources/js/validacion-registro-csr.js"></script>
 </body>

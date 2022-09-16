@@ -1,12 +1,12 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
-var participantes = document.getElementById('participantes');
-var choices1 = new Choices(participantes, {
+var lideres = document.getElementById('lider');
+var choices1 = new Choices(lideres, {
   allowHTML: true,
   removeItems: true,
   removeItemButton: true,
   noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
+  noChoicesText: 'No hay lideres disponibles',
 });
 
 
@@ -58,7 +58,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "direccion":
-      ValidarCampo(expresiones.direccion,e.target, 'direccion');
+      ValidarCampo(expresiones.direccion, e.target, 'direccion');
       break;
 
   }
@@ -166,13 +166,13 @@ $("#codigoLider").on('change', function () {
 
 
 if (error == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se registro la celula correctamente'
-	})
-const myTimeout = setTimeout(recarga, 2000);
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro la celula correctamente'
+  })
+  const myTimeout = setTimeout(recarga, 2000);
 
-function recarga() {
-window.location="index.php?pagina=registrar-celula-discipulado";
-}
+  function recarga() {
+    window.location = "index.php?pagina=registrar-celula-discipulado";
+  }
 }
