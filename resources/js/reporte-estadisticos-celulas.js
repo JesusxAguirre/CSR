@@ -422,12 +422,17 @@ formulario5.addEventListener('click', (e) => {
     const CSR = document.getElementById('CSR')
     const enviar5 = document.getElementById('consultar5')
     const respuesta5 = document.getElementById('respuesta5');
-    enviar4.addEventListener('click', () => {
+    enviar5.addEventListener('click', () => {
       console.log("inicio de la funcion 5")
-
+  
       let id_casa = CSR.value
-      let fecha_inicio = fecha_inicio4.value
-      let fecha_final = fecha_final4.value
+      let fecha_inicio = fecha_inicio5.value
+      let fecha_final = fecha_final5.value
+
+
+      console.log(id_casa)
+      console.log(fecha_inicio)
+      console.log(fecha_final)
       $.ajax({
         data: {
           fecha_inicio: fecha_inicio,
@@ -440,21 +445,13 @@ formulario5.addEventListener('click', (e) => {
       }).done(data => {
         var objeto = [];
         var titulo = [];
-        var cantidad1 = [];
-        var cantidad2 = [];
+        
         console.log(data)
         for (prop in data) {
           objeto.push(data[prop]);
         }
-        console.log(objeto);
-        for (prop in objeto[0]) {
-          titulo.push(prop);
-          cantidad1.push(objeto[0][prop]);
-        }
-        for (prop in objeto[1]) {
-          cantidad2.push(objeto[1][prop]);
-        }
-        var v_modal = $('#lider-grafico').modal({ show: false });
+      
+       /*  var v_modal = $('#lider-grafico').modal({ show: false });
         Highcharts.chart('grafico4', {
           chart: {
             type: 'area'
@@ -491,7 +488,7 @@ formulario5.addEventListener('click', (e) => {
         console.log("final de la funcion")
 
         v_modal.on("show", function () { })
-        v_modal.modal("show");
+        v_modal.modal("show"); */
       })
     })
   }

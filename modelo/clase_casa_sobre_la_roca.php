@@ -170,25 +170,26 @@ class LaRoca extends Usuarios
         //------------------------------------------------------Reportes estadisticos consultas ----------------------//
         public function listar_reporte_CSR($fecha_inicio, $fecha_final,$id_casa)
         {
-            $sql = ("SET lc_time_names = 'es_MX';
-            SELECT SUM(confesiones) AS total_confesiones, MONTHNAME(fecha)
+            
+             
+            $sql=("SELECT SUM(confesiones) AS total_confesiones, MONTHNAME(fecha)
             FROM reportes_casas
             WHERE reportes_casas.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-                AND reportes_casas.id_casa = '$id_casa'
+            AND reportes_casas.id_casa = '$id_casa'
             GROUP BY MONTHNAME(fecha)");
+           
            $stmt = $this->conexion()->prepare($sql);
 
            $stmt->execute(array());
-          
-    
-            $stmt = $this->conexion()->prepare($sql);
-    
-            $stmt->execute(array());
-            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-    
-    
+                     
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+                $resultado[] = $filas;
+            }
             return $resultado;
         }
+
         public function listar_cantidad_asistentes_total_por_fecha($fecha_inicio, $fecha_final,$id_casa)
         {
             $sql = ("SELECT  SUM(reportes_casas.cantidad_h) AS total_hombres,
