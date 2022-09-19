@@ -70,9 +70,9 @@
                                         <label class="form-label fst-italic fw-bold text-white" for="seleccionarNivel">Nivel de doctrina</label>
                                         <select class="form-select selectNivel" name="seleccionarNivel" id="seleccionarNivel">
                                             <option selected value="ninguno">Selecciona el nivel</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
+                                            <option value="I">Doctrina I</option>
+                                            <option value="II">Doctrina II</option>
+                                            <option value="II+Oracion">Doctrina II con Oracion</option>
                                             <option value="Seminario">Seminario</option>
                                         </select>
                                         <p hidden id="nivMateriaMal" class="text-danger">Deberias seleccionar un nivel de doctrina</p>
@@ -145,9 +145,9 @@
                         <label for="seleccionarNivel2" class="form-label">Nivel de doctrina</label>
                         <select class="form-select selectNivel" id="seleccionarNivel2">
                             <option value="ninguno">Selecciona el nivel</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
+                            <option value="I">1</option>
+                            <option value="II">2</option>
+                            <option value="II+Oracion">3</option>
                             <option value="Seminario">Seminario</option>
                         </select>
                         <p hidden id="nivMateriaMal2">Deberias seleccionar un nivel de doctrina</p>

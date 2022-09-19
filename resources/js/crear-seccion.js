@@ -1,21 +1,26 @@
 ejecutar();
 
+
+//ACTIVA LA SELECCION DE MATERIAS Y PROFESORES
 $("#nivelSeccion").click(function () {
-    let nivel = document.getElementById("nivelSeccion").value;
+    const nivel = document.getElementById("nivelSeccion").value;
     let div = document.getElementById("datos_PM");
-    if (nivel == "1" || nivel == "2" || nivel == "3") {
+    if (nivel == "ninguno") {
+        div.innerHTML= '<h2 class="text-center text-danger">¡SELECCIONE EL NIVEL DE DOCTRINA DE LA SECCION!</h2>'
+    }else if (nivel == "I" || nivel == "II" || nivel == "II+Oracion") {
         $.ajax({
             data: {
+                nivelSeleccionado: 'nivelSeleccionado',
                 nivel: nivel,
             },
             type: "post",
             url: "controlador/ajax/dinamica-seccion.php",
         }).done((data) => {
             div.innerHTML = data;
-            $(".seleccionarMaterias").select2({
-                placeholder: "Select a state",
+            console.log(data);
+            $(".seleccionarProfesores").select2({
+                theme: "bootstrap4",
             });
-            $(".seleccionarProfesores").select2();
         });
     }
 });
@@ -36,7 +41,7 @@ $("#crear").click(function () {
     });
 
     let nombreSeccion= document.getElementById('nombreSeccion');
-    let nivelSeccion= document.getElementById('nombreSeccion');
+    let nivelSeccion= document.getElementById('nivelSeccion');
 
     let data = {
         crear: $('#crear').val(),
@@ -47,9 +52,11 @@ $("#crear").click(function () {
         cedulaEstSeccion: $('#seleccionarEstudiantes').val(),
     };
     $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        dataTableSec.ajax.reload();
         console.log(response);
     });
 });
+
 
 function ejecutar() {
     let div = document.getElementById("datos_E");
@@ -70,47 +77,84 @@ function ejecutar() {
     });
 }
 
-/*function choices1() {
-    
-    let mat= document.getElementsByClassName('seleccionarMaterias');
 
-    for (let i = 0; i < mat.length; i++) {
-        var materias = document.querySelector('.seleccionarMaterias');
-        new Choices(materias,{
-            allowHTML: true,
-            maxItemText: 4,
-            removeItems: true,
-            removeItemButton: true,
-            noResultsText: 'No hay coicidencias',
-            noChoicesText: 'No hay participantes disponibles',
-            placeholderValue: 'Buscar profesor',
-          });
-    }
-        
+
+/////LISTAR ESTUDIANTES DE LA SECCION SELECCIONADA/////
+function listarEstudiantesSeccion(idSeccionVer) { //Este parametro es para que la funcion liste los estudiantes de la seccion correspondiente. Un parametro de referencia
+    var div= document.getElementById("listaEstDatos");
+    $.ajax({
+        data: {
+            activarTablaEst: 'listar',
+            idSeccionConsulta: idSeccionVer,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+    });
 }
-function choices2() {
-    var profesores = document.querySelector('.seleccionarProfesores');
-    new Choices(profesores, {
+//LISTAR SELECT DE LOS ESTUDIANTES QUE NO ESTAN EN NINGUNA SECCION 
+function selectEstudiantesOFF(idSeccionRef) { //Ese parametro es para llenarlo en un input y tomarlo cuando se vaya a agregar un estudiante a la seccion
+    let div = document.getElementById("selectMasEstudiantes");
+    let verEstudiantes2 = "ver";
+    $.ajax({
+        data: {
+            verEstudiantes2: verEstudiantes2,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+        $('#idSeccionV').val(idSeccionRef);
+        choices1();
+    });
+}
+//GUARDAR EL AGREGADO DE MAS ESTUDIANTES A LA SECCION
+$("#agregarEditado2").on("click", function (e) {
+    e.preventDefault();
+    const data = {
+      actualizarEstudiantes: 'actualizarEstudiantes',
+      idSeccionV: $("#idSeccionV").val(),
+      estudiantesNuevos: $("#seleccionarEstudidantesAdicionales").val(),
+    };
+    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        console.log(response);
+        listarEstudiantesSeccion(data.idSeccionV);
+        selectEstudiantesOFF(data.idSeccionV);
+    });
+});
+
+function choices1 () {
+    var estudiantesOFF = document.getElementById('seleccionarEstudidantesAdicionales');
+    new Choices(estudiantesOFF, {
       allowHTML: true,
-      maxItemText: 4,
+      maxItemText: 3,
       removeItems: true,
       removeItemButton: true,
       noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay participantes disponibles',
-      placeholderValue: 'Buscar profesor',
+      noChoicesText: 'No hay estudiantes disponibles',
+      placeholderValue: 'Buscar estudiantes',
     });
-}*/
+}
 
-/*$('#ver').click(function () { 
-    var div= document.getElementsByClassName('1');
-    var cu= ['cuenca', 'sas', 'culoemono'];
-    for(var i = 0; i < div.length; i++){
-        console.log(div[i].value);
-      }
-    //console.log(cu);
-});*/
 
-/*let spanish= {
+/////APARTADO DE RELLENO DE DATOS/////
+
+//RELLENANDO MODAL PARA EDITAR INFORMACION DE LA SECCION
+$('#listaSecciones tbody').on('click', '.editarDatosSeccion', function() {
+    let data= dataTableSec.row($(this).parents()).data();
+    $('#idSeccionRefU').val(data.id_seccion);
+    $('#nombreSeccionEdit').val(data.nombre);
+    $('#nivelDoctrinaEdit').val(data.nivel_doctrina);
+})
+
+
+
+
+/////APARTADO DE DATATABLES/////
+
+//IDIOMA DEL DATATABLES
+let spanish= {
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -353,21 +397,150 @@ function choices2() {
     }
 };
 
-let fun= 'fun'
-$('#example').DataTable({
+//DATATABLES LISTA DE SECCIONES INICIALIZACION
+let activarDatatableSeccion= 'activarsec';
+let dataTableSec= $('#listaSecciones').DataTable({
     ajax:{
         method: "POST",
-        url: "controlador/ajax/prueba.php",
-        data: {fun: fun},
+        url: "controlador/ajax/dinamica-seccion.php",
+        data: {activarDatatableSeccion: activarDatatableSeccion},
     },
     columns: [
-        { data: 'codigo' },
-        { data: 'nombre' },
-        {data: 'cedula',
-        render: function ( data, type, row, meta ) {
-            return '<input type="text" value="'+data+'">';
-          }
-        }
+        {data: 'id_seccion'},
+        {data: 'nombre' },
+        {data: 'nivel_doctrina' },
+        {defaultContent: 
+        '<button type="button" class="btn btn-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-square"></i></button>'  
+        +'<button type="button" class="btn btn-info editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill"></i></button>'
+        +'<button type="button" class="btn btn-info editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill"></i></button>' 
+        +'<button type="button" class="btn btn-danger eliminarSeccion mx-1" title="Eliminar seccion"><i class="bi bi-dash-circle"></i></button>'},
     ],
-    language: spanish
-});*/
+    language: spanish,
+});
+//GUARDANDO LA TABLA EN UNA VARIABLE PARA USARLA PARA RECUPERAR DATOS
+dataTableSec.column( 0 ).visible( false );
+/////////////////////////////////////////////////////////////////////////////////////////
+
+
+/////ENTRAR AL MODAL Y LISTAR LOS ESTUDIANTES DE LA SECCION SELECCIONADA/////
+$('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
+    
+    let idSeccionRef= dataTableSec.row($(this).parents()).data().id_seccion;
+    
+    let div = document.getElementById("listaEstDatos");
+    let activarTablaEst = "activarTablaEst";
+
+    $.ajax({
+        data: {
+            activarTablaEst: activarTablaEst,
+            idSeccionConsulta: idSeccionRef,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+        selectEstudiantesOFF(idSeccionRef);
+    })
+})
+
+/////ACTUALIZAR DATOS DE LA SECCION/////
+$('#guardarEditado1').click(function (e) { 
+    e.preventDefault();
+    const data = {
+        actualizarDatosSeccion: 'actualizarDatosSeccion',
+        nombreSeccionU: $("#nombreSeccionEdit").val(),
+        nivelSeccionU: $("#nivelDoctrinaEdit").val(),
+        idSeccionRefU: $("#idSeccionRefU").val(),
+    }
+
+    Swal.fire({
+        background: '#ebebeb',
+        icon: 'warning',
+        title: '¿Procesar informacion a actualizar?',
+        showDenyButton: true,
+        confirmButtonText: `DE ACUERDO`,
+        confirmButtonColor: 'green',
+        denyButtonText: `NO`,
+        denyButtonColor: 'orange',
+    }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+                    console.log(response);
+                    dataTableSec.ajax.reload();
+                });
+            }
+    })
+      
+});
+
+/////ELIMINAR SECCION DE LA DATATABLE SECCION/////
+$('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
+    let idSeccionRef= dataTableSec.row($(this).parents()).data().id_seccion;
+    let data= {
+        eliminarSeccion: 'eliminarSeccion',
+        idSeccionEliminar: idSeccionRef,
+    }
+    Swal.fire({
+        background: '#ebebeb',
+        icon: 'warning',
+        title: '¿Estas segur@ que deseas cerrar la seccion?',
+        showDenyButton: true,
+        confirmButtonText: `CERRAR`,
+        confirmButtonColor: 'red',
+        denyButtonText: `CANCELAR`,
+        denyButtonColor: 'orange',
+    }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+                    dataTableSec.ajax.reload();
+                })
+            }
+        })
+    
+})
+
+/////ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA/////
+$(document).on('click', '#eliminarEstON', function () {
+    let elemento = $(this)[0].parentElement.parentElement;
+    let cedulaEstborrar= elemento.querySelector('#cedulaEstON').textContent;
+    let idSeccionRef= $("#idSeccionV").val();
+    
+    const data = {
+        eliminarEstSeccion: 'eliminarEstSeccion',
+        cedulaEstborrar: cedulaEstborrar,
+    }
+
+    Swal.fire({
+        background: '#ebebeb',
+        icon: 'warning',
+        title: '¿Segur@a de eliminar a este estudiante?',
+        showDenyButton: true,
+        confirmButtonText: `SI`,
+        confirmButtonColor: 'green',
+        denyButtonText: `NO`,
+        denyButtonColor: 'red',
+    }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+                    listarEstudiantesSeccion(idSeccionRef);
+                    selectEstudiantesOFF(idSeccionRef);
+                });
+            }
+    })
+})
+
+
+///////////////////////////////////////////////////////////////
+////////APARTADO DE VALIDACIONES PARA CREAR UNA SECCION////////
+///////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+    
+
+

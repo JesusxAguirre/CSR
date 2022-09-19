@@ -8,21 +8,25 @@ class ecam extends Conectar
 {
     private $conexion;
     private $idMateria;
+    private $idMateriaSeccion;
     private $nombre;
+    private $nombreSeccionU;
+    private $nombreSeccion;
     private $nivel;
+    private $nivelSeccion;
+    private $nivelSeccionU;
     private $cedulaProfesor;
+    private $cedulaProfSeccion;
+    private $cedulaEstSeccion;
     private $listarMaterias;
     private $listarMateriasNivel;
     private $listarProfesoresMaterias;
+    private $listarEstudiantesOFF;
+    private $listarEstudiantesON;
+    private $listarSeccionesON;
     private $materiasBuscadas;
     private $todosProfesores;
     private $todosProfesores2;
-    private $listarEstudiantes;
-    private $nombreSeccion;
-    private $nivelSeccion;
-    private $cedulaProfSeccion;
-    private $cedulaEstSeccion;
-    private $idMateriaSeccion;
 
 
     public function __construct()
@@ -30,7 +34,7 @@ class ecam extends Conectar
         $this->conexion = parent::conexion();
     }
 
-    //LISTAR ESTUDIANTES
+    //LISTAR ESTUDIANTES DISPONIBLES PARA INSCRIBIR
     public function listarEstudiantes()
     {
 
@@ -41,9 +45,9 @@ class ecam extends Conectar
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->listarEstudiantes[] = $filas;
+            $this->listarEstudiantesOFF[] = $filas;
         }
-        return $this->listarEstudiantes;
+        return $this->listarEstudiantesOFF;
     }
 
     //LISTAR PROFESORES TODOS LOS PROFESORES
@@ -60,6 +64,36 @@ class ecam extends Conectar
             $this->todosProfesores[] = $filas;
         }
         return $this->todosProfesores;
+    }
+
+    //LISTAR TODAS LAS SECCIONES ACTIVAS
+    public function listarSeccionesON()
+    {
+        $sql = "SELECT * FROM `secciones` WHERE `status_seccion` = 1";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->listarSeccionesON[] = $filas;
+        }
+        return $this->listarSeccionesON;
+    }
+
+    //LISTAR TODOS LOS ESTUDIANTES ACTIVOS EN SECCIONES
+    public function listarEstudiantesON($idSeccionConsulta)
+    {
+        $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = $idSeccionConsulta";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->listarEstudiantesON[] = $filas;
+        }
+        return $this->listarEstudiantesON;
     }
 
     //LISTAR LOS PROFESORES QUE NO ESTEN ASIGNADOS A X MATERIA
@@ -132,13 +166,15 @@ class ecam extends Conectar
 
 
     //CANTIDAD DE FILAS POR NIVELES PARA GENERAR SELECT
-    public function cantidadFilasNiveles()
+    public function cantidadFilasNiveles($nivel)
     {
-        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nivelDoctrina = 1";
+        $sql = "SELECT `id_materia`, `nombre`, `nivelDoctrina` FROM `materias` WHERE nivelDoctrina = :nivelSeleccionado";
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            "nivelSeleccionado" => $nivel,
+        ));
         $filas= $stmt->rowCount();
 
         return $filas;
@@ -164,15 +200,15 @@ class ecam extends Conectar
     //LISTAR MATERIAS POR NIVEL SELECCIONADO
     public function listarMateriasNivel($nivel)
     {
-        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nivelDoctrina = $nivel";
+        $sql = "SELECT `id_materia`, `nombre`, `nivelDoctrina` FROM `materias` WHERE `nivelDoctrina` = :nivelSeleccionado";
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":nivelSeleccionado" => $nivel,
+        ));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
             $this->listarMateriasNivel[] = $filas;
         }
         return $this->listarMateriasNivel;
@@ -261,16 +297,76 @@ class ecam extends Conectar
             ));
         } //Fin del  Foreach
         //Estudiantes vinculados con la seccion
+        
+        $sql4 = ("SELECT MAX(id_seccion) AS id FROM secciones");
 
-        //AGREGANDO MATERIAS CON LOS PROFESORES
-        foreach ($this->idMateriaSeccion as $matId) {
-            foreach ($this->cedulaProfSeccion as $profCi) {
-                $sql3= "";
-            }
+        $stmt4 = $this->conexion()->prepare($sql4);
+        $stmt4->execute(array());
+        $contador= $stmt4->fetch(PDO::FETCH_ASSOC);
+        $id= $contador['id'];
+
+        foreach ($this->idMateriaSeccion as $key) {
+            $idSec[]= $key;
+        }
+        foreach ($this->cedulaProfSeccion as $key2) {
+            $idP[]= $key2;
         }
 
+        //AGREGANDO MATERIAS CON LOS PROFESORES
+        for ($i=0; $i < count($this->idMateriaSeccion); $i++) { 
+            $sql3= "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`) VALUES (:idSec, :idMat, :ciProf)";
+            $stmt3 = $this->conexion->prepare($sql3);
+            $stmt3->execute(array(
+                ":idSec" => $id,
+                ":idMat" => $idSec[$i],
+                ":ciProf" => $idP[$i],
+            ));
+            
+        }
+            
     }
 
+
+    //AGREGANDO O ACTUALIZANDO MAS ESTUDIANTES A LA SECCION SELECCIONADA
+    public function agregandoMasEstudiantes($estudiantesNuevos, $idSeccionVincular)
+    {
+        foreach ($estudiantesNuevos as $estNuevo) {
+        $sql= "UPDATE `usuarios` SET `id_seccion` = :seccionVincular WHERE `usuarios`.`cedula` = :cedulaEstNuevo";
+        $stmt = $this->conexion->prepare($sql);
+            $stmt->execute(array(
+                ":seccionVincular" => $idSeccionVincular,
+                ":cedulaEstNuevo" => $estNuevo,
+            ));
+        }//FIN DEL FOREACH
+        //ESTUDIANTES NUEVOS VINCULADOS A LA SECCION
+    }
+
+    //ELIMINAR O DESACTIVAR LA SECCION SELECCIONADA
+    public function eliminarSeccion($idSeccionEliminar)
+    {
+        $sql= "UPDATE `secciones` SET `status_seccion` = '0' WHERE `secciones`.`id_seccion` = $idSeccionEliminar";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute();
+    }
+
+    //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
+    public function eliminarEstSeccion($cedulaEstborrar)
+    {
+        $sql= "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = $cedulaEstborrar";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute();
+    }
+
+    //ACTUALIZAR DATOS DE LA SECCION SELECCIONADA
+    public function actualizarDatosSeccion($idSeccionRefU)
+    {
+        $sql= "UPDATE `secciones` SET `nombre` = :nombreSecU, `nivel_doctrina` = :nivelSecU WHERE `secciones`.`id_seccion` = $idSeccionRefU";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(array(
+            ":nombreSecU" => $this->nombreSeccionU,
+            ":nivelSecU" => $this->nivelSeccionU,
+        ));
+    }
 
     public function setMaterias($nombre, $nivel, $cedulaProfesor)
     {
@@ -278,13 +374,20 @@ class ecam extends Conectar
         $this->nivel = $nivel;
         $this->cedulaProfesor = $cedulaProfesor;
     }
+    //SET PARA ACTUALIZAR DATOS DE LA MATERIA
     public function setActualizar($idMateria, $nombre, $nivel)
     {
         $this->idMateria = $idMateria;
         $this->nombre = $nombre;
         $this->nivel = $nivel;
     }
-    public function setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion,)
+    //SET PARA ACTUALIZAR DATOS DE LA SECCION
+    public function setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU)
+    {
+        $this->nombreSeccionU = $nombreSeccionU;
+        $this->nivelSeccionU = $nivelSeccionU;
+    }
+    public function setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion)
     {
         $this->nombreSeccion = $nombreSeccion;
         $this->nivelSeccion = $nivelSeccion;
