@@ -9,22 +9,18 @@ var choices1 = new Choices(csr, {
   noChoicesText: 'No hay lideres disponibles',
 });
 
-
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
-const textarea = document.querySelectorAll('#formulario textarea'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
   hombres: false,
   mujeres: false,
   niños: false,
   confesiones: false,
-  observaciones: false,
   CSR: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
 
-  observaciones: /^[A-Za-z0-9\s]{40,200}$/, // Letras y espacios, pueden llevar acentos.
   cantidad: /^[0-9]{1,2}$/,
   //expresion regular de codigo de usuario
 }
@@ -42,9 +38,6 @@ const ValidarFormulario = (e) => {
       break;
     case "confesiones":
       ValidarCampo(expresiones.cantidad, e.target, 'confesiones');
-      break;
-    case "observaciones":
-      ValidarCampo(expresiones.observaciones, e.target, 'observaciones');
       break;
     case "CSR[]":
       ValidarSelect(e.target, 'CSR');
@@ -93,16 +86,13 @@ inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 });
-textarea.forEach((text) => {
-  text.addEventListener('keyup', ValidarFormulario);
-  text.addEventListener('blur', ValidarFormulario);
-});
+
 
 csr.addEventListener('hideDropdown', ValidarFormulario);
 
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.observaciones && campos.mujeres && campos.niños && campos.confesiones && campos.CSR && campos.hombres)) {
+  if (!(campos.mujeres && campos.niños && campos.confesiones && campos.CSR && campos.hombres)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',

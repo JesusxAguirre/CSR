@@ -19,7 +19,6 @@ class LaRoca extends Usuarios
     private $mujeres;
     private $niños;
     private $confesiones;
-    private $observaciones;
 
 
 
@@ -126,8 +125,8 @@ class LaRoca extends Usuarios
     {
        
         $sql = "INSERT INTO reportes_casas (id_casa,cantidad_h,
-        cantidad_m,cantidad_n,confesiones,fecha,observaciones) 
-        VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha,:obser)";
+        cantidad_m,cantidad_n,confesiones,fecha) 
+        VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha)";
 
         $stmt = $this->conexion->prepare($sql);
         
@@ -135,8 +134,7 @@ class LaRoca extends Usuarios
             ":id_casa" => $this->CSR,
             ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
             ":n" => $this->niños, ":confesiones"=>$this->confesiones,
-             ":fecha" => $this->fecha,
-            ":obser" => $this->observaciones
+             ":fecha" => $this->fecha
         ));
      
     //fin del foreach
@@ -153,13 +151,13 @@ class LaRoca extends Usuarios
         $this->cantidad_integrantes = $cantidad_integrantes;
         $this->fecha = gmdate("y-m-d", time());
     }
-    public function setReporte($CSR,$hombres,$mujeres,$niños,$confesiones,$observaciones){
+    public function setReporte($CSR,$hombres,$mujeres,$niños,$confesiones){
         $this->CSR = $CSR;
         $this->hombres = $hombres;
         $this->mujeres = $mujeres;
         $this->niños = $niños;
         $this->confesiones = $confesiones;
-        $this->observaciones = $observaciones;
+
         $this->fecha = gmdate("y-m-d", time());
 
     }

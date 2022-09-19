@@ -15,13 +15,12 @@ if (is_file('vista/'.$pagina.'.php')) {
         $mujeres = $_POST['mujeres'];
         $niños = $_POST['niños'];
         $confesiones = $_POST['confesiones'];
-        $observaciones = $_POST['observaciones'];
         //colocando en una variable la id de casa sobre la roca fuera de un arreglo
         for($i =0; $i < count($CSR1); $i++){
             $id_casa = $CSR1[$i];
             }
         $CSR = $id_casa;
-        $objeto->setReporte($CSR,$hombres,$mujeres,$niños,$confesiones,$observaciones);
+        $objeto->setReporte($CSR,$hombres,$mujeres,$niños,$confesiones);
         
         $objeto->registrar_reporte_CSR();
         $error = false;

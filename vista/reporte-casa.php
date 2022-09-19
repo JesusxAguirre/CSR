@@ -17,8 +17,8 @@
   <script src="./resources/js/bootstrap.min.js"></script>
 
 
-    <!-- JQUERY -->
-    <script src="./resources/js/jquery-3.6.0.min.js"></script>
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
   <!-- CHOICE 2 -->
   <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
   <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
@@ -31,7 +31,7 @@
 
   <!-- Menu.php -->
   <?php
-  require_once "./resources/View_Components/Menu.php";
+  require_once "resources/View_Components/Menu.php";
 
   ?>
   <!-- Menu.php -->
@@ -105,20 +105,6 @@
                       <input placeholder="1" type="text" id="confesiones" name="confesiones" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
-                  </div>
-                </div>
-                <div class="mb-3 row">
-                  <div id="grupo__observaciones" class="col-sm ">
-                    <div class="relative">
-                      <label class="form-label fw-bold" for="formGridPassword">
-                        Observaciones</label>
-                      <i class="input-icon fs-5"></i>
-                      <div class="form-floating">
-                        <textarea class="form-control" id="observaciones" name="observaciones" style="height: 100px"></textarea>
-                        <label for="floatingTextarea2">Escriba las observaciones</label>
-                      </div>
-                    </div>
-                    <p class="text-danger d-none">Este campo lleva minimo 40 letras</p>
                   </div>
                 </div>
                 <div class="mb-3" id="formGridCheckbox">
