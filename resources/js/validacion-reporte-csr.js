@@ -19,7 +19,7 @@ const campos = {
   niños: false,
   confesiones: false,
   observaciones: false,
-  csr: false,
+  CSR: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -102,7 +102,7 @@ csr.addEventListener('hideDropdown', ValidarFormulario);
 
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.hombres && campos.mujeres && campos.niños && campos.confesiones && campos.csr && campos.observaciones)) {
+  if (!(campos.observaciones && campos.mujeres && campos.niños && campos.confesiones && campos.CSR && campos.hombres)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -110,6 +110,7 @@ formulario.addEventListener('submit', (e) => {
       text: 'Registra el formulario correctamente'
     })
   }
+
 })
 
 

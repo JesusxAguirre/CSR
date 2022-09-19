@@ -121,7 +121,7 @@
                   </div>
                 </div>
                 <div class="mb-3" id="formGridCheckbox">
-                </div><button type="submit" class="btn btn-primary">Enviar</button>
+                </div><button name="registrar" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>
