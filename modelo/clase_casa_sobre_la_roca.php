@@ -14,12 +14,61 @@ class LaRoca extends Usuarios
     private $fecha;
     private $busqueda;
     private $cedula_lider;
+    private $CSR;
+    private $hombres;
+    private $mujeres;
+    private $niños;
+    private $confesiones;
+    private $observaciones;
+
+
 
     public function __construct()
     {
         $this->conexion = parent::conexion();
     }
    
+   
+  
+    public function listar_casas_la_roca()
+    {
+        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
+        casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
+        casas_la_roca.fecha,casas_la_roca.hora_pautada, lider.codigo AS codigo_lider
+        FROM casas_la_roca 
+        INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar[] = $filas;
+        }
+        return $this->listar;
+    }
+
+    public function listar_casas_la_roca_por_usuario()
+    {
+        $usuario = $_SESSION['usuario'];
+        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
+        FROM casas_la_roca 
+        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar[] = $filas;
+        }
+        return $this->listar;
+    }
+
     public function registrar_CSR()
     {
         //buscando ultimo id agregando
@@ -70,46 +119,31 @@ class LaRoca extends Usuarios
     }//fin del foreach
         return true;
     }
-  
-    public function listar_casas_la_roca()
+    
+        //---------registrar reporte de CSR------------------------//
+
+    public function registrar_reporte_CSR()
     {
-        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
-        casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
-        casas_la_roca.fecha,casas_la_roca.hora_pautada, lider.codigo AS codigo_lider
-        FROM casas_la_roca 
-        INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula");
+       
+        $sql = "INSERT INTO reportes_casas (id_casa,cantidad_h,
+        cantidad_m,cantidad_n,confesiones,fecha,observaciones) 
+        VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha,:obser)";
 
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
-            $this->listar[] = $filas;
-        }
-        return $this->listar;
+        $stmt = $this->conexion->prepare($sql);
+        foreach($this->CSR AS $id_casa){
+           
+      
+        $stmt->execute(array(
+            ":id_casa" => $id_casa,
+            ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
+            ":n" => $this->niños, ":confesiones"=>$this->confesiones,
+             ":fecha" => $this->fecha,
+            ":obser" => $this->observaciones
+        ));
+     
+    }//fin del foreach
+        return true;
     }
-
-    public function listar_casas_la_roca_por_usuario()
-    {
-        $usuario = $_SESSION['usuario'];
-        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
-        FROM casas_la_roca 
-        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
-            $this->listar[] = $filas;
-        }
-        return $this->listar;
-    }
-
 
     public function setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes){
         $this->cedula_lider = $cedula_lider;
@@ -120,5 +154,13 @@ class LaRoca extends Usuarios
         $this->dia = $dia;
         $this->cantidad_integrantes = $cantidad_integrantes;
         $this->fecha = gmdate("y-m-d", time());
+    }
+    public function setReporte($CSR,$hombres,$mujeres,$niños,$confesiones,$observaciones){
+        $this->$CSR = $CSR;
+        $this->$hombres = $hombres;
+        $this->$mujeres = $mujeres;
+        $this->niños = $niños;
+        $this->confesiones = $confesiones;
+        $this->observaciones = $observaciones;
     }
 }

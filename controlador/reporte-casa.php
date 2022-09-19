@@ -10,23 +10,16 @@ if (is_file('vista/'.$pagina.'.php')) {
     $error = true;
     if(isset($_POST['registrar'])){
 
-        $csr = $_POST['CSR'];
+        $CSR = $_POST['CSR'];
         $hombres = $_POST['hombres'];
         $mujeres = $_POST['mujeres'];
         $niños = $_POST['niños'];
         $confesiones = $_POST['confesiones'];
         $observaciones = $_POST['observaciones'];
 
-        print_r($csr) . "<br>";
-        echo $hombres . "<br>";
-        echo $mujeres . "<br>";
-        echo $niños . "<br>";
-        echo $confesiones . "<br>";
-        echo $observaciones . "<br>";
-        exit;
-        $objeto->setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes);
+        $objeto->setReporte($CSR,$hombres,$mujeres,$niños,$confesiones,$observaciones);
 
-        $objeto->registrar_CSR();
+        $objeto->registrar_reporte_CSR();
         $error = false;
     }
     require_once 'vista/'.$pagina.'.php';
