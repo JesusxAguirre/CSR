@@ -5,7 +5,7 @@ session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
-
+    $error = true;
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

@@ -11,16 +11,20 @@
   <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
   <link rel="stylesheet" href="./resources/css/style.css">
   <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="./resources/css/consolidacion.css">
 
-
-  <!-- Fontawesone css -->
-  <link rel="stylesheet" href="./resources/library/fontawesome/css/all.css">
   <!-- Js boostrap -->
   <script src="./resources/js/bootstrap.min.js"></script>
 
-  <!-- Js fontawesone -->
-  <script src="./resources/library/fontawesone/js/all.js"></script>
 
+    <!-- JQUERY -->
+    <script src="./resources/js/jquery-3.6.0.min.js"></script>
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+  <script src="resources/js/sweetalert2.js"></script>
+
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -40,7 +44,6 @@
       <div class="row">
         <div class="col-12">
           <div class="page-title-box">
-
             <h4 class="page-title">Reporte Casa Sobre La Roca</h4>
           </div>
         </div>
@@ -49,7 +52,7 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form action="?pagina=registrar-casa" method="POST" class="">
+              <form action="?pagina=reporte-casa" id="formulario" method="POST" class="">
                 <div class="mb-3 row">
                   <div id="grupo__CSR" class="col-sm ">
                     <div class="relative">
@@ -72,7 +75,7 @@
                       <i class="input-icon fs-5"></i>
                       <input placeholder="1" type="text" id="hombres" name="hombres" class="form-control">
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
                   <div id="grupo__mujeres" class="col-sm ">
                     <div class="relative">
@@ -80,53 +83,54 @@
                       <i class="input-icon fs-5"></i>
                       <input placeholder="2" type="text" name="mujeres" id="mujeres" class="form-control">
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
                   <div id="grupo__niños" class="col-sm ">
                     <div class="relative">
                       <label class="form-label fw-bold">
-                        Número de Niños que  asistieron</label>
+                        Número de Niños que asistieron</label>
                       <i class="input-icon fs-5"></i>
                       <input placeholder="1" type="text" id="niños" name="niños" class="form-control">
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
                 </div>
-                  <div class="mb-3 row">
-                    <div id="grupo__confesiones" class="col-sm ">
-                      <div class="relative">
-                        <label class="form-label fw-bold" for="formGridPassword">
-                          Confensiones de fe en la ultima visita </label>
-                        <i class="input-icon fs-5"></i>
-                        <input placeholder="1" type="text" id="confesiones" name="confesiones" class="form-control">
-                      </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                <div class="mb-3 row">
+                  <div id="grupo__confesiones" class="col-sm ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">
+                        Confensiones de fe en la ultima visita </label>
+                      <i class="input-icon fs-5"></i>
+                      <input placeholder="1" type="text" id="confesiones" name="confesiones" class="form-control">
                     </div>
+                    <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
-                  <div class="mb-3 row">
-                    <div id="grupo__obsevaciones" class="col-sm ">
-                      <div class="relative">
-                        <label class="form-label fw-bold" for="formGridPassword">
-                          Observaciones</label>
-                        <i class="input-icon fs-5"></i>
-                        <div class="form-floating">
-                          <textarea class="form-control" placeholder="Leave a comment here" id="observaciones" name="observaciones" style="height: 100px"></textarea>
-                          <label for="floatingTextarea2">Escriba las observaciones</label>
-                        </div>
+                </div>
+                <div class="mb-3 row">
+                  <div id="grupo__observaciones" class="col-sm ">
+                    <div class="relative">
+                      <label class="form-label fw-bold" for="formGridPassword">
+                        Observaciones</label>
+                      <i class="input-icon fs-5"></i>
+                      <div class="form-floating">
+                        <textarea class="form-control" id="observaciones" name="observaciones" style="height: 100px"></textarea>
+                        <label for="floatingTextarea2">Escriba las observaciones</label>
                       </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>
+                    <p class="text-danger d-none">Este campo lleva minimo 40 letras</p>
                   </div>
-                    <div class="mb-3" id="formGridCheckbox">
-                    </div><button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+                <div class="mb-3" id="formGridCheckbox">
+                </div><button type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    </div>
   </main>
-  </div>
+  <script type="text/javascript">
+    error = <?php echo ($error) ? 'true' : 'false'; ?>
+  </script>
+  <script src="resources/js/validacion-reporte-csr.js"></script>
 </body>
