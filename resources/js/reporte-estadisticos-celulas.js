@@ -4,6 +4,7 @@ const formulario = document.getElementById('consultar'); //declarando una consta
 const formulario2 = document.getElementById('consultar2'); //declarando una constante con la id formulario
 const formulario3 = document.getElementById('consultar3'); //declarando una constante con la id formulario
 const formulario4 = document.getElementById('consultar4'); //declarando una constante con la id formulario
+const formulario5 = document.getElementById('consultar5'); //declarando una constante con la id formulario
 var chart1;
 var options;
 var enero;
@@ -11,6 +12,7 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs4 = document.querySelectorAll('#formulario4 input'); //declarando una constante con todos los inputs dentro de la id formulario
+const inputs5 = document.querySelectorAll('#formulario5 input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 
 var lider = document.getElementById('lider');
@@ -73,6 +75,15 @@ const ValidarFormulario = (e) => {
       break;
     case "fecha_final4":
       ValidarSelect(e.target, 'fecha_final4');
+      break;
+    case "CSR[]":
+      ValidarSelect(e.target, 'CSR');
+      break;
+    case "fecha_inicio5":
+      ValidarSelect(e.target, 'fecha_inicio5');
+      break;
+    case "fecha_final5":
+      ValidarSelect(e.target, 'fecha_final5');
       break;
   }
 }
@@ -396,6 +407,97 @@ formulario4.addEventListener('click', (e) => {
     })
   }
 })
+formulario5.addEventListener('click', (e) => {
+  if (!(campos.fecha_inicio5 && campos.fecha_final5 && campos.CSR)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  } else {
+    //busqueda ajax 
+    const fecha_inicio5 = document.getElementById('fecha_inicio5')
+    const fecha_final5 = document.getElementById('fecha_final5')
+    const CSR = document.getElementById('CSR')
+    const enviar5 = document.getElementById('consultar5')
+    const respuesta5 = document.getElementById('respuesta5');
+    enviar4.addEventListener('click', () => {
+      console.log("inicio de la funcion 5")
+
+      let id_casa = CSR.value
+      let fecha_inicio = fecha_inicio4.value
+      let fecha_final = fecha_final4.value
+      $.ajax({
+        data: {
+          fecha_inicio: fecha_inicio,
+          fecha_final: fecha_final,
+          id_casa: id_casa,
+        },
+        url: "controlador/ajax/mostrar-grafico-CSR.php",
+        type: "post",
+        dataType: "json",
+      }).done(data => {
+        var objeto = [];
+        var titulo = [];
+        var cantidad1 = [];
+        var cantidad2 = [];
+        console.log(data)
+        for (prop in data) {
+          objeto.push(data[prop]);
+        }
+        console.log(objeto);
+        for (prop in objeto[0]) {
+          titulo.push(prop);
+          cantidad1.push(objeto[0][prop]);
+        }
+        for (prop in objeto[1]) {
+          cantidad2.push(objeto[1][prop]);
+        }
+        console.log(data.datos_lider.nombre)
+        console.log(data.datos_lider.apellido)
+        var v_modal = $('#lider-grafico').modal({ show: false });
+        Highcharts.chart('grafico4', {
+          chart: {
+            type: 'area'
+          },
+          title: {
+            text: 'Reporte de crecimiento de lider'
+          },
+          subtitle: {
+            text: 'lider: ' +data.datos_lider.nombre+' ' +data.datos_lider.apellido + '',
+           },
+          xAxis: {
+            categories: titulo,
+          },
+          yAxis: {
+            title: {
+              text: 'Cantidad'
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: 'cantidad de discipulos',
+            data: cantidad1,
+
+          }, {
+            name: 'Cantidad de celulas de discipulado',
+            data: cantidad2,
+
+          },
+          ],
+        });
+
+        console.log("final de la funcion")
+
+        v_modal.on("show", function () { })
+        v_modal.modal("show");
+      })
+    })
+  }
+})
 
 
 
@@ -417,6 +519,11 @@ inputs4.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 });
+inputs5.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
+});
 
 
 lider.addEventListener('hideDropdown', ValidarFormulario);
+CSR.addEventListener('hideDropdown', ValidarFormulario);
