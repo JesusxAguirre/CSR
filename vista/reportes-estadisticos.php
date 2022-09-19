@@ -70,7 +70,7 @@
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Reporte estadistico numero de discipulos</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Reporte estadistico cantidad de celulas de consolidacion</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#lider-form" role="button">Reporte estadistico crecimiento de lider</a>
-              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#csr-form" role="button">Reporte estadistico CSR </a>
+              <a class="btn btn-primary mt-3" data-bs-toggle="modal" id="reporte" href="#csr-form" role="button">Reporte estadistico CSR </a>
 
               <div id="respuesta"></div>
               <div id="respuesta2"></div>
@@ -245,7 +245,7 @@
     </div>
   </div>
   <!-- Modal para formulario de fechas de CSR creados-->
-  <div class="modal fade" id="lider-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+  <div class="modal fade" id="csr-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -253,13 +253,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <div id="formulario4" class="container-fluid">
+          <div id="formulario5" class="container-fluid">
             <div class="mb-3 row">
-              <div id="grupo__lider" class="col-sm ">
+              <div id="grupo__CSR" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
                   <i class="input-icon fs-5"></i>
-                  <select name="lider[]" id="lider" class="form-control">
+                  <select name="CSR[]" id="CSR" class="form-control">
                     <option value="">Seleccione una opcion</option>
                     <?php foreach ($matriz_csr as $csr) : ?>
                       <option value="<?php echo $csr['id']; ?>"> <?php echo $csr['codigo']; ?></option>

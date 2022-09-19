@@ -21,6 +21,14 @@ var choices1 = new Choices(lider, {
   noResultsText: 'No hay coicidencias',
   noChoicesText: 'No hay participantes disponibles',
 });
+var CSR = document.getElementById('CSR');
+var choices1 = new Choices(CSR, {
+  allowHTML: true,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
+});
 
 const campos = {
   fecha_inicio: false,
@@ -32,6 +40,9 @@ const campos = {
   lider: false,
   fecha_inicio4: false,
   fecha_final4: false,
+  CSR: false,
+  fecha_inicio5: false,
+  fecha_final5: false,
 }
 
 const ValidarFormulario = (e) => {
