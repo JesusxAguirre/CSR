@@ -19,7 +19,7 @@
     }
 
 
-    //ACTIVAR DATATABLE DE ESTUDIANTES Y TRAER INFORMACION
+    //ACTIVAR LISTA DE ESTUDIANTES POR SECCION
     if (isset($_POST['activarTablaEst'])) {
         $idSeccionConsulta = $_POST['idSeccionConsulta'];
 
@@ -41,6 +41,30 @@
     }
 
 
+    //ACTIVAR LISTA DE PROFESORES POR SECCION
+    if (isset($_POST['activarTablaProf'])) {
+        $idSeccionProfConsulta = $_POST['idSeccionProfConsulta'];
+
+        $listarProfesores_seccionMateria = $objeto->listarProfesores_seccionMateria($idSeccionProfConsulta);
+
+        if (!empty($listarProfesores_seccionMateria)) {
+            foreach ($listarProfesores_seccionMateria as $listProf) { ?>
+                <tr>
+                    <td hidden id="cedulaProfON"><?php echo $listProf['id_materia']; ?></td>
+                    <td hidden id="cedulaProfON"><?php echo $listProf['cedula']; ?></td>
+                    <td class="table-dark"><?php echo $listProf['nombreMateria']; ?></td>
+                    <td><?php echo $listProf['codigo']; ?></td>
+                    <td><?php echo $listProf['nombre']; ?></td>
+                    <td><?php echo $listProf['apellido']; ?></td>
+                    <td>
+                        <i type="button" class="text-danger fs-5 bi bi-dash-circle" id="eliminarProfON" title="Pulsa para eliminar"></i>
+                    </td>
+                </tr> <?php
+            }
+        }
+    }
+
+
     //SELECT2 DE LISTAR ESTUDIANTES PARA REGISTRAR UNA SECCION
     if (isset($_POST['verEstudiantes'])) {
         $estudiantes = $objeto->listarEstudiantes();
@@ -53,7 +77,6 @@
  </select> <?php
     }
 
-
     //CHOICES DE LISTAR ESTUDIANTES PARA AGREGAR MAS A LA SECCION
     if (isset($_POST['verEstudiantes2'])) {
         $listarEstudiantesOFF = $objeto->listarEstudiantes();
@@ -64,6 +87,18 @@
         <?php endforeach; ?>
         </select>
         <input hidden id="idSeccionV"><?php
+    }
+
+
+    //CHOICES DE LISTAR PROFESORES PARA A LA MATERIA DE LA SECCION
+    if (isset($_POST['verProfesoresSelect'])) {
+        $listarProfesoresOFF = $objeto->listarProfesores();
+
+    ?> <select class="form-select" id="seleccionarProfesoresAdicionales">
+        <?php foreach ($listarProfesoresOFF as $profOFF) : ?>
+            <option value="<?php echo $profOFF['cedula']; ?>"><?php echo $profOFF['codigo'] . ' ' . $profOFF['nombre'] . ' ' . $profOFF['apellido']; ?></option>
+        <?php endforeach; ?>
+        </select><?php
     }
 
 

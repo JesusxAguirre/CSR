@@ -24,6 +24,7 @@ class ecam extends Conectar
     private $listarEstudiantesOFF;
     private $listarEstudiantesON;
     private $listarSeccionesON;
+    private $listarProfesores_SM;
     private $materiasBuscadas;
     private $todosProfesores;
     private $todosProfesores2;
@@ -53,7 +54,7 @@ class ecam extends Conectar
     //LISTAR PROFESORES TODOS LOS PROFESORES
     public function listarProfesores()
     {
-
+        //Recordar agregar el status_profesor = 1 cuando termines este apartado, ya que no esta filtrando
         $sql = "SELECT cedula,codigo,nombre,apellido,telefono FROM usuarios";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -190,8 +191,6 @@ class ecam extends Conectar
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
             $this->listarMaterias[] = $filas;
         }
         return $this->listarMaterias;
@@ -276,7 +275,9 @@ class ecam extends Conectar
         return $this->listarProfesoresMaterias;
     }
 
-    //CREAR SECCIONES
+    
+
+    ///////////////CREAR SECCIONES/////////////
     public function crearSeccion()
     {
         $sql= "INSERT INTO `secciones` (`id_seccion`, `nombre`, `nivel_doctrina`, `status_seccion`, `fecha_creacion`) 
@@ -324,8 +325,27 @@ class ecam extends Conectar
             
         }
             
-    }
+    }//FIN DEL CREAR SECCION
 
+
+
+    //LISTAR PROFESORES DE LA SECCION POR MATERIA
+    public function listarProfesores_seccionMateria($idSeccionProfConsulta)
+    {
+        $sql="SELECT `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS `smp` 
+        INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` 
+        INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` WHERE `smp`.`id_seccion` = :idSeccionProfComsulta";
+
+        $stmt= $this->conexion->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccionProfComsulta" => $idSeccionProfConsulta,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->listarProfesores_SM[] = $filas;
+        }
+        return $this->listarProfesores_SM;
+    }
 
     //AGREGANDO O ACTUALIZANDO MAS ESTUDIANTES A LA SECCION SELECCIONADA
     public function agregandoMasEstudiantes($estudiantesNuevos, $idSeccionVincular)
@@ -367,6 +387,8 @@ class ecam extends Conectar
             ":nivelSecU" => $this->nivelSeccionU,
         ));
     }
+
+
 
     public function setMaterias($nombre, $nivel, $cedulaProfesor)
     {

@@ -79,6 +79,37 @@ function ejecutar() {
 
 
 
+/////LISTAR PROFESORES DE LA SECCION SELECCIONADA/////
+function listarProfesoresSeccion(idSeccionProf) { //Este parametro es para que la funcion liste los estudiantes de la seccion correspondiente. Un parametro de referencia
+    var div= document.getElementById("listaProfDatos");
+    $.ajax({
+        data: {
+            activarTablaProf: 'listarProf',
+            idSeccionProfConsulta: idSeccionProf,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+    });
+}
+//SELECT DE LOS PROFESORES PARA AGREGAR A LA MATERIA (LISTA)
+function selectProfesoresOFF() {
+    let div = document.getElementById("selectMasProfesoresMaterias");
+    $.ajax({
+        data: {
+            verProfesoresSelect: 'verProfesoresSelect',
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+        choicesProfesoresSeccion();
+    });
+}
+
+
+
 /////LISTAR ESTUDIANTES DE LA SECCION SELECCIONADA/////
 function listarEstudiantesSeccion(idSeccionVer) { //Este parametro es para que la funcion liste los estudiantes de la seccion correspondiente. Un parametro de referencia
     var div= document.getElementById("listaEstDatos");
@@ -124,6 +155,8 @@ $("#agregarEditado2").on("click", function (e) {
     });
 });
 
+
+////////////////////FUNCIONES CHOICES SELECT////////////////////
 function choices1 () {
     var estudiantesOFF = document.getElementById('seleccionarEstudidantesAdicionales');
     new Choices(estudiantesOFF, {
@@ -136,6 +169,21 @@ function choices1 () {
       placeholderValue: 'Buscar estudiantes',
     });
 }
+function choicesProfesoresSeccion () {
+    var profesoresOFF = document.getElementById('seleccionarProfesoresAdicionales');
+    new Choices(profesoresOFF, {
+      allowHTML: true,
+      maxItemText: 3,
+      removeItems: true,
+      removeItemButton: true,
+      noResultsText: 'No hay coicidencias',
+      noChoicesText: 'No hay profesores disponibles',
+      placeholder: true,
+      placeholderValue: 'Buscar profesores',
+    });
+}
+////////////////////////////////////////////////////////////
+
 
 
 /////APARTADO DE RELLENO DE DATOS/////
@@ -422,7 +470,33 @@ dataTableSec.column( 0 ).visible( false );
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
-/////ENTRAR AL MODAL Y LISTAR LOS ESTUDIANTES DE LA SECCION SELECCIONADA/////
+
+/////ENTRAR AL MODAL PROFESORES-MATERIAS Y LISTAR LOS PROFESORES-MATERIAS DE LA SECCION SELECCIONADA/////
+$('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
+    
+    let idSeccionRef3= dataTableSec.row($(this).parents()).data().id_seccion;
+    let nombreSeccionRef3= dataTableSec.row($(this).parents()).data().nombre;
+    $('#idSeccionProfU').val(idSeccionRef3);
+    $('#nombreSeccionProfU').text(nombreSeccionRef3);
+    
+    let div = document.getElementById("listaProfDatos");
+
+    $.ajax({
+        data: {
+            activarTablaProf: 'activarTablaProf',
+            idSeccionProfConsulta: idSeccionRef3,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+        selectProfesoresOFF(idSeccionRef3);
+    })
+})
+
+
+
+/////ENTRAR AL MODAL ESTUDIANTES Y LISTAR LOS ESTUDIANTES DE LA SECCION SELECCIONADA/////
 $('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
     
     let idSeccionRef= dataTableSec.row($(this).parents()).data().id_seccion;
@@ -465,7 +539,6 @@ $('#guardarEditado1').click(function (e) {
     }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    console.log(response);
                     dataTableSec.ajax.reload();
                 });
             }
