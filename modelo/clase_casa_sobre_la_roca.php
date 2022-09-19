@@ -161,4 +161,50 @@ class LaRoca extends Usuarios
         $this->fecha = gmdate("y-m-d", time());
 
     }
+
+
+
+
+
+
+        //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+        public function listar_reporte_CSR($fecha_inicio, $fecha_final,$id_casa)
+        {
+            $sql = ("SET lc_time_names = 'es_MX';
+            SELECT SUM(confesiones) AS total_confesiones, MONTHNAME(fecha)
+            FROM reportes_casas
+            WHERE reportes_casas.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+                AND reportes_casas.id_casa = '$id_casa'
+            GROUP BY MONTHNAME(fecha)");
+           $stmt = $this->conexion()->prepare($sql);
+
+           $stmt->execute(array());
+          
+    
+            $stmt = $this->conexion()->prepare($sql);
+    
+            $stmt->execute(array());
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    
+            return $resultado;
+        }
+        public function listar_cantidad_asistentes_total_por_fecha($fecha_inicio, $fecha_final,$id_casa)
+        {
+            $sql = ("SELECT  SUM(reportes_casas.cantidad_h) AS total_hombres,
+            SUM(reportes_casas.cantidad_m) AS total_mujeres, SUM(reportes_casas.cantidad_n) AS total_niños, 
+            SUM(reportescasas.confesiones) AS total_confesiones,
+            SUM(reportes_casas.cantidad_h + reportes_casas.cantidad_m + reportes_casas.cantidad_n) AS total_asistentes
+               FROM reportes_casas
+               WHERE reportes_casas.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+               AND reportes_casas.id_casa = '$id_casa'");
+    
+            $stmt = $this->conexion()->prepare($sql);
+    
+            $stmt->execute(array());
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    
+            return $resultado;
+        }
 }
