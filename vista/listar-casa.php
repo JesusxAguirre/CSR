@@ -84,9 +84,6 @@
                         <td class="asistente" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
-                          <button type="button" class="btn btn-outline-danger modal-btn "><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
                         </td>
                       </tr>
                     <?php endforeach;       ?>
@@ -202,152 +199,10 @@
       </div>
     </div>
   </div>
-  <!-- Modal agregar_usuario -->
-  <div class="modal fade edit-modal" id="agregar_usuario" tabindex="-1" aria-labelledby="Modalagregar_usuario" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Agregar participante a Celula de discipulado</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-discipulado">
-            <div class="mb-3 row">
-              <div id="grupo__participantes" class="col-sm ">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
-                  <i class="input-icon fs-5"></i>
-
-                  <select multiple name="participantes[]" id="participantes" class="form-control">
-                    <?php
-                    foreach ($matriz_usuarios as $usuario) :
-                    ?>
-                      <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
-                  </select>
-                </div>
-                <p class="text-danger d-none">Este campo no puede estar vacio</p>
-              </div>
-            </div>
-            <input type="hidden" name="id" id="idInput2">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar_participantes" class="btn btn-primary" form="agregar_usuarios">Guardar</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal eliminar usuario -->
-
-  <div class="modal fade edit-modal" id="eliminar_usuario" tabindex="-1" aria-labelledby="eliminar_usuario" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Eliminar participante de Celula de discipulado</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="table-responsive mt-4">
-            <table role='table' class='table table-centered'>
-              <thead>
-                <tr role='row'>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
-                  <th colspan='1' role='columnheader' class=''>Codigo participante</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
-                </tr>
-              </thead>
-              <tbody id="datos4" role='rowgroup'>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal eliminar usuario -->
-  <!-- Modal Eliminar  Participante -->
-  <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header bg-danger text-light">
-          <h5 class="modal-title" id="Modaleliminar">Estas seguro(a) que deseas eliminar este participante?</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body fs-5">
-          <p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b> permanetemente.</p>
-          <form method="post" id="deleteForm">
-            <input type="hidden" name="cedula_participante" class="cedula_participante">
-            <input type="hidden" name="delete">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-danger" id="deleteButton">Confirmar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal Eliminar Participante -->
-
-  <!-- Modal agregar_asistencia -->
-  <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Agregar Asistencias</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
-            <div class="mb-3 row">
-              <div id="grupo__asistentes" class="col-sm ">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
-                  <i class="input-icon fs-5"></i>
-                  <div id="asistencias4" ></div>
-
-                  </select>
-                </div>
-                <p class="text-danger d-none">Este campo no puede estar vacio</p>
-              </div>
-            </div>
-            <div class="mt-4 mb-3 row">
-              <div id="grupo__fecha" class="col-sm ">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
-                  <i class="input-icon fs-5"></i>
-                  <input id="fecha" name="fecha" class="form-control" type="date" />
-                </div>
-                <p class="text-danger d-none">Este campo no puede estar vacio</p>
-              </div>
-            </div>
-
-
-            <input type="hidden" name="id" id="idInput3">
-          </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
+ 
 
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-    registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>;
-    registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>;
   </script>
   <script src="resources/js/listar-celula-discipulado.js"></script>
 </body>
