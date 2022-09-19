@@ -123,6 +123,6 @@ if (error == false) {
   const myTimeout = setTimeout(recarga, 2000);
 
   function recarga() {
-
+    window.location = "index.php?pagina=reporte-casa";
   }
 }

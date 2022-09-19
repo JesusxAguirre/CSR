@@ -154,13 +154,13 @@ class LaRoca extends Usuarios
         $this->fecha = gmdate("y-m-d", time());
     }
     public function setReporte($CSR,$hombres,$mujeres,$niños,$confesiones,$observaciones){
-        $this->$CSR = $CSR;
-        echo $this->CSR;
-        exit;
-        $this->$hombres = $hombres;
-        $this->$mujeres = $mujeres;
+        $this->CSR = $CSR;
+        $this->hombres = $hombres;
+        $this->mujeres = $mujeres;
         $this->niños = $niños;
         $this->confesiones = $confesiones;
         $this->observaciones = $observaciones;
+        $this->fecha = gmdate("y-m-d", time());
+
     }
 }
