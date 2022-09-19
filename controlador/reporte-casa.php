@@ -1,10 +1,12 @@
 <?php
-
+require_once("modelo/clase_casa_sobre_la_roca.php");
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
+    $objeto = new LaRoca();
+    $matriz_csr = $objeto->listar_casas_la_roca_por_usuario();
     $error = true;
     require_once 'vista/'.$pagina.'.php';
 }

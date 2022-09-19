@@ -94,9 +94,8 @@ class LaRoca extends Usuarios
     public function listar_casas_la_roca_por_usuario()
     {
         $usuario = $_SESSION['usuario'];
-        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, lider.codigo AS codigo_lider
+        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
         FROM casas_la_roca 
-        INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula
         WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
 
         $stmt = $this->conexion()->prepare($sql);
