@@ -172,7 +172,9 @@ class LaRoca extends Usuarios
         {
             
              
-            $sql=("SELECT SUM(confesiones) AS total_confesiones, MONTHNAME(fecha)
+            $sql=("SELECT SUM(confesiones) AS total_confesiones,
+            SUM(cantidad_h)AS total_hombres , SUM(cantidad_m) AS total_mujeres,
+            SUM(cantidad_n) AS total_niños, MONTHNAME(fecha) AS mes
             FROM reportes_casas
             WHERE reportes_casas.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
             AND reportes_casas.id_casa = '$id_casa'

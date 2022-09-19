@@ -359,6 +359,20 @@
       </div>
     </div>
   </div>
+  <!-- Modal grafico de CSR -->
+  <div class="modal fade" id="csr-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico crecimiento de lider</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico5"></div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script type="module" src="node_modules\highcharts\highcharts.js"></script>
   <script type="module" src="node_modules\highcharts\modules\export-data.js"></script>
   <script type="module" src="node_modules\highcharts\modules\exporting.js"></script>

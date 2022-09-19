@@ -429,10 +429,6 @@ formulario5.addEventListener('click', (e) => {
       let fecha_inicio = fecha_inicio5.value
       let fecha_final = fecha_final5.value
 
-
-      console.log(id_casa)
-      console.log(fecha_inicio)
-      console.log(fecha_final)
       $.ajax({
         data: {
           fecha_inicio: fecha_inicio,
@@ -443,25 +439,39 @@ formulario5.addEventListener('click', (e) => {
         type: "post",
         dataType: "json",
       }).done(data => {
-        var objeto = [];
+        var cantidad_confesiones =[];
+        var cantidad_hombres =[];
+        var cantidad_mujeres = [];
+        var cantidad_niños = [];
         var titulo = [];
         
         console.log(data)
-        for (prop in data) {
-          objeto.push(data[prop]);
-        }
-      
-       /*  var v_modal = $('#lider-grafico').modal({ show: false });
-        Highcharts.chart('grafico4', {
-          chart: {
-            type: 'area'
-          },
+
+      for(prop in data){
+        titulo.push(data[prop]["mes"])
+      }
+      for(prop in data){
+        cantidad_confesiones.push(data[prop]["total_confesiones"])
+      }
+      for(prop in data){
+        cantidad_hombres.push(data[prop]["total_hombres"])
+      }
+      for(prop in data){
+        cantidad_mujeres.push(data[prop]["total_mujeres"])
+      }
+      for(prop in data){
+        cantidad_niños.push(data[prop]["total_niños"])
+      }
+        console.log(titulo)
+        console.log(cantidad_confesiones)
+        
+  
+        var v_modal = $('#csr-grafico').modal({ show: false });
+        Highcharts.chart('grafico5', {
+       
           title: {
-            text: 'Reporte de crecimiento de lider'
+            text: 'Reporte de CSR'
           },
-          subtitle: {
-            text: 'lider: ' +data.datos_lider.nombre+' ' +data.datos_lider.apellido + '',
-           },
           xAxis: {
             categories: titulo,
           },
@@ -474,12 +484,22 @@ formulario5.addEventListener('click', (e) => {
             enabled: false
           },
           series: [{
-            name: 'cantidad de discipulos',
-            data: cantidad1,
+            name: 'Total confesiones',
+            data: cantidad_confesiones,
 
           }, {
-            name: 'Cantidad de celulas de discipulado',
-            data: cantidad2,
+            name: 'Total hombres',
+            data: cantidad_hombres,
+
+          },
+          {
+            name: 'Total mujeres',
+            data: cantidad_mujeres,
+
+          },
+          {
+            name: 'Total niños',
+            data: cantidad_niños,
 
           },
           ],
@@ -488,7 +508,7 @@ formulario5.addEventListener('click', (e) => {
         console.log("final de la funcion")
 
         v_modal.on("show", function () { })
-        v_modal.modal("show"); */
+        v_modal.modal("show"); 
       })
     })
   }
