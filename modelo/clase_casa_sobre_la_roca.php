@@ -130,18 +130,16 @@ class LaRoca extends Usuarios
         VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha,:obser)";
 
         $stmt = $this->conexion->prepare($sql);
-        foreach($this->CSR AS $id_casa){
-           
-      
+        
         $stmt->execute(array(
-            ":id_casa" => $id_casa,
+            ":id_casa" => $this->CSR,
             ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
             ":n" => $this->niños, ":confesiones"=>$this->confesiones,
              ":fecha" => $this->fecha,
             ":obser" => $this->observaciones
         ));
      
-    }//fin del foreach
+    //fin del foreach
         return true;
     }
 
@@ -157,6 +155,8 @@ class LaRoca extends Usuarios
     }
     public function setReporte($CSR,$hombres,$mujeres,$niños,$confesiones,$observaciones){
         $this->$CSR = $CSR;
+        echo $this->CSR;
+        exit;
         $this->$hombres = $hombres;
         $this->$mujeres = $mujeres;
         $this->niños = $niños;

@@ -118,11 +118,11 @@ formulario.addEventListener('submit', (e) => {
 if (error == false) {
   Swal.fire({
     icon: 'success',
-    title: 'Se registro la casa sobre la roca correctamente'
+    title: 'Se registro el reporte satisfactoriamentete'
   })
   const myTimeout = setTimeout(recarga, 2000);
 
   function recarga() {
-    window.location = "index.php?pagina=reportes-casa";
+
   }
 }
