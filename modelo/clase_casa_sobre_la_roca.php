@@ -71,6 +71,28 @@ class LaRoca extends Usuarios
         return true;
     }
   
+    public function listar_casas_la_roca()
+    {
+        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
+        casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
+        casas_la_roca.fecha,casas_la_roca.hora_pautada, lider.codigo AS codigo_lider
+        FROM casas_la_roca 
+        INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar[] = $filas;
+        }
+        return $this->listar;
+    }
+
+
+
     public function setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes){
         $this->cedula_lider = $cedula_lider;
         $this->direccion = $direccion;

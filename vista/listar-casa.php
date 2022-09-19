@@ -30,7 +30,7 @@
 
   <!-- Menu.php -->
   <?php
-  require_once "resources/View_Components/Menu.php";
+  require_once ("resources/View_Components/Menu.php")
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -65,23 +65,23 @@
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>hora</th>
                       <th colspan='1' role='columnheader' class=''>codigo de lider</th>
 
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>codigo anfitrion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>codigo asistente</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>nombre anfitrion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cantidad de personas en el hogar</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
                     </tr>
                   </thead>
 
                   <tbody id="datos" role='rowgroup'>
-                    <?php foreach ($matriz_celula as $celula) : ?>
+                    <?php foreach ($matriz_csr as $csr) : ?>
                       <tr role='row'>
-                        <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
-                        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
-                        <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
+                        <td hidden class="id" role='cell'><?php echo $csr['id'] ?></td>
+                        <td class="codigo" role='cell'><?php echo $csr['codigo'] ?></td>
+                        <td class="dia" role='cell'><?php echo  $csr['dia_visita'] ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($csr['hora_pautada'], 0, -3);
                                                       echo $hora; ?></td>
-                        <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
-                        <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
-                        <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
+                        <td class="lider" role='cell'><?php echo  $csr['codigo_lider'] ?></td>
+                        <td class="anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
+                        <td class="asistente" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>

@@ -7,7 +7,8 @@ if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
    
-    
+    $matriz_csr = $objeto->listar_casas_la_roca();
+
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

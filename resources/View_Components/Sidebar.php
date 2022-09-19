@@ -57,7 +57,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
             
               <ul class="navbar-nav ps-3">
                 <li>
-                  <a href="?pagina=listar-casa-sobre-la-roca" class="nav-link px-3">
+                  <a href="?pagina=listar-casa" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-clipboard-check"></i></span>
                   <span>Listar CSR</span>
