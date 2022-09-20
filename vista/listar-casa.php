@@ -113,7 +113,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="editForm" action="?pagina=listar-celula-discipulado">
+          <form class="form" method="post" id="editForm" action="?pagina=listar-casa">
             <div class="mb-3">
               <div id="grupo__dia" class="">
                 <div class="relative">

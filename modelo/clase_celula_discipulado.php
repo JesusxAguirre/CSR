@@ -119,7 +119,8 @@ class Discipulado extends Usuarios
     public function listar_no_participantes()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL  AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL 
+         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
 
         $stmt = $this->conexion()->prepare($sql);
 

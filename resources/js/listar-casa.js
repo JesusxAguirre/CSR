@@ -174,7 +174,7 @@ function fireAlert(icon, msg) {
   })
 }
 function recarga() {
-  window.location = "index.php?pagina=listar-celula-discipulado";
+  window.location = "index.php?pagina=listar-casa";
 }
 
 
