@@ -1,12 +1,12 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
-var usuarios = document.getElementById('usuarios');
+var usuarios = document.getElementById('usuario');
 var choices1 = new Choices(usuarios, {
   allowHTML: true,
   removeItems: true,
   removeItemButton: true,
   noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay lideres disponibles',
+  noChoicesText: 'No hay usuarios disponibles',
 });
 
 

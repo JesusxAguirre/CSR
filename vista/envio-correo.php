@@ -26,13 +26,16 @@
   <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
   <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
   <script src="resources/js/sweetalert2.js"></script>
+
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
 </head>
 
 <body>
 
   <!-- Menu.php -->
   <?php
-    require_once "./resources/View_Components/Menu.php";
+  require_once "./resources/View_Components/Menu.php";
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -56,13 +59,99 @@
           <div class="card">
             <div class="card-body">
               <div class="container-fluid">
+                <form id="formulario" class="" method="POST" action="?pagina=envio-correo">
+                  <div class="mb-3 row">
+                    <div id="grupo__usuario" class="col-sm ">
+                      <div class="relative">
+                        <label class="form-label fw-bold" for="">Selecciona el usuario al cual quieres enviar un correo</label>
+                        <i class="input-icon fs-5"></i>
+                        <select multiple name="usuario[]" id="usuario" class="form-control">
+                          <option value="">Seleccione una opcion</option>
+                          <?php foreach ($matriz_correo as $correo) : ?>
+                            <option value="<?php echo $correo['usuario']; ?>"> <?php echo $correo['codigo']; ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                      </div>
+                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    </div>
+                  </div>
+                  <div class="mb-3 mt-3 row">
+                    <div class="col-sm">
+                      <label class="form-label fw-bold" ">Asunto</label>
+                          <div style="height: auto;" id="editor">
 
+                    </div>
+                  </div>
               </div>
+              <div class="mb-3 mt-3 row">
+                <div class="col-sm">
+                  <label class="form-label fw-bold" ">Recuperando datos quill por consola</label>
+                            <button type=" button" id="envio">Enviar</button>
+                </div>
+              </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
+    </div>
   </main>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <script>
+    //libreria quill
+
+    var toolbarOptions = [
+      [{
+        'header': [1, 2, 3, 4, 5, 6, false]
+      }],
+      [{
+        'font': []
+      }],
+      [{
+        'color': []
+      }, {
+        'background': []
+      }], // dropdown with defaults from theme
+
+      [{
+        'align': []
+      }],
+      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+      [{
+        'header': 1
+      }, {
+        'header': 2
+      }], // custom button values
+      [{
+        'list': 'ordered'
+      }, {
+        'list': 'bullet'
+      }],
+      [{
+        'indent': '-1'
+      }, {
+        'indent': '+1'
+      }], // outdent/indent
+
+      , ['link', 'image'],
+      ['clean'] // remove formatting button
+    ];
+    var options = {
+      debug: 'info',
+      modules: {
+        toolbar: toolbarOptions
+      },
+      placeholder: 'Escribe una descripcion del ccurso',
+      theme: 'snow'
+    };
+    var quill = new Quill('#editor', options);
+
+    $('#envio').click(function() {
+      var delta = quill.getContents();
+      console.log(delta);
+    })
+  </script>
+  <script src="resources/js/validacion-envio-correo.js"></script>
 
 </body>
