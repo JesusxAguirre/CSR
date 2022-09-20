@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Listar celula discipulado</title>
+  <title>Listar CSR</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
 
@@ -43,7 +43,7 @@
       <div class="row">
         <div class="col-12">
           <div class="page-title-box">
-            <h4 class="page-title">Listar celula discipulado</h4>
+            <h4 class="page-title">Listar CSR</h4>
           </div>
         </div>
       </div>
@@ -51,9 +51,9 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="header-title mb-3 fw-bold">Celula discipulado</h4>
+              <h4 class="header-title mb-3 fw-bold">Casas sobre la roca</h4>
 
-              <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, estado_civil, nombre" class="form-control w-auto ms-1" value=""></span></div>
+              <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
 
                 <table role='table' class='table table-centered'>

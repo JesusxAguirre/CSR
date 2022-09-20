@@ -147,11 +147,11 @@ if (actualizar == false) {
 
 //funciones ajax
 
-//busqueda discipulado
+//busqueda CSR
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
-  buscarDiscipulado(busqueda);
+  buscarCSR(busqueda);
 })
 
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
