@@ -32,7 +32,7 @@
 
   <!-- Menu.php -->
   <?php
-  require_once "./resources/View_Components/Menu.php";
+    require_once "./resources/View_Components/Menu.php";
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
