@@ -105,7 +105,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Editar Celula de discipulado</h5>
+          <h5 class="modal-title">Editar CSR</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -137,7 +137,7 @@
             <div class="mb-3 row">
               <div id="grupo__codigoLider" class="col-sm col-md-4">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
+                  <label class="form-label fw-bold" for="">Codigo de lider de la CSR</label>
                   <i class="input-icon fs-5"></i>
                   <input name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
                   <datalist id="lider">
@@ -152,37 +152,20 @@
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
-              <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
+              <div id="grupo__anfitrion" class="col-sm col-md-4">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Codigo de Anfitrion</label>
+                  <label class="form-label fw-bold" for="">Nombre de Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
-                  <datalist id="anfitrion">
-                    <?php
-                    foreach ($matriz_usuarios as $usuario) :
-                    ?>
-                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
-                  </datalist>
+                  <input class="form-control" name="anfitrion" id="anfitrion" placeholder="Luis Jimenez...">
+                 
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
-              <div id="grupo__codigoAsistente" class="col-sm col-md-4">
+              <div id="grupo__cantidad" class="col-sm col-md-4">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Codigo de Asistente</label>
+                  <label class="form-label fw-bold" for="">Cantidad de personas en hogar</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
-                  <datalist id="asistente">
-                    <?php
-                    foreach ($matriz_usuarios as $usuario) :
-                    ?>
-                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
-                  </datalist>
+                  <input class="form-control" name="cantidad" id="cantidad" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
@@ -204,5 +187,5 @@
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
   </script>
-  <script src="resources/js/listar-celula-discipulado.js"></script>
+  <script src="resources/js/listar-casa.js"></script>
 </body>
