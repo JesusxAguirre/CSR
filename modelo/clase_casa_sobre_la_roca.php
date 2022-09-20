@@ -143,11 +143,11 @@ class LaRoca extends Usuarios
     public function actualizar_CSR()
     {
         //buscando las cedulas de los usuarios por id de celula
-        $sql = ("SELECT  casa_la_roca.codigo AS codigo_celula,  
-        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
-        FROM casa_la_roca 
-        INNER JOIN usuarios AS lider  ON   casa_la_roca.cedula_lider = lider.cedula
-        WHERE casa_la_roca.id = '$this->id'");
+        $sql = ("SELECT  casas_la_roca.codigo AS codigo_celula,  
+        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider
+        FROM casas_la_roca 
+        INNER JOIN usuarios AS lider  ON   casas_la_roca.cedula_lider = lider.cedula
+        WHERE casas_la_roca.id = '$this->id'");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
@@ -186,15 +186,19 @@ class LaRoca extends Usuarios
             ));
         }
 
-        $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
-            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora WHERE id= :id");
+        $sql = ("UPDATE casas_la_roca SET cedula_lider = :cedula_lider , 
+            nombre_anfitrion = :nombre_anfitrion, 
+            telefono_anfitrion = :telefono, cantidad_personas_hogar = :cantidad, 
+            dia_visita = :dia, hora_pautada = :hora ,direccion = :direc
+            WHERE id= :id");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":cedula_lider" => $this->cedula_lider,
-            ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-            ":dia" => $this->dia, ":hora" => $this->hora, ":id" => $this->id
+            ":cedula_lider" => $this->cedula_lider,":nombre_anfitrion" => $this->nombre_anfitrion, 
+            ":telefono" => $this->telefono,":cantidad"=>$this->cantidad_integrantes, 
+            ":dia" => $this->dia, ":hora" => $this->hora, 
+            ":direc"=>$this->direccion, ":id" => $this->id
         ));
     }
 

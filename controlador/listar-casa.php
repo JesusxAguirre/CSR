@@ -22,6 +22,8 @@ if (is_file('vista/'.$pagina.'.php')) {
         $direccion = $_POST['direccion'];
         
         $objeto->setActualizar($cedula_lider,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$dia,$hora,$id);
+
+        $objeto->actualizar_CSR();
         $actualizar = false;
     }
     require_once 'vista/'.$pagina.'.php';
