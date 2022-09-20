@@ -258,7 +258,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
         <!-- PRUEBITA -->
 
         <li>
-        <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <a class="nav-link px-3 sidebar-link"  href="?pagina=envio-correo" role="button">
         <span class="me-2">
         <i class="bi bi-envelope-fill fs-3"></i>
         <span>Envio de correo</span>
