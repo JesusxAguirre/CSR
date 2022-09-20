@@ -12,6 +12,9 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
 class Correo extends Conectar
 {
+  private $correo;
+
+
 
   public function __construct()
   {
@@ -54,4 +57,22 @@ class Correo extends Conectar
       echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
   }
+
+  function listar_correos(){
+
+        $sql = ("SELECT usuario,codigo FROM usuarios");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->correo[] = $filas;
+        }
+        return $this->correo;
+  }
+
+
 }

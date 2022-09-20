@@ -8,8 +8,8 @@ if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
   $objeto = new Correo();
 
-  $objeto->prueba();
-
+  //$objeto->prueba();
+    $matriz_correo = $objeto->listar_correos();
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
