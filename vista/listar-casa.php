@@ -63,11 +63,12 @@
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Dia de reunion</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora</th>
-                      <th colspan='1' role='columnheader' class=''>codigo de lider</th>
+                      <th colspan='1' role='columnheader' class='sortable' style='cursor: pointer;' class=''>Codigo de lider</th>
 
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre anfitrion</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono anfitrion</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cantidad de personas en el hogar</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Direccion</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
                     </tr>
                   </thead>
@@ -84,6 +85,7 @@
                         <td class="nombre_anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
                         <td class="telefono_anfitrion" role='cell'><?php echo  $csr['telefono_anfitrion'] ?></td>
                         <td class="cantidad" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
+                        <td class="direccion" role='cell'><?php echo  $csr['direccion'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                         </td>
@@ -163,6 +165,17 @@
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
+              <div id="grupo__telefono_anfitrion" class="col-sm col-md-4">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Telefono Anfitrion</label>
+                  <i class="input-icon2 fs-5"></i>
+                  <input class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
+                 
+                </div>
+                <p class="text-danger d-none">No puede dejar este campo vacio </p>
+              </div>
+            </div>
+            <div class="mb-3 row">  
               <div id="grupo__cantidad" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Cantidad de personas en hogar</label>
@@ -170,15 +183,12 @@
                   <input class="form-control" name="cantidad" id="cantidad" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>
-            </div>
-            <div class="mb-3 row">
-              <div id="grupo__telefono_anfitrion" class="col-sm col-md-4">
+              </div>              
+              <div id="grupo__direccion" class="col-sm col-md-4">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Nombre de telefono Anfitrion</label>
+                  <label class="form-label fw-bold" for="">Direccion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
-                 
+                  <input class="form-control" name="direccion" id="direccion" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>              

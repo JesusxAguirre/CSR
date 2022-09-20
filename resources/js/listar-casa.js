@@ -12,15 +12,12 @@ addEvents()
 
 
 const campos = {
-  codigoLider: true,
-  codigoAnfitrion: true,
-  codigoAsistente: true,
-  dia: true,
-  hora: true,
-  codigo: true,
-  participantes: false,
-  fecha: false,
-  asistentes: false,
+  dia: false,
+  hora: false,
+  direccion: false,
+  anfitrion: false,
+  telefono: false,
+  cantidad: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -31,7 +28,7 @@ const expresiones = { //objeto con varias expresiones regulares
   nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/,
   telefono: /^[0-9]{11}$/,
   direccion: /^[A-Za-z0-9\s]{10,200}$/,
-  integrantes: /^[0-9]{1,2}$/,
+  cantidad: /^[0-9]{1,2}$/,
 }
 
 
@@ -46,17 +43,16 @@ const ValidarFormulario = (e) => {
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
       break;
-    case "nombre":
-      ValidarCampo(expresiones.nombre, e.target, 'nombre');
+    case "anfitrion":
+      ValidarCampo(expresiones.nombre, e.target, 'anfitrion');
       break;
-    case "telefono":
-      ValidarCampo(expresiones.telefono, e.target, 'telefono');
+    case "telefono_anfitrion":
+      ValidarCampo(expresiones.telefono, e.target, 'telefono_anfitrion');
       break;
-    case "integrantes":
-      ValidarCampo(expresiones.integrantes, e.target, 'integrantes');
+    case "cantidad":
+      ValidarCampo(expresiones.cantidad, e.target, 'cantidad');
       break;
-
-    case "lider[]":
+    case "lider":
       ValidarSelect(e.target, 'lider');
       break;
     case "direccion":
@@ -195,15 +191,19 @@ function addEvents() {
     let lider = fila.querySelector('.lider')
     let nombre_anfitrion = fila.querySelector('.nombre_anfitrion')
     let telefono_anfitrion = fila.querySelector('.telefono_anfitrion')
+    let cantidad = fila.querySelector('.cantidad')
+    let direccion = fila.querySelector('.direccion')
 
 
     const idInput = document.getElementById('idInput')
 
     const diaInput = document.getElementById('diaInput')
     const horaInput = document.getElementById('horaInput')
-    const liderInput = document.getElementById('codigoLider')
+    const liderInput = document.getElementById('lider')
     const nombre_anfitrionInput = document.getElementById('anfitrion')
     const telefono_anfitrionInput = document.getElementById('telefono_anfitrion')
+    const cantidadInput = document.getElementById('cantidad')
+    const direccionInput = document.getElementById('direccion')
 
     liderInput.value = lider.textContent
     nombre_anfitrionInput.value = nombre_anfitrion.textContent
@@ -212,6 +212,8 @@ function addEvents() {
 
     diaInput.value = dia.textContent
     horaInput.value = hora.textContent
+    cantidadInput.value = cantidad.textContent
+    direccionInput.value =  direccion.textContent
     //cedulas de usuarios
 
 

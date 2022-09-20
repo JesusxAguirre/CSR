@@ -33,7 +33,7 @@ class LaRoca extends Usuarios
     {
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
-        casas_la_roca.fecha,casas_la_roca.hora_pautada, lider.codigo AS codigo_lider
+        casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
         FROM casas_la_roca 
         INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula");
 
@@ -84,8 +84,8 @@ class LaRoca extends Usuarios
         $id++;
 
         $sql = "INSERT INTO casas_la_roca (codigo,cedula_lider,
-        nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada) 
-        VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora)";
+        nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion) 
+        VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc)";
 
         $stmt = $this->conexion->prepare($sql);
         foreach($this->cedula_lider AS $cedula_lider){
@@ -96,7 +96,8 @@ class LaRoca extends Usuarios
             ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
             ":telefono" => $this->telefono, ":cantidad"=>$this->cantidad_integrantes,
              ":dia" => $this->dia,
-            ":fecha" => $this->fecha, ":hora" => $this->hora
+            ":fecha" => $this->fecha, ":hora" => $this->hora,
+            ":direc" => $this->direccion
         ));
         //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
 
