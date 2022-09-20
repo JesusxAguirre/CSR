@@ -85,8 +85,10 @@ inputs.forEach((input) => {
 
 usuarios.addEventListener('hideDropdown', ValidarFormulario);
 $("#formulario").on("submit", function (e) {
-  var hvalue = $('.ql-editor').html();
+  var hvalue = $('#asunto .ql-editor').html();
   $(this).append("<textarea name='html' style='display:none'>" + hvalue + "</textarea>");
+  var hvalue2 = $('#mensaje .ql-editor').html();
+  $(this).append("<textarea name='mensaje' style='display:none'>" + hvalue2 + "</textarea>");
   if (!(campos.html && campos.usuario)) {
     e.preventDefault();
     Swal.fire({
@@ -158,7 +160,52 @@ var options = {
   modules: {
     toolbar: toolbarOptions
   },
-  placeholder: 'Escribe el asusnto del correo',
+  placeholder: 'Escribe el asunto del correo',
+  theme: 'snow'
+};
+var toolbarOptions2 = [
+  [{
+    'header': [1, 2, 3, 4, 5, 6, false]
+  }],
+  [{
+    'font': []
+  }],
+  [{
+    'color': []
+  }, {
+    'background': []
+  }], // dropdown with defaults from theme
+
+  [{
+    'align': []
+  }],
+  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+  [{
+    'header': 1
+  }, {
+    'header': 2
+  }], // custom button values
+  [{
+    'list': 'ordered'
+  }, {
+    'list': 'bullet'
+  }],
+  [{
+    'indent': '-1'
+  }, {
+    'indent': '+1'
+  }], // outdent/indent
+
+
+  ['clean'] // remove formatting button
+];
+var options2 = {
+  debug: 'info',
+  modules: {
+    toolbar: toolbarOptions2
+  },
+  placeholder: 'Aqui va el texto que quieres enviar al destinatario',
   theme: 'snow'
 };
 var quill = new Quill('#asunto', options);
+var quill2 = new Quill('#mensaje', options2);

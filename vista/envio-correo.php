@@ -82,6 +82,13 @@
                     </div>
                   </div>
               </div>
+                  <div class="mb-3 mt-3 row">
+                    <div class="col-sm">
+                      <label class="form-label fw-bold" ">Mensaje</label>
+                          <div style=" height: auto;" id="mensaje">
+                    </div>
+                  </div>
+              </div>
 
               <button name="enviar" type="submit" class="btn btn-primary">Enviar</button>
 
@@ -95,7 +102,7 @@
   </main>
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script>
-    
+
   </script>
   <script src="resources/js/validacion-envio-correo.js"></script>
 

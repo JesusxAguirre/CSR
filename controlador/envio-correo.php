@@ -14,7 +14,11 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     if(isset($_POST['enviar'])){
         $contenido = $_POST['html'];
-        echo $contenido;
+        $correo = $_POST['usuario'];
+        $mensaje = $_POST['mensaje'];
+        echo $contenido . "<br>";
+        echo $mensaje . "<br>";
+        print_r($correo) . "<br>";
         exit;
     }
     require_once 'vista/'.$pagina.'.php';
