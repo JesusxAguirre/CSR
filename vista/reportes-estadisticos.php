@@ -70,11 +70,13 @@
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Reporte estadistico numero de discipulos</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Reporte estadistico cantidad de celulas de consolidacion</a>
               <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#lider-form" role="button">Reporte estadistico crecimiento de lider</a>
+              <a class="btn btn-primary mt-3" data-bs-toggle="modal" id="reporte" href="#csr-form" role="button">Reporte estadistico CSR </a>
 
               <div id="respuesta"></div>
               <div id="respuesta2"></div>
               <div id="respuesta3"></div>
               <div id="respuesta4"></div>
+              <div id="respuesta5"></div>
 
             </div>
           </div>
@@ -242,6 +244,57 @@
       </div>
     </div>
   </div>
+  <!-- Modal para formulario de fechas de CSR creados-->
+  <div class="modal fade" id="csr-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico cantidad de celulas de discipulados creadas</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="formulario5" class="container-fluid">
+            <div class="mb-3 row">
+              <div id="grupo__CSR" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <select name="CSR[]" id="CSR" class="form-control">
+                    <option value="">Seleccione una opcion</option>
+                    <?php foreach ($matriz_csr as $csr) : ?>
+                      <option value="<?php echo $csr['id']; ?>"> <?php echo $csr['codigo']; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3 row">
+              <div id="grupo__fecha_inicio5" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_inicio5" id="fecha_inicio5" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+              <div id="grupo__fecha_final5" class="col-sm ">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
+                  <i class="input-icon fs-5"></i>
+                  <input name="fecha_final5" id="fecha_final5" class="form-control" type="month" />
+                </div>
+                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+              </div>
+            </div>
+            <div class="mb-3" id="formGridCheckbox">
+            </div>
+            <button id="consultar5" name="consultar5" type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -302,6 +355,20 @@
         </div>
         <div class="modal-body">
           <div id="grafico4"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal grafico de CSR -->
+  <div class="modal fade" id="csr-grafico" aria-hidden="true" aria-labelledby="" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalToggleLabel">Reporte estadistico crecimiento de lider</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="grafico5"></div>
         </div>
       </div>
     </div>

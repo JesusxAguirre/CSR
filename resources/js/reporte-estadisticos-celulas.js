@@ -4,6 +4,7 @@ const formulario = document.getElementById('consultar'); //declarando una consta
 const formulario2 = document.getElementById('consultar2'); //declarando una constante con la id formulario
 const formulario3 = document.getElementById('consultar3'); //declarando una constante con la id formulario
 const formulario4 = document.getElementById('consultar4'); //declarando una constante con la id formulario
+const formulario5 = document.getElementById('consultar5'); //declarando una constante con la id formulario
 var chart1;
 var options;
 var enero;
@@ -11,10 +12,19 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs4 = document.querySelectorAll('#formulario4 input'); //declarando una constante con todos los inputs dentro de la id formulario
+const inputs5 = document.querySelectorAll('#formulario5 input'); //declarando una constante con todos los inputs dentro de la id formulario
 
 
 var lider = document.getElementById('lider');
 var choices1 = new Choices(lider, {
+  allowHTML: true,
+  removeItems: true,
+  removeItemButton: true,
+  noResultsText: 'No hay coicidencias',
+  noChoicesText: 'No hay participantes disponibles',
+});
+var CSR = document.getElementById('CSR');
+var choices1 = new Choices(CSR, {
   allowHTML: true,
   removeItems: true,
   removeItemButton: true,
@@ -32,6 +42,9 @@ const campos = {
   lider: false,
   fecha_inicio4: false,
   fecha_final4: false,
+  CSR: false,
+  fecha_inicio5: false,
+  fecha_final5: false,
 }
 
 const ValidarFormulario = (e) => {
@@ -62,6 +75,15 @@ const ValidarFormulario = (e) => {
       break;
     case "fecha_final4":
       ValidarSelect(e.target, 'fecha_final4');
+      break;
+    case "CSR[]":
+      ValidarSelect(e.target, 'CSR');
+      break;
+    case "fecha_inicio5":
+      ValidarSelect(e.target, 'fecha_inicio5');
+      break;
+    case "fecha_final5":
+      ValidarSelect(e.target, 'fecha_final5');
       break;
   }
 }
@@ -385,6 +407,112 @@ formulario4.addEventListener('click', (e) => {
     })
   }
 })
+formulario5.addEventListener('click', (e) => {
+  if (!(campos.fecha_inicio5 && campos.fecha_final5 && campos.CSR)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  } else {
+    //busqueda ajax 
+    const fecha_inicio5 = document.getElementById('fecha_inicio5')
+    const fecha_final5 = document.getElementById('fecha_final5')
+    const CSR = document.getElementById('CSR')
+    const enviar5 = document.getElementById('consultar5')
+    const respuesta5 = document.getElementById('respuesta5');
+    enviar5.addEventListener('click', () => {
+      console.log("inicio de la funcion 5")
+  
+      let id_casa = CSR.value
+      let fecha_inicio = fecha_inicio5.value
+      let fecha_final = fecha_final5.value
+
+      $.ajax({
+        data: {
+          fecha_inicio: fecha_inicio,
+          fecha_final: fecha_final,
+          id_casa: id_casa,
+        },
+        url: "controlador/ajax/mostrar-grafico-CSR.php",
+        type: "post",
+        dataType: "json",
+      }).done(data => {
+        var cantidad_confesiones =[];
+        var cantidad_hombres =[];
+        var cantidad_mujeres = [];
+        var cantidad_niños = [];
+        var titulo = [];
+        
+        console.log(data)
+
+      for(prop in data){
+        titulo.push(data[prop]["mes"])
+      }
+      for(prop in data){
+        cantidad_confesiones.push(data[prop]["total_confesiones"])
+      }
+      for(prop in data){
+        cantidad_hombres.push(data[prop]["total_hombres"])
+      }
+      for(prop in data){
+        cantidad_mujeres.push(data[prop]["total_mujeres"])
+      }
+      for(prop in data){
+        cantidad_niños.push(data[prop]["total_niños"])
+      }
+        console.log(titulo)
+        console.log(cantidad_confesiones)
+        
+  
+        var v_modal = $('#csr-grafico').modal({ show: false });
+        Highcharts.chart('grafico5', {
+       
+          title: {
+            text: 'Reporte de CSR'
+          },
+          xAxis: {
+            categories: titulo,
+          },
+          yAxis: {
+            title: {
+              text: 'Cantidad'
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: 'Total confesiones',
+            data: cantidad_confesiones,
+
+          }, {
+            name: 'Total hombres',
+            data: cantidad_hombres,
+
+          },
+          {
+            name: 'Total mujeres',
+            data: cantidad_mujeres,
+
+          },
+          {
+            name: 'Total niños',
+            data: cantidad_niños,
+
+          },
+          ],
+        });
+
+        console.log("final de la funcion")
+
+        v_modal.on("show", function () { })
+        v_modal.modal("show"); 
+      })
+    })
+  }
+})
 
 
 
@@ -406,6 +534,11 @@ inputs4.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 });
+inputs5.forEach((input) => {
+  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('blur', ValidarFormulario);
+});
 
 
 lider.addEventListener('hideDropdown', ValidarFormulario);
+CSR.addEventListener('hideDropdown', ValidarFormulario);

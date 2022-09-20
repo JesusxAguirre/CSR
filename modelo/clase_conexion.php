@@ -17,6 +17,9 @@ try{
         $conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     $conexion->exec("SET CHARACTER SET UTF8");  
+
+    $conexion->query("SET lc_time_names = 'es_ES'");
+
 }
     catch (Exception $e){
             
