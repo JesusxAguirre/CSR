@@ -21,15 +21,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cantidad = $_POST['cantidad'];
         $direccion = $_POST['direccion'];
         
-        echo $id . "<br>";
-        echo $cedula_lider . "<br>";
-        echo $dia . "<br>";
-        echo $hora . "<br>";
-        echo $nombre_anfitrion . "<br>";
-        echo $telefono_anfitrion . "<br>";
-        echo $cantidad . "<br>";
-        echo $direccion . "<br>";
-        exit;
+        $objeto->setActualizar($cedula_lider,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$dia,$hora,$id);
         $actualizar = false;
     }
     require_once 'vista/'.$pagina.'.php';

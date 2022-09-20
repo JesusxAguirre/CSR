@@ -4,7 +4,7 @@ class LaRoca extends Usuarios
 {
 
     private $listar;
-    private $nombre_anfitricion;
+    private $nombre_anfitrion;
     private $direccion;
     private $cantidad_integrantes;
     private $telefono;
@@ -26,7 +26,7 @@ class LaRoca extends Usuarios
     {
         $this->conexion = parent::conexion();
     }
-   
+
     public function listar_lideres_sin_CSR()
     {
 
@@ -44,7 +44,7 @@ class LaRoca extends Usuarios
         }
         return $this->lideres;
     }
-  
+
     public function listar_casas_la_roca()
     {
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
@@ -104,61 +104,137 @@ class LaRoca extends Usuarios
         VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc)";
 
         $stmt = $this->conexion->prepare($sql);
-        foreach($this->cedula_lider AS $cedula_lider){
-           
-      
-        $stmt->execute(array(
-            ":codigo" => 'CSR' . $id,
-            ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
-            ":telefono" => $this->telefono, ":cantidad"=>$this->cantidad_integrantes,
-             ":dia" => $this->dia,
-            ":fecha" => $this->fecha, ":hora" => $this->hora,
-            ":direc" => $this->direccion
-        ));
-        //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
-
-        $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$cedula_lider'");
-
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
-        $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+        foreach ($this->cedula_lider as $cedula_lider) {
 
 
-        $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+            $stmt->execute(array(
+                ":codigo" => 'CSR' . $id,
+                ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
+                ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
+                ":dia" => $this->dia,
+                ":fecha" => $this->fecha, ":hora" => $this->hora,
+                ":direc" => $this->direccion
+            ));
+            //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
 
-        $stmt = $this->conexion()->prepare($sql);
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$cedula_lider'");
 
-        $stmt->execute(array(
-            ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
-            ":cedula" => $cedula_lider
-        ));
-    }//fin del foreach
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
+            $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
+                ":cedula" => $cedula_lider
+            ));
+        } //fin del foreach
         return true;
     }
-    
-        //---------registrar reporte de CSR------------------------//
+
+
+
+    //---------Actualizar CSR------------------------//
+
+    public function actualizar_CSR()
+    {
+        //buscando las cedulas de los usuarios por id de celula
+        $sql = ("SELECT  casa_la_roca.codigo AS codigo_celula,  
+        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
+        FROM casa_la_roca 
+        INNER JOIN usuarios AS lider  ON   casa_la_roca.cedula_lider = lider.cedula
+        WHERE casa_la_roca.id = '$this->id'");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        //guardando en un array asociativo las cedulas
+        $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $codigo = $cedulas['codigo_celula'];
+        $codigo1 = $cedulas['codigo_celula'];
+        $codigo_lider_antiguo = $cedulas['codigo_lider'];
+        $cedula_lider_antiguo = $cedulas['cedula_lider'];
+
+
+        if ($codigo_lider_antiguo != $this->cedula_lider) {
+
+            $codigo1 = '-' . $codigo;
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = '$cedula_lider_antiguo'");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array());
+            //agregando el codigo a el usuario nuevo
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
+            $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
+                ":cedula" => $this->cedula_lider
+            ));
+        }
+
+        $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
+            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora WHERE id= :id");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":cedula_lider" => $this->cedula_lider,
+            ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
+            ":dia" => $this->dia, ":hora" => $this->hora, ":id" => $this->id
+        ));
+    }
+
+    //---------registrar reporte de CSR------------------------//
 
     public function registrar_reporte_CSR()
     {
-       
+
         $sql = "INSERT INTO reportes_casas (id_casa,cantidad_h,
         cantidad_m,cantidad_n,confesiones,fecha) 
         VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha)";
 
         $stmt = $this->conexion->prepare($sql);
-        
+
         $stmt->execute(array(
             ":id_casa" => $this->CSR,
             ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
-            ":n" => $this->niños, ":confesiones"=>$this->confesiones,
-             ":fecha" => $this->fecha
+            ":n" => $this->niños, ":confesiones" => $this->confesiones,
+            ":fecha" => $this->fecha
         ));
-     
-    //fin del foreach
+
+        //fin del foreach
         return true;
     }
 
-    public function setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes){
+    public function setActualizar($cedula_lider, $nombre_anfitrion, $telefono_anfitrion,$cantidad,$direccion, $dia, $hora, $id)
+    {
+        $this->cedula_lider = $cedula_lider;
+        $this->nombre_anfitrion = $nombre_anfitrion;
+        $this->telefono= $telefono_anfitrion;
+        $this->cantidad_integrantes = $cantidad;
+        $this->direccion = $direccion;
+        $this->dia = $dia;
+        $this->hora = $hora;
+        $this->id = $id;
+    }
+
+
+    public function setCSR($cedula_lider, $direccion, $nombre_anfitrion, $telefono, $dia, $hora, $cantidad_integrantes)
+    {
         $this->cedula_lider = $cedula_lider;
         $this->direccion = $direccion;
         $this->nombre_anfitrion = $nombre_anfitrion;
@@ -168,7 +244,8 @@ class LaRoca extends Usuarios
         $this->cantidad_integrantes = $cantidad_integrantes;
         $this->fecha = gmdate("y-m-d", time());
     }
-    public function setReporte($CSR,$hombres,$mujeres,$niños,$confesiones){
+    public function setReporte($CSR, $hombres, $mujeres, $niños, $confesiones)
+    {
         $this->CSR = $CSR;
         $this->hombres = $hombres;
         $this->mujeres = $mujeres;
@@ -176,38 +253,33 @@ class LaRoca extends Usuarios
         $this->confesiones = $confesiones;
 
         $this->fecha = gmdate("y-m-d", time());
-
     }
 
 
 
 
+    //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+    public function listar_reporte_CSR($fecha_inicio, $fecha_final, $id_casa)
+    {
 
 
-        //------------------------------------------------------Reportes estadisticos consultas ----------------------//
-        public function listar_reporte_CSR($fecha_inicio, $fecha_final,$id_casa)
-        {
-            
-             
-            $sql=("SELECT SUM(confesiones) AS total_confesiones,
+        $sql = ("SELECT SUM(confesiones) AS total_confesiones,
             SUM(cantidad_h)AS total_hombres , SUM(cantidad_m) AS total_mujeres,
             SUM(cantidad_n) AS total_niños, MONTHNAME(fecha) AS mes
             FROM reportes_casas
             WHERE reportes_casas.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
             AND reportes_casas.id_casa = '$id_casa'
             GROUP BY MONTHNAME(fecha)");
-           
-           $stmt = $this->conexion()->prepare($sql);
 
-           $stmt->execute(array());
-                     
-            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-                $resultado[] = $filas;
-            }
-            return $resultado;
+            $resultado[] = $filas;
         }
-
-
+        return $resultado;
+    }
 }
