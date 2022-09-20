@@ -8,18 +8,15 @@ if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
   $objeto = new Correo();
 
-  //$objeto->prueba();
+
     $matriz_correo = $objeto->listar_correos();
 
 
     if(isset($_POST['enviar'])){
-        $contenido = $_POST['html'];
-        $correo = $_POST['usuario'];
-        $mensaje = $_POST['mensaje'];
-        echo $contenido . "<br>";
-        echo $mensaje . "<br>";
-        print_r($correo) . "<br>";
-        exit;
+        $asunto = $_POST['html'];
+        $destinatario = $_POST['usuario'];
+        $mensaje = $_POST['mensaje']; 
+        $objeto->prueba($destinatario,$asunto,$mensaje);
     }
     require_once 'vista/'.$pagina.'.php';
 }

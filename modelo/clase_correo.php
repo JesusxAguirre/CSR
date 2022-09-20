@@ -21,7 +21,7 @@ class Correo extends Conectar
     $this->conexion = parent::conexion();
   }
 
-  public function prueba()
+  public function prueba($destinatario,$asunto,$mensaje)
   {
     $mail = new PHPMailer(true);
     try {
@@ -36,8 +36,8 @@ class Correo extends Conectar
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
       //Recipients
-      $mail->setFrom('quijess6@gmail.com', 'Jesus aguirre');
-      $mail->addAddress('can3lon3000@gmail.com', 'Jesus Canelon');     //Add a recipient
+      $mail->setFrom('quijess6@gmail.com', '');
+      $mail->addAddress($destinatario, '');     //Add a recipient
       //$mail->addAddress('ellen@example.com');               //Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
      // $mail->addCC('cc@example.com');
@@ -47,9 +47,9 @@ class Correo extends Conectar
 
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject = 'Este es el asunto t';
-      $mail->Body    = 'Este es un mensaje con etiquetas html <b>En negrita!</b>';
-      $mail->AltBody = 'Y bueno cosas aqui extras que x pues';
+      $mail->Subject = ''.$asunto.'';
+      $mail->Body    = '' .$mensaje. '';
+     
 
       $mail->send();
 
