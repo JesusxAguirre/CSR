@@ -61,11 +61,12 @@
 
                     <tr role='row'>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>dia de reunion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>hora</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Dia de reunion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora</th>
                       <th colspan='1' role='columnheader' class=''>codigo de lider</th>
 
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>nombre anfitrion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre anfitrion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono anfitrion</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cantidad de personas en el hogar</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
                     </tr>
@@ -80,8 +81,9 @@
                         <td class="hora" role='cell'><?php $hora = substr($csr['hora_pautada'], 0, -3);
                                                       echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $csr['codigo_lider'] ?></td>
-                        <td class="anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
-                        <td class="asistente" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
+                        <td class="nombre_anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
+                        <td class="telefono_anfitrion" role='cell'><?php echo  $csr['telefono_anfitrion'] ?></td>
+                        <td class="cantidad" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
                         <td class="" role="cell">
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                         </td>
@@ -135,12 +137,12 @@
               </div>
             </div>
             <div class="mb-3 row">
-              <div id="grupo__codigoLider" class="col-sm col-md-4">
+              <div id="grupo__lider" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de lider de la CSR</label>
                   <i class="input-icon fs-5"></i>
-                  <input name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
-                  <datalist id="lider">
+                  <input name="lider" class="form-control" list="codigoLider" id="lider" placeholder="Escribe para buscar...">
+                  <datalist id="codigoLider">
                     <?php
                     foreach ($matriz_lideres as $lider) :
                     ?>
@@ -170,7 +172,16 @@
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
             </div>
-
+            <div class="mb-3 row">
+              <div id="grupo__telefono_anfitrion" class="col-sm col-md-4">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="">Nombre de telefono Anfitrion</label>
+                  <i class="input-icon2 fs-5"></i>
+                  <input class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
+                 
+                </div>
+                <p class="text-danger d-none">No puede dejar este campo vacio </p>
+              </div>              
             <input type="hidden" name="id" id="idInput">
           </form>
         </div>
