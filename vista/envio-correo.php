@@ -35,7 +35,8 @@
 
   <!-- Menu.php -->
   <?php
-  require_once "./resources/View_Components/Menu.php";
+    require_once "./resources/View_Components/Menu.php";
+
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -65,7 +66,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Selecciona el usuario al cual quieres enviar un correo</label>
                         <i class="input-icon fs-5"></i>
-                        <select multiple name="usuario[]" id="usuario" class="form-control">
+                        <select  name="usuario" id="usuario" class="form-control">
                           <option value="">Seleccione una opcion</option>
                           <?php foreach ($matriz_correo as $correo) : ?>
                             <option value="<?php echo $correo['usuario']; ?>"> <?php echo $correo['codigo']; ?></option>

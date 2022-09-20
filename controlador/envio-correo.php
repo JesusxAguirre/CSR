@@ -14,8 +14,11 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     if(isset($_POST['enviar'])){
         $asunto = $_POST['html'];
-        $destinatario = $_POST['usuario'];
+        $destinatario2 = $_POST['usuario'];
         $mensaje = $_POST['mensaje']; 
+        for($i= 0; $i < count($destinatario2); $i++){
+            $destinatario = $destinatario2[$i];
+        }
         $objeto->prueba($destinatario,$asunto,$mensaje);
     }
     require_once 'vista/'.$pagina.'.php';

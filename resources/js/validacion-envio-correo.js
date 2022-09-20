@@ -33,7 +33,7 @@ const expresiones = { //objeto con varias expresiones regulares
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
  
-    case "usuario[]":
+    case "usuario":
       ValidarSelect(e.target, 'usuario');
       break;
  

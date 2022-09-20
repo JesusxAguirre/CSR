@@ -47,8 +47,8 @@ class Correo extends Conectar
 
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject = ''.$asunto.'';
-      $mail->Body    = '' .$mensaje. '';
+      $mail->Subject = $asunto;
+      $mail->Body    = $mensaje;
      
 
       $mail->send();
