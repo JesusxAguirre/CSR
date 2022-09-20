@@ -12,12 +12,13 @@ addEvents()
 
 
 const campos = {
-  dia: false,
-  hora: false,
-  direccion: false,
-  anfitrion: false,
-  telefono: false,
-  cantidad: false,
+  dia: true,
+  hora: true,
+  direccion: true,
+  anfitrion: true,
+  telefono_anfitrion: true,
+  cantidad: true,
+  lider : true
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -30,8 +31,6 @@ const expresiones = { //objeto con varias expresiones regulares
   direccion: /^[A-Za-z0-9\s]{10,200}$/,
   cantidad: /^[0-9]{1,2}$/,
 }
-
-
 
 
 
@@ -115,7 +114,7 @@ const ValidarCampo = (expresion, input, campo) => {
 
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
+  if (!(campos.lider && campos.dia && campos.hora && campos.direccion && campos.cantidad && campos.telefono_anfitrion && campos.anfitrion )) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',

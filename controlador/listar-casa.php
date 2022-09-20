@@ -20,6 +20,16 @@ if (is_file('vista/'.$pagina.'.php')) {
         $telefono_anfitrion = $_POST['telefono_anfitrion'];
         $cantidad = $_POST['cantidad'];
         $direccion = $_POST['direccion'];
+        
+        echo $id . "<br>";
+        echo $cedula_lider . "<br>";
+        echo $dia . "<br>";
+        echo $hora . "<br>";
+        echo $nombre_anfitrion . "<br>";
+        echo $telefono_anfitrion . "<br>";
+        echo $cantidad . "<br>";
+        echo $direccion . "<br>";
+        exit;
         $actualizar = false;
     }
     require_once 'vista/'.$pagina.'.php';
