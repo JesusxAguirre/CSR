@@ -157,7 +157,7 @@ busquedaEl.addEventListener('keyup', () => {
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
 function buscarCSR(busqueda) {
   $.ajax({
-    data: 'busqueda=' + busqueda,
+    data: 'busqueda='+busqueda,
     url: "controlador/ajax/buscar-CSR.php",
     type: "get",
   }).done(data => {

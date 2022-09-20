@@ -12,7 +12,6 @@ class LaRoca extends Usuarios
     private $hora;
     private $id;
     private $fecha;
-    private $busqueda;
     private $cedula_lider;
     private $CSR;
     private $hombres;
@@ -20,7 +19,7 @@ class LaRoca extends Usuarios
     private $niños;
     private $confesiones;
     private $lideres;
-
+    private $busqueda;
 
     public function __construct()
     {
@@ -32,12 +31,12 @@ class LaRoca extends Usuarios
         $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
         FROM casas_la_roca 
         JOIN usuarios AS lider ON casas_la_roca.cedula_lider = lider.cedula 
-        WHERE codigo LIKE '%" . $busqueda . "%' 
+        WHERE casas_la_roca .codigo LIKE '%" . $busqueda . "%' 
         OR fecha LIKE '%" . $busqueda . "%' 
         OR dia_visita LIKE '%" . $busqueda . "%'
         OR hora_pautada LIKE '%" . $busqueda . "%'
-        OR lider.codigo LIKE '%" . $busqueda . "%'
-        OR direccion LIKE '%" . $busqueda . "%'");
+        OR direccion LIKE '%" . $busqueda . "%'
+        OR lider.codigo LIKE '%" . $busqueda . "%' ");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -48,10 +47,10 @@ class LaRoca extends Usuarios
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-                $busqueda[] = $filas;
+                $this->busqueda[] = $filas;
             }
         }
-        return $busqueda;
+        return $this->busqueda;
     }
 
 
