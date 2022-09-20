@@ -78,8 +78,7 @@
                   <div class="mb-3 mt-3 row">
                     <div class="col-sm">
                       <label class="form-label fw-bold" ">Asunto</label>
-                          <div style="height: auto;" id="editor">
-
+                          <div style=" height: auto;" id="asunto">
                     </div>
                   </div>
               </div>
@@ -89,6 +88,9 @@
                             <button type=" button" id="envio">Enviar</button>
                 </div>
               </div>
+              <input hidden id="asunto2" />
+              <button name="enviar" type="submit" class="btn btn-primary">Enviar</button>
+
               </form>
             </div>
           </div>
@@ -134,7 +136,7 @@
         'indent': '+1'
       }], // outdent/indent
 
-      , ['link', 'image'],
+
       ['clean'] // remove formatting button
     ];
     var options = {
@@ -142,15 +144,10 @@
       modules: {
         toolbar: toolbarOptions
       },
-      placeholder: 'Escribe una descripcion del ccurso',
+      placeholder: 'Escribe el asusnto del correo',
       theme: 'snow'
     };
-    var quill = new Quill('#editor', options);
-
-    $('#envio').click(function() {
-      var delta = quill.getContents();
-      console.log(delta);
-    })
+    var quill = new Quill('#asunto', options);
   </script>
   <script src="resources/js/validacion-envio-correo.js"></script>
 

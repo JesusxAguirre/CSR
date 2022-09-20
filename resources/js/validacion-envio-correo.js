@@ -121,10 +121,12 @@ inputs.forEach((input) => {
   input.addEventListener('blur', ValidarFormulario);
 });
 
-lideres.addEventListener('hideDropdown', ValidarFormulario);
+usuarios.addEventListener('hideDropdown', ValidarFormulario);
 
 
 formulario.addEventListener('submit', (e) => {
+  document.getElementById("asunto2").value = quill.getContents();
+  
   if (!(campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
     e.preventDefault();
     Swal.fire({
@@ -137,7 +139,7 @@ formulario.addEventListener('submit', (e) => {
 
 
 
-if (error == false) { 
+/* if (error == false) { 
   Swal.fire({
     icon: 'success',
     title: 'Se registro la casa sobre la roca correctamente'
@@ -147,4 +149,4 @@ if (error == false) {
   function recarga() {
     window.location = "index.php?pagina=registrar-casa";
   }
-}
+} */

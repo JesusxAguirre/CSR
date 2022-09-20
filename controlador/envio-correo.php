@@ -10,6 +10,12 @@ if (is_file('vista/'.$pagina.'.php')) {
 
   //$objeto->prueba();
     $matriz_correo = $objeto->listar_correos();
+
+
+    if(isset($_POST['enviar'])){
+        var_dump($_POST);
+	die();
+    }
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
