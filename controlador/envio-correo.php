@@ -13,8 +13,9 @@ if (is_file('vista/'.$pagina.'.php')) {
 
 
     if(isset($_POST['enviar'])){
-        var_dump($_POST);
-	die();
+        $contenido = $_POST['html'];
+        echo $contenido;
+        exit;
     }
     require_once 'vista/'.$pagina.'.php';
 }

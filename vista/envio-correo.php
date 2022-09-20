@@ -82,13 +82,7 @@
                     </div>
                   </div>
               </div>
-              <div class="mb-3 mt-3 row">
-                <div class="col-sm">
-                  <label class="form-label fw-bold" ">Recuperando datos quill por consola</label>
-                            <button type=" button" id="envio">Enviar</button>
-                </div>
-              </div>
-              <input hidden id="asunto2" />
+
               <button name="enviar" type="submit" class="btn btn-primary">Enviar</button>
 
               </form>
@@ -101,53 +95,7 @@
   </main>
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   <script>
-    //libreria quill
-
-    var toolbarOptions = [
-      [{
-        'header': [1, 2, 3, 4, 5, 6, false]
-      }],
-      [{
-        'font': []
-      }],
-      [{
-        'color': []
-      }, {
-        'background': []
-      }], // dropdown with defaults from theme
-
-      [{
-        'align': []
-      }],
-      ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-      [{
-        'header': 1
-      }, {
-        'header': 2
-      }], // custom button values
-      [{
-        'list': 'ordered'
-      }, {
-        'list': 'bullet'
-      }],
-      [{
-        'indent': '-1'
-      }, {
-        'indent': '+1'
-      }], // outdent/indent
-
-
-      ['clean'] // remove formatting button
-    ];
-    var options = {
-      debug: 'info',
-      modules: {
-        toolbar: toolbarOptions
-      },
-      placeholder: 'Escribe el asusnto del correo',
-      theme: 'snow'
-    };
-    var quill = new Quill('#asunto', options);
+    
   </script>
   <script src="resources/js/validacion-envio-correo.js"></script>
 

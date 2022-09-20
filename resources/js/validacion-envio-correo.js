@@ -14,12 +14,8 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
-  dia: false,
-  hora: false,
-  direccion: false,
-  nombre: false,
-  telefono: false,
-  integrantes: false,
+  usuario: false,
+  html : true,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -36,50 +32,16 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
-    case "dia":
-      ValidarDia(e.target, 'dia');
+ 
+    case "usuario[]":
+      ValidarSelect(e.target, 'usuario');
       break;
-    case "hora":
-      ValidarCampo(expresiones.hora, e.target, 'hora');
-      break;
-    case "nombre":
-      ValidarCampo(expresiones.nombre, e.target, 'nombre');
-      break;
-    case "telefono":
-      ValidarCampo(expresiones.telefono, e.target, 'telefono');
-      break;
-    case "integrantes":
-      ValidarCampo(expresiones.integrantes, e.target, 'integrantes');
-      break;
-
-    case "lider[]":
-      ValidarSelect(e.target, 'lider');
-      break;
-    case "direccion":
-      ValidarCampo(expresiones.direccion, e.target, 'direccion');
-      break;
+ 
 
   }
 }
 
 
-const ValidarDia = (input, campo) => {
-  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
-    console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = true;
-  } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  }
-}
 
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
@@ -122,12 +84,10 @@ inputs.forEach((input) => {
 });
 
 usuarios.addEventListener('hideDropdown', ValidarFormulario);
-
-
-formulario.addEventListener('submit', (e) => {
-  document.getElementById("asunto2").value = quill.getContents();
-  
-  if (!(campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
+$("#formulario").on("submit", function (e) {
+  var hvalue = $('.ql-editor').html();
+  $(this).append("<textarea name='html' style='display:none'>" + hvalue + "</textarea>");
+  if (!(campos.html && campos.usuario)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -135,7 +95,11 @@ formulario.addEventListener('submit', (e) => {
       text: 'Registra el formulario correctamente'
     })
   }
-})
+
+});
+
+
+  
 
 
 
@@ -150,3 +114,51 @@ formulario.addEventListener('submit', (e) => {
     window.location = "index.php?pagina=registrar-casa";
   }
 } */
+
+//libreria quill
+
+var toolbarOptions = [
+  [{
+    'header': [1, 2, 3, 4, 5, 6, false]
+  }],
+  [{
+    'font': []
+  }],
+  [{
+    'color': []
+  }, {
+    'background': []
+  }], // dropdown with defaults from theme
+
+  [{
+    'align': []
+  }],
+  ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+  [{
+    'header': 1
+  }, {
+    'header': 2
+  }], // custom button values
+  [{
+    'list': 'ordered'
+  }, {
+    'list': 'bullet'
+  }],
+  [{
+    'indent': '-1'
+  }, {
+    'indent': '+1'
+  }], // outdent/indent
+
+
+  ['clean'] // remove formatting button
+];
+var options = {
+  debug: 'info',
+  modules: {
+    toolbar: toolbarOptions
+  },
+  placeholder: 'Escribe el asusnto del correo',
+  theme: 'snow'
+};
+var quill = new Quill('#asunto', options);
