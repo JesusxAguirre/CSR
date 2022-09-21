@@ -177,12 +177,12 @@
                         <option value="II+Oracion">Doctrina II con Oracion</option>
                     </select>
                     <hr>
-                    <div class="d-grid">
-                        <button type="button" class="btn btn-success" id="guardarEditado1">GUARDAR</button>
-                    </div>
-                    <div class="d-grid">
-                        <button type="button" class="btn btn-warning" id="cerrarEditado1" data-bs-dismiss="modal">CERRAR</button>
-                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="button" class="btn btn-success" id="guardarEditado1">GUARDAR</button>
+                </div>
+                <div class="d-grid">
+                    <button type="button" class="btn btn-warning" id="cerrarEditado1" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -227,7 +227,7 @@
                     <button class="btn btn-success" id="agregarEditado2">AGREGAR ESTUDIANTES <i class="bi bi-person-plus-fill"></i></button>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-warning fw-bold" id="cerrarEditado2" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-warning" id="cerrarEditado2" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -244,17 +244,18 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>-->
                 <div class="modal-body">
-                    <input hidden id="idSeccionProfU" type="text">
-                    <h5>PROFESORES DE LA SECCION: "<span id="nombreSeccionProfU"></span>"</h5>
+                    <input hidden id="idSeccionProfMatU" type="text">
+                    <span hidden id="nivDoctrinaSeccionProfMatU"></span>
+                    <h5>MATERIAS Y PROFESORES DE LA SECCION: "<span id="nombreSeccionProMatfU"></span>"</h5>
                     <hr>
                     <div class="table-responsive">
-                        <table id="listaProfesores" class="table table-bordeless" style="width:100%">
+                        <table id="listaProfesores" class="table table-borderless table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="table-dark">MATERIA</th>
-                                    <th>CODIGO</th>
-                                    <th>NOMBRE</th>
-                                    <th>APELLIDO</th>
+                                    <th class="table-info">MATERIA</th>
+                                    <th class="table-primary">CODIGO</th>
+                                    <th class="table-primary">NOMBRE</th>
+                                    <th class="table-primary">APELLIDO</th>
                                 </tr>
                             </thead>
                             <tbody id="listaProfDatos">
@@ -262,19 +263,15 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <div id="selectMasMateriasProfesores">
-
-                    </div>
-                    <div id="selectMasProfesoresMaterias">
-
+                    <div class="row" id="selectMasProfesoresMaterias">
+                        <!-- AQUI MUESTRA LOS SELECT -->
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-success" id="agregarEditado3">AGREGAR ESTUDIANTES <i class="bi bi-person-plus-fill"></i></button>
+                    <button class="btn btn-success" id="agregarEditado3">AGREGAR <i class="bi bi-journal-check"></i></button>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-warning fw-bold" id="cerrarEditado3" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-warning" id="cerrarEditado3" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>

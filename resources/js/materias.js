@@ -213,14 +213,8 @@ $("#agregarMateria").on("click", function (e) {
   if (campos[0] && campos[1]) {
     $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
       Swal.fire({
-        icon: 'success',
-        iconColor: 'white',
-        title: 'Agregado correctamente',
-        toast: true,
-        background: 'green',
-        color: 'white',
-        showConfirmButton: false,
-        timer: 2000,
+        
+        
       });
       listarMaterias();
       $("#formularioMateria").trigger("reset");
@@ -300,7 +294,7 @@ $("#actualizarMateria").on("click", function (e) {
 /////////////////////////////////////////////
 
 const expresionesMaterias = {
-  nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,30}$/, // Letras y espacios, pueden llevar acentos.
+  nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,50}$/, // Letras y espacios, pueden llevar acentos.
 }
 
 var campos = {

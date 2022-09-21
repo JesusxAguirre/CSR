@@ -1,4 +1,5 @@
  <?php
+ session_start();
     require_once('../../modelo/clase_ecam.php');
     $objeto = new ecam();
 
@@ -43,26 +44,53 @@
 
     //ACTIVAR LISTA DE PROFESORES POR SECCION
     if (isset($_POST['activarTablaProf'])) {
-        $idSeccionProfConsulta = $_POST['idSeccionProfConsulta'];
+        $idSeccionProfConsulta = $_POST['idSMConsulta'];
 
         $listarProfesores_seccionMateria = $objeto->listarProfesores_seccionMateria($idSeccionProfConsulta);
 
         if (!empty($listarProfesores_seccionMateria)) {
             foreach ($listarProfesores_seccionMateria as $listProf) { ?>
                 <tr>
-                    <td hidden id="cedulaProfON"><?php echo $listProf['id_materia']; ?></td>
-                    <td hidden id="cedulaProfON"><?php echo $listProf['cedula']; ?></td>
-                    <td class="table-dark"><?php echo $listProf['nombreMateria']; ?></td>
+                    <td hidden class="idMateriaProfON"><?php echo $listProf['id_materia']; ?></td>
+                    <td hidden class="cedulaProfON"><?php echo $listProf['cedula']; ?></td>
+                    <td class="table-info fw-bold"><?php echo $listProf['nombreMateria']; ?></td>
                     <td><?php echo $listProf['codigo']; ?></td>
                     <td><?php echo $listProf['nombre']; ?></td>
                     <td><?php echo $listProf['apellido']; ?></td>
                     <td>
-                        <i type="button" class="text-danger fs-5 bi bi-dash-circle" id="eliminarProfON" title="Pulsa para eliminar"></i>
+                        <i type="button" class="text-danger fs-5 bi bi-dash-circle" id="eliminarMP_ON" title="Pulsa para eliminar"></i>
                     </td>
                 </tr> <?php
             }
         }
     }
+    //CHOICES DE LISTAR PROFESORES PARA A LA MATERIA DE LA SECCION
+    if (isset($_POST['verProfesoresMateriasSelect'])) {
+        $idSeccionReferencial= $_POST['idSeccionRef4'];
+        $nivDoctrinaReferencial= $_POST['nivDoctrinaRef4'];
+
+        $listarProfesoresOFF = $objeto->listarProfesores();
+        $listarMateriasOFF= $objeto->selectMateriasOFF($idSeccionReferencial, $nivDoctrinaReferencial);
+        
+    ?> <div class="col">
+            <select class="form-select" id="seleccionarMateriasAdicionales">
+                <option disabled selected value="ninguno">Seleccione la materia</option>
+            <?php foreach ($listarMateriasOFF as $matOFF) : ?>
+                <option value="<?php echo $matOFF['id_materia']; ?>"><?php echo $matOFF['nombre'] . ' ' . $matOFF['nivelDoctrina']; ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div>
+        
+        <div class="col">
+            <select class="form-select" id="seleccionarProfesoresAdicionales">
+            <option disabled selected value="ninguno">Seleccione el profesor</option>
+            <?php foreach ($listarProfesoresOFF as $profOFF) : ?>
+                <option value="<?php echo $profOFF['cedula']; ?>"><?php echo $profOFF['codigo'] . ' ' . $profOFF['nombre'] . ' ' . $profOFF['apellido']; ?></option>
+            <?php endforeach; ?>
+            </select>
+        </div><?php
+    }
+
 
 
     //SELECT2 DE LISTAR ESTUDIANTES PARA REGISTRAR UNA SECCION
@@ -87,18 +115,6 @@
         <?php endforeach; ?>
         </select>
         <input hidden id="idSeccionV"><?php
-    }
-
-
-    //CHOICES DE LISTAR PROFESORES PARA A LA MATERIA DE LA SECCION
-    if (isset($_POST['verProfesoresSelect'])) {
-        $listarProfesoresOFF = $objeto->listarProfesores();
-
-    ?> <select class="form-select" id="seleccionarProfesoresAdicionales">
-        <?php foreach ($listarProfesoresOFF as $profOFF) : ?>
-            <option value="<?php echo $profOFF['cedula']; ?>"><?php echo $profOFF['codigo'] . ' ' . $profOFF['nombre'] . ' ' . $profOFF['apellido']; ?></option>
-        <?php endforeach; ?>
-        </select><?php
     }
 
 

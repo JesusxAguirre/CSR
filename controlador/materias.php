@@ -1,7 +1,6 @@
 <?php
-
-//destruye la sesion si se tenia una abierta
 session_start();
+//destruye la sesion si se tenia una abierta
 require_once ('modelo/clase_ecam.php');
 
 if ($_SESSION['verdadero'] > 0) {

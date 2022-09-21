@@ -53,7 +53,15 @@ $("#crear").click(function () {
     };
     $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
         dataTableSec.ajax.reload();
-        console.log(response);
+        Swal.fire({
+            icon: 'success',
+            iconColor: 'white',
+            title: '¡Seccion creada exitosamente!',
+            toast: true,
+            background: 'success',
+            showConfirmButton: false,
+            timer: 2000,
+        })
     });
 });
 
@@ -80,12 +88,13 @@ function ejecutar() {
 
 
 /////LISTAR PROFESORES DE LA SECCION SELECCIONADA/////
-function listarProfesoresSeccion(idSeccionProf) { //Este parametro es para que la funcion liste los estudiantes de la seccion correspondiente. Un parametro de referencia
-    var div= document.getElementById("listaProfDatos");
+function listarProfesoresSeccion() { 
+    let idSMConsulta= $('#idSeccionProfMatU').val();
+    var div= document.getElementById("listaProfDatos"); //PARA ACTUALIZAR LA LISTA DE MATERIAS Y PROFESORES TAMBIEN
     $.ajax({
         data: {
-            activarTablaProf: 'listarProf',
-            idSeccionProfConsulta: idSeccionProf,
+            activarTablaProf: 'activarTablaProf',
+            idSMConsulta: idSMConsulta,
         },
         type: "post",
         url: "controlador/ajax/dinamica-seccion.php",
@@ -94,19 +103,95 @@ function listarProfesoresSeccion(idSeccionProf) { //Este parametro es para que l
     });
 }
 //SELECT DE LOS PROFESORES PARA AGREGAR A LA MATERIA (LISTA)
-function selectProfesoresOFF() {
+function selectMasProfesoresMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCION SELECCIONADA
     let div = document.getElementById("selectMasProfesoresMaterias");
+    let idSeccionRef4= $('#idSeccionProfMatU').val();
+    let nivDoctrinaRef4= $('#nivDoctrinaSeccionProfMatU').text();
+
     $.ajax({
         data: {
-            verProfesoresSelect: 'verProfesoresSelect',
+            verProfesoresMateriasSelect: 'verProfesoresMateriasSelect',
+            idSeccionRef4: idSeccionRef4,
+            nivDoctrinaRef4: nivDoctrinaRef4,
         },
         type: "post",
         url: "controlador/ajax/dinamica-seccion.php",
     }).done((data) => {
         div.innerHTML = data;
-        choicesProfesoresSeccion();
+        choicesMasProfesoresMaterias();
     });
 }
+//AGREGAR MATERIAS CON PROFESORES ASIGNADOS ADICIONALES AL QUERER EDITAR EN EL MODAL
+$('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVOS
+    e.preventDefault();
+    
+    const data= {
+        actualizarMP: 'actualizarMP',
+        idMateriaAdicional: $('#seleccionarMateriasAdicionales').val(),
+        cedulaProfesorAdicional: $('#seleccionarProfesoresAdicionales').val(),
+        idSeccionRef5: $("#idSeccionProfMatU").val(),
+    };
+
+    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        listarProfesoresSeccion();
+        selectMasProfesoresMaterias();
+        Swal.fire({
+            icon: 'success',
+            iconColor: 'white',
+            title: '¡Agregado correctamente!',
+            toast: true,
+            background: 'green',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 2000,
+        })
+    });
+
+});
+//ELIMINAR MATERIAS Y PROFESOR DE LA SECCION SELECCIONADA
+$(document).on('click', '#eliminarMP_ON', function (e) {
+    e.preventDefault();
+    let elemento= $(this)[0].parentElement.parentElement;
+    let idMateriaSec= elemento.querySelector('.idMateriaProfON').textContent;
+    let cedulaProfSec= elemento.querySelector('.cedulaProfON').textContent;
+    let idSeccionMatProfSec= $('#idSeccionProfMatU').val();
+
+    const data= {
+        eliminarMateriaProf: 'eliminarMateriaProf',
+        idMateriaSec: idMateriaSec,
+        cedulaProfSec: cedulaProfSec,
+        idSeccionMatProfSec: idSeccionMatProfSec,
+    }
+    
+    Swal.fire({
+        icon: 'warning',
+        iconColor: 'white',
+        title: '¿Estas segur@ que deseas eliminarlo?',
+        background: 'orange',
+        showDenyButton: true,
+        confirmButtonText: `SI`,
+        confirmButtonColor: 'green',
+        denyButtonText: `NO`,
+        denyButtonColor: 'red',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+            listarProfesoresSeccion();
+            selectMasProfesoresMaterias();
+
+            Swal.fire({
+                icon: 'success',
+                iconColor: 'green',
+                title: '¡Eliminado correctamente!',
+                toast: true,
+                background: 'white',
+                showConfirmButton: false,
+                timer: 2000,
+            })
+          })
+        }
+      })
+})
 
 
 
@@ -149,11 +234,49 @@ $("#agregarEditado2").on("click", function (e) {
       estudiantesNuevos: $("#seleccionarEstudidantesAdicionales").val(),
     };
     $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-        console.log(response);
         listarEstudiantesSeccion(data.idSeccionV);
         selectEstudiantesOFF(data.idSeccionV);
+        Swal.fire({
+            icon: 'success',
+            iconColor: 'white',
+            title: '¡Estudiante guardado correctamente!',
+            toast: true,
+            background: 'green',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 2000,
+        });
     });
 });
+/////ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA/////
+$(document).on('click', '#eliminarEstON', function () {
+    let elemento = $(this)[0].parentElement.parentElement;
+    let cedulaEstborrar= elemento.querySelector('#cedulaEstON').textContent;
+    let idSeccionRef= $("#idSeccionV").val();
+    
+    const data = {
+        eliminarEstSeccion: 'eliminarEstSeccion',
+        cedulaEstborrar: cedulaEstborrar,
+    }
+
+    Swal.fire({
+        background: '#ebebeb',
+        icon: 'warning',
+        title: '¿Segur@a de eliminar a este estudiante?',
+        showDenyButton: true,
+        confirmButtonText: `SI`,
+        confirmButtonColor: 'green',
+        denyButtonText: `NO`,
+        denyButtonColor: 'red',
+    }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+                    listarEstudiantesSeccion(idSeccionRef);
+                    selectEstudiantesOFF(idSeccionRef);
+                });
+            }
+    })
+})
 
 
 ////////////////////FUNCIONES CHOICES SELECT////////////////////
@@ -169,18 +292,35 @@ function choices1 () {
       placeholderValue: 'Buscar estudiantes',
     });
 }
-function choicesProfesoresSeccion () {
-    var profesoresOFF = document.getElementById('seleccionarProfesoresAdicionales');
+function choicesMasProfesoresMaterias() {
+
+  (function () {
+    var profesoresOFF = document.getElementById("seleccionarProfesoresAdicionales");
     new Choices(profesoresOFF, {
       allowHTML: true,
       maxItemText: 3,
       removeItems: true,
       removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay profesores disponibles',
+      noResultsText: "No hay coicidencias",
+      noChoicesText: "No hay profesores disponibles",
       placeholder: true,
-      placeholderValue: 'Buscar profesores',
+      placeholderValue: "Buscar profesores",
     });
+  })();
+
+  (function () {
+    var materiasOFF = document.getElementById("seleccionarMateriasAdicionales");
+    new Choices(materiasOFF, {
+      allowHTML: true,
+      maxItemText: 3,
+      removeItems: true,
+      removeItemButton: true,
+      noResultsText: "No hay coicidencias",
+      noChoicesText: "No hay materias disponibles",
+      placeholder: true,
+      placeholderValue: "Buscar materias",
+    });
+  })();
 }
 ////////////////////////////////////////////////////////////
 
@@ -475,22 +615,24 @@ dataTableSec.column( 0 ).visible( false );
 $('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
     
     let idSeccionRef3= dataTableSec.row($(this).parents()).data().id_seccion;
+    let nivDoctrinaSeccionRef3= dataTableSec.row($(this).parents()).data().nivel_doctrina;
     let nombreSeccionRef3= dataTableSec.row($(this).parents()).data().nombre;
-    $('#idSeccionProfU').val(idSeccionRef3);
-    $('#nombreSeccionProfU').text(nombreSeccionRef3);
+    $('#idSeccionProfMatU').val(idSeccionRef3);
+    $('#nivDoctrinaSeccionProfMatU').text(nivDoctrinaSeccionRef3);
+    $('#nombreSeccionProMatfU').text(nombreSeccionRef3);
     
     let div = document.getElementById("listaProfDatos");
 
     $.ajax({
         data: {
             activarTablaProf: 'activarTablaProf',
-            idSeccionProfConsulta: idSeccionRef3,
+            idSMConsulta: idSeccionRef3,
         },
         type: "post",
         url: "controlador/ajax/dinamica-seccion.php",
     }).done((data) => {
         div.innerHTML = data;
-        selectProfesoresOFF(idSeccionRef3);
+        selectMasProfesoresMaterias();
     })
 })
 
@@ -540,6 +682,16 @@ $('#guardarEditado1').click(function (e) {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
                     dataTableSec.ajax.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        iconColor: 'white',
+                        title: '¡Actualizado correctamente!',
+                        toast: true,
+                        background: 'green',
+                        color: 'white',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    })
                 });
             }
     })
@@ -570,36 +722,6 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
             }
         })
     
-})
-
-/////ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA/////
-$(document).on('click', '#eliminarEstON', function () {
-    let elemento = $(this)[0].parentElement.parentElement;
-    let cedulaEstborrar= elemento.querySelector('#cedulaEstON').textContent;
-    let idSeccionRef= $("#idSeccionV").val();
-    
-    const data = {
-        eliminarEstSeccion: 'eliminarEstSeccion',
-        cedulaEstborrar: cedulaEstborrar,
-    }
-
-    Swal.fire({
-        background: '#ebebeb',
-        icon: 'warning',
-        title: '¿Segur@a de eliminar a este estudiante?',
-        showDenyButton: true,
-        confirmButtonText: `SI`,
-        confirmButtonColor: 'green',
-        denyButtonText: `NO`,
-        denyButtonColor: 'red',
-    }).then((result) => {
-            if (result.isConfirmed) {
-                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    listarEstudiantesSeccion(idSeccionRef);
-                    selectEstudiantesOFF(idSeccionRef);
-                });
-            }
-    })
 })
 
 

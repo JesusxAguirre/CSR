@@ -99,6 +99,14 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
             <div>
               <ul class="navbar-nav ps-3">
                 <li>
+                  <a href="?pagina=aula-virtual" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-layout-wtf"></i></span>
+                  <span>Aulas virtuales</span>
+                  </a>
+                </li>
+
+                <li>
                   <a href="?pagina=materias" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-book-half"></i></span>
@@ -116,7 +124,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                 <li>
                   <a href="?pagina=registrar-profesores" class="nav-link px-3">
                   <span class="me-2">
-                  <i class="bi bi-mortarboard-fill"></i> </span>
+                  <i class="bi bi-mortarboard-fill"></i></span>
                   <span>Secciones</span>
                   </a>
                 </li>

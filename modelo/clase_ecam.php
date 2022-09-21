@@ -1,7 +1,4 @@
 <?php
-
-use function PHPSTORM_META\sql_injection_subst;
-
 require_once('clase_conexion.php');
 
 class ecam extends Conectar
@@ -9,6 +6,7 @@ class ecam extends Conectar
     private $conexion;
     private $idMateria;
     private $idMateriaSeccion;
+    private $idMateriaAdicional;
     private $nombre;
     private $nombreSeccionU;
     private $nombreSeccion;
@@ -17,14 +15,19 @@ class ecam extends Conectar
     private $nivelSeccionU;
     private $cedulaProfesor;
     private $cedulaProfSeccion;
+    private $cedulaProfAdicional;
     private $cedulaEstSeccion;
     private $listarMaterias;
     private $listarMateriasNivel;
     private $listarProfesoresMaterias;
+    private $listarMateriasOFF; //lista las materias que no estan en la seccion y deberian estar ahi jeje
     private $listarEstudiantesOFF;
     private $listarEstudiantesON;
     private $listarSeccionesON;
     private $listarProfesores_SM;
+    private $listar_misMateriasEst; //lista las materias y demas informacion del estudiante activo en la sesion
+    private $listar_misMateriasProf; //lista las materias y demas informacion del profesor activo en la sesion
+    private $listar_misEstudiantes; //lista todos los estudiantes que maneja el profesor activo en la sesion
     private $materiasBuscadas;
     private $todosProfesores;
     private $todosProfesores2;
@@ -364,9 +367,17 @@ class ecam extends Conectar
     //ELIMINAR O DESACTIVAR LA SECCION SELECCIONADA
     public function eliminarSeccion($idSeccionEliminar)
     {
+        //ELIMINA O DESACTIVA LA SECCION PRIMERO
         $sql= "UPDATE `secciones` SET `status_seccion` = '0' WHERE `secciones`.`id_seccion` = $idSeccionEliminar";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
+
+        //LUEGO DEJAMOS EN NULL EL ID_SECCION DE LOS ESTUDIANTES QUE ESTABAN VINCULADOS A LA SECCION
+        $sql2= "UPDATE `usuarios` SET `id_seccion`= NULL WHERE `usuarios`.`cedula` IN (SELECT `usuarios`.`cedula` FROM usuarios WHERE `usuarios`.`id_seccion` = :idSeccionOFF)";
+        $stmt2= $this->conexion->prepare($sql2);
+        $stmt->execute(array(
+            ":idSeccionOFF" => $idSeccionEliminar,
+        ));
     }
 
     //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
@@ -388,8 +399,142 @@ class ecam extends Conectar
         ));
     }
 
+    //SELECT DE LAS MATERIAS QUE NO ESTAN EN LA SECCION PARA AGREGAR
+    public function selectMateriasOFF($idSeccionReferencial, $nivDoctrinaReferencial)
+    {
+        $sql= "SELECT `materias`.`id_materia`, `materias`.`nombre`, `materias`.`nivelDoctrina` FROM `materias` WHERE NOT EXISTS (SELECT * FROM `secciones-materias-profesores` 
+        WHERE `secciones-materias-profesores`.`id_materia` = `materias`.`id_materia` 
+        AND `secciones-materias-profesores`.`id_seccion` = :idSeccionRef) AND `materias`.`nivelDoctrina` = :nivelDoctrinaRef";
+        
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccionRef" => $idSeccionReferencial,
+            ":nivelDoctrinaRef" => $nivDoctrinaReferencial,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->listarMateriasOFF[] = $filas;
+        }
+        return $this->listarMateriasOFF;
+    }
+
+    //AGREGAR O AGREGAR MATERIAS CON PROFESORES ADICIONALES A LA SECCION SELECCIONADA
+    public function actualizarMateriasProfesores($idSeccion)
+    {
+        $sql= "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`, `contenido`) VALUES (:idSeccion, :idMateria, :cedulaProf, NULL)";
+        $stmt= $this->conexion->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccion" => $idSeccion,
+            ":idMateria" => $this->idMateriaAdicional,
+            ":cedulaProf" => $this->cedulaProfAdicional,
+        ));
+    }
+
+    //ELIMINAR MATERIAS Y PROFESORES DE LA SECCION SELECCIONADA
+    public function eliminarMateriaProf_seccion($idSeccionMatProfSec, $idMateriaSec, $cedulaProfSec)
+    {
+        $sql= "DELETE FROM `secciones-materias-profesores` WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccion 
+        AND `secciones-materias-profesores`.`id_materia`= :idMateria 
+        AND `secciones-materias-profesores`.`cedulaProf`= :cedulaProf";
+        $stmt= $this->conexion->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccion" => $idSeccionMatProfSec,
+            ":idMateria" => $idMateriaSec,
+            ":cedulaProf" => $cedulaProfSec,
+        ));
+    }
 
 
+    //LISTAR LAS MATERIAS QUE LE CORRESPONDE AL ESTUDIANTE ACTIVO DE LA ECAM
+    public function listar_misMateriasEst()
+    {
+        $idSeccionEstudiante = $_SESSION['id_seccion'];//Aqui acapta la id_seccion del usuario activo jeje
+
+        $sql = "SELECT `smp`.`id_seccion`, `materias`.`id_materia`, `usuarios`.`cedula`, `materias`.`nombre` as `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
+        FROM `secciones-materias-profesores` AS `smp` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` 
+        INNER JOIN `usuarios` ON `usuarios`.`cedula` = `smp`.`cedulaProf` WHERE `smp`.`id_seccion` = :idSeccion";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":idSeccion" => $idSeccionEstudiante,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar_misMateriasEst[] = $filas;
+        }
+        return $this->listar_misMateriasEst;
+    }
+
+    //LISTAR MATERIAS QUE IMPARTE EL PROFESOR ACTIVO DE LA ECAM
+    public function listar_misMateriasProf()
+    {
+        $cedulaProfesor = $_SESSION['cedula'];//Aqui capta la cedula del profesor activo jeje
+
+        $sql = "SELECT `materias`.`id_materia`, `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelDoctrina`, `usuarios`.`cedula`, 
+        `usuarios`.`nombre` as `nombreProfesor`, `usuarios`.`apellido` as `apellidoProfesor`
+        FROM `secciones-materias-profesores` AS `smp` INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` 
+        INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf` = :cedulaProfesor";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":cedulaProfesor" => $cedulaProfesor,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar_misMateriasProf[] = $filas;
+        }
+        return $this->listar_misMateriasProf;
+    }
+
+    //LISTAR MATERIAS QUE IMPARTE EL PROFESOR ACTIVO DE LA ECAM
+    public function listar_misEstudiantes()
+    {
+        $cedulaProfesor = $_SESSION['cedula'];//Aqui capta la cedula del profesor activo jeje
+
+        $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` as `nombreMateria`, `materias`.`nivelDoctrina`, `materias`.`id_materia`, 
+        `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion` FROM `secciones-materias-profesores` AS `smp` INNER JOIN `usuarios` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` INNER JOIN `materias` ON `smp`.`id_materia`= `materias`.`id_materia`
+        INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf`= :cedulaProfesor";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":cedulaProfesor" => $cedulaProfesor,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar_misEstudiantes[] = $filas;
+        }
+        return $this->listar_misEstudiantes;
+    }
+
+    //SUBIR CONTENIDO A LA MATERIA DE LA SECCION CORRESPONDIENTE
+    public function agregarContenido()
+    {
+        # code...
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////METODOS SETTERS/////////////////////////
     public function setMaterias($nombre, $nivel, $cedulaProfesor)
     {
         $this->nombre = $nombre;
@@ -408,6 +553,12 @@ class ecam extends Conectar
     {
         $this->nombreSeccionU = $nombreSeccionU;
         $this->nivelSeccionU = $nivelSeccionU;
+    }
+    //SET PARA ACTUALIZAR LAS MATERIAS Y PROFESORES DE LA SECCION
+    public function setActualizarMP($idMateriaAdicional, $cedulaProfAdicional)
+    {
+        $this->idMateriaAdicional= $idMateriaAdicional;
+        $this->cedulaProfAdicional= $cedulaProfAdicional;
     }
     public function setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion)
     {

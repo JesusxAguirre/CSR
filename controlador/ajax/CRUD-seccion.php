@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../../modelo/clase_ecam.php');
 $objeto = new ecam();
 
@@ -44,5 +45,24 @@ if (isset($_POST['actualizarDatosSeccion'])) {
 
     $objeto->setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU);
     $objeto->actualizarDatosSeccion($idSeccionRefU);
+}
+
+//AGREGAR O ACTUALIZAR LAS MATERIAS Y PROFESORES DE LA SECCION SELECCIONADA
+if (isset($_POST['actualizarMP'])) {
+    $idMateriaAdicional= $_POST['idMateriaAdicional'];
+    $cedulaProfesorAdicional= $_POST['cedulaProfesorAdicional'];
+    $idSeccionRef5= $_POST['idSeccionRef5'];
+
+    $objeto->setActualizarMP($idMateriaAdicional, $cedulaProfesorAdicional);
+    $objeto->actualizarMateriasProfesores($idSeccionRef5);
+}
+
+//ELIMINAR MATERIA Y PROFESOR DE LA SECCION SELECCIONADA
+if (isset($_POST['eliminarMateriaProf'])) {
+    $idMateriaSec= $_POST['idMateriaSec'];
+    $cedulaProfSec= $_POST['cedulaProfSec'];
+    $idSeccionMatProfSec= $_POST['idSeccionMatProfSec'];
+
+    $objeto->eliminarMateriaProf_seccion($idSeccionMatProfSec, $idMateriaSec, $cedulaProfSec);
 }
 ?>
