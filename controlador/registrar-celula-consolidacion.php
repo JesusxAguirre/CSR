@@ -1,7 +1,6 @@
 <?php
 require_once("modelo/clase_celula_consolidacion.php");
 //destruye la sesion si se tenia una abierta
-session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
