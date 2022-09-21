@@ -136,8 +136,8 @@ formulario.addEventListener('click', (e) => {
         var cantidad = [];
         console.log(data);
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          titulo.push(data[prop]["mes"])
+          cantidad.push(data[prop]["cantidad_discipulado"]);
         }
         console.log(titulo);
         console.log(cantidad);
@@ -208,8 +208,8 @@ formulario2.addEventListener('click', (e) => {
         var cantidad = [];
         console.log(data);
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          titulo.push(data[prop]["mes"])
+          cantidad.push(data[prop]["cantidad_discipulos"]);
         }
         console.log(titulo);
         console.log(cantidad);
@@ -281,7 +281,7 @@ formulario3.addEventListener('click', (e) => {
           titulo.push(data[prop]["mes"])
           cantidad.push(data[prop]["cantidad_consolidaciones"]);
         }
-       
+
         var v_modal = $('#consolidacion-grafico').modal({ show: false });
         Highcharts.chart('grafico3', {
           chart: {
@@ -374,8 +374,8 @@ formulario4.addEventListener('click', (e) => {
             text: 'Reporte de crecimiento de lider'
           },
           subtitle: {
-            text: 'lider: ' +data.datos_lider.nombre+' ' +data.datos_lider.apellido + '',
-           },
+            text: 'lider: ' + data.datos_lider.nombre + ' ' + data.datos_lider.apellido + '',
+          },
           xAxis: {
             categories: titulo,
           },
@@ -424,7 +424,7 @@ formulario5.addEventListener('click', (e) => {
     const respuesta5 = document.getElementById('respuesta5');
     enviar5.addEventListener('click', () => {
       console.log("inicio de la funcion 5")
-  
+
       let id_casa = CSR.value
       let fecha_inicio = fecha_inicio5.value
       let fecha_final = fecha_final5.value
@@ -439,36 +439,28 @@ formulario5.addEventListener('click', (e) => {
         type: "post",
         dataType: "json",
       }).done(data => {
-        var cantidad_confesiones =[];
-        var cantidad_hombres =[];
+        var cantidad_confesiones = [];
+        var cantidad_hombres = [];
         var cantidad_mujeres = [];
         var cantidad_niños = [];
         var titulo = [];
-        
+
         console.log(data)
 
-      for(prop in data){
-        titulo.push(data[prop]["mes"])
-      }
-      for(prop in data){
-        cantidad_confesiones.push(data[prop]["total_confesiones"])
-      }
-      for(prop in data){
-        cantidad_hombres.push(data[prop]["total_hombres"])
-      }
-      for(prop in data){
-        cantidad_mujeres.push(data[prop]["total_mujeres"])
-      }
-      for(prop in data){
-        cantidad_niños.push(data[prop]["total_niños"])
-      }
+        for (prop in data) {
+          titulo.push(data[prop]["mes"])
+          cantidad_confesiones.push(data[prop]["total_confesiones"])
+          cantidad_hombres.push(data[prop]["total_hombres"])
+          cantidad_mujeres.push(data[prop]["total_mujeres"])
+          cantidad_niños.push(data[prop]["total_niños"])
+        }
         console.log(titulo)
         console.log(cantidad_confesiones)
-        
-  
+
+
         var v_modal = $('#csr-grafico').modal({ show: false });
         Highcharts.chart('grafico5', {
-       
+
           title: {
             text: 'Reporte de CSR'
           },
@@ -508,7 +500,7 @@ formulario5.addEventListener('click', (e) => {
         console.log("final de la funcion")
 
         v_modal.on("show", function () { })
-        v_modal.modal("show"); 
+        v_modal.modal("show");
       })
     })
   }
