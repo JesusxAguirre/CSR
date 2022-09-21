@@ -51,7 +51,7 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="header-title mb-3 fw-bold">Casas sobre la roca</h4>
+              <h4 class="header-title mb-3 fw-bold">Bitacora de usuario</h4>
 
               <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
@@ -60,7 +60,7 @@
                   <thead>
 
                     <tr role='row'>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cedula usuario</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo usuario</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Fecha</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora Registro</th>
                       <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Accion realizada</th> 
@@ -70,7 +70,7 @@
                   <tbody id="datos" role='rowgroup'>
                     <?php foreach ($matriz_bitacora as $bitacora) : ?>
                       <tr role='row'>
-                        <td class="cedula_usuario" role='cell'><?php echo $bitacora['cedula_usuario'] ?></td>
+                        <td class="cedula_usuario" role='cell'><?php echo $bitacora['codigo'] ?></td>
                         <td class="fecha" role='cell'><?php echo $bitacora['fecha_registro'] ?></td>
                         <td class="hora" role='cell'><?php echo $bitacora['hora_registro'] ?></td>
                         <td class="accion" role='cell'><?php echo  $bitacora['accion_realizada'] ?></td>                       

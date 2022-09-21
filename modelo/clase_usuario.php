@@ -72,7 +72,8 @@ class Usuarios extends Conectar
     public function listar_bitacora()
     {
 
-        $sql = ("SELECT * FROM bitacora_usuario");
+        $sql = ("SELECT *, usuarios.codigo FROM bitacora_usuario
+        INNER JOIN usuarios ON bitacora_usuario.cedula_usuario = usuarios.cedula");
 
         $stmt = $this->conexion()->prepare($sql);
 
