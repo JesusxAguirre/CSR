@@ -43,6 +43,31 @@ class Usuarios extends Conectar
     {
         $this->conexion = parent::conexion();
     }
+
+    public function registrar_bitacora($accion)
+    {
+        $usuario = $_SESSION['usuario'];
+        $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $usuario = $resultado['cedula'];
+
+        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
+        accion_realizada) 
+        VALUES(:ced,CURDATE(),CURTIME(),:accion)";
+
+        $stmt = $this->conexion->prepare($sql);
+
+        $stmt->execute(array(
+            ":ced" => $usuario,
+            ":accion" => $accion
+        ));
+    }
     public function validar()
     {
         $usuario = $_SESSION['usuario'];
@@ -91,7 +116,7 @@ class Usuarios extends Conectar
 
         $sql = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE  '%N1%'");
 
-        $stmt= $this->conexion()->prepare($sql);
+        $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
 
@@ -108,7 +133,7 @@ class Usuarios extends Conectar
 
 
         $sql = ("SELECT cedula,codigo,nombre,apellido,telefono,sexo,estado_civil,nacionalidad,estado,edad  FROM usuarios WHERE codigo LIKE '%" . $busqueda . "%' 
-        OR nombre LIKE '%" . $busqueda. "%' OR estado_civil LIKE '%" . $busqueda . "%' ");
+        OR nombre LIKE '%" . $busqueda . "%' OR estado_civil LIKE '%" . $busqueda . "%' ");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -177,7 +202,7 @@ class Usuarios extends Conectar
         $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
         $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
         $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
-        
+
         //actualizando cedula en codigo
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
 
@@ -198,7 +223,7 @@ class Usuarios extends Conectar
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
-        
+
         //actualizando estado_civil del codigo
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
         $stmt = $this->conexion()->prepare($sql);
@@ -379,7 +404,7 @@ class Usuarios extends Conectar
         $this->permiso_delete_usuarios = $sql->rowCount();
         return $this->permiso_delete_usuarios;
     }
-    
+
 
 
     public function setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)
