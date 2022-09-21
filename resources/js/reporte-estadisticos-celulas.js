@@ -349,22 +349,34 @@ formulario4.addEventListener('click', (e) => {
       }).done(data => {
         var objeto = [];
         var titulo = [];
+        var titulo2 = [];
         var cantidad1 = [];
         var cantidad2 = [];
+        var cantidad3 = [];
+        var cantidad4 = [];
         console.log(data)
         for (prop in data) {
           objeto.push(data[prop]);
         }
-        console.log(objeto);
         for (prop in objeto[0]) {
-          titulo.push(prop);
           cantidad1.push(objeto[0][prop]);
         }
         for (prop in objeto[1]) {
           cantidad2.push(objeto[1][prop]);
         } 
-        console.log(data.datos_lider.nombre)
-        console.log(data.datos_lider.apellido)
+        for (prop in cantidad1) {
+          titulo2.push(cantidad1[prop]["mes"])
+          cantidad3.push(cantidad1[prop]["cantidad_discipulos"]);
+        }
+        for (prop in cantidad2) {
+          titulo.push(cantidad2[prop]["mes"])
+          cantidad4.push(cantidad2[prop]["cantidad_celulas"]);
+        }
+        console.log(cantidad1)
+
+        console.log(titulo2)
+        console.log(cantidad3)
+        console.log(cantidad4)
         var v_modal = $('#lider-grafico').modal({ show: false });
         Highcharts.chart('grafico4', {
           chart: {
@@ -377,7 +389,7 @@ formulario4.addEventListener('click', (e) => {
             text: 'lider: ' + data.datos_lider.nombre + ' ' + data.datos_lider.apellido + '',
           },
           xAxis: {
-            categories: titulo,
+            categories: titulo2,titulo,
           },
           yAxis: {
             title: {
@@ -389,11 +401,11 @@ formulario4.addEventListener('click', (e) => {
           },
           series: [{
             name: 'cantidad de discipulos',
-            data: cantidad1,
+            data: cantidad3,
 
           }, {
             name: 'Cantidad de celulas de discipulado',
-            data: cantidad2,
+            data: cantidad4,
 
           },
           ],
