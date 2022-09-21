@@ -1,6 +1,6 @@
 <?php
 require_once("clase_conexion.php");
-
+session_start();
 class Usuarios extends Conectar
 {
 
@@ -46,7 +46,7 @@ class Usuarios extends Conectar
 
     public function registrar_bitacora($accion)
     {
-        session_start();
+      
         $usuario = $_SESSION['usuario'];
         $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
 
@@ -62,7 +62,7 @@ class Usuarios extends Conectar
         accion_realizada) 
         VALUES(:ced,CURDATE(),CURTIME(),:accion)";
 
-        $stmt = $this->conexion->prepare($sql);
+        $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             ":ced" => $usuario,
