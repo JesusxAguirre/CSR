@@ -1,5 +1,6 @@
 {
   "dependencies": {
     "highcharts": "^10.2.1"
+
   }
 }

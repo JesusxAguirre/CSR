@@ -17,6 +17,10 @@
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
     <!-- Js boostrap -->
     <script src="./resources/js/bootstrap.min.js"></script>
+    
+    <!-- CHOICE 2 -->
+    <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+    <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
 
@@ -45,45 +49,54 @@
             </div>
 
             <div class="row">
+                <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
                 <div class="col-4">
-                    <div class="card text-white bg-dark">
+                    <div class="card bg-dark">
                         <div class="card-header text-center">
-                            <div>
-                                <h2>AGREGAR MATERIA</h2>
-                            </div>
+                            <label class="form-label fw-bold text-white">AGREGAR MATERIAS</label>
                         </div>
 
-                        <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
-                        <form id="formularioMateria">
-                            <div class="card-body">
+                        <div class="card-body">
+                            <form id="formularioMateria">
                                 <div class="row">
-                                    <div class="col text-center">
-                                        <h5>Nombre de la materia</h5>
+                                    <div class="col">
+                                        <label class="form-label fst-italic fw-bold text-white" for="nombreMateria">Nombre de la materia</label>
                                         <input type="text" name="nombreMateria" id="nombreMateria" class="form-control inputMateria" placeholder="N0MBR3">
-                                        <p hidden id="nomMateriaMal">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
+                                        <p hidden id="nomMateriaMal" class="text-danger">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
                                     </div>
                                 </div>
                                 <div class="row mt-3">
-                                    <div class="col text-center">
-                                        <h5>Nivel de doctrina</h5>
+                                    <div class="col">
+                                        <label class="form-label fst-italic fw-bold text-white" for="seleccionarNivel">Nivel de doctrina</label>
                                         <select class="form-select selectNivel" name="seleccionarNivel" id="seleccionarNivel">
                                             <option selected value="ninguno">Selecciona el nivel</option>
-                                            <option value="1">1</option>
-                                            <option value="2">2</option>
-                                            <option value="3">3</option>
-                                            <option value="Especial">Especial</option>
+                                            <option value="I">Doctrina I</option>
+                                            <option value="II">Doctrina II</option>
+                                            <option value="II+Oracion">Doctrina II con Oracion</option>
+                                            <option value="Seminario">Seminario</option>
                                         </select>
-                                        <p hidden id="nivMateriaMal">Deberias seleccionar un nivel de doctrina</p>
+                                        <p hidden id="nivMateriaMal" class="text-danger">Deberias seleccionar un nivel de doctrina</p>
                                     </div>
                                 </div>
+                            </form>
+                            <div class="row mt-3" id="formularioAgregarProf">
+                                
+                                <label class="form-label fst-italic fw-bold text-white">Profesores que dictan la materia</label>
+                                <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
+                                    <?php foreach ($profesores as $prof) : ?>
+                                        <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                
                             </div>
-                            <div>
-                                <button type="submit" class="btn btn-success botonGuardar" id="agregarMateria">GUARDAR</button>
-                            </div>
-                        </form>
-                        <!--FIN DEl FORMULARIO PARA AGREGAR MATERIAS -->
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-success botonGuardar" id="agregarMateria">GUARDAR</button>
+                        </div>
                     </div>
                 </div>
+                <!--FIN DEl FORMULARIO PARA AGREGAR MATERIAS -->
+
 
                 <div class="col">
                     <div class="contenedorMaterias">
@@ -95,7 +108,7 @@
                         </div>
                         <!-- FIN DE BUSCADOR DE MATERIA -->
 
-                        <table class="table text-center">
+                        <table class="table table-light table-striped text-center">
                             <thead class="table-dark">
                                 <tr>
                                     <th>MATERIAS</th>
@@ -110,11 +123,11 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <div class="modal fade" id="modalActualizar" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+    <!-- MODAL DE EDITAR DATOS DE LA MATERIA -->
+    <div class="modal fade" id="modalActualizarMateria" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -132,13 +145,14 @@
                         <label for="seleccionarNivel2" class="form-label">Nivel de doctrina</label>
                         <select class="form-select selectNivel" id="seleccionarNivel2">
                             <option value="ninguno">Selecciona el nivel</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="Especial">Especial</option>
+                            <option value="I">1</option>
+                            <option value="II">2</option>
+                            <option value="II+Oracion">3</option>
+                            <option value="Seminario">Seminario</option>
                         </select>
                         <p hidden id="nivMateriaMal2">Deberias seleccionar un nivel de doctrina</p>
                     </div>
+
                 </div>
                 <div>
                     <button type="submit" class="btn btn-success botonActualizar" id="actualizarMateria" value="actualizarMateria">ACTUALIZAR</button>
@@ -149,7 +163,48 @@
             </div>
         </div>
     </div>
+    <!-- FIN DEL MODAL DE EDITAR DATOS DE LA MATERIA -->
 
+
+
+    <!-- MODAL DE EDITAR PROFESORES QUE DICTAN LA MATERIA -->
+    <div class="modal fade" id="modalProf" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">PROFESORES QUE DICTAN LA MATERIA</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-4">
+                        <table class="table table-success table-striped text-center">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Opcion</th>
+                                </tr>
+                            <tbody id="datos2">
+                                <!-- TABLA DE LOS PROFESORES ASIGNADOS A ESA MATERIA -->
+                            </tbody>
+                            </thead>
+                        </table>
+                    </div>
+                    <hr>
+                        <label class="form-label fst-italic fw-bold">Agregar profesores</label>
+                        <form id="formularioVincularProf">
+                        <div id="datos3">
+                            
+                        </div>
+                        </form>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-success botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="resources/js/materias.js"></script>
 </body>

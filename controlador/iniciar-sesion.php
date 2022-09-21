@@ -1,7 +1,10 @@
 <?php
 session_start();
 require_once('modelo/clase_usuario.php');
+require_once('modelo/clase_datosUsuario.php');
 $objeto = new Usuarios();
+$objeto2= new datosUsuario();
+
 $error = true;
 if(isset($_POST['registrar'])){
 
@@ -31,6 +34,23 @@ if(isset($_POST['enviar'])){
 	$_SESSION['verdadero']=$objeto->validar();
 
 	$permisos = $objeto->get_permisos();
+
+	$buscarNombre= $objeto2->nombre();
+	$nombre;
+	foreach ($buscarNombre as $key) {
+		$nombre= $key['nombre'].' '.$key['apellido'];
+	}
+	$_SESSION['nombre']= $nombre;
+
+	$buscarCedula= $objeto2->cedula();
+	$_SESSION['cedula']= $buscarCedula[0]['cedula'];
+
+	$buscarIdSeccion= $objeto2->idSeccion();
+	$_SESSION['id_seccion']= $buscarIdSeccion[0]['id_seccion'];
+
+	$buscarStatusProf= $objeto2->statusProfesor();
+	$_SESSION['status_profesor']= $buscarStatusProf[0]['status_profesor'];
+	
 
 	if($_SESSION['verdadero'] > 0){
 
