@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>Listar CSR</title>
+  <title>Bitacora de usuario</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
 
@@ -43,7 +43,7 @@
       <div class="row">
         <div class="col-12">
           <div class="page-title-box">
-            <h4 class="page-title">Listar CSR</h4>
+            <h4 class="page-title">Bitacora de usuario</h4>
           </div>
         </div>
       </div>
@@ -60,35 +60,20 @@
                   <thead>
 
                     <tr role='row'>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Dia de reunion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora</th>
-                      <th colspan='1' role='columnheader' class='sortable' style='cursor: pointer;' class=''>Codigo de lider</th>
-
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre anfitrion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono anfitrion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cantidad de personas en el hogar</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Direccion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cedula usuario</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Fecha</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora Registro</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Accion realizada</th> 
                     </tr>
                   </thead>
 
                   <tbody id="datos" role='rowgroup'>
-                    <?php foreach ($matriz_csr as $csr) : ?>
+                    <?php foreach ($matriz_bitacora as $bitacora) : ?>
                       <tr role='row'>
-                        <td hidden class="id" role='cell'><?php echo $csr['id'] ?></td>
-                        <td class="codigo" role='cell'><?php echo $csr['codigo'] ?></td>
-                        <td class="dia" role='cell'><?php echo  $csr['dia_visita'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($csr['hora_pautada'], 0, -3);
-                                                      echo $hora; ?></td>
-                        <td class="lider" role='cell'><?php echo  $csr['codigo_lider'] ?></td>
-                        <td class="nombre_anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
-                        <td class="telefono_anfitrion" role='cell'><?php echo  $csr['telefono_anfitrion'] ?></td>
-                        <td class="cantidad" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
-                        <td class="direccion" role='cell'><?php echo  $csr['direccion'] ?></td>
-                        <td class="" role="cell">
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-                        </td>
+                        <td class="cedula_usuario" role='cell'><?php echo $bitacora['cedula_usuario'] ?></td>
+                        <td class="fecha" role='cell'><?php echo $bitacora['fecha_registro'] ?></td>
+                        <td class="hora" role='cell'><?php echo $bitacora['hora_registro'] ?></td>
+                        <td class="accion" role='cell'><?php echo  $bitacora['accion_realizada'] ?></td>                       
                       </tr>
                     <?php endforeach;       ?>
                   </tbody>

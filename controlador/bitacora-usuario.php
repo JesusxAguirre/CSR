@@ -7,6 +7,7 @@ if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Usuarios();
 
+       $matriz_bitacora = $objeto->listar_bitacora();
        
         require_once 'vista/' . $pagina . '.php';
     }

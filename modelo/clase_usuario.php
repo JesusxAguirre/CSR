@@ -69,6 +69,24 @@ class Usuarios extends Conectar
             ":accion" => $accion
         ));
     }
+    public function listar_bitacora()
+    {
+
+        $sql = ("SELECT * FROM bitacora_usuario");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $bitacora[] = $filas;
+        }
+    
+        return $bitacora;
+       
+    }
     public function validar()
     {
         $usuario = $_SESSION['usuario'];
