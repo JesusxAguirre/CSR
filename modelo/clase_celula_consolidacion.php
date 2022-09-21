@@ -566,8 +566,12 @@ class Consolidacion extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
 
         return $resultado;
     }

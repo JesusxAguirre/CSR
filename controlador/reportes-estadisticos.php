@@ -1,7 +1,6 @@
 <?php
 
-//destruye la sesion si se tenia una abierta
-session_start();
+
 require_once('modelo/clase_celula_consolidacion.php');
 require_once("modelo/clase_casa_sobre_la_roca.php");
 if($_SESSION['verdadero'] > 0){

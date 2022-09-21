@@ -274,14 +274,14 @@ formulario3.addEventListener('click', (e) => {
         dataType: "json",
       }).done(data => {
         var titulo = [];
+        var titulo2 = [];
         var cantidad = [];
         console.log(data);
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          titulo.push(data[prop]["mes"])
+          cantidad.push(data[prop]["cantidad_consolidaciones"]);
         }
-        console.log(titulo);
-        console.log(cantidad);
+       
         var v_modal = $('#consolidacion-grafico').modal({ show: false });
         Highcharts.chart('grafico3', {
           chart: {
