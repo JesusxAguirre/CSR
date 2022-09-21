@@ -93,6 +93,8 @@ class Usuarios extends Conectar
             $this->usuario[] = $filas;
         }
         return $this->usuario;
+        $accion = "Listar todos los usuarios";
+        $this->registrar_bitacora($accion);
     }
     //============== Listar usuarios con condicional de lider =======// 
     public function listar_usuarios_N2()
@@ -110,6 +112,8 @@ class Usuarios extends Conectar
             $this->arreglo_n2[] = $filas;
         }
         return $this->arreglo_n2;
+        $accion = "Listar todos los usuarios de nivel 2";
+        $this->registrar_bitacora($accion);
     }
     public function listar_usuarios_N1()
     {
@@ -126,6 +130,8 @@ class Usuarios extends Conectar
             $this->arreglo_n1[] = $filas;
         }
         return $this->arreglo_n1;
+        $accion = "Listar todos los usuarios de nivel 1";
+        $this->registrar_bitacora($accion);
     }
     //==============Buscar usuario por cedula, por nombre o por usuario, falta modificarlo para buscar por codigo =======// 
     public function buscar_usuario($busqueda)
@@ -147,6 +153,8 @@ class Usuarios extends Conectar
             }
         }
         return $this->usuario;
+        $accion = "Buscar usuarios";
+        $this->registrar_bitacora($accion);
     }
 
     //============== Registrar usuarios en el inicio de sesion=======// 
@@ -178,6 +186,7 @@ class Usuarios extends Conectar
             ":telefono" => $this->telefono,
             ":pass" => $this->clave
         ));
+        
     }
 
 
@@ -243,6 +252,10 @@ class Usuarios extends Conectar
             ":estado" => $this->estado,
             ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
         ));
+
+        $accion = "Editar o actualizar datos de usuarios";
+        $this->registrar_bitacora($accion);
+
     }
 
 
