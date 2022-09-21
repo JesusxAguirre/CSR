@@ -362,7 +362,7 @@ formulario4.addEventListener('click', (e) => {
         }
         for (prop in objeto[1]) {
           cantidad2.push(objeto[1][prop]);
-        }
+        } 
         console.log(data.datos_lider.nombre)
         console.log(data.datos_lider.apellido)
         var v_modal = $('#lider-grafico').modal({ show: false });
