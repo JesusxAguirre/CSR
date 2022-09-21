@@ -14,7 +14,7 @@ if (!empty($listar_misMaterias)) {
             <td id=""><?php echo $misMaterias['nombreSeccion']; ?></td>
             <td id=""><?php echo $misMaterias['nombreMateria'].' '.$misMaterias['nivelDoctrina']; ?></td>
             <td>
-                <button class="btn btn-outline-secondary" id="">Contenido  <i class="bi bi-card-text"></i></button>
+                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf">Contenido  <i class="bi bi-card-text"></i></button>
             </td>
         </tr>
         

@@ -1,3 +1,4 @@
+
 listar_misMateriasProf();
 function listar_misMateriasProf() {
     let div = document.getElementById("listar_misMateriasProf");
@@ -8,6 +9,15 @@ function listar_misMateriasProf() {
       div.innerHTML = data;
     });
 }
+
+var quill = new Quill('#editor', {
+    theme: 'snow'
+});
+
+
+
+
+
 
 //DATATABLES LISTA DE MIS MATERIAS ESTUDIANTE
 /*let spanish= {

@@ -13,7 +13,10 @@
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
+    <script src="./resources/library/Quill JS/core/quill.js"></script>
 
+    
+    
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
 
@@ -23,9 +26,8 @@
     <!-- JS de DataTables -->
     <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 
-    <!-- CHOICE 2 -->
-    <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
-    <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+    
+
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
 </head>
@@ -69,7 +71,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="listar_misMateriasProf">
-                                   
+
                                 </tbody>
 
                             </table>
@@ -82,7 +84,31 @@
 
         </div>
     </main>
+
+    <!-- //////////////////////////////INICIO DE MODALES/////////////////////////////// -->
+
+
+
+    <div class="modal fade" id="modal_misContenidosProf" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-monospace">Contenido de la materia</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="editor">
+                        <p>Hello World!</p>
+                        <p>Some initial <strong>bold</strong> text</p>
+                        <p><br></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./resources/library/Quill/quill.js"></script>
 </body>
 <script src="./resources/js/mis-materiasProfesor.js"></script>
+
 
 </html>

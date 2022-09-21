@@ -81,6 +81,6 @@
         </div>
     </main>
 </body>
-<script src="./resources/js/misMateriasEst.js"></script>
+<script src="./resources/js/mis-materiasEstudiantes.js"></script>
 
 </html>
