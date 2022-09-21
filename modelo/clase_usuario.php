@@ -1,6 +1,6 @@
 <?php
 require_once("clase_conexion.php");
-
+session_start();
 class Usuarios extends Conectar
 {
 
@@ -92,9 +92,10 @@ class Usuarios extends Conectar
 
             $this->usuario[] = $filas;
         }
-        return $this->usuario;
         $accion = "Listar todos los usuarios";
         $this->registrar_bitacora($accion);
+        return $this->usuario;
+       
     }
     //============== Listar usuarios con condicional de lider =======// 
     public function listar_usuarios_N2()
