@@ -49,6 +49,8 @@ class Discipulado extends Usuarios
                 $this->busqueda[] = $filas;
             }
         }
+        $accion = "Buscar discipulos";
+        $this->registrar_bitacora($accion);
         return $this->busqueda;
     }
 
@@ -71,6 +73,8 @@ class Discipulado extends Usuarios
 
             $this->listar[] = $filas;
         }
+        $accion = "Listar Celula de discipulado";
+        $this->registrar_bitacora($accion);
         return $this->listar;
     }
     public function listar_participantes($busqueda)
@@ -91,6 +95,8 @@ class Discipulado extends Usuarios
 
             $this->participantes[] = $filas;
         }
+        $accion = "Listar Discipulos";
+        $this->registrar_bitacora($accion);
         return $this->participantes;
     }
 
@@ -113,6 +119,8 @@ class Discipulado extends Usuarios
 
             $this->septiembre[] = $filas;
         }
+        $accion = "Listar Asistencias de celula de discipulado";
+        $this->registrar_bitacora($accion);
         return $this->septiembre;
     }
 
@@ -131,6 +139,7 @@ class Discipulado extends Usuarios
 
             $this->codigos[] = $filas;
         }
+
         return $this->codigos;
     }
     //------------------------------------------------------Registrar Asitencias de discipulado ----------------------//
@@ -148,6 +157,8 @@ class Discipulado extends Usuarios
                 ":fecha" => $this->fecha
             ));
         } //fin del foeach
+        $accion = "Registrar Asistencias de celula de discipulado";
+        $this->registrar_bitacora($accion);
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -283,6 +294,9 @@ class Discipulado extends Usuarios
                 ":cedula" => $this->cedula_asistente
             ));
         } //fin del else si el asitente de la celula y el anfitrion son distintos
+
+        $accion = "Registrar  celula de discipulado";
+        $this->registrar_bitacora($accion);
     }
 
 
@@ -417,6 +431,7 @@ class Discipulado extends Usuarios
                     ":cedula" => $this->cedula_asistente
                 ));
             }
+           
         }
 
         $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
@@ -429,6 +444,8 @@ class Discipulado extends Usuarios
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
             ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
         ));
+        $accion = "Editar datos de celula de discipulado";
+        $this->registrar_bitacora($accion);
     }
 
 
