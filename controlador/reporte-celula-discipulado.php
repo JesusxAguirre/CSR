@@ -7,7 +7,7 @@ if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
       $objeto = new Discipulado();
 
-      $matriz_codigo = $objeto->listar_celula_discipulado();
+      $matriz_codigo = $objeto->listar_celula_discipulado_por_usuario();
     
         require_once 'vista/' . $pagina . '.php';
     }

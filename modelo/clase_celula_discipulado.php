@@ -124,6 +124,24 @@ class Discipulado extends Usuarios
         return $this->participantes;
     }
 
+    public function listar_celula_discipulado_por_usuario()
+    {
+        $usuario = $_SESSION['usuario'];
+        $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
+        FROM celula_discipulado 
+        WHERE celula_discipulado.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+        return $resultado;
+    }
 
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
     {
