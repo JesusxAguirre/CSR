@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();    
 require_once('modelo/clase_usuario.php');
 
 if ($_SESSION['verdadero'] > 0) {

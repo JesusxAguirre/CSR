@@ -46,7 +46,6 @@ class Usuarios extends Conectar
 
     public function registrar_bitacora($accion)
     {
-      
         $usuario = $_SESSION['usuario'];
         $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
 
