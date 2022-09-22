@@ -55,6 +55,30 @@ class Discipulado extends Usuarios
     }
 
 
+
+    public function listar_usuarios_N2_sin_discipulado()
+    {
+
+        $sql = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE  '%N2%'
+        AND cedula NOT IN (SELECT cedula_lider FROM celula_discipulado) ");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+     
+        return $resultado;
+       
+    }
+
+
+
+
     public function listar_celula_discipulado()
     {
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 

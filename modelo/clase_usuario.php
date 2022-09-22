@@ -131,8 +131,6 @@ class Usuarios extends Conectar
 
             $this->arreglo_n2[] = $filas;
         }
-        $accion = "Listar todos los usuarios de nivel 2";
-        $this->registrar_bitacora($accion);
         return $this->arreglo_n2;
        
     }
