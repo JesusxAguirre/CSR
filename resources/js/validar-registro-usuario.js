@@ -102,12 +102,12 @@ const ValidarCampo = (expresion, input, campo) => {
 			}).done(data => {
 				if (data == '1') {
 					fireAlert('error', 'Este usuario ya existe')
-				} else {
-					console.log(data)
-					fireAlert('error', 'El participante que intenta eliminar no existe')
-				}
-			}).then(() => {
-				setTimeout(recarga, 2000);
+					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					campos.cedula = false;
+				} 
 			})
 		}
 	} else {
@@ -152,3 +152,9 @@ if (error == false) {
 	})
 }
 
+function fireAlert(icon, msg) {
+  Swal.fire({
+    icon: icon,
+    title: msg
+  })
+}

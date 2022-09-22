@@ -126,7 +126,7 @@ class Usuarios extends Conectar
         $stmt->execute(array());
 
         $resultado = $stmt->rowCount();
-         
+        
         return $resultado;
        
     }
