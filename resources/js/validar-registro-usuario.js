@@ -30,38 +30,38 @@ const expresiones = { //objeto con varias expresiones regulares
 const ValidarFormulario = (e) => {
 	switch (e.target.name) {
 		case "cedula":
-		ValidarCampo(expresiones.cedula, e.target, 'cedula');
-		break;
+			ValidarCampo(expresiones.cedula, e.target, 'cedula');
+			break;
 		case "nombre":
-		ValidarCampo(expresiones.nombre, e.target, 'nombre');
-		break;
+			ValidarCampo(expresiones.nombre, e.target, 'nombre');
+			break;
 		case "apellido":
-		ValidarCampo(expresiones.nombre, e.target, 'apellido');
-		break;
+			ValidarCampo(expresiones.nombre, e.target, 'apellido');
+			break;
 		case "edad":
-		ValidarCampo(expresiones.edad, e.target, 'edad');
-		break;
+			ValidarCampo(expresiones.edad, e.target, 'edad');
+			break;
 		case "sexo":
-		ValidarSelect(e.target, 'sexo');
-		break;
+			ValidarSelect(e.target, 'sexo');
+			break;
 		case "civil":
-		ValidarSelect(e.target, 'civil');
-		break;
+			ValidarSelect(e.target, 'civil');
+			break;
 		case "nacionalidad":
-		ValidarSelect(e.target, 'nacionalidad');
-		break;
+			ValidarSelect(e.target, 'nacionalidad');
+			break;
 		case "estado":
-		ValidarSelect(e.target, 'estado');
-		break;
+			ValidarSelect(e.target, 'estado');
+			break;
 		case "correo":
-		ValidarCampo(expresiones.correo, e.target, 'correo');
-		break;
+			ValidarCampo(expresiones.correo, e.target, 'correo');
+			break;
 		case "telefono":
-		ValidarCampo(expresiones.telefono, e.target, 'telefono');
-		break;
+			ValidarCampo(expresiones.telefono, e.target, 'telefono');
+			break;
 		case "clave":
-		ValidarCampo(expresiones.password, e.target, 'clave');
-		break;
+			ValidarCampo(expresiones.password, e.target, 'clave');
+			break;
 	}
 }
 
@@ -74,7 +74,7 @@ const ValidarSelect = (select, campo) => {
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
 	} else {
-		console.log('Has seleccionado: ' );
+		console.log('Has seleccionado: ');
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
@@ -90,6 +90,26 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
+		//comprobando si la cedula existe en la bd
+		if (campos.cedula == true) {
+			let id = document.getElementById("cedula")
+			let cedula = id.value
+			console.log(cedula)
+			$.ajax({
+				data: 'cedula=' + cedula,
+				url: "controlador/ajax/buscar-cedula.php",
+				type: "post",
+			}).done(data => {
+				if (data == '1') {
+					fireAlert('error', 'Este usuario ya existe')
+				} else {
+					console.log(data)
+					fireAlert('error', 'El participante que intenta eliminar no existe')
+				}
+			}).then(() => {
+				setTimeout(recarga, 2000);
+			})
+		}
 	} else {
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
@@ -115,7 +135,7 @@ selects.forEach((select) => {
 
 formulario.addEventListener('submit', (e) => {
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.correo
-		&& campos.clave && campos.estado  && campos.nacionalidad  && campos.sexo  && campos.civil)) {
+		&& campos.clave && campos.estado && campos.nacionalidad && campos.sexo && campos.civil)) {
 		e.preventDefault();
 		Swal.fire({
 			icon: 'error',
@@ -131,3 +151,4 @@ if (error == false) {
 		title: 'Se registro el usuario correctamente'
 	})
 }
+

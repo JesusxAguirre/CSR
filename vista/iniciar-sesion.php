@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
     <script src="resources/js/sweetalert2.js"></script>
 
+<!-- Jquery-->
+<script src="resources/js/jquery-3.6.0.min.js"></script>
 
 
 </head>

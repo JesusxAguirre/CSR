@@ -116,6 +116,20 @@ class Usuarios extends Conectar
         return $this->usuario;
        
     }
+    public function buscar_cedula($cedula)
+    {
+
+        $sql = ("SELECT cedula FROM usuarios WHERE cedula = '$cedula'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->rowCount();
+         
+        return $resultado;
+       
+    }
     //============== Listar usuarios con condicional de lider =======// 
     public function listar_usuarios_N2()
     {
