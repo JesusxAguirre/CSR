@@ -43,12 +43,12 @@ class Correo extends Conectar
      // $mail->addCC('cc@example.com');
       //$mail->addBCC('bcc@example.com');
 
-
+      $mail->AddEmbeddedImage('./resources/img/casawhite.jpg', 'csr');
 
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
       $mail->Subject = $asunto;
-      $mail->Body    = $mensaje;
+      $mail->Body  = "<img src=\"cid:csr\" /> " . $mensaje;
      
 
       $mail->send();
