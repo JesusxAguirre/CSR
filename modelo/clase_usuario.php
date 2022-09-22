@@ -130,6 +130,20 @@ class Usuarios extends Conectar
         return $resultado;
        
     }
+    public function buscar_correo($correo)
+    {
+
+        $sql = ("SELECT correo FROM usuarios WHERE correo = '$correo'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->rowCount();
+
+        return $resultado;
+       
+    }
     //============== Listar usuarios con condicional de lider =======// 
     public function listar_usuarios_N2()
     {
