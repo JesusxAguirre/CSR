@@ -133,7 +133,7 @@ class Usuarios extends Conectar
     public function buscar_correo($correo)
     {
 
-        $sql = ("SELECT correo FROM usuarios WHERE correo = '$correo'");
+        $sql = ("SELECT usuario FROM usuarios WHERE usuario = '$correo'");
 
         $stmt = $this->conexion()->prepare($sql);
 
