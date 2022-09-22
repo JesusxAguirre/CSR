@@ -1,6 +1,6 @@
 <?php
 require_once("clase_conexion.php");
-session_start();
+
 class Usuarios extends Conectar
 {
 

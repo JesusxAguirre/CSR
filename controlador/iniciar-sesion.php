@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once('modelo/clase_usuario.php');
+
 $objeto = new Usuarios();
 $error = true;
 if(isset($_POST['registrar'])){
