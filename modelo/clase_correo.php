@@ -12,13 +12,16 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
 class Correo extends Conectar
 {
+  private $correo;
+
+
 
   public function __construct()
   {
     $this->conexion = parent::conexion();
   }
 
-  public function prueba()
+  public function prueba($destinatario,$asunto,$mensaje)
   {
     $mail = new PHPMailer(true);
     try {
@@ -33,20 +36,20 @@ class Correo extends Conectar
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
       //Recipients
-      $mail->setFrom('quijess6@gmail.com', 'Jesus aguirre');
-      $mail->addAddress('can3lon3000@gmail.com', 'Jesus Canelon');     //Add a recipient
+      $mail->setFrom('quijess6@gmail.com', '');
+      $mail->addAddress($destinatario, '');     //Add a recipient
       //$mail->addAddress('ellen@example.com');               //Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
      // $mail->addCC('cc@example.com');
       //$mail->addBCC('bcc@example.com');
 
-
+      $mail->AddEmbeddedImage('./resources/img/casawhite.jpg', 'csr');
 
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject = 'Este es el asunto t';
-      $mail->Body    = 'Este es un mensaje con etiquetas html <b>En negrita!</b>';
-      $mail->AltBody = 'Y bueno cosas aqui extras que x pues';
+      $mail->Subject = $asunto;
+      $mail->Body  = "<img src=\"cid:csr\" /> " . $mensaje;
+     
 
       $mail->send();
 
@@ -54,4 +57,22 @@ class Correo extends Conectar
       echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
   }
+
+  function listar_correos(){
+
+        $sql = ("SELECT usuario,codigo FROM usuarios");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->correo[] = $filas;
+        }
+        return $this->correo;
+  }
+
+
 }

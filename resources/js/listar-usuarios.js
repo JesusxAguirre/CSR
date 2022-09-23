@@ -1,10 +1,10 @@
 listarUsuarios();
 
-const editButtons = document.querySelectorAll('table td .edit-btn')
+
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#editForm select'); //declarando una constante con todos los inputs dentro de la id formulario
-
+addEvents();
 const campos = {
 	nombre: true,
 	apellido: true,
@@ -26,75 +26,6 @@ const expresiones = { //objeto con varias expresiones regulares
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/
 }
-
-editButtons.forEach(boton => boton.addEventListener('click', () => {
-  console.log("entra a la funcion")
-  let fila = boton.parentElement.parentElement
-  let cedula = fila.querySelector('.cedula')
-  let nombre = fila.querySelector('.nombre')
-  let apellido = fila.querySelector('.apellido')
-  let edad = fila.querySelector('.edad')
-  let sexo = fila.querySelector('.sexo')
-  let estado = fila.querySelector('.estado')
-  let estado_civil = fila.querySelector('.estado_civil')
-  let nacionalidad = fila.querySelector('.nacionalidad')
-  let telefono = fila.querySelector('.telefono')
-  
-
-  const cedulaInput = document.getElementById('cedulaInput')
-  const cedulaInput2 = document.getElementById('cedulaInput2')
-  const nombreInput = document.getElementById('nombreInput')
-  const apellidoInput = document.getElementById('apellidoInput')
-  const edadInput = document.getElementById('edadInput')
-  const sexoInput = document.getElementById('sexoInput')
-  const estadoInput = document.getElementById('estadoInput')
-  const estado_civilInput = document.getElementById('estado_civilInput')
-  const nacionalidadInput = document.getElementById('nacionalidadInput')
-  const telefonoInput = document.getElementById('telefonoInput')
-  
-  cedulaInput.value = cedula.textContent
-  cedulaInput2.value = cedula.textContent
-  nombreInput.value = nombre.textContent
-  apellidoInput.value = apellido.textContent
-  edadInput.value = edad.textContent
-  
-  sexoInput.value = sexo.textContent
-  sexoInput.label = sexo.textContent
-  
-  estadoInput.value = estado.textContent
-  estadoInput.label = estado.textContent
-  
-  estado_civilInput.value = estado_civil.textContent
-  estado_civilInput.label = estado_civil.textContent
-
-  nacionalidadInput.value = nacionalidad.textContent
-  nacionalidadInput.label = nacionalidad.textContent
-  telefonoInput.value = telefono.textContent
-
-  const options = []
-
-  document.querySelectorAll('#sexo > option').forEach((option) => {
-      if (options.includes(option.value)) option.remove()
-      else options.push(option.value)
-  })
-
-  document.querySelectorAll('#civil > option').forEach((option) => {
-      if (options.includes(option.value)) option.remove()
-      else options.push(option.value)
-  })
-
-  document.querySelectorAll('#nacionalidad > option').forEach((option) => {
-      if (options.includes(option.value)) option.remove()
-      else options.push(option.value)
-  })
-  document.querySelectorAll('#estado > option').forEach((option) => {
-      if (options.includes(option.value)) option.remove()
-      else options.push(option.value)
-  })
-
-}))
-
-
 
 
 const ValidarFormulario = (e) => {
@@ -200,6 +131,7 @@ busquedaEl.addEventListener('keyup', () => {
 		type: "post",
 	}).done(data => {
 		datosEl.innerHTML = data
+		addEvents();
 	})
 })
 
@@ -211,5 +143,76 @@ function listarUsuarios() {
 	  url: "controlador/ajax/listar-usuarios.php",
 	}).done((data) => {
 	  listadoUsuarios.innerHTML = data;
+		addEvents();
 	});
+}
+
+function addEvents(){
+	const editButtons = document.querySelectorAll('table td .edit-btn')
+	editButtons.forEach(boton => boton.addEventListener('click', () => {
+		console.log("entra a la funcion")
+		let fila = boton.parentElement.parentElement
+		let cedula = fila.querySelector('.cedula')
+		let nombre = fila.querySelector('.nombre')
+		let apellido = fila.querySelector('.apellido')
+		let edad = fila.querySelector('.edad')
+		let sexo = fila.querySelector('.sexo')
+		let estado = fila.querySelector('.estado')
+		let estado_civil = fila.querySelector('.estado_civil')
+		let nacionalidad = fila.querySelector('.nacionalidad')
+		let telefono = fila.querySelector('.telefono')
+		
+	
+		const cedulaInput = document.getElementById('cedulaInput')
+		const cedulaInput2 = document.getElementById('cedulaInput2')
+		const nombreInput = document.getElementById('nombreInput')
+		const apellidoInput = document.getElementById('apellidoInput')
+		const edadInput = document.getElementById('edadInput')
+		const sexoInput = document.getElementById('sexoInput')
+		const estadoInput = document.getElementById('estadoInput')
+		const estado_civilInput = document.getElementById('estado_civilInput')
+		const nacionalidadInput = document.getElementById('nacionalidadInput')
+		const telefonoInput = document.getElementById('telefonoInput')
+		
+		cedulaInput.value = cedula.textContent
+		cedulaInput2.value = cedula.textContent
+		nombreInput.value = nombre.textContent
+		apellidoInput.value = apellido.textContent
+		edadInput.value = edad.textContent
+		
+		sexoInput.value = sexo.textContent
+		sexoInput.label = sexo.textContent
+		
+		estadoInput.value = estado.textContent
+		estadoInput.label = estado.textContent
+		
+		estado_civilInput.value = estado_civil.textContent
+		estado_civilInput.label = estado_civil.textContent
+	
+		nacionalidadInput.value = nacionalidad.textContent
+		nacionalidadInput.label = nacionalidad.textContent
+		telefonoInput.value = telefono.textContent
+	
+		const options = []
+	
+		document.querySelectorAll('#sexo > option').forEach((option) => {
+				if (options.includes(option.value)) option.remove()
+				else options.push(option.value)
+		})
+	
+		document.querySelectorAll('#civil > option').forEach((option) => {
+				if (options.includes(option.value)) option.remove()
+				else options.push(option.value)
+		})
+	
+		document.querySelectorAll('#nacionalidad > option').forEach((option) => {
+				if (options.includes(option.value)) option.remove()
+				else options.push(option.value)
+		})
+		document.querySelectorAll('#estado > option').forEach((option) => {
+				if (options.includes(option.value)) option.remove()
+				else options.push(option.value)
+		})
+	
+	}))
 }

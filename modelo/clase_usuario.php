@@ -43,6 +43,50 @@ class Usuarios extends Conectar
     {
         $this->conexion = parent::conexion();
     }
+
+    public function registrar_bitacora($accion)
+    {
+        $usuario = $_SESSION['usuario'];
+        $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $usuario = $resultado['cedula'];
+
+        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
+        accion_realizada) 
+        VALUES(:ced,CURDATE(),CURTIME(),:accion)";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":ced" => $usuario,
+            ":accion" => $accion
+        ));
+    }
+    public function listar_bitacora()
+    {
+
+        $sql = ("SELECT *, usuarios.codigo FROM bitacora_usuario
+        INNER JOIN usuarios ON bitacora_usuario.cedula_usuario = usuarios.cedula");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $bitacora[] = $filas;
+        }
+    
+        return $bitacora;
+       
+    }
     public function validar()
     {
         $usuario = $_SESSION['usuario'];
@@ -67,7 +111,38 @@ class Usuarios extends Conectar
 
             $this->usuario[] = $filas;
         }
+        $accion = "Listar todos los usuarios";
+        $this->registrar_bitacora($accion);
         return $this->usuario;
+       
+    }
+    public function buscar_cedula($cedula)
+    {
+
+        $sql = ("SELECT cedula FROM usuarios WHERE cedula = '$cedula'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->rowCount();
+        
+        return $resultado;
+       
+    }
+    public function buscar_correo($correo)
+    {
+
+        $sql = ("SELECT usuario FROM usuarios WHERE usuario = '$correo'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->rowCount();
+
+        return $resultado;
+       
     }
     //============== Listar usuarios con condicional de lider =======// 
     public function listar_usuarios_N2()
@@ -85,13 +160,14 @@ class Usuarios extends Conectar
             $this->arreglo_n2[] = $filas;
         }
         return $this->arreglo_n2;
+       
     }
     public function listar_usuarios_N1()
     {
 
         $sql = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE  '%N1%'");
 
-        $stmt= $this->conexion()->prepare($sql);
+        $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
 
@@ -100,7 +176,10 @@ class Usuarios extends Conectar
 
             $this->arreglo_n1[] = $filas;
         }
+        $accion = "Listar todos los usuarios de nivel 1";
+        $this->registrar_bitacora($accion);
         return $this->arreglo_n1;
+ 
     }
     //==============Buscar usuario por cedula, por nombre o por usuario, falta modificarlo para buscar por codigo =======// 
     public function buscar_usuario($busqueda)
@@ -108,7 +187,7 @@ class Usuarios extends Conectar
 
 
         $sql = ("SELECT cedula,codigo,nombre,apellido,telefono,sexo,estado_civil,nacionalidad,estado,edad  FROM usuarios WHERE codigo LIKE '%" . $busqueda . "%' 
-        OR nombre LIKE '%" . $busqueda. "%' OR estado_civil LIKE '%" . $busqueda . "%' ");
+        OR nombre LIKE '%" . $busqueda . "%' OR estado_civil LIKE '%" . $busqueda . "%' ");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -121,7 +200,10 @@ class Usuarios extends Conectar
                 $this->usuario[] = $filas;
             }
         }
+        $accion = "Buscar usuarios";
+        $this->registrar_bitacora($accion);
         return $this->usuario;
+      
     }
 
     //============== Registrar usuarios en el inicio de sesion=======// 
@@ -153,6 +235,7 @@ class Usuarios extends Conectar
             ":telefono" => $this->telefono,
             ":pass" => $this->clave
         ));
+        
     }
 
 
@@ -177,7 +260,7 @@ class Usuarios extends Conectar
         $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
         $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
         $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
-        
+
         //actualizando cedula en codigo
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
 
@@ -198,7 +281,7 @@ class Usuarios extends Conectar
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
-        
+
         //actualizando estado_civil del codigo
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
         $stmt = $this->conexion()->prepare($sql);
@@ -218,6 +301,10 @@ class Usuarios extends Conectar
             ":estado" => $this->estado,
             ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
         ));
+
+        $accion = "Editar o actualizar datos de usuarios";
+        $this->registrar_bitacora($accion);
+
     }
 
 
@@ -379,7 +466,7 @@ class Usuarios extends Conectar
         $this->permiso_delete_usuarios = $sql->rowCount();
         return $this->permiso_delete_usuarios;
     }
-    
+
 
 
     public function setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)

@@ -1,5 +1,7 @@
 <?php
+session_start();
 require_once('../../modelo/clase_celula_consolidacion.php');
+
 $objeto = new Consolidacion();
 
 $id = $_GET['codigo_consolidacion'];

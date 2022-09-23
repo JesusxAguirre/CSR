@@ -1,5 +1,6 @@
 <?php
 require_once('../../modelo/clase_usuario.php');
+session_start();
 $objeto = new Usuarios;
 
 

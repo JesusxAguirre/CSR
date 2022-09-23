@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
     <script src="resources/js/sweetalert2.js"></script>
 
+<!-- Jquery-->
+<script src="resources/js/jquery-3.6.0.min.js"></script>
 
 
 </head>
@@ -93,7 +95,7 @@
                                         <i class=" input-icon fs-5"></i>
                                             <input placeholder=" 22222222" id="cedula" name="cedula" class="form-control">
                                     </div>
-                                            <p class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
+                                            <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
                                     </div>
                                     <div id="grupo__edad" class="col-sm col-md-3 ">
                                     <div class="relative">
@@ -172,7 +174,7 @@
                                     <i class="input-icon fs-5"></i>
                                         <input id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
                                     </div>
-                                        <p class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                                        <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
 
                                     </div>
                                     <div id="grupo__clave" class="col-sm col-md-3 ">

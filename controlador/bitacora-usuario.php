@@ -1,14 +1,13 @@
 <?php
-
 //destruye la sesion si se tenia una abierta
+require_once('modelo/clase_usuario.php');
 session_start();
-require_once('modelo/clase_celula_discipulado.php');
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
-      $objeto = new Discipulado();
+        $objeto = new Usuarios();
 
-      $matriz_codigo = $objeto->listar_celula_discipulado_por_usuario();
-    
+       $matriz_bitacora = $objeto->listar_bitacora();
+       
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

@@ -136,8 +136,8 @@ formulario.addEventListener('click', (e) => {
         var cantidad = [];
         console.log(data);
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          titulo.push(data[prop]["mes"])
+          cantidad.push(data[prop]["cantidad_discipulado"]);
         }
         console.log(titulo);
         console.log(cantidad);
@@ -208,8 +208,8 @@ formulario2.addEventListener('click', (e) => {
         var cantidad = [];
         console.log(data);
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          titulo.push(data[prop]["mes"])
+          cantidad.push(data[prop]["cantidad_discipulos"]);
         }
         console.log(titulo);
         console.log(cantidad);
@@ -274,14 +274,14 @@ formulario3.addEventListener('click', (e) => {
         dataType: "json",
       }).done(data => {
         var titulo = [];
+        var titulo2 = [];
         var cantidad = [];
         console.log(data);
         for (prop in data) {
-          titulo.push(prop);
-          cantidad.push(data[prop]);
+          titulo.push(data[prop]["mes"])
+          cantidad.push(data[prop]["cantidad_consolidaciones"]);
         }
-        console.log(titulo);
-        console.log(cantidad);
+
         var v_modal = $('#consolidacion-grafico').modal({ show: false });
         Highcharts.chart('grafico3', {
           chart: {
@@ -351,11 +351,18 @@ formulario4.addEventListener('click', (e) => {
         var titulo = [];
         var cantidad1 = [];
         var cantidad2 = [];
-        console.log(data)
+        var cantidad3 = [];
+        var cantidad4 = [];
+        var objeto = [];
+        var titulo = [];
+        var cantidad1 = [];
+        var cantidad2 = [];
+        var cantidad3 = [];
+        var cantidad4 = [];
+        console.log(data);
         for (prop in data) {
           objeto.push(data[prop]);
         }
-        console.log(objeto);
         for (prop in objeto[0]) {
           titulo.push(prop);
           cantidad1.push(objeto[0][prop]);
@@ -363,8 +370,13 @@ formulario4.addEventListener('click', (e) => {
         for (prop in objeto[1]) {
           cantidad2.push(objeto[1][prop]);
         }
-        console.log(data.datos_lider.nombre)
-        console.log(data.datos_lider.apellido)
+        for (prop in objeto[2]) {
+          cantidad3.push(objeto[2][prop]);
+        }
+        for (prop in objeto[3]) {
+          cantidad4.push(objeto[3][prop]);
+        }
+        console.log(cantidad1)
         var v_modal = $('#lider-grafico').modal({ show: false });
         Highcharts.chart('grafico4', {
           chart: {
@@ -374,8 +386,8 @@ formulario4.addEventListener('click', (e) => {
             text: 'Reporte de crecimiento de lider'
           },
           subtitle: {
-            text: 'lider: ' +data.datos_lider.nombre+' ' +data.datos_lider.apellido + '',
-           },
+            text: 'lider: ' + data.datos_lider.nombre + ' ' + data.datos_lider.apellido + '',
+          },
           xAxis: {
             categories: titulo,
           },
@@ -394,6 +406,114 @@ formulario4.addEventListener('click', (e) => {
           }, {
             name: 'Cantidad de celulas de discipulado',
             data: cantidad2,
+
+          },
+          {
+            name: 'Cantidad de personas ganadas',
+            data: cantidad3,
+
+          },
+          {
+            name: 'Cantidad de celulas de consolidacion',
+            data: cantidad4,
+
+          },
+          ],
+        });
+
+        console.log("final de la funcion")
+
+        v_modal.on("show", function () { })
+        v_modal.modal("show");
+      })
+    })
+  }
+})
+formulario5.addEventListener('click', (e) => {
+  if (!(campos.fecha_inicio5 && campos.fecha_final5 && campos.CSR)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  } else {
+    //busqueda ajax 
+    const fecha_inicio5 = document.getElementById('fecha_inicio5')
+    const fecha_final5 = document.getElementById('fecha_final5')
+    const CSR = document.getElementById('CSR')
+    const enviar5 = document.getElementById('consultar5')
+    const respuesta5 = document.getElementById('respuesta5');
+    enviar5.addEventListener('click', () => {
+      console.log("inicio de la funcion 5")
+
+      let id_casa = CSR.value
+      let fecha_inicio = fecha_inicio5.value
+      let fecha_final = fecha_final5.value
+
+      $.ajax({
+        data: {
+          fecha_inicio: fecha_inicio,
+          fecha_final: fecha_final,
+          id_casa: id_casa,
+        },
+        url: "controlador/ajax/mostrar-grafico-CSR.php",
+        type: "post",
+        dataType: "json",
+      }).done(data => {
+        var cantidad_confesiones = [];
+        var cantidad_hombres = [];
+        var cantidad_mujeres = [];
+        var cantidad_niños = [];
+        var titulo = [];
+
+        console.log(data)
+
+        for (prop in data) {
+          titulo.push(data[prop]["mes"])
+          cantidad_confesiones.push(data[prop]["total_confesiones"])
+          cantidad_hombres.push(data[prop]["total_hombres"])
+          cantidad_mujeres.push(data[prop]["total_mujeres"])
+          cantidad_niños.push(data[prop]["total_niños"])
+        }
+        console.log(titulo)
+        console.log(cantidad_confesiones)
+
+
+        var v_modal = $('#csr-grafico').modal({ show: false });
+        Highcharts.chart('grafico5', {
+
+          title: {
+            text: 'Reporte de CSR'
+          },
+          xAxis: {
+            categories: titulo,
+          },
+          yAxis: {
+            title: {
+              text: 'Cantidad'
+            }
+          },
+          credits: {
+            enabled: false
+          },
+          series: [{
+            name: 'Total confesiones',
+            data: cantidad_confesiones,
+
+          }, {
+            name: 'Total hombres',
+            data: cantidad_hombres,
+
+          },
+          {
+            name: 'Total mujeres',
+            data: cantidad_mujeres,
+
+          },
+          {
+            name: 'Total niños',
+            data: cantidad_niños,
 
           },
           ],

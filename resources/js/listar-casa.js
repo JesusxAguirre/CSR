@@ -147,17 +147,17 @@ if (actualizar == false) {
 
 //funciones ajax
 
-//busqueda discipulado
+//busqueda CSR
 busquedaEl.addEventListener('keyup', () => {
   let busqueda = busquedaEl.value
 
-  buscarDiscipulado(busqueda);
+  buscarCSR(busqueda);
 })
 
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
 function buscarCSR(busqueda) {
   $.ajax({
-    data: 'busqueda=' + busqueda,
+    data: 'busqueda='+busqueda,
     url: "controlador/ajax/buscar-CSR.php",
     type: "get",
   }).done(data => {

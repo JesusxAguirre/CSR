@@ -1,8 +1,7 @@
 <?php
-
-//destruye la sesion si se tenia una abierta
-session_start();
+session_start();    
 require_once('modelo/clase_usuario.php');
+
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Usuarios();

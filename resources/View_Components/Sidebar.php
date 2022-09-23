@@ -272,6 +272,13 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
         <span>Envio de correo</span>
         </a>
         </li>
+        <li>
+        <a class="nav-link px-3 sidebar-link"  href="?pagina=bitacora-usuario" role="button">
+        <span class="me-2">
+        <i class="bi bi-person-lines-fill fs-3"></i>
+        <span>Bitacora de usuario</span>
+        </a>
+        </li>
 
       </ul>
     </nav>

@@ -12,7 +12,6 @@ class LaRoca extends Usuarios
     private $hora;
     private $id;
     private $fecha;
-    private $busqueda;
     private $cedula_lider;
     private $CSR;
     private $hombres;
@@ -20,12 +19,40 @@ class LaRoca extends Usuarios
     private $niños;
     private $confesiones;
     private $lideres;
-
+    private $busqueda;
 
     public function __construct()
     {
         $this->conexion = parent::conexion();
     }
+
+    public function buscar_CSR($busqueda)
+    {
+        $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
+        FROM casas_la_roca 
+        JOIN usuarios AS lider ON casas_la_roca.cedula_lider = lider.cedula 
+        WHERE casas_la_roca .codigo LIKE '%" . $busqueda . "%' 
+        OR fecha LIKE '%" . $busqueda . "%' 
+        OR dia_visita LIKE '%" . $busqueda . "%'
+        OR hora_pautada LIKE '%" . $busqueda . "%'
+        OR direccion LIKE '%" . $busqueda . "%'
+        OR lider.codigo LIKE '%" . $busqueda . "%' ");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+
+        if ($stmt->rowCount() > 0) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+                $this->busqueda[] = $filas;
+            }
+        }
+        return $this->busqueda;
+    }
+
 
     public function listar_lideres_sin_CSR()
     {
@@ -44,7 +71,7 @@ class LaRoca extends Usuarios
         }
         return $this->lideres;
     }
-
+    
     public function listar_casas_la_roca()
     {
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
