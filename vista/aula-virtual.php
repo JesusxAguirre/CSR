@@ -49,7 +49,75 @@
             ?>
             <!-- FIN DE BIENVENIDA -->
 
-            
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <h1 class="fw-bold d-inline">¡HOLA! ESTE ES TU </h1>
+                            <h1 class="text-success d-inline fw-bold">DASHBOARD </h1>
+                            <h1 class="d-inline fw-bold">DE LA ECAM</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-2">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div>
+                                <h4 class="fw-bold">Compañeros de la seccion X</h4>
+                            </div>
+                            <table class="table table-borderless mt-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nombres</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Michael Schrumacher</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Cristiano Ronaldo</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Lionel Messi</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="display-6"><i class="bi bi-boxes mx-3 d-inline"></i></span>
+                                <div>
+                                    <h5 class="d-flex fw-bold mb-0">26</h5>
+                                    <span>Materias cursando</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-center align-items-center">
+                                <span class="display-6"><i class="bi bi-boxes mx-3 d-inline"></i></span>
+                                <div>
+                                    <h5 class="d-flex fw-bold mb-0">26</h5>
+                                    <span>Materias cursando</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    
+                </div>
+            </div>
 
         </div>
 

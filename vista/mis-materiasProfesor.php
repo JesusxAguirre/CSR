@@ -13,23 +13,25 @@
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
-    <script src="./resources/library/Quill JS/core/quill.js"></script>
+    <link rel="stylesheet" href="./node_modules/quill/dist/quill.snow.css">
+    <link rel="stylesheet" href="./resources/css/mis-materiasProfesor.css">
 
-    
-    
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
 
     <!-- Js boostrap -->
     <script src="./resources/js/bootstrap.min.js"></script>
 
+
+
     <!-- JS de DataTables -->
     <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 
-    
+
 
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
+
 </head>
 
 <body>
@@ -55,8 +57,8 @@
             <div class="row mt-3">
                 <div class="col">
                     <div class="card mx-auto" style="width: 75%;">
-                        <div class="card-header">
-                            Mis materias
+                        <div class="card-header font-monospace text-center">
+                            ---Mis materias---
                         </div>
                         <div class="card-body">
                             <table id="tabla_misMateriasProf" class="table table-borderless table-hover">
@@ -90,23 +92,25 @@
 
 
     <div class="modal fade" id="modal_misContenidosProf" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title font-monospace">Contenido de la materia</h5>
+                    <span hidden id="seccionContRef"></span><span hidden id="materiaContRef"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="editor">
-                        <p>Hello World!</p>
-                        <p>Some initial <strong>bold</strong> text</p>
-                        <p><br></p>
+                    <div id="editarContenido">
+                        tokitokti
                     </div>
+                </div>
+                <div class="d-grid">
+                    <button type="button" class="btn btn-success" id="guardarCampo">GUARDAR</button>
                 </div>
             </div>
         </div>
-    </div>
-    <script src="./resources/library/Quill/quill.js"></script>
+
+        <script src="./node_modules/quill/dist/quill.min.js"></script>
 </body>
 <script src="./resources/js/mis-materiasProfesor.js"></script>
 

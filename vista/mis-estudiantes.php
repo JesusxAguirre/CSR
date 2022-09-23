@@ -53,26 +53,25 @@
             <div class="row mt-3">
                 <div class="col">
                     <div class="card mx-auto" style="width: 75%;">
-                        <div class="card-header">
-                            Mis estudiantes
+                        <div class="card-header text-center">
+                            ---Mis estudiantes---
                         </div>
-                        <div class="card-body">
-                            <table id="tabla_misEstudiantes" class="table table-borderless table-hover">
-                                <thead style="background: #956156; color: white;">
+                        <div class="card-body" id="cartita">
+                            <table id="tabla_misEstudiantes" class="table table-borderless table-hover w-100">
+                                <thead class="table-dark">
                                     <tr>
                                         <th hidden class="py-3 fs-6" scope="col">ID seccion</th>
                                         <th hidden class="py-3 fs-6" scope="col">ID materia</th>
                                         <th hidden class="py-3 fs-6" scope="col">cedula</th>
-                                        <th class="py-3 fs-6" scope="col">Nombre del estudiante</th>
+                                        <th class="rounded-start py-3 fs-6" scope="col">Nombre del estudiante</th>
                                         <th class="py-3 fs-6" scope="col">Materia</th>
                                         <th class="py-3 fs-6" scope="col">Seccion</th>
                                         <th class="rounded-end py-3 fs-6" scope="col">Nota</th>
                                     </tr>
                                 </thead>
                                 <tbody id="lista_misEstudiantes">
-                                   
-                                </tbody>
 
+                                </tbody>
                             </table>
                         </div>
                     </div>

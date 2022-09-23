@@ -52,8 +52,8 @@
             <div class="row mt-3">
                 <div class="col">
                     <div class="card mx-auto" style="width: 75%;">
-                        <div class="card-header">
-                            Mis materias
+                        <div class="card-header text-center">
+                            ---Mis materias---
                         </div>
                         <div class="card-body">
                             <table id="tablaMisMateriasEst" class="table table-borderless table-hover">
