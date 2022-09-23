@@ -115,7 +115,7 @@
                     <input placeholder=" 22222222" id="cedulaInput" name="cedula" class="form-control">
                 </div>
                 <input hidden name="cedula_antigua" id="cedulaInput2" type="text">
-                <p class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
+                <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
               </div>
               <div id="grupo__edad" class="col-sm col-md-3 ">
                 <div class="relative">
