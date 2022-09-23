@@ -350,10 +350,16 @@ formulario4.addEventListener('click', (e) => {
         var objeto = [];
         var titulo = [];
         var titulo2 = [];
+        var titulo3 = [];
+        var titulo4 = [];
         var cantidad1 = [];
         var cantidad2 = [];
         var cantidad3 = [];
         var cantidad4 = [];
+        var cantidad5 = [];
+        var cantidad6 = [];
+        var cantidad7 = [];
+        var cantidad8 = [];
         console.log(data)
         for (prop in data) {
           objeto.push(data[prop]);
@@ -363,20 +369,30 @@ formulario4.addEventListener('click', (e) => {
         }
         for (prop in objeto[1]) {
           cantidad2.push(objeto[1][prop]);
-        } 
+        }
+        for (prop in objeto[2]) {
+          cantidad3.push(objeto[2][prop]);
+        }
+        for (prop in objeto[3]) {
+          cantidad4.push(objeto[3][prop]);
+        }
         for (prop in cantidad1) {
           titulo2.push(cantidad1[prop]["mes"])
-          cantidad3.push(cantidad1[prop]["cantidad_discipulos"]);
+          cantidad5.push(cantidad1[prop]["cantidad_discipulos"]);
         }
         for (prop in cantidad2) {
           titulo.push(cantidad2[prop]["mes"])
-          cantidad4.push(cantidad2[prop]["cantidad_celulas"]);
+          cantidad6.push(cantidad2[prop]["cantidad_celulas_discipulado"]);
         }
-        console.log(cantidad1)
+        for (prop in cantidad3) {
+          titulo3.push(cantidad3[prop]["mes"])
+          cantidad7.push(cantidad3[prop]["personas_ganadas"]);
+        }
+        for (prop in cantidad4) {
+          titulo4.push(cantidad4[prop]["mes"])
+          cantidad8.push(cantidad4[prop]["cantidad_celulas_consolidacion"]);
+        }
 
-        console.log(titulo2)
-        console.log(cantidad3)
-        console.log(cantidad4)
         var v_modal = $('#lider-grafico').modal({ show: false });
         Highcharts.chart('grafico4', {
           chart: {
@@ -389,7 +405,7 @@ formulario4.addEventListener('click', (e) => {
             text: 'lider: ' + data.datos_lider.nombre + ' ' + data.datos_lider.apellido + '',
           },
           xAxis: {
-            categories: titulo2,titulo,
+            categories: titulo2, titulo,titulo3,titulo4,
           },
           yAxis: {
             title: {
@@ -401,11 +417,21 @@ formulario4.addEventListener('click', (e) => {
           },
           series: [{
             name: 'cantidad de discipulos',
-            data: cantidad3,
+            data: cantidad5,
 
           }, {
             name: 'Cantidad de celulas de discipulado',
-            data: cantidad4,
+            data: cantidad6,
+
+          },
+          {
+            name: 'Cantidad de personas ganadas',
+            data: cantidad7,
+
+          },
+          {
+            name: 'Cantidad de celulas de consolidacion',
+            data: cantidad8,
 
           },
           ],

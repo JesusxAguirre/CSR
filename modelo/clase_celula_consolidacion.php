@@ -575,4 +575,51 @@ class Consolidacion extends Usuarios
 
         return $resultado;
     }
+
+    public function listar_numero_personas_ganadas_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
+    {
+        $sql = ("SELECT COUNT(*) AS personas_ganadas, 
+        MONTHNAME(fecha) AS mes
+        FROM celula_consolidacion
+        INNER JOIN usuarios ON  celula_consolidacion.id = usuarios.id_consolidacion
+        WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+        AND usuarios.id_consolidacion IS NOT NULL
+        AND celula_consolidacion.cedula_lider='$cedula_lider'
+        GROUP BY MONTHNAME(fecha)");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+
+        return $resultado;
+       
+    }
+
+    public function listar_cantidad_celulas_consolidacion_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
+    {
+        $sql = ("SELECT COUNT(*) cantidad_celulas_consolidacion, 
+        MONTHNAME(fecha) AS mes
+        FROM celula_consolidacion
+        WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
+        AND celula_consolidacion.cedula_lider='$cedula_lider'
+        GROUP BY MONTHNAME(fecha)");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+        
+
+        return $resultado;
+    }
+
 }
