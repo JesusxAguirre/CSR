@@ -578,48 +578,57 @@ class Consolidacion extends Usuarios
 
     public function listar_numero_personas_ganadas_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
     {
-        $sql = ("SELECT COUNT(*) AS personas_ganadas, 
-        MONTHNAME(fecha) AS mes
+        $sql = ("SELECT 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
         FROM celula_consolidacion
         INNER JOIN usuarios ON  celula_consolidacion.id = usuarios.id_consolidacion
         WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
         AND usuarios.id_consolidacion IS NOT NULL
-        AND celula_consolidacion.cedula_lider='$cedula_lider'
-        GROUP BY MONTHNAME(fecha)");
+        AND celula_consolidacion.cedula_lider='$cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
-            $resultado[] = $filas;
-        }
+        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
-       
     }
 
     public function listar_cantidad_celulas_consolidacion_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
     {
-        $sql = ("SELECT COUNT(*) cantidad_celulas_consolidacion, 
-        MONTHNAME(fecha) AS mes
+        $sql = ("SELECT 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
         FROM celula_consolidacion
         WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-        AND celula_consolidacion.cedula_lider='$cedula_lider'
-        GROUP BY MONTHNAME(fecha)");
+        AND celula_consolidacion.cedula_lider='$cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
-            $resultado[] = $filas;
-        }
-        
+        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
-
 }
