@@ -42,6 +42,32 @@
     }
 
 
+    //SELECT2 DE LISTAR ESTUDIANTES PARA REGISTRAR UNA SECCION
+    if (isset($_POST['verEstudiantes'])) {
+        $estudiantes = $objeto->listarEstudiantes();
+
+    ?> <select class="form-select" id="seleccionarEstudiantes" multiple>
+     <?php foreach ($estudiantes as $est) : ?>
+     <option value="<?php echo $est['cedula']; ?>">
+         <?php echo $est['codigo'] . ' ' . $est['nombre'] . ' ' . $est['apellido']; ?></option>
+     <?php endforeach; ?>
+       </select> <?php
+    }
+
+    //CHOICES DE LISTAR ESTUDIANTES PARA AGREGAR MAS A LA SECCION
+    if (isset($_POST['verEstudiantes2'])) {
+        $listarEstudiantesOFF = $objeto->listarEstudiantes();
+
+    ?> <select class="form-select" id="seleccionarEstudidantesAdicionales" multiple>
+        <?php foreach ($listarEstudiantesOFF as $estOFF) : ?>
+            <option value="<?php echo $estOFF['cedula']; ?>"><?php echo $estOFF['codigo'] . ' ' . $estOFF['nombre'] . ' ' . $estOFF['apellido']; ?></option>
+        <?php endforeach; ?>
+        </select>
+        <input hidden id="idSeccionV"><?php
+    }
+
+
+
     //ACTIVAR LISTA DE PROFESORES POR SECCION
     if (isset($_POST['activarTablaProf'])) {
         $idSeccionProfConsulta = $_POST['idSMConsulta'];
@@ -64,6 +90,7 @@
             }
         }
     }
+    
     //CHOICES DE LISTAR PROFESORES PARA A LA MATERIA DE LA SECCION
     if (isset($_POST['verProfesoresMateriasSelect'])) {
         $idSeccionReferencial= $_POST['idSeccionRef4'];
@@ -76,7 +103,7 @@
             <select class="form-select" id="seleccionarMateriasAdicionales">
                 <option disabled selected value="ninguno">Seleccione la materia</option>
             <?php foreach ($listarMateriasOFF as $matOFF) : ?>
-                <option value="<?php echo $matOFF['id_materia']; ?>"><?php echo $matOFF['nombre'] . ' ' . $matOFF['nivelDoctrina']; ?></option>
+                <option value="<?php echo $matOFF['id_materia']; ?>"><?php echo $matOFF['nombre'] . ' ' . $matOFF['nivelAcademico']; ?></option>
             <?php endforeach; ?>
             </select>
         </div>
@@ -93,56 +120,32 @@
 
 
 
-    //SELECT2 DE LISTAR ESTUDIANTES PARA REGISTRAR UNA SECCION
-    if (isset($_POST['verEstudiantes'])) {
-        $estudiantes = $objeto->listarEstudiantes();
-
-    ?> <select class="form-select" id="seleccionarEstudiantes" name="states[]" multiple="multiple">
-     <?php foreach ($estudiantes as $est) : ?>
-     <option value="<?php echo $est['cedula']; ?>">
-         <?php echo $est['codigo'] . ' ' . $est['nombre'] . ' ' . $est['apellido']; ?></option>
-     <?php endforeach; ?>
- </select> <?php
-    }
-
-    //CHOICES DE LISTAR ESTUDIANTES PARA AGREGAR MAS A LA SECCION
-    if (isset($_POST['verEstudiantes2'])) {
-        $listarEstudiantesOFF = $objeto->listarEstudiantes();
-
-    ?> <select class="form-select" id="seleccionarEstudidantesAdicionales" multiple>
-        <?php foreach ($listarEstudiantesOFF as $estOFF) : ?>
-            <option value="<?php echo $estOFF['cedula']; ?>"><?php echo $estOFF['codigo'] . ' ' . $estOFF['nombre'] . ' ' . $estOFF['apellido']; ?></option>
-        <?php endforeach; ?>
-        </select>
-        <input hidden id="idSeccionV"><?php
-    }
-
-
-
 /////LISTADO DE MATERIAS POR NIVELES Y LISTAR PROFESORES/////
 if (isset($_POST['nivelSeleccionado'])) {
     $nivel = $_POST['nivel'];
-    $profesoresNivel = $objeto->listarProfesores();
+    //$profesoresNivel = $objeto->listarProfesores();
 
     //NIVEL 1
-    if ($nivel == 'I') {
+    if ($nivel == 1) {
         $numRow = $objeto->cantidadFilasNiveles($nivel);
         $materiasNivel = $objeto->listarMateriasNivel($nivel);
 
         //LISTAR MATERIAS
         for ($i = 0; $i < $numRow; $i++) { ?>
-        
+        <?php 
+        $idRef= $materiasNivel[$i]['id_materia'];
+        $profesoresNivel= $objeto->listarProfesoresMateria($idRef) ?>
             <div class="row">
                 <div class="col-5 mt-2">
                     <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
                     <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
                 </div>
                 
-                <div class="col mt-2">
+                <div class="col-7 mt-2">
                     <select class="seleccionarProfesores form-select">
                         <option value="ninguno" selected>Selecciona al profesor</option>
                         <?php foreach ($profesoresNivel as $pNivel) : ?>
-                        <option value="<?php echo $pNivel['cedula']; ?>">
+                        <option value="<?php echo $pNivel['cedula_profesor']; ?>">
                         <?php echo $pNivel['codigo'] . ' ' . $pNivel['nombre'] . ' ' . $pNivel['apellido']; ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -150,12 +153,15 @@ if (isset($_POST['nivelSeleccionado'])) {
             </div> <?php
         }
     }
-    if ($nivel == 'II') {
+    if ($nivel == 2) {
         $numRow = $objeto->cantidadFilasNiveles($nivel);
         $materiasNivel = $objeto->listarMateriasNivel($nivel);
 
         //LISTAR MATERIAS
         for ($i = 0; $i < $numRow; $i++) { ?>
+        <?php 
+        $idRef= $materiasNivel[$i]['id_materia'];
+        $profesoresNivel= $objeto->listarProfesoresMateria($idRef) ?>
         
             <div class="row">
                 <div class="col-5 mt-2">
@@ -163,11 +169,11 @@ if (isset($_POST['nivelSeleccionado'])) {
                     <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
                 </div>
                 
-                <div class="col mt-2">
+                <div class="col-7 mt-2">
                     <select class="seleccionarProfesores form-select">
                         <option value="ninguno" selected>Selecciona al profesor</option>
                         <?php foreach ($profesoresNivel as $pNivel) : ?>
-                        <option value="<?php echo $pNivel['cedula']; ?>">
+                        <option value="<?php echo $pNivel['cedula_profesor']; ?>">
                         <?php echo $pNivel['codigo'] . ' ' . $pNivel['nombre'] . ' ' . $pNivel['apellido']; ?></option>
                         <?php endforeach; ?>
                     </select>
@@ -175,12 +181,15 @@ if (isset($_POST['nivelSeleccionado'])) {
             </div> <?php
         }
     }
-    if ($nivel == 'II+Oracion') {
+    if ($nivel == 3) {
         $numRow = $objeto->cantidadFilasNiveles($nivel);
         $materiasNivel = $objeto->listarMateriasNivel($nivel);
 
         //LISTAR MATERIAS
         for ($i = 0; $i < $numRow; $i++) { ?>
+        <?php 
+        //$idRef= $materiasNivel[$i]['id_materia'];
+        $profesoresNivel= $objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) ?>
         
             <div class="row">
                 <div class="col-5 mt-2">
@@ -188,13 +197,11 @@ if (isset($_POST['nivelSeleccionado'])) {
                     <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
                 </div>
                 
-                <div class="col mt-2">
+                <div class="col-7 mt-2">
                     <select class="seleccionarProfesores form-select">
                         <option value="ninguno" selected>Selecciona al profesor</option>
-                        <?php foreach ($profesoresNivel as $pNivel) : ?>
-                        <option value="<?php echo $pNivel['cedula']; ?>">
-                        <?php echo $pNivel['codigo'] . ' ' . $pNivel['nombre'] . ' ' . $pNivel['apellido']; ?></option>
-                        <?php endforeach; ?>
+                        <option value="<?php echo $profesoresNivel[$i]['cedula_profesor']; ?>">
+                        <?php echo $profesoresNivel[$i]['codigo'] . ' ' . $profesoresNivel[$i]['nombre'] . ' ' . $profesoresNivel[$i]['apellido']; ?></option>
                     </select>
                 </div>
             </div> <?php

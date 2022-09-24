@@ -212,11 +212,16 @@ $("#agregarMateria").on("click", function (e) {
 
   if (campos[0] && campos[1]) {
     $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
-      Swal.fire({
-        
-        
-      });
       listarMaterias();
+      Swal.fire({
+        icon: 'success',
+        title: "¡Agregado exitosamente!",
+        toast: true,
+        background: 'green',
+        color: 'white',
+        showConfirmButton: false,
+        timer: 3000,
+      });
       $("#formularioMateria").trigger("reset");
       document.getElementById('nombreMateria').classList.remove('validarBien');
       document.getElementById('seleccionarNivel').classList.remove('validarBien');
@@ -228,7 +233,7 @@ $("#agregarMateria").on("click", function (e) {
       background: 'red',
       color: 'white',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 3000,
     });
 
     toast.fire({
@@ -339,7 +344,7 @@ const selectsFC = document.querySelectorAll('#formularioMateria select');
 
 var validarNivelMateria = (evento) => {
 
-  if (evento.target.value == 'I' || evento.target.value == 'II' || evento.target.value == 'II+Oracion' || evento.target.value == 'Seminario') {
+  if (evento.target.value == 1 || evento.target.value == 2 || evento.target.value == 3 || evento.target.value == 'Seminario') {
     document.getElementById('seleccionarNivel').classList.remove('validarMal');
     document.getElementById('seleccionarNivel').classList.add('validarBien');
     document.getElementById("nivMateriaMal").setAttribute("hidden", "hidden");
@@ -408,7 +413,7 @@ const selectsFA = document.getElementById('seleccionarNivel2');
 
 var validarNivelMateria2 = function () {
 
-  if (selectsFA.value == '1' || selectsFA.value == '2' || selectsFA.value == '3' || selectsFA.value == 'Seminario') {
+  if (selectsFA.value == 1 || selectsFA.value == 2 || selectsFA.value == 3 || selectsFA.value == 'Seminario') {
     document.getElementById('seleccionarNivel2').classList.remove('validarMal');
     document.getElementById('seleccionarNivel2').classList.add('validarBien');
     document.getElementById("nivMateriaMal2").setAttribute("hidden", "hidden");

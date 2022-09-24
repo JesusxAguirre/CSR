@@ -9,9 +9,13 @@
     <!-- Bostrap 5 -->
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="./resources/css/style.css">
-    <link rel="stylesheet" href="./resources/css/crear-seccion.css">
     <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css">
+
+    <!-- MIS CSS -->
+    <link rel="stylesheet" href="./resources/css/crear-seccion.css">
+
+    <!-- DATATABLES CSS -->
+    <!-- <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css"> -->
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
 
     <!-- Jquery-->
@@ -55,90 +59,19 @@
                 <h4>CREAR SECCION</h4>
             </div>
             <div class="row mt-3">
-                <div class="col-7">
-                    <div class="row">
-                        <div class="col">
-                            <div class="card bg-success">
-                                <div class="card-header text-white text-center">
-                                    <h5 class="card-title">NOMBRE Y NIVEL DE DOCTRINA</h5>
-                                </div>
-                                <div class="card-body">
-                                    <!-- CAMPO DE NOMBRE DE SECCION -->
-                                    <label class="form-label text-white">Introduzca el nombre de la seccion</label>
-                                    <input type="text" id="nombreSeccion" class="form-control">
-
-                                    <!-- CAMPO SELECCION DE NIVEL -->
-                                    <div class="mt-3">
-                                        <label class="form-label text-white" for="nivelSeccion">Selecciona el nivel de doctrina de la seccion</label>
-                                        <select id="nivelSeccion" class="form-select">
-                                            <option value="ninguno" selected>Seleccione un nivel</option>
-                                            <option value="I">Doctrina I</option>
-                                            <option value="II">Doctrina II</option>
-                                            <option value="II+Oracion">Doctrina II con Oracion</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- AGREGAR ESTUDIANTES A LA SECCION -->
-                        <div class="col-7">
-                            <div class="card bg-primary cartaEstudiantes">
-                                <div class="card-header text-center">
-                                    <h5 class="card-title text-white">AGREGAR ESTUDIANTES</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div id="datos_E">
-
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SELECCIONAR LOS PROFESORES Y MATERIAS -->
-                    <div class="row mt-3">
-                        <div class="col">
-                            <div class="card bg-warning">
-                                <div class="card-header text-center">
-                                    <h5 class="card-title">MATERIAS Y PROFESORES</h5>
-                                </div>
-                                <div class="card-body">
-                                    <div id="datos_PM">
-                                        <h2 class="text-center text-white">SELECCIONE EL NIVEL DE DOCTRINA DE LA SECCION</h2>
-                                    </div>
-
-                                </div>
-                                <div class="card-footer">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-grid mt-3">
-                                <button class="btn btn-success fs-1" id="crear">AGREGAR <i class="bi bi-plus-circle"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
-                <div class="col">
-                    <div class="card bg-light cartaSeccionesList">
+                <div class="col-7 m-auto">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form1">PRESIONA AQUI PARA CREAR UNA SECCION</button>
+                    <div class="card bg-light cartaSeccionesList mt-2">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="listaSecciones" class="table table-striped" style="width:100%">
+                                <table id="listaSecciones" class="table table-borderless table-hover" style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
                                             <th>NOMBRE</th>
-                                            <th>DOCTRINA</th>
+                                            <th>NIVEL</th>
                                             <th>OPCIONES</th>
                                         </tr>
                                     </thead>
@@ -156,6 +89,100 @@
 
     <!-- /////////////////////////INICIO DE LOS MODALES///////////////////////// -->
 
+    <div class="modal fade" id="form1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content formModal1">
+                <div class="modal-header">
+                    <h5 class="modal-title font-monospace fw-bold">DATOS DE LA SECCION</h5>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario_datosSeccion">  <!-- Aqui creamos este form para validar estos campos -->
+                        <!-- CAMPO DE NOMBRE DE SECCION -->
+                        <label class="form-label">Introduzca el nombre de la seccion</label>
+                        <input type="text" id="nombreSeccion" name="nombreSeccion" class="form-control">
+                        <div hidden class="alert-danger" role="alert" id="alertaNombre">
+                            ¡Deberias colocar un nombre de 8 a 20 digitos sin caracteres especiales como (/*_-.,)!
+                        </div>
+                        <!-- FIN DEL CAMPO NOMBRE -->
+                        <!-- CAMPO SELECCION DE NIVEL -->
+                        <div class="mt-3">
+                            <label class="form-label" for="nivelSeccion">Selecciona el nivel de la seccion</label>
+                            <select id="nivelSeccion" class="form-select">
+                                <option value="ninguno" selected>Seleccione un nivel</option>
+                                <option value="1">Nivel 1</option>
+                                <option value="2">Nivel 2</option>
+                                <option value="3">Nivel 3</option>
+                            </select>
+                            <div hidden class="alert-danger" role="alert" id="alertaSeccion">
+                                ¡No elegiste un nivel academico!
+                            </div>
+                        </div>
+                        <!-- FIN DEL CAMPO SELECCION DE NIVEL -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button disabled id="siguiente1" class="btn btn-dark" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Siguiente</button>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="form2" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content formModal2">
+                <div class="modal-header">
+                    <h5 class="modal-title font-monospace fw-bold">MATERIAS Y PROFESORES</h5>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="datos_PM">
+                    <h2 class="text-center text-white">SELECCIONE EL NIVEL ACADEMICO DE LA SECCION</h2>
+                </div>
+                <div class="alert alert-danger" role="alert">
+                    ¡No dejes campos vacios!
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-bs-target="#form1" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
+                    <button class="btn btn-dark" data-bs-target="#form3" data-bs-toggle="modal" data-bs-dismiss="modal">Siguiente</button>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="form3" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content formModal3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-white font-monospace">AGREGAR ESTUDIANTES</h5>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="datos_E">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
+                </div>
+                <div class="d-grid mt-3">
+                    <button class="btn btn-success" id="crear">CREAR SECCION <i class="bi bi-plus-circle"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
     <!-- MODAL PARA EDITAR DATOS DE LA SECCION -->
     <div class="modal fade" id="modalEditarDatosSeccion" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
@@ -169,12 +196,12 @@
                     <label class="form-label">Ingresa el nombre de la seccion</label>
                     <input id="nombreSeccionEdit" class="form-control" type="text">
                     <hr>
-                    <label class="form-label" for="">Selecciona el nivel de doctrina</label>
+                    <label class="form-label" for="">Selecciona el nivel de la seccion</label>
                     <select id="nivelDoctrinaEdit" class="form-select" name="" id="">
-                        <option value="ninguno">Selecciona el la doctrina</option>
-                        <option value="I">Doctrina I</option>
-                        <option value="II">Doctrina II</option>
-                        <option value="II+Oracion">Doctrina II con Oracion</option>
+                        <option value="ninguno">Selecciona el nivel</option>
+                        <option value="1">Nivel 1</option>
+                        <option value="2">Nivel 2</option>
+                        <option value="3">Nivel 3</option>
                     </select>
                     <hr>
                 </div>
