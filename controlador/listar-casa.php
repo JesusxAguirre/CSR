@@ -8,7 +8,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
    
     $matriz_csr = $objeto->listar_casas_la_roca();
-    $matriz_lideres = $objeto->listar_lideres_sin_CSR();
+    $matriz_lideres = $objeto->listar_usuarios_N2();
 
     $actualizar = true;
     if(isset($_POST['update'])){
