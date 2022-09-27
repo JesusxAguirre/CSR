@@ -90,9 +90,9 @@ class LaRoca extends Usuarios
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar[] = $filas;
+            $listar[] = $filas;
         }
-        return $this->listar;
+        return $listar;
     }
     public function listar_casas_la_roca_sin_status()
     {
@@ -111,9 +111,9 @@ class LaRoca extends Usuarios
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar[] = $filas;
+            $listar[] = $filas;
         }
-        return $this->listar;
+        return $listar;
     }
 
     public function listar_casas_la_roca_por_usuario()

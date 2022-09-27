@@ -4,6 +4,13 @@ require_once("modelo/clase_celula_consolidacion.php");
 session_start();
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
+    if (!$_SESSION['permisos']['celula_consolidacion']['crear']) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=dashboard'
+		</script>";
+
+    }
     $objeto = new Consolidacion();
    
     $matriz_lideres = $objeto->listar_usuarios_N2();
