@@ -49,7 +49,7 @@ if(isset($_POST['enviar'])){
 	$_SESSION['cedula']= $buscarCedula[0]['cedula'];
 
 	$buscarIdSeccion= $objeto2->idSeccion();
-	$_SESSION['id_seccion']= $buscarIdSeccion[0]['id_seccion'];
+	$_SESSION['id_seccion']= $buscarIdSeccion[0]['idSeccion'];
 
 	$buscarStatusProf= $objeto2->statusProfesor();
 	$_SESSION['status_profesor']= $buscarStatusProf[0]['status_profesor'];

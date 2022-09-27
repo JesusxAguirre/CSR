@@ -1,0 +1,13 @@
+.sombra{
+    box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
+    -webkit-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
+    -moz-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
+}
+.hover{
+    transition: transform .2s;
+}
+.hover:hover{
+    transform: scale(1.1);
+    z-index: 1;
+}
+

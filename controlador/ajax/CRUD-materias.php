@@ -57,7 +57,7 @@ if (isset($_POST['botonEditarProfM'])) {
 
     ?><select multiple name="seleccionarProfV" id="seleccionarProfV" class="form-control">
     <?php foreach ($profesores2 as $prof2) { ?>
-            <option value="<?php echo $prof2['cedula']; ?>"> <?php echo $prof2['codigo'] . ' ' . $prof2['nombre']; ?></option>
+            <option value="<?php echo $prof2['cedula']; ?>"> <?php echo $prof2['codigo'] . ' ' . $prof2['nombre'].' '.$prof2['apellido']; ?></option>
     <?php } ?>
       </select>
       <input hidden id="idMateriaV" value="<?php echo $profesores2[0]['id_materia']; ?>">

@@ -19,5 +19,5 @@ if (!empty($listarProfMat)) {
         </tr>
 <?php } ?>
 <?php } else { ?>
-    <h1>vacio</h1>
+    <h3>Por ahora no tienes profesores asignados</h3>
 <?php } ?>

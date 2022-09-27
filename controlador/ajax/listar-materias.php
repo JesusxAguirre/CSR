@@ -8,7 +8,7 @@ if (!empty($listarMaterias)) {
         <tr>
             <td hidden class="idMateria"><?php echo $listado['id_materia']; ?></td>
             <td class="nombreM"><?php echo $listado['nombre']; ?></td>
-            <td class="nivelM"><?php echo $listado['nivelDoctrina']; ?></td>
+            <td class="nivelM"><?php echo $listado['nivelAcademico']; ?></td>
             <td>
                 <button class="btn btn-success" id="actualizarM" data-bs-toggle="modal" data-bs-target="#modalActualizarMateria"><i class="bi bi-pencil"></i></button>
                 <button class="btn btn-danger" id="eliminarMateria" value="eliminar"><i class="bi bi-x-lg"></i></button>

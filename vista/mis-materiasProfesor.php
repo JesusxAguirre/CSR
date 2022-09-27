@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="resources/css/style.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="./node_modules/quill/dist/quill.snow.css">
+    <link rel="stylesheet" href="./resources/css/mis-materiasProfesor.css">
 
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
@@ -23,11 +25,9 @@
     <!-- JS de DataTables -->
     <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 
-    <!-- CHOICE 2 -->
-    <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
-    <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
+
 </head>
 
 <body>
@@ -53,8 +53,8 @@
             <div class="row mt-3">
                 <div class="col">
                     <div class="card mx-auto" style="width: 75%;">
-                        <div class="card-header">
-                            Mis materias
+                        <div class="card-header font-monospace text-center">
+                            ---Mis materias---
                         </div>
                         <div class="card-body">
                             <table id="tabla_misMateriasProf" class="table table-borderless table-hover">
@@ -65,11 +65,12 @@
                                         <th hidden class="py-3 fs-6" scope="col">ID materia</th>
                                         <th class="py-3 fs-6" scope="col">Seccion</th>
                                         <th class="py-3 fs-6" scope="col">Nombre de la materia</th>
+                                        <th class="py-3 fs-6" scope="col">Nivel academico</th>
                                         <th class="py-3 fs-6" scope="col">Contenido</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listar_misMateriasProf">
-                                   
+
                                 </tbody>
 
                             </table>
@@ -82,7 +83,34 @@
 
         </div>
     </main>
+
+
+    <!-- //////////////////////////////INICIO DE MODALES/////////////////////////////// -->
+
+
+    <div class="modal fade" id="modal_misContenidosProf" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-monospace">Contenido de la materia</h5>
+                    <span hidden id="seccionContRef"></span><span hidden id="materiaContRef"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="editarContenido">
+                        tokitokti
+                    </div>
+                </div>
+                <div class="d-grid">
+                    <button type="button" class="btn btn-success" id="guardarCampo">GUARDAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        
 </body>
+<script src="./node_modules/quill/dist/quill.min.js"></script>
 <script src="./resources/js/mis-materiasProfesor.js"></script>
+
 
 </html>

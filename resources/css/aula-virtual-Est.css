@@ -1,0 +1,14 @@
+.sombra{
+    box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
+    -webkit-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
+    -moz-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
+}
+
+.cartaEstilo{
+    background: rgb(255, 254, 239);
+}.cartaEstilo:hover{
+    background: rgb(179, 255, 208);
+}
+
+
+
