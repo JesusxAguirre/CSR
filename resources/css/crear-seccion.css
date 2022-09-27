@@ -44,10 +44,14 @@
 /* FIN COLORES PARA VALIDAR CAMPOS */
 
 .cartaSeccionesList{
-    box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.34);
-    -webkit-box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.34); 
-    -moz-box-shadow: 0px 0px 18px 3px rgba(0,0,0,0.34);
+    background-color: rgb(203, 255, 226);
+    box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.31);
+    -webkit-box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.31); 
+    -moz-box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.31);
+}
 
+.oscuro{
+    background-color: rgb(40, 43, 51);
 }
 
 

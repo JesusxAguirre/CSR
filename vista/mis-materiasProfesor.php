@@ -22,12 +22,8 @@
     <!-- Js boostrap -->
     <script src="./resources/js/bootstrap.min.js"></script>
 
-
-
     <!-- JS de DataTables -->
     <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
-
-
 
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
@@ -69,6 +65,7 @@
                                         <th hidden class="py-3 fs-6" scope="col">ID materia</th>
                                         <th class="py-3 fs-6" scope="col">Seccion</th>
                                         <th class="py-3 fs-6" scope="col">Nombre de la materia</th>
+                                        <th class="py-3 fs-6" scope="col">Nivel academico</th>
                                         <th class="py-3 fs-6" scope="col">Contenido</th>
                                     </tr>
                                 </thead>
@@ -87,8 +84,8 @@
         </div>
     </main>
 
-    <!-- //////////////////////////////INICIO DE MODALES/////////////////////////////// -->
 
+    <!-- //////////////////////////////INICIO DE MODALES/////////////////////////////// -->
 
 
     <div class="modal fade" id="modal_misContenidosProf" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -109,9 +106,10 @@
                 </div>
             </div>
         </div>
-
-        <script src="./node_modules/quill/dist/quill.min.js"></script>
+    </div>
+        
 </body>
+<script src="./node_modules/quill/dist/quill.min.js"></script>
 <script src="./resources/js/mis-materiasProfesor.js"></script>
 
 

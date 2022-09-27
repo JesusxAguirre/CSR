@@ -1,0 +1,17 @@
+.sombra{
+    box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.31);
+    -webkit-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.31);
+    -moz-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.31);
+}
+
+.hover{
+    transition: transform .2s;
+}
+.hover:hover{
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.fuenteTimes{
+    font-family: 'Times New Roman', Times, serif ;
+}

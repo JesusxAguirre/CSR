@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="./resources/css/crear-seccion.css">
 
     <!-- DATATABLES CSS -->
-    <!-- <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css"> -->
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
 
     <!-- Jquery-->
@@ -59,11 +58,11 @@
                 <h4>CREAR SECCION</h4>
             </div>
             <div class="row mt-3">
-                
+
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
                 <div class="col-7 m-auto">
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form1">PRESIONA AQUI PARA CREAR UNA SECCION</button>
-                    <div class="card bg-light cartaSeccionesList mt-2">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form1">PRESIONA AQUI PARA CREAR UNA SECCION</button>
+                    <div class="card cartaSeccionesList mt-2">
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="listaSecciones" class="table table-borderless table-hover" style="width:100%">
@@ -83,9 +82,36 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-header">
+                            Secciones cerradas
+                        </div>
+                        <div class="card-body oscuro text-white">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" placeholder="Escribe la secciones que desees buscar">
+                                <div class="input-group-append">
+                                    <span class="input-group-text" id="basic-addon2">@</span>
+                                </div>
+                            </div>
+                            <table class="table mt-3 text-white">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre de la seccion</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="listarSeccionesOFF">
+                                    <!-- SECCIONES CERRADAS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
             </div>
     </main>
+
+
 
     <!-- /////////////////////////INICIO DE LOS MODALES///////////////////////// -->
 
@@ -97,7 +123,8 @@
                     <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="formulario_datosSeccion">  <!-- Aqui creamos este form para validar estos campos -->
+                    <form id="formulario_datosSeccion">
+                        <!-- Aqui creamos este form para validar estos campos -->
                         <!-- CAMPO DE NOMBRE DE SECCION -->
                         <label class="form-label">Introduzca el nombre de la seccion</label>
                         <input type="text" id="nombreSeccion" name="nombreSeccion" class="form-control">
@@ -140,12 +167,9 @@
                 <div class="modal-body" id="datos_PM">
                     <h2 class="text-center text-white">SELECCIONE EL NIVEL ACADEMICO DE LA SECCION</h2>
                 </div>
-                <div class="alert alert-danger" role="alert">
-                    ¡No dejes campos vacios!
-                </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" data-bs-target="#form1" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
-                    <button class="btn btn-dark" data-bs-target="#form3" data-bs-toggle="modal" data-bs-dismiss="modal">Siguiente</button>
+                    <button type="button" class="btn btn-dark" id="siguiente2">Siguiente</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -155,9 +179,9 @@
     </div>
     <div class="modal fade" id="form3" data-bs-backdrop="static" data-bs-keyboard="false">
         <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content formModal3">
+            <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-white font-monospace">AGREGAR ESTUDIANTES</h5>
+                    <h5 class="modal-title font-monospace">AGREGAR ESTUDIANTES</h5>
                     <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

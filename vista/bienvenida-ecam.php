@@ -11,21 +11,36 @@
                 <div class="bg-dark py-2">
 
                     <ul class="nav justify-content-center">
+                        <?php if($_SESSION['status_profesor'] == 0){ ?>
+                        <li class="nav-item">
+                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=aula-virtual-Est">Inicio</a>
+                        </li>
+                        <?php } ?>
+                        <?php if($_SESSION['status_profesor'] == 1){ ?>
+                        <li class="nav-item">
+                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=aula-virtual-Prof">Inicio</a>
+                        </li>
+                        <?php } ?>
+                        <?php if ($_SESSION['status_profesor'] == 0){ ?>
                         <li class="nav-item">
                             <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=mis-materiasEstudiante">Mis materias</a>
                         </li>
+                        <?php } ?>
+                        <?php if ($_SESSION['status_profesor'] == 1){ ?>
                         <li class="nav-item">
-                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=aula-virtual">Inicio</a>
+                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=mis-materiasProfesor">Mis materias</a>
                         </li>
+                        <?php } ?>
+                        <?php if ($_SESSION['status_profesor'] == 0){ ?>
                         <li class="nav-item">
-                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="#">Mis notas</a>
+                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=mis-notas">Mis notas</a>
                         </li>
+                        <?php } ?>
+                        <?php if ($_SESSION['status_profesor'] == 1){ ?>
                         <li class="nav-item">
                             <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=mis-estudiantes">Mis estudiantes</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link fs-6 btn btn-success mx-1 text-white font-monospace" href="?pagina=mis-materiasProfesor">Mis materias P</a>
-                        </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

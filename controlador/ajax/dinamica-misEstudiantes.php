@@ -57,8 +57,16 @@ if (isset($_POST['listarMisEstudiantes'])) {
                 <td class="notaIDseccion" hidden><?php echo $misEst['id_seccion']; ?></td>
                 <td class="notaIDmateria" hidden><?php echo $misEst['id_materia']; ?></td>
                 <td class="notaCIestudiante" hidden><?php echo $misEst['cedula']; ?></td>
-                <td class="notaNombreEstudiante"><?php echo $misEst['codigo'] . ' ' . $misEst['nombre'] . ' ' . $misEst['apellido']; ?></td>
-                <td class="notaNombreMateria"><?php echo $misEst['nombreMateria'] . ' ' . $misEst['nivelDoctrina']; ?></td>
+                <td class="notaNombreEstudiante">
+                    <div class="d-flex align-items-center">
+                        <div class="fs-2 me-3"><i class="bi bi-person"></i></div>
+                        <div class="mb-0">
+                            <h6 class="mb-0 fst-italic"><?php echo $misEst['codigo']; ?></h6>
+                            <p class="mb-0"><?php echo $misEst['nombre'] . ' ' . $misEst['apellido']; ?></p>
+                        </div>
+                    </div>
+                </td>
+                <td class="notaNombreMateria"><?php echo $misEst['nombreMateria'] . ' (Nivel ' . $misEst['nivelAcademico'].')'; ?></td>
                 <td><?php echo $misEst['nombreSeccion']; ?></td>
                 <td>
                     <?php if ($misEst['nota'] == NULL) { ?>

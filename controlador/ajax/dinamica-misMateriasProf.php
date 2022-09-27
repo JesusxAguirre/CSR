@@ -32,7 +32,8 @@ if (isset($_POST['listarMisMateriasProf'])) {
                 <td hidden class="cedula_profesorON"><?php echo $misMaterias['cedula']; ?></td>
                 <td hidden class="idMateria_materia"><?php echo $misMaterias['id_materia']; ?></td>
                 <td class="fw-bold"><?php echo $misMaterias['nombreSeccion']; ?></td>
-                <td><?php echo $misMaterias['nombreMateria'].' '.$misMaterias['nivelDoctrina']; ?></td>
+                <td><?php echo $misMaterias['nombreMateria']; ?></td>
+                <td><?php echo $misMaterias['nivelAcademico']; ?></td>
                 <td>
                     <button  class="modalContenidoON <?php echo ($misMaterias['contenido'] == NULL || $misMaterias['contenido'] == '<p><br></p>') ? 'btn btn-outline-secondary' : 'btn btn-success';?> " data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf">
                     <?php echo ($misMaterias['contenido'] == NULL || $misMaterias['contenido'] == '<p><br></p>') ? 'Sin contenido' : 'Contenido' ?>  <i class="bi bi-card-text"></i></button>

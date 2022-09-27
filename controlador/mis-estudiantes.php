@@ -2,7 +2,7 @@
 session_start();
 
 
-if($_SESSION['verdadero'] > 0){
+if($_SESSION['verdadero'] > 0 && $_SESSION['status_profesor'] == 1){
     if (is_file('vista/'.$pagina.'.php')) {
 
         

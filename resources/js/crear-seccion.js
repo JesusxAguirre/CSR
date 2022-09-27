@@ -1,5 +1,15 @@
 ejecutar();
+seccionesCerradas();
 
+//LISTAR SECCIONES CERRADAS
+function seccionesCerradas() {
+    let div = document.getElementById('listarSeccionesOFF');
+    $.post("controlador/ajax/dinamica-seccion.php", {verSeccionesOFF: 'verSeccionesOFF'},
+        function (data) {
+            div.innerHTML= data;
+        },
+    );
+}
 
 //ACTIVA LA SELECCION DE MATERIAS Y PROFESORES
 $("#nivelSeccion").click(function () {
@@ -24,7 +34,7 @@ $("#nivelSeccion").click(function () {
         });
     }
 });
-
+///CREAR LA SECCION
 $("#crear").click(function () {
     //ALMACENANDO TODOS LOS VALORES DE LOS SELECT DE MATERIAS
     let seleccionarMaterias = document.querySelectorAll(".seleccionarMaterias");
@@ -170,6 +180,7 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
         icon: 'warning',
         iconColor: 'white',
         title: '¿Estas segur@ que deseas eliminarlo?',
+        color: 'white',
         background: 'orange',
         showDenyButton: true,
         confirmButtonText: `SI`,
@@ -282,6 +293,8 @@ $(document).on('click', '#eliminarEstON', function () {
 })
 
 
+
+////////////////////////////////////////////////////////////////
 ////////////////////FUNCIONES CHOICES SELECT////////////////////
 function choices1 () {
     var estudiantesOFF = document.getElementById('seleccionarEstudidantesAdicionales');
@@ -339,10 +352,12 @@ function choicesMasProfesoresMaterias() {
   })();
 }
 ////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////
 
 
 
-/////APARTADO DE RELLENO DE DATOS/////
+//////////////////////////////////////////////////////////////////////
+//////////////////////APARTADO DE RELLENO DE DATOS///////////////////
 
 //RELLENANDO MODAL PARA EDITAR INFORMACION DE LA SECCION
 $('#listaSecciones tbody').on('click', '.editarDatosSeccion', function() {
@@ -351,10 +366,11 @@ $('#listaSecciones tbody').on('click', '.editarDatosSeccion', function() {
     $('#nombreSeccionEdit').val(data.nombre);
     $('#nivelDoctrinaEdit').val(data.nivel_academico);
 })
+/////////////////////////////////////////
 
 
 
-
+/////////////////////////////////
 /////APARTADO DE DATATABLES/////
 
 //IDIOMA DEL DATATABLES
@@ -744,14 +760,13 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
 
 
 
-
 ///////////////////////////////////////////////////////////////
 ////////APARTADO DE VALIDACIONES PARA CREAR UNA SECCION////////
 ///////////////////////////////////////////////////////////////
 
 const expresionesSecciones = {
     nombreSeccion: /^[a-zA-ZÀ-ÿ0-9\s]{8,20}$/, // Letras y espacios, pueden llevar acentos.
-  }
+}
   
   var camposForm_1 = {
     nombreSeccion: false,
@@ -768,7 +783,6 @@ function validarSiguiente1(params) {
 
   //VALIDAR NOMBRE DE LAS SECCIONES
 const inputs_DatosSeccion = document.querySelectorAll('#formulario_datosSeccion input');
-
 var validarNombreSeccion = (evento) => {
 
   switch (evento.target.name) {
@@ -795,15 +809,13 @@ inputs_DatosSeccion.forEach((evento) => {
   evento.addEventListener("keyup", validarNombreSeccion);
   evento.addEventListener("blur", validarNombreSeccion);
 });
-//FIN DE VALIDAR NOMBRES DE LAS SECCIONES
-//////////////////////////////////////////
-//////////////////////////////////////////
-//VALIDAR SELECTS DE LA SECCIONES
+
+//VALIDAR SELECTS DE SELECCIONAR NIVEL DE LA SECCIONES
 const select_DatosSeccion = document.querySelectorAll('#formulario_datosSeccion select');
 
 var validarNivelSeccion = (evento) => {
 
-  if (evento.target.value == 1 || evento.target.value == 2 || evento.target.value == 3 || evento.target.value == 'Seminario') {
+  if (evento.target.value == 1 || evento.target.value == 2 || evento.target.value == 3) {
     document.getElementById('nivelSeccion').classList.remove('validarMal');
     document.getElementById('nivelSeccion').classList.add('validarBien');
     document.getElementById("alertaSeccion").setAttribute("hidden", "hidden");
@@ -821,12 +833,40 @@ select_DatosSeccion.forEach((evento) => {
   evento.addEventListener("click", validarNivelSeccion);
   evento.addEventListener("blur", validarNivelSeccion);
 });
+//FIN DE VALIDACIONES DE DATOS DE LAS SECCIONES
+
+
+
+////////////////////////VALIDACIONES DE SELECCIONAR MATERIAS Y PROFESORES/////////////////////
+$('#siguiente2').click(function (e) { 
+    console.log('ahora kheee');
+    let lei= document.querySelectorAll('.seleccionarProfesores');
+    let oe=[];
+    lei.forEach(elemento => {
+        oe.push(elemento.value);
+    });
+
+        if (oe.includes('ninguno')) {
+            document.querySelector(".alertaMatProf").removeAttribute("hidden");
+            
+        }else{
+            document.querySelector(".alertaMatProf").setAttribute("hidden", "hidden");
+            $('#form2').modal('hide');
+            $('#form3').modal('show');
+        }
+});
+    //
+    //lei= document.querySelectorAll('.formulario_MatProfSeccion select');
+    //nombre();
+
+var camposForm_2 = {
+    nivelSeccion: false,
+}
 
 
 
 
 
-//FIN DE VALIDACIONES AL AGREGAR SECCIONES
 
 
 

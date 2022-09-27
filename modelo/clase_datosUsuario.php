@@ -33,7 +33,7 @@ class datosUsuario extends Conectar
     {
         $usuario1= $_SESSION['usuario'];
 
-        $sql= "SELECT `usuarios`.`id_seccion` FROM `usuarios` WHERE `usuarios`.`usuario` = :usuario";
+        $sql= "SELECT IFNULL(`usuarios`.`id_seccion`, '0') AS idSeccion FROM `usuarios` WHERE `usuarios`.`usuario` = :usuario";
         $stmt= $this->conexion()->prepare($sql);
         $stmt->execute(array(
             ":usuario" => $usuario1,
