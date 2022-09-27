@@ -185,7 +185,7 @@
           <div class="collapse" id="discipulado">
             <div>
               <ul class="navbar-nav ps-3">
-
+              <?php if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0) : ?>
                 <li>
                   <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
@@ -193,6 +193,8 @@
                     <span>Listar celula discipulado</span>
                   </a>
                 </li>
+                <?php endif; ?>
+                <?php if ($_SESSION['permisos']['celula_discipulado']['crear'] > 0) : ?>
                 <li>
                   <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
@@ -200,6 +202,7 @@
                     <span>Registrar celula discipulado</span>
                   </a>
                 </li>
+                <?php endif; ?>
                 <li>
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
