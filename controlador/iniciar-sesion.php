@@ -58,7 +58,7 @@ if(isset($_POST['enviar'])){
 	if($_SESSION['verdadero'] > 0){
 		$idRol = $objeto->getIdRol($_SESSION['usuario']);
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
-		
+	
 		echo "<script>
 		alert('Sesion iniciada correctamente');
 		window.location= 'index.php?pagina=dashboard'

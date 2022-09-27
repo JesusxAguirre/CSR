@@ -3,6 +3,14 @@ session_start();
 require_once('modelo/clase_usuario.php');
 
 if ($_SESSION['verdadero'] > 0) {
+    
+    if (!$_SESSION['permisos']['gestionar_usuario']['listar']) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=dashboard'
+		</script>";
+
+    }
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Usuarios();
 
