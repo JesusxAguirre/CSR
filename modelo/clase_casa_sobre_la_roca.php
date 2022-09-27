@@ -24,8 +24,9 @@ class LaRoca extends Usuarios
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        $this->actualizar_status_CSR();
     }
-
+    
     public function buscar_CSR($busqueda)
     {
         $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
@@ -74,13 +75,34 @@ class LaRoca extends Usuarios
     
     public function listar_casas_la_roca()
     {
-        $this->actualizar_status_CSR();
+ 
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
         casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
         FROM casas_la_roca 
         INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula
         WHERE casas_la_roca.status = 1");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->listar[] = $filas;
+        }
+        return $this->listar;
+    }
+    public function listar_casas_la_roca_sin_status()
+    {
+ 
+        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
+        casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
+        casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
+        FROM casas_la_roca 
+        INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula
+        ");
 
         $stmt = $this->conexion()->prepare($sql);
 

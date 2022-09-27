@@ -8,7 +8,7 @@ if (is_file('vista/'.$pagina.'.php')) {
    $objeto2 = new LaRoca();
    
    $matriz_lideres = $objeto->listar_usuarios_N2();
-   $matriz_csr = $objeto2->listar_casas_la_roca();
+   $matriz_csr = $objeto2->listar_casas_la_roca_sin_status();
 
     require_once 'vista/'.$pagina.'.php';
 }
