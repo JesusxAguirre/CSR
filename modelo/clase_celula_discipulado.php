@@ -49,7 +49,7 @@ class Discipulado extends Usuarios
                 $this->busqueda[] = $filas;
             }
         }
-        $accion = "Buscar discipulos";
+        $accion = "Buscar celulas de  discipulado";
         $this->registrar_bitacora($accion);
         return $this->busqueda;
     }
