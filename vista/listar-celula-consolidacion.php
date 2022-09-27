@@ -83,7 +83,7 @@
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
                         <td class="" role="cell">
-                          <?php   if (!$_SESSION['permisos']['celula_consolidacion']['actualizar']) :?>
+                          <?php   if ($_SESSION['permisos']['celula_consolidacion']['actualizar'] > 0) :?>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <?php endif; ?>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
