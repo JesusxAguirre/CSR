@@ -146,6 +146,9 @@
                             </div>
                         </div>
                         <!-- FIN DEL CAMPO SELECCION DE NIVEL -->
+                        <div class="mt-3">
+                            <input type="date" name="" id="">
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
