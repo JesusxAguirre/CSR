@@ -1,23 +1,3 @@
-<!-- Sidebar -->
-<?php 
-require_once('modelo/clase_usuario.php');
-
-$objeto = new Usuarios();
-//======= Permisos usuarios ====//
-$permiso_usuarios_read = $objeto->get_permiso_usuarios_read();
-$permiso_usuarios_create = $objeto->get_permiso_usuarios_create();
-$permiso_usuarios_update = $objeto->get_permiso_usuarios_update();
-$permiso_usuarios_delete = $objeto->get_permiso_usuarios_delete();
-//======= Permisos casa sobre la roca ====//
-$permiso_casa_read = $objeto->get_permiso_casa_read();
-$permiso_casa_create = $objeto->get_permiso_casa_create();
-$permiso_casa_update = $objeto->get_permiso_casa_update();
-//======= Permisos ecam ====//
-$permiso_ecam_read = $objeto->get_permiso_ecam_read();
-$permiso_ecam_create = $objeto->get_permiso_ecam_create();
-
-
-?>
 <div class="offcanvas offcanvas-start sidebar bg-dark text-light " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
   <div class="offcanvas-body p-0">
@@ -155,7 +135,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
           <div class="collapse" id="user">
             <div>
               <ul class="navbar-nav ps-3">
-              <?php if($permiso_usuarios_read > 0): ?>
+              <?php if($_SESSION['permisos']['gestionar_usuario']['listar'] > 0): ?>
                 <li>
                   <a href="?pagina=listar-usuarios" class="nav-link px-3">
                   <span class="me-2">
@@ -164,6 +144,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                   </a>
                 </li>
                 <?php endif; ?> 
+                <?php if($_SESSION['permisos']['gestionar_roles']['listar'] > 0): ?>
                 <li>
                   <a href="?pagina=listar-roles" class="nav-link px-3">
                   <span class="me-2">
@@ -171,7 +152,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                   <span>Listar Roles</span>
                   </a>
                 </li>
-               
+                <?php endif; ?> 
               </ul>
             </div>
           </div>
