@@ -23,7 +23,7 @@
           </div>
         </li>
 
-        <?php if($permiso_casa_read > 0): ?>
+        
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -36,14 +36,16 @@
           <div class="collapse" id="roca">
             
               <ul class="navbar-nav ps-3">
+              <?php if($_SESSION['permisos']['casa_sobre_la_roca']['listar'] > 0): ?>
                 <li>
                   <a href="?pagina=listar-casa" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-clipboard-check"></i></span>
                   <span>Listar CSR</span>
                   </a>
-                </li>             
-                <?php if($permiso_casa_create > 0): ?>
+                </li>   
+                <?php endif; ?>          
+                <?php if($_SESSION['permisos']['casa_sobre_la_roca']['crear'] > 0): ?>
                 <li>
                   <a href="?pagina=registrar-casa" class="nav-link px-3">
                   <span class="me-2">
@@ -63,8 +65,8 @@
   
           </div>
         </li>
-    <?php endif; ?>
-    <?php if($permiso_ecam_read > 0): ?>
+
+ 
         <li>
           <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2 fs-4">
@@ -108,6 +110,7 @@
                   <span>Secciones</span>
                   </a>
                 </li>
+                <?php if($_SESSION['permisos']['casa_sobre_la_roca']['crear'] > 0): ?>
                 <li>
                   <a href="?pagina=registrar-estudiantes" class="nav-link px-3">
                   <span class="me-2">
@@ -121,7 +124,6 @@
           </div>
         </li>
         
-        <?php endif; ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -136,6 +138,14 @@
             <div>
               <ul class="navbar-nav ps-3">
               <?php if($_SESSION['permisos']['gestionar_usuario']['listar'] > 0): ?>
+                <li>
+                  <a href="?pagina=listar-usuarios" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-clipboard-check"></i></span>
+                  <span>Listar Usuarios</span>
+                  </a>
+                </li>
+                <?php endif; ?> 
                 <li>
                   <a href="?pagina=listar-usuarios" class="nav-link px-3">
                   <span class="me-2">
@@ -169,7 +179,8 @@
           </a>
           <div class="collapse" id="discipulado">
             <div>
-              <ul class="navbar-nav ps-3">             
+              <ul class="navbar-nav ps-3">     
+
                 <li>
                   <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
                   <span class="me-2">
@@ -208,14 +219,17 @@
           </a>
           <div class="collapse" id="consolidacion">
             <div>
-              <ul class="navbar-nav ps-3">             
+              <ul class="navbar-nav ps-3">    
+              <?php if($_SESSION['permisos']['celula_consolidacion']['listar'] > 0): ?>         
                 <li>
                   <a href="?pagina=listar-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
                   <i class="bi bi-clipboard-check"></i></span>
                   <span>Listar celula consolidacion</span>
                   </a>
-                </li>            
+                </li>
+                <?php endif; ?>        
+                <?php if($_SESSION['permisos']['celula_consolidacion']['crear'] > 0): ?>      
                 <li>
                   <a href="?pagina=registrar-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
@@ -223,6 +237,7 @@
                   <span>Registrar celula consolidacion</span>
                   </a>
                 </li>
+                <?php endif; ?>   
                 <li>
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                   <span class="me-2">
