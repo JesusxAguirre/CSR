@@ -17,11 +17,8 @@ class ecam extends Conectar
     private $cedulaProfSeccion;
     private $cedulaProfAdicional;
     private $cedulaEstSeccion;
-    private $listarMaterias;
     private $listarMateriasNivel;
-    private $listarProfesoresMaterias;
     private $listarMateriasOFF; //lista las materias que no estan en la seccion y deberian estar ahi jeje
-    private $listarEstudiantesOFF;
     private $listarEstudiantesON;
     private $listarSeccionesON;
     private $listarProfesores_SM;
@@ -31,6 +28,12 @@ class ecam extends Conectar
     private $materiasBuscadas;
     private $todosProfesores;
     private $todosProfesores2;
+    private $notaIDseccion; //agregar
+    private $notaIDmateria; //agregar
+    private $notaCIestudiante; //agregar
+    private $notaIDmateria2; //actualizar
+    private $notaCIestudiante2; //actualizar
+    private $nota_miEstudiante2; //actualizar
 
 
     public function __construct()
@@ -41,27 +44,24 @@ class ecam extends Conectar
     //LISTAR ESTUDIANTES DISPONIBLES PARA INSCRIBIR
     public function listarEstudiantes()
     {
-
-        $sql = "SELECT cedula,codigo,nombre,apellido FROM usuarios WHERE `id_seccion`IS NULL";
+        $listarEstudiantesOFF= [];
+        $sql = "SELECT cedula,codigo,nombre,apellido FROM usuarios WHERE `id_seccion`IS NULL AND `status_profesor` = 0";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->listarEstudiantesOFF[] = $filas;
+            $listarEstudiantesOFF[] = $filas;
         }
-        return $this->listarEstudiantesOFF;
+        return $listarEstudiantesOFF;
     }
 
     //LISTAR PROFESORES TODOS LOS PROFESORES
     public function listarProfesores()
     {
-        //Recordar agregar el status_profesor = 1 cuando termines este apartado, ya que no esta filtrando
-        $sql = "SELECT cedula,codigo,nombre,apellido,telefono FROM usuarios";
+        $sql = "SELECT `cedula`,`codigo`,`nombre`,`apellido`,`telefono` FROM `usuarios` WHERE `usuarios`.`status_profesor` = 1";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -76,7 +76,6 @@ class ecam extends Conectar
         $sql = "SELECT * FROM `secciones` WHERE `status_seccion` = 1";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -85,13 +84,28 @@ class ecam extends Conectar
         return $this->listarSeccionesON;
     }
 
+    //LISTAR TODAS LAS SECCIONES CERRADAS
+    public function listarSeccionesOFF()
+    {
+        $listarSeccionesOFF= [];
+        
+        $sql = "SELECT * FROM `secciones` WHERE `status_seccion` = 0";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $listarSeccionesOFF[] = $filas;
+        }
+        return $listarSeccionesOFF;
+    }
+
     //LISTAR TODOS LOS ESTUDIANTES ACTIVOS EN SECCIONES
     public function listarEstudiantesON($idSeccionConsulta)
     {
         $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = $idSeccionConsulta";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -107,22 +121,21 @@ class ecam extends Conectar
         $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`id_materia` FROM `usuarios`, `materias` 
         WHERE NOT EXISTS (SELECT * FROM `profesores-materias` 
         WHERE `usuarios`.`cedula` = `profesores-materias`.`cedula_profesor` 
-        AND `profesores-materias`.`id_materia` = $idNoMateria) AND `materias`.`id_materia` = $idNoMateria AND `usuarios`.`status_profesor` = '1'";
+        AND `profesores-materias`.`id_materia` = $idNoMateria) AND `materias`.`id_materia` = $idNoMateria";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->todosProfesores2[] = $filas;
+            $todosProfesores2[] = $filas;
         }
-        return $this->todosProfesores2;
+        return $todosProfesores2;
     }
 
     //AGREGAR MATERIAS
     public function agregarMaterias()
     {
-        $sql = "INSERT INTO materias (nombre, nivelDoctrina) VALUES (:nom, :nivelD)";
+        $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
 
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
@@ -133,13 +146,23 @@ class ecam extends Conectar
         /*Buscando ultimo ID de la materia agregada para guardar ese valor, luego ese valor es
         introducido en la consulta de aqui abajo para que sea dinamico*/
         foreach ($this->cedulaProfesor as $cedulaP) {
-            $sql3 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaProf, (SELECT MAX(id_materia) FROM `materias`))";
-            $stmt3 = $this->conexion->prepare($sql3);
-            $stmt3->execute(array(
-                ":cedulaProf" => $cedulaP,
+            $sql2 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaP, (SELECT MAX(id_materia) FROM `materias`))";
+            $stmt2 = $this->conexion->prepare($sql2);
+            $stmt2->execute(array(
+                ":cedulaP" => $cedulaP,
             ));
         } //Fin del  Foreach
         //Profesores vinculados con la materia
+
+        //Agregando status_profesor = 1 a los profesores que se vayan asignando
+        foreach ($this->cedulaProfesor as $cedulaProf) {
+            $sql3 = "UPDATE `usuarios` SET `status_profesor` = '1' WHERE `usuarios`.`cedula` = :cedulaProf";
+            $stmt3 = $this->conexion->prepare($sql3);
+            $stmt3->execute(array(
+                ":cedulaProf" => $cedulaProf,
+            ));
+        }//Fin del Foreach
+        //Profesores con status 1 activados
     }
 
     //ACTUALIZAR Y VINCULAR PROFESOR CON LA MATERIA
@@ -152,8 +175,16 @@ class ecam extends Conectar
                 ":cedulaProf" => $cedulaPV,
                 ":idMateria" => $idMateriaV,
             ));
+
+            $sql4= "UPDATE `usuarios` SET `status_profesor` = '1' WHERE `usuarios`.`cedula` = :cedulaProfesor";
+            $stmt4 = $this->conexion->prepare($sql4);
+            $stmt4->execute(array(
+                ":cedulaProfesor" => $cedulaPV,
+            ));
+
         } //Fin del  Foreach
         //Profesores vinculados con la materia
+        //Usuarios con status profesor activado
     }
 
     //ELIMINAR PROFESORES DE LAS MATERIAS
@@ -172,14 +203,14 @@ class ecam extends Conectar
     //CANTIDAD DE FILAS POR NIVELES PARA GENERAR SELECT
     public function cantidadFilasNiveles($nivel)
     {
-        $sql = "SELECT `id_materia`, `nombre`, `nivelDoctrina` FROM `materias` WHERE nivelDoctrina = :nivelSeleccionado";
+        $sql = "SELECT `id_materia`, `nombre`, `nivelAcademico` FROM `materias` WHERE nivelAcademico = :nivelSeleccionado";
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             "nivelSeleccionado" => $nivel,
         ));
-        $filas= $stmt->rowCount();
+        $filas = $stmt->rowCount();
 
         return $filas;
     }
@@ -187,22 +218,23 @@ class ecam extends Conectar
     //LISTAR TODAS LAS MATERIAS
     public function listarMaterias()
     {
-        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias";
+        $listarMaterias= [];
+        $sql = "SELECT id_materia, nombre, nivelAcademico FROM materias";
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->listarMaterias[] = $filas;
+            $listarMaterias[] = $filas;
         }
-        return $this->listarMaterias;
+        return $listarMaterias;
     }
 
     //LISTAR MATERIAS POR NIVEL SELECCIONADO
     public function listarMateriasNivel($nivel)
     {
-        $sql = "SELECT `id_materia`, `nombre`, `nivelDoctrina` FROM `materias` WHERE `nivelDoctrina` = :nivelSeleccionado";
+        $sql = "SELECT `id_materia`, `nombre`, `nivelAcademico` FROM `materias` WHERE `nivelAcademico` = :nivelSeleccionado";
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -219,8 +251,8 @@ class ecam extends Conectar
     //BUSCAR MATERIAS POR AJAX
     public function buscarMateria($busqueda)
     {
-        $sql = "SELECT id_materia, nombre, nivelDoctrina FROM materias WHERE nombre LIKE '%" . $busqueda . "%' 
-        OR nivelDoctrina LIKE '%" . $busqueda . "%'";
+        $sql = "SELECT id_materia, nombre, nivelAcademico FROM materias WHERE nombre LIKE '%" . $busqueda . "%' 
+        OR nivelAcademico LIKE '%" . $busqueda . "%'";
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -248,98 +280,99 @@ class ecam extends Conectar
     //ACTUALIZAR MATERIAS
     public function actualizarMateria()
     {
-        $sql = "UPDATE `materias` SET `nombre` = :nom, `nivelDoctrina` = :nivelD WHERE `materias`.`id_materia` = :idMa";
+        $sql = "UPDATE `materias` SET `nombre` = :nom, `nivelAcademico` = :nivelD WHERE `materias`.`id_materia` = :idMa";
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             ":idMa" => $this->idMateria,
             ":nom" => $this->nombre,
-            ":nivelD" => $this->nivel
+            ":nivelA" => $this->nivel
         ));
     }
 
     //LISTAR PROFESORES DE LAS MATERIAS
     public function listarProfesoresMateria($idMateriaProf)
     {
+        $listarProfesoresMaterias= [];
 
-        $sql = "SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `profesores-materias`.`cedula_profesor`, `profesores-materias`.`id_materia` FROM `profesores-materias` 
-        INNER JOIN usuarios ON `profesores-materias`.`cedula_profesor` = `usuarios`.`cedula` 
-        INNER JOIN materias ON `profesores-materias`.`id_materia` = `materias`.`id_materia` WHERE `profesores-materias`.`id_materia` = '" . $idMateriaProf . "'";
+        $sql = "SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `profesores-materias`.`cedula_profesor`, `profesores-materias`.`id_materia` 
+        FROM `profesores-materias` INNER JOIN usuarios ON `profesores-materias`.`cedula_profesor` = `usuarios`.`cedula` 
+        INNER JOIN materias ON `profesores-materias`.`id_materia` = `materias`.`id_materia` WHERE `profesores-materias`.`id_materia` = :idMateria";
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            "idMateria" => $idMateriaProf,
+        ));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            $this->listarProfesoresMaterias[] = $filas;
+            $listarProfesoresMaterias[] = $filas;
         }
-        return $this->listarProfesoresMaterias;
+        return $listarProfesoresMaterias;
     }
 
-    
+
 
     ///////////////CREAR SECCIONES/////////////
     public function crearSeccion()
     {
-        $sql= "INSERT INTO `secciones` (`id_seccion`, `nombre`, `nivel_doctrina`, `status_seccion`, `fecha_creacion`) 
-        VALUES (NULL, :nomSeccion, :nivDoc, '1', current_timestamp())";
+        $sql = "INSERT INTO `secciones` (`id_seccion`, `nombre`, `nivel_academico`, `status_seccion`, `fecha_creacion`) 
+        VALUES (NULL, :nomSeccion, :nivAc, '1', CURDATE())";
 
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":nomSeccion" => $this->nombreSeccion,
-            ":nivDoc" => $this->nivelSeccion,
+            ":nivAc" => $this->nivelSeccion,
         ));
 
         //AGREGANDO ESTUDIANTES A LA SECCION
         foreach ($this->cedulaEstSeccion as $cedulaEst) {
-            $sql2= "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones) WHERE `usuarios`.`cedula` = :cedulaEst";
+            $sql2 = "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones) WHERE `usuarios`.`cedula` = :cedulaEst";
             $stmt2 = $this->conexion->prepare($sql2);
             $stmt2->execute(array(
                 ":cedulaEst" => $cedulaEst,
             ));
         } //Fin del  Foreach
         //Estudiantes vinculados con la seccion
-        
+
         $sql4 = ("SELECT MAX(id_seccion) AS id FROM secciones");
 
         $stmt4 = $this->conexion()->prepare($sql4);
         $stmt4->execute(array());
-        $contador= $stmt4->fetch(PDO::FETCH_ASSOC);
-        $id= $contador['id'];
+        $contador = $stmt4->fetch(PDO::FETCH_ASSOC);
+        $id = $contador['id'];
 
         foreach ($this->idMateriaSeccion as $key) {
-            $idSec[]= $key;
+            $idSec[] = $key;
         }
         foreach ($this->cedulaProfSeccion as $key2) {
-            $idP[]= $key2;
+            $idP[] = $key2;
         }
 
         //AGREGANDO MATERIAS CON LOS PROFESORES
-        for ($i=0; $i < count($this->idMateriaSeccion); $i++) { 
-            $sql3= "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`) VALUES (:idSec, :idMat, :ciProf)";
+        for ($i = 0; $i < count($this->idMateriaSeccion); $i++) {
+            $sql3 = "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`) VALUES (:idSec, :idMat, :ciProf)";
             $stmt3 = $this->conexion->prepare($sql3);
             $stmt3->execute(array(
                 ":idSec" => $id,
                 ":idMat" => $idSec[$i],
                 ":ciProf" => $idP[$i],
             ));
-            
         }
-            
-    }//FIN DEL CREAR SECCION
+    } //FIN DEL CREAR SECCION
 
 
 
     //LISTAR PROFESORES DE LA SECCION POR MATERIA
     public function listarProfesores_seccionMateria($idSeccionProfConsulta)
     {
-        $sql="SELECT `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS `smp` 
+        $sql = "SELECT `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS `smp` 
         INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` 
         INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` WHERE `smp`.`id_seccion` = :idSeccionProfComsulta";
 
-        $stmt= $this->conexion->prepare($sql);
+        $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":idSeccionProfComsulta" => $idSeccionProfConsulta,
         ));
@@ -354,13 +387,13 @@ class ecam extends Conectar
     public function agregandoMasEstudiantes($estudiantesNuevos, $idSeccionVincular)
     {
         foreach ($estudiantesNuevos as $estNuevo) {
-        $sql= "UPDATE `usuarios` SET `id_seccion` = :seccionVincular WHERE `usuarios`.`cedula` = :cedulaEstNuevo";
-        $stmt = $this->conexion->prepare($sql);
+            $sql = "UPDATE `usuarios` SET `id_seccion` = :seccionVincular WHERE `usuarios`.`cedula` = :cedulaEstNuevo";
+            $stmt = $this->conexion->prepare($sql);
             $stmt->execute(array(
                 ":seccionVincular" => $idSeccionVincular,
                 ":cedulaEstNuevo" => $estNuevo,
             ));
-        }//FIN DEL FOREACH
+        } //FIN DEL FOREACH
         //ESTUDIANTES NUEVOS VINCULADOS A LA SECCION
     }
 
@@ -368,14 +401,14 @@ class ecam extends Conectar
     public function eliminarSeccion($idSeccionEliminar)
     {
         //ELIMINA O DESACTIVA LA SECCION PRIMERO
-        $sql= "UPDATE `secciones` SET `status_seccion` = '0' WHERE `secciones`.`id_seccion` = $idSeccionEliminar";
+        $sql = "UPDATE `secciones` SET `status_seccion` = '0' WHERE `secciones`.`id_seccion` = $idSeccionEliminar";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
 
         //LUEGO DEJAMOS EN NULL EL ID_SECCION DE LOS ESTUDIANTES QUE ESTABAN VINCULADOS A LA SECCION
-        $sql2= "UPDATE `usuarios` SET `id_seccion`= NULL WHERE `usuarios`.`cedula` IN (SELECT `usuarios`.`cedula` FROM usuarios WHERE `usuarios`.`id_seccion` = :idSeccionOFF)";
-        $stmt2= $this->conexion->prepare($sql2);
-        $stmt->execute(array(
+        $sql2 = "UPDATE `usuarios` SET `id_seccion`= NULL WHERE `usuarios`.`cedula` IN (SELECT `usuarios`.`cedula` FROM usuarios WHERE `usuarios`.`id_seccion` = :idSeccionOFF)";
+        $stmt2 = $this->conexion->prepare($sql2);
+        $stmt2->execute(array(
             ":idSeccionOFF" => $idSeccionEliminar,
         ));
     }
@@ -383,7 +416,7 @@ class ecam extends Conectar
     //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
     public function eliminarEstSeccion($cedulaEstborrar)
     {
-        $sql= "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = $cedulaEstborrar";
+        $sql = "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = $cedulaEstborrar";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
     }
@@ -391,7 +424,7 @@ class ecam extends Conectar
     //ACTUALIZAR DATOS DE LA SECCION SELECCIONADA
     public function actualizarDatosSeccion($idSeccionRefU)
     {
-        $sql= "UPDATE `secciones` SET `nombre` = :nombreSecU, `nivel_doctrina` = :nivelSecU WHERE `secciones`.`id_seccion` = $idSeccionRefU";
+        $sql = "UPDATE `secciones` SET `nombre` = :nombreSecU, `nivel_academico` = :nivelSecU WHERE `secciones`.`id_seccion` = $idSeccionRefU";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":nombreSecU" => $this->nombreSeccionU,
@@ -402,10 +435,10 @@ class ecam extends Conectar
     //SELECT DE LAS MATERIAS QUE NO ESTAN EN LA SECCION PARA AGREGAR
     public function selectMateriasOFF($idSeccionReferencial, $nivDoctrinaReferencial)
     {
-        $sql= "SELECT `materias`.`id_materia`, `materias`.`nombre`, `materias`.`nivelDoctrina` FROM `materias` WHERE NOT EXISTS (SELECT * FROM `secciones-materias-profesores` 
+        $sql = "SELECT `materias`.`id_materia`, `materias`.`nombre`, `materias`.`nivelAcademico` FROM `materias` WHERE NOT EXISTS (SELECT * FROM `secciones-materias-profesores` 
         WHERE `secciones-materias-profesores`.`id_materia` = `materias`.`id_materia` 
-        AND `secciones-materias-profesores`.`id_seccion` = :idSeccionRef) AND `materias`.`nivelDoctrina` = :nivelDoctrinaRef";
-        
+        AND `secciones-materias-profesores`.`id_seccion` = :idSeccionRef) AND `materias`.`nivelAcademico` = :nivelDoctrinaRef";
+
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":idSeccionRef" => $idSeccionReferencial,
@@ -421,8 +454,8 @@ class ecam extends Conectar
     //AGREGAR O AGREGAR MATERIAS CON PROFESORES ADICIONALES A LA SECCION SELECCIONADA
     public function actualizarMateriasProfesores($idSeccion)
     {
-        $sql= "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`, `contenido`) VALUES (:idSeccion, :idMateria, :cedulaProf, NULL)";
-        $stmt= $this->conexion->prepare($sql);
+        $sql = "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`, `contenido`) VALUES (:idSeccion, :idMateria, :cedulaProf, NULL)";
+        $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":idSeccion" => $idSeccion,
             ":idMateria" => $this->idMateriaAdicional,
@@ -433,10 +466,10 @@ class ecam extends Conectar
     //ELIMINAR MATERIAS Y PROFESORES DE LA SECCION SELECCIONADA
     public function eliminarMateriaProf_seccion($idSeccionMatProfSec, $idMateriaSec, $cedulaProfSec)
     {
-        $sql= "DELETE FROM `secciones-materias-profesores` WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccion 
+        $sql = "DELETE FROM `secciones-materias-profesores` WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccion 
         AND `secciones-materias-profesores`.`id_materia`= :idMateria 
         AND `secciones-materias-profesores`.`cedulaProf`= :cedulaProf";
-        $stmt= $this->conexion->prepare($sql);
+        $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":idSeccion" => $idSeccionMatProfSec,
             ":idMateria" => $idMateriaSec,
@@ -445,38 +478,24 @@ class ecam extends Conectar
     }
 
 
-    //LISTAR LAS MATERIAS QUE LE CORRESPONDE AL ESTUDIANTE ACTIVO DE LA ECAM
-    public function listar_misMateriasEst()
-    {
-        $idSeccionEstudiante = $_SESSION['id_seccion'];//Aqui acapta la id_seccion del usuario activo jeje
+    
 
-        $sql = "SELECT `smp`.`id_seccion`, `materias`.`id_materia`, `usuarios`.`cedula`, `materias`.`nombre` as `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
-        FROM `secciones-materias-profesores` AS `smp` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` 
-        INNER JOIN `usuarios` ON `usuarios`.`cedula` = `smp`.`cedulaProf` WHERE `smp`.`id_seccion` = :idSeccion";
+    
 
-        $stmt = $this->conexion()->prepare($sql);
+    
 
-        $stmt->execute(array(
-            ":idSeccion" => $idSeccionEstudiante,
-        ));
-
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
-            $this->listar_misMateriasEst[] = $filas;
-        }
-        return $this->listar_misMateriasEst;
-    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////AULA VIRTUAL PROFESOR///////////////////////////////////////////////////
 
     //LISTAR MATERIAS QUE IMPARTE EL PROFESOR ACTIVO DE LA ECAM
     public function listar_misMateriasProf()
     {
-        $cedulaProfesor = $_SESSION['cedula'];//Aqui capta la cedula del profesor activo jeje
+        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
 
-        $sql = "SELECT `materias`.`id_materia`, `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelDoctrina`, `usuarios`.`cedula`, 
-        `usuarios`.`nombre` as `nombreProfesor`, `usuarios`.`apellido` as `apellidoProfesor`
+        $sql = "SELECT `materias`.`id_materia`, `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico`, `usuarios`.`cedula`, 
+        `usuarios`.`nombre` as `nombreProfesor`, `usuarios`.`apellido` as `apellidoProfesor`, `smp`.`contenido`
         FROM `secciones-materias-profesores` AS `smp` INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` 
-        INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf` = :cedulaProfesor";
+        INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf` = :cedulaProfesor AND `secciones`.`status_seccion` = 1";
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -492,17 +511,62 @@ class ecam extends Conectar
         return $this->listar_misMateriasProf;
     }
 
+    //AGREGAR O SUBIR CONTENIDOS A LAS MATERIAS DEL PROFESOR ACTIVO
+    public function agregarContenidos($seccionContRef, $materiaContRef, $contenido)
+    {
+        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
+
+        $sql = "UPDATE `secciones-materias-profesores` SET `contenido`= :contenido WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccionProf 
+        AND `secciones-materias-profesores`.`id_materia` = :idMateriaProf AND `secciones-materias-profesores`.`cedulaProf` = :cedulaProfesor";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":contenido" => $contenido,
+            ":idSeccionProf" => $seccionContRef,
+            ":idMateriaProf" => $materiaContRef,
+            ":cedulaProfesor" => $cedulaProfesor,
+        ));
+    }
+
+    //LISTAR CONTENIDOS DE LAS MATERIAS PROFESORES
+    public function listarContenido($idSeccion, $idMateria)
+    {
+        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
+        $listarContenido= [];
+
+        $sql = "SELECT `secciones-materias-profesores`.`contenido` FROM `secciones-materias-profesores` 
+        WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccionProf AND `secciones-materias-profesores`.`id_materia`= :idMateriaProf 
+        AND `secciones-materias-profesores`.`cedulaProf` = :cedulaProfesor";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccionProf" => $idSeccion,
+            ":idMateriaProf" => $idMateria,
+            ":cedulaProfesor" => $cedulaProfesor,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $listarContenido[] = $filas;
+        }
+        return $listarContenido;
+    }
+
     //LISTAR MATERIAS QUE IMPARTE EL PROFESOR ACTIVO DE LA ECAM
     public function listar_misEstudiantes()
     {
-        $cedulaProfesor = $_SESSION['cedula'];//Aqui capta la cedula del profesor activo jeje
+        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
 
-        $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` as `nombreMateria`, `materias`.`nivelDoctrina`, `materias`.`id_materia`, 
+        /*$sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` as `nombreMateria`, `materias`.`nivelDoctrina`, `materias`.`id_materia`, 
         `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion` FROM `secciones-materias-profesores` AS `smp` INNER JOIN `usuarios` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` INNER JOIN `materias` ON `smp`.`id_materia`= `materias`.`id_materia`
-        INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf`= :cedulaProfesor";
+        INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf`= :cedulaProfesor";*/
+
+        $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` 
+        AS `nombreMateria`, `materias`.`nivelAcademico`, `materias`.`id_materia`, `secciones`.`id_seccion`, `secciones`.`nombre` 
+        AS `nombreSeccion`, `nme`.`nota` FROM `secciones-materias-profesores` AS `smp` INNER JOIN `usuarios` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` 
+        INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` 
+        LEFT JOIN notamateria_estudiantes AS nme ON `nme`.`cedula` = `usuarios`.`cedula` AND `nme`.`id_seccion` = `smp`.`id_seccion` AND `nme`.`id_materia` = `materias`.`id_materia` WHERE `smp`.`cedulaProf` = :cedulaProfesor";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array(
             ":cedulaProfesor" => $cedulaProfesor,
         ));
@@ -515,13 +579,202 @@ class ecam extends Conectar
         return $this->listar_misEstudiantes;
     }
 
-    //SUBIR CONTENIDO A LA MATERIA DE LA SECCION CORRESPONDIENTE
-    public function agregarContenido()
+    //AGREGAR LAS NOTAS DE LAS MATERIAS A LOS ESTUDIANTES
+    public function agregarNotaMateria($nota)
     {
-        # code...
+        $sql = "INSERT INTO `notamateria_estudiantes` (`id_seccion`, `cedula`, `id_materia`, `nota`, `fecha_agregado`) 
+        VALUES (:notaIDseccion, :notaCIestudiante, :notaIDmateria, :nota, CURDATE())";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":notaIDseccion" => $this->notaIDseccion,
+            ":notaCIestudiante" => $this->notaCIestudiante,
+            ":notaIDmateria" => $this->notaIDmateria,
+            ":nota" => $nota,
+        ));
+    }
+
+    //ACTUALIZAR LA NOTA DEL ESTUDIANTE SELECCIONADO DEL PROFESOR ACTIVO EN LA SESION
+    public function actualizarNotaMateria($notaNueva)
+    {
+        $sql = "UPDATE `notamateria_estudiantes` SET `nota`=:notaNueva, `fecha_agregado`= CURDATE() 
+        WHERE cedula = :notaCIestudiante AND id_seccion = :notaIDseccion AND id_materia = :notaIDmateria";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":notaIDseccion" => $this->notaIDseccion2,
+            ":notaCIestudiante" => $this->notaCIestudiante2,
+            ":notaIDmateria" => $this->notaIDmateria2,
+            ":notaNueva" => $notaNueva,
+        ));
+    }
+
+    //ELIMINAR LA NOTA DEL ESTUDIANTE SELECCIONADO POR EL PROFESOR ACTIVO EN LA SESION
+    public function eliminarNotaMateria($cedulaEstudianteRef2, $idMateriaRef2, $idSeccionRef2)
+    {
+        $sql = "DELETE FROM `notamateria_estudiantes` WHERE id_seccion = :idSeccionRef2 AND cedula = :cedulaEstudianteRef2 AND id_materia = :idMateriaRef2";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccionRef2" => $idSeccionRef2,
+            ":cedulaEstudianteRef2" => $cedulaEstudianteRef2,
+            ":idMateriaRef2" => $idMateriaRef2,
+        ));
+    }
+
+    //MOSTRAR LA NOTA DE LA MATERIA DEL ESTUDIANTE SELECCIONADO
+    public function listarNota_miEstudiante($notaIDmateria, $notaIDseccion, $notaCIestudiante)
+    {
+        $nota_miEstudiante = [];
+        $sql = "SELECT `nota` FROM `notamateria_estudiantes` as `nme` WHERE `nme`.`id_seccion` = :notaIDseccionRef 
+        AND `nme`.`id_materia` = :notaIDmateriaRef AND `nme`.`cedula`= :notaCIestudianteRef";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":notaIDseccionRef" => $notaIDseccion,
+            ":notaCIestudianteRef" => $notaCIestudiante,
+            ":notaIDmateriaRef" => $notaIDmateria,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $nota_miEstudiante[] = $filas;
+        }
+        return $nota_miEstudiante;
+    }
+
+    public function cantidad_materiasSecciones()
+    {
+        $miCedula= $_SESSION['cedula'];
+        $cantidad_materiasSecciones= [];
+
+        $sql= "SELECT `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, `usuarios`.`nombre` AS `nombreProfesor`, `usuarios`.`apellido` AS `apellidoProfesor`, 
+        COUNT(`smp`.`id_materia`) AS `cantidadMaterias` FROM `secciones-materias-profesores` AS `smp` INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` 
+        INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf` = $miCedula AND `secciones`.`status_seccion` = 1";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $cantidad_materiasSecciones[] = $filas;
+        }
+        return $cantidad_materiasSecciones;
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////
+    
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////AULA VIRTUAL ESTUDIANTE/////////////////////////////////////////////////
+
+    //LISTAR COMPANEROS DE MI SECCION 
+    public function listar_misCompaneros()
+    {
+        $miSeccion= $_SESSION['id_seccion'];
+        $listar_misCompaneros= [];
+
+        $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = $miSeccion";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $listar_misCompaneros[] = $filas;
+        }
+        return $listar_misCompaneros;
+    }
+    //LISTAR PROFESORES DE MI SECCION
+    public function listar_misProfesores()
+    {
+        $miSeccion= $_SESSION['id_seccion'];
+        $listar_misProfesores= [];
+
+        $sql = "SELECT `materias`.`nombre` as nombreMateria, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS smp 
+        INNER JOIN usuarios ON `usuarios`.`cedula` = `smp`.`cedulaProf` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` WHERE `smp`.`id_seccion` = $miSeccion";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $listar_misProfesores[] = $filas;
+        }
+        return $listar_misProfesores;
+    }
+    //LISTAR LAS MATERIAS QUE LE CORRESPONDE AL ESTUDIANTE ACTIVO DE LA ECAM
+    public function listar_misMateriasEst()
+    {
+        $idSeccionEstudiante = $_SESSION['id_seccion']; //Aqui acapta la id_seccion del usuario activo jeje
+
+        $sql = "SELECT `smp`.`id_seccion`, `materias`.`id_materia`, `smp`.`contenido`, `usuarios`.`cedula` AS `cedulaProf`, `materias`.`nombre` as `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
+        FROM `secciones-materias-profesores` AS `smp` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` 
+        INNER JOIN `usuarios` ON `usuarios`.`cedula` = `smp`.`cedulaProf` WHERE `smp`.`id_seccion` = :idSeccion";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":idSeccion" => $idSeccionEstudiante,
+        ));
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->listar_misMateriasEst[] = $filas;
+        }
+        return $this->listar_misMateriasEst;
+    }
+    //DATOS DE LA SECCION DEL ESTUDIANTE ACTIVO
+    public function datos_miSeccionEst()
+    {
+        $miSeccion = $_SESSION['id_seccion']; //Aqui acapta la id_seccion del usuario activo jeje
+        $misDatosSeccion= [];
+
+        $sql = "SELECT `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`smp`.`id_materia`) > 0, COUNT(`smp`.`id_materia`), '0') AS `cantidadMaterias`, `secciones`.`fecha_cierre` FROM `secciones-materias-profesores` AS `smp` 
+        LEFT JOIN `secciones` ON `secciones`.`id_seccion` = `smp`.`id_seccion` WHERE `smp`.`id_seccion` = $miSeccion";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $misDatosSeccion[] = $filas;
+        }
+        return $misDatosSeccion;
+    }
+    //LISTAR LAS NOTAS DEL ESTUDIANTE ACTIVO
+    public function listar_misNotas()
+    {
+        $miSeccion= $_SESSION['id_seccion'];
+        $miCedula= $_SESSION['cedula'];
+        $misNotas= [];
+
+        $sql= "SELECT `secciones`.`id_seccion`, `materias`.`id_materia`, `notas`.`nota`, `notas`.`fecha_agregado`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
+        FROM `notamateria_estudiantes` AS `notas` INNER JOIN `materias` ON `materias`.`id_materia` = `notas`.`id_materia` INNER JOIN `usuarios` ON `usuarios`.`cedula` = `notas`.`cedula` 
+        INNER JOIN `secciones` ON `notas`.`id_seccion` = `secciones`.`id_seccion` WHERE `secciones`.`id_seccion` = $miSeccion AND `notas`.`cedula` = $miCedula";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $misNotas[] = $filas;
+        }
+        return $misNotas;
     }
 
 
+
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////APARTADO PARA REPORTES ESTADISTICOS/////////////////////////////
+    public function ver1(){
+        $filas1= [];
+        $sql= "SELECT secciones.nombre AS nombreSeccion, IFNULL(usuarios.id_seccion = secciones.id_seccion, '0') AS cantidadEstudiantes FROM `secciones` LEFT JOIN usuarios ON secciones.id_seccion = usuarios.id_seccion WHERE secciones.status_seccion = 1";
+        //$sql= "SELECT secciones.nombre AS nombreSeccion, COUNT(usuarios.cedula) AS cantidadEstudiantes FROM `secciones`, `usuarios` WHERE secciones.id_seccion = usuarios.id_seccion AND secciones.status_seccion = 1";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $filas1[] = $filas;
+        }
+        return $filas1;
+    }
 
 
 
@@ -557,9 +810,10 @@ class ecam extends Conectar
     //SET PARA ACTUALIZAR LAS MATERIAS Y PROFESORES DE LA SECCION
     public function setActualizarMP($idMateriaAdicional, $cedulaProfAdicional)
     {
-        $this->idMateriaAdicional= $idMateriaAdicional;
-        $this->cedulaProfAdicional= $cedulaProfAdicional;
+        $this->idMateriaAdicional = $idMateriaAdicional;
+        $this->cedulaProfAdicional = $cedulaProfAdicional;
     }
+    //SET PARA CREAR UNA SECCION
     public function setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion)
     {
         $this->nombreSeccion = $nombreSeccion;
@@ -567,5 +821,19 @@ class ecam extends Conectar
         $this->cedulaProfSeccion = $cedulaProfSeccion;
         $this->cedulaEstSeccion = $cedulaEstSeccion;
         $this->idMateriaSeccion = $idMateriaSeccion;
+    }
+    //SET PARA AGREGAR NOTAS A LOS ESTUDIANTES DEL PROFESOR ACTIVO EN LA SESION
+    public function setNotaMateriaEstudiante($notaIDseccion, $notaIDmateria, $notaCIestudiante)
+    {
+        $this->notaIDseccion = $notaIDseccion;
+        $this->notaIDmateria = $notaIDmateria;
+        $this->notaCIestudiante = $notaCIestudiante;
+    }
+    //SET PARA ACTUALIZAR LAS NOTAS DE LOS ESTUDIANTES DEL PROFESOR ACTIVO EN LA SESION
+    public function setActualizarMateriaEstudiante($notaIDseccion2, $notaIDmateria2, $notaCIestudiante2)
+    {
+        $this->notaIDseccion2 = $notaIDseccion2;
+        $this->notaIDmateria2 = $notaIDmateria2;
+        $this->notaCIestudiante2 = $notaCIestudiante2;
     }
 }

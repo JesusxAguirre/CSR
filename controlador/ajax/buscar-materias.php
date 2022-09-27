@@ -11,7 +11,7 @@ if (!empty($busquedaMaterias)) {
         <tr>
             <td hidden class="idMateria"><?php echo $b_materias['id_materia']; ?></td>
             <td class="nombreM"><?php echo $b_materias['nombre']; ?></td>
-            <td class="nivelM"><?php echo $b_materias['nivelDoctrina']; ?></td>
+            <td class="nivelM"><?php echo $b_materias['nivelAcademico']; ?></td>
             <td>
                 <button class="btn btn-success" id="actualizarM" data-bs-toggle="modal" data-bs-target="#modalActualizarMateria"><i class="bi bi-pencil"></i></button>
                 <button class="btn bg-danger" id="eliminarMateria" value="eliminar"><i class="bi bi-x-lg"></i></button>

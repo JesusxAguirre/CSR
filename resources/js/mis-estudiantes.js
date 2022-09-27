@@ -2,12 +2,15 @@ listar_misEstudiantes();
 function listar_misEstudiantes() {
     let div = document.getElementById("lista_misEstudiantes");
     $.ajax({
+      data: {listarMisEstudiantes: 'listarMisEstudiantes'},
       type: "post",
-      url: "controlador/ajax/listar-misEstudiantes.php",
+      url: "controlador/ajax/dinamica-misEstudiantes.php",
     }).done((data) => {
       div.innerHTML = data;
     });
 }
+
+//Aqui hice esta vaina porque sino se pone como gei el Datatables JS
 setTimeout(() => {
     //DATATABLES LISTA DE MIS MATERIAS ESTUDIANTE
     let spanish= {
@@ -252,15 +255,164 @@ setTimeout(() => {
             "renameTitle": "Cambiar Nombre Estado"
         }
     };
-        let dataTableMisEstudiantes= $('#tabla_misEstudiantes').DataTable({
-            language: spanish,
+    let dataTableMisEstudiantes= $('#tabla_misEstudiantes').DataTable({
+        responsive: true,
+        language: spanish,
+    });
+    //FIN DE LA INICIALIZACION DE DATATABLES
+
+
+    //AGREGAR NOTA AL ESTUDIANTE DINAMICAMENTE POR JS
+    $('#tabla_misEstudiantes tbody').on('click', '.agregarNota', function() {
+        let elemento = $(this)[0].parentElement.parentElement;
+        
+        Swal.fire({
+            title: 'Asigne la nota del estudiante',
+            icon: 'question',
+            input: 'range',
+            inputLabel: 'Deslize la barra',
+            confirmButtonText: `AGREGAR`,
+            confirmButtonColor: 'green',
+            showDenyButton: true,
+            denyButtonText: `CANCELAR`,
+            denyButtonColor: 'orange',
+            inputAttributes: {
+              min: 0,
+              max: 20,
+              step: 1
+            },
+            inputValue: 0,
+        }).then((result) => {
+        if (result.isConfirmed) {
+            const data= {
+                agregarNota: 'agregarNota',
+                notaCIestudiante: elemento.querySelector('.notaCIestudiante').textContent,
+                notaIDmateria: elemento.querySelector('.notaIDmateria').textContent,
+                notaIDseccion: elemento.querySelector('.notaIDseccion').textContent,
+                notaEstudiante: result.value,
+            };
+            $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
+                console.log(response);
+                listar_misEstudiantes();
+                Swal.fire({
+                    icon: 'success',
+                    iconColor: 'white',
+                    title: '¡Nota agregada!',
+                    toast: true,
+                    background: 'green',
+                    color: 'white',
+                    showConfirmButton: false,
+                    timer: 3000,
+                })
+            });
+            }
+        })
+    })
+
+    //VER LA NOTA DEL ESTUDIANTE SELECCIONADO
+    $('#tabla_misEstudiantes tbody').on('click', '.verNotaAgregada', function() {
+        let elemento2= $(this)[0].parentElement.parentElement;
+        let nombreEstudiante= elemento2.querySelector('.notaNombreEstudiante').textContent;
+        let nombreMateria= elemento2.querySelector('.notaNombreMateria').textContent;
+
+        const data= {
+            verNota: 'verNota',
+            notaCIestudianteRef: elemento2.querySelector('.notaCIestudiante').textContent,
+            notaIDmateriaRef: elemento2.querySelector('.notaIDmateria').textContent,
+            notaIDseccionRef: elemento2.querySelector('.notaIDseccion').textContent,
+        };
+
+        $.post("controlador/ajax/dinamica-misEstudiantes.php", data).done(function (data) {
+            Swal.fire({
+                html: '<span>'+nombreEstudiante+'</span><h5>Materia: '+nombreMateria+'</h5><h1>'+data+'/20</h1>',
+                inputLabel: 'Puedes cambiar la nota aqui si deseas',
+                input: 'range',
+                confirmButtonText: `ACTUALIZAR`,
+                confirmButtonColor: 'blue',
+                showDenyButton: true,
+                denyButtonText: `CANCELAR`,
+                denyButtonColor: 'orange',
+                inputAttributes: {
+                  min: 0,
+                  max: 20,
+                  step: 1
+                },
+                inputValue: data,
+            }).then((result) => { //EN TAL CASO QUE QUIERA ACTUALIZARLA; ENTRA AQUI MISMO Y HACE ESO JEJE
+                if (result.isConfirmed) {
+                    const data= {
+                        actualizarNota: 'actualizarNota',
+                        notaCIestudiante2: elemento2.querySelector('.notaCIestudiante').textContent,
+                        notaIDmateria2: elemento2.querySelector('.notaIDmateria').textContent,
+                        notaIDseccion2: elemento2.querySelector('.notaIDseccion').textContent,
+                        notaNueva: result.value,
+                    };
+                    $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
+                        listar_misEstudiantes();
+                        Swal.fire({
+                            icon: 'success',
+                            iconColor: 'white',
+                            title: '¡Nota actualizada!',
+                            toast: true,
+                            background: 'green',
+                            color: 'white',
+                            showConfirmButton: false,
+                            timer: 3000,
+                        })
+                    });
+                    }
+                })
         });
 
-        
+    })
 
+    //ELIMINAR LA NOTA DE LA MATERIA DEL ESTUDIANTE SELECCIONADO
+    $('#tabla_misEstudiantes tbody').on('click', '.eliminarNota', function() {
+        let elemento3= $(this)[0].parentElement.parentElement;
+
+        const data= {
+            eliminarNota: 'eliminarNota',
+            cedulaEstudianteRef2: elemento3.querySelector('.notaCIestudiante').textContent,
+            idMateriaRef2: elemento3.querySelector('.notaIDmateria').textContent,
+            idSeccionRef2: elemento3.querySelector('.notaIDseccion').textContent,
+        };
+
+        Swal.fire({
+            icon: 'warning',
+            iconColor: 'white',
+            title: '¿Estas seguro?',
+            color: 'white',
+            confirmButtonText: `SI`,
+            confirmButtonColor: 'green',
+            showDenyButton: true,
+            denyButtonText: `NO`,
+            denyButtonColor: 'red',
+            background: 'orange',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
+                    console.log(response);
+                listar_misEstudiantes();
+                Swal.fire({
+                    icon: 'success',
+                    iconColor: 'green',
+                    title: '¡Nota eliminada!',
+                    toast: true,
+                    background: 'white',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    })
+                })
+            }
+        })
+    })
 
         
 }, 100);
+
+
+
+
 
 
 

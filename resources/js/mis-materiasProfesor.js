@@ -1,13 +1,75 @@
 listar_misMateriasProf();
+var quill = new Quill('#editarContenido', {
+    theme: 'snow',
+});;
+
 function listar_misMateriasProf() {
     let div = document.getElementById("listar_misMateriasProf");
     $.ajax({
+      data: {
+        listarMisMateriasProf: 'listarMisMateriasProf',
+      },
       type: "post",
-      url: "controlador/ajax/listar-misMateriasProf.php",
+      url: "controlador/ajax/dinamica-misMateriasProf.php",
     }).done((data) => {
       div.innerHTML = data;
     });
 }
+
+
+
+$('#tabla_misMateriasProf tbody').on('click', '.modalContenidoON', function() {
+    let elemento = $(this)[0].parentElement.parentElement;
+    let div= document.querySelector('.ql-editor');
+
+    let idSeccion= elemento.querySelector('.idSeccion_materia').textContent;
+    let idMateria= elemento.querySelector('.idMateria_materia').textContent;
+    $('#seccionContRef').text(idSeccion);
+    $('#materiaContRef').text(idMateria);
+
+    $.ajax({
+        data: {
+            verContenido: 'verContenido',
+            idSeccion: idSeccion,
+            idMateria: idMateria,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-misMateriasProf.php",
+    }).done((data) => {
+        div.innerHTML = data;
+    })
+    
+});
+
+$('#guardarCampo').click(function (e) {
+    let contenido= quill.root.innerHTML;
+    let seccionContRef= document.getElementById('seccionContRef').textContent;
+    let materiaContRef= document.getElementById('materiaContRef').textContent;
+
+    const data= {
+        guardarCampo: 'guardarCampo',
+        seccionContRef: seccionContRef,
+        materiaContRef: materiaContRef,
+        contenido: contenido,
+    }
+    $.post("controlador/ajax/dinamica-misMateriasProf.php", data, function (response) {
+        listar_misMateriasProf();
+        Swal.fire({
+            icon: 'success',
+            iconColor: 'white',
+            title: '¡Contenido actualizado!',
+            toast: true,
+            background: 'green',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 3000,
+        })
+    });
+    
+});
+
+
+
 
 //DATATABLES LISTA DE MIS MATERIAS ESTUDIANTE
 /*let spanish= {

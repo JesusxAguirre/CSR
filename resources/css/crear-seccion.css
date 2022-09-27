@@ -1,8 +1,57 @@
-.cartaEstudiantes{
+/*.cartaEstudiantes{
     height: 100% !important;
 }
 .cartaSeccionesList{
     height: 700px;
-    /* color: #ebebeb; */
+     color: #ebebeb;
+}*/
+
+.formModal1{
+    background: rgb(255, 236, 169);
 }
+.formModal2{
+    background: rgb(255, 236, 169);
+}
+.formModal3{
+    background: rgb(42, 42, 42);
+}
+
+
+/* COLORES PARA VALIDAR CAMPOS */
+#nombreSeccion:focus{
+    box-shadow: none;
+}
+
+#nivelSeccion:focus{
+    box-shadow: none;
+}
+
+.validarBien{
+    border: solid 3px rgb(113, 255, 47);
+}
+.validarBien:focus{
+    box-shadow: none;
+    border: solid 3px rgb(113, 255, 47);
+}
+
+.validarMal{
+    border: solid 3px red;
+}
+.validarMal:focus{
+    box-shadow: none;
+    border: solid 3px red;
+}
+/* FIN COLORES PARA VALIDAR CAMPOS */
+
+.cartaSeccionesList{
+    background-color: rgb(203, 255, 226);
+    box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.31);
+    -webkit-box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.31); 
+    -moz-box-shadow: 0px 0px 15px 3px rgba(0,0,0,0.31);
+}
+
+.oscuro{
+    background-color: rgb(40, 43, 51);
+}
+
 
