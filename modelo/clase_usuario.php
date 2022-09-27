@@ -44,6 +44,21 @@ class Usuarios extends Conectar
         $this->conexion = parent::conexion();
     }
 
+
+    public function getIdRol($usuario)
+    {
+        $sql = "SELECT usuarios.id_rol FROM usuarios WHERE usuarios.usuario = '$usuario'";
+
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute();
+
+        $res = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $idRol = $res['id_rol'];
+
+        return $idRol;
+    }
+
     public function registrar_bitacora($accion)
     {
         $usuario = $_SESSION['usuario'];

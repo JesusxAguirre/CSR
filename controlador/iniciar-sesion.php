@@ -2,8 +2,11 @@
 session_start();
 require_once('modelo/clase_usuario.php');
 require_once('modelo/clase_datosUsuario.php');
+require_once('modelo/clase_roles.php');
+
 $objeto = new Usuarios();
 $objeto2= new datosUsuario();
+$objRoles = new Roles();
 
 $error = true;
 if(isset($_POST['registrar'])){
@@ -33,7 +36,7 @@ if(isset($_POST['enviar'])){
 
 	$_SESSION['verdadero']=$objeto->validar();
 
-	$permisos = $objeto->get_permisos();
+	//$permisos = $objeto->get_permisos();
 
 	$buscarNombre= $objeto2->nombre();
 	$nombre;
@@ -53,7 +56,9 @@ if(isset($_POST['enviar'])){
 	
 
 	if($_SESSION['verdadero'] > 0){
-
+		$idRol = $objeto->getIdRol($_SESSION['usuario']);
+		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
+		
 		echo "<script>
 		alert('Sesion iniciada correctamente');
 		window.location= 'index.php?pagina=dashboard'
