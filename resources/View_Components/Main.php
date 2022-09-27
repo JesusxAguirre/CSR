@@ -96,98 +96,17 @@
       <div class="col-xl-5 col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h4 class="header-title">Visitas Casas sobre la roca de hoy </h4>
+            <h4 class="header-title">Lideres sin casa sobre la roca </h4>
             <div style="height: 388px; overflow-y: scroll;" class="table-responsive ">
               <table class="mb-0 table table-hover ">
                 <tbody>
-                  <tr>
-                    <td >
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2" >
-                    <button type="button" class="btn btn-completado btn-sm">Completado</button>
-                    </td>
-                  </tr>
+                  <?php foreach($matriz_lideres AS $lider) :?>
                   <tr>
                     <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-proceso btn-sm">En proceso</button>
+                      <h5 class="font-14 my-1 fw-normal"><?php echo $lider['nombre'] . ' ' . $lider['apellido']; ?></h5>
                     </td>
                   </tr>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-incompleto btn-sm">Incompleto</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-completado btn-sm">Completado</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-completado btn-sm">Completado</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-completado btn-sm">Completado</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-completado btn-sm">Completado</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Carrera 18 con calle 40</h5>
-                    </td>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal">Juan perez</h5>
-                    </td>
-                    <td class="d-grid gap-2">
-                    <button type="button" class="btn btn-completado btn-sm">Completado</button>
-                    </td>
-                  </tr>
+                  <?php endforeach; ?>
                   
                 </tbody>
               </table>

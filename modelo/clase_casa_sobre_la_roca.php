@@ -57,8 +57,8 @@ class LaRoca extends Usuarios
     public function listar_lideres_sin_CSR()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE codigo LIKE  '%N2%'
-         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM casas_la_roca);");
+        $sql = ("SELECT nombre,apellido,cedula, codigo FROM usuarios WHERE codigo LIKE  '%N2%'
+         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM casas_la_roca WHERE status =1);");
 
         $stmt = $this->conexion()->prepare($sql);
 
