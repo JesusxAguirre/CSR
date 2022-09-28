@@ -85,8 +85,7 @@ inputs.forEach((input) => {
 
 usuarios.addEventListener('hideDropdown', ValidarFormulario);
 $("#formulario").on("submit", function (e) {
-  var hvalue = $('#asunto .ql-editor').html();
-  $(this).append("<textarea name='html' style='display:none'>" + hvalue + "</textarea>");
+
   var hvalue2 = $('#mensaje .ql-editor').html();
   $(this).append("<textarea name='mensaje' style='display:none'>" + hvalue2 + "</textarea>");
   if (!(campos.html && campos.usuario)) {

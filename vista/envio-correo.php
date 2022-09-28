@@ -35,7 +35,7 @@
 
   <!-- Menu.php -->
   <?php
-   require_once "./resources/View_Components/Menu.php";
+  require_once "./resources/View_Components/Menu.php";
 
   ?>
   <!-- Menu.php -->
@@ -66,7 +66,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Selecciona el usuario al cual quieres enviar un correo</label>
                         <i class="input-icon fs-5"></i>
-                        <select  name="usuario" id="usuario" class="form-control">
+                        <select name="usuario" id="usuario" class="form-control">
                           <option value="">Seleccione una opcion</option>
                           <?php foreach ($matriz_correo as $correo) : ?>
                             <option value="<?php echo $correo['usuario']; ?>"> <?php echo $correo['codigo']; ?></option>
@@ -79,25 +79,27 @@
                   <div class="mb-3 mt-3 row">
                     <div class="col-sm">
                       <label class="form-label fw-bold" ">Asunto</label>
-                          <div style=" height: auto;" id="asunto">
+                      <textarea name="html" class="form-control" id="exampleFormControlTextarea1" rows="3">
+
+                        </textarea>
                     </div>
                   </div>
               </div>
-                  <div class="mb-3 mt-3 row">
-                    <div class="col-sm">
-                      <label class="form-label fw-bold" ">Mensaje</label>
+              <div class="mb-3 mt-3 row">
+                <div class="col-sm">
+                  <label class="form-label fw-bold" ">Mensaje</label>
                           <div style=" height: auto;" id="mensaje">
-                    </div>
-                  </div>
+                </div>
               </div>
-
-              <button name="enviar" type="submit" class="btn btn-primary">Enviar</button>
-
-              </form>
             </div>
+
+            <button name="enviar" type="submit" class="btn btn-primary">Enviar</button>
+
+            </form>
           </div>
         </div>
       </div>
+    </div>
     </div>
     </div>
   </main>
