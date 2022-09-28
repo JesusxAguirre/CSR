@@ -38,4 +38,6 @@ require_once "./resources/View_Components/Menu.php";
     reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
 
   </script>
+  <script src="resources/js/dashboard.js"></script>
+
 </body>
