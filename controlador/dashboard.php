@@ -8,6 +8,8 @@ if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
     $matriz_lideres = $objeto->listar_lideres_sin_CSR();
+    $reporte = $objeto->reporte_dashboard();
+    
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

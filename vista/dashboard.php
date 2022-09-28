@@ -34,4 +34,8 @@ require_once "./resources/View_Components/Menu.php";
 ?>
 <!-- Main.php -->
 </div>
+<script type="text/javascript">
+    reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
+
+  </script>
 </body>
