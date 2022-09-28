@@ -350,7 +350,18 @@ class LaRoca extends Usuarios
 
         return $resultado;
     }
+    
+    //------------------------------------------------------Count de casas sobre la roca abiertas ----------------------//
 
+    public function contar_CSR(){
+        $sql = ("SELECT count(*) AS casas_abiertas FROM casas_la_roca WHERE status=1");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
     public function listar_reporte_CSR($fecha_inicio, $fecha_final, $id_casa)
     {
