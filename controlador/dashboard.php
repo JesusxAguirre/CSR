@@ -10,7 +10,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $matriz_lideres = $objeto->listar_lideres_sin_CSR();
     $reporte = $objeto->reporte_dashboard();
     $casas_abiertas = $objeto->contar_CSR();
-
+    $lideres_con_CSR = $objeto->contar_lideres_CSR();
     
     require_once 'vista/'.$pagina.'.php';
 }
