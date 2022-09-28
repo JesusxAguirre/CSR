@@ -323,8 +323,32 @@ class LaRoca extends Usuarios
         $this->fecha = gmdate("y-m-d", time());
     }
 
+    //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+    public function reporte_dashboard()
+    {
+        $sql = ("SELECT 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
+        SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
+        FROM casas_la_roca
+        WHERE casas_la_roca.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
 
+        $stmt = $this->conexion()->prepare($sql);
 
+        $stmt->execute(array());
+        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
     public function listar_reporte_CSR($fecha_inicio, $fecha_final, $id_casa)
