@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12">
         <div class="page-title-box">
-          
+
           <h4 class="page-title">Dashboard</h4>
         </div>
       </div>
@@ -19,7 +19,7 @@
                 </div>
                 <h5 class="fw-normal mt-0 text-muted">CSR Abiertas</h5>
                 <h3 class="mt-3 mb-3">1</h3>
-                
+
               </div>
             </div>
           </div>
@@ -83,8 +83,8 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h4 class="header-title">Grafico anual casa sobre la roca</h4>
             </div>
+            <div id="grafico"></div>
           </div>
-
         </div>
       </div>
     </div>
@@ -96,14 +96,14 @@
             <div style="height: 388px; overflow-y: scroll;" class="table-responsive ">
               <table class="mb-0 table table-hover ">
                 <tbody>
-                  <?php foreach($matriz_lideres AS $lider) :?>
-                  <tr>
-                    <td>
-                      <h5 class="font-14 my-1 fw-normal"><?php echo $lider['nombre'] . ' ' . $lider['apellido']; ?></h5>
-                    </td>
-                  </tr>
+                  <?php foreach ($matriz_lideres as $lider) : ?>
+                    <tr>
+                      <td>
+                        <h5 class="font-14 my-1 fw-normal"><?php echo $lider['nombre'] . ' ' . $lider['apellido']; ?></h5>
+                      </td>
+                    </tr>
                   <?php endforeach; ?>
-                  
+
                 </tbody>
               </table>
             </div>
@@ -125,7 +125,7 @@
                       <h5 class="font-14 my-1 fw-normal">Maria jimenez</h5>
                     </td>
 
-                    
+
                     <td>
                       <h5 class="font-14 my-1 fw-normal text-verde">79</h5>
                       <span class="text-muted font-13">Casas visitadas</span>
@@ -136,7 +136,7 @@
                       <h5 class="font-14 my-1 fw-normal">Ronald Salazar</h5>
                     </td>
 
-                    
+
                     <td>
                       <h5 class="font-14 my-1 fw-normal text-verde">75</h5>
                       <span class="text-muted font-13">Casas visitadas</span>
@@ -147,7 +147,7 @@
                       <h5 class="font-14 my-1 fw-normal">Cesar Aguilar</h5>
                     </td>
 
-                    
+
                     <td>
                       <h5 class="font-14 my-1 fw-normal text-verde">49</h5>
                       <span class="text-muted font-13">Casas visitadas</span>
@@ -158,7 +158,7 @@
                       <h5 class="font-14 my-1 fw-normal">Angel Vivas</h5>
                     </td>
 
-                   
+
                     <td>
                       <h5 class="font-14 my-1 fw-normal text-verde">30</h5>
                       <span class="text-muted font-13">Casas visitadas</span>
@@ -166,10 +166,10 @@
                   </tr>
                   <tr>
                     <td>
-                      <h5 class="font-14 my-1 fw-normal">Ricardo Gutierrez  </h5>
+                      <h5 class="font-14 my-1 fw-normal">Ricardo Gutierrez </h5>
                     </td>
 
-                  
+
                     <td>
                       <h5 class="font-14 my-1 fw-normal text-verde">15</h5>
                       <span class="text-muted font-13">Casas visitadas</span>

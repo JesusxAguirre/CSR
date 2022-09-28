@@ -1,6 +1,6 @@
 var titulo = [];
 var cantidad = [];
-console.log(reoirte);
+console.log(reporte);
 for (prop in reporte) {
   titulo.push(prop)
   cantidad.push(reporte[prop]);
@@ -10,7 +10,7 @@ Highcharts.chart('grafico', {
     type: 'area'
   },
   title: {
-    text: 'Reporte de crecimiento de lider'
+    text: 'Reporte de celulas anual'
   },
   subtitle: {
     text: 'Este reporte incluye las casas que estan desincorporadas',

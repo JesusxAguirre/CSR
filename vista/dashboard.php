@@ -10,11 +10,22 @@
 	<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./resources/css/style.css">
 	<link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
 
 
 	<!-- Js boostrap -->
 	<script src="./resources/js/bootstrap.min.js"></script>
 	
+
+	<script type="text/javascript">
+    reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
+
+  </script>
+	<script type="module" src="node_modules/highcharts/highcharts.js"></script>
+  <script type="module" src="node_modules/highcharts/modules/export-data.js"></script>
+  <script type="module" src="node_modules/highcharts/modules/exporting.js"></script>
+  <script src="resources/js/dashboard.js"></script>
+
 </head>
 <body>
 
@@ -33,11 +44,5 @@ require_once "./resources/View_Components/Menu.php";
 	require_once "./resources/View_Components/Main.php";
 ?>
 <!-- Main.php -->
-</div>
-<script type="text/javascript">
-    reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
-
-  </script>
-  <script src="resources/js/dashboard.js"></script>
 
 </body>
