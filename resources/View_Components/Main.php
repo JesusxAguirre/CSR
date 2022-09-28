@@ -79,7 +79,7 @@
       </div>
       <div class="col-xl-7 col-lg-6">
         <div class="card-h-100 card mt-4">
-          <div class="card-body">
+          <div  class="card-body">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h4 class="header-title">Grafico anual casa sobre la roca</h4>
             </div>

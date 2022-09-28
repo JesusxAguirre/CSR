@@ -325,7 +325,8 @@ class LaRoca extends Usuarios
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
     public function reporte_dashboard()
-    {
+    {   
+        $año = date("Y");
         $sql = ("SELECT 
         SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
         SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
@@ -340,7 +341,7 @@ class LaRoca extends Usuarios
         SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
         SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
         FROM casas_la_roca
-        WHERE casas_la_roca.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
+        WHERE casas_la_roca.fecha BETWEEN '$año-01-01' AND '$año-12-31'");
 
         $stmt = $this->conexion()->prepare($sql);
 

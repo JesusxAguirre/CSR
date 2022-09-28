@@ -17,17 +17,11 @@
 	<script src="./resources/js/bootstrap.min.js"></script>
 	
 
-	<script type="text/javascript">
-    reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
-
-  </script>
-	<script type="module" src="node_modules/highcharts/highcharts.js"></script>
-  <script type="module" src="node_modules/highcharts/modules/export-data.js"></script>
-  <script type="module" src="node_modules/highcharts/modules/exporting.js"></script>
-  <script src="resources/js/dashboard.js"></script>
-
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+	
 </head>
-<body>
+<body id="reporte">
 
 	<!-- Menu.php -->
 <?php
@@ -44,5 +38,13 @@ require_once "./resources/View_Components/Menu.php";
 	require_once "./resources/View_Components/Main.php";
 ?>
 <!-- Main.php -->
+<script type="text/javascript">
+    reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
+
+  </script>
+	<script type="module" src="node_modules/highcharts/highcharts.js"></script>
+  <script type="module" src="node_modules/highcharts/modules/export-data.js"></script>
+  <script type="module" src="node_modules/highcharts/modules/exporting.js"></script>
+  <script src="resources/js/dashboard.js"></script>
 
 </body>
