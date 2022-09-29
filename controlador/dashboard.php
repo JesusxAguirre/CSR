@@ -1,17 +1,18 @@
 <?php
 require_once("modelo/clase_casa_sobre_la_roca.php");
-
+require_once("modelo/clase_celula_discipulado.php");
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
+    $objeto_discipulado = new Discipulado();
     $matriz_lideres = $objeto->listar_lideres_sin_CSR();
     $reporte = $objeto->reporte_dashboard();
     $casas_abiertas = $objeto->contar_CSR();
     $lideres_con_CSR = $objeto->contar_lideres_CSR();
-    
+    $cantidad_discipulos = $objeto_discipulado->contar_discipulos();
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

@@ -600,6 +600,18 @@ class Discipulado extends Usuarios
         return $resultado;
     }
 
+    public function contar_discipulos(){
+        $sql = ("SELECT count(*) AS cantidad_discipulos 
+        FROM usuarios 
+        WHERE usuarios.id_discipulado IS NOT NULL");
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
+
     public function listar_numero_discipulos_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
     {
         $sql = ("SELECT 

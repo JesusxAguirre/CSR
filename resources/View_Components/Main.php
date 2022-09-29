@@ -31,12 +31,12 @@
                   <i class="widget-icon bi bi-bookmark-heart-fill"></i>
                 </div>
                 <h5 class="fw-normal mt-0 text-muted">Numero de discipulos</h5>
-                <h3 class="mt-3 mb-3">3321</h3>
-                <p class="mb-0 text-muted">
+                <h3 class="mt-3 mb-3"><?php echo $cantidad_discipulos['cantidad_discipulos'] ?></h3>
+             <!--    <p class="mb-0 text-muted">
                   <span class="text-success me-2">
                    
                   <span class="text-nowrap">Mas que el ultimo mes</span>
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
