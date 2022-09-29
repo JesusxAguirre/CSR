@@ -26,7 +26,7 @@ class LaRoca extends Usuarios
         $this->conexion = parent::conexion();
         $this->actualizar_status_CSR();
     }
-    
+
     public function buscar_CSR($busqueda)
     {
         $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
@@ -72,10 +72,10 @@ class LaRoca extends Usuarios
         }
         return $this->lideres;
     }
-    
+
     public function listar_casas_la_roca()
     {
- 
+
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
         casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
@@ -96,7 +96,7 @@ class LaRoca extends Usuarios
     }
     public function listar_casas_la_roca_sin_status()
     {
- 
+
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
         casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
@@ -246,26 +246,27 @@ class LaRoca extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":cedula_lider" => $this->cedula_lider,":nombre_anfitrion" => $this->nombre_anfitrion, 
-            ":telefono" => $this->telefono,":cantidad"=>$this->cantidad_integrantes, 
-            ":dia" => $this->dia, ":hora" => $this->hora, 
-            ":direc"=>$this->direccion, ":id" => $this->id
+            ":cedula_lider" => $this->cedula_lider, ":nombre_anfitrion" => $this->nombre_anfitrion,
+            ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
+            ":dia" => $this->dia, ":hora" => $this->hora,
+            ":direc" => $this->direccion, ":id" => $this->id
         ));
     }
 
-        //---------Actualizar status cada 3 meses CSR------------------------//
+    //---------Actualizar status cada 3 meses CSR------------------------//
 
-        public function actualizar_status_CSR(){
-            $sql = ("UPDATE casas_la_roca SET 
+    public function actualizar_status_CSR()
+    {
+        $sql = ("UPDATE casas_la_roca SET 
             status  = 0  
             WHERE DATE_ADD(fecha, INTERVAL 90 DAY) < NOW();");
 
-            $stmt = $this->conexion()->prepare($sql);
+        $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
+        $stmt->execute(array());
 
-            return true;
-        }
+        return true;
+    }
     //---------registrar reporte de CSR------------------------//
 
     public function registrar_reporte_CSR()
@@ -288,11 +289,11 @@ class LaRoca extends Usuarios
         return true;
     }
 
-    public function setActualizar($cedula_lider, $nombre_anfitrion, $telefono_anfitrion,$cantidad,$direccion, $dia, $hora, $id)
+    public function setActualizar($cedula_lider, $nombre_anfitrion, $telefono_anfitrion, $cantidad, $direccion, $dia, $hora, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->nombre_anfitrion = $nombre_anfitrion;
-        $this->telefono= $telefono_anfitrion;
+        $this->telefono = $telefono_anfitrion;
         $this->cantidad_integrantes = $cantidad;
         $this->direccion = $direccion;
         $this->dia = $dia;
@@ -325,7 +326,7 @@ class LaRoca extends Usuarios
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
     public function reporte_dashboard()
-    {   
+    {
         $año = date("Y");
         $sql = ("SELECT 
         SUM(CASE WHEN MONTH(casas_la_roca.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
@@ -346,24 +347,45 @@ class LaRoca extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
-    
+
     //------------------------------------------------------Count de casas sobre la roca abiertas ----------------------//
 
-    public function contar_CSR(){
+    public function contar_CSR()
+    {
         $sql = ("SELECT count(*) AS casas_abiertas FROM casas_la_roca WHERE status=1");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
+    public function contar_asistencias_CSR()
+    {
+        $sql = ("SELECT casas_la_roca.id,usuarios.nombre,usuarios.apellido, count(reportes_casas.fecha) AS casas_visitadas FROM casas_la_roca 
+        INNER JOIN usuarios ON casas_la_roca.cedula_lider =usuarios.cedula 
+        INNER JOIN reportes_casas ON casas_la_roca.id = reportes_casas.id_casa 
+        WHERE MONTH(reportes_casas.fecha) = MONTH(CURRENT_DATE()) 
+        AND YEAR(reportes_casas.fecha) = YEAR(CURRENT_DATE()) 
+        GROUP BY casas_la_roca.id 
+        ORDER BY casas_visitadas DESC;");
+        $stmt = $this->conexion()->prepare($sql);
 
-    public function contar_lideres_CSR(){
+        $stmt->execute(array());
+
+        while($filas = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $resultado[] = $filas;
+        }
+   
+        return $resultado;
+    }
+
+    public function contar_lideres_CSR()
+    {
         $sql = ("SELECT count(*) AS cantidad_lideres 
         FROM usuarios 
         WHERE codigo LIKE  '%N2%'
@@ -371,11 +393,11 @@ class LaRoca extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
-    
+
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
     public function listar_reporte_CSR($fecha_inicio, $fecha_final, $id_casa)
     {
