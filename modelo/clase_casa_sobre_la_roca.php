@@ -377,10 +377,10 @@ class LaRoca extends Usuarios
 
         $stmt->execute(array());
 
-        while($filas = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $resultado[] = $filas;
         }
-   
+
         return $resultado;
     }
 

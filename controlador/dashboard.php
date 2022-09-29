@@ -12,6 +12,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     $reporte = $objeto->reporte_dashboard();
     $casas_abiertas = $objeto->contar_CSR();
     $lideres_con_CSR = $objeto->contar_lideres_CSR();
+    $lider_mes = $objeto->contar_asistencias_CSR();
     $cantidad_discipulos = $objeto_discipulado->contar_discipulos();
     require_once 'vista/'.$pagina.'.php';
 }
