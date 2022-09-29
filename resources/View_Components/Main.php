@@ -61,11 +61,7 @@
                 </div>
                 <h5 class="fw-normal mt-0 text-muted">Estudiantes en ECAM</h5>
                 <h3 class="mt-3 mb-3">3321</h3>
-                <p class="mb-0 text-muted">
-                  <span class="text-success me-2">
-
-                    <span class="text-nowrap">Mas que el ultimo mes</span>
-                </p>
+                
               </div>
             </div>
           </div>
