@@ -18,6 +18,11 @@
 
 
 /* COLORES PARA VALIDAR CAMPOS */
+.fondoEcam{
+    background-image: url('../img/fondoEcam.jpg');
+    background-size: cover;
+}
+
 #nombreSeccion:focus{
     box-shadow: none;
 }

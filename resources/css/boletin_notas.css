@@ -1,5 +1,5 @@
-.fondoEcam{
-    background-image: url('../img/fondoEcam.jpg');
+.fondoBoletin{
+    background-image: url('../img/boletinFondo.jpg');
     background-size: cover;
 }
 
@@ -9,11 +9,10 @@
     -moz-box-shadow: -1px 1px 8px 0px rgba(0,0,0,0.51);
 }
 
-.cartaEstilo{
-    background: rgb(255, 254, 239);
-}.cartaEstilo:hover{
-    background: rgb(179, 255, 208);
+.titulo{
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 6px black;
+    font-size: 50px;
+    font-style: italic;
 }
-
-
-

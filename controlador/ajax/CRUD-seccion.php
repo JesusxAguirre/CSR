@@ -6,11 +6,12 @@ $objeto = new ecam();
 if (isset($_POST['crear'])) {
     $nombreSeccion= $_POST['nombreSeccion'];
     $nivelSeccion= $_POST['nivelSeccion'];
+    $fechaCierre= $_POST['fechaCierre'];
     $idMateriaSeccion = $_POST['idMateriaSeccion'];
     $cedulaProfSeccion= $_POST['cedulaProfSeccion'];
     $cedulaEstSeccion= $_POST['cedulaEstSeccion'];
 
-    $objeto->setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion);
+    $objeto->setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion, $fechaCierre);
     $objeto->crearSeccion();
     
 }
@@ -42,8 +43,9 @@ if (isset($_POST['actualizarDatosSeccion'])) {
     $nombreSeccionU= $_POST['nombreSeccionU'];
     $nivelSeccionU= $_POST['nivelSeccionU'];
     $idSeccionRefU= $_POST['idSeccionRefU'];
+    $fechaCierreRefU= $_POST['fechaCierreRefU'];
 
-    $objeto->setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU);
+    $objeto->setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU, $fechaCierreRefU);
     $objeto->actualizarDatosSeccion($idSeccionRefU);
 }
 

@@ -11,3 +11,4 @@
 	} else {
 		echo "Pagina en construcion";
 	}
+?>

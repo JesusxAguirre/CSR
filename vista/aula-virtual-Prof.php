@@ -46,7 +46,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3">
+    <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
             <!-- BIENVENIDA ECAM -->
             <?php

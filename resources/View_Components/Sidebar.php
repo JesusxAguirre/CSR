@@ -98,7 +98,7 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
           <div class="collapse" id="ecam">
             <div>
               <ul class="navbar-nav ps-3">
-              <?php if($_SESSION['status_profesor'] == 0){ ?>
+              <?php if($_SESSION['status_profesor'] == 0 && !empty($_SESSION['id_seccion'])) { ?>
                 <li>
                   <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
                   <span class="me-2">
@@ -119,7 +119,13 @@ $permiso_ecam_create = $objeto->get_permiso_ecam_create();
                   </a>
                 </li>
                 <?php } ?>
-
+                <li>
+                  <a href="?pagina=boletin_notas" class="nav-link px-3">
+                  <span class="me-2">
+                  <i class="bi bi-journal-check"></i></span>
+                  <span>Boletin de notas</span>
+                  </a>
+                </li>
                 <li>
                   <a href="?pagina=materias" class="nav-link px-3">
                   <span class="me-2">

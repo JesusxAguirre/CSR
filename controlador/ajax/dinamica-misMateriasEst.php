@@ -23,7 +23,14 @@ if (isset($_POST['verMaterias'])) {
             </div>
     <?php } ?>
     <?php } else { ?>
-        <h1>vacio</h1>
+        <div class="col-3 mt-3 me-3">
+                <div class="card sombra hover">
+                    <div class="position-relative">
+                        <img src="./resources/img/pizarra.png" class="card-img-top" alt="...">
+                        <h5 class="position-absolute top-50 start-50 translate-middle text-white text-center">Por ahora no tienes materias por cursar</h5>
+                    </div>
+                </div>
+            </div>
     <?php }
 }
 

@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
 
     <!-- Mis CSS -->
-    <link rel="stylesheet" href="./resources/css/mis-materiasEstudiante.css">
+    <link rel="stylesheet" href="./resources/css/boletin_notas.css">
 
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
@@ -44,41 +44,36 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3 fondoBoletin">
         <div class="container-fluid">
-            <!-- BIENVENIDA ECAM -->
-            <?php
-            require_once "bienvenida-ecam.php";
-            ?>
-            <!-- FIN DE BIENVENIDA -->
-
-            <div class="row" id="verCartas">
-                <!-- AQUI SE MOSTRARAN LAS MATERIAS DEL ESTUDIANTE -->
+            <div class="row">
+                <div class="col text-center">
+                    <h1 class="titulo">BOLETIN DE</h1>
+                    <h1 class="titulo">NOTAS</h1>
+                    <nav class="navbar">
+                        <form class="container-fluid justify-content-center" id="elegirSeccion">
+                            <?php if (!empty($listarBotones)) {
+                                foreach ($listarBotones as $boton) { ?>
+                                    <button onclick="verListado(<?php echo $boton['id_seccion'] ?>)" class="btn btn-light me-2" type="button"><?php echo $boton['nombre'].' (Nivel '.$boton['nivel_academico'].')' ?></button>
+                              <?php } 
+                            }else{ ?>
+                            <h6>Aun no hay secciones</h6>
+                        <?php } ?>
+                        </form>
+                    </nav>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-3" id="listados">
+                
             </div>
 
         </div>
 
     </main>
 
-    <!----------------------------------------INICIO DE MODAL PARA VER CONTENIDO  ----------------------------------------->
 
-    <div class="modal fade" id="modal_misContenidosEst" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title font-monospace">Contenido de la materia</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="miContenido">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur enim ea voluptatem ad quod, laborum molestiae cumque saepe cupiditate alias voluptas, repellat unde consequatur quos nostrum. Vitae magnam eum fuga.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 </body>
-<script src="./resources/js/mis-materiasEstudiantes.js"></script>
+<script src="./resources/js/boletin_notas.js"></script>
 
 </html>

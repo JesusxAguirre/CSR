@@ -1,5 +1,6 @@
 listarMaterias();
-choices1();
+listarProfesores();
+
 
 
 //BUSCAR MATERIAS POR AJAX
@@ -18,6 +19,17 @@ buscarMateria.addEventListener("keyup", () => {
   });
 });
 
+//LISTAR SELECT PARA AGREGAR PROFESORES A LA MATERIA
+function listarProfesores() {
+  let div = document.getElementById('profesoresAgregar');
+  $.post("controlador/ajax/CRUD-materias.php", {listarProfesores: 'listarProfesores'},
+    function (data) {
+      console.log(data);
+      div.innerHTML= data;
+      choices1();
+    },
+  );
+}
 
 //RELLENANDO DATOS PARA ACTUALIZAR MATERIA
 $(document).on('click', '#actualizarM', function () {
@@ -49,13 +61,13 @@ function listarProfesoresMateria(idMateriaP) {
 }
 
 //CONSULTANDO PROFESOR QUE NO ESTEN VINCULADOS A LA MATERIA PARA AGREGAR
-function consultaDeProfesores(idNoMateria, botonEditarProfM) {
+function consultaDeProfesores(idNoMateria) {
   let listadoCDP = document.getElementById("datos3");
 
   $.ajax({
     data: {
       idNoMateria: idNoMateria,
-      botonEditarProfM: botonEditarProfM,
+      botonEditarProfM: 'botonEditarProfM',
     },
     type: "post",
     url: "controlador/ajax/CRUD-materias.php",
@@ -65,19 +77,7 @@ function consultaDeProfesores(idNoMateria, botonEditarProfM) {
   });
 }
 
-//SELECT PARA LA ACTUALIZACION VINCULACION DE PROFESOR CON LA MATERIA
-function choices2() {
-  var profesores2 = document.getElementById('seleccionarProfV');
-  new Choices(profesores2, {
-    allowHTML: true,
-    maxItemText: 3,
-    removeItems: true,
-    removeItemButton: true,
-    noResultsText: 'No hay coicidencias',
-    noChoicesText: 'No hay participantes disponibles',
-    placeholderValue: 'Buscar profesor',
-  });
-}
+
 
 //BOTON DEL MODAL PARA EDITAR PROFESORES DE LA MATERIA (ABRIR MODAL)
 $(document).on('click', '#editarProf', function (e) {
@@ -88,7 +88,7 @@ $(document).on('click', '#editarProf', function (e) {
   let idMateria = elemento.querySelector('.idMateria').textContent;
 
   listarProfesoresMateria(idMateria);
-  consultaDeProfesores(idMateria, botonEditarProfM);
+  consultaDeProfesores(idMateria);
 });
 ///////////////////////////////////////////////////////////////
 
@@ -98,7 +98,7 @@ $(document).on('click', '#actualizarProfesores', function (e) {
   e.preventDefault();
   
   const data2 = {
-    actualizarProfesores: $("#actualizarProfesores").val(),
+    actualizarProfesores: 'actualizarProfesores',
     idMateriaV: $("#idMateriaV").val(),
     cedulaProfesorV: $("#seleccionarProfV").val(),
   };
@@ -122,7 +122,7 @@ $(document).on('click', '#actualizarProfesores', function (e) {
     $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
       listarProfesoresMateria(data2.idMateriaV);
       $('#formularioVincularProf').trigger('reset');
-      consultaDeProfesores(data2.idMateriaV, data2.actualizarProfesores);
+      consultaDeProfesores(data2.idMateriaV);
     });
   }
 })
@@ -151,7 +151,7 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
         eliminarProfMat
       }, function (response) {
         listarProfesoresMateria(idMateria2);
-        consultaDeProfesores(idMateria2, eliminarProfMat);
+        consultaDeProfesores(idMateria2);
       })
     }
   })
@@ -249,6 +249,20 @@ $("#agregarMateria").on("click", function (e) {
 function choices1 () {
   var profesores = document.getElementById('seleccionarProf');
   new Choices(profesores, {
+    allowHTML: true,
+    maxItemText: 3,
+    removeItems: true,
+    removeItemButton: true,
+    noResultsText: 'No hay coicidencias',
+    noChoicesText: 'No hay participantes disponibles',
+    placeholderValue: 'Buscar profesor',
+  });
+}
+
+//SELECT PARA LA ACTUALIZACION VINCULACION DE PROFESOR CON LA MATERIA
+function choices2() {
+  var profesores2 = document.getElementById('seleccionarProfV');
+  new Choices(profesores2, {
     allowHTML: true,
     maxItemText: 3,
     removeItems: true,

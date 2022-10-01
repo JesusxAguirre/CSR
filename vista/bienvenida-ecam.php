@@ -4,7 +4,7 @@
         <div class="card bg-success">
             <div class="card-body">
                 <div>
-                    <h1 class="fw-bold">AULA VIRTUAL <i class="bi bi-mortarboard-fill"></i></h1>
+                    <h1 class="fw-bold">AULA VIRTUAL <?php echo $resultado= $_SESSION['status_profesor'] == 1 ? 'PROFESORES': 'ESTUDIANTES' ?> <i class="bi bi-mortarboard-fill"></i></h1>
                     <h5 class="fst-italic">¡Bienvenido "<?php echo $_SESSION['nombre'] ?>"!</h5>
                 </div>
 
