@@ -31,12 +31,11 @@
                             <div class="fs-2 me-3 text-danger"><i class="bi bi-house"></i></div>
                             <div class="mb-0">
                                 <h6 class="mb-0 fst-italic"><?php echo $seccionesOFF['nombre'].' (Nivel '.$seccionesOFF['nivel_academico'].')'; ?></h6>
-                                <p class="mb-0"><em><?php echo 'Fecha de cerrado: '.$misEst['fecha_cierre'];?></em></p>
+                                <p class="mb-0"><em><?php echo 'Fecha de cerrado: '.$seccionesOFF['fecha_cierre'];?></em></p>
                             </div>
+                            <button type="button" class="btn btn-outline-info ms-5">Ver estudiantes</button>
                         </div>
-                        <div>
-                            <button type="button" class="btn btn-outline-info">Ver estudiantes</button>
-                        </div>
+                        
                     </td>
                 </tr> <?php
             }
@@ -46,6 +45,7 @@
                 </tr> <?php
         }
     }
+
 
     //ACTIVAR LISTA DE ESTUDIANTES POR SECCION
     if (isset($_POST['activarTablaEst'])) {
@@ -69,30 +69,95 @@
     }
 
 
-    //SELECT2 DE LISTAR ESTUDIANTES PARA REGISTRAR UNA SECCION
+    //CHOICES JS DE LISTAR ESTUDIANTES PARA REGISTRAR UNA SECCION DEPENDIENDO DEL NIVEL QUE SE SELECCIONE 
     if (isset($_POST['verEstudiantes'])) {
-        $estudiantes = $objeto->listarEstudiantes();
+        $nivelRef= $_POST['nivelRef'];
 
-    ?> <select class="form-select" id="seleccionarEstudiantes" multiple>
-     <?php foreach ($estudiantes as $est) : ?>
-     <option value="<?php echo $est['cedula']; ?>">
-         <?php echo $est['codigo'] . ' ' . $est['nombre'] . ' ' . $est['apellido']; ?></option>
-     <?php endforeach; ?>
-       </select> <?php
+        switch ($nivelRef) {
+            case 1:
+                $estudiantes = $objeto->sinNivel1(); ?> 
+
+                <select class="form-select" id="seleccionarEstudiantes" multiple>
+                    <?php foreach ($estudiantes as $est) : ?>
+                    <option value="<?php echo $est['cedula']; ?>">
+                        <?php echo $est['codigo'] . ' ' . $est['nombre'] . ' ' . $est['apellido']; ?></option>
+                    <?php endforeach; ?>
+                </select> 
+                <div hidden class="alertaNoEstudiantes alert alert-danger" role="alert">
+                    ¡Debes seleccionar minimo 1 estudiante!
+                </div> <?php
+                break;
+
+            case 2:
+                $estudiantes2 = $objeto->sinNivel2(); ?>
+
+                <select class="form-select" id="seleccionarEstudiantes" multiple>
+                    <?php foreach ($estudiantes2 as $est2) : ?>
+                    <option value="<?php echo $est['cedula']; ?>">
+                        <?php echo $est2['codigo'] . ' ' . $est2['nombre'] . ' ' . $est2['apellido']; ?></option>
+                    <?php endforeach; ?>
+                </select> 
+                <div hidden class="alertaNoEstudiantes alert alert-danger" role="alert">
+                    ¡Debes seleccionar minimo 1 estudiante!
+                </div> <?php
+                break;
+
+            case 3:
+                $estudiantes3 = $objeto->sinNivel3(); ?>
+
+                <select class="form-select" id="seleccionarEstudiantes" multiple>
+                    <?php foreach ($estudiantes3 as $est3) : ?>
+                    <option value="<?php echo $est['cedula']; ?>">
+                        <?php echo $est3['codigo'] . ' ' . $est3['nombre'] . ' ' . $est3['apellido']; ?></option>
+                    <?php endforeach; ?>
+                </select> 
+                <div hidden class="alertaNoEstudiantes alert alert-danger" role="alert">
+                    ¡Debes seleccionar minimo 1 estudiante!
+                </div> <?php
+                break;
+        }
     }
+
+
 
     //CHOICES DE LISTAR ESTUDIANTES PARA AGREGAR MAS A LA SECCION
     if (isset($_POST['verEstudiantes2'])) {
-        $listarEstudiantesOFF = $objeto->listarEstudiantes();
+        $nivelAcademicoRef= $_POST['nivelAcademicoRef'];
 
-    ?> <select class="form-select" id="seleccionarEstudidantesAdicionales" multiple>
-        <?php foreach ($listarEstudiantesOFF as $estOFF) : ?>
-            <option value="<?php echo $estOFF['cedula']; ?>"><?php echo $estOFF['codigo'] . ' ' . $estOFF['nombre'] . ' ' . $estOFF['apellido']; ?></option>
-        <?php endforeach; ?>
-        </select>
-        <input hidden id="idSeccionV"><?php
+        switch ($nivelAcademicoRef) {
+            case 1:
+                $listarEstudiantesOFF1 = $objeto->sinNivel1();
+
+                ?> <select class="form-select" id="seleccionarEstudiantesAdicionales" multiple>
+                    <?php foreach ($listarEstudiantesOFF1 as $estOFF1) : ?>
+                        <option value="<?php echo $estOFF1['cedula']; ?>"><?php echo $estOFF1['codigo'] . ' ' . $estOFF1['nombre'] . ' ' . $estOFF1['apellido']; ?></option>
+                    <?php endforeach; ?>
+                    </select><?php
+            break;
+
+            case 2:
+                $listarEstudiantesOFF2 = $objeto->sinNivel2();
+
+                ?> <select class="form-select" id="seleccionarEstudiantesAdicionales" multiple>
+                    <?php foreach ($listarEstudiantesOFF2 as $estOFF2) : ?>
+                        <option value="<?php echo $estOFF2['cedula']; ?>"><?php echo $estOFF2['codigo'] . ' ' . $estOFF2['nombre'] . ' ' . $estOFF2['apellido']; ?></option>
+                    <?php endforeach; ?>
+                    </select><?php
+            break;
+            
+            case 3:
+                $listarEstudiantesOFF3 = $objeto->sinNivel3();
+                
+                ?> <select class="form-select" id="seleccionarEstudiantesAdicionales" multiple>
+                    <?php foreach ($listarEstudiantesOFF3 as $estOF) : ?>
+                        <option value="<?php echo $estOF['cedula']; ?>"><?php echo $estOF['codigo'] . ' ' . $estOF['nombre'] . ' ' . $estOF['apellido']; ?></option>
+                    <?php endforeach; ?>
+                    </select><?php
+            break;
+        }
+
+    
     }
-
 
 
     //ACTIVAR LISTA DE PROFESORES POR SECCION
@@ -117,8 +182,9 @@
             }
         }
     }
-    
-    //CHOICES DE LISTAR PROFESORES PARA A LA MATERIA DE LA SECCION
+
+
+    //CHOICES DE LISTAR MAS PROFESORES Y MAS MATERIAS PARA LA SECCION
     if (isset($_POST['verProfesoresMateriasSelect'])) {
         $idSeccionReferencial= $_POST['idSeccionRef4'];
         $nivDoctrinaReferencial= $_POST['nivDoctrinaRef4'];
@@ -146,176 +212,144 @@
     }
 
 
-
-
-
     
-/////////////////////////////////////////////////////////////
-/////LISTADO DE MATERIAS POR NIVELES Y LISTAR PROFESORES/////
-if (isset($_POST['nivelSeleccionado'])) {
-    $nivel = $_POST['nivel'];
+    /////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////LISTADO DE MATERIAS POR NIVELES Y LISTAR PROFESORES////////////////////
 
-    //NIVEL 1
-    if ($nivel == 1) {
-        $numRow = $objeto->cantidadFilasNiveles($nivel);
-        $materiasNivel = $objeto->listarMateriasNivel($nivel);
+    if (isset($_POST['nivelSeleccionado'])) {
+        $nivel = $_POST['nivel'];
 
-?>      
-        <form class="formulario_MatProfSeccion">
-<?php   
-        for ($i = 0; $i < $numRow; $i++) { ?>
-           
-               <div class="row">
-                   <div class="col-5 mt-2">
-                       <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
-                       <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
+        ///////////////////////////////////////////
+        ///////////////////////////////////NIVEL 1
+        if ($nivel == 1) {
+            $numRow = $objeto->cantidadFilasNiveles($nivel);
+            $materiasNivel = $objeto->listarMateriasNivel($nivel); ?>      
+            <form class="formulario_MatProfSeccion">
+      
+        <?php for ($i = 0; $i < $numRow; $i++) { ?>
+
+                   <div class="row">
+                       <div class="col-5 mt-2">
+                           <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
+                           <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
+                       </div>
+
+                       <div class="col-7 mt-2">
+                           <select class="seleccionarProfesores form-select">
+                               <option value="ninguno" selected>Selecciona al profesor</option>
+                               <?php foreach ($objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) as $key) { ?>
+                                   <option value="<?php echo $key['cedula_profesor']; ?>">
+                                   <?php echo $key['codigo'] . ' ' . $key['nombre'] . ' ' . $key['apellido']; ?></option>
+                              <?php } ?>
+                           </select>
+                       </div>
+                   </div> 
+     
+        <?php } ?>
+            <div hidden class="alertaMatProf alert alert-danger" role="alert">
+                ¡No dejes campos sin seleccionar!!
+            </div>
+            </form>
+<?php }
+        /////////////////////////////////////////////////
+        /////////////////////////////////////////NIVEL 2
+        if ($nivel == 2) {
+            $numRow = $objeto->cantidadFilasNiveles($nivel);
+            $materiasNivel = $objeto->listarMateriasNivel($nivel);
+
+    ?>      
+            <form class="formulario_MatProfSeccion">
+    <?php   
+            //LISTAR MATERIAS CON PROFESORES PARA ELEGIR
+            for ($i = 0; $i < $numRow; $i++) { ?>
+
+                   <div class="row">
+                       <div class="col-5 mt-2">
+                           <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
+                           <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
+                       </div>
+
+                       <div class="col-7 mt-2">
+                           <select class="seleccionarProfesores form-select">
+                               <option value="ninguno" selected>Selecciona al profesor</option>
+                               <?php foreach ($objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) as $key2) { ?>
+                                   <option value="<?php echo $key2['cedula_profesor']; ?>">
+                                   <?php echo $key2['codigo'] . ' ' . $key2['nombre'] . ' ' . $key2['apellido']; ?></option>
+                              <?php } ?>
+                           </select>
+                       </div>
                    </div>
-                   
-                   <div class="col-7 mt-2">
-                       <select class="seleccionarProfesores form-select">
-                           <option value="ninguno" selected>Selecciona al profesor</option>
-                           <?php foreach ($objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) as $key) { ?>
-                               <option value="<?php echo $key['cedula_profesor']; ?>">
-                               <?php echo $key['codigo'] . ' ' . $key['nombre'] . ' ' . $key['apellido']; ?></option>
-                          <?php } ?>
-                       </select>
-                   </div>
-               </div> 
-<?php 
+    <?php 
+            }
+    ?>      
+            <div hidden class="alertaMatProf alert alert-danger" role="alert">
+                ¡No dejes campos sin seleccionar!
+            </div>
+            </form> 
+    <?php
         }
-?>      
-        </form>
-        <div class="alert alert-danger" role="alert">
-            ¡No dejes campos sin seleccionar!!
-        </div>
-        <form class="formulario_seminarioSeccion">
-        <div class="row mt-3">
-            <span>Si desea agregar un seminario, puede seleccionarlo aqui:</span>
-            <div class="col-5 mt-2">
-                <input hidden type="text" class="seleccionarMaterias" value="">
-                <input disabled type="text" class="form-control" value="">
-            </div>
-        
-            <div class="col-7 mt-2">
-                <select class="seleccionarProfesores form-select">
-                    <option value="no" selected>Quizas luego</option>
-                        <option value="2">adasd</option>
-                </select>
-            </div>
-        </div>
-        </form>
-<?php
-    }
-    //NIVEL 2
-    if ($nivel == 2) {
-        $numRow = $objeto->cantidadFilasNiveles($nivel);
-        $materiasNivel = $objeto->listarMateriasNivel($nivel);
+        //////////////////////////////////////////////////
+        //////////////////////////////////////////NIVEL 3
+        if ($nivel == 3) {
+            $numRow = $objeto->cantidadFilasNiveles($nivel);
+            $materiasNivel = $objeto->listarMateriasNivel($nivel);
 
-?>      
-        <form class="formulario_MatProfSeccion">
-<?php   
-        //LISTAR MATERIAS CON PROFESORES PARA ELEGIR
-        for ($i = 0; $i < $numRow; $i++) { ?>
-           
-               <div class="row">
-                   <div class="col-5 mt-2">
-                       <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
-                       <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
-                   </div>
-                   
-                   <div class="col-7 mt-2">
-                       <select class="seleccionarProfesores form-select">
-                           <option value="ninguno" selected>Selecciona al profesor</option>
-                           <?php foreach ($objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) as $key2) { ?>
-                               <option value="<?php echo $key2['cedula_profesor']; ?>">
-                               <?php echo $key2['codigo'] . ' ' . $key2['nombre'] . ' ' . $key2['apellido']; ?></option>
-                          <?php } ?>
-                       </select>
-                   </div>
-               </div>
-<?php 
-        }
-?>      
-        </form> 
-        <div class="alert alert-danger" role="alert">
-            ¡No dejes campos sin seleccionar!
-        </div>
-        <form class="formulario_seminarioSeccion">
-        <div class="row mt-3">
-            <span>Si desea agregar un seminario, puede seleccionarlo aqui:</span>
-            <div class="col-5 mt-2">
-                <input hidden type="text" class="seleccionarMaterias" value="">
-                <input disabled type="text" class="form-control" value="">
-            </div>
-        
-            <div class="col-7 mt-2">
-                <select class="seleccionarProfesores form-select">
-                    <option value="ninguno" selected>Selecciona al profesor</option>
-                        <option value="2">adasd</option>
-                </select>
-            </div>
-        </div> 
-        </form>
-<?php
-    }
-    //NIVEL 3
-    if ($nivel == 3) {
-        $numRow = $objeto->cantidadFilasNiveles($nivel);
-        $materiasNivel = $objeto->listarMateriasNivel($nivel);
 
-        
-?>      
-        <form class="formulario_MatProfSeccion">
-<?php   
-        //LISTAR MATERIAS CON PROFESORES PARA ELEGIR
-        for ($i = 0; $i < $numRow; $i++) { ?>
-            <div class="row">
-                <div class="col-5 mt-2">
-                    <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
-                    <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
+    ?>      
+            <form class="formulario_MatProfSeccion">
+    <?php   
+            //LISTAR MATERIAS CON PROFESORES PARA ELEGIR
+            for ($i = 0; $i < $numRow; $i++) { ?>
+                <div class="row">
+                    <div class="col-5 mt-2">
+                        <input hidden type="text" class="seleccionarMaterias" value="<?php echo $materiasNivel[$i]['id_materia']; ?>">
+                        <input disabled type="text" class="form-control" value="<?php echo $materiasNivel[$i]['nombre']; ?>">
+                    </div>
+
+                    <div class="col-7 mt-2">
+                        <select class="seleccionarProfesores form-select">
+                            <option value="ninguno" selected>Selecciona al profesor</option>
+                            <?php foreach ($objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) as $key3) { ?>
+                                <option value="<?php echo $key3['cedula_profesor']; ?>">
+                                <?php echo $key3['codigo'] . ' ' . $key3['nombre'] . ' ' . $key3['apellido']; ?></option>
+                           <?php } ?>
+                        </select>
+                    </div>
                 </div>
-                
-                <div class="col-7 mt-2">
-                    <select class="seleccionarProfesores form-select">
-                        <option value="ninguno" selected>Selecciona al profesor</option>
-                        <?php foreach ($objeto->listarProfesoresMateria($materiasNivel[$i]['id_materia']) as $key3) { ?>
-                            <option value="<?php echo $key3['cedula_profesor']; ?>">
-                            <?php echo $key3['codigo'] . ' ' . $key3['nombre'] . ' ' . $key3['apellido']; ?></option>
-                       <?php } ?>
-                    </select>
-                </div>
+                            
+    <?php 
+            }
+    ?>      
+            <div hidden class="alertaMatProf alert alert-danger" role="alert">
+                ¡No dejes campos sin seleccionar!
             </div>
-            
-<?php 
+            </form> 
+    <?php
         }
-?>      
-        <div hidden class="alertaMatProf alert alert-danger" role="alert">
-            ¡No dejes campos sin seleccionar!
-        </div>
-        </form> 
-        
-        <form class="formulario_seminarioSeccion">
-        <div class="row mt-3">
-            <span>Si desea agregar un seminario, puede seleccionarlo aqui:</span>
-            <div class="col-5 mt-2">
-                <input hidden type="text" class="seleccionarMaterias" value="">
-                <input disabled type="text" class="form-control" value="">
-            </div>
-        
-            <div class="col-7 mt-2">
-                <select class="form-select">
-                    <option value="ninguno" selected>Selecciona al profesor</option>
-                        <option value="2">adasd</option>
-                </select>
-            </div>
-        </div>
-        </form> 
-<?php
+
     }
+    /////FIN DEL LISTADO DE NIVELES Y PROFESORES/////
 
-}
-/////FIN DEL LISTADO DE NIVELES Y PROFESORES/////
 
+    //VER SEMINARIOS DISPONIBLES
+    if (isset($_POST['verSeminarios'])) { ?>
+        <option value="no" selected>Quizas luego</option>
+        <?php $materias_seminario= $objeto->materias_seminario(); ?>
+        <?php foreach ($materias_seminario as $seminarios) { ?>
+            <option value="<?php echo $seminarios['id_materia'] ?>"><?php echo $seminarios['nombre'] ?></option>
+      <?php } ?> <?php
+    }
+    //VER LOS PROFESORES DEL SEMINARIO SELECCIONADO
+    if (isset($_POST['seminarioSeleccionado'])) { ?>
+        <option disabled value="no" selected>Selecciona un profesor</option>
+
+        <?php $listar_profesorSeminario= $objeto->profesor_selectSeminario($_POST['seminarioSeleccionado']);
+            if (!empty($listar_profesorSeminario)) {
+                foreach ($listar_profesorSeminario as $profSeminario) { ?>
+                <option value="<?php echo $profSeminario['cedula_profesor'] ?>"><?php echo $profSeminario['codigo'].' '.$profSeminario['nombre'].' '.$profSeminario['apellido']; ?></option>
+        <?php }
+        }
+    }
 
 
 ?>

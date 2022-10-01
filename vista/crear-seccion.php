@@ -52,7 +52,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3">
+    <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
             <div class="row text-center">
                 <h4>CREAR SECCION</h4>
@@ -71,6 +71,7 @@
                                             <th>ID</th>
                                             <th>NOMBRE</th>
                                             <th>NIVEL</th>
+                                            <th>Fecha de cierre</th>
                                             <th>OPCIONES</th>
                                         </tr>
                                     </thead>
@@ -120,7 +121,7 @@
             <div class="modal-content formModal1">
                 <div class="modal-header">
                     <h5 class="modal-title font-monospace fw-bold">DATOS DE LA SECCION</h5>
-                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="cerrarCrear btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="formulario_datosSeccion">
@@ -147,7 +148,11 @@
                         </div>
                         <!-- FIN DEL CAMPO SELECCION DE NIVEL -->
                         <div class="mt-3">
-                            <input type="date" name="" id="">
+                            <label class="form-label" for="fechaCierre">Ingresa la fecha de cierre</label>
+                            <input id="fechaCierre" name="fechaCierre" class="form-control" type="date">
+                            <div hidden class="alert-danger" role="alert" id="alertaFecha">
+                                ¡No elegiste una fecha de cierre!
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -165,14 +170,39 @@
             <div class="modal-content formModal2">
                 <div class="modal-header">
                     <h5 class="modal-title font-monospace fw-bold">MATERIAS Y PROFESORES</h5>
-                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="cerrarCrear btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body" id="datos_PM">
-                    <h2 class="text-center text-white">SELECCIONE EL NIVEL ACADEMICO DE LA SECCION</h2>
+                <div class="modal-body">
+                    <!-- Aqui se mostraran las materias de dichi nivel seleccionado -->
+                    <div id="datos_PM">
+                        <!-- MENSAJE DE ADVERTENCIA SI SE PASAN LA SEGURIDAD -->
+                        <h2 class="text-center text-white">SELECCIONE EL NIVEL ACADEMICO DE LA SECCION</h2>
+                    </div>
+                    <!-- Aqui se mostrara si el usuario quiere agregar seminarios como materia adicional -->
+                    <div class="row mt-3">
+                        <form id="formulario_seminarioSeccion">
+                            <div class="row mt-3">
+                                <span>Si desea agregar un seminario, puede seleccionarlo aqui:</span>
+                                <div class="col-5 mt-2">
+                                    <!-- Aqui lista todos los seminarios disponibles -->
+                                    <select id="seleccionarMateriaSeminario" class="form-select" name="seminario">
+                                        
+                                    </select>
+                                </div>
+
+                                <div class="col-7 mt-2">
+                                    <!-- Aqui selecciona el profesor disponible de el seminario seleccionado -->
+                                    <select disabled id="seleccionarProfesorSeminario" class="form-select" name="profesorSeminario">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" data-bs-target="#form1" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-dark" id="siguiente2">Siguiente</button>
+                    <button type="button" class="btn btn-dark" id="siguiente2" >Siguiente</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -185,18 +215,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title font-monospace">AGREGAR ESTUDIANTES</h5>
-                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="cerrarCrear btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div id="datos_E">
-
+                        
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
                 </div>
                 <div class="d-grid mt-3">
-                    <button class="btn btn-success" id="crear">CREAR SECCION <i class="bi bi-plus-circle"></i></button>
+                    <button disabled class="btn btn-success" id="crear">CREAR SECCION <i class="bi bi-plus-circle"></i></button>
                 </div>
             </div>
         </div>
@@ -219,7 +249,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <input hidden id="idSeccionRefU" type="text">
+                    <input class="d-none" id="idSeccionRefU" type="text">
                     <label class="form-label">Ingresa el nombre de la seccion</label>
                     <input id="nombreSeccionEdit" class="form-control" type="text">
                     <hr>
@@ -231,6 +261,11 @@
                         <option value="3">Nivel 3</option>
                     </select>
                     <hr>
+                    <label class="form-label" for="fechaCierreEdit">Ingresa la fecha de cierre</label>
+                    <input id="fechaCierreEdit" name="fechaCierreEdit" class="form-control" type="date">
+                    <div hidden class="alert-danger" role="alert" id="alertaFechaEdit">
+                        ¡No elegiste una fecha de cierre!
+                    </div>
                 </div>
                 <div class="d-grid">
                     <button type="button" class="btn btn-success" id="guardarEditado1">GUARDAR</button>
@@ -248,12 +283,9 @@
     <div class="modal fade" id="modalEditarEstudiantesSeccion" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <!-- <div class="modal-header">
-                            <h5 class="modal-title">EDITA LOS DATOS</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>-->
                 <div class="modal-body">
-                    <input hidden id="idSeccionRef2" type="text">
+                    <input class="d-none" id="nivelAcademicoRef" type="text">
+                    <input class="d-none" id="idSeccionRef2" type="text">
                     <h5>ESTUDIANTES DE LA SECCION</h5>
                     <hr>
                     <div class="table-responsive">

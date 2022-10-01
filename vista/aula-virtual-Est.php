@@ -44,7 +44,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3">
+    <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
             <!-- BIENVENIDA ECAM -->
             <?php
@@ -124,7 +124,7 @@
                     <div class="card mt-3 sombra cartaEstilo">
                         <div class="card-body text-center">
                             <h5 class="fw-bold">FECHA DE CIERRE</h5>
-                            <h6><i><?php $mis_datosSeccion[0]['fecha_cierre'] ?></i></h6>
+                            <h6><i><?php echo $mis_datosSeccion[0]['fecha_cierre'] ?></i></h6>
                         </div>
                     </div>
                 </div>

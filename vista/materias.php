@@ -38,7 +38,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3">
+    <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
@@ -82,11 +82,9 @@
                             <div class="row mt-3" id="formularioAgregarProf">
                                 
                                 <label class="form-label fst-italic fw-bold text-white">Profesores que dictan la materia</label>
-                                <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
-                                    <?php foreach ($profesores as $prof) : ?>
-                                        <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div id="profesoresAgregar">
+
+                                </div>
                                 
                             </div>
                         </div>
@@ -200,7 +198,7 @@
                         </form>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-success botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>
+                    <button class="btn btn-success botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>
                 </div>
             </div>
         </div>

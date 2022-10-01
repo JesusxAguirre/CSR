@@ -63,6 +63,18 @@ if (isset($_POST['botonEditarProfM'])) {
       <input hidden id="idMateriaV" value="<?php echo $profesores2[0]['id_materia']; ?>">
 <?php }
 
+if (isset($_POST['listarProfesores'])) {
+    $profesores= $objeto->listarTodos(); ?>
+
+    <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
+<?php    foreach ($profesores as $prof) : ?>
+        <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre'].' '.$prof['apellido']; ?></option>
+<?php endforeach; ?>                    
+    </select>
+<?php    
+}
+
+
 ?>
 
 

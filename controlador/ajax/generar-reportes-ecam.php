@@ -8,7 +8,7 @@ if (isset($_POST['ver1'])) {
     
     $json= $objeto->ver1();
     
-   echo json_encode($json);
+   echo json_encode($json); 
 }
 
 ?>

@@ -30,6 +30,7 @@
     <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
+    
 </head>
 
 <body>
@@ -44,28 +45,37 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3">
+    <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
             <div class="row ">
-                <div class="col">
+                <div class="col-4">
                     <div class="card mt-3">
                         <div class="card-body">
                             <div>
-                                <h5>Numero de estudiantes por seccion</h5>
+                                <h5 class="card-title text-center">Numero de estudiantes por seccion</h5>
                             </div>
                             <canvas id="canva1"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-4">
                     <div class="card mt-3">
                         <div class="card-body">
                             <canvas id="canva2"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col">
-
+                <div class="col-4">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Cantidad de profesores en la ECAM</h5>
+                        </div>
+                    </div>  
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Cantidad de estudiantes en la ECAM</h5>
+                        </div>
+                    </div>  
                 </div>
             </div>
 
