@@ -366,6 +366,7 @@ class LaRoca extends Usuarios
     }
     public function contar_asistencias_CSR()
     {
+        $resultado = [];
         $sql = ("SELECT casas_la_roca.id,usuarios.nombre,usuarios.apellido, count(reportes_casas.fecha) AS casas_visitadas FROM casas_la_roca 
         INNER JOIN usuarios ON casas_la_roca.cedula_lider =usuarios.cedula 
         INNER JOIN reportes_casas ON casas_la_roca.id = reportes_casas.id_casa 

@@ -209,7 +209,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Agregar participante a Celula de discipulado</h5>
+          <h5 class="modal-title">Agregar Discipulo a Celula de discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -217,7 +217,7 @@
             <div class="mb-3 row">
               <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar participantes a celula</label>
+                  <label class="form-label fw-bold" for="">Agregar Discipulo a celula</label>
                   <i class="input-icon fs-5"></i>
 
                   <select multiple name="participantes[]" id="participantes" class="form-control">
@@ -251,7 +251,7 @@
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Eliminar participante de Celula de discipulado</h5>
+          <h5 class="modal-title">Eliminar Discipulo de Celula de discipulado</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -260,10 +260,10 @@
               <thead>
                 <tr role='row'>
                   <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre participante</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido participante</th>
-                  <th colspan='1' role='columnheader' class=''>Codigo participante</th>
-                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono participante</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre Discipulo</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Apellido Discipulo</th>
+                  <th colspan='1' role='columnheader' class=''>Codigo Discipulo</th>
+                  <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono Discipulo</th>
                   <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
                 </tr>
               </thead>
@@ -281,7 +281,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-danger text-light">
-          <h5 class="modal-title" id="Modaleliminar">Estas seguro(a) que deseas eliminar este participante?</h5>
+          <h5 class="modal-title" id="Modaleliminar">Estas seguro(a) que deseas eliminar este discipulo?</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body fs-5">
@@ -313,7 +313,7 @@
             <div class="mb-3 row">
               <div id="grupo__asistentes" class="col-sm ">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
+                  <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
                   <i class="input-icon fs-5"></i>
                   <div id="asistencias4" ></div>
 
