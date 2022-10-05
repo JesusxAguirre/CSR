@@ -1,5 +1,10 @@
 seccionesCerradas();
-
+$("#seleccionarProfesoresAdicionales").select2({
+    allowClear: true,
+    theme: "bootstrap4",
+    dropdownParent: $("#selectMasProfesoresMaterias")
+});
+ 
 
 /////////////////////////////////
 /////APARTADO DE DATATABLES/////
@@ -347,15 +352,26 @@ function listarProfesoresSeccion() {
         div.innerHTML = data;
     });
 }
+
+
+campo_MatProf={
+    mat: false,
+    prof: false,
+}
 //SELECT DE LOS PROFESORES PARA AGREGAR A LA MATERIA (LISTA)
-function selectMasProfesoresMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCION SELECCIONADA
-    let div = document.getElementById("selectMasProfesoresMaterias");
+function selectMasMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCION SELECCIONADA
+    campo_MatProf[0]= false;
+    campo_MatProf[1]= false;
+    
+    document.querySelector("#seleccionarProfesoresAdicionales").setAttribute("disabled", "disabled");
+
+    let div = document.getElementById("select1");
     let idSeccionRef4= $('#idSeccionProfMatU').val();
     let nivDoctrinaRef4= $('#nivDoctrinaSeccionProfMatU').text();
-
+    
     $.ajax({
         data: {
-            verProfesoresMateriasSelect: 'verProfesoresMateriasSelect',
+            verMateriasAdicionales: 'verMateriasAdicionales',
             idSeccionRef4: idSeccionRef4,
             nivDoctrinaRef4: nivDoctrinaRef4,
         },
@@ -363,36 +379,115 @@ function selectMasProfesoresMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCI
         url: "controlador/ajax/dinamica-seccion.php",
     }).done((data) => {
         div.innerHTML = data;
-        choicesMasProfesoresMaterias();
+        masMateriasChoices= new Choices(document.querySelector('#seleccionarMateriasAdicionales'), {
+            allowHTML: true,
+            removeItems: true,
+            removeItemButton: true,
+            noResultsText: "No hay coicidencias",
+            noChoicesText: "No hay materias disponibles",
+            placeholder: true,
+            placeholderValue: "Buscar materia",
+      });
+        
     });
 }
+/////ENTRAR AL MODAL PROFESORES-MATERIAS Y LISTAR LOS PROFESORES-MATERIAS DE LA SECCION SELECCIONADA/////
+$('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
+
+    let idSeccionRef3= dataTableSec.row($(this).parents()).data().id_seccion;
+    let nivDoctrinaSeccionRef3= dataTableSec.row($(this).parents()).data().nivel_academico;
+    let nombreSeccionRef3= dataTableSec.row($(this).parents()).data().nombre;
+    $('#idSeccionProfMatU').val(idSeccionRef3);
+    $('#nivDoctrinaSeccionProfMatU').text(nivDoctrinaSeccionRef3);
+    $('#nombreSeccionProMatfU').text(nombreSeccionRef3);
+    
+    let div = document.getElementById("listaProfDatos");
+
+    $.ajax({
+        data: {
+            activarTablaProf: 'activarTablaProf',
+            idSMConsulta: idSeccionRef3,
+        },
+        type: "post",
+        url: "controlador/ajax/dinamica-seccion.php",
+    }).done((data) => {
+        div.innerHTML = data;
+        selectMasMaterias();
+    })
+})
+//LISTAR Y VALIDAR PROFESORES DE LA MATERIA SELECCIONADA AL AGREGAR MAS MATERIAS Y PROFESORES
+$(document).on('change', '#seleccionarMateriasAdicionales', function () {
+    
+    let div= document.getElementById('seleccionarProfesoresAdicionales');
+    let seminario= document.getElementById('seleccionarMateriaSeminario');
+
+    if ($(this)[0].value == 'ninguno' || $(this)[0].value == '') {
+        document.querySelector("#seleccionarProfesoresAdicionales").setAttribute("disabled", "disabled");
+        document.querySelector("#seleccionarProfesoresAdicionales").value= 'ninguno';
+        campo_MatProf[0]= false;
+    }else{
+        campo_MatProf[0]= true;
+        let materiaSeleccionada= $(this)[0].value;
+        $.post("controlador/ajax/dinamica-seccion.php", {verProfesoresMateriaAdicional: 'verProfesoresMateriaAdicional', materiaSeleccionada: materiaSeleccionada}, function (data) {
+            div.innerHTML= data;
+            document.querySelector("#seleccionarProfesoresAdicionales").removeAttribute("disabled");
+        } );
+        
+    }
+});
+//VALIDANDO SELECCIONAR PROFESOR ADICIONAL
+$(document).on('change', '#seleccionarProfesoresAdicionales', function () {
+
+    if ($(this)[0].value == 'ninguno' || $(this)[0].value == '') {
+        document.querySelector(".alertaSelect2").removeAttribute("hidden");
+        campo_MatProf[1]= false;
+    }else{
+        document.querySelector(".alertaSelect2").setAttribute("hidden", "hidden");
+        campo_MatProf[1]= true;
+    }
+});
+
+
 //AGREGAR MATERIAS CON PROFESORES ASIGNADOS ADICIONALES AL QUERER EDITAR EN EL MODAL
 $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVOS
     e.preventDefault();
+    if (campo_MatProf[0] == true  && campo_MatProf[1] == true) {
+        const data= {
+            actualizarMP: 'actualizarMP',
+            idMateriaAdicional: $('#seleccionarMateriasAdicionales').val(),
+            cedulaProfesorAdicional: $('#seleccionarProfesoresAdicionales').val(),
+            idSeccionRef5: $("#idSeccionProfMatU").val(),
+        };
     
-    const data= {
-        actualizarMP: 'actualizarMP',
-        idMateriaAdicional: $('#seleccionarMateriasAdicionales').val(),
-        cedulaProfesorAdicional: $('#seleccionarProfesoresAdicionales').val(),
-        idSeccionRef5: $("#idSeccionProfMatU").val(),
-    };
-
-    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-        listarProfesoresSeccion();
-        selectMasProfesoresMaterias();
+        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+            listarProfesoresSeccion();
+            $('#seleccionarProfesoresAdicionales').val('ninguno')
+            selectMasMaterias();
+            Swal.fire({
+                icon: 'success',
+                iconColor: 'white',
+                title: '¡Agregado correctamente!',
+                toast: true,
+                background: 'green',
+                color: 'white',
+                showConfirmButton: false,
+                timer: 2000,
+            })
+        });
+    }else{
         Swal.fire({
-            icon: 'success',
+            icon: 'error',
             iconColor: 'white',
-            title: '¡Agregado correctamente!',
+            title: '¡No dejes ningun campo vacio!',
             toast: true,
-            background: 'green',
+            background: 'red',
             color: 'white',
             showConfirmButton: false,
             timer: 2000,
         })
-    });
-
+    }
 });
+
 //ELIMINAR MATERIAS Y PROFESOR DE LA SECCION SELECCIONADA
 $(document).on('click', '#eliminarMP_ON', function (e) {
     e.preventDefault();
@@ -423,7 +518,7 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
         if (result.isConfirmed) {
           $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
             listarProfesoresSeccion();
-            selectMasProfesoresMaterias();
+            selectMasMaterias();
 
             Swal.fire({
                 icon: 'success',
@@ -476,27 +571,44 @@ function selectEstudiantesOFF() {
 //GUARDAR EL AGREGADO DE MAS ESTUDIANTES A LA SECCION
 $("#agregarEditado2").on("click", function (e) {
     e.preventDefault();
-    const data = {
-      actualizarEstudiantes: 'actualizarEstudiantes',
-      idSeccionV: $("#idSeccionRef2").val(),
-      estudiantesNuevos: $("#seleccionarEstudiantesAdicionales").val(),
-    };
-    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-        console.log(response);
-        listarEstudiantesSeccion(data.idSeccionV);
-        selectEstudiantesOFF();
+    let campo= document.getElementById('seleccionarEstudiantesAdicionales');
+    if (campo.value == '') {
         Swal.fire({
-            icon: 'success',
+            icon: 'error',
             iconColor: 'white',
-            title: '¡Estudiante guardado correctamente!',
+            title: '¡No ha agregado a ningun estudiante!',
             toast: true,
-            background: 'green',
+            background: 'red',
             color: 'white',
             showConfirmButton: false,
             timer: 2000,
         });
-    });
+    }else{
+        const data = {
+            actualizarEstudiantes: 'actualizarEstudiantes',
+            idSeccionV: $("#idSeccionRef2").val(),
+            estudiantesNuevos: $("#seleccionarEstudiantesAdicionales").val(),
+          };
+
+        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+            console.log(response);
+            listarEstudiantesSeccion(data.idSeccionV);
+            selectEstudiantesOFF();
+            Swal.fire({
+                icon: 'success',
+                iconColor: 'white',
+                title: '¡Estudiante guardado correctamente!',
+                toast: true,
+                background: 'green',
+                color: 'white',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        });
+    }
+    
 });
+
 /////ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA/////
 $(document).on('click', '#eliminarEstON', function () {
     let elemento = $(this)[0].parentElement.parentElement;
@@ -506,6 +618,7 @@ $(document).on('click', '#eliminarEstON', function () {
     const data = {
         eliminarEstSeccion: 'eliminarEstSeccion',
         cedulaEstborrar: cedulaEstborrar,
+        idSeccionRef: idSeccionRef,
     }
 
     Swal.fire({
@@ -560,22 +673,22 @@ function choices2 () {
     });
 }
 
-function choicesMasProfesoresMaterias() {
-
-  (function () {
-    var profesoresOFF = document.getElementById("seleccionarProfesoresAdicionales");
-    new Choices(profesoresOFF, {
+function choices3 () {
+    var estudiantesON = document.getElementById('estudiante');
+    new Choices(estudiantesON, {
+      position: 'bottom',
       allowHTML: true,
       removeItems: true,
       removeItemButton: true,
-      noResultsText: "No hay coicidencias",
-      noChoicesText: "No hay profesores disponibles",
-      placeholder: true,
-      placeholderValue: "Buscar profesores",
+      noResultsText: 'No hay coicidencias',
+      noChoicesText: 'No hay estudiantes disponibles',
+      placeholderValue: 'Buscar estudiantes',
     });
-  })();
+}
 
-  (function () {
+
+
+  /*(function () {
     var materiasOFF = document.getElementById("seleccionarMateriasAdicionales");
     new Choices(materiasOFF, {
       allowHTML: true,
@@ -587,12 +700,9 @@ function choicesMasProfesoresMaterias() {
       placeholder: true,
       placeholderValue: "Buscar materias",
     });
-  })();
-}
+  })();*/
 ////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
-
-
 
 
 
@@ -613,33 +723,6 @@ $('#listaSecciones tbody').on('click', '.editarDatosSeccion', function() {
 
 
 
-
-
-
-/////ENTRAR AL MODAL PROFESORES-MATERIAS Y LISTAR LOS PROFESORES-MATERIAS DE LA SECCION SELECCIONADA/////
-$('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
-    
-    let idSeccionRef3= dataTableSec.row($(this).parents()).data().id_seccion;
-    let nivDoctrinaSeccionRef3= dataTableSec.row($(this).parents()).data().nivel_academico;
-    let nombreSeccionRef3= dataTableSec.row($(this).parents()).data().nombre;
-    $('#idSeccionProfMatU').val(idSeccionRef3);
-    $('#nivDoctrinaSeccionProfMatU').text(nivDoctrinaSeccionRef3);
-    $('#nombreSeccionProMatfU').text(nombreSeccionRef3);
-    
-    let div = document.getElementById("listaProfDatos");
-
-    $.ajax({
-        data: {
-            activarTablaProf: 'activarTablaProf',
-            idSMConsulta: idSeccionRef3,
-        },
-        type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
-    }).done((data) => {
-        div.innerHTML = data;
-        selectMasProfesoresMaterias();
-    })
-})
 
 
 
@@ -667,45 +750,6 @@ $('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
     })
 })
 
-/////ACTUALIZAR DATOS DE LA SECCION/////
-$('#guardarEditado1').click(function (e) { 
-    e.preventDefault();
-    const data = {
-        actualizarDatosSeccion: 'actualizarDatosSeccion',
-        nombreSeccionU: $("#nombreSeccionEdit").val(),
-        nivelSeccionU: $("#nivelDoctrinaEdit").val(),
-        idSeccionRefU: $("#idSeccionRefU").val(),
-        fechaCierreRefU: $("#fechaCierreEdit").val(),
-    }
-
-    Swal.fire({
-        background: '#ebebeb',
-        icon: 'warning',
-        title: '¿Procesar informacion a actualizar?',
-        showDenyButton: true,
-        confirmButtonText: `DE ACUERDO`,
-        confirmButtonColor: 'green',
-        denyButtonText: `NO`,
-        denyButtonColor: 'orange',
-    }).then((result) => {
-            if (result.isConfirmed) {
-                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    dataTableSec.ajax.reload();
-                    Swal.fire({
-                        icon: 'success',
-                        iconColor: 'white',
-                        title: '¡Actualizado correctamente!',
-                        toast: true,
-                        background: 'green',
-                        color: 'white',
-                        showConfirmButton: false,
-                        timer: 2000,
-                    })
-                });
-            }
-    })
-      
-});
 
 /////ELIMINAR SECCION DE LA DATATABLE SECCION/////
 $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
@@ -735,6 +779,41 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
 })
 
 
+//LISTAR LOS ESTUDIANTES DE LA SECCION CERRADA
+$(document).on('click', '#estudiantes_seccionOFF', function () {
+    let div= document.getElementById('estudiantes_seccionCerrada');
+
+    let elemento= $(this)[0].parentElement;
+    let idSeccionCerrada= elemento.querySelector('.idSeccion_cerrada').value;
+
+    var data= {
+        verEstudiantes_seccionCerrada: 'verEstudiantes_seccionCerrada',
+        idSeccionCerrada: idSeccionCerrada,
+    }
+    $.post("controlador/ajax/dinamica-seccion.php", data,
+        function (data) {
+            $('#tituloSeccionOFF').text(elemento.querySelector('.nombreSeccion_cerrada').value);
+            div.innerHTML= data
+        },
+    );
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -760,7 +839,7 @@ function validarSiguiente1() {
     }
 }
 
-  //VALIDAR NOMBRE DE LAS SECCIONES
+//VALIDAR NOMBRE DE LAS SECCIONES
 const inputs_DatosSeccion = document.querySelectorAll('#formulario_datosSeccion input');
 var validarNombreSeccion = (evento) => {
 
@@ -923,12 +1002,6 @@ $('#datos_E').on('change', 'div div', function () {
 
 
 
-
-
-
-
-
-
 /////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////CREAR LA SECCION//////////////////////////
 $("#crear").click(function () {
@@ -1016,7 +1089,163 @@ $(".cerrarCrear").click(function () {
 
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////VALIDACIONES PARA EDITAR DATOS DE LA SECCION////////////////////////
 
+var camposEdit_1 = {
+    nombreSeccion: false,
+    nivelSeccion: false,
+    fechaCierre: false,
+  }
+
+
+
+    
+//VALIDAR NOMBRE DE LA SECCION AL EDITAR
+$('#nombreSeccionEdit').on('keyup blur', function (e) {
+    
+    if (expresionesSecciones.nombreSeccion.test($(this)[0].value)) {
+        document.getElementById('nombreSeccionEdit').classList.remove('validarMal');
+        document.getElementById('nombreSeccionEdit').classList.add('validarBien');
+        document.getElementById("alertaEditNombre").setAttribute("hidden", "hidden");
+        camposEdit_1[0] = true;
+      } else {
+        document.getElementById('nombreSeccionEdit').classList.remove('validarBien');
+        document.getElementById('nombreSeccionEdit').classList.add('validarMal');
+        document.getElementById("alertaEditNombre").removeAttribute("hidden");
+        camposEdit_1[0] = false;
+      }
+});
+
+//VALIDAR NIVEL DE SECCION AL EDITAR
+$('#nivelDoctrinaEdit').on('change blur', function (e) {
+
+    if ($(this)[0].value == 1 || $(this)[0].value == 2 || $(this)[0].value == 3) {
+        document.getElementById('nivelDoctrinaEdit').classList.remove('validarMal');
+        document.getElementById('nivelDoctrinaEdit').classList.add('validarBien');
+        document.getElementById("alertaEditNivel").setAttribute("hidden", "hidden");
+        camposEdit_1[1] = true;
+      } else {
+        document.getElementById('nivelDoctrinaEdit').classList.remove('validarBien');
+        document.getElementById('nivelDoctrinaEdit').classList.add('validarMal');
+        document.getElementById("alertaEditNivel").removeAttribute("hidden");
+        camposEdit_1[1] = false;
+      }
+    
+});
+
+//VALIDAR FECHA DE SECCION AL EDITAR
+$('#fechaCierreEdit').on('change blur', function (e) {
+    if ($(this)[0].value == "") {
+        document.getElementById('fechaCierreEdit').classList.remove('validarBien');
+        document.getElementById('fechaCierreEdit').classList.add('validarMal');
+        document.getElementById("alertaFechaEdit").removeAttribute("hidden");
+        camposEdit_1[2] = false;
+      }else{
+        document.getElementById('fechaCierreEdit').classList.remove('validarMal');
+        document.getElementById('fechaCierreEdit').classList.add('validarBien');
+        document.getElementById("alertaFechaEdit").setAttribute("hidden", "hidden");
+        camposEdit_1[2] = true;
+      }
+    
+});
+
+/////ACTUALIZAR DATOS DE LA SECCION/////
+$('#guardarEditado1').click(function (e) { 
+    e.preventDefault();
+
+    if (camposEdit_1[0] && camposEdit_1[1] && camposEdit_1[2]) {
+        const data = {
+            actualizarDatosSeccion: 'actualizarDatosSeccion',
+            nombreSeccionU: $("#nombreSeccionEdit").val(),
+            nivelSeccionU: $("#nivelDoctrinaEdit").val(),
+            idSeccionRefU: $("#idSeccionRefU").val(),
+            fechaCierreRefU: $("#fechaCierreEdit").val(),
+        }
+    
+        Swal.fire({
+            background: '#ebebeb',
+            icon: 'warning',
+            title: '¿Esta segur@ de haber hecho los cambios correctos para procesar?',
+            showDenyButton: true,
+            confirmButtonText: `DE ACUERDO`,
+            confirmButtonColor: 'green',
+            denyButtonText: `NO`,
+            denyButtonColor: 'orange',
+        }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+                        dataTableSec.ajax.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            iconColor: 'white',
+                            title: '¡Actualizado correctamente!',
+                            toast: true,
+                            background: 'green',
+                            color: 'white',
+                            showConfirmButton: false,
+                            timer: 2000,
+                        })
+                    });
+                }
+        })
+    }else{
+        Swal.fire({
+            icon: 'error',
+            iconColor: 'white',
+            title: '¡Verifique de haber hecho cambios correctos!',
+            toast: true,
+            background: 'red',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 2000,
+        })
+    }
+    
+      
+});
+
+
+
+
+
+
+
+$('#modalAgregarEst').click(function (e) { 
+    let div= document.getElementById('selectSeccion');
+
+    $.post("controlador/ajax/prueba.php", {ver: 'ver'},
+        function (data) {
+            div.innerHTML= data;
+        },
+    );
+});
+
+$('#selectSeccion').change(function (e) {
+    let div= document.getElementById('materias');
+    let div2= document.getElementById('elegirEstudiante');
+    
+    let data= {
+        ver2: 'ver2',
+        idSeccion: $(this)[0].value,
+    }
+    $.post("controlador/ajax/prueba.php", data,
+        function (data) {
+            div.innerHTML = data;
+        },
+    );
+
+    $.post("controlador/ajax/prueba.php", {ver3: 'ver3'},
+        function (data) {
+            div2.innerHTML = data;
+            choices3();
+        },
+    );
+});
+
+$(document).on('change', '#estudiante', function () {
+    console.log('si');
+});
 
 
 

@@ -126,18 +126,10 @@
                 <li>
                   <a href="?pagina=reportes-ecam" class="nav-link px-3">
                     <span class="me-2">
-                      <i class="bi bi-mortarboard-fill"></i></span>
-                    <span>Secciones</span>
+                    <i class="bi bi-bar-chart-line"></i></span>
+                    <span>Reportes estadisticos ECAM</span>
                   </a>
                 </li>
-                <li>
-                  <a href="?pagina=registrar-estudiantes" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-file-person"></i> </span>
-                    <span>Registrar Estudiantes</span>
-                  </a>
-                </li>
-
               </ul>
             </div>
           </div>

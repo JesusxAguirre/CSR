@@ -61,6 +61,7 @@
 
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
                 <div class="col-7 m-auto">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formEstudiante" id="modalAgregarEst">PRESIONA AQUI PARA AGREGAR ESTUDIANTES</button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form1">PRESIONA AQUI PARA CREAR UNA SECCION</button>
                     <div class="card cartaSeccionesList mt-2">
                         <div class="card-body">
@@ -84,11 +85,11 @@
                     </div>
                 </div>
                 <div class="col-5">
-                    <div class="card">
+                    <div class="card sombra oscuro">
                         <div class="card-header">
-                            Secciones cerradas
+                            <h6 class="text-danger"><em>Secciones cerradas</em></h6>
                         </div>
-                        <div class="card-body oscuro text-white">
+                        <div class="card-body text-white">
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Escribe la secciones que desees buscar">
                                 <div class="input-group-append">
@@ -186,7 +187,7 @@
                                 <div class="col-5 mt-2">
                                     <!-- Aqui lista todos los seminarios disponibles -->
                                     <select id="seleccionarMateriaSeminario" class="form-select" name="seminario">
-                                        
+
                                     </select>
                                 </div>
 
@@ -202,7 +203,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" data-bs-target="#form1" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-dark" id="siguiente2" >Siguiente</button>
+                    <button type="button" class="btn btn-dark" id="siguiente2">Siguiente</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -219,7 +220,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="datos_E">
-                        
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -236,9 +237,8 @@
 
 
 
-
-
-
+    <!-----------------------------------------------------------  ------------------------------------------------------>
+    <!-----------------------------------------------------------  ------------------------------------------------------>
 
     <!-- MODAL PARA EDITAR DATOS DE LA SECCION -->
     <div class="modal fade" id="modalEditarDatosSeccion" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
@@ -252,14 +252,20 @@
                     <input class="d-none" id="idSeccionRefU" type="text">
                     <label class="form-label">Ingresa el nombre de la seccion</label>
                     <input id="nombreSeccionEdit" class="form-control" type="text">
+                    <div hidden class="alert-danger" role="alert" id="alertaEditNombre">
+                        ¡Debes cumplir con el minimo de 8 caracteres evitando caracteres especiales!
+                    </div>
                     <hr>
                     <label class="form-label" for="">Selecciona el nivel de la seccion</label>
-                    <select id="nivelDoctrinaEdit" class="form-select" name="" id="">
+                    <select id="nivelDoctrinaEdit" class="form-select">
                         <option value="ninguno">Selecciona el nivel</option>
                         <option value="1">Nivel 1</option>
                         <option value="2">Nivel 2</option>
                         <option value="3">Nivel 3</option>
                     </select>
+                    <div hidden class="alert-danger" role="alert" id="alertaEditNivel">
+                        ¡Debes seleccionar un nivel!
+                    </div>
                     <hr>
                     <label class="form-label" for="fechaCierreEdit">Ingresa la fecha de cierre</label>
                     <input id="fechaCierreEdit" name="fechaCierreEdit" class="form-control" type="date">
@@ -349,8 +355,23 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="row" id="selectMasProfesoresMaterias">
-                        <!-- AQUI MUESTRA LOS SELECT -->
+                    <div class="d-flex" id="selectMasProfesoresMaterias">
+
+                        <div class="w-50 me-1" id="select1">
+
+                        </div>
+                        <div class="w-50 ms-1 select2">
+                            <select disabled class="form-select" id="seleccionarProfesoresAdicionales">
+
+                            </select>
+                        </div>
+
+                    </div>
+                    <div hidden class="alertaSelect1 alert alert-danger" role="alert">
+                        ¡Debes seleccionar una materia!
+                    </div>
+                    <div hidden class="alertaSelect2 alert alert-danger" role="alert">
+                        ¡Debes seleccionar un profesor!
                     </div>
                 </div>
                 <div class="d-grid">
@@ -363,6 +384,76 @@
         </div>
     </div>
     <!-- FINAL DEL MODAL PARA EDITAR LOS ESTUDIANTES QUE ESTAN EN LA SECCION -->
+
+
+
+    <!-- VER ESTUDIANTES QUE ESTUVIERON EN LA SECCION -->
+    <div class="modal fade" id="estudiantesPasados" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tituloSeccionOFF"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table id="" class="table table-borderless table-hover" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Informacion de los estudiantes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="estudiantes_seccionCerrada">
+                                <!-- LISTA DE ESTUDIANTES DE LA SECCION CERRADA-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="formEstudiante" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-monospace fw-bold">AGREGAR ESTUDIANTES A LA SECCION</h5>
+                    <button type="button" class="cerrarCrear btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formulario_datosSeccion">
+                        <!-- Aqui creamos este form para validar estos campos -->
+                        
+                        <label class="form-label">Seleccione la seccion</label>
+                        <select name="" id="selectSeccion" class="form-select">
+                           
+                        </select>
+                        <div hidden class="alert-danger" role="alert" id="">
+                            ¡Debeias colcar un!
+                        </div>
+                        <div id="materias">
+                            
+                        </div>
+                       
+                        <div class="mt-3">
+                            <div id="elegirEstudiante">
+
+                            </div>
+                        </div>
+                        
+                        <div class="mt-3" id="materiasDisponibles">
+                           
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button disabled id="" class="btn btn-dark">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="./resources/js/crear-seccion.js"></script>
 
