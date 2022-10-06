@@ -83,6 +83,8 @@
                         </div>
                     </div>
                 </div>
+
+                 <!-- LISTAR TODAS LAS SECCIONES CERRADAS -->
                 <div class="col-5">
                     <div class="card sombra oscuro">
                         <div class="card-header">
@@ -99,6 +101,7 @@
                                 <thead>
                                     <tr>
                                         <th>Nombre de la seccion</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody id="listarSeccionesOFF">

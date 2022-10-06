@@ -256,6 +256,8 @@ class ecam extends Conectar
         return $reprobados;
     }
 
+
+
     //LISTAR TODAS LAS SECCIONES CERRADAS
     public function listarSeccionesOFF()
     {
@@ -271,6 +273,34 @@ class ecam extends Conectar
         }
         return $listarSeccionesOFF;
     }
+    //LISTAR TODAS LAS SECCIONES CERRADAS
+    public function estudiantes_seccionOFF($seccionOFF)
+    {
+        $estudiantesOFF= [];
+        
+        $sql = "SELECT `sc`.`id_seccion`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-cerradas` AS `sc` 
+        INNER JOIN `usuarios` ON `sc`.`id_seccion` = `usuarios`.`id_seccion` WHERE `sc`.`id_seccion` = $seccionOFF";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $estudiantesOFF[] = $filas;
+        }
+        return $estudiantesOFF;
+    }
+    //ELIMINAR DEFINITAVAMENTE UNA SECCION
+    public function eliminarSeccion($seccion)
+    {
+        $sql= "DELETE FROM `secciones` WHERE `id_seccion` = $seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute();
+
+        $accion = "El usuario ha eliminado una seccion definitivamente";
+        $this->registrar_bitacora($accion);
+    }
+
+
 
     //LISTAR TODOS LOS ESTUDIANTES ACTIVOS EN SECCIONES
     public function listarEstudiantesON($idSeccionConsulta)
@@ -661,7 +691,7 @@ class ecam extends Conectar
     }
 
     //ELIMINAR O DESACTIVAR LA SECCION SELECCIONADA
-    public function eliminarSeccion($idSeccionEliminar)
+    public function cerrarSeccion($idSeccionEliminar)
     {
         //PASO 1
         //ELIMINA O DESACTIVA LA SECCION PRIMERO

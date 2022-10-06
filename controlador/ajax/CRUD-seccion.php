@@ -24,11 +24,17 @@ if (isset($_POST['actualizarEstudiantes'])) {
     $objeto->agregandoMasEstudiantes($estudiantesNuevos, $idSeccionVincular);
 }
 
-///ELIMINAR SECCION SELECCIONADA
+///CERRAR SECCION SELECCIONADA
 if (isset($_POST['eliminarSeccion'])) {
     $idSeccionEliminar= $_POST['idSeccionEliminar'];
 
-    $objeto->eliminarSeccion($idSeccionEliminar);
+    $objeto->cerrarSeccion($idSeccionEliminar);
+}
+//ELIMINAR SECCION SELECCIONADA DEFINITIVAMENTE
+if (isset($_POST['eliminarSeccion2'])) {
+    $seccionOFF= $_POST['idSeccionCerrada'];
+
+    $objeto->eliminarSeccion($seccionOFF);
 }
 
 ///ELIMINAR ESTUDIANTES SECCION SELECCIONADA

@@ -270,7 +270,7 @@ let dataTableSec= $('#listaSecciones').DataTable({
         '<button type="button" class="btn btn-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-square"></i></button>'  
         +'<button type="button" class="btn btn-info editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill"></i></button>'
         +'<button type="button" class="btn btn-info editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill"></i></button>' 
-        +'<button type="button" class="btn btn-danger eliminarSeccion mx-1" title="Eliminar seccion"><i class="bi bi-dash-circle"></i></button>'},
+        +'<i type="button" class="eliminarSeccion mx-1 bi bi-door-closed btn btn-danger" title="Cerrar seccion"></i>'},
     ],
     language: spanish,
 });
@@ -635,6 +635,16 @@ $(document).on('click', '#eliminarEstON', function () {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
                     listarEstudiantesSeccion(idSeccionRef);
                     selectEstudiantesOFF();
+                    Swal.fire({
+                        icon: 'success',
+                        iconColor: 'white',
+                        title: '¡Estudiante eliminado!',
+                        toast: true,
+                        background: 'green',
+                        color: 'white',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
                 });
             }
     })
@@ -751,7 +761,7 @@ $('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
 })
 
 
-/////ELIMINAR SECCION DE LA DATATABLE SECCION/////
+/////CERRAR SECCION DE LA DATATABLE SECCION/////
 $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
     let idSeccionRef= dataTableSec.row($(this).parents()).data().id_seccion;
     let data= {
@@ -780,7 +790,7 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
 
 
 //LISTAR LOS ESTUDIANTES DE LA SECCION CERRADA
-$(document).on('click', '#estudiantes_seccionOFF', function () {
+$(document).on('click', '#estudiantesOFF', function () {
     let div= document.getElementById('estudiantes_seccionCerrada');
 
     let elemento= $(this)[0].parentElement;
@@ -792,21 +802,49 @@ $(document).on('click', '#estudiantes_seccionOFF', function () {
     }
     $.post("controlador/ajax/dinamica-seccion.php", data,
         function (data) {
-            $('#tituloSeccionOFF').text(elemento.querySelector('.nombreSeccion_cerrada').value);
+            $('#tituloSeccionOFF').text(elemento.querySelector('.nombre_seccionCerrada').value);
             div.innerHTML= data
         },
     );
 });
 
+//ELIMINAR DEFITINTIVAMENTE UNA SECCION SELECCIONADA
+$(document).on('click', '#eliminarSeccionOFF', function () {
+    let elemento= $(this)[0].parentElement;
+    let idSeccionCerrada= elemento.querySelector('.idSeccion_cerrada').value;
 
-
-
-
-
-
-
-
-
+    var data= {
+        eliminarSeccion2: 'eliminarSeccion2',
+        idSeccionCerrada: idSeccionCerrada,
+    }
+    Swal.fire({
+      title: '¿Seguro que desea eliminar definitivamente la seccion?',
+      icon: 'info',
+      showCancelButton: true,
+      confirmButtonColor: 'green',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'SI',
+      cancelButtonText: 'NO'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.post("controlador/ajax/CRUD-seccion.php", data,
+        function (data) {
+            seccionesCerradas();
+            Swal.fire({
+                icon: 'success',
+                iconColor: 'white',
+                title: '¡Seccion eliminada definitivamente!',
+                toast: true,
+                background: 'green',
+                color: 'white',
+                showConfirmButton: false,
+                timer: 2000,
+            });
+        });
+      }
+    })
+    
+});
 
 
 
