@@ -49,8 +49,7 @@ class Discipulado extends Usuarios
                 $this->busqueda[] = $filas;
             }
         }
-        $accion = "Buscar celulas de  discipulado";
-        $this->registrar_bitacora($accion);
+        
         return $this->busqueda;
     }
 
@@ -472,6 +471,8 @@ class Discipulado extends Usuarios
                     ":cedula" => $this->cedula_asistente
                 ));
             }
+            $accion = "Editar celula de  discipulado";
+        $this->registrar_bitacora($accion);
         }
 
         $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 

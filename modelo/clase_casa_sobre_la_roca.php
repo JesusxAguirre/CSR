@@ -70,7 +70,12 @@ class LaRoca extends Usuarios
 
             $this->lideres[] = $filas;
         }
+        $accion = "Listar lideres sin casa sobre la roca";
+        $this->registrar_bitacora($accion);
+
+
         return $this->lideres;
+
     }
 
     public function listar_casas_la_roca()
@@ -91,7 +96,12 @@ class LaRoca extends Usuarios
 
 
             $listar[] = $filas;
+
         }
+
+        $accion = "Listar casas sobre la roca";
+        $this->registrar_bitacora($accion);
+
         return $listar;
     }
     public function listar_casas_la_roca_sin_status()
@@ -184,6 +194,9 @@ class LaRoca extends Usuarios
                 ":cedula" => $cedula_lider
             ));
         } //fin del foreach
+
+        $accion = "Registrar casas sobre la roca";
+        $this->registrar_bitacora($accion);
         return true;
     }
 
@@ -251,6 +264,9 @@ class LaRoca extends Usuarios
             ":dia" => $this->dia, ":hora" => $this->hora,
             ":direc" => $this->direccion, ":id" => $this->id
         ));
+
+        $accion = "Editar casa sobre la roca";
+        $this->registrar_bitacora($accion);
     }
 
     //---------Actualizar status cada 3 meses CSR------------------------//
@@ -264,7 +280,8 @@ class LaRoca extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-
+        $accion = "Cierre casa sobre la roca";
+        $this->registrar_bitacora($accion);
         return true;
     }
     //---------registrar reporte de CSR------------------------//
@@ -284,7 +301,8 @@ class LaRoca extends Usuarios
             ":n" => $this->niños, ":confesiones" => $this->confesiones,
             ":fecha" => $this->fecha
         ));
-
+        $accion = "Registar reporte casa sobre la roca";
+        $this->registrar_bitacora($accion);
         //fin del foreach
         return true;
     }
