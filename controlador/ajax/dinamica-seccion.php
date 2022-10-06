@@ -185,30 +185,28 @@
 
 
     //CHOICES DE LISTAR MAS PROFESORES Y MAS MATERIAS PARA LA SECCION
-    if (isset($_POST['verProfesoresMateriasSelect'])) {
+    if (isset($_POST['verMateriasAdicionales'])) {
         $idSeccionReferencial= $_POST['idSeccionRef4'];
         $nivDoctrinaReferencial= $_POST['nivDoctrinaRef4'];
 
-        $listarProfesoresOFF = $objeto->listarProfesores();
-        $listarMateriasOFF= $objeto->selectMateriasOFF($idSeccionReferencial, $nivDoctrinaReferencial);
-        
-    ?> <div class="col">
+        $listarMateriasOFF= $objeto->selectMateriasOFF($idSeccionReferencial, $nivDoctrinaReferencial); ?> 
             <select class="form-select" id="seleccionarMateriasAdicionales">
-                <option disabled selected value="ninguno">Seleccione la materia</option>
+            <option disabled selected value="ninguno">Seleccione la materia</option>
             <?php foreach ($listarMateriasOFF as $matOFF) : ?>
-                <option value="<?php echo $matOFF['id_materia']; ?>"><?php echo $matOFF['nombre'] . ' ' . $matOFF['nivelAcademico']; ?></option>
+            <option value="<?php echo $matOFF['id_materia']; ?>"><?php echo $matOFF['nombre'] . ' ' . $matOFF['nivelAcademico']; ?></option>
             <?php endforeach; ?>
-            </select>
-        </div>
-        
-        <div class="col">
-            <select class="form-select" id="seleccionarProfesoresAdicionales">
+            </select> <?php
+            
+    }
+    if (isset($_POST['verProfesoresMateriaAdicional'])) {
+        $materiaSeleccionada= $_POST['materiaSeleccionada'];
+        $profesores_materia= $objeto->profesores_materiaSeleccionada($materiaSeleccionada);?> 
+
             <option disabled selected value="ninguno">Seleccione el profesor</option>
-            <?php foreach ($listarProfesoresOFF as $profOFF) : ?>
-                <option value="<?php echo $profOFF['cedula']; ?>"><?php echo $profOFF['codigo'] . ' ' . $profOFF['nombre'] . ' ' . $profOFF['apellido']; ?></option>
-            <?php endforeach; ?>
-            </select>
-        </div><?php
+            <?php foreach ($profesores_materia as $prof) : ?>
+                <option value="<?php echo $prof['cedula_profesor']; ?>"><?php echo $prof['codigo'] . ' ' . $prof['nombre'] . ' ' . $prof['apellido']; ?></option>
+            <?php endforeach;          
+            
     }
 
 

@@ -1211,43 +1211,6 @@ $('#guardarEditado1').click(function (e) {
 
 
 
-$('#modalAgregarEst').click(function (e) { 
-    let div= document.getElementById('selectSeccion');
-
-    $.post("controlador/ajax/prueba.php", {ver: 'ver'},
-        function (data) {
-            div.innerHTML= data;
-        },
-    );
-});
-
-$('#selectSeccion').change(function (e) {
-    let div= document.getElementById('materias');
-    let div2= document.getElementById('elegirEstudiante');
-    
-    let data= {
-        ver2: 'ver2',
-        idSeccion: $(this)[0].value,
-    }
-    $.post("controlador/ajax/prueba.php", data,
-        function (data) {
-            div.innerHTML = data;
-        },
-    );
-
-    $.post("controlador/ajax/prueba.php", {ver3: 'ver3'},
-        function (data) {
-            div2.innerHTML = data;
-            choices3();
-        },
-    );
-});
-
-$(document).on('change', '#estudiante', function () {
-    console.log('si');
-});
-
-
 
 
 

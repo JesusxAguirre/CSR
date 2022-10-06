@@ -43,6 +43,23 @@ class ecam extends Conectar
         $this->conexion = parent::conexion();
     }
 
+    //REGISTRAR INFORMACION EN BITACORA
+    public function registrar_bitacora($accion)
+    {
+        $cedula = $_SESSION['cedula'];
+
+        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
+        accion_realizada) 
+        VALUES(:ced,CURDATE(),CURTIME(),:accion)";
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":ced" => $cedula,
+            ":accion" => $accion
+        ));
+    }
+
     //LISTAR ESTUDIANTES DISPONIBLES PARA INSCRIBIR
     public function listarEstudiantes()
     {
@@ -57,6 +74,58 @@ class ecam extends Conectar
         }
         return $listarEstudiantesOFF;
     }
+
+
+
+    //AGREGAR NOTAS FINALES A LOS ESTUDIANTES
+    public function agregar_notaFinal($seccion, $cedula, $notaFinal, $nivelAcademico)
+    {
+        $sql= "INSERT INTO `notafinal_estudiantes` (`id_seccion`, `cedulaEstudiante`, `notaFinal`, `nivelAcademico`, `fecha_agregada`) VALUES ($seccion, $cedula, $notaFinal, $nivelAcademico, CURDATE())";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        $accion = "Se ha agregado una nota final a un estudiante del nivel $nivelAcademico";
+        $this->registrar_bitacora($accion);
+    }
+    //LISTAR NOTAS FINALES DE LOS ESTUDIANTES
+    public function listarEstudiantes_notaFinal()
+    {
+        $estudiantes= [];
+        $sql= "SELECT `secciones`.`id_seccion`, `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `secciones`.`nombre` AS `nombreSeccion`, `secciones`.`nivel_academico`, IFNULL(`nte`.`notaFinal`, '0') AS `notaFinal` 
+        FROM `usuarios` INNER JOIN `secciones` ON `secciones`.`id_seccion` = `usuarios`.`id_seccion` LEFT JOIN `notaFinal_estudiantes` AS `nte` ON `nte`.`id_seccion` = `usuarios`.`id_seccion` AND `nte`.`cedulaEstudiante` = `usuarios`.`cedula`";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $estudiantes[] = $filas;
+        }
+
+        $accion = "Has listado las notas finales de los estudiantes";
+        $this->registrar_bitacora($accion);
+
+        return $estudiantes;
+    }
+    //VER LAS NOTAS DE LAS MATERIAS DEL ESTUDIANTES SELECCIONADO O QUE EL PUEDA VER SUS NOTAS
+    public function ver_misNotasMaterias($cedula, $seccion)
+    {
+        $notas= [];
+        $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico`, `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, IFNULL(`nme`.`nota`, '0') AS `nota` FROM `usuarios` 
+        INNER JOIN `secciones-materias-profesores` AS `smp` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` 
+        INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` 
+        INNER JOIN `secciones` ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` 
+        LEFT JOIN `notamateria_estudiantes` AS `nme` ON `nme`.`cedula` = $cedula AND `nme`.`id_seccion` = $seccion AND `nme`.`id_materia` = `materias`.`id_materia`";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $notas[] = $filas;
+        }
+        return $notas;
+    }
+
+
 
     //LISTAR ESTUDIANTES SIN NIVEL 1
     public function sinNivel1()
@@ -110,6 +179,8 @@ class ecam extends Conectar
         }
         return $listarEstudiantes_nivel3;
     }
+
+
 
     //LISTAR PROFESORES TODOS LOS PROFESORES
     public function listarProfesores()
@@ -264,6 +335,9 @@ class ecam extends Conectar
             ));
         }//Fin del Foreach
         //Profesores con status 1 activados
+
+        $accion = "Se ha agregado una materia nueva";
+        $this->registrar_bitacora($accion);
     }
 
     //ACTUALIZAR Y VINCULAR PROFESOR CON LA MATERIA
@@ -286,6 +360,9 @@ class ecam extends Conectar
         } //Fin del  Foreach
         //Profesores vinculados con la materia
         //Usuarios con status profesor activado
+
+        $accion = "Se ha vinculado un profesor a una materia";
+        $this->registrar_bitacora($accion);
     }
 
     //ELIMINAR PROFESORES DE LAS MATERIAS
@@ -329,6 +406,7 @@ class ecam extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $listarMaterias[] = $filas;
         }
+
         return $listarMaterias;
     }
 
@@ -376,6 +454,9 @@ class ecam extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute();
+
+        $accion = "El usuario ha eliminado una materia";
+        $this->registrar_bitacora($accion);
     }
 
     //ACTUALIZAR MATERIAS
@@ -390,6 +471,9 @@ class ecam extends Conectar
             ":nom" => $this->nombre,
             ":nivelA" => $this->nivel
         ));
+
+        $accion = "El usuario ah actualizado los datos de una materia";
+        $this->registrar_bitacora($accion);
     }
 
     //LISTAR PROFESORES DE LAS MATERIAS
@@ -411,6 +495,25 @@ class ecam extends Conectar
             $listarProfesoresMaterias[] = $filas;
         }
         return $listarProfesoresMaterias;
+    }
+
+    //OPCION 2 DE LISTAR PROFESORES DE LA MATERIA
+    public function profesores_materiaSeleccionada($idMateria)
+    {
+        $profesores_materia= [];
+
+        $sql = "SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `profesores-materias`.`cedula_profesor`, `profesores-materias`.`id_materia` 
+        FROM `profesores-materias` INNER JOIN usuarios ON `profesores-materias`.`cedula_profesor` = `usuarios`.`cedula` 
+        INNER JOIN materias ON `profesores-materias`.`id_materia` = `materias`.`id_materia` WHERE `profesores-materias`.`id_materia` = $idMateria";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $profesores_materia[] = $filas;
+        }
+        return $profesores_materia;
     }
 
     //LISTAR PROFESORES QUE IMPARTEN SEMINARIOS
@@ -515,6 +618,9 @@ class ecam extends Conectar
                 ":ciProf" => $idP[$i],
             ));
         }
+
+        $accion = "El usuario ha creado una seccion nueva";
+        $this->registrar_bitacora($accion);
     } //FIN DEL CREAR SECCION
 
 
@@ -549,6 +655,9 @@ class ecam extends Conectar
             ));
         } //FIN DEL FOREACH
         //ESTUDIANTES NUEVOS VINCULADOS A LA SECCION
+
+        $accion = "El usuario ha agregado mas estudiante a una seccion";
+        $this->registrar_bitacora($accion);
     }
 
     //ELIMINAR O DESACTIVAR LA SECCION SELECCIONADA
@@ -588,6 +697,9 @@ class ecam extends Conectar
         $stmt3->execute(array(
             ":idSeccionOFF" => $idSeccionEliminar,
         ));
+
+        $accion = "El usuario ha cerrado una seccion";
+        $this->registrar_bitacora($accion);
     }
 
     //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
@@ -596,6 +708,9 @@ class ecam extends Conectar
         $sql = "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = $cedulaEstborrar";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
+
+        $accion = "El usuario ha desvinculado a un estudiante de una seccion";
+        $this->registrar_bitacora($accion);
     }
 
     //ACTUALIZAR DATOS DE LA SECCION SELECCIONADA
@@ -608,6 +723,9 @@ class ecam extends Conectar
             ":nivelSecU" => $this->nivelSeccionU,
             ":fechaCierre" => $this->fechaCierreRefU,
         ));
+
+        $accion = "El usuario ha actualizado los datos de una seccion";
+        $this->registrar_bitacora($accion);
     }
 
     //SELECT DE LAS MATERIAS QUE NO ESTAN EN LA SECCION PARA AGREGAR
@@ -629,7 +747,7 @@ class ecam extends Conectar
         return $this->listarMateriasOFF;
     }
 
-    //AGREGAR O AGREGAR MATERIAS CON PROFESORES ADICIONALES A LA SECCION SELECCIONADA
+    //AGREGAR O ACTUALIZAR MATERIAS CON PROFESORES ADICIONALES A LA SECCION SELECCIONADA
     public function actualizarMateriasProfesores($idSeccion)
     {
         $sql = "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`, `contenido`) VALUES (:idSeccion, :idMateria, :cedulaProf, NULL)";
@@ -639,6 +757,9 @@ class ecam extends Conectar
             ":idMateria" => $this->idMateriaAdicional,
             ":cedulaProf" => $this->cedulaProfAdicional,
         ));
+
+        $accion = "El usuario ha actualizado las materias y profesores de una seccion";
+        $this->registrar_bitacora($accion);
     }
 
     //ELIMINAR MATERIAS Y PROFESORES DE LA SECCION SELECCIONADA
@@ -653,6 +774,9 @@ class ecam extends Conectar
             ":idMateria" => $idMateriaSec,
             ":cedulaProf" => $cedulaProfSec,
         ));
+
+        $accion = "El usuario eliminado una materia de la seccion";
+        $this->registrar_bitacora($accion);
     }
 
 
@@ -704,6 +828,9 @@ class ecam extends Conectar
             ":idMateriaProf" => $materiaContRef,
             ":cedulaProfesor" => $cedulaProfesor,
         ));
+
+        $accion = "El usuario ha agregado contenido a su materia en la seccion";
+        $this->registrar_bitacora($accion);
     }
 
     //LISTAR CONTENIDOS DE LAS MATERIAS PROFESORES
@@ -726,6 +853,10 @@ class ecam extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $listarContenido[] = $filas;
         }
+
+        $accion = "El usuario ha revisado el contenido de la materia";
+        $this->registrar_bitacora($accion);
+
         return $listarContenido;
     }
 
@@ -770,6 +901,9 @@ class ecam extends Conectar
             ":notaIDmateria" => $this->notaIDmateria,
             ":nota" => $nota,
         ));
+
+        $accion = "El usuario ha agregado nota de la materia a un estudiante";
+        $this->registrar_bitacora($accion);
     }
 
     //ACTUALIZAR LA NOTA DEL ESTUDIANTE SELECCIONADO DEL PROFESOR ACTIVO EN LA SESION
@@ -785,6 +919,9 @@ class ecam extends Conectar
             ":notaIDmateria" => $this->notaIDmateria2,
             ":notaNueva" => $notaNueva,
         ));
+
+        $accion = "El usuario le ha actualizado la nota de la materia a un estudiante";
+        $this->registrar_bitacora($accion);
     }
 
     //ELIMINAR LA NOTA DEL ESTUDIANTE SELECCIONADO POR EL PROFESOR ACTIVO EN LA SESION
@@ -798,6 +935,9 @@ class ecam extends Conectar
             ":cedulaEstudianteRef2" => $cedulaEstudianteRef2,
             ":idMateriaRef2" => $idMateriaRef2,
         ));
+
+        $accion = "El usuario le ha eliminado la nota de la materia a un estudiante";
+        $this->registrar_bitacora($accion);
     }
 
     //MOSTRAR LA NOTA DE LA MATERIA DEL ESTUDIANTE SELECCIONADO

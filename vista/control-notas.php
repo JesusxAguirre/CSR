@@ -48,26 +48,32 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col text-center">
-                    <h1 class="titulo">BOLETIN DE</h1>
-                    <h1 class="titulo">NOTAS</h1>
-                    <nav class="navbar">
-                        <form class="container-fluid justify-content-center" id="elegirSeccion">
-                            <?php if (!empty($listarBotones)) {
-                                foreach ($listarBotones as $boton) { ?>
-                                <div>
-                                    <button onclick="verListado(<?php echo $boton['id_seccion'] ?>)" class="btn btn-light me-2" type="button"><?php echo $boton['nombre'].' (Nivel '.$boton['nivel_academico'].')' ?></button>
-                                    <button type="button" class="btn btn-light">procesar</button>
-                                </div>
-                              <?php } 
-                            }else{ ?>
-                            <h6>Aun no hay secciones</h6>
-                        <?php } ?>
-                        </form>
-                    </nav>
+                    <h1 class="titulo">CONTROL DE NOTAS</h1>
                 </div>
             </div>
             <div class="row justify-content-center mt-3" id="listados">
-                
+                <div class="col-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="estudiantes" class="table table-hover table-borderless w-100">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none">IDSECCION</th>
+                                        <th class="d-none">NIVEl</th>
+                                        <th class="d-none">CEDULA</th>
+                                        <th>Nombre del estudiante</th>
+                                        <th>Seccion</th>
+                                        <th>Nivel</th>
+                                        <th>Opciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="infoEstudiantes">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -77,6 +83,6 @@
 
 
 </body>
-<script src="./resources/js/boletin_notas.js"></script>
+<script src="./resources/js/control-notas.js"></script>
 
 </html>

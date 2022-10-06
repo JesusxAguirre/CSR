@@ -109,13 +109,15 @@
                   </a>
                 </li>
                 <li>
+                <?php if ($_SESSION['status_profesor'] == 1) { ?>
                   <a href="?pagina=materias" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-book-half"></i></span>
                     <span>Materias</span>
                   </a>
                 </li>
-
+                <?php } ?>
+                <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
                   <a href="?pagina=crear-seccion" class="nav-link px-3">
                     <span class="me-2">
@@ -123,13 +125,16 @@
                     <span>Crear seccion</span>
                   </a>
                 </li>
+                <?php } ?>
+                <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
-                  <a href="?pagina=reportes-ecam" class="nav-link px-3">
+                  <a href="?pagina=control-notas" class="nav-link px-3">
                     <span class="me-2">
-                    <i class="bi bi-bar-chart-line"></i></span>
-                    <span>Reportes estadisticos ECAM</span>
+                    <i class="bi bi-123"></i></span>
+                    <span>Control de notas</span>
                   </a>
                 </li>
+                <?php } ?>
               </ul>
             </div>
           </div>
@@ -262,6 +267,13 @@
               <i class="bi bi-clipboard-data-fill fs-3"></i></span>
             <span>Reportes estadisticos de celulas </span>
 
+          </a>
+        </li>
+        <li>
+          <a href="?pagina=reportes-ecam" class="nav-link px-3">
+            <span class="me-2">
+            <i class="bi bi-bar-chart-line"></i></span>
+            <span>Reportes estadisticos ECAM</span>
           </a>
         </li>
 

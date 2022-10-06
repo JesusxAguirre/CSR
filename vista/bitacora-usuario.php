@@ -12,8 +12,14 @@
   <link rel="stylesheet" href="resources/css/style.css">
   <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
 
+  <!-- DATATABLES CSS -->
+  <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
+
   <!-- Jquery-->
   <script src="resources/js/jquery-3.6.0.min.js"></script>
+
+  <!-- JS de DataTables -->
+  <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 
   <!-- Js boostrap -->
   <script src="resources/js/bootstrap.min.js"></script>
@@ -30,7 +36,7 @@
 
   <!-- Menu.php -->
   <?php
-  require_once ("resources/View_Components/Menu.php")
+  require_once("resources/View_Components/Menu.php")
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -40,52 +46,42 @@
   <!-- sidebar.php -->
   <main style="height: 100vh" class="pt-3">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="page-title-box">
-            <h4 class="page-title">Bitacora de usuario</h4>
-          </div>
+      <div class="row justify-content-center mt-3 bg-white">
+        <div class="col-6">
+          <img src="./resources/img/user.png" class="rounded mx-auto d-block" width="150" height="140">
+          <h5 class="text-center"><em>¡Hola <?php echo $_SESSION['nombre'] ?>!</em></h5>
+          <h2 class="text-center fw-bold">ESTA LA BITACORA DE USUARIOS</h2>
         </div>
       </div>
-      <div class="row">
+
+      <div class="row mt-3">
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="header-title mb-3 fw-bold">Bitacora de usuario</h4>
 
-              <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
-              <div class="table-responsive mt-4">
+              <table id="bitacora" role='table' class='table table-borderless table-hover w-100'>
+                <thead>
 
-                <table role='table' class='table table-centered'>
-                  <thead>
+                  <tr role='row'>
+                    <th colspan='1' role='columnheader'>Usuario</th>
+                    <th colspan='1' role='columnheader'>Fecha</th>
+                    <th colspan='1' role='columnheader'>Hora Registro</th>
+                    <th colspan='1' role='columnheader'>Accion realizada</th>
+                  </tr>
+                </thead>
 
-                    <tr role='row'>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo usuario</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Fecha</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora Registro</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Accion realizada</th> 
-                    </tr>
-                  </thead>
+                <tbody id="datosBitacora" role='rowgroup'>
 
-                  <tbody id="datos" role='rowgroup'>
-                    <?php foreach ($matriz_bitacora as $bitacora) : ?>
-                      <tr role='row'>
-                        <td class="cedula_usuario" role='cell'><?php echo $bitacora['codigo'] ?></td>
-                        <td class="fecha" role='cell'><?php echo $bitacora['fecha_registro'] ?></td>
-                        <td class="hora" role='cell'><?php echo $bitacora['hora_registro'] ?></td>
-                        <td class="accion" role='cell'><?php echo  $bitacora['accion_realizada'] ?></td>                       
-                      </tr>
-                    <?php endforeach;       ?>
-                  </tbody>
-                </table>
-              </div>
-
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-    </div> 
     </div>
   </main>
 
 </body>
+<script src="./resources/js/bitacora-usuario.js"></script>
+
+</html>
