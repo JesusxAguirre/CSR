@@ -188,11 +188,11 @@
                 </div>
                 <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (10 números) </p>
               </div>
-              <div id="grupo__Rol" class="col-sm col-md-3 ">
+              <div id="grupo__rol" class="col-sm col-md-3 ">
                 <div class="relative">
                   <label class="form-label fw-bold">Rol</label>
                   <i class="input-icon fs-5"></i>
-                  <select id="Rol" name="Rol" class="form-select form-select" aria-label=".form-select-sm example">
+                  <select id="rol" name="rol" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="RolInput" value="">Escoge tu Rol</option>
                     <?php foreach($matriz_roles AS $rol): ?>
                     <option value="<?php echo $rol["id"] ?>"><?php echo $rol["nombre"] ?></option>

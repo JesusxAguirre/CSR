@@ -199,8 +199,12 @@ class Usuarios extends Conectar
     {
 
 
-        $sql = ("SELECT cedula,codigo,nombre,apellido,telefono,sexo,estado_civil,nacionalidad,estado,edad  FROM usuarios WHERE codigo LIKE '%" . $busqueda . "%' 
-        OR nombre LIKE '%" . $busqueda . "%' OR estado_civil LIKE '%" . $busqueda . "%' ");
+        $sql = ("SELECT cedula,codigo,nombre,apellido,telefono,sexo,estado_civil,nacionalidad,estado,edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
+        FROM usuarios 
+        INNER JOIN roles ON usuarios.id_rol = roles.id
+        WHERE codigo LIKE '%" . $busqueda . "%' 
+        OR nombre LIKE '%" . $busqueda . "%' 
+        OR  estado_civil LIKE '%" . $busqueda . "%' ");
 
         $stmt = $this->conexion()->prepare($sql);
 
