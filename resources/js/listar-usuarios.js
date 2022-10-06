@@ -174,7 +174,7 @@ function addEvents(){
 		const estado_civilInput = document.getElementById('estado_civilInput')
 		const nacionalidadInput = document.getElementById('nacionalidadInput')
 		const telefonoInput = document.getElementById('telefonoInput')
-		
+		const rolInput = document.getElementById('rolInput')
 		cedulaInput.value = cedula.textContent
 		cedulaInput2.value = cedula.textContent
 		nombreInput.value = nombre.textContent
@@ -193,7 +193,9 @@ function addEvents(){
 		nacionalidadInput.value = nacionalidad.textContent
 		nacionalidadInput.label = nacionalidad.textContent
 		telefonoInput.value = telefono.textContent
-	
+		
+		rolInput.value = id_rol.textContent
+		rolInput.label = nombre_rol.textContent
 		const options = []
 	
 		document.querySelectorAll('#sexo > option').forEach((option) => {
@@ -211,6 +213,10 @@ function addEvents(){
 				else options.push(option.value)
 		})
 		document.querySelectorAll('#estado > option').forEach((option) => {
+				if (options.includes(option.value)) option.remove()
+				else options.push(option.value)
+		})
+		document.querySelectorAll('#rol > option').forEach((option) => {
 				if (options.includes(option.value)) option.remove()
 				else options.push(option.value)
 		})

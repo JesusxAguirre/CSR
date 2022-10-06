@@ -193,7 +193,7 @@
                   <label class="form-label fw-bold">Rol</label>
                   <i class="input-icon fs-5"></i>
                   <select id="rol" name="rol" class="form-select form-select" aria-label=".form-select-sm example">
-                    <option id="RolInput" value="">Escoge tu Rol</option>
+                    <option id="rolInput" value="">Escoge tu Rol</option>
                     <?php foreach($matriz_roles AS $rol): ?>
                     <option value="<?php echo $rol["id"] ?>"><?php echo $rol["nombre"] ?></option>
                     <?php endforeach; ?>
