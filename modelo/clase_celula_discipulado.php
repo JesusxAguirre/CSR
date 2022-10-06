@@ -159,7 +159,7 @@ class Discipulado extends Usuarios
 
             $this->septiembre[] = $filas;
         }
-        $accion = "Listar Asistencias de celula de discipulado";
+        $accion = "Reporte de Asistencias de celula de discipulado";
         $this->registrar_bitacora($accion);
         return $this->septiembre;
     }
@@ -663,7 +663,8 @@ class Discipulado extends Usuarios
         $stmt->execute(array());
         $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
 
-
+              $accion = "Generado Reporte estaditico crecimiento  lider de celula de discipulado";
+        $this->registrar_bitacora($accion);
         return $resultado;
     }
 
