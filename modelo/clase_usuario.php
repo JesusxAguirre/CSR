@@ -219,6 +219,7 @@ class Usuarios extends Conectar
         }
         $accion = "Buscar usuarios";
         $this->registrar_bitacora($accion);
+        
         return $this->usuario;
       
     }

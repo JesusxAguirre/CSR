@@ -161,8 +161,9 @@ function addEvents(){
 		let estado_civil = fila.querySelector('.estado_civil')
 		let nacionalidad = fila.querySelector('.nacionalidad')
 		let telefono = fila.querySelector('.telefono')
-		
-	
+		let id_rol = fila.querySelector('.id_rol')		
+		let nombre_rol = fila.querySelector('.nombre_rol')		
+
 		const cedulaInput = document.getElementById('cedulaInput')
 		const cedulaInput2 = document.getElementById('cedulaInput2')
 		const nombreInput = document.getElementById('nombreInput')
