@@ -61,7 +61,6 @@
 
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
                 <div class="col-7 m-auto">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#formEstudiante" id="modalAgregarEst">PRESIONA AQUI PARA AGREGAR ESTUDIANTES</button>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#form1">PRESIONA AQUI PARA CREAR UNA SECCION</button>
                     <div class="card cartaSeccionesList mt-2">
                         <div class="card-body">
@@ -408,48 +407,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="modal fade" id="formEstudiante" data-bs-backdrop="static" data-bs-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title font-monospace fw-bold">AGREGAR ESTUDIANTES A LA SECCION</h5>
-                    <button type="button" class="cerrarCrear btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="formulario_datosSeccion">
-                        <!-- Aqui creamos este form para validar estos campos -->
-                        
-                        <label class="form-label">Seleccione la seccion</label>
-                        <select name="" id="selectSeccion" class="form-select">
-                           
-                        </select>
-                        <div hidden class="alert-danger" role="alert" id="">
-                            ¡Debeias colcar un!
-                        </div>
-                        <div id="materias">
-                            
-                        </div>
-                       
-                        <div class="mt-3">
-                            <div id="elegirEstudiante">
-
-                            </div>
-                        </div>
-                        
-                        <div class="mt-3" id="materiasDisponibles">
-                           
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button disabled id="" class="btn btn-dark">Siguiente</button>
                 </div>
             </div>
         </div>

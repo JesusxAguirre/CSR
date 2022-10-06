@@ -85,17 +85,15 @@ class Usuarios extends Conectar
     }
     public function listar_bitacora()
     {
-
-        $sql = ("SELECT *, usuarios.codigo FROM bitacora_usuario
-        INNER JOIN usuarios ON bitacora_usuario.cedula_usuario = usuarios.cedula");
+        //$cedula= $_SESSION['cedula'];
+        $sql = ("SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` FROM `bitacora_usuario` 
+        INNER JOIN `usuarios` ON `usuarios`.`cedula` = `bitacora_usuario`.`cedula_usuario` ORDER BY `fecha_registro` DESC;");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
             $bitacora[] = $filas;
         }
     
