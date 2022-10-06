@@ -426,7 +426,7 @@ class LaRoca extends Usuarios
     public function listar_reporte_CSR($fecha_inicio, $fecha_final, $id_casa)
     {
 
-
+        $resultado = [];
         $sql = ("SELECT SUM(confesiones) AS total_confesiones,
             SUM(cantidad_h)AS total_hombres , SUM(cantidad_m) AS total_mujeres,
             SUM(cantidad_n) AS total_niños, MONTHNAME(fecha) AS mes
@@ -444,6 +444,9 @@ class LaRoca extends Usuarios
 
             $resultado[] = $filas;
         }
+
+        $accion = "Generado Reporte estaditico  de casas sobre la roca";
+        $this->registrar_bitacora($accion);
         return $resultado;
     }
 }
