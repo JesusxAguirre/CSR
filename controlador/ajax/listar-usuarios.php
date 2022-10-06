@@ -8,6 +8,8 @@ $matriz_usuario = $objeto->listar();
 foreach ($matriz_usuario as $usuario) {?>
     <tr role='row'>
       <td hidden class="cedula" role='cell'><?php echo $usuario['cedula'] ?></td>
+      <td hidden class="id_rol" role='cell'><?php echo $usuario['id_rol'] ?></td>
+      <td hidden class="nombre_rol" role='cell'><?php echo $usuario['nombre_rol'] ?></td>
       <td hidden class="edad" role='cell'><?php echo $usuario['edad'] ?></td>
       <td hidden class="nacionalidad" role='cell'><?php echo $usuario['nacionalidad'] ?></td>
       <td hidden class="estado" role='cell'><?php echo $usuario['estado'] ?></td>
