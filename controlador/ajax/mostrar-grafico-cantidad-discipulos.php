@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../../modelo/clase_celula_discipulado.php');
 $objeto = new Discipulado();
 

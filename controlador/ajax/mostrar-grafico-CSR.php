@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../../modelo/clase_casa_sobre_la_roca.php');
 $objeto = new LaRoca();
 

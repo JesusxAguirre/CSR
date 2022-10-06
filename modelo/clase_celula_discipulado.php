@@ -49,7 +49,7 @@ class Discipulado extends Usuarios
                 $this->busqueda[] = $filas;
             }
         }
-        
+
         return $this->busqueda;
     }
 
@@ -575,6 +575,8 @@ class Discipulado extends Usuarios
 
             $resultado[] = $filas;
         }
+        $accion = "Generado Reporte estaditico cantidad  de celulas de discipulado";
+        $this->registrar_bitacora($accion);
         return $resultado;
     }
     public function listar_numero_discipulos($fecha_inicio, $fecha_final)
@@ -595,18 +597,20 @@ class Discipulado extends Usuarios
 
             $resultado[] = $filas;
         }
-
+        $accion = "Generado Reporte estaditico cantidad discipulos en celulas de discipulado";
+        $this->registrar_bitacora($accion);
         return $resultado;
     }
 
-    public function contar_discipulos(){
+    public function contar_discipulos()
+    {
         $sql = ("SELECT count(*) AS cantidad_discipulos 
         FROM usuarios 
         WHERE usuarios.id_discipulado IS NOT NULL");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
@@ -635,7 +639,7 @@ class Discipulado extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
@@ -661,9 +665,9 @@ class Discipulado extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-              $accion = "Generado Reporte estaditico crecimiento  lider de celula de discipulado";
+        $accion = "Generado Reporte estaditico crecimiento  lider de celula de discipulado";
         $this->registrar_bitacora($accion);
         return $resultado;
     }
