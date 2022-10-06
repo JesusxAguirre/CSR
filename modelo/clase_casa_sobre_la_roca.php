@@ -281,9 +281,11 @@ class LaRoca extends Usuarios
 
         $stmt->execute(array());
 
-        if($stmt->rowCount() > 1){
+        if($stmt->rowCount() >= 1){
+
         $accion = "Cierre casa sobre la roca";
         $this->registrar_bitacora($accion);
+ 
         return true;
         }else{
             return true;

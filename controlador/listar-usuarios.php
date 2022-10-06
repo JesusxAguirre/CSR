@@ -1,7 +1,7 @@
 <?php
 session_start();    
 require_once('modelo/clase_usuario.php');
-
+require_once('modelo/clase_roles.php');
 if ($_SESSION['verdadero'] > 0) {
     
     if (!$_SESSION['permisos']['gestionar_usuario']['listar']) {
@@ -13,7 +13,10 @@ if ($_SESSION['verdadero'] > 0) {
     }
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Usuarios();
+        $objetoRol = new Roles();
 
+        $matriz_roles = $objetoRol->get_roles();
+   
         if(isset($_POST['update'])){
             $cedula= $_POST['cedula'];
             $cedula_antigua= $_POST['cedula_antigua'];
