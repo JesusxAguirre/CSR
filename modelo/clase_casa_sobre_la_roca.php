@@ -280,9 +280,14 @@ class LaRoca extends Usuarios
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
+
+        if($stmt->rowCount() > 1){
         $accion = "Cierre casa sobre la roca";
         $this->registrar_bitacora($accion);
         return true;
+        }else{
+            return true;
+        }
     }
     //---------registrar reporte de CSR------------------------//
 
