@@ -575,7 +575,7 @@ class Discipulado extends Usuarios
 
             $resultado[] = $filas;
         }
-        $accion = "Generado Reporte estaditico cantidad  de celulas de discipulado";
+        $accion = "Generado Reporte estadistico cantidad  de celulas de discipulado";
         $this->registrar_bitacora($accion);
         return $resultado;
     }
@@ -597,7 +597,7 @@ class Discipulado extends Usuarios
 
             $resultado[] = $filas;
         }
-        $accion = "Generado Reporte estaditico cantidad discipulos en celulas de discipulado";
+        $accion = "Generado Reporte estadistico cantidad discipulos en celulas de discipulado";
         $this->registrar_bitacora($accion);
         return $resultado;
     }
@@ -667,7 +667,7 @@ class Discipulado extends Usuarios
         $stmt->execute(array());
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $accion = "Generado Reporte estaditico crecimiento  lider de celula de discipulado";
+        $accion = "Generado Reporte estadistico crecimiento  lider de celula de discipulado";
         $this->registrar_bitacora($accion);
         return $resultado;
     }

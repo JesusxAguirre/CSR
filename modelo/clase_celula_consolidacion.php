@@ -628,7 +628,7 @@ class Consolidacion extends Usuarios
 
         $stmt->execute(array());
         $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
-        $accion = "Generado Reporte estaditico  de celula de consolidacion";
+        $accion = "Generado Reporte estadistico  de celula de consolidacion";
         $this->registrar_bitacora($accion);
         return $resultado;
     }

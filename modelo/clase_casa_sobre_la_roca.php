@@ -445,7 +445,7 @@ class LaRoca extends Usuarios
             $resultado[] = $filas;
         }
 
-        $accion = "Generado Reporte estaditico  de casas sobre la roca";
+        $accion = "Generado Reporte estadistico  de casas sobre la roca";
         $this->registrar_bitacora($accion);
         return $resultado;
     }
