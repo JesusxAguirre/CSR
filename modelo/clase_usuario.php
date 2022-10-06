@@ -19,6 +19,7 @@ class Usuarios extends Conectar
     private $arreglo_n1;
     private $arreglo_n2;
     private $num_filas;
+    private $rol;
 
     private $cedula_antigua;
     private $permiso_read_casa;
@@ -303,13 +304,14 @@ class Usuarios extends Conectar
         $stmt->execute(array());
 
         //actualizando todos los datos menos el codigo que se hizo mas arriba
-        $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
+        $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono WHERE cedula = :ced");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             ":cedula" => $this->cedula,
+            ":rol" => $this->rol,
             ":nombre" => $this->nombre, ":apellido" => $this->apellido,
             ":edad" => $this->edad, ":sexo" => $this->sexo,
             ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
@@ -317,7 +319,7 @@ class Usuarios extends Conectar
             ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
         ));
 
-        $accion = "Editar o actualizar datos de usuarios";
+        $accion = "Editar  datos de usuario";
         $this->registrar_bitacora($accion);
     }
 
@@ -497,7 +499,7 @@ class Usuarios extends Conectar
         $this->correo = $correo;
         $this->clave = $clave;
     }
-    public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono)
+    public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono,$rol)
     {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -509,5 +511,6 @@ class Usuarios extends Conectar
         $this->nacionalidad = $nacionalidad;
         $this->estado = $estado;
         $this->telefono = $telefono;
+        $this->rol = $rol;
     }
 }

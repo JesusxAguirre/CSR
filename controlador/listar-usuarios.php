@@ -29,7 +29,7 @@ if ($_SESSION['verdadero'] > 0) {
             $estado= $_POST['estado'];
             $telefono= $_POST['telefono'];
             $rol = $_POST['rol'];
-           $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono);    
+           $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol);    
 
            $objeto->update_usuarios();
         }
