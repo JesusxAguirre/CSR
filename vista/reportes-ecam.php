@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
 
+    <!-- Mis CSS -->
+    <link rel="stylesheet" href="./resources/css/reportes-ecam.css">
+
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
     <!-- Js boostrap -->
@@ -28,6 +31,7 @@
     <!-- CHOICE 2 -->
     <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
     <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+    
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
     
@@ -47,39 +51,53 @@
 
     <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
-            <div class="row ">
-                <div class="col-4">
-                    <div class="card mt-3">
+            <div class="row">
+                <div class="col-6">
+                    <div class="card sombra">
                         <div class="card-body">
-                            <div>
-                                <h5 class="card-title text-center">Numero de estudiantes por seccion</h5>
+                            <h5 class="card-title fw-bold text-center font-monospace"><em>Bienvenid@ a los graficos estadisticos de la ECAM</em></h5>
+                            <div class="d-flex justify-content-center">
+                                <h6 class="fechaActual mx-3">Fecha actual: asdasd</h6><h6 class="horaActual mx-3">Epaleeee</h6>
                             </div>
-                            <canvas id="canva1"></canvas>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="card mt-3">
-                        <div class="card-body">
-                            <canvas id="canva2"></canvas>
+                <div class="col-3">
+                    <div class="card sombra">
+                        <div class="card-body text-center">
+                            <h6 class="card-title">Cantidad total de profesores en la ECAM</h6>
+                            <h2 class="fw-bold"><?php echo $cantidadProfesores ?></h2>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="card mt-3">
-                        <div class="card-body">
-                            <h5 class="card-title text-center">Cantidad de profesores en la ECAM</h5>
+                <div class="col-3">
+                    <div class="card sombra">
+                        <div class="card-body text-center">
+                            <h6 class="card-title">Cantidad total de estudiantes en la ECAM</h6>
+                            <h2 class="fw-bold"><?php echo $cantidadEstudiantes ?></h2>
                         </div>
-                    </div>  
-                    <div class="card mt-3">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-4">
+                    <div class="card sombra">
                         <div class="card-body">
-                            <h5 class="card-title text-center">Cantidad de estudiantes en la ECAM</h5>
+                            <h6 class="card-title text-center">Cantidad de estudiantes por seccion</h6>
+                            <canvas id="cantidadEstudiantes"></canvas>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="col-8">
+                    <div class="card sombra">
+                        <div class="card-body">
+                            <h6 class="card-title text-center">Cantidad de graduados de la ECAM de este año</h6>
+                            <canvas id="graduandosDeHoy"></canvas>
                         </div>
                     </div>  
                 </div>
             </div>
-
-
 
         </div>
 

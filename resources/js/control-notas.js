@@ -272,10 +272,10 @@ setTimeout(() => {
         let seccion= elemento.querySelector('.seccion').textContent;
         let cedula= elemento.querySelector('.cedula').textContent;
         let nivelAcademico= elemento.querySelector('.nivelAcademico').textContent;
-        let notaFinalRef= elemento.querySelector('.notaFinalEst').value;
+        let notaFinal;
 
         let data= {
-            verNotasMaterias: 'verNotasMaterias',
+            verNotaFinal: 'verNotasFinal',
             seccion: seccion,
             cedula: cedula
         }
@@ -290,14 +290,16 @@ setTimeout(() => {
                     confirmButtonColor: 'green',
                     cancelButtonText: 'Cerrar',
                     preConfirm: function() {
-                        if (notaFinalRef == 0) {
+                        notaFinal= document.querySelector('.notaFinalRef').value;
+                        console.log(notaFinal);
+                        if (notaFinal == 0) {
                             Swal.showValidationMessage('No puedes agregar "0" como nota final')
                         }
                     },
                     
                   }).then((result) => { 
                     if (result.isConfirmed) {
-                        let notaFinal= document.querySelector('.notaFinal').textContent;
+                        
                         let data = {
                             guardarNotaFinal: 'guardarNotaFinal',
                             seccion: seccion,
@@ -307,6 +309,7 @@ setTimeout(() => {
                         }
                         $.post("controlador/ajax/dinamica-control-notas.php", data,
                             function (data) {
+                                listarEstudiantes();
                                 Swal.fire({
                                     icon: 'success',
                                     iconColor: 'white',
@@ -326,14 +329,14 @@ setTimeout(() => {
         
     })
 
+    //VER NOTA FINAL DEL ESTUDIANTE
     $('#estudiantes tbody').on('click', '.verNotaFinal', function() {
         let elemento = $(this)[0].parentElement.parentElement;
         let seccion= elemento.querySelector('.seccion').textContent;
         let cedula= elemento.querySelector('.cedula').textContent;
-        let nivelAcademico= elemento.querySelector('.nivelAcademico').textContent;
 
         let data= {
-            verNotasMaterias: 'verNotasMaterias',
+            verNotaFinal: 'verNotaFinal',
             seccion: seccion,
             cedula: cedula
         }
@@ -342,9 +345,52 @@ setTimeout(() => {
             Swal.fire({
                 html: data,
                 showCancelButton: true,
+                showConfirmButton: false,
                 cancelButtonText: 'Cerrar',
             })
         })
+    })
+
+    //ELIMINAR NOTA FINAL DEL ESTUDIANTE
+    $('#estudiantes tbody').on('click', '.eliminarNotaFinal', function() {
+        let elemento = $(this)[0].parentElement.parentElement;
+        let seccion= elemento.querySelector('.seccion').textContent;
+        let cedula= elemento.querySelector('.cedula').textContent;
+        let nivelAcademico= elemento.querySelector('.nivelAcademico').textContent;
+
+        let data= {
+            eliminarNotaFinal: 'eliminarNotaFinal',
+            seccion: seccion,
+            cedula: cedula,
+            nivelAcademico: nivelAcademico,
+        }
+        Swal.fire({
+            icon: 'info',
+            title: '¿Esta segur@ de eliminar la nota final seleccionada?',
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText:'Si, estoy seguro',
+            confirmButtonColor: 'green',
+            cancelButtonColor: 'red',
+            cancelButtonText: 'No, cancelar',
+          }).then((result) => {
+            if (result.isConfirmed) {
+                $.post("controlador/ajax/dinamica-control-notas.php", data, function (data) {
+                    listarEstudiantes();
+                    Swal.fire({
+                        icon: 'success',
+                        iconColor: 'white',
+                        title: '¡Eliminada correctamente!',
+                        toast: true,
+                        background: 'green',
+                        color: 'white',
+                        showConfirmButton: false,
+                        timer: 3000,
+                    })
+                })
+            }
+          }) 
+        
     })
 
 }, 100);

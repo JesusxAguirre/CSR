@@ -56,7 +56,6 @@
                                 foreach ($listarBotones as $boton) { ?>
                                 <div>
                                     <button onclick="verListado(<?php echo $boton['id_seccion'] ?>)" class="btn btn-light me-2" type="button"><?php echo $boton['nombre'].' (Nivel '.$boton['nivel_academico'].')' ?></button>
-                                    <button type="button" class="btn btn-light">procesar</button>
                                 </div>
                               <?php } 
                             }else{ ?>

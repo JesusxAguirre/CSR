@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
 
+    <!-- Mis CSS -->
+    <link rel="stylesheet" href="./resources/css/aula-virtual-Prof.css">
+
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
 
@@ -52,7 +55,7 @@
 
             <div class="row mt-3">
                 <div class="col">
-                    <div class="card mx-auto" style="width: 75%;">
+                    <div class="card mx-auto sombra" style="width: 75%;">
                         <div class="card-header text-center">
                             ---Mis estudiantes---
                         </div>
