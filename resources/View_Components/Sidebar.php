@@ -80,15 +80,15 @@
           <div class="collapse" id="ecam">
             <div>
               <ul class="navbar-nav ps-3">
-              <?php if($_SESSION['status_profesor'] == 0 && !empty($_SESSION['id_seccion'])) { ?>
-                <li>
-                  <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
-                  <span class="me-2">
-                  <i class="bi bi-grid-3x3-gap-fill"></i>
-                  </span>
-                  <span>Aula virtual</span>
-                  </a>
-                </li>
+                <?php if ($_SESSION['status_profesor'] == 0 && !empty($_SESSION['id_seccion'])) { ?>
+                  <li>
+                    <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-grid-3x3-gap-fill"></i>
+                      </span>
+                      <span>Aula virtual</span>
+                    </a>
+                  </li>
                 <?php } ?>
 
                 <?php if ($_SESSION['status_profesor'] == 1) { ?>
@@ -103,21 +103,21 @@
                 <?php } ?>
                 <li>
                   <a href="?pagina=boletin_notas" class="nav-link px-3">
-                  <span class="me-2">
-                  <i class="bi bi-journal-check"></i></span>
-                  <span>Boletin de notas</span>
+                    <span class="me-2">
+                      <i class="bi bi-journal-check"></i></span>
+                    <span>Boletin de notas</span>
                   </a>
                 </li>
                 <li>
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
-                  <a href="?pagina=materias" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-book-half"></i></span>
-                    <span>Materias</span>
-                  </a>
+                  <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                    <a href="?pagina=materias" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-book-half"></i></span>
+                      <span>Materias</span>
+                    </a>
                 </li>
-                <?php } ?>
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
+              <?php } ?>
+              <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
                   <a href="?pagina=crear-seccion" class="nav-link px-3">
                     <span class="me-2">
@@ -125,16 +125,16 @@
                     <span>Crear seccion</span>
                   </a>
                 </li>
-                <?php } ?>
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
+              <?php } ?>
+              <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
                   <a href="?pagina=control-notas" class="nav-link px-3">
                     <span class="me-2">
-                    <i class="bi bi-123"></i></span>
+                      <i class="bi bi-123"></i></span>
                     <span>Control de notas</span>
                   </a>
                 </li>
-                <?php } ?>
+              <?php } ?>
               </ul>
             </div>
           </div>
@@ -188,23 +188,23 @@
           <div class="collapse" id="discipulado">
             <div>
               <ul class="navbar-nav ps-3">
-              <?php if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0) : ?>
-                <li>
-                  <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-clipboard-check"></i></span>
-                    <span>Listar celula discipulado</span>
-                  </a>
-                </li>
+                <?php if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0) : ?>
+                  <li>
+                    <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-clipboard-check"></i></span>
+                      <span>Listar celula discipulado</span>
+                    </a>
+                  </li>
                 <?php endif; ?>
                 <?php if ($_SESSION['permisos']['celula_discipulado']['crear'] > 0) : ?>
-                <li>
-                  <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-box-seam-fill"></i></span>
-                    <span>Registrar celula discipulado</span>
-                  </a>
-                </li>
+                  <li>
+                    <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-box-seam-fill"></i></span>
+                      <span>Registrar celula discipulado</span>
+                    </a>
+                  </li>
                 <?php endif; ?>
                 <li>
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
@@ -272,7 +272,7 @@
         <li>
           <a href="?pagina=reportes-ecam" class="nav-link px-3">
             <span class="me-2">
-            <i class="bi bi-bar-chart-line"></i></span>
+              <i class="bi bi-bar-chart-line"></i></span>
             <span>Reportes estadisticos ECAM</span>
           </a>
         </li>
@@ -287,12 +287,39 @@
           </a>
         </li>
         <li>
-          <a class="nav-link px-3 sidebar-link" href="?pagina=bitacora-usuario" role="button">
+          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#seguridad" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
-              <i class="bi bi-person-lines-fill fs-3"></i>
-              <span>Bitacora de usuario</span>
+              <i class="bi bi-shield-lock-fill fs-3"></i></span>
+            <span>Seguridad</span>
+            <span class="right-icon ms-auto">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+
           </a>
+          <div class="collapse" id="seguridad">
+            <div>
+              <ul class="navbar-nav ps-3">
+                <li>
+                  <a class="nav-link px-3 sidebar-link" href="?pagina=bitacora-usuario" role="button">
+                    <span class="me-2">
+                      <i class="bi bi-person-lines-fill fs-3"></i>
+                      <span>Bitacora de usuario</span>
+                  </a>
+                </li>
+                <?php if ($_SESSION['permisos']['gestionar_roles']['listar'] > 0) : ?>
+                  <li>
+                    <a href="?pagina=listar-roles" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-clipboard-check"></i></span>
+                      <span>Listar Roles</span>
+                    </a>
+                  </li>
+                <?php endif ?>
+              </ul>
+            </div>
+          </div>
         </li>
+
 
       </ul>
     </nav>
