@@ -17,9 +17,9 @@
 
   <!-- Js boostrap -->
   <script src="./resources/js/bootstrap.min.js"></script>
- <!-- Estilos de validacion-->
- <link rel="stylesheet" href="resources/css/listar-usuario.css">
-   <!-- Sweet alert 2-->
+  <!-- Estilos de validacion-->
+  <link rel="stylesheet" href="resources/css/listar-usuario.css">
+  <!-- Sweet alert 2-->
   <script src="resources/js/sweetalert2.js"></script>
 </head>
 
@@ -41,7 +41,7 @@
         <div class="col-12">
           <div class="page-title-box">
             <h4 class="page-title">Listar Usuarios</h4>
-            
+
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
               <h4 class="header-title mb-3 fw-bold">Usuarios</h4>
 
               <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, estado_civil, nombre" class="form-control w-auto ms-1" value=""></span></div>
-              <div  class="table-responsive mt-4">
+              <div class="table-responsive mt-4">
 
                 <table role='table' class='table table-centered'>
                   <thead>
@@ -70,7 +70,7 @@
                   </thead>
 
                   <tbody id="datos" role='rowgroup'>
-                    
+
                   </tbody>
                 </table>
               </div>
@@ -194,8 +194,8 @@
                   <i class="input-icon fs-5"></i>
                   <select id="rol" name="rol" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="rolInput" value="">Escoge tu Rol</option>
-                    <?php foreach($matriz_roles AS $rol): ?>
-                    <option value="<?php echo $rol["id"] ?>"><?php echo $rol["nombre"] ?></option>
+                    <?php foreach ($matriz_roles as $rol) : ?>
+                      <option value="<?php echo $rol["id"] ?>"><?php echo $rol["nombre"] ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -212,12 +212,17 @@
     </div>
   </div>
 
-  <script>
+
+
+
+  <script type="text/javascript">
+    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
+
+
     $('#myModal').on('shown.bs.modal', function() {
       $('#myInput').trigger('focus')
     })
   </script>
-
 
   <script src="resources/js/listar-usuarios.js"></script>
 
