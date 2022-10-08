@@ -5,6 +5,8 @@ session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
+
+    //Validacion de permisos
     if (!$_SESSION['permisos']['celula_consolidacion']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
@@ -12,6 +14,8 @@ if (is_file('vista/'.$pagina.'.php')) {
 		</script>";
 
     }
+
+
     $objeto = new Consolidacion();
    
     $matriz_celula = $objeto->listar_celula_consolidacion();

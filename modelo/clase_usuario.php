@@ -319,7 +319,7 @@ class Usuarios extends Conectar
             ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
         ));
 
-        $accion = "Editar  datos de usuario";
+        $accion = "Editar datos de usuario";
         $this->registrar_bitacora($accion);
     }
 
