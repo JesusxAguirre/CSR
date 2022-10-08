@@ -75,6 +75,28 @@ class ecam extends Conectar
         return $listarEstudiantesOFF;
     }
 
+    //CANTIDAD DE PROFESORES EN LA ECAM
+    public function cantidadProfesores()
+    {
+        $sql = "SELECT * FROM `usuarios` WHERE `status_profesor` = 1";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+        $cantidad = $stmt->rowCount();
+
+        return $cantidad;
+    }
+    //CANTIDAD DE ESTUDIANTES EN LA ECAM
+    public function cantidadEstudiantes()
+    {
+        $sql = "SELECT * FROM `usuarios` WHERE `id_seccion` IS NOT NULL AND `status_profesor` = 0";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+        $cantidad = $stmt->rowCount();
+
+        return $cantidad;
+    }
+
+
 
 
     //AGREGAR NOTAS FINALES A LOS ESTUDIANTES
@@ -85,6 +107,15 @@ class ecam extends Conectar
         $stmt->execute(array());
 
         $accion = "Se ha agregado una nota final a un estudiante del nivel $nivelAcademico";
+        $this->registrar_bitacora($accion);
+    }
+    public function eliminar_notaFinal($seccion, $cedula, $nivelAcademico)
+    {
+        $sql= "DELETE FROM `notafinal_estudiantes` WHERE `cedulaEstudiante` = $cedula AND `id_seccion` = $seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        $accion = "Se ha eliminado una nota final a un estudiante del nivel $nivelAcademico";
         $this->registrar_bitacora($accion);
     }
     //LISTAR NOTAS FINALES DE LOS ESTUDIANTES
@@ -124,6 +155,7 @@ class ecam extends Conectar
         }
         return $notas;
     }
+
 
 
 
@@ -279,7 +311,7 @@ class ecam extends Conectar
         $estudiantesOFF= [];
         
         $sql = "SELECT `sc`.`id_seccion`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-cerradas` AS `sc` 
-        INNER JOIN `usuarios` ON `sc`.`id_seccion` = `usuarios`.`id_seccion` WHERE `sc`.`id_seccion` = $seccionOFF";
+        INNER JOIN `usuarios` ON `sc`.`cedula_estudiante` = `usuarios`.`cedula` WHERE `sc`.`id_seccion` = $seccionOFF";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -412,9 +444,7 @@ class ecam extends Conectar
     public function cantidadFilasNiveles($nivel)
     {
         $sql = "SELECT `id_materia`, `nombre`, `nivelAcademico` FROM `materias` WHERE nivelAcademico = :nivelSeleccionado";
-
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute(array(
             "nivelSeleccionado" => $nivel,
         ));
@@ -1111,11 +1141,10 @@ class ecam extends Conectar
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////APARTADO PARA REPORTES ESTADISTICOS/////////////////////////////
-    public function ver1(){
+    public function cantidadEstudiantes_seccion(){
         $filas1= [];
-        $sql= "SELECT `secciones`.`nombre` AS `nombreSeccion`, `secciones`.`id_seccion`, COUNT(`usuarios`.`cedula`) AS `cantidadEstudiantes` FROM `usuarios`, `secciones` 
-        WHERE `usuarios`.`id_seccion` = `secciones`.`id_seccion` AND `secciones`.`status_seccion` = 1 AND `usuarios`.`id_seccion` IS NOT NULL GROUP BY `secciones`.`id_seccion`";
-        //$sql= "SELECT secciones.nombre AS nombreSeccion, COUNT(usuarios.cedula) AS cantidadEstudiantes FROM `secciones`, `usuarios` WHERE secciones.id_seccion = usuarios.id_seccion AND secciones.status_seccion = 1";
+        $sql= "SELECT `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`usuarios`.`cedula`) IS NULL ,'0', COUNT(`usuarios`.`cedula`)) AS `cantidadEstudiantes` 
+        FROM `secciones` LEFT JOIN `usuarios` ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` GROUP BY `secciones`.`id_seccion`";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 
@@ -1125,8 +1154,40 @@ class ecam extends Conectar
         return $filas1;
     }
 
+    public function cantidadGraduandos_actual()
+    {   
+        $filas1 = [];
+        /*$sql= "SET lc_time_names = 'es_ES'; SELECT UPPER(MONTHNAME(`fecha_agregada`)) AS `mes`, count(*) AS `cantidadGraduandos` 
+        FROM `notafinal_estudiantes` WHERE `fecha_agregada` BETWEEN 'YEAR(CURDATE())-01-01' AND CURDATE() GROUP BY `mes`";
 
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
 
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $filas1[] = $filas;
+        }
+        return $filas1;*/
+
+        $sql= "SELECT SUM(CASE WHEN MONTH(`fecha_agregada`) = 1 THEN 1 ELSE 0 END) AS `Enero`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 2 THEN 1 ELSE 0 END) AS `Febrero`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 3 THEN 1 ELSE 0 END) AS `Marzo`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 4 THEN 1 ELSE 0 END) AS `Abril`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 5 THEN 1 ELSE 0 END) AS `Mayo`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 6 THEN 1 ELSE 0 END) AS `Junio`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 7 THEN 1 ELSE 0 END) AS `Julio`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 8 THEN 1 ELSE 0 END) AS `Agosto`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 9 THEN 1 ELSE 0 END) AS `Septiembre`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 10 THEN 1 ELSE 0 END) AS `Octubre`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 11 THEN 1 ELSE 0 END) AS `Noviembre`,
+        SUM(CASE WHEN MONTH(`fecha_agregada`) = 12 THEN 1 ELSE 0 END) AS `Diciembre`
+        FROM `notafinal_estudiantes` WHERE nivelAcademico = 3 AND notaFinal >= 13 AND `fecha_agregada` BETWEEN 'YEAR(CURDATE())-01-01' AND CURDATE()";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado;
+    }
 
 
 

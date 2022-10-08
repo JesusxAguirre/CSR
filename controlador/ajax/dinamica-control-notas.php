@@ -25,14 +25,14 @@ if (isset($_POST['verEstudiantes'])) {
                 <input class="notaFinalEst d-none" value="<?php echo $key['notaFinal'] ?>" type="text">
                 <button class="agregarNotaFinal btn btn-secondary">SIN NOTA</button>
             <?php } else { ?>
-                <button class="verNotaFinal btn btn-success">VER NOTA <i class="bi bi-calculator-fill"></i></button>
-                <button class="eliminarNotaFinal btn btn-danger"><i class="bi bi-file-earmark-minus-fill"></i></button>
+                <button class="verNotaFinal btn btn-success rounded-pill">VER NOTA <i class="bi bi-calculator-fill"></i></button>
+                <button class="eliminarNotaFinal btn btn-danger rounded-pill"><i class="bi bi-trash"></i></button>
             <?php } ?>
         </td>
 <?php }
 }
 
-if (isset($_POST['verNotasMaterias'])) {
+if (isset($_POST['verNotaFinal'])) {
     $seccion= $_POST['seccion'];
     $cedula= $_POST['cedula'];
     $materiasNotas= $objeto->ver_misNotasMaterias($cedula, $seccion);
@@ -53,17 +53,25 @@ if (isset($_POST['verNotasMaterias'])) {
         </div><?php
     }?>
     <div>
+        <input class="notaFinalRef d-none" type="text" value="<?php echo ($nota/count($materiasNotas)) ?>">
         <h2 class="notaFinal"><?php echo ($nota/count($materiasNotas).'/20') ?></h2>
         <h5>DE PROMEDIO</h5>
     </div><?php
 }
-
+//GUARDAR NOTA FINAL DEL NIVEL ACADEMICO
 if (isset($_POST['guardarNotaFinal'])) {
     $notaFinal= $_POST['notaFinal'];
     $seccion = $_POST['seccion'];
     $cedula = $_POST['cedula'];
     $nivelAcademico = $_POST['nivelAcademico'];
     $objeto->agregar_notaFinal($seccion, $cedula, $notaFinal, $nivelAcademico);
+}
+//ELIMINAR NOTA FINAL DEL NIVEL ACADEMICO
+if (isset($_POST['eliminarNotaFinal'])) {
+    $seccion = $_POST['seccion'];
+    $cedula = $_POST['cedula'];
+    $nivelAcademico= $_POST['nivelAcademico'];
+    $objeto->eliminar_notaFinal($seccion, $cedula, $nivelAcademico);
 }
 
 

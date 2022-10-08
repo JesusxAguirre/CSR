@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 require_once('modelo/clase_usuario.php');
@@ -59,10 +60,7 @@ if(isset($_POST['enviar'])){
 		$idRol = $objeto->getIdRol($_SESSION['usuario']);
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 	
-		echo "<script>
-		alert('Sesion iniciada correctamente');
-		window.location= 'index.php?pagina=dashboard'
-		</script>";
+		echo "<script>window.location= 'index.php?pagina=dashboard'</script>";
 
 	}else{
 		echo "<script>

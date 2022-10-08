@@ -37,14 +37,13 @@ require_once "./resources/View_Components/Menu.php";
 <?php
 	require_once "./resources/View_Components/Main.php";
 ?>
-<!-- Main.php -->
-<script type="text/javascript">
+		<!-- Main.php -->
+	<script type="text/javascript">
     reporte = <?php echo json_encode($reporte, JSON_NUMERIC_CHECK);?>;
-
-  </script>
+  	</script>
 	<script type="module" src="node_modules/highcharts/highcharts.js"></script>
-  <script type="module" src="node_modules/highcharts/modules/export-data.js"></script>
-  <script type="module" src="node_modules/highcharts/modules/exporting.js"></script>
-  <script src="resources/js/dashboard.js"></script>
+  	<script type="module" src="node_modules/highcharts/modules/export-data.js"></script>
+  	<script type="module" src="node_modules/highcharts/modules/exporting.js"></script>
+  	<script src="resources/js/dashboard.js"></script>
 
 </body>
