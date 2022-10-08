@@ -8,8 +8,6 @@ if($_SESSION['verdadero'] > 0){
 
         
         require_once 'vista/'.$pagina.'.php';
-        
-
     }
 
 } else { 

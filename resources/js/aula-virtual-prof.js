@@ -10,7 +10,7 @@ $('#horaActual').text(fecha.getHours()+':'+fecha.getMinutes()+' '+am_pm);
 function grafico1(ctxRef, nombreSeccionRef, cantidadMateriasRef) {
 
 new Chart(ctxRef,{
-    type: 'doughnut',
+    type: 'polarArea',
     data: {
         labels: nombreSeccionRef,
         datasets: [{

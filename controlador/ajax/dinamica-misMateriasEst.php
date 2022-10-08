@@ -16,7 +16,7 @@ if (isset($_POST['verMaterias'])) {
                         <h5 class="position-absolute top-50 start-50 translate-middle text-white"><?php echo $listado['nombreMateria']; ?></h5>
                     </div>
                     <div class="d-grip">
-                        <input class="contenidoMateria d-none" disabled type="text" value="<?php echo $listado['contenido']; ?>">
+                        <input class="contenidoMateria d-none" disabled type="text" value="<?php echo ($listado['contenido'] == NULL || $listado['contenido'] == '<p><br></p>') ? 'Aun no tienes contenido en esta materia' : $listado['contenido'] ?>">
                         <button class="verContenido btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#modal_misContenidosEst">Ver contenido <i class="bi bi-body-text"></i></button>
                     </div>
                 </div>

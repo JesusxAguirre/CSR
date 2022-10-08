@@ -1,3 +1,6 @@
+
+
+
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario

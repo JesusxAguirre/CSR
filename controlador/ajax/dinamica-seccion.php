@@ -30,18 +30,50 @@
                         <div class="d-flex align-items-center">
                             <div class="fs-2 me-3 text-danger"><i class="bi bi-house"></i></div>
                             <div class="mb-0">
+                                
                                 <h6 class="mb-0 fst-italic"><?php echo $seccionesOFF['nombre'].' (Nivel '.$seccionesOFF['nivel_academico'].')'; ?></h6>
                                 <p class="mb-0"><em><?php echo 'Fecha de cerrado: '.$seccionesOFF['fecha_cierre'];?></em></p>
                             </div>
-                            <button type="button" class="btn btn-outline-info ms-5">Ver estudiantes</button>
+                            
                         </div>
-                        
+                    </td>
+                    <td>
+                        <input class="idSeccion_cerrada d-none" type="text" value="<?php echo $seccionesOFF['id_seccion'] ?>">
+                        <input class="nombre_seccionCerrada d-none" type="text" value="<?php echo $seccionesOFF['nombre'] ?>">
+                        <button type="button" id="estudiantesOFF" title="Ver estudiantes" class="btn btn-outline-info" data-bs-target="#estudiantesPasados" data-bs-toggle="modal"><i class="bi bi-search"></i></button>
+                        <button type="button" id="eliminarSeccionOFF" title="Eliminar definitivamente" class="btn btn-outline-danger"><i type="button" class="bi bi-trash"></i></button>
                     </td>
                 </tr> <?php
             }
         }else{ ?>
                 <tr>
                     <td><h5><em>Aun no hay secciones cerradas</em></h5></td>
+                </tr> <?php
+        }
+    }
+    //LISTAR ESTUDIANTES DE LAS SECCIONES CERRADAS
+    if (isset($_POST['verEstudiantes_seccionCerrada'])) {
+        $idSeccionCerrada = $_POST['idSeccionCerrada'];
+        $estudiantesOFF= $objeto->estudiantes_seccionOFF($idSeccionCerrada);
+
+        if (!empty($estudiantesOFF)) {
+            foreach ($estudiantesOFF as $estOFF) { ?>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="fs-2 me-3 text-danger"><i class="bi bi-person-video2"></i></div>
+                            <div class="mb-0">
+                                <h6 class="mb-0 fst-italic"><?php echo $estOFF['codigo']; ?></h6>
+                                <p class="mb-0"><em><?php echo $estOFF['nombre'].' '.$estOFF['apellido'];?></em></p>
+                            </div>
+                            
+                        </div>
+                    </td>
+                </tr> <?php
+            }
+        }else{ ?>
+                <tr>
+                    <td><h5><em>No hubieron estudiantes en esta seccion :(</em></h5></td>
                 </tr> <?php
         }
     }

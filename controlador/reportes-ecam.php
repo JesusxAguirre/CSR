@@ -4,7 +4,11 @@ session_start();
 
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/'. $pagina .'.php')) {
+        require_once('modelo/clase_ecam.php');
+        $objeto= new ecam();
 
+        $cantidadProfesores = $objeto->cantidadProfesores();
+        $cantidadEstudiantes = $objeto->cantidadEstudiantes();
 
         require_once 'vista/' . $pagina . '.php';
     }
