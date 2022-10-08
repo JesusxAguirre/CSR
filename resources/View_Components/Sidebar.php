@@ -162,15 +162,7 @@
                     </a>
                   </li>
                 <?php endif ?>
-                <?php if ($_SESSION['permisos']['gestionar_roles']['listar'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=listar-roles" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard-check"></i></span>
-                      <span>Listar Roles</span>
-                    </a>
-                  </li>
-                <?php endif ?>
+
               </ul>
             </div>
           </div>
