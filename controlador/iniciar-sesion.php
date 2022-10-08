@@ -56,7 +56,10 @@ if(isset($_POST['enviar'])){
 	
 
 	if($_SESSION['verdadero'] > 0){
+		//primero se busca la id del rol del usuario con el correo del usuario
 		$idRol = $objeto->getIdRol($_SESSION['usuario']);
+
+		//luego se buscan los permisos con el id de rol
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 	
 		echo "<script>
