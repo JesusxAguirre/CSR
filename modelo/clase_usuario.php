@@ -272,11 +272,20 @@ class Usuarios extends Conectar
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
         $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
-        $nacionalidad_antigua = substr($codigo_usuario['codigo'], 12, 2);
-        $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
-        $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
-        $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
 
+        //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
+        $longitud_cedula_antigua = strlen($this->cedula_antigua);
+        if ($longitud_cedula_antigua == 8) {
+            $nacionalidad_antigua = substr($codigo_usuario['codigo'], 12, 2);
+            $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
+            $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
+            $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
+        } else {
+            $nacionalidad_antigua = substr($codigo_usuario['codigo'], 11, 2);
+            $estado_antigua = substr($codigo_usuario['codigo'], 14, 2);
+            $sexo_antigua = substr($codigo_usuario['codigo'], 17, 1);
+            $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
+        }
         //actualizando cedula en codigo
         $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
 
@@ -499,7 +508,7 @@ class Usuarios extends Conectar
         $this->correo = $correo;
         $this->clave = $clave;
     }
-    public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono,$rol)
+    public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol)
     {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
