@@ -165,7 +165,7 @@ class ecam extends Conectar
         $listarEstudiantes_nivel1= [];
 
         $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 12) 
+        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16) 
         AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -182,8 +182,8 @@ class ecam extends Conectar
         $listarEstudiantes_nivel2= [];
 
         $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 2 AND notaFinal >= 12) 
-        AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 12)
+        NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 2 AND notaFinal >= 16) 
+        AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16)
         AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -199,8 +199,8 @@ class ecam extends Conectar
         $listarEstudiantes_nivel3= [];
 
         $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 3 AND notaFinal >= 12) 
-        AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 2 AND `notaFinal` >= 12)
+        NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 3 AND notaFinal >= 16) 
+        AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 2 AND `notaFinal` >= 16)
         AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -262,7 +262,7 @@ class ecam extends Conectar
         $aprobados= [];
 
         $sql= "SELECT `ntf`.`id_seccion`, `ntf`.`cedulaEstudiante`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `ntf`.`notaFinal` FROM `notafinal_estudiantes` AS `ntf`, `usuarios` 
-        WHERE `ntf`.`cedulaEstudiante` = `usuarios`.`cedula` AND notaFinal >= 12 AND `ntf`.`id_seccion` = $idSeccion";
+        WHERE `ntf`.`cedulaEstudiante` = `usuarios`.`cedula` AND notaFinal >= 16 AND `ntf`.`id_seccion` = $idSeccion";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 
@@ -278,7 +278,7 @@ class ecam extends Conectar
         $reprobados= [];
 
         $sql= "SELECT `ntf`.`id_seccion`, `ntf`.`cedulaEstudiante`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `ntf`.`notaFinal` FROM `notafinal_estudiantes` AS `ntf`, `usuarios` 
-        WHERE `ntf`.`cedulaEstudiante` = `usuarios`.`cedula` AND notaFinal < 12 AND `ntf`.`id_seccion` = $idSeccion";
+        WHERE `ntf`.`cedulaEstudiante` = `usuarios`.`cedula` AND notaFinal < 16 AND `ntf`.`id_seccion` = $idSeccion";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 

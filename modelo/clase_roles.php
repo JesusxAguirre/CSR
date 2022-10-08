@@ -45,7 +45,7 @@ class Roles extends Conectar {
 		$stmt->bindParam(':idRol', $idRol);
 		$stmt->bindParam(':idModulo', $idModulo);
 		$stmt->bindParam(':idPermiso', $idPermiso);
-		
+		//print_r($permisos); exit;
 		foreach ($modulos as $modulo) {
 			$idModulo = $modulo['id'];
 
