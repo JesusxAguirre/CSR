@@ -60,6 +60,56 @@ class ecam extends Conectar
         ));
     }
 
+
+
+    //REGISTRAR NOTIFICACIONES PARA ESTUDIANTES DE LA ECAM POR SECCIONES
+    public function registrar_notificacionSeccion($seccion, $accion, $cedulaEst)
+    {
+        $cedula = $_SESSION['cedula'];
+
+        if (!empty($cedulaEst)) {
+            $sql = "INSERT INTO notificaciones_seccion (id_seccion, cedula_estudiante, accion, fecha, hora_registro) 
+            VALUES(:idSeccion, :cedulaEstudiante, :accion, CURDATE(), CURTIME())";
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":idSeccion" => $seccion,
+                ":cedulaEstudiante" => $cedulaEst,
+                ":accion" => $accion
+            ));
+        }else{
+            $sql = "INSERT INTO notificaciones_seccion (id_seccion, accion, fecha, hora_registro) 
+            VALUES(:idSeccion, :accion, CURDATE(), CURTIME())";
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":idSeccion" => $seccion,
+                ":accion" => $accion
+            ));
+        }
+        
+    }
+    public function listar5_notificacionSeccion()
+    {
+        $filas1 = [];
+        $seccion = $_SESSION['id_seccion'];
+        $cedulaEst = $_SESSION['cedula'];
+
+        $sql = "SELECT * FROM `notificaciones_seccion` WHERE `id_seccion` = $seccion AND `cedula_estudiante` = $cedulaEst 
+        OR `cedula_estudiante` IS NULL ORDER BY `notificaciones_seccion`.`hora_registro` DESC LIMIT 6";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $filas1[] = $filas;
+        }
+        return $filas1;
+    }
+
+
+
     //LISTAR ESTUDIANTES DISPONIBLES PARA INSCRIBIR
     public function listarEstudiantes()
     {
@@ -106,8 +156,11 @@ class ecam extends Conectar
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 
-        $accion = "Se ha agregado una nota final a un estudiante del nivel $nivelAcademico";
+        $accion = "Ha agregado una nota final a un estudiante del nivel $nivelAcademico";
         $this->registrar_bitacora($accion);
+
+        $accion2= "Ya tienes tu nota final del curso. Podras verla cuando activen el boletin de nota";
+        $this->registrar_notificacionSeccion($seccion, $accion2, $cedula);
     }
     public function eliminar_notaFinal($seccion, $cedula, $nivelAcademico)
     {
@@ -398,7 +451,7 @@ class ecam extends Conectar
         }//Fin del Foreach
         //Profesores con status 1 activados
 
-        $accion = "Se ha agregado una materia nueva";
+        $accion = "Ha agregado una materia nueva llamada ".$this->nombre;
         $this->registrar_bitacora($accion);
     }
 
@@ -679,7 +732,7 @@ class ecam extends Conectar
             ));
         }
 
-        $accion = "El usuario ha creado una seccion nueva";
+        $accion = "Ha creado una seccion nueva llamada ".$this->nombreSeccion;
         $this->registrar_bitacora($accion);
     } //FIN DEL CREAR SECCION
 
@@ -889,8 +942,19 @@ class ecam extends Conectar
             ":cedulaProfesor" => $cedulaProfesor,
         ));
 
-        $accion = "El usuario ha agregado contenido a su materia en la seccion";
+        //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
+        $sql2= "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
+        FROM `materias`, `secciones` WHERE `id_materia` = $materiaContRef AND `secciones`.`id_seccion` = $seccionContRef";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array());
+        $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
+        
+        //REGISTRO DE ACCION EN LA BITACORA
+        $accion = "El profesor ha agregado contenido a ".$datos['nombreMateria']." nivel ".$datos['nivelAcademico']." en la seccion ".$datos['nombreSeccion'];
         $this->registrar_bitacora($accion);
+
+        $accion2= "El profesor ha agregado contenido nuevo a ".$datos['nombreMateria'];
+        $this->registrar_notificacionSeccion($seccionContRef, $accion2, '');
     }
 
     //LISTAR CONTENIDOS DE LAS MATERIAS PROFESORES
@@ -914,7 +978,7 @@ class ecam extends Conectar
             $listarContenido[] = $filas;
         }
 
-        $accion = "El usuario ha revisado el contenido de la materia";
+        $accion = "El usuario ha revisado el contenido de su materia";
         $this->registrar_bitacora($accion);
 
         return $listarContenido;
@@ -962,8 +1026,22 @@ class ecam extends Conectar
             ":nota" => $nota,
         ));
 
-        $accion = "El usuario ha agregado nota de la materia a un estudiante";
+        //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
+        $sql2= "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
+        FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":idMateria" => $this->notaIDmateria,
+            ":idSeccion" => $this->notaIDseccion,
+        ));
+        $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
+        
+        //REGISTRO DE ACCION EN LA BITACORA
+        $accion = "Le ha agregado nota de la materia ".$datos['nombreMateria']." a un estudiante de la seccion ".$datos['nombreSeccion'];
         $this->registrar_bitacora($accion);
+
+        $accion2= "El profesor de ".$datos['nombreMateria']." te ha agregado la nota de la materia";
+        $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
     }
 
     //ACTUALIZAR LA NOTA DEL ESTUDIANTE SELECCIONADO DEL PROFESOR ACTIVO EN LA SESION
@@ -980,8 +1058,22 @@ class ecam extends Conectar
             ":notaNueva" => $notaNueva,
         ));
 
-        $accion = "El usuario le ha actualizado la nota de la materia a un estudiante";
+        //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
+        $sql2= "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
+        FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":idMateria" => $this->notaIDmateria,
+            ":idSeccion" => $this->notaIDseccion,
+        ));
+        $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
+        
+        //REGISTRO DE ACCION EN LA BITACORA
+        $accion = "Ha actualizado la nota de la materia ".$datos['nombreMateria']." a un estudiante de la seccion ".$datos['nombreSeccion'];
         $this->registrar_bitacora($accion);
+
+        $accion2= "El profesor de ".$datos['nombreMateria']." te ha actualizado la nota de la materia";
+        $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
     }
 
     //ELIMINAR LA NOTA DEL ESTUDIANTE SELECCIONADO POR EL PROFESOR ACTIVO EN LA SESION
@@ -996,7 +1088,18 @@ class ecam extends Conectar
             ":idMateriaRef2" => $idMateriaRef2,
         ));
 
-        $accion = "El usuario le ha eliminado la nota de la materia a un estudiante";
+        //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
+        $sql2= "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
+        FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":idMateria" => $idMateriaRef2,
+            ":idSeccion" => $idSeccionRef2,
+        ));
+        $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
+        
+        //REGISTRO DE ACCION EN LA BITACORA
+        $accion = "Ha eliminado la nota de la materia ".$datos['nombreMateria']." a un estudiante de la seccion ".$datos['nombreSeccion'];
         $this->registrar_bitacora($accion);
     }
 
@@ -1180,7 +1283,7 @@ class ecam extends Conectar
         SUM(CASE WHEN MONTH(`fecha_agregada`) = 10 THEN 1 ELSE 0 END) AS `Octubre`,
         SUM(CASE WHEN MONTH(`fecha_agregada`) = 11 THEN 1 ELSE 0 END) AS `Noviembre`,
         SUM(CASE WHEN MONTH(`fecha_agregada`) = 12 THEN 1 ELSE 0 END) AS `Diciembre`
-        FROM `notafinal_estudiantes` WHERE nivelAcademico = 3 AND notaFinal >= 13 AND `fecha_agregada` BETWEEN 'YEAR(CURDATE())-01-01' AND CURDATE()";
+        FROM `notafinal_estudiantes` WHERE nivelAcademico = 3 AND notaFinal >= 16 AND `fecha_agregada` BETWEEN 'YEAR(CURDATE())-01-01' AND CURDATE()";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());

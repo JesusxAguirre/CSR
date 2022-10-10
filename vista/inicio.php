@@ -38,7 +38,7 @@
     <header class="masthead bg-primary text-white text-center">
         <div class="container d-flex align-items-center flex-column">
             <!-- Masthead Avatar Image-->
-            <img class="masthead-avatar mb-5" src="resources\img\inicio.jpg" alt="..." />
+            <img class="masthead-avatar mb-5" src="resources\img\biblia.png" alt="..." />
             <!-- Masthead Heading-->
             <h1 class="masthead-heading text-uppercase mb-0">Bienvenido a casa sobre la roca</h1>
             <!-- Icon Divider-->
@@ -70,7 +70,7 @@
                         <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                             <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="resources\img\pizarra.png" alt="..." />
+                        <img class="img-fluid" src="resources\img\libros2.png" alt="..." />
                     </div>
                 </div>
                 <!-- Portfolio Item 2-->
@@ -79,7 +79,7 @@
                         <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                             <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img style="width: 100vh; height: 22vh; margin-top: 10px;" class="img-fluid" src="resources\img\fondoMapa.PNG" alt="..." />
+                        <img class="img-fluid" src="resources\img\fondoMapa.PNG" alt="..." />
                     </div>
                 </div>
                 <!-- Portfolio Item 3-->
@@ -88,7 +88,7 @@
                         <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                             <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                         </div>
-                        <img class="img-fluid" src="assets/img/portfolio/circus.png" alt="..." />
+                        <img class="img-fluid" src="resources\img\casaSobreLaRoca.png" alt="..." />
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                     <h4 class="text-uppercase mb-4">Nuestras redes</h4>
                     <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="bi bi-facebook"></i></a>
                     <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="bi bi-whatsapp"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="bi bi-instagram"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.instagram.com/apostol_miguel_angel_gomez/?next=%2F"><i class="bi bi-instagram"></i></a>
 
                 </div>
                 <!-- Footer About Text-->

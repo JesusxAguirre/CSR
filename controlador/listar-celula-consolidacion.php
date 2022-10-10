@@ -5,6 +5,7 @@ session_start();
 
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
+    
     if (!$_SESSION['permisos']['celula_consolidacion']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');

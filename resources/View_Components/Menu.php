@@ -27,10 +27,19 @@
             <i class="text-light bi bi-bell-fill fs-3"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Mi perfil</a></li>
-            <li><button type="submit" class="dropdown-item" href="?">Cerrar sesion</button></li>
+            <?php if (!empty($notificaciones)) {
+              foreach ($notificaciones as $not) { ?>
+                <li class="dropdown-item">
+                  <div class="alert alert-info my-0" role="alert">
+                    <i class="bi bi-chat-square-text-fill me-2"></i><?php echo $not['accion'] ?>
+                  </div>
+                </li>
+            <?php }
+            }else{ ?>
+              <li class="dropdown-item">No tienes notificaciones aun</li>
+           <?php } ?>
             <li>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="#">Ver todas las notificaciones</a>
             </li>
           </ul>
         </li>
@@ -45,9 +54,6 @@
             <form action="?pagina=dashboard" method="post">
               <li><button name="cerrar" type="submit" class="dropdown-item">Cerrar sesion</button></li>
             </form>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
           </ul>
         </li>
       </ul>
