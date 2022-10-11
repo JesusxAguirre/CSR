@@ -21,9 +21,8 @@ if (is_file('vista/'.$pagina.'.php')) {
       $estado = $usuario['estado'];
       $telefono = $usuario['telefono'];
       $codigo = $usuario['codigo'];
-      $contenido = $usuario['imagen_usuario'];
-      $nombre_imagen = $usuario['nombre_imagen'];
-      $tipo_imagen = $usuario['tipo_imagen'];
+      $ruta_imagen = $usuario['ruta_imagen'];
+ 
     }
     $actualizar= true;
     if(isset($_POST['actualizar'])){
