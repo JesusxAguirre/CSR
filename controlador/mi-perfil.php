@@ -55,6 +55,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setActualizarFoto($cedula,$carpeta_destino,$nombre_imagen,$tipo_imagen,$tamaño_imagen);
 
         $objeto->actualizar_foto();
+        $actualizar=false;
     }
     require_once 'vista/'.$pagina.'.php';
 }

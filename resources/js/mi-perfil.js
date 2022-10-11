@@ -1,6 +1,7 @@
-const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
-const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
-const selects = document.querySelectorAll('#editForm select'); //declarando una constante con todos los inputs dentro de la id formulario
+const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
+const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
+const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
+const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 addEvents();
 const campos = {
 	nombre: true,
@@ -11,8 +12,10 @@ const campos = {
 	sexo: true,
 	civil: true,
 	nacionalidad: true,
-	estado: true
+	estado: true,
+  imagen: false
 }
+
 
 const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
@@ -21,7 +24,9 @@ const expresiones = { //objeto con varias expresiones regulares
 	password: /^.{7,12}$/, // 4 a 12 digitos.
 	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
-	vacio: /^\s*$/
+	vacio: /^\s*$/,
+  imagen: /^.*\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$/
+
 }
 
 
@@ -53,6 +58,9 @@ const ValidarFormulario = (e) => {
 		break;
 		case "telefono":
 		ValidarCampo(expresiones.telefono, e.target, 'telefono');
+		break;	
+		case "imagen":
+		ValidarCampo(expresiones.imagen, e.target, 'imagen');
 		break;	
 	}
 }
@@ -104,6 +112,25 @@ selects.forEach((select) => {
 
 formulario.addEventListener('submit', (e) => {
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado  && campos.nacionalidad  && campos.sexo  && campos.civil)) {
+		e.preventDefault();
+		Swal.fire({
+			icon: 'error',
+			title: 'Lo siento ',
+			text: 'Registra el formulario correctamente '
+		})
+	}
+})
+
+if (actualizar == false) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Se actualizo la informacion correctamente'
+  })
+  setTimeout(recarga, 2000);
+}
+
+formulario2.addEventListener('submit', (e) => {
+	if (!(campos.imagen)) {
 		e.preventDefault();
 		Swal.fire({
 			icon: 'error',

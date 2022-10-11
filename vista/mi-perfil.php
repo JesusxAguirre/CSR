@@ -64,7 +64,7 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="form" method="post" id="editForm" action="?pagina=mi-perfil" enctype="multipart/form-data">
+              <form class="form" method="post" id="formulario" action="?pagina=mi-perfil" enctype="multipart/form-data">
                 <div class="mb-3 row">
                   <div id="grupo__nombre" class="col-sm col-md-3 ">
                     <div class="relative">
@@ -203,5 +203,13 @@
     </div>
     </div>
   </main>
+  <script type="text/javascript">
+    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
+
+
+    $('#myModal').on('shown.bs.modal', function() {
+      $('#myInput').trigger('focus')
+    })
+  </script>
   <script src="resources/js/mi-perfil.js"></script>
 </body>
