@@ -428,25 +428,17 @@ class Usuarios extends Conectar
         //agregando archivo a carpeta temporal
         move_uploaded_file($_FILES['imagen']['tmp_name'],$this->carpeta_destino . $this->nombre_imagen);
 
-        //agregando ruta de archivo
-        $archivo_objetivo=fopen($this->carpeta_destino . $this->nombre_imagen, "r");
 
-        $contenido = fread($archivo_objetivo,$this->tamaño_imagen);
-
-        $contenido = addslashes($contenido); 
-
-        fclose($archivo_objetivo);
 
        //consulta update
         $sql = ("UPDATE usuarios SET imagen_usuario = :imagen_usuario,
-         nombre_imagen = :nombre_imagen, tipo_imagen = :tipo_imagen
+
          WHERE cedula = :ced");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":imagen_usuario"=> $contenido, ":nombre_imagen"=> $this->nombre_imagen,
-            ":tipo_imagen"=>$this->tipo_imagen,
+            ":ruta_imagen"=> $this->carpeta_destino . $this->nombre_imagen,
             ":ced" => $this->cedula,
         ));
 

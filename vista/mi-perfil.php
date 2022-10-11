@@ -31,7 +31,7 @@
 
   <!-- Menu.php -->
   <?php
- 
+  require_once("resources/View_Components/Menu.php")
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -45,7 +45,7 @@
         <div class="mb-8 position-relative min-vh-25 mb-7 card-header">
           <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image: url(resources/img/paisaje.jpg);"></div>
           <div class="avatar avatar-5xl avatar-profile">
-            <img class="d-inline-block align-text-top rounded-circle shadow-sm" width="120" height="124" src="resources/img/mi-foto.jpg" alt="">
+            <img class="d-inline-block align-text-top rounded-circle shadow-sm" width="120" height="124" src="data:image/jpeg; base64,<?php echo base64_encode($contenido)  ?>" alt="">
           </div>
 
         </div>
