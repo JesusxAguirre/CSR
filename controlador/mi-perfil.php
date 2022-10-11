@@ -23,6 +23,14 @@ if (is_file('vista/'.$pagina.'.php')) {
       $codigo = $usuario['codigo'];
     }
 
+    if(isset($_POST['actualizar'])){
+        $nombre_imagen= $_FILES['imagen']['name'];
+        $tipoimagen= $_FILES['imagen']['type'];
+        $tamaño_imagen= $_FILES['imagen']['size'];
+        
+        //ruta de la carpeta destino en servidor
+        $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . 'resources/imagenes-usuarios';
+    }
     require_once 'vista/'.$pagina.'.php';
 }
 }else{ 
