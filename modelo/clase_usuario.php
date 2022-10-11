@@ -109,6 +109,16 @@ class Usuarios extends Conectar
         $ok = $sql->rowCount();
         return $ok;
     }
+    //==============mi perfil funcion=======// 
+    public function mi_perfil(){
+        $usuario = $_SESSION["usuario"];
+
+        $sql = ("SELECT * FROM usuarios WHERE usuario='$usuario'");
+        $stmt = $this->conexion()->prepare($sql);
+        
+        $stmt->execute(array());
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     //==============Listar usuarios sin condicionales=======// 
     public function listar()
     {

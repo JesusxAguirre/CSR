@@ -45,18 +45,18 @@
         <div class="mb-8 position-relative min-vh-25 mb-7 card-header">
           <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image: url(resources/img/paisaje.jpg);"></div>
           <div class="avatar avatar-5xl avatar-profile">
-            <img class="d-inline-block align-text-top rounded-circle shadow-sm"  width="120" height="124" src="resources/img/mi-foto.jpg" alt="">
+            <img class="d-inline-block align-text-top rounded-circle shadow-sm" width="120" height="124" src="resources/img/mi-foto.jpg" alt="">
           </div>
-      
+
         </div>
         <div class="card-body">
           <div class="row">
             <div class="col-lg-8">
-              <h4 class="mb-1">Anthony Hopkins </span></h4>
-              <h5 class="fs-0 fw-normal"></h5>
+              <h4 class="mb-1"><?php echo $nombre . " " . $apellido ?></span></h4>
+              <h5 class="fs-0 fw-normal"><?php echo $codigo ?></h5>
               <div class="border-dashed border-bottom my-4 d-lg-none"></div>
             </div>
-            
+
           </div>
         </div>
       </div>
@@ -64,79 +64,106 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form id="formulario" class="" method="POST" action="?pagina=registrar-casa">
+              <form class="form" method="post" id="editForm" action="?pagina=listar-usuarios">
                 <div class="mb-3 row">
-                  <div id="grupo__lider" class="col-sm ">
+                  <div id="grupo__nombre" class="col-sm col-md-3 ">
                     <div class="relative">
-                      <label class="form-label fw-bold" for="">Selecciona el lider que esta abriendo la casa sobre la roca</label>
+                      <label class="form-label fw-bold">Primer Nombre</label>
                       <i class="input-icon fs-5"></i>
-                      <select name="lider[]" id="lider" class="form-control">
-                        <option value="">Seleccione una opcion</option>
-                        <?php foreach ($matriz_lider as $lider) : ?>
-                          <option value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
-                        <?php endforeach; ?>
+                      <input placeholder="Juan" value="<?php echo $nombre ?>" id="nombreInput" name="nombre" type="text" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede contener letras </p>
+                  </div>
+                  <div id="grupo__apellido" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Primer Apellido</label>
+                      <i class="input-icon fs-5"></i>
+                      <input placeholder="Jimenez" id="apellidoInput" value="<?php echo $apellido ?>" name="apellido" type="text" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo puede contener letras </p>
+                  </div>
+                  <div id="grupo__cedula" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold" ">Cedula</label>    
+                  <i class=" input-icon fs-5"></i>
+                        <input placeholder=" 22222222" id="cedulaInput" name="cedula" value="<?php echo $cedula ?>" class="form-control">
+                    </div>
+                    <input hidden name="cedula_antigua" id="cedulaInput2" type="text">
+                    <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
+                  </div>
+                  <div id="grupo__edad" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Edad</label>
+                      <i class="input-icon fs-5"></i>
+                      <input placeholder="21" id="edadInput" name="edad" type="text" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">La edad deben de ser de 1 a 2 dígitos y solo puede contener numeros </p>
+                  </div>
+                </div>
+                <div class="mb-3 row">
+                  <div id="grupo__sexo" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Sexo</label>
+                      <i class="input-icon fs-5"></i>
+                      <select name="sexo" id="sexo" class="form-select form-select" aria-label=".form-select-sm example">
+                        <option id="sexoInput" value=''>Escoge</option>
+                        <option value="hombre">Hombre</option>
+                        <option value="mujer">Mujer</option>
                       </select>
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                  </div>
+                  <div id="grupo__civil" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Estado civil</label>
+                      <i class="input-icon fs-5"></i>
+                      <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
+                        <option id="estado_civilInput" value="">Escoge tu estado civil</option>
+                        <option value="soltero">Soltero</option>
+                        <option value="soltera">Soltera</option>
+                        <option value="matrimonio">Casada/o</option>
+                      </select>
+                    </div>
+                    <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                  </div>
+                  <div id="grupo__nacionalidad" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Nacionalidad</label>
+                      <i class="input-icon fs-5"></i>
+                      <select id="nacionalidad" name="nacionalidad" class="form-select form-select" aria-label=".form-select-sm example">
+                        <option id="nacionalidadInput" value="">Escoge tu nacionalidad</option>
+                        <option value="venezolana">Venezolana</option>
+                        <option value="colombiana">Colombiana</option>
+                        <option value="española">Española</option>
+                      </select>
+                    </div>
+                    <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                  </div>
+                  <div id="grupo__estado" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Estado en el que vive</label>
+                      <i class="input-icon fs-5"></i>
+                      <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
+                        <option id="estadoInput" value="">Escoge tu estado</option>
+                        <option value="css">Distritio Capital</option>
+                        <option value="lara">Lara</option>
+                        <option value="yaracuy">Yaracuy</option>
+                      </select>
+                    </div>
+                    <p class="text-danger d-none">No puede dejar este campo vacio </p>
                   </div>
                 </div>
                 <div class="mb-3 row">
-                  <div id="grupo__direccion" class="col-sm ">
+                  <div id="grupo__telefono" class="col-sm col-md-3 ">
                     <div class="relative">
-                      <label class="form-label fw-bold" for="formGridEmail">Direccion</label>
+                      <label class="form-label fw-bold">Telefono</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="Calle 19 con calle 40" type="text" name="direccion" class="form-control">
+                      <input id="telefonoInput" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                     </div>
-                    <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                    <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (10 números) </p>
                   </div>
-                  <div id="grupo__nombre" class="col-sm ">
-                    <div class="relative">
-                      <label class="form-label fw-bold" for="formGridEmail">Nombre de Anfitrion</label>
-                      <i class="input-icon fs-5"></i>
-                      <input placeholder="Juan Jimenez" type="text" id="" name="nombre" class="form-control">
-                    </div>
-                    <p class="text-danger d-none">Este campo lleva minimo 3 letras</p>
-                  </div>
-                  <div id="grupo__telefono" class="col-sm ">
-                    <div class="relative">
-                      <label class="form-label fw-bold" for="formGridEmail">Telefono de Anfitrion</label>
-                      <i class="input-icon fs-5"></i>
-                      <label class="form-label fw-bold" for="formGridPassword">Telefono de Anfitrion</label>
-                      <input placeholder="0414-XXXXXXXX" type="text" id="" name="telefono" class="form-control">
-                    </div>
-                    <p class="text-danger d-none">Escriba un numero de telefono valido</p>
-                  </div>
-                  <div class="mb-3 row mt-4">
-                    <div id="grupo__dia" class="col-sm ">
-                      <div class="relative">
-                        <label class="form-label fw-bold" for="formGridEmail">Dia de visita</label>
-                        <i class="input-icon fs-5"></i>
-                        <input placeholder="Jueves" id="dia" name="dia" class="form-control">
-                      </div>
-                      <p class="text-danger d-none">Escriba un dia de la semana con la primera letra mayuscula</p>
-                    </div>
-                    <div id="grupo__hora" class="col-sm ">
-                      <div class="relative">
-                        <label class="form-label fw-bold">Hora pautada</label>
-                        <i class="input-icon fs-5"></i>
-                        <input type="time" placeholder="8:30" id="197" name="hora" class="form-control">
-                      </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
-                    </div>
-                    <div id="grupo__integrantes" class="col-sm ">
-                      <div class="relative">
-                        <label class="form-label fw-bold" for="">Número de personas que integran el hogar</label>
-                        <i class="input-icon fs-5"></i>
-                        <input placeholder="1" name="integrantes" class="form-control">
-                      </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-3" id="">
-                </div>
-                <button name="registrar" type="submit" class="btn btn-primary">Enviar</button>
-              </form>
+
+              </form> 
             </div>
           </div>
         </div>
