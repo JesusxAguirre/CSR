@@ -443,7 +443,7 @@ class Usuarios extends Conectar
 
         //actualizando todos los datos menos el codigo que se hizo mas arriba
         $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
-        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono WHERE cedula = :ced");
+        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -453,7 +453,8 @@ class Usuarios extends Conectar
             ":edad" => $this->edad, ":sexo" => $this->sexo,
             ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
             ":estado" => $this->estado,
-            ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
+            ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua,
+            ":usuario"=> $this->correo , ":clave"=> $this->clave
         ));
 
         $accion = "Editar datos de usuario";

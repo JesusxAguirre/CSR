@@ -109,6 +109,7 @@ const ValidarCampo = (expresion, input, campo) => {
 				url: "controlador/ajax/buscar-cedula-perfil.php",
 				type: "post",
 			}).done(data => {
+        console.log(data)
 				if (data == '1') {
 					fireAlert('error', 'Esta cedula ya existe')
 					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
@@ -129,6 +130,7 @@ const ValidarCampo = (expresion, input, campo) => {
 				url: "controlador/ajax/buscar-correo-perfil.php",
 				type: "post",
 			}).done(data => {
+        console.log(data)
 				if (data == '1') {
 					fireAlert('error', 'Este corrreo ya existe')
 					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');

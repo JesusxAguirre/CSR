@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('../../modelo/clase_usuario.php');
 $objeto = new Usuarios();
 $cedula = $_POST['cedula'];

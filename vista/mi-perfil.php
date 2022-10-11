@@ -171,6 +171,16 @@
                     </div>
                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                   </div>
+                  <div id="grupo__clave" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Clave</label>
+                      <i class="input-icon fs-5"></i>
+                      <input id="clave" value="<?php echo $clave ?>" type="password" placeholder="******" name="clave" class="form-control">
+                    </div>
+                    <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
+
+                  </div>
+
                 </div>
                 <div class="mb-3" id="">
                 </div>
