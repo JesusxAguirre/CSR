@@ -23,7 +23,6 @@ if (is_file('vista/'.$pagina.'.php')) {
       $codigo = $usuario['codigo'];
     }
 
-
     require_once 'vista/'.$pagina.'.php';
 }
 }else{ 

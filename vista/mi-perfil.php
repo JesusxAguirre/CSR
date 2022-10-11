@@ -64,7 +64,7 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="form" method="post" id="editForm" action="?pagina=listar-usuarios">
+              <form class="form" method="post" id="editForm" action="?pagina=mi-perfil">
                 <div class="mb-3 row">
                   <div id="grupo__nombre" class="col-sm col-md-3 ">
                     <div class="relative">
@@ -88,14 +88,14 @@
                   <i class=" input-icon fs-5"></i>
                         <input placeholder=" 22222222" id="cedulaInput" name="cedula" value="<?php echo $cedula ?>" class="form-control">
                     </div>
-                    <input hidden name="cedula_antigua" id="cedulaInput2" type="text">
+                    <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
                     <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
                   </div>
                   <div id="grupo__edad" class="col-sm col-md-3 ">
                     <div class="relative">
                       <label class="form-label fw-bold">Edad</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="21" id="edadInput" name="edad" type="text" class="form-control">
+                      <input placeholder="21" id="edadInput" value="<?php echo $edad?>" name="edad" type="text" class="form-control">
                     </div>
                     <p class="text-danger d-none">La edad deben de ser de 1 a 2 dígitos y solo puede contener numeros </p>
                   </div>
@@ -106,7 +106,7 @@
                       <label class="form-label fw-bold">Sexo</label>
                       <i class="input-icon fs-5"></i>
                       <select name="sexo" id="sexo" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="sexoInput" value=''>Escoge</option>
+                        <option id="sexoInput" value='<?php echo $sexo ?>'><?php echo $sexo ?></option>
                         <option value="hombre">Hombre</option>
                         <option value="mujer">Mujer</option>
                       </select>
@@ -118,7 +118,7 @@
                       <label class="form-label fw-bold">Estado civil</label>
                       <i class="input-icon fs-5"></i>
                       <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="estado_civilInput" value="">Escoge tu estado civil</option>
+                        <option id="estado_civilInput" value="<?php echo $estado_civil ?>"><?php echo $estado_civil ?></option>
                         <option value="soltero">Soltero</option>
                         <option value="soltera">Soltera</option>
                         <option value="matrimonio">Casada/o</option>
@@ -131,7 +131,7 @@
                       <label class="form-label fw-bold">Nacionalidad</label>
                       <i class="input-icon fs-5"></i>
                       <select id="nacionalidad" name="nacionalidad" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="nacionalidadInput" value="">Escoge tu nacionalidad</option>
+                        <option id="nacionalidadInput" value="<?php echo $nacionalidad?>"><?php echo $nacionalidad ?></option>
                         <option value="venezolana">Venezolana</option>
                         <option value="colombiana">Colombiana</option>
                         <option value="española">Española</option>
@@ -144,7 +144,7 @@
                       <label class="form-label fw-bold">Estado en el que vive</label>
                       <i class="input-icon fs-5"></i>
                       <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="estadoInput" value="">Escoge tu estado</option>
+                        <option id="estadoInput" value="<?php echo $estado ?>"><?php echo $estado ?></option>
                         <option value="css">Distritio Capital</option>
                         <option value="lara">Lara</option>
                         <option value="yaracuy">Yaracuy</option>
@@ -158,11 +158,14 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Telefono</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="telefonoInput" placeholder=" XXXXXXXX" name="telefono" class="form-control">
+                      <input id="telefonoInput" value="<?php echo $telefono  ?>" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                     </div>
-                    <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (10 números) </p>
+                    <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                   </div>
-
+                </div>
+                <div class="mb-3" id="">
+                </div>
+                <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
               </form> 
             </div>
           </div>
