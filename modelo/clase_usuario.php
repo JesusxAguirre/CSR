@@ -404,9 +404,25 @@ class Usuarios extends Conectar
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 
+        //agregando archivo a carpeta temporal
+
+        move_uploaded_file($_FILES['imagen']['tmp_name'],$this->carpeta_destino . $this->nombre_imagen);
+
+
+        //agregando ruta de archivo
+        $archivo_objetivo=fopen($this->carpeta_destino . $this->nombre_imagen, "r");
+
+        $contenido = fread($archivo_objetivo,$this->tamaño_imagen);
+
+        $contenido = addslashes($contenido); 
+
+        fclose($archivo_objetivo);
+
         //actualizando todos los datos menos el codigo que se hizo mas arriba
         $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
-         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono WHERE cedula = :ced");
+         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono,imagen_usuario = :imagen_usuario,
+         nombre_imagen = :nombre_imagen, tipo_imagen = :tipo_imagen
+         WHERE cedula = :ced");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -417,7 +433,9 @@ class Usuarios extends Conectar
             ":edad" => $this->edad, ":sexo" => $this->sexo,
             ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
             ":estado" => $this->estado,
-            ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
+            ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua,
+            ":imagen_usuario"=> $contenido, ":nombre_imagen"=> $this->nombre_imagen,
+            ":tipo_imagen"=>$this->tipo_imagen
         ));
 
         $accion = "Editar datos de usuario";
