@@ -45,7 +45,7 @@
         <div class="mb-8 position-relative min-vh-25 mb-7 card-header">
           <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image: url(resources/img/paisaje.jpg);"></div>
           <div class="avatar avatar-5xl avatar-profile">
-            <img class="d-inline-block align-text-top rounded-circle shadow-sm" width="120" height="124" src="<?php echo $ruta_imagen?>" alt="">
+            <img class="d-inline-block align-text-top rounded-circle shadow-sm" width="120" height="124" src="<?php echo $ruta_imagen ?>" alt="">
           </div>
 
         </div>
@@ -163,9 +163,17 @@
                     <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                   </div>
                 </div>
-                <div class="mb-3" id="">
-                </div>
-                <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
+                <div id="grupo__correo" class="col-sm col-md-3 ">
+                  <div class="relative">
+                    <label class="form-label fw-bold">Correo</label>
+                    <i class="input-icon fs-5"></i>
+                    <input id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
+                  </div>
+                  <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+
+                  <div class="mb-3" id="">
+                  </div>
+                  <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>
@@ -178,7 +186,7 @@
               <form class="form" method="post" id="formulario2" action="?pagina=mi-perfil" enctype="multipart/form-data">
                 <div id="grupo__imagen" class="col-sm col-md-3 ">
                   <div class="relative">
-                  <i class="input-icon fs-5"></i>
+                    <i class="input-icon fs-5"></i>
                     <label class="form-label fw-bold">Imagen de perfil</label>
                     <input class="form-control" type="file" name="imagen" id="imagen">
                   </div>
@@ -199,7 +207,6 @@
   </main>
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-
   </script>
   <script src="resources/js/mi-perfil.js"></script>
 </body>

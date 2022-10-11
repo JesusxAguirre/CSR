@@ -91,6 +91,49 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
+    campos[campo] = true;
+		//comprobando si la cedula existe en la bd
+		if (campos.cedula == true) {
+			let id = document.getElementById("cedula")
+			let cedula = id.value
+
+			$.ajax({
+				data: 'cedula=' + cedula,
+				url: "controlador/ajax/buscar-cedula.php",
+				type: "post",
+			}).done(data => {
+				if (data == '1') {
+					fireAlert('error', 'Esta cedula ya existe')
+					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					campos.cedula = false;
+					let mensaje = document.getElementById("mensaje_cedula")
+					mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
+				}
+			})
+		}
+		if (campos.correo == true) {
+			let id = document.getElementById("correo")
+			let correo = id.value
+			$.ajax({
+				data: 'correo=' + correo,
+				url: "controlador/ajax/buscar-correo.php",
+				type: "post",
+			}).done(data => {
+				if (data == '1') {
+					fireAlert('error', 'Este corrreo ya existe')
+					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					campos.correo = false;
+					let mensaje = document.getElementById("mensaje_correo")
+					mensaje.textContent = "Esta correo ya existe en la base de datos, ingrese otro por favor"
+				}
+			})
+		}
 	} else {
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
