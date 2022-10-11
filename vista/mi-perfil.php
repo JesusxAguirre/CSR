@@ -162,13 +162,6 @@
                     </div>
                     <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                   </div>
-                  <div id="grupo__imagen" class="col-sm col-md-3 ">
-                    <div class="relative">
-                      <label class="form-label fw-bold">Imagen de perfil</label>
-                      <input class="form-control" type="file" name="imagen" id="imagen">
-                    </div>
-                    <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
-                  </div>
                 </div>
                 <div class="mb-3" id="">
                 </div>
@@ -182,13 +175,14 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="form" method="post" id="editForm" action="?pagina=mi-perfil" enctype="multipart/form-data">
+              <form class="form" method="post" id="formulario2" action="?pagina=mi-perfil" enctype="multipart/form-data">
                 <div id="grupo__imagen" class="col-sm col-md-3 ">
                   <div class="relative">
+                  <i class="input-icon fs-5"></i>
                     <label class="form-label fw-bold">Imagen de perfil</label>
                     <input class="form-control" type="file" name="imagen" id="imagen">
                   </div>
-                  <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
+                  <p class="text-danger d-none">el formato de imagen es jpg, jgeg o png y no puede estar vacio </p>
                 </div>
                 <div class="mb-3" id="">
                 </div>
@@ -206,10 +200,6 @@
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
 
-
-    $('#myModal').on('shown.bs.modal', function() {
-      $('#myInput').trigger('focus')
-    })
   </script>
   <script src="resources/js/mi-perfil.js"></script>
 </body>

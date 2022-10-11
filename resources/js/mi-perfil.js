@@ -1,6 +1,7 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
+const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 addEvents();
 const campos = {
@@ -105,6 +106,10 @@ inputs.forEach((input) => {
 	input.addEventListener('blur', ValidarFormulario);
 	// input.addEventListener('click', ValidarFormulario);
 });
+inputs2.forEach((input) => {
+	input.addEventListener('blur', ValidarFormulario);
+	input.addEventListener('click', ValidarFormulario);
+});
 selects.forEach((select) => {
 	select.addEventListener('keyup', ValidarFormulario);
 	select.addEventListener('blur', ValidarFormulario);
@@ -178,5 +183,5 @@ function addEvents(){
 }
 
 function recarga() {
-  window.location = "index.php?pagina=listar-usuarios";
+  window.location = "index.php?pagina=mi-perfil";
 }
