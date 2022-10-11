@@ -183,13 +183,12 @@
           <div class="card">
             <div class="card-body">
               <form class="form" method="post" id="editForm" action="?pagina=mi-perfil" enctype="multipart/form-data">
-                  <div id="grupo__imagen" class="col-sm col-md-3 ">
-                    <div class="relative">
-                      <label class="form-label fw-bold">Imagen de perfil</label>
-                      <input class="form-control" type="file" name="imagen" id="imagen">
-                    </div>
-                    <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
+                <div id="grupo__imagen" class="col-sm col-md-3 ">
+                  <div class="relative">
+                    <label class="form-label fw-bold">Imagen de perfil</label>
+                    <input class="form-control" type="file" name="imagen" id="imagen">
                   </div>
+                  <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                 </div>
                 <div class="mb-3" id="">
                 </div>
@@ -199,6 +198,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
   </main>
   <script src="resources/js/mi-perfil.js"></script>

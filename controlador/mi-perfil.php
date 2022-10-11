@@ -22,7 +22,7 @@ if (is_file('vista/'.$pagina.'.php')) {
       $telefono = $usuario['telefono'];
       $codigo = $usuario['codigo'];
     }
-
+    $actualizar= true;
     if(isset($_POST['actualizar'])){
         $cedula= $_POST['cedula'];
         $cedula_antigua= $_POST['cedula_antigua'];
@@ -36,9 +36,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $telefono= $_POST['telefono'];
        
 
-       $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono);    
+       $objeto->setUpdate_sin_rol($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono);    
 
-       $objeto->update_usuarios();
+       $objeto->update_usuarios_sin_rol();
 
        $actualizar=false;
     }
