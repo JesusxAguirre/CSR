@@ -47,17 +47,10 @@ if (is_file('vista/'.$pagina.'.php')) {
         $tipo_imagen= $_FILES['imagen']['type'];
         $tamaño_imagen= $_FILES['imagen']['size'];
         
-
-        echo $nombre_imagen;
-        echo "<br>";
-        echo $tipo_imagen;
-        echo "<br>";
-        echo $tamaño_imagen;
-
-        exit;
-
         //ruta de la carpeta destinoen servidor
         $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . 'resources/imagenes-usuarios';
+
+        $objeto->setActualizarFoto($cedula,$carpeta_destino,$nombre_imagen,$tipo_imagen,$tamaño_imagen);
     }
     require_once 'vista/'.$pagina.'.php';
 }

@@ -192,6 +192,8 @@
                 </div>
                 <div class="mb-3" id="">
                 </div>
+                <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
+
                 <button name="actualizar_imagen" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
