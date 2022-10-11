@@ -86,7 +86,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold" ">Cedula</label>    
                   <i class=" input-icon fs-5"></i>
-                        <input placeholder=" 22222222" id="cedulaInput" name="cedula" value="<?php echo $cedula ?>" class="form-control">
+                        <input placeholder="22222222" id="cedula" name="cedula" value="<?php echo $cedula ?>" class="form-control">
                     </div>
                     <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
                     <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
@@ -162,18 +162,19 @@
                     </div>
                     <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                   </div>
-                </div>
-                <div id="grupo__correo" class="col-sm col-md-3 ">
-                  <div class="relative">
-                    <label class="form-label fw-bold">Correo</label>
-                    <i class="input-icon fs-5"></i>
-                    <input id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
-                  </div>
-                  <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
 
-                  <div class="mb-3" id="">
+                  <div id="grupo__correo" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Correo</label>
+                      <i class="input-icon fs-5"></i>
+                      <input id="correo" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo" class="form-control">
+                    </div>
+                    <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                   </div>
-                  <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+                <div class="mb-3" id="">
+                </div>
+                <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>

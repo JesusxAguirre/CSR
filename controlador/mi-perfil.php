@@ -22,7 +22,7 @@ if (is_file('vista/'.$pagina.'.php')) {
       $telefono = $usuario['telefono'];
       $codigo = $usuario['codigo'];
       $ruta_imagen = $usuario['ruta_imagen'];
- 
+      $correo = $usuario['usuario'];
     }
     $actualizar= true;
     if(isset($_POST['actualizar'])){

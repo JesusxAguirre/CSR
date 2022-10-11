@@ -14,7 +14,9 @@ const campos = {
 	civil: true,
 	nacionalidad: true,
 	estado: true,
-  imagen: false
+  imagen: false,
+  correo: true,
+  clave: true,
 }
 
 
@@ -63,6 +65,12 @@ const ValidarFormulario = (e) => {
 		case "imagen":
 		ValidarCampo(expresiones.imagen, e.target, 'imagen');
 		break;	
+    case "correo":
+			ValidarCampo(expresiones.correo, e.target, 'correo');
+			break;
+		case "clave":
+			ValidarCampo(expresiones.password, e.target, 'clave');
+			break;
 	}
 }
 
@@ -91,12 +99,11 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
-    campos[campo] = true;
 		//comprobando si la cedula existe en la bd
 		if (campos.cedula == true) {
 			let id = document.getElementById("cedula")
 			let cedula = id.value
-
+      console.log('entra en la funcin')
 			$.ajax({
 				data: 'cedula=' + cedula,
 				url: "controlador/ajax/buscar-cedula.php",
@@ -227,4 +234,11 @@ function addEvents(){
 
 function recarga() {
   window.location = "index.php?pagina=mi-perfil";
+}
+
+function fireAlert(icon, msg) {
+	Swal.fire({
+		icon: icon,
+		title: msg
+	})
 }
