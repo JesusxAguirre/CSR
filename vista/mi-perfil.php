@@ -22,6 +22,7 @@
   <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
   <!-- Estilos de validacion-->
   <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
+  <link rel="stylesheet" href="resources/css/mi-perfil.css">
   <!-- Sweet alert 2-->
   <script src="resources/js/sweetalert2.js"></script>
 </head>
@@ -30,7 +31,7 @@
 
   <!-- Menu.php -->
   <?php
-  require_once ("resources/View_Components/Menu.php")
+  require_once("resources/View_Components/Menu.php")
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -40,12 +41,13 @@
   <!-- sidebar.php -->
   <main style="height: 100vh" class="pt-3">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="page-title-box">
-            <h4 class="page-title">Mi perfil</h4>
-          </div>
+      <div class="mb-3 card">
+        <div class="mb-8 position-relative min-vh-25 mb-7 card-header">
+          <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image: url(resources/img/paisaje.jpg);"></div>
+          <div class="avatar avatar-5xl avatar-profile"><img class="rounded-circle img-thumbnail shadow-sm" src="resources/img/casadark.jpg" alt=""></div>
         </div>
       </div>
+    </div>
+  </main>
 
 </body>
