@@ -34,14 +34,30 @@ if (is_file('vista/'.$pagina.'.php')) {
         $nacionalidad= $_POST['nacionalidad'];
         $estado= $_POST['estado'];
         $telefono= $_POST['telefono'];
+       
+
+       $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono);    
+
+       $objeto->update_usuarios();
+
+       $actualizar=false;
+    }
+    if(isset($_POST["actualizar_imagen"])){
         $nombre_imagen= $_FILES['imagen']['name'];
         $tipo_imagen= $_FILES['imagen']['type'];
         $tamaño_imagen= $_FILES['imagen']['size'];
         
-        //ruta de la carpeta destino en servidor
-        $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . 'resources/imagenes-usuarios';
 
-        $objeto->setActualizarFoto($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$carpeta_destino,$nombre_imagen,$tipo_imagen,$tamaño_imagen);
+        echo $nombre_imagen;
+        echo "<br>";
+        echo $tipo_imagen;
+        echo "<br>";
+        echo $tamaño_imagen;
+
+        exit;
+
+        //ruta de la carpeta destinoen servidor
+        $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . 'resources/imagenes-usuarios';
     }
     require_once 'vista/'.$pagina.'.php';
 }
