@@ -654,6 +654,8 @@ class Usuarios extends Conectar
         $this->telefono = $telefono;
         $this->correo = $correo;
         $this->clave = $clave;
+
+      
     }
     public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol)
     {
@@ -669,7 +671,7 @@ class Usuarios extends Conectar
         $this->telefono = $telefono;
         $this->rol = $rol;
     }
-    public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono)
+    public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono,$correo,$clave)
     {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -681,6 +683,10 @@ class Usuarios extends Conectar
         $this->nacionalidad = $nacionalidad;
         $this->estado = $estado;
         $this->telefono = $telefono;
+        $this->correo = $correo;
+        $this->clave = $clave;
+
+    
     }
     public function setActualizarFoto( $cedula, $carpeta_destino,$nombre_imagen,$tipo_imagen,$tamaño_imagen)
     {

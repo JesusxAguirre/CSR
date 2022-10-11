@@ -37,10 +37,10 @@ if ($_SESSION['verdadero'] > 0) {
             $nacionalidad = $_POST['nacionalidad'];
             $estado = $_POST['estado'];
             $telefono = $_POST['telefono'];
-            $usuario = $_POST['correo'];
+            $correo = $_POST['correo'];
             $clave = $_POST['clave'];
 
-            $objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
+            $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula,$cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
             $objeto->update_usuarios_sin_rol();
 
             $actualizar = false;
