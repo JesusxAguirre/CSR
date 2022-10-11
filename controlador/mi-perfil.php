@@ -48,9 +48,11 @@ if (is_file('vista/'.$pagina.'.php')) {
         $tamaño_imagen= $_FILES['imagen']['size'];
         
         //ruta de la carpeta destinoen servidor
-        $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . 'resources/imagenes-usuarios';
+        $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . '/CSR/resources/imagenes-usuarios/';
 
         $objeto->setActualizarFoto($cedula,$carpeta_destino,$nombre_imagen,$tipo_imagen,$tamaño_imagen);
+
+        $objeto->actualizar_foto();
     }
     require_once 'vista/'.$pagina.'.php';
 }
