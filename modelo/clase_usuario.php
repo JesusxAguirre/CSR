@@ -160,6 +160,23 @@ class Usuarios extends Conectar
 
         return $resultado;
     }
+    public function buscar_cedula_perfil($cedula)
+    {
+        $matriz_usuario = $this->mi_perfil();
+
+        foreach($matriz_usuario AS $usuario){
+            $cedula_antigua = $usuario['cedula'];
+        }
+        $sql = ("SELECT cedula FROM usuarios WHERE cedula = '$cedula' != '$cedula_antigua'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->rowCount();
+
+        return $resultado;
+    }
     public function buscar_correo($correo)
     {
 
