@@ -147,6 +147,7 @@ class Usuarios extends Conectar
         $this->registrar_bitacora($accion);
         return $this->usuario;
     }
+
     public function buscar_cedula($cedula)
     {
 
@@ -160,6 +161,7 @@ class Usuarios extends Conectar
 
         return $resultado;
     }
+
     public function buscar_cedula_perfil($cedula)
     {
         $matriz_usuario = $this->mi_perfil();
@@ -167,7 +169,7 @@ class Usuarios extends Conectar
         foreach($matriz_usuario AS $usuario){
             $cedula_antigua = $usuario['cedula'];
         }
-        $sql = ("SELECT cedula FROM usuarios WHERE cedula = '$cedula' != '$cedula_antigua'");
+        $sql = ("SELECT cedula FROM usuarios WHERE cedula != '$cedula_antigua' AND cedula = '$cedula'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -181,6 +183,25 @@ class Usuarios extends Conectar
     {
 
         $sql = ("SELECT usuario FROM usuarios WHERE usuario = '$correo'");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array());
+
+        $resultado = $stmt->rowCount();
+
+        return $resultado;
+    }
+
+    public function buscar_correo_perfil($correo)
+    {
+        $matriz_usuario = $this->mi_perfil();
+
+        foreach($matriz_usuario AS $usuario){
+            $correo_antiguo = $usuario['usuario'];
+        }
+
+        $sql = ("SELECT usuario FROM usuarios WHERE usuario != '$correo_antiguo' AND usuario = '$correo'");
 
         $stmt = $this->conexion()->prepare($sql);
 

@@ -106,7 +106,7 @@ const ValidarCampo = (expresion, input, campo) => {
       console.log('entra en la funcin')
 			$.ajax({
 				data: 'cedula=' + cedula,
-				url: "controlador/ajax/buscar-cedula.php",
+				url: "controlador/ajax/buscar-cedula-perfil.php",
 				type: "post",
 			}).done(data => {
 				if (data == '1') {
@@ -126,7 +126,7 @@ const ValidarCampo = (expresion, input, campo) => {
 			let correo = id.value
 			$.ajax({
 				data: 'correo=' + correo,
-				url: "controlador/ajax/buscar-correo.php",
+				url: "controlador/ajax/buscar-correo-perfil.php",
 				type: "post",
 			}).done(data => {
 				if (data == '1') {
