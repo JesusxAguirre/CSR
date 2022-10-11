@@ -457,8 +457,11 @@ class Usuarios extends Conectar
             ":usuario"=> $this->correo , ":clave"=> $this->clave
         ));
 
-        $accion = "Editar datos de usuario";
-        $this->registrar_bitacora($accion);
+            session_destroy();
+            echo "<script>
+            alert('Sesion Cerrada');
+            window.location= 'index.php'
+        </script>";
     }
 
     public function actualizar_foto()
@@ -480,7 +483,7 @@ class Usuarios extends Conectar
             ":ced" => $this->cedula,
         ));
 
-        $accion = "Editar datos de usuario";
+        $accion = "Editar foto de usuario";
         $this->registrar_bitacora($accion);
     }
 
