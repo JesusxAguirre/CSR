@@ -37,7 +37,9 @@
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="text-light bi bi-person-fill fs-3"></i>
+          <div id="fotoPerfil">
+            <!-- AQUI VA LA FOTO DE PERFIL -->
+          </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="?pagina=mi-perfil">Mi perfil</a></li>

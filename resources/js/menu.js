@@ -1,4 +1,5 @@
 
+fotoPerfil();
 $('#verNotificaciones').click(function (e) { 
     e.preventDefault();
     let li = document.getElementById('notificaciones');
@@ -22,3 +23,13 @@ $('#verNotificaciones').click(function (e) {
         );
     }
 })
+
+function fotoPerfil() {
+    let div = document.getElementById('fotoPerfil');
+
+    $.post("controlador/ajax/notificaciones.php", {verFotoPerfil: 'verFotoPerfil'},
+        function (data) {
+            div.innerHTML = data;
+        },
+    );
+}
