@@ -107,11 +107,22 @@ class Usuarios extends Conectar
     public function validar()
     {
         $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $clave = password_hash($clave,PASSWORD_DEFAULT);
+        $clave = $_SESSION['clave'];   
         $ok = 0;
-        $sql = $this->conexion->query("SELECT usuario,password FROM usuarios WHERE  usuario='$usuario' AND password='$clave'");
-        $ok = $sql->rowCount();
+        $sql=("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
+           
+        $stmt=$this->conexion()->prepare($sql);
+
+        $stmt->execute(array(":usuario"=>$usuario));
+
+        while($resultado = $stmt->fetch(PDO::FETCH_ASSOC)){
+            
+            if(password_verify($clave,$resultado['password'])){
+                $ok++;
+            }
+            
+        }
+
         return $ok;
     }
     //==============mi perfil funcion=======// 
