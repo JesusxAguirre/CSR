@@ -108,6 +108,7 @@ class Usuarios extends Conectar
     {
         $usuario = $_SESSION['usuario'];
         $clave = $_SESSION['clave'];
+        $clave = password_hash($clave,PASSWORD_DEFAULT);
         $ok = 0;
         $sql = $this->conexion->query("SELECT usuario,password FROM usuarios WHERE  usuario='$usuario' AND password='$clave'");
         $ok = $sql->rowCount();
@@ -306,6 +307,9 @@ class Usuarios extends Conectar
 
         $this->estado = ucfirst($this->estado);
 
+        //cifrando password
+
+        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
 
         $sql = "INSERT INTO usuarios (cedula,id_rol,
         codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
