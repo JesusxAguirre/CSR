@@ -486,6 +486,21 @@ class Usuarios extends Conectar
         $accion = "Editar foto de usuario";
         $this->registrar_bitacora($accion);
     }
+    public function recuperar_password()
+    {
+
+       //consulta update
+        $sql = ("UPDATE usuarios SET clave = :clave
+         WHERE usuario = :usuario");
+
+        $stmt = $this->conexion()->prepare($sql);
+
+        $stmt->execute(array(
+            ":clave"=> $ $this->clave,
+            ":usuario" => $this->correo,
+        ));
+
+    }
 
 
 
@@ -700,5 +715,10 @@ class Usuarios extends Conectar
         $this->nombre_imagen = $nombre_imagen;
         $this->tipo_imagen = $tipo_imagen;
         $this->tamaño_imagen = $tamaño_imagen;
+    }
+
+    public function setRecuperar($correo,$clave){
+    $this->correo = $correo;
+    $this->clave = $clave;
     }
 }

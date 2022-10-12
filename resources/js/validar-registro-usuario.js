@@ -203,6 +203,14 @@ if (error == false) {
 		icon: 'success',
 		title: 'Se registro el usuario correctamente'
 	})
+	setTimeout(recarga, 2000);
+}
+if (recuperar == false) {
+	Swal.fire({
+		icon: 'success',
+		title: 'Se cambio la contraseña correctamente'
+	})
+	setTimeout(recarga, 2000);
 }
 
 function fireAlert(icon, msg) {
@@ -210,4 +218,8 @@ function fireAlert(icon, msg) {
 		icon: icon,
 		title: msg
 	})
+}
+
+function recarga() {
+  window.location = "index.php?pagina=iniciar-sesion";
 }
