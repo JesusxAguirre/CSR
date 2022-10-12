@@ -22,25 +22,15 @@
 
       </form>
       <ul class="navbar-nav">
+        <input id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
+        <input id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
+        <input class="d-none" type="text">
         <li class="nav-item dropdown">
-          <a class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a id="verNotificaciones" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="text-light bi bi-bell-fill fs-3"></i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <?php if (!empty($notificaciones)) {
-              foreach ($notificaciones as $not) { ?>
-                <li class="dropdown-item">
-                  <div class="alert alert-info my-0" role="alert">
-                    <i class="bi bi-chat-square-text-fill me-2"></i><?php echo $not['accion'] ?>
-                  </div>
-                </li>
-            <?php }
-            }else{ ?>
-              <li class="dropdown-item">No tienes notificaciones aun</li>
-           <?php } ?>
-            <li>
-              <a class="dropdown-item" href="#">Ver todas las notificaciones</a>
-            </li>
+          <ul id="notificaciones" class="dropdown-menu dropdown-menu-end">
+            <!-- DATOS PRUEBA -->
           </ul>
         </li>
       </ul>
@@ -61,3 +51,4 @@
   </div>
 </nav>
 <!-- NavBar -->
+<script src="./resources/js/menu.js"></script>

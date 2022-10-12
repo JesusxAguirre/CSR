@@ -77,5 +77,4 @@
 
 </body>
 <script src="./resources/js/boletin_notas.js"></script>
-
 </html>

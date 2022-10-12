@@ -101,12 +101,8 @@
                     </a>
                   </li>
                 <?php } ?>
-                <li>
-                  <a href="?pagina=boletin_notas" class="nav-link px-3">
-                  <span class="me-2">
-                  <i class="bi bi-journal-check"></i></span>
-                  <span>Boletin de notas</span>
-                  </a>
+                <li id="boletinNotas">
+                  <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
                 </li>
                 <li>
                 <?php if ($_SESSION['status_profesor'] == 1) { ?>

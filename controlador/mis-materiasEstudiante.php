@@ -15,7 +15,6 @@ if($_SESSION['verdadero'] > 0){
         require_once('modelo/clase_ecam.php');
         $objeto= new ecam();
 
-        $notificaciones = $objeto->listar5_notificacionSeccion();
         
         require_once 'vista/'.$pagina.'.php';
     }

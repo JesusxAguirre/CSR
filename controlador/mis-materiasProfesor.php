@@ -14,8 +14,6 @@ if($_SESSION['verdadero'] > 0 && $_SESSION['status_profesor'] == 1){
 
         
         require_once 'vista/'.$pagina.'.php';
-        
-
     }
 
 } else { 

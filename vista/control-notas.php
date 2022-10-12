@@ -84,5 +84,4 @@
 
 </body>
 <script src="./resources/js/control-notas.js"></script>
-
 </html>

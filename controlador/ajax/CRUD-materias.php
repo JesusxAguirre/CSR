@@ -12,6 +12,12 @@ if (isset($_POST['agregarMateria'])) {
     $objeto->agregarMaterias();
 }
 
+//AGREGANDO PROFESORES A LA ECAM
+if (isset($_POST['agregarProfesores'])) {
+    $cedulaProfesor= $_POST['cedulaProfesor'];
+    $objeto->agregar_profesores($cedulaProfesor);
+}
+
 
 //ELIMINANDO MATERIAS
 if (isset($_POST['botonEliminar'])) {
@@ -63,8 +69,9 @@ if (isset($_POST['botonEditarProfM'])) {
       <input hidden id="idMateriaV" value="<?php echo $profesores2[0]['id_materia']; ?>">
 <?php }
 
+//LISTANDO LOS PROFESORES EN SELECT
 if (isset($_POST['listarProfesores'])) {
-    $profesores= $objeto->listarTodos(); ?>
+    $profesores= $objeto->listarProfesores(); ?>
 
     <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
 <?php    foreach ($profesores as $prof) : ?>
@@ -72,6 +79,41 @@ if (isset($_POST['listarProfesores'])) {
 <?php endforeach; ?>                    
     </select>
 <?php    
+}
+//LISTANDO PROFESORES AGREGADOS A LA ECAM EN LA TARJETA
+if (isset($_POST['listarProfesores2'])) {
+    $profesores= $objeto->listarProfesores();
+
+    if (!empty($profesores)) {
+        foreach ($profesores as $key) { ?>
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="mb-0">
+                            <h6 class="mb-0 fst-italic"><?php echo $key['codigo']; ?></h6>
+                            <p class="mb-0"><em><?php echo $key['nombre'].' '.$key['apellido']?></em></p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <i class="btn bi bi-x-lg text-danger fw-bold"></i>
+                </td>
+            </tr>
+       <?php } ?>
+ <?php }else{ ?>
+    <tr>
+        <td><i>"Aun no hay profesores agregados"</i></td>
+    </tr>
+<?php  }
+}
+
+if (isset($_POST['listarFuturosProfesores'])) {
+    $profesores= $objeto->listarTodos(); ?>
+    <select multiple name="profesores[]" id="profesores" class="form-select">
+<?php foreach ($profesores as $prof) : ?>
+        <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre'].' '.$prof['apellido']; ?></option>
+<?php endforeach; ?>
+    </select><?php           
 }
 
 

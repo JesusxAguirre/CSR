@@ -15,6 +15,8 @@ if($_SESSION['verdadero'] > 0){
         $objeto= new ecam();
         $misNotas= $objeto->listar_misNotas();
 
+        $notificaciones = $objeto->listar_notificacionSeccion();
+
         
         require_once 'vista/'.$pagina.'.php';
     }

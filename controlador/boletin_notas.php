@@ -15,8 +15,6 @@ if($_SESSION['verdadero'] > 0){
         $objeto= new ecam();
 
         $listarBotones= $objeto->listarSeccionesON();
-        
-        
 
         
         require_once 'vista/'.$pagina.'.php';

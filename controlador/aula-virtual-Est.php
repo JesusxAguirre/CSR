@@ -18,6 +18,7 @@ if($_SESSION['verdadero'] > 0){
         $mis_datosSeccion= $objeto->datos_miSeccionEst();
 
 
+
         require_once 'vista/'.$pagina.'.php';
     }
 

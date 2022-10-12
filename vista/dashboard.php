@@ -45,5 +45,5 @@ require_once "./resources/View_Components/Menu.php";
   	<script type="module" src="node_modules/highcharts/modules/export-data.js"></script>
   	<script type="module" src="node_modules/highcharts/modules/exporting.js"></script>
   	<script src="resources/js/dashboard.js"></script>
-
 </body>
+</html>
