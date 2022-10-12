@@ -27,7 +27,7 @@
             <i class="text-light bi bi-bell-fill fs-3"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Mi perfil</a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
             <li><button type="submit" class="dropdown-item" href="?">Cerrar sesion</button></li>
             <li>
               <a class="dropdown-item" href="#">Something else here</a>
@@ -41,7 +41,7 @@
             <i class="text-light bi bi-person-fill fs-3"></i>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="?pagina=mi-perfil">Mi perfil</a></li>
             <form action="?pagina=dashboard" method="post">
               <li><button name="cerrar" type="submit" class="dropdown-item">Cerrar sesion</button></li>
             </form>
