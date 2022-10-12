@@ -215,7 +215,7 @@ class Usuarios extends Conectar
     public function listar_usuarios_N2()
     {
 
-        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE  '%N2%'");
+        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
 
