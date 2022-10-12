@@ -1,9 +1,11 @@
 
 
-
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
+const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
+
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
+const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
@@ -17,7 +19,10 @@ const campos = {
 	sexo: false,
 	civil: false,
 	nacionalidad: false,
-	estado: false
+	estado: false,
+	//segundo formulario
+	correo2: false,
+	clave2: false
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -64,6 +69,13 @@ const ValidarFormulario = (e) => {
 			break;
 		case "clave":
 			ValidarCampo(expresiones.password, e.target, 'clave');
+			break;
+		//segundo formulario
+		case "correo2":
+			ValidarCampo(expresiones.correo, e.target, 'correo2');
+			break;
+		case "clave2":
+			ValidarCampo(expresiones.password, e.target, 'clave2');
 			break;
 	}
 }
@@ -155,12 +167,28 @@ selects.forEach((select) => {
 	select.addEventListener('blur', ValidarFormulario);
 });
 
+inputs2.forEach((input) => {
+	input.addEventListener('keyup', ValidarFormulario);
+	input.addEventListener('blur', ValidarFormulario);
 
+	// input.addEventListener('click', ValidarFormulario);
+});
 
 
 formulario.addEventListener('submit', (e) => {
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.correo
 		&& campos.clave && campos.estado && campos.nacionalidad && campos.sexo && campos.civil)) {
+		e.preventDefault();
+		Swal.fire({
+			icon: 'error',
+			title: 'Lo siento ',
+			text: 'Registra el formulario correctamente '
+		})
+	}
+})
+
+formulario2.addEventListener('submit', (e) => {
+	if (!(campos.correo2 && campos.clave2)) {
 		e.preventDefault();
 		Swal.fire({
 			icon: 'error',

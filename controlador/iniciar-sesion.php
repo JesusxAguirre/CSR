@@ -29,6 +29,13 @@ if(isset($_POST['registrar'])){
 	$objeto->registrar_usuarios();
 	$error = false;
 }
+
+//recuperando password
+if(isset($_POST['recuperar'])){
+
+
+		
+}
 if(isset($_POST['enviar'])){
 
 	$_SESSION['usuario']=$_POST['usuario'];

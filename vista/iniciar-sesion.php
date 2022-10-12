@@ -202,32 +202,32 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade " id="recuperar" tabindex="-1" aria-labelledby="registrar" aria-hidden="true">
+    <div class="modal fade " id="recuperar" tabindex="-1" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content ">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="registrar">Recuperar contraseña</h5>
+                    <h5 class="modal-title" id="">Recuperar contraseña</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="formulario2" action="?pagina=iniciar-sesion" method="POST">
                         <div class="container-fluid">
                             <div class="row mt-2">
-                                <div id="grupo__correo" class="col-sm  ">
+                                <div id="grupo__correo2" class="col-sm  ">
                                     <div class="relative">
                                         <label class="form-label fw-bold">Correo</label>
                                         <i class="input-icon fs-5"></i>
-                                        <input id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
+                                        <input id="correo2" placeholder=" example@gmail.com" name="correo2" class="form-control">
                                     </div>
                                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div id="grupo__clave" class="col-sm  ">
+                                <div id="grupo__clave2" class="col-sm  ">
                                     <div class="relative">
                                         <label class="form-label fw-bold">Clave</label>
                                         <i class="input-icon fs-5"></i>
-                                        <input id="clave" type="password" placeholder="******" name="clave" class="form-control">
+                                        <input id="clave2" type="password" placeholder="******" name="clave2" class="form-control">
                                     </div>
                                     <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
                                 </div>
@@ -236,7 +236,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="registrar" name="registrar" class="btn btn-primary">Enviar</button>
+                    <button type="submit" id="recuperar" name="recuperar" class="btn btn-primary">Enviar</button>
                 </div>
                 </form>
             </div>
