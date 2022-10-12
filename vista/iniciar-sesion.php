@@ -244,8 +244,9 @@
     </div>
     </div>
     <script type="text/javascript">
-        error = <?php echo ($error) ? 'true' : 'false'; ?>
-        recuperar = <?php echo ($recuperar) ? 'true' : 'false'; ?>
+        error = <?php echo ($error) ? 'true' : 'false'; ?>;
+        
+        recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
     </script>
     <script src="resources/js/validar-registro-usuario.js"></script>
 </body>

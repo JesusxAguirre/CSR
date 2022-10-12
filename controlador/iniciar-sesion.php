@@ -30,7 +30,7 @@ if(isset($_POST['registrar'])){
 	$error = false;
 }
 
-$recuperar = true;
+$recuperacion = true;
 //recuperando password
 if(isset($_POST['recuperar'])){
 		$correo = $_POST['correo2'];
@@ -40,7 +40,7 @@ if(isset($_POST['recuperar'])){
 
 		$objeto->recuperar_password();
 
-		$recuperar = false;
+		$recuperacion = false;
 }
 
 //validando datos de usuario para entrar al sistema

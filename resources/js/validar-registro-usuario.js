@@ -205,7 +205,8 @@ if (error == false) {
 	})
 	setTimeout(recarga, 2000);
 }
-if (recuperar == false) {
+
+if (recuperacion == false) {
 	Swal.fire({
 		icon: 'success',
 		title: 'Se cambio la contraseña correctamente'
