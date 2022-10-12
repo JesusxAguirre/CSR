@@ -35,14 +35,14 @@
                 </div>
                 <hr>
                 <!-- INICIO FORMULARIO -->
-                <form id="formulario2" action="?pagina=iniciar-sesion" method="post">
+                <form id="formulario3" action="?pagina=iniciar-sesion" method="post">
                     <div class="mb-4">
                         <label for="email">Correo electronico</label>
                         <input type="text" name="usuario" class="form-control inputF" placeholder="casasobrelaroca@gmail.com">
                     </div>
                     <div class="mb-4">
                         <label for="password">Contraseña</label>
-                        <input type="password" name="clave" id="clave" class="form-control inputF" placeholder="********">
+                        <input type="password" name="password" id="clave" class="form-control inputF" placeholder="********">
                     </div>
                     <div class="d-grid">
                         <button name="enviar" value="enviar" type="submit" class="btn btn-outline-primary botonLogin">INCIAR SESION</button>
@@ -245,7 +245,7 @@
     </div>
     <script type="text/javascript">
         error = <?php echo ($error) ? 'true' : 'false'; ?>;
-        
+
         recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
     </script>
     <script src="resources/js/validar-registro-usuario.js"></script>
