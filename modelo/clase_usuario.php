@@ -166,7 +166,7 @@ class Usuarios extends Conectar
     {
         $matriz_usuario = $this->mi_perfil();
 
-        foreach($matriz_usuario AS $usuario){
+        foreach ($matriz_usuario as $usuario) {
             $cedula_antigua = $usuario['cedula'];
         }
         $sql = ("SELECT cedula FROM usuarios WHERE cedula != '$cedula_antigua' AND cedula = '$cedula'");
@@ -197,7 +197,7 @@ class Usuarios extends Conectar
     {
         $matriz_usuario = $this->mi_perfil();
 
-        foreach($matriz_usuario AS $usuario){
+        foreach ($matriz_usuario as $usuario) {
             $correo_antiguo = $usuario['usuario'];
         }
 
@@ -289,6 +289,24 @@ class Usuarios extends Conectar
         $sexo = strtoupper($sexo2);
         $estadoc = strtoupper($estadoc2);
 
+        //cambiando datos ingresados con mayusculas o minisculas
+        $this->nombre = strtolower($this->nombre);
+
+        $this->nombre = ucfirst($this->nombre);
+        //lo mismo con el apellido
+        $this->apellido = strtolower($this->apellido);
+
+        $this->apellido = ucfirst($this->apellido);
+        //Lo mismo con la nacionalidad
+        $this->nacionalidad = strtolower($this->nacionalidad);
+
+        $this->nacionalidad = ucfirst($this->nacionalidad);
+        //Lo mismo con la estado
+        $this->estado = strtolower($this->estado);
+
+        $this->estado = ucfirst($this->estado);
+
+
         $sql = "INSERT INTO usuarios (cedula,id_rol,
         codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
         VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
@@ -368,6 +386,24 @@ class Usuarios extends Conectar
         //actualizando todos los datos menos el codigo que se hizo mas arriba
         $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono WHERE cedula = :ced");
+
+
+        //cambiando datos ingresados con mayusculas o minisculas
+        $this->nombre = strtolower($this->nombre);
+
+        $this->nombre = ucfirst($this->nombre);
+        //lo mismo con el apellido
+        $this->apellido = strtolower($this->apellido);
+
+        $this->apellido = ucfirst($this->apellido);
+        //Lo mismo con la nacionalidad
+        $this->nacionalidad = strtolower($this->nacionalidad);
+
+        $this->nacionalidad = ucfirst($this->nacionalidad);
+        //Lo mismo con la estado
+        $this->estado = strtolower($this->estado);
+
+        $this->estado = ucfirst($this->estado);
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -454,11 +490,11 @@ class Usuarios extends Conectar
             ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
             ":estado" => $this->estado,
             ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua,
-            ":usuario"=> $this->correo , ":clave"=> $this->clave
+            ":usuario" => $this->correo, ":clave" => $this->clave
         ));
 
-            session_destroy();
-            echo "<script>
+        session_destroy();
+        echo "<script>
             alert('Sesion Cerrada');
             window.location= 'index.php'
         </script>";
@@ -468,18 +504,18 @@ class Usuarios extends Conectar
     {
 
         //agregando archivo a carpeta temporal
-        move_uploaded_file($_FILES['imagen']['tmp_name'],$this->carpeta_destino . $this->nombre_imagen);
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $this->carpeta_destino . $this->nombre_imagen);
 
         $carpeta_destino = 'resources/imagenes-usuarios/';
 
-       //consulta update
+        //consulta update
         $sql = ("UPDATE usuarios SET ruta_imagen = :ruta
          WHERE cedula = :ced");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":ruta"=> $carpeta_destino . $this->nombre_imagen,
+            ":ruta" => $carpeta_destino . $this->nombre_imagen,
             ":ced" => $this->cedula
         ));
 
@@ -490,17 +526,16 @@ class Usuarios extends Conectar
     public function recuperar_password()
     {
 
-       //consulta update
+        //consulta update
         $sql = ("UPDATE usuarios SET password = :password
          WHERE usuario = :usuario");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":password"=> $this->clave,
+            ":password" => $this->clave,
             ":usuario" => $this->correo
         ));
-
     }
 
 
@@ -673,8 +708,6 @@ class Usuarios extends Conectar
         $this->telefono = $telefono;
         $this->correo = $correo;
         $this->clave = $clave;
-
-      
     }
     public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol)
     {
@@ -690,7 +723,7 @@ class Usuarios extends Conectar
         $this->telefono = $telefono;
         $this->rol = $rol;
     }
-    public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono,$correo,$clave)
+    public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)
     {
         $this->nombre = $nombre;
         $this->apellido = $apellido;
@@ -704,22 +737,21 @@ class Usuarios extends Conectar
         $this->telefono = $telefono;
         $this->correo = $correo;
         $this->clave = $clave;
-
-    
     }
-    public function setActualizarFoto( $cedula, $carpeta_destino,$nombre_imagen,$tipo_imagen,$tamaño_imagen)
+    public function setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen)
     {
-       
+
         $this->cedula = $cedula;
-    
+
         $this->carpeta_destino = $carpeta_destino;
         $this->nombre_imagen = $nombre_imagen;
         $this->tipo_imagen = $tipo_imagen;
         $this->tamaño_imagen = $tamaño_imagen;
     }
 
-    public function setRecuperar($correo,$clave){
-    $this->correo = $correo;
-    $this->clave = $clave;
+    public function setRecuperar($correo, $clave)
+    {
+        $this->correo = $correo;
+        $this->clave = $clave;
     }
 }
