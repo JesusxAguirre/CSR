@@ -408,7 +408,9 @@ class Usuarios extends Conectar
         $this->estado = strtolower($this->estado);
 
         $this->estado = ucfirst($this->estado);
+        //encriptando password
 
+        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
@@ -485,6 +487,8 @@ class Usuarios extends Conectar
         $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
 
+
+        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
@@ -535,6 +539,8 @@ class Usuarios extends Conectar
          WHERE usuario = :usuario");
 
         $stmt = $this->conexion()->prepare($sql);
+
+        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
 
         $stmt->execute(array(
             ":password" => $this->clave,
