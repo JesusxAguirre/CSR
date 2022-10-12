@@ -1,7 +1,8 @@
 listarBitacora();
+
 function listarBitacora() {
     let div = document.getElementById('datosBitacora');
-
+    
     $.post("controlador/ajax/dinamica-bitacora-usuario.php", {activarDatatableBitacora: 'activar'},
         function (data) {
             div.innerHTML= data;

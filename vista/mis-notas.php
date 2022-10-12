@@ -88,5 +88,4 @@
     </main>
 </body>
 <script src="./resources/js/mis-notas.js"></script>
-
 </html>

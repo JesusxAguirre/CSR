@@ -170,5 +170,5 @@
     error = <?php echo ($error) ? 'true' : 'false'; ?>
   </script>
   <script src="resources/js/validacion-registro-consolidacion.js"></script>
-
 </body>
+</html>

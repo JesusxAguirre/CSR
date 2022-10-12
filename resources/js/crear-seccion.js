@@ -326,13 +326,6 @@ function seleccionarEstudiantes(nivelRef) {
     }).done((data) => {
         div.innerHTML = data;
         choices2();
-        /*$("#seleccionarEstudiantes").select2({
-            placeholder: "Seleccione los estudiantes",
-            closeOnSelect: false,
-            amdLanguageBase: "es",
-            theme: "bootstrap4",
-            dropdownParent: $("#form3")
-        });*/
     });
 }
 

@@ -7,7 +7,7 @@ $('.fechaActual').text('Fecha actual: '+fecha.getFullYear()+'/'+fecha.getMonth()
 $('.horaActual').text('Hora actual: '+fecha.getHours()+':'+fecha.getMinutes()+' '+am_pm);
 
 //GRAFICO DE CANTIDAD DE ESTUDIANTES POR SECCION
-function grafico1(ctxRef, refNombres, refCantidad) {
+function grafico1(ctxRef, refNombres, refCantidad, colores) {
   var charizard = new Chart(ctxRef, {
     type: "doughnut",
     data: {
@@ -15,20 +15,8 @@ function grafico1(ctxRef, refNombres, refCantidad) {
       datasets: [
         {
           data: refCantidad,
-          backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.5)',
-                'rgba(255, 206, 86, 0.5)',
-                'rgba(75, 192, 192, 0.5)',
-                'rgba(153, 102, 255, 0.5)',
-                'rgba(255, 159, 64, 0.5)'
-          ],
-          borderColor: ['rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'],
+          backgroundColor: colores,
+          borderColor: colores,
           borderWidth: 1,
         },
       ],
@@ -53,12 +41,15 @@ function infoSecciones() {
       var ctx = document.getElementById("cantidadEstudiantes").getContext("2d");
       let nombreSeccion = [];
       let cantidadEstudiantes = [];
+      let colores = [];
 
       for (let i = 0; i < json.length; i++) {
         nombreSeccion.push(json[i]["nombreSeccion"]);
         cantidadEstudiantes.push(json[i]["cantidadEstudiantes"]);
+        colores.push(colorRGB());
       }
-      grafico1(ctx, nombreSeccion, cantidadEstudiantes);
+      console.log(colores);
+      grafico1(ctx, nombreSeccion, cantidadEstudiantes, colores);
     }
   );
 }
@@ -67,7 +58,7 @@ function infoSecciones() {
 
 
 //GRAFICO DE CANTIDAD DE GRADUANDOS DEL ANO ACTUAL
-function grafico2(ctxRef, meses, cantidad) {
+function grafico2(ctxRef, meses, cantidad, colores) {
   const myChart = new Chart(ctxRef, {
     type: 'bar',
     data: {
@@ -75,22 +66,8 @@ function grafico2(ctxRef, meses, cantidad) {
         datasets: [{
             label: 'Graduandos de este año',
             data: cantidad,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
+            backgroundColor: colores,
+            borderColor: colores,
             borderWidth: 1
         }]
     },
@@ -113,11 +90,22 @@ function infoCantidad_graduandos() {
       let respuesta = JSON.parse(data);
       let meses= [];
       let cantidad= [];
+      let colores= [];
+
       for (datos in respuesta) {
         meses.push(datos)
         cantidad.push(respuesta[datos]);
+        colores.push(colorRGB());
       }
-      grafico2(ctx, meses, cantidad);
+      grafico2(ctx, meses, cantidad, colores);
     },
   );
+}
+
+function generarNumero(numero){
+	return (Math.random()*numero).toFixed(0);
+}
+function colorRGB(){    
+  var color = "("+generarNumero(255)+"," + generarNumero(255) + "," + generarNumero(255) +", 0.4)";
+  return "rgb" + color;
 }

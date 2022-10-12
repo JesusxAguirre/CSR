@@ -12,6 +12,11 @@ if (isset($_POST['agregarMateria'])) {
     $objeto->agregarMaterias();
 }
 
+//AGREGANDO PROFESORES A LA ECAM
+if (isset($_POST['agregarProfesores'])) {
+    $cedulaProfesor= $_POST['cedulasProfesores'];
+    $objeto->agregar_profesores($cedulaProfesor);
+}
 
 //ELIMINANDO MATERIAS
 if (isset($_POST['botonEliminar'])) {
@@ -19,7 +24,6 @@ if (isset($_POST['botonEliminar'])) {
 
     $objeto->eliminarMateria($idMateria);
 }
-
 
 //ACTUALIZANDO MATERIAS
 if (isset($_POST['actualizarMateria'])) {
@@ -40,6 +44,13 @@ if (isset($_POST['eliminarProfMat'])) {
     $objeto->desvincularProfesor($cedulaProf, $idMateria2);
 }
 
+//ELIMINANDO PROFESORES DE LA ECAM DEFINITIVAMENTE
+if (isset($_POST['eliminar_profesor'])) {
+    $cedulaProf= $_POST['cedulaProf'];
+
+    $objeto->eliminar_profesor($cedulaProf);
+}
+
 //AGREGANDO(VINCULANDO) PROFESOR A LA MATERIA
 if (isset($_POST['actualizarProfesores'])) {
     $idMateriaV= $_POST['idMateriaV'];
@@ -56,15 +67,21 @@ if (isset($_POST['botonEditarProfM'])) {
     $profesores2 = $objeto->listarSelectProfesores($idNoMateria);
 
     ?><select multiple name="seleccionarProfV" id="seleccionarProfV" class="form-control">
-    <?php foreach ($profesores2 as $prof2) { ?>
+    <?php if (!empty($profesores2)) { ?>
+        <option disabled value="ninguno">Seleccione a un profesor</option><?php
+        foreach ($profesores2 as $prof2) { ?>
             <option value="<?php echo $prof2['cedula']; ?>"> <?php echo $prof2['codigo'] . ' ' . $prof2['nombre'].' '.$prof2['apellido']; ?></option>
-    <?php } ?>
+    <?php }
+    }else{
+
+    }?>
       </select>
       <input hidden id="idMateriaV" value="<?php echo $profesores2[0]['id_materia']; ?>">
 <?php }
 
+//LISTANDO LOS PROFESORES EN SELECT
 if (isset($_POST['listarProfesores'])) {
-    $profesores= $objeto->listarTodos(); ?>
+    $profesores= $objeto->listarProfesores(); ?>
 
     <select multiple name="seleccionarProf" id="seleccionarProf" class="form-control">
 <?php    foreach ($profesores as $prof) : ?>
@@ -72,6 +89,42 @@ if (isset($_POST['listarProfesores'])) {
 <?php endforeach; ?>                    
     </select>
 <?php    
+}
+//LISTANDO PROFESORES AGREGADOS A LA ECAM EN LA TARJETA
+if (isset($_POST['listarProfesores2'])) {
+    $profesores= $objeto->listarProfesores();
+
+    if (!empty($profesores)) {
+        foreach ($profesores as $key) { ?>
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="mb-0">
+                            <h6 class="mb-0 fst-italic"><?php echo $key['codigo']; ?></h6>
+                            <p class="mb-0"><em><?php echo $key['nombre'].' '.$key['apellido']?></em></p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <input class="cedulaProfesor d-none" type="text" value="<?php echo$key['cedula'] ?>">
+                    <i class="eliminarProfEcam btn bi bi-x-lg text-danger fw-bold"></i>
+                </td>
+            </tr>
+       <?php } ?>
+ <?php }else{ ?>
+    <tr>
+        <td><i>"Aun no hay profesores agregados"</i></td>
+    </tr>
+<?php  }
+}
+
+if (isset($_POST['listarFuturosProfesores'])) {
+    $profesores= $objeto->listar_noProfesores(); ?>
+    <select multiple name="profesores[]" id="profesores" class="form-select">
+<?php foreach ($profesores as $prof) : ?>
+        <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre'].' '.$prof['apellido']; ?></option>
+<?php endforeach; ?>
+    </select><?php           
 }
 
 

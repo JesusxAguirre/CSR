@@ -416,7 +416,6 @@
     </div>
 
     <script src="./resources/js/crear-seccion.js"></script>
-
 </body>
 
 </html>

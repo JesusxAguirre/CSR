@@ -1,6 +1,8 @@
 .fondoEcam{
     background-image: url('../img/fondoEcam.jpg');
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .contenedorMaterias{

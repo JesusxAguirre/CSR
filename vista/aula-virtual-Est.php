@@ -172,5 +172,4 @@
     </main>
 </body>
 <script src="./resources/js/aula-virtual-est.js"></script>
-
 </html>
