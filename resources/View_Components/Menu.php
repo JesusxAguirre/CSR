@@ -22,16 +22,15 @@
 
       </form>
       <ul class="navbar-nav">
+        <input id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
+        <input id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
+        <input class="d-none" type="text">
         <li class="nav-item dropdown">
-          <a class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a id="verNotificaciones" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="text-light bi bi-bell-fill fs-3"></i>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#"></a></li>
-            <li><button type="submit" class="dropdown-item" href="?">Cerrar sesion</button></li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
+          <ul id="notificaciones" class="dropdown-menu dropdown-menu-end">
+            <!-- DATOS PRUEBA -->
           </ul>
         </li>
       </ul>
@@ -45,9 +44,6 @@
             <form action="?pagina=dashboard" method="post">
               <li><button name="cerrar" type="submit" class="dropdown-item">Cerrar sesion</button></li>
             </form>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
           </ul>
         </li>
       </ul>
@@ -55,3 +51,4 @@
   </div>
 </nav>
 <!-- NavBar -->
+<script src="./resources/js/menu.js"></script>

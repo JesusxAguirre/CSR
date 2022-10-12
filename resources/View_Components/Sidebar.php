@@ -8,12 +8,14 @@
             HOME
           </div>
         </li>
-        <li>
+        <?php if (empty($_SESSION['id_seccion'])) { ?>
+          <li>
           <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
             <span>Dashboard</span>
           </a>
         </li>
+       <?php } ?>
         <li class="my-4">
           <hr class="dropdown-divider" />
         </li>
@@ -101,23 +103,23 @@
                     </a>
                   </li>
                 <?php } ?>
+                <?php if (!empty($_SESSION['id_seccion'])) { ?>
+                <li id="boletinNotas">
+                  <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
+                </li>
+                <?php } ?>
+
+                <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
-                  <a href="?pagina=boletin_notas" class="nav-link px-3">
+                  <a href="?pagina=materias" class="nav-link px-3">
                     <span class="me-2">
-                      <i class="bi bi-journal-check"></i></span>
-                    <span>Boletin de notas</span>
+                      <i class="bi bi-book-half"></i></span>
+                    <span>Materias</span>
                   </a>
                 </li>
-                <li>
-                  <?php if ($_SESSION['status_profesor'] == 1) { ?>
-                    <a href="?pagina=materias" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-book-half"></i></span>
-                      <span>Materias</span>
-                    </a>
-                </li>
-              <?php } ?>
-              <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                <?php } ?>
+
+                <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
                   <a href="?pagina=crear-seccion" class="nav-link px-3">
                     <span class="me-2">
@@ -125,8 +127,9 @@
                     <span>Crear seccion</span>
                   </a>
                 </li>
-              <?php } ?>
-              <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                <?php } ?>
+                
+                <?php if ($_SESSION['status_profesor'] == 1) { ?>
                 <li>
                   <a href="?pagina=control-notas" class="nav-link px-3">
                     <span class="me-2">

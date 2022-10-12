@@ -118,7 +118,5 @@
   </main>
 
   <script src="resources/js/reporte-celula-discipulado.js"></script>
-  <script>
-
-  </script>
 </body>
+</html>

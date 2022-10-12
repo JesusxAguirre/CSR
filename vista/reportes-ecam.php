@@ -103,6 +103,4 @@
 
     </main>
 </body>
-<script src="./resources/js/reportes-ecam.js"></script>
-
 </html>

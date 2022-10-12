@@ -4,13 +4,6 @@ session_start();
 
 if ($_SESSION['verdadero'] > 0) {
     
-    if (!$_SESSION['permisos']['ecam']['listar']) {
-        echo "<script>
-		alert('No tienes los permisos para este modulo');
-		window.location= 'index.php?pagina=dashboard'
-		</script>";
-
-    }
     if (is_file('vista/'. $pagina .'.php')) {
        
 

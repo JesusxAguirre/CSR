@@ -378,5 +378,5 @@
   <script type="module" src="node_modules\highcharts\modules\exporting.js"></script>
   <script src="resources/js/reporte-estadisticos-celulas.js"></script>
 
-
 </body>
+</html>

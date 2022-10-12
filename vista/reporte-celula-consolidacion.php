@@ -118,7 +118,5 @@
   </main>
 
   <script src="resources/js/reporte-celula-consolidacion.js"></script>
-  <script>
-
-  </script>
 </body>
+</html>

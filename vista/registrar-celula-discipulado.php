@@ -171,3 +171,4 @@
     </script>
   <script src="resources/js/validacion-registro-discipulado.js"></script>
 </body>
+</html>
