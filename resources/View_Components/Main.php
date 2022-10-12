@@ -61,7 +61,7 @@
                   <i class="widget-icon bi bi-bookmark-heart-fill"></i>
                 </div>
                 <h5 class="fw-normal mt-0 text-muted">Estudiantes en ECAM</h5>
-                <h3 class="mt-3 mb-3">3321</h3>
+                <h3 class="mt-3 mb-3"><?php echo $cantidad_estudiantes ?></h3>
                 
               </div>
             </div>

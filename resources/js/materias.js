@@ -53,6 +53,49 @@ function listarFuturosProfesores() {
   );
 }
 
+//ELIMINAR PROFESORES DE LA ECAM DEFINITIVAMENTE
+$(document).on('click', '.eliminarProfEcam', function () {
+  var elemento = $(this)[0].parentElement.parentElement;
+  var cedulaProf = elemento.querySelector('.cedulaProfesor').value;
+  let data = {
+    eliminar_profesor: 'eliminar_profesor',
+    cedulaProf: cedulaProf,
+  }
+
+  Swal.fire({
+    title: 'AVISO',
+    text: 'Al eliminar un profesor de la ECAM, automaticamente se desvinculara de todo a lo\
+    que estaba asociado a sus datos, incluyendo contenidos, notificaciones, acciones y demas',
+
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: 'green',
+    cancelButtonColor: 'red',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Estoy seguro, proceder'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.post("controlador/ajax/CRUD-materias.php", data,
+      function (data) {
+        listarFuturosProfesores();
+        listarProfesores2();
+        Swal.fire({
+                  icon: 'success',
+                  iconColor: 'white',
+                  title: '¡Profesor eliminado correctamente!',
+                  toast: true,
+                  background: 'green',
+                  color: 'white',
+                  showConfirmButton: false,
+                  timer: 2000,
+              })
+      },
+      );
+    }
+  })
+  
+});
+
 //RELLENANDO DATOS PARA ACTUALIZAR MATERIA
 $(document).on('click', '#actualizarM', function () {
   var elementoR = $(this)[0].parentElement.parentElement;
@@ -289,7 +332,7 @@ function choices2() {
     removeItems: true,
     removeItemButton: true,
     noResultsText: 'No hay coicidencias',
-    noChoicesText: 'No hay participantes disponibles',
+    noChoicesText: 'No hay profesores disponibles',
     placeholderValue: 'Buscar profesor',
   });
 }
@@ -341,7 +384,7 @@ $("#actualizarMateria").on("click", function (e) {
 
 
 //AGREGANDO PROFESORES A LA ECAM
-$('#crearProfesores').click(function (e) { 
+$('#crearProfesores').click(function (e) {
   e.preventDefault();
   let cedulasProfesores= $('#profesores').val();
   let data = {
@@ -350,6 +393,8 @@ $('#crearProfesores').click(function (e) {
   }
 
   $.post("controlador/ajax/CRUD-materias.php", data, function (data) {
+    listarFuturosProfesores();
+    listarProfesores2();
     Swal.fire({
       title: '¡Agregados exitosamente!',
       icon: 'success',

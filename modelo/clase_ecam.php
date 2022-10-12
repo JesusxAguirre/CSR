@@ -356,6 +356,20 @@ class ecam extends Conectar
         return $todos;
     }
 
+    public function listar_noProfesores()
+    {
+        $todos = [];
+        $sql = "SELECT `cedula`,`codigo`,`nombre`,`apellido`,`telefono` FROM `usuarios` WHERE `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL";
+
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array());
+
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $todos[] = $filas;
+        }
+        return $todos;
+    }
+
 
 
 
@@ -376,7 +390,7 @@ class ecam extends Conectar
     //LISTAR LOS PROFESORES QUE NO ESTEN ASIGNADOS A X MATERIA
     public function listarSelectProfesores($idNoMateria)
     {
-
+        $todosProfesores2 = [];
         $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`id_materia` FROM `usuarios`, `materias` 
         WHERE NOT EXISTS (SELECT * FROM `profesores-materias` 
         WHERE `usuarios`.`cedula` = `profesores-materias`.`cedula_profesor` 
@@ -432,13 +446,29 @@ class ecam extends Conectar
     {
         //Agregando status_profesor = 1 a los profesores que se vayan asignando
         foreach ($cedulasProfesores as $cedulaProf) {
-            $sql3 = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
-            $stmt3 = $this->conexion->prepare($sql3);
-            $stmt3->execute(array(
+            $sql = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->execute(array(
                 ":cedulaProf" => $cedulaProf,
             ));
         }//Fin del Foreach
         //Profesores con status 1 activados
+    }
+
+    //ELIMINAR PROFESORES DE LA ECAM
+    public function eliminar_profesor($cedulaProfesor)
+    {
+        $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = $cedulaProfesor";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute();
+
+        $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = $cedulaProfesor";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute();
+
+        $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = $cedulaProfesor";
+        $stmt3 = $this->conexion()->prepare($sql3);
+        $stmt3->execute();
     }
 
     //ACTUALIZAR Y VINCULAR PROFESOR CON LA MATERIA
@@ -474,8 +504,13 @@ class ecam extends Conectar
         AND `profesores-materias`.`id_materia` = $idMateriaDV";
 
         $stmt = $this->conexion()->prepare($sql);
-
         $stmt->execute();
+
+        //DESVINCULANDO PROFESORES DE LAS SECCION A LA QUE FUE ASIGNADA SU MATERIA Y PRESENCIA
+        $sql2 = "DELETE FROM `secciones-materias-profesores` WHERE `id_materia` = $idMateriaDV AND `cedulaProf` = $cedulaProfDV";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute();
+
     }
 
 

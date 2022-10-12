@@ -14,10 +14,9 @@ if (isset($_POST['agregarMateria'])) {
 
 //AGREGANDO PROFESORES A LA ECAM
 if (isset($_POST['agregarProfesores'])) {
-    $cedulaProfesor= $_POST['cedulaProfesor'];
+    $cedulaProfesor= $_POST['cedulasProfesores'];
     $objeto->agregar_profesores($cedulaProfesor);
 }
-
 
 //ELIMINANDO MATERIAS
 if (isset($_POST['botonEliminar'])) {
@@ -25,7 +24,6 @@ if (isset($_POST['botonEliminar'])) {
 
     $objeto->eliminarMateria($idMateria);
 }
-
 
 //ACTUALIZANDO MATERIAS
 if (isset($_POST['actualizarMateria'])) {
@@ -46,6 +44,13 @@ if (isset($_POST['eliminarProfMat'])) {
     $objeto->desvincularProfesor($cedulaProf, $idMateria2);
 }
 
+//ELIMINANDO PROFESORES DE LA ECAM DEFINITIVAMENTE
+if (isset($_POST['eliminar_profesor'])) {
+    $cedulaProf= $_POST['cedulaProf'];
+
+    $objeto->eliminar_profesor($cedulaProf);
+}
+
 //AGREGANDO(VINCULANDO) PROFESOR A LA MATERIA
 if (isset($_POST['actualizarProfesores'])) {
     $idMateriaV= $_POST['idMateriaV'];
@@ -62,9 +67,14 @@ if (isset($_POST['botonEditarProfM'])) {
     $profesores2 = $objeto->listarSelectProfesores($idNoMateria);
 
     ?><select multiple name="seleccionarProfV" id="seleccionarProfV" class="form-control">
-    <?php foreach ($profesores2 as $prof2) { ?>
+    <?php if (!empty($profesores2)) { ?>
+        <option disabled value="ninguno">Seleccione a un profesor</option><?php
+        foreach ($profesores2 as $prof2) { ?>
             <option value="<?php echo $prof2['cedula']; ?>"> <?php echo $prof2['codigo'] . ' ' . $prof2['nombre'].' '.$prof2['apellido']; ?></option>
-    <?php } ?>
+    <?php }
+    }else{
+
+    }?>
       </select>
       <input hidden id="idMateriaV" value="<?php echo $profesores2[0]['id_materia']; ?>">
 <?php }
@@ -96,7 +106,8 @@ if (isset($_POST['listarProfesores2'])) {
                     </div>
                 </td>
                 <td>
-                    <i class="btn bi bi-x-lg text-danger fw-bold"></i>
+                    <input class="cedulaProfesor d-none" type="text" value="<?php echo$key['cedula'] ?>">
+                    <i class="eliminarProfEcam btn bi bi-x-lg text-danger fw-bold"></i>
                 </td>
             </tr>
        <?php } ?>
@@ -108,7 +119,7 @@ if (isset($_POST['listarProfesores2'])) {
 }
 
 if (isset($_POST['listarFuturosProfesores'])) {
-    $profesores= $objeto->listarTodos(); ?>
+    $profesores= $objeto->listar_noProfesores(); ?>
     <select multiple name="profesores[]" id="profesores" class="form-select">
 <?php foreach ($profesores as $prof) : ?>
         <option value="<?php echo $prof['cedula']; ?>"> <?php echo $prof['codigo'] . ' ' . $prof['nombre'].' '.$prof['apellido']; ?></option>
