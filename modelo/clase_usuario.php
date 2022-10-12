@@ -480,24 +480,25 @@ class Usuarios extends Conectar
 
         $stmt->execute(array(
             ":ruta"=> $carpeta_destino . $this->nombre_imagen,
-            ":ced" => $this->cedula,
+            ":ced" => $this->cedula
         ));
 
         $accion = "Editar foto de usuario";
         $this->registrar_bitacora($accion);
     }
+
     public function recuperar_password()
     {
 
        //consulta update
-        $sql = ("UPDATE usuarios SET clave = :clave
+        $sql = ("UPDATE usuarios SET password = :password
          WHERE usuario = :usuario");
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":clave"=> $ $this->clave,
-            ":usuario" => $this->correo,
+            ":password"=> $this->clave,
+            ":usuario" => $this->correo
         ));
 
     }

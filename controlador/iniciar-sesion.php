@@ -34,7 +34,7 @@ $recuperar = true;
 //recuperando password
 if(isset($_POST['recuperar'])){
 		$correo = $_POST['correo2'];
-		$clave = $_POST['clave'];
+		$clave = $_POST['clave2'];
 
 		$objeto->setRecuperar($correo,$clave);
 
