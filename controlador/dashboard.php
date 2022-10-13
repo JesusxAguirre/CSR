@@ -6,11 +6,7 @@ require_once('modelo/clase_ecam.php');
 session_start();
 
 if($_SESSION['verdadero'] > 0){
-if (!empty($_SESSION['id_seccion'])) {
-    echo "<script>
-                window.location= 'index.php?pagina=aula-virtual-Est'
-        </script>";
-}
+
 if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
     $objeto_discipulado = new Discipulado();

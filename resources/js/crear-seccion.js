@@ -688,22 +688,6 @@ function choices3 () {
       placeholderValue: 'Buscar estudiantes',
     });
 }
-
-
-
-  /*(function () {
-    var materiasOFF = document.getElementById("seleccionarMateriasAdicionales");
-    new Choices(materiasOFF, {
-      allowHTML: true,
-      maxItemText: 3,
-      removeItems: true,
-      removeItemButton: true,
-      noResultsText: "No hay coicidencias",
-      noChoicesText: "No hay materias disponibles",
-      placeholder: true,
-      placeholderValue: "Buscar materias",
-    });
-  })();*/
 ////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////
 

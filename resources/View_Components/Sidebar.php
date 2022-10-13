@@ -25,7 +25,7 @@
           </div>
         </li>
 
-        <?php if ($_SESSION['rol'] == 1 && $_SESSION['rol'] == 2) { ?>
+        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -288,7 +288,7 @@
         <?php } ?>
 
         
-        <?php if ($_SESSION['rol'] == 1 && $_SESSION['rol'] == 2) { ?>
+        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
             <span class="me-2">

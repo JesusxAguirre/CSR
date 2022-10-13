@@ -255,11 +255,11 @@ class ecam extends Conectar
     public function ver_misNotasMaterias($cedula, $seccion)
     {
         $notas= [];
-        $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico`, `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, IFNULL(`nme`.`nota`, '0') AS `nota` FROM `usuarios` 
-        INNER JOIN `secciones-materias-profesores` AS `smp` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` 
-        INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` 
-        INNER JOIN `secciones` ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` 
-        LEFT JOIN `notamateria_estudiantes` AS `nme` ON `nme`.`cedula` = $cedula AND `nme`.`id_seccion` = $seccion AND `nme`.`id_materia` = `materias`.`id_materia`";
+        $sql= "SELECT `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico`, IFNULL(`nme`.`nota`, '0') AS `nota` 
+        FROM `usuarios` INNER JOIN `secciones-materias-profesores` AS `smp` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` 
+        INNER JOIN secciones ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` 
+        LEFT JOIN `notamateria_estudiantes` AS `nme` ON `nme`.`cedula` = `usuarios`.`cedula` AND `nme`.`id_seccion` = `smp`.`id_seccion` 
+        AND `nme`.`id_materia` = `smp`.`id_materia` WHERE `usuarios`.`cedula` = $cedula";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());

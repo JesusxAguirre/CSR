@@ -504,9 +504,8 @@ class Usuarios extends Conectar
     {
 
         //agregando archivo a carpeta temporal
-        move_uploaded_file($_FILES['imagen']['tmp_name'], $this->carpeta_destino . $this->nombre_imagen);
-
         $carpeta_destino = 'resources/imagenes-usuarios/';
+        move_uploaded_file($_FILES['imagen']['tmp_name'], $this->carpeta_destino . $this->nombre_imagen);
 
         //consulta update
         $sql = ("UPDATE usuarios SET ruta_imagen = :ruta

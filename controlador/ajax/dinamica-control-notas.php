@@ -6,6 +6,7 @@ $objeto = new ecam;
 if (isset($_POST['verEstudiantes'])) {
     $estudiantes = $objeto->listarEstudiantes_notaFinal();
     foreach ($estudiantes as $key) { ?>
+    <tr>
         <td class="seccion d-none"><?php echo $key['id_seccion']?></td>
         <td class="nivelAcademico d-none"><?php echo $key['nivel_academico'] ?></td>
         <td class="cedula d-none"><?php echo $key['cedula']?></td>
@@ -29,6 +30,7 @@ if (isset($_POST['verEstudiantes'])) {
                 <button class="eliminarNotaFinal btn btn-danger rounded-pill"><i class="bi bi-trash"></i></button>
             <?php } ?>
         </td>
+    </tr>
 <?php }
 }
 
@@ -40,6 +42,7 @@ if (isset($_POST['verNotaFinal'])) {
     foreach ($materiasNotas as $key) {
         $nota+= $key['nota'];
     };
+    $promedio = number_format($nota/count($materiasNotas), 2);
     
     foreach ($materiasNotas as $mn) {?>
         <div class="row">
@@ -53,8 +56,8 @@ if (isset($_POST['verNotaFinal'])) {
         </div><?php
     }?>
     <div>
-        <input class="notaFinalRef d-none" type="text" value="<?php echo ($nota/count($materiasNotas)) ?>">
-        <h2 class="notaFinal"><?php echo ($nota/count($materiasNotas).'/20') ?></h2>
+        <input class="notaFinalRef d-none" type="text" value="<?php echo $promedio ?>">
+        <h2 class="notaFinal"><?php echo $promedio.'/20' ?></h2>
         <h5>DE PROMEDIO</h5>
     </div><?php
 }
