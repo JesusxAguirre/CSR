@@ -48,7 +48,6 @@ function infoSecciones() {
         cantidadEstudiantes.push(json[i]["cantidadEstudiantes"]);
         colores.push(colorRGB());
       }
-      console.log(colores);
       grafico1(ctx, nombreSeccion, cantidadEstudiantes, colores);
     }
   );

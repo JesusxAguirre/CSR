@@ -48,7 +48,7 @@ class datosUsuario extends Conectar
     public function statusProfesor()
     {
         $usuario2= $_SESSION['usuario'];
-
+        $statusProfesor = [];
         $sql= "SELECT `usuarios`.`status_profesor` FROM `usuarios` WHERE `usuarios`.`usuario` = :usuario";
         $stmt= $this->conexion()->prepare($sql);
         $stmt->execute(array(
@@ -56,9 +56,9 @@ class datosUsuario extends Conectar
         ));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->statusProfesor[] = $filas;
+            $statusProfesor[] = $filas;
         }
-        return $this->statusProfesor;
+        return $statusProfesor;
     }
 
     public function cedula()

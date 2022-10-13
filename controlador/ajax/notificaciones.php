@@ -1,7 +1,9 @@
 <?php 
 session_start();
 require_once('../../modelo/clase_ecam.php');
+require_once('../../modelo/clase_usuario.php');
 $objeto = new ecam();
+$objeto2 = new Usuarios();
 
 if (isset($_POST['not_estudiantes'])) {
     $notificaciones = $objeto->listar_notificacionSeccion();
@@ -78,6 +80,11 @@ if (isset($_POST['listarNot_profesores'])) {
         </td>
       </tr><?php
     }
+}
+
+if (isset($_POST['verFotoPerfil'])) {
+  $foto = $objeto2->mi_perfil(); ?>
+  <img class="img-fluid" src="<?php echo !empty($foto['ruta_imagen']) ? $foto['ruta_imagen'] : 'resources/img/nothingPhoto.png' ?>" alt="" width="50" height="10"><?php
 }
 
 

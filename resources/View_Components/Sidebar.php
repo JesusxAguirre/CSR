@@ -8,7 +8,7 @@
             HOME
           </div>
         </li>
-        <?php if (empty($_SESSION['id_seccion'])) { ?>
+        <?php if ($_SESSION['rol'] == 1) { ?>
           <li>
           <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
@@ -25,7 +25,7 @@
           </div>
         </li>
 
-
+        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -67,6 +67,7 @@
 
           </div>
         </li>
+        <?php } ?>
 
 
         <li>
@@ -82,7 +83,7 @@
           <div class="collapse" id="ecam">
             <div>
               <ul class="navbar-nav ps-3">
-                <?php if ($_SESSION['status_profesor'] == 0 && !empty($_SESSION['id_seccion'])) { ?>
+                <?php if ($_SESSION['rol'] == 4) { ?>
                   <li>
                     <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
                       <span class="me-2">
@@ -91,6 +92,12 @@
                       <span>Aula virtual</span>
                     </a>
                   </li>
+                <?php } ?>
+
+                <?php if ($_SESSION['rol'] == 4) { ?>
+                <li id="boletinNotas">
+                  <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
+                </li>
                 <?php } ?>
 
                 <?php if ($_SESSION['status_profesor'] == 1) { ?>
@@ -103,13 +110,8 @@
                     </a>
                   </li>
                 <?php } ?>
-                <?php if (!empty($_SESSION['id_seccion'])) { ?>
-                <li id="boletinNotas">
-                  <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
-                </li>
-                <?php } ?>
 
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
                 <li>
                   <a href="?pagina=materias" class="nav-link px-3">
                     <span class="me-2">
@@ -119,7 +121,7 @@
                 </li>
                 <?php } ?>
 
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
                 <li>
                   <a href="?pagina=crear-seccion" class="nav-link px-3">
                     <span class="me-2">
@@ -129,7 +131,7 @@
                 </li>
                 <?php } ?>
                 
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
                 <li>
                   <a href="?pagina=control-notas" class="nav-link px-3">
                     <span class="me-2">
@@ -143,6 +145,7 @@
           </div>
         </li>
 
+        <?php if ($_SESSION['rol'] == 1) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -170,6 +173,10 @@
             </div>
           </div>
         </li>
+        <?php } ?>
+
+        
+        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -213,6 +220,10 @@
             </div>
           </div>
         </li>
+        <?php } ?>
+
+        
+        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -256,6 +267,9 @@
             </div>
           </div>
         </li>
+        <?php } ?>
+
+        <?php if ($_SESSION['rol'] == 1) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
             <span class="me-2">
@@ -271,9 +285,10 @@
             <span>Reportes estadisticos ECAM</span>
           </a>
         </li>
+        <?php } ?>
 
-        <!-- PRUEBITA -->
-
+        
+        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
             <span class="me-2">
@@ -281,6 +296,10 @@
               <span>Envio de correo</span>
           </a>
         </li>
+        <?php } ?>
+
+
+        <?php if ($_SESSION['rol'] == 1) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#seguridad" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -314,6 +333,7 @@
             </div>
           </div>
         </li>
+        <?php } ?>
 
 
       </ul>
