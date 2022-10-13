@@ -318,16 +318,15 @@ class Usuarios extends Conectar
 
         $this->estado = ucfirst($this->estado);
 
-        //cifrando password
-
-        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
+        
 
         $sql = "INSERT INTO usuarios (cedula,id_rol,
         codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
         VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
-
+    //cifrando password
         $stmt = $this->conexion->prepare($sql);
 
+        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
         $stmt->execute(array(
             ":ced" => $this->cedula,
             ":id" => 2, ":cod" => $this->cedula . '-' . 'N1' . '-' . $nacionalidad . '-' . $estado . '-' . $sexo . '-' . $estadoc,
@@ -421,7 +420,6 @@ class Usuarios extends Conectar
         $this->estado = ucfirst($this->estado);
         //encriptando password
 
-        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
@@ -498,9 +496,9 @@ class Usuarios extends Conectar
         $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
 
+        $stmt = $this->conexion()->prepare($sql);
 
         $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
-        $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             ":cedula" => $this->cedula,
