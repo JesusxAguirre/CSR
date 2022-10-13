@@ -131,7 +131,7 @@ class LaRoca extends Usuarios
         $usuario = $_SESSION['usuario'];
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
         FROM casas_la_roca 
-        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
+        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') AND casas_la_roca.status = 1 ");
 
         $stmt = $this->conexion()->prepare($sql);
 
