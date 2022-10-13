@@ -3,12 +3,11 @@ session_start();
 
 if($_SESSION['verdadero'] > 0){
     
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] == 4) {
+    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] != 4) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
-		window.location= 'index.php?pagina=dashboard'
+		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
-
     }
     if (is_file('vista/'.$pagina.'.php')) {
         require_once('modelo/clase_ecam.php');
@@ -17,14 +16,15 @@ if($_SESSION['verdadero'] > 0){
 
         $notificaciones = $objeto->listar_notificacionSeccion();
 
+        $accion = 'El usuario ha revisado sus notas en el "Aula Virtual Estudiantes"';
+        $objeto->registrar_bitacora($accion);
         
         require_once 'vista/'.$pagina.'.php';
     }
 
 } else { 
     echo "<script>
-    alert('Inicia sesion ');
-    window.location= 'index.php'
+    window.location= 'error.php'
     </script>";
 }
 

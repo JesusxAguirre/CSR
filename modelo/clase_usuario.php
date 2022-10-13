@@ -91,8 +91,9 @@ class Usuarios extends Conectar
     public function listar_bitacora()
     {
         //$cedula= $_SESSION['cedula'];
-        $sql = ("SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` FROM `bitacora_usuario` 
-        INNER JOIN `usuarios` ON `usuarios`.`cedula` = `bitacora_usuario`.`cedula_usuario` ORDER BY `fecha_registro` DESC;");
+        $sql = "SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` 
+        FROM `bitacora_usuario`, usuarios WHERE `bitacora_usuario`.`cedula_usuario` = `usuarios`.`cedula` 
+        ORDER BY `bitacora_usuario`.`fecha_registro` DESC, `bitacora_usuario`.`hora_registro` DESC";
 
         $stmt = $this->conexion()->prepare($sql);
 

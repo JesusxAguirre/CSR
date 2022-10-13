@@ -73,6 +73,9 @@ if (isset($_POST['enviar'])) {
 
 
 	if ($_SESSION['verdadero'] > 0) {
+		$accion = 'El usuario ha iniciado sesion en CSR';
+        $objeto->registrar_bitacora($accion);
+
 		//primero se busca la id del rol del usuario con el correo del usuario
 		$idRol = $objeto->getIdRol($_SESSION['usuario']);
 		$_SESSION['rol'] = $idRol;

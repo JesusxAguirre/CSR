@@ -2,6 +2,13 @@
 session_start();
 
 if($_SESSION['verdadero'] > 0){
+    if ($_SESSION['rol'] != 1) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=mi-perfil'
+		</script>";
+
+    }
     if (is_file('vista/'.$pagina.'.php')) {
         require_once('modelo/clase_roles.php');
         $objeto = new Roles();
@@ -65,8 +72,7 @@ if($_SESSION['verdadero'] > 0){
     }
 } else { 
     echo "<script>
-    alert('Inicia sesion ');
-    window.location= 'index.php'
+    window.location= 'error.php'
     </script>";
 }
 if(isset( $_POST['cerrar'])){

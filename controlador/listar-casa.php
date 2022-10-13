@@ -1,10 +1,18 @@
 <?php
-require_once("modelo/clase_casa_sobre_la_roca.php");
+
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if($_SESSION['verdadero'] > 0){
+    if ($_SESSION['rol'] < 2) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=mi-perfil'
+		</script>";
+
+    }
 if (is_file('vista/'.$pagina.'.php')) {
+    require_once("modelo/clase_casa_sobre_la_roca.php");
     $objeto = new LaRoca();
    
     $matriz_csr = $objeto->listar_casas_la_roca();
@@ -30,8 +38,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 }
 } else{ 
     echo "<script>
-           alert('Inicia sesion ');
-           window.location= 'index.php'
+           window.location= 'error.php'
 </script>";
     
 

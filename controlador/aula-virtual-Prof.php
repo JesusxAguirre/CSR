@@ -1,12 +1,12 @@
 <?php
 session_start();
 
-if($_SESSION['verdadero'] > 0 && $_SESSION['status_profesor'] == 1){
+if($_SESSION['verdadero'] > 0){
     
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['status_profesor']) {
+    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] < 2 && !$_SESSION['status_profesor']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
-		window.location= 'index.php?pagina=dashboard'
+		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
 
     }
@@ -14,14 +14,16 @@ if($_SESSION['verdadero'] > 0 && $_SESSION['status_profesor'] == 1){
         require_once('modelo/clase_ecam.php');
         $objeto= new ecam();
 
-        
+        $accion = 'El usuario ha entrado a "Aula Virtual Profesores"';
+        $objeto->registrar_bitacora($accion);
+
         require_once 'vista/'.$pagina.'.php';
     }
 
 } else { 
     echo "<script>
     alert('Inicia sesion ');
-    window.location= 'index.php'
+    window.location= 'error.php'
     </script>";
 }
 

@@ -42,8 +42,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 }
 } else{ 
     echo "<script>
-           alert('Inicia sesion ');
-           window.location= 'index.php'
+           window.location= 'error.php'
 </script>";
     
 

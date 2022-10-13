@@ -6,9 +6,8 @@ if($_SESSION['verdadero'] > 0){
     if (!$_SESSION['permisos']['ecam']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
-		window.location= 'index.php?pagina=dashboard'
+		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
-
     }
     if (is_file('vista/'.$pagina.'.php')) {
         require_once('modelo/clase_ecam.php');
@@ -16,6 +15,8 @@ if($_SESSION['verdadero'] > 0){
 
         $listarBotones= $objeto->listarSeccionesON();
 
+        $accion = 'El usuario ha entrado al apartado Boletin de Notas';
+        $objeto->registrar_bitacora($accion);
         
         require_once 'vista/'.$pagina.'.php';
     }
@@ -23,7 +24,7 @@ if($_SESSION['verdadero'] > 0){
 } else { 
     echo "<script>
     alert('Inicia sesion ');
-    window.location= 'index.php'
+    window.location= 'error.php'
     </script>";
 }
 

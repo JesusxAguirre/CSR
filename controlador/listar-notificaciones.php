@@ -12,8 +12,7 @@ if ($_SESSION['verdadero'] > 0) {
 
 }else {
     echo "<script>
-           alert('Inicia sesion ');
-           window.location= 'index.php'
+           window.location= 'error.php'
 </script>";
 }
 if (isset($_POST['cerrar'])) {

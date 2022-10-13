@@ -187,6 +187,15 @@ $(document).on('click', '#actualizarProfesores', function (e) {
       listarProfesoresMateria(data2.idMateriaV);
       $('#formularioVincularProf').trigger('reset');
       consultaDeProfesores(data2.idMateriaV);
+      Swal.fire({
+        icon: 'success',
+        title: "¡Profesores agregados correctamente!",
+        toast: true,
+        background: 'green',
+        color: 'white',
+        showConfirmButton: false,
+        timer: 3000,
+      });
     });
   }
 })
@@ -216,6 +225,15 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
       }, function (response) {
         listarProfesoresMateria(idMateria2);
         consultaDeProfesores(idMateria2);
+        Swal.fire({
+          icon: 'success',
+          title: "¡Profesor desvinculado de la materia correctamente!",
+          toast: true,
+          background: 'green',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 3000,
+        });
       })
     }
   })
@@ -257,6 +275,15 @@ $(document).on('click', '#eliminarMateria', function () {
         botonEliminar
       }, function (response) {
         listarMaterias();
+        Swal.fire({
+          icon: 'success',
+          title: "¡Eliminado correctamente!",
+          toast: true,
+          background: 'green',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 3000,
+        });
       })
     }
   })

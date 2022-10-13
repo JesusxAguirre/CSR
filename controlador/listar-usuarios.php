@@ -4,7 +4,7 @@ require_once('modelo/clase_usuario.php');
 require_once('modelo/clase_roles.php');
 if ($_SESSION['verdadero'] > 0) {
     
-    if (!$_SESSION['permisos']['gestionar_usuario']['listar']) {
+    if (!$_SESSION['permisos']['gestionar_usuario']['listar'] && $_SESSION['rol'] < 2) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=dashboard'
@@ -43,8 +43,7 @@ if ($_SESSION['verdadero'] > 0) {
     }
 } else {
     echo "<script>
-           alert('Inicia sesion ');
-           window.location= 'index.php'
+           window.location= 'error.php'
 </script>";
 }
 if (isset($_POST['cerrar'])) {

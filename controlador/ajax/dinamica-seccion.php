@@ -41,7 +41,9 @@
                         <input class="idSeccion_cerrada d-none" type="text" value="<?php echo $seccionesOFF['id_seccion'] ?>">
                         <input class="nombre_seccionCerrada d-none" type="text" value="<?php echo $seccionesOFF['nombre'] ?>">
                         <button type="button" id="estudiantesOFF" title="Ver estudiantes" class="btn btn-outline-info" data-bs-target="#estudiantesPasados" data-bs-toggle="modal"><i class="bi bi-search"></i></button>
-                        <button type="button" id="eliminarSeccionOFF" title="Eliminar definitivamente" class="btn btn-outline-danger"><i type="button" class="bi bi-trash"></i></button>
+                        <?php if ($_SESSION['rol'] == 1) { ?>
+                            <button type="button" id="eliminarSeccionOFF" title="Eliminar definitivamente" class="btn btn-outline-danger"><i type="button" class="bi bi-trash"></i></button><?php
+                        }?>
                     </td>
                 </tr> <?php
             }

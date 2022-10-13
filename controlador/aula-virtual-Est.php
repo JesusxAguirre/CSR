@@ -3,10 +3,10 @@ session_start();
 
 if($_SESSION['verdadero'] > 0){
     
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] == 4) {
+    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] != 4) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
-		window.location= 'index.php?pagina=dashboard'
+		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
 
     }
@@ -17,7 +17,8 @@ if($_SESSION['verdadero'] > 0){
         $mis_profesores= $objeto->listar_misProfesores();
         $mis_datosSeccion= $objeto->datos_miSeccionEst();
 
-
+        $accion = 'El estudiante ha entrado a su "Aula Virtual Estudiantes"';
+        $objeto->registrar_bitacora($accion);
 
         require_once 'vista/'.$pagina.'.php';
     }
@@ -25,7 +26,7 @@ if($_SESSION['verdadero'] > 0){
 } else { 
     echo "<script>
     alert('Inicia sesion ');
-    window.location= 'index.php'
+    window.location= 'error.php
     </script>";
 }
 

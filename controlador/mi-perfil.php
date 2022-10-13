@@ -1,14 +1,15 @@
 <?php
-require_once("modelo/clase_usuario.php");
-
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
-
+        require_once("modelo/clase_usuario.php");
         $objeto = new Usuarios();
         $matriz_usuario = $objeto->mi_perfil();
+
+        $accion = 'El usuario ha entrado a "Mi Perfil"';
+        $objeto->registrar_bitacora($accion);
 
         foreach ($matriz_usuario as $usuario) {
             $nombre = $usuario['nombre'];
@@ -62,8 +63,7 @@ if ($_SESSION['verdadero'] > 0) {
     }
 } else {
     echo "<script>
-           alert('Inicia sesion ');
-           window.location= 'index.php'
+           window.location= 'error.php'
 </script>";
 }
 if (isset($_POST['cerrar'])) {

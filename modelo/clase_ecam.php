@@ -453,6 +453,17 @@ class ecam extends Conectar
             ));
         }//Fin del Foreach
         //Profesores con status 1 activados
+
+        //$profesoresAgregados = [];
+        foreach ($cedulasProfesores as $cedulaProfA) {
+            $sql2 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfA";
+            $stmt2 = $this->conexion->prepare($sql2);
+            $stmt2->execute(array());
+            $filas = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+            $accion = "Ha agregado a ".$filas['codigo']." ".$filas['nombre']." ".$filas['apellido']." como profesor en la ECAM";
+            $this->registrar_bitacora($accion); 
+        }
     }
 
     //ELIMINAR PROFESORES DE LA ECAM
@@ -469,11 +480,27 @@ class ecam extends Conectar
         $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = $cedulaProfesor";
         $stmt3 = $this->conexion()->prepare($sql3);
         $stmt3->execute();
+
+        $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfesor";
+        $stmt4 = $this->conexion->prepare($sql4);
+        $stmt4->execute(array());
+        $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
+        $accion = "Ha desvinculado a ".$filas['codigo']." ".$filas['nombre']." ".$filas['apellido']." como profesor en la ECAM";
+        $this->registrar_bitacora($accion);
+
+        $mensaje = 'Te han vinculado como profesor en la ECAM. ¡Suerte!';
+        $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
     }
 
     //ACTUALIZAR Y VINCULAR PROFESOR CON LA MATERIA
     public function vincularProfesor($cedulaProfesorV, $idMateriaV)
-    {
+    {   
+        //Obteniendo informacion de la materia
+        $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = $idMateriaV";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(array());
+        $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
+
         foreach ($cedulaProfesorV as $cedulaPV) {
             $sql3 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaProf, :idMateria)";
             $stmt3 = $this->conexion->prepare($sql3);
@@ -492,8 +519,20 @@ class ecam extends Conectar
         //Profesores vinculados con la materia
         //Usuarios con status profesor activado
 
-        $accion = "Se ha vinculado un profesor a una materia";
-        $this->registrar_bitacora($accion);
+        
+        //Obteniendo informacion del profesor
+        foreach ($cedulaProfesorV as $cedula) {
+            $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = $cedula";
+            $stmt2 = $this->conexion->prepare($sql2);
+            $stmt2->execute(array());
+            $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+            $accion = "Ha vinculado al profesor ".$infoProfesor['codigo']." ".$infoProfesor['nombre']." ".$infoProfesor['apellido']." a la materia ".$infoMateria['nombre']." Nivel ".$infoMateria['nivelAcademico'];
+            $this->registrar_bitacora($accion);
+        }
+
+        $mensaje = 'Te han vinculado con la materia "'.$infoMateria['nombre'].'" Nivel '.$infoMateria['nivelAcademico'];
+        $this->registrar_notificacionProfesor($mensaje, $cedulaProfesorV);
     }
 
     //ELIMINAR PROFESORES DE LAS MATERIAS
@@ -511,6 +550,23 @@ class ecam extends Conectar
         $stmt2 = $this->conexion()->prepare($sql2);
         $stmt2->execute();
 
+        //Obteniendo informacion de la materia
+        $sql3 = "SELECT * FROM materias WHERE materias.id_materia = $idMateriaDV";
+        $stmt3 = $this->conexion->prepare($sql3);
+        $stmt3->execute(array());
+        $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //Obteniendo informacion del profesor
+        $sql4 = "SELECT * FROM usuarios WHERE usuarios.cedula = $cedulaProfDV";
+        $stmt4 = $this->conexion->prepare($sql4);
+        $stmt4->execute(array());
+        $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+        $accion = "Ha desvinculado al profesor ".$infoProfesor['codigo']." ".$infoProfesor['nombre']." ".$infoProfesor['apellido']." de la materia ".$infoMateria['nombre']." Nivel ".$infoMateria['nivelAcademico'];
+        $this->registrar_bitacora($accion);
+
+        $mensaje = 'Te han desvinculado de la materia "'.$infoMateria['nombre'].'" Nivel '.$infoMateria['nivelAcademico'];
+        $this->registrar_notificacionProfesor($mensaje, $cedulaProfDV);
     }
 
 
@@ -540,6 +596,7 @@ class ecam extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $listarMaterias[] = $filas;
         }
+
 
         return $listarMaterias;
     }
@@ -577,25 +634,32 @@ class ecam extends Conectar
                 $this->materiasBuscadas[] = $filas;
             }
         }
+
         return $this->materiasBuscadas;
     }
 
     //ELIMINAR MATERIAS
     public function eliminarMateria($idMateria)
     {
+        //Obteniendo informacion de la materia
+        $sql = "SELECT * FROM materias WHERE materias.id_materia = $idMateria";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(array());
+        $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
+
         $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute();
 
-        $accion = "El usuario ha eliminado una materia";
+        $accion = 'Ha eliminado la materia "'.$infoMateria['nombre'].'" Nivel '.$infoMateria['nivelAcademico'].' de la ECAM';
         $this->registrar_bitacora($accion);
     }
 
     //ACTUALIZAR MATERIAS
     public function actualizarMateria()
-    {
+    {   
         $sql = "UPDATE `materias` SET `nombre` = :nom, `nivelAcademico` = :nivelD WHERE `materias`.`id_materia` = :idMa";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -606,7 +670,7 @@ class ecam extends Conectar
             ":nivelA" => $this->nivel
         ));
 
-        $accion = "El usuario ah actualizado los datos de una materia";
+        $accion = 'El usuario ha actualizado los datos de una materia del Nivel '.$this->nivel;
         $this->registrar_bitacora($accion);
     }
 

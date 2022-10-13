@@ -261,5 +261,6 @@ let spanish= {
 //DATATABLES LISTA DE SECCIONES INICIALIZACION
 let dataTableSec= $('#bitacora').DataTable({
     language: spanish,
+    ordering: false,
 });
 }, 100);

@@ -25,7 +25,7 @@
           </div>
         </li>
 
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+        <?php if ($_SESSION['rol'] <= 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -69,7 +69,7 @@
         </li>
         <?php } ?>
 
-
+        <?php if (!$_SESSION['rol'] <= 2) { ?>
         <li>
           <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2 fs-4">
@@ -111,7 +111,7 @@
                   </li>
                 <?php } ?>
 
-                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+                <?php if ($_SESSION['rol'] <= 2) { ?>
                 <li>
                   <a href="?pagina=materias" class="nav-link px-3">
                     <span class="me-2">
@@ -121,7 +121,7 @@
                 </li>
                 <?php } ?>
 
-                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+                <?php if ($_SESSION['rol'] <= 2) { ?>
                 <li>
                   <a href="?pagina=crear-seccion" class="nav-link px-3">
                     <span class="me-2">
@@ -131,7 +131,7 @@
                 </li>
                 <?php } ?>
                 
-                <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+                <?php if ($_SESSION['rol'] <= 2) { ?>
                 <li>
                   <a href="?pagina=control-notas" class="nav-link px-3">
                     <span class="me-2">
@@ -144,6 +144,8 @@
             </div>
           </div>
         </li>
+        <?php } ?>
+
 
         <?php if ($_SESSION['rol'] == 1) { ?>
         <li>
@@ -176,7 +178,7 @@
         <?php } ?>
 
         
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+        <?php if ($_SESSION['rol'] <= 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -223,7 +225,7 @@
         <?php } ?>
 
         
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+        <?php if ($_SESSION['rol'] <= 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -288,7 +290,7 @@
         <?php } ?>
 
         
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+        <?php if ($_SESSION['rol'] == 1) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
             <span class="me-2">

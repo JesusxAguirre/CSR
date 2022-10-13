@@ -5,6 +5,13 @@ require_once("modelo/clase_correo.php");
 session_start();
 
 if($_SESSION['verdadero'] > 0){
+    if ($_SESSION['rol'] != 1) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=mi-perfil'
+		</script>";
+
+    }
 if (is_file('vista/'.$pagina.'.php')) {
   $objeto = new Correo();
 
@@ -23,8 +30,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 }
 } else{ 
     echo "<script>
-           alert('Inicia sesion ');
-           window.location= 'index.php'
+           window.location= 'error.php'
 </script>";
     
 
