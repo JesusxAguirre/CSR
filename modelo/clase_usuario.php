@@ -422,6 +422,8 @@ class Usuarios extends Conectar
 
         $stmt = $this->conexion()->prepare($sql);
 
+        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
+
         $stmt->execute(array(
             ":cedula" => $this->cedula,
             ":rol" => $this->rol,
