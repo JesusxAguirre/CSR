@@ -4,7 +4,7 @@
 session_start();
 
 if($_SESSION['verdadero'] > 0){
-    if ($_SESSION['rol'] < 2) {
+    if (!$_SESSION['permisos']['casa_sobre_la_roca']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
