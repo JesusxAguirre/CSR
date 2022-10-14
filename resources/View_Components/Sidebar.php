@@ -269,8 +269,7 @@
           </div>
         </li>
     
-
-        <?php if ($_SESSION['rol'] == 1) { ?>
+        <?php if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) : ?>
         <li>
           <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
             <span class="me-2">
@@ -279,6 +278,8 @@
 
           </a>
         </li>
+        <?php endif ?>
+        <?php if ($_SESSION['permisos']['reporte_estadistico_ecam']['listar'] > 0) : ?>
         <li>
           <a href="?pagina=reportes-ecam" class="nav-link px-3">
             <span class="me-2">
@@ -286,10 +287,10 @@
             <span>Reportes estadisticos ECAM</span>
           </a>
         </li>
-        <?php } ?>
+        <?php endif ?>
 
         
-        <?php if ($_SESSION['rol'] == 1) { ?>
+        <?php if ($_SESSION['permisos']['envio_correo']['listar'] > 0) : ?>
         <li>
           <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
             <span class="me-2">
@@ -297,10 +298,10 @@
               <span>Envio de correo</span>
           </a>
         </li>
-        <?php } ?>
+        <?php endif ?>
 
 
-        <?php if ($_SESSION['rol'] == 1) { ?>
+        <?php if ($_SESSION['permisos']['bitacora_usuario']['listar'] > 0 OR $_SESSION['permisos']['gestionar_roles']['listar'] > 0) : ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#seguridad" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -314,6 +315,7 @@
           <div class="collapse" id="seguridad">
             <div>
               <ul class="navbar-nav ps-3">
+              <?php if ($_SESSION['permisos']['bitacora_usuario']['listar'] > 0) : ?>
                 <li>
                   <a class="nav-link px-3 sidebar-link" href="?pagina=bitacora-usuario" role="button">
                     <span class="me-2">
@@ -321,6 +323,7 @@
                       <span>Bitacora de usuario</span>
                   </a>
                 </li>
+                <?php endif ?>
                 <?php if ($_SESSION['permisos']['gestionar_roles']['listar'] > 0) : ?>
                   <li>
                     <a href="?pagina=listar-roles" class="nav-link px-3">
@@ -334,7 +337,7 @@
             </div>
           </div>
         </li>
-        <?php } ?>
+        <?php endif ?>
 
 
       </ul>
