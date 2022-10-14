@@ -4,6 +4,14 @@ require_once('modelo/clase_celula_consolidacion.php');
 require_once("modelo/clase_casa_sobre_la_roca.php");
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
+
+    if (!$_SESSION['permisos']['reporte_estadistico_celulas']['listar']) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=mi-perfil'
+		</script>";
+
+    }
    $objeto = new Consolidacion();
    $objeto2 = new LaRoca();
    

@@ -4,7 +4,7 @@ session_start();
 
 if ($_SESSION['verdadero'] > 0) {
     
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] != 1) {
+    if (!$_SESSION['permisos']['reporte_estadistico_ecam']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
