@@ -147,7 +147,7 @@
         <?php } ?>
 
 
-        <?php if ($_SESSION['rol'] == 1) { ?>
+        <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) {?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -178,7 +178,6 @@
         <?php } ?>
 
         
-        <?php if ($_SESSION['rol'] <= 2) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -222,10 +221,10 @@
             </div>
           </div>
         </li>
-        <?php } ?>
+
 
         
-        <?php if ($_SESSION['rol'] <= 2) { ?>
+       
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -269,7 +268,7 @@
             </div>
           </div>
         </li>
-        <?php } ?>
+    
 
         <?php if ($_SESSION['rol'] == 1) { ?>
         <li>
