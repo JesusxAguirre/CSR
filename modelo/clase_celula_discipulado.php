@@ -124,6 +124,7 @@ class Discipulado extends Usuarios
 
     public function listar_celula_discipulado_por_usuario()
     {
+        $resultado =[];
         $usuario = $_SESSION['usuario'];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
         FROM celula_discipulado 
