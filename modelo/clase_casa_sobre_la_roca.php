@@ -1,8 +1,9 @@
 <?php
-require_once("clase_usuario.php");
-class LaRoca extends Usuarios
+require_once("clase_conexion.php");
+class LaRoca extends Conectar
 {
-
+    private $conexion;
+    private $id_modulo;
     private $listar;
     private $nombre_anfitrion;
     private $direccion;
@@ -25,6 +26,7 @@ class LaRoca extends Usuarios
     {
         $this->conexion = parent::conexion();
         $this->actualizar_status_CSR();
+        $this->id_modulo =2;
     }
 
     public function buscar_CSR($busqueda)
@@ -71,7 +73,8 @@ class LaRoca extends Usuarios
             $this->lideres[] = $filas;
         }
         $accion = "Listar lideres sin casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
 
         return $this->lideres;
@@ -100,7 +103,8 @@ class LaRoca extends Usuarios
         }
 
         $accion = "Listar casas sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
         return $listar;
     }
@@ -196,7 +200,8 @@ class LaRoca extends Usuarios
         } //fin del foreach
 
         $accion = "Registrar casas sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return true;
     }
 
@@ -266,7 +271,8 @@ class LaRoca extends Usuarios
         ));
 
         $accion = "Editar casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
     //---------Actualizar status cada 3 meses CSR------------------------//
@@ -284,7 +290,8 @@ class LaRoca extends Usuarios
         if($stmt->rowCount() >= 1){
 
         $accion = "Cierre casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
  
         return true;
         }else{
@@ -309,7 +316,8 @@ class LaRoca extends Usuarios
             ":fecha" => $this->fecha
         ));
         $accion = "Registar reporte casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         //fin del foreach
         return true;
     }
@@ -448,7 +456,8 @@ class LaRoca extends Usuarios
         }
 
         $accion = "Generado Reporte estadistico  de casas sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
 }
