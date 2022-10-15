@@ -141,7 +141,7 @@ class Usuarios extends Conectar
         }
         $usuario = $_SESSION['usuario'];
         $accion = "Listar todos los usuarios";
-        parent::registrar_bitacora($usuario, $accion);
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->usuario;
     }
 
@@ -240,7 +240,8 @@ class Usuarios extends Conectar
             $this->arreglo_n1[] = $filas;
         }
         $accion = "Listar todos los usuarios de nivel 1";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->arreglo_n1;
     }
     //==============Buscar usuario por cedula, por nombre o por usuario, falta modificarlo para buscar por codigo =======// 
@@ -268,7 +269,8 @@ class Usuarios extends Conectar
             }
         }
         $accion = "Buscar usuarios";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
         return $this->usuario;
     }
@@ -420,7 +422,8 @@ class Usuarios extends Conectar
         ));
 
         $accion = "Editar datos de usuario";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
     public function update_usuarios_sin_rol()
     {
@@ -523,7 +526,8 @@ class Usuarios extends Conectar
         ));
 
         $accion = "Editar foto de usuario";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
     public function recuperar_password()
