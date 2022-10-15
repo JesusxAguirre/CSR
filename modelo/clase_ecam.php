@@ -43,22 +43,22 @@ class ecam extends Conectar
         $this->conexion = parent::conexion();
     }
 
-    //REGISTRAR INFORMACION EN BITACORA
-    public function registrar_bitacora($accion)
-    {
-        $cedula = $_SESSION['cedula'];
+    // REGISTRAR INFORMACION EN BITACORA
+    // public function registrar_bitacora($accion)
+    // {
+    //     $cedula = $_SESSION['cedula'];
 
-        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
-        accion_realizada) 
-        VALUES(:ced,CURDATE(),CURTIME(),:accion)";
+    //     $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
+    //     accion_realizada) 
+    //     VALUES(:ced,CURDATE(),CURTIME(),:accion)";
 
-        $stmt = $this->conexion()->prepare($sql);
+    //     $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(
-            ":ced" => $cedula,
-            ":accion" => $accion
-        ));
-    }
+    //     $stmt->execute(array(
+    //         ":ced" => $cedula,
+    //         ":accion" => $accion
+    //     ));
+    // }
 
 
 
