@@ -55,12 +55,28 @@ class LaRoca extends Conectar
         }
         return $this->busqueda;
     }
+    public function listar_usuarios_N2()
+    {
+        $resultado =[];
+        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
+
+        $sql = $this->conexion()->prepare($consulta);
+
+        $sql->execute(array());
+
+        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+        return $resultado;
+    }
 
 
     public function listar_lideres_sin_CSR()
     {
 
-        $sql = ("SELECT nombre,apellido,cedula, codigo FROM usuarios WHERE codigo LIKE  '%N2%'
+        $sql = ("SELECT nombre,apellido,cedula, codigo FROM usuarios WHERE codigo LIKE  '%N2%' OR codigo LIKE '%N3%'
          AND usuarios.cedula NOT IN (SELECT cedula_lider FROM casas_la_roca WHERE status =1);");
 
         $stmt = $this->conexion()->prepare($sql);
