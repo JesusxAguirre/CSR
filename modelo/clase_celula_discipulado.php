@@ -58,7 +58,7 @@ class Discipulado extends Conectar
 
     public function listar_usuarios_N2()
     {
-
+        $resultado =[];
         $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
@@ -68,9 +68,9 @@ class Discipulado extends Conectar
         while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->arreglo_n2[] = $filas;
+            $resultado[] = $filas;
         }
-        return $this->arreglo_n2;
+        return $resultado;
     }
 
     public function listar_usuarios_N2_sin_discipulado()

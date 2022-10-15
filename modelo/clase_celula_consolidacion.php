@@ -1,7 +1,7 @@
 <?php
-require_once("clase_usuario.php");
+require_once("clase_conexion.php");
 
-class Consolidacion extends Usuarios
+class Consolidacion extends Conectar
 {
 
     private $cedula_lider;
@@ -95,6 +95,26 @@ class Consolidacion extends Usuarios
         }
         return $this->busqueda;
     }
+
+
+    public function listar_usuarios_N2()
+    {
+        $resultado =[];
+        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
+
+        $sql = $this->conexion()->prepare($consulta);
+
+        $sql->execute(array());
+
+        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+        return $resultado;
+    }
+
+
 
     public function listar_no_participantes()
     {
