@@ -584,7 +584,8 @@ class Discipulado extends Conectar
 
 
     public function listar_cantidad_celulas_discipulado($fecha_inicio, $fecha_final)
-    {
+    {   
+        $resultado = [];
         $sql = ("SELECT COUNT(*) AS cantidad_discipulado, 
         MONTHNAME(fecha) AS mes
         FROM celula_discipulado
@@ -609,6 +610,8 @@ class Discipulado extends Conectar
     }
     public function listar_numero_discipulos($fecha_inicio, $fecha_final)
     {
+        $resultado = [];
+
         $sql = ("SELECT COUNT(*) AS cantidad_discipulos, 
         MONTHNAME(fecha) AS mes
         FROM celula_discipulado

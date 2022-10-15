@@ -13,12 +13,13 @@ require 'vendor/phpmailer/phpmailer/src/Exception.php';
 class Correo extends Conectar
 {
   private $correo;
-
+  private $id_modulo;
 
 
   public function __construct()
   {
     $this->conexion = parent::conexion();
+    $this->id_modulo = 11;
   }
 
   public function prueba($destinatario,$asunto,$mensaje)
@@ -56,6 +57,9 @@ class Correo extends Conectar
     } catch (Exception $e) {
       echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
+       $accion = "Envio de correo";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
   }
 
   function listar_correos(){
