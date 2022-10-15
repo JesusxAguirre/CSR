@@ -598,7 +598,8 @@ class Consolidacion extends Conectar
 
 
     public function listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
-    {
+    {   
+        $resultado = [];
         $sql = ("SELECT COUNT(*) AS cantidad_consolidaciones, 
         MONTHNAME(fecha) AS mes
         FROM celula_consolidacion
