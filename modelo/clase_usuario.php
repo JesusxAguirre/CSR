@@ -64,30 +64,7 @@ class Usuarios extends Conectar
         return $idRol;
     }
 
-    public function registrar_bitacora($accion)
-    {
-        $usuario = $_SESSION['usuario'];
-        $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $usuario = $resultado['cedula'];
-
-        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
-        accion_realizada) 
-        VALUES(:ced,CURDATE(),CURTIME(),:accion)";
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array(
-            ":ced" => $usuario,
-            ":accion" => $accion
-        ));
-    }
+   
     public function listar_bitacora()
     {
         //$cedula= $_SESSION['cedula'];
@@ -157,7 +134,7 @@ class Usuarios extends Conectar
             $this->usuario[] = $filas;
         }
         $accion = "Listar todos los usuarios";
-        $this->registrar_bitacora($accion);
+        $this->conexion()->registrar_bitacora($accion);
         return $this->usuario;
     }
 
