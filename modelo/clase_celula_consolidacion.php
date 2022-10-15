@@ -3,7 +3,8 @@ require_once("clase_conexion.php");
 
 class Consolidacion extends Conectar
 {
-
+    private $conexion;
+    private $id_modulo;
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
@@ -26,6 +27,7 @@ class Consolidacion extends Conectar
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        $this->id_modulo = 6;
     }
     //-------------------------------------------------------Listar todas las celulas------------------------//
     public function listar()
@@ -648,8 +650,15 @@ class Consolidacion extends Conectar
 
         $stmt->execute(array());
         $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+
+        //inicializamos la variable de id con el modulo
+        $this->id_modulo = 8;
+        //accion que se realiza
         $accion = "Generado Reporte estadistico  de celula de consolidacion";
-        $this->registrar_bitacora($accion);
+        //guardamos en una variable el correo del usuario que esta iniciado sesion
+        $usuario = $_SESSION['usuario'];
+        //usamos la funcion parent para llamar a una funcion heredada de la clase  conexion y registrar la bitacora
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
 }
