@@ -209,6 +209,9 @@ class Consolidacion extends Conectar
 
             $this->consolidacion[] = $filas;
         }
+        $accion = "Listar celula de Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->consolidacion;
     }
     //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
@@ -226,6 +229,10 @@ class Consolidacion extends Conectar
                 ":fecha" => $this->fecha
             ));
         } //fin del foeach
+
+        $accion = "Registrar asistencias en celula de Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
     //------------------------------------------------------Registrar consolidacion ----------------------//
@@ -354,6 +361,10 @@ class Consolidacion extends Conectar
                 ":cedula" => $this->cedula_asistente
             ));
         } //fin del else
+        $accion = "Registrar Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+    
     }
     //---------------------------------------------------COMIENZO DE UPDATE-----------------------------------//
     public function update_consolidacion()
@@ -486,6 +497,11 @@ class Consolidacion extends Conectar
                     ":cedula" => $this->cedula_asistente
                 ));
             }
+
+            
+        $accion = "Actualizar Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         }
 
         $sql = ("UPDATE celula_consolidacion SET  cedula_lider = :cedula_lider , 
