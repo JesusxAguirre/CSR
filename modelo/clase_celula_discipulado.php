@@ -1,5 +1,5 @@
 <?php
-require_once("clase_usuario.php");
+require_once("clase_conexion.php");
 class Discipulado extends Conectar
 {
     private $conexion;
@@ -56,12 +56,27 @@ class Discipulado extends Conectar
         return $this->busqueda;
     }
 
+    public function listar_usuarios_N2()
+    {
 
+        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
+
+        $sql = $this->conexion()->prepare($consulta);
+
+        $sql->execute(array());
+
+        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $this->arreglo_n2[] = $filas;
+        }
+        return $this->arreglo_n2;
+    }
 
     public function listar_usuarios_N2_sin_discipulado()
     {
 
-        $sql = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE  '%N2%'
+        $sql = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE  '%N2%' OR codigo LIKE '%N3%'
         AND cedula NOT IN (SELECT cedula_lider FROM celula_discipulado) ");
 
         $stmt = $this->conexion()->prepare($sql);
