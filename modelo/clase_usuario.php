@@ -141,7 +141,7 @@ class Usuarios extends Conectar
         }
 
         $accion = "Listar todos los usuarios";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->usuario;
     }
@@ -241,7 +241,7 @@ class Usuarios extends Conectar
             $this->arreglo_n1[] = $filas;
         }
         $accion = "Listar todos los usuarios de nivel 1";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->arreglo_n1;
     }
@@ -270,7 +270,7 @@ class Usuarios extends Conectar
             }
         }
         $accion = "Buscar usuarios";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
         return $this->usuario;
@@ -423,7 +423,7 @@ class Usuarios extends Conectar
         ));
 
         $accion = "Editar datos de usuario";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
     public function update_usuarios_sin_rol()
@@ -527,7 +527,7 @@ class Usuarios extends Conectar
         ));
 
         $accion = "Editar foto de usuario";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 

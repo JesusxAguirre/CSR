@@ -30,19 +30,9 @@ class Conectar
 
         return $conexion;
     }
-    public function registrar_bitacora($usuario,$accion,$id_modulo)
+    public function registrar_bitacora($cedula,$accion,$id_modulo)
     {
        
-        $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $usuario = $resultado['cedula'];
-
         $sql = "INSERT INTO bitacora_usuario (cedula_usuario,id_modulo,fecha_registro,hora_registro,
                               accion_realizada) 
                               VALUES(:ced,:id,CURDATE(),CURTIME(),:accion)";
@@ -50,7 +40,7 @@ class Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":ced" => $usuario,
+            ":ced" => $cedula,
             ":id" => $id_modulo,
             ":accion" => $accion
         ));
