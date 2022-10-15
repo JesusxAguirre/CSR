@@ -2,6 +2,8 @@
 require_once("clase_usuario.php");
 class Discipulado extends Conectar
 {
+    private $conexion;
+    private $id_modulo;
 
     private $listar;
     private $codigos;
@@ -21,6 +23,7 @@ class Discipulado extends Conectar
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        $this->id_modulo = 6;
     }
     public function buscar_discipulado($busqueda)
     {
@@ -96,7 +99,8 @@ class Discipulado extends Conectar
             $this->listar[] = $filas;
         }
         $accion = "Listar Celula de discipulado";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->listar;
     }
     public function listar_participantes($busqueda)
@@ -118,7 +122,8 @@ class Discipulado extends Conectar
             $this->participantes[] = $filas;
         }
         $accion = "Listar Discipulos";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->participantes;
     }
 
@@ -161,7 +166,8 @@ class Discipulado extends Conectar
             $this->septiembre[] = $filas;
         }
         $accion = "Reporte de Asistencias de celula de discipulado";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->septiembre;
     }
 
@@ -199,7 +205,8 @@ class Discipulado extends Conectar
             ));
         } //fin del foeach
         $accion = "Registrar Asistencias de celula de discipulado";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -337,7 +344,8 @@ class Discipulado extends Conectar
         } //fin del else si el asitente de la celula y el anfitrion son distintos
 
         $accion = "Registrar  celula de discipulado";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
 
@@ -485,7 +493,8 @@ class Discipulado extends Conectar
             ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
         ));
         $accion = "Editar datos de celula de discipulado";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
 
@@ -577,7 +586,10 @@ class Discipulado extends Conectar
             $resultado[] = $filas;
         }
         $accion = "Generado Reporte estadistico cantidad  de celulas de discipulado";
-        $this->registrar_bitacora($accion);
+        //cambiando la id del modulo
+        $this->id_modulo=8;
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
     public function listar_numero_discipulos($fecha_inicio, $fecha_final)
@@ -599,7 +611,10 @@ class Discipulado extends Conectar
             $resultado[] = $filas;
         }
         $accion = "Generado Reporte estadistico cantidad discipulos en celulas de discipulado";
-        $this->registrar_bitacora($accion);
+           //cambiando la id del modulo
+           $this->id_modulo=8;
+           $usuario = $_SESSION['usuario'];
+           parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
 
@@ -669,7 +684,10 @@ class Discipulado extends Conectar
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $accion = "Generado Reporte estadistico crecimiento  lider de celula de discipulado";
-        $this->registrar_bitacora($accion);
+           //cambiando la id del modulo
+           $this->id_modulo=8;
+           $usuario = $_SESSION['usuario'];
+           parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
 

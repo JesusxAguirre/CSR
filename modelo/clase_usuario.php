@@ -5,7 +5,7 @@ class Usuarios extends Conectar
 {
     //atributos de herencia
     private $conexion;
-    private $bitacora;
+   
 
     //id de modulo
 
@@ -139,8 +139,9 @@ class Usuarios extends Conectar
 
             $this->usuario[] = $filas;
         }
-        $usuario = $_SESSION['usuario'];
+
         $accion = "Listar todos los usuarios";
+        $usuario = $_SESSION['usuario'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->usuario;
     }
