@@ -1,8 +1,9 @@
 <?php
-require_once("clase_usuario.php");
-class LaRoca extends Usuarios
+require_once("clase_conexion.php");
+class LaRoca extends Conectar
 {
-
+    private $conexion;
+    private $id_modulo;
     private $listar;
     private $nombre_anfitrion;
     private $direccion;
@@ -25,6 +26,7 @@ class LaRoca extends Usuarios
     {
         $this->conexion = parent::conexion();
         $this->actualizar_status_CSR();
+        $this->id_modulo =2;
     }
 
     public function buscar_CSR($busqueda)
@@ -53,12 +55,28 @@ class LaRoca extends Usuarios
         }
         return $this->busqueda;
     }
+    public function listar_usuarios_N2()
+    {
+        $resultado =[];
+        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
+
+        $sql = $this->conexion()->prepare($consulta);
+
+        $sql->execute(array());
+
+        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+        return $resultado;
+    }
 
 
     public function listar_lideres_sin_CSR()
     {
 
-        $sql = ("SELECT nombre,apellido,cedula, codigo FROM usuarios WHERE codigo LIKE  '%N2%'
+        $sql = ("SELECT nombre,apellido,cedula, codigo FROM usuarios WHERE codigo LIKE  '%N2%' OR codigo LIKE '%N3%'
          AND usuarios.cedula NOT IN (SELECT cedula_lider FROM casas_la_roca WHERE status =1);");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -71,7 +89,8 @@ class LaRoca extends Usuarios
             $this->lideres[] = $filas;
         }
         $accion = "Listar lideres sin casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
 
         return $this->lideres;
@@ -100,7 +119,8 @@ class LaRoca extends Usuarios
         }
 
         $accion = "Listar casas sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
         return $listar;
     }
@@ -196,7 +216,8 @@ class LaRoca extends Usuarios
         } //fin del foreach
 
         $accion = "Registrar casas sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return true;
     }
 
@@ -266,7 +287,8 @@ class LaRoca extends Usuarios
         ));
 
         $accion = "Editar casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
     //---------Actualizar status cada 3 meses CSR------------------------//
@@ -284,7 +306,8 @@ class LaRoca extends Usuarios
         if($stmt->rowCount() >= 1){
 
         $accion = "Cierre casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
  
         return true;
         }else{
@@ -309,7 +332,8 @@ class LaRoca extends Usuarios
             ":fecha" => $this->fecha
         ));
         $accion = "Registar reporte casa sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         //fin del foreach
         return true;
     }
@@ -448,7 +472,8 @@ class LaRoca extends Usuarios
         }
 
         $accion = "Generado Reporte estadistico  de casas sobre la roca";
-        $this->registrar_bitacora($accion);
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
 }

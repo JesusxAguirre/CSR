@@ -209,6 +209,9 @@ class Consolidacion extends Conectar
 
             $this->consolidacion[] = $filas;
         }
+        $accion = "Listar celula de Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->consolidacion;
     }
     //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
@@ -226,6 +229,10 @@ class Consolidacion extends Conectar
                 ":fecha" => $this->fecha
             ));
         } //fin del foeach
+
+        $accion = "Registrar asistencias en celula de Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
     //------------------------------------------------------Registrar consolidacion ----------------------//
@@ -354,6 +361,10 @@ class Consolidacion extends Conectar
                 ":cedula" => $this->cedula_asistente
             ));
         } //fin del else
+        $accion = "Registrar Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+    
     }
     //---------------------------------------------------COMIENZO DE UPDATE-----------------------------------//
     public function update_consolidacion()
@@ -486,6 +497,11 @@ class Consolidacion extends Conectar
                     ":cedula" => $this->cedula_asistente
                 ));
             }
+
+            
+        $accion = "Actualizar Consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         }
 
         $sql = ("UPDATE celula_consolidacion SET  cedula_lider = :cedula_lider , 
@@ -518,7 +534,9 @@ class Consolidacion extends Conectar
             ));
         } //fin del foreach
 
-
+        $accion = "Agregar participantes a una celula de consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
     //---------------------------------------------------Eliminar participantes------------------------------------//
@@ -529,7 +547,9 @@ class Consolidacion extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-
+        $accion = "Se elimino un participante de la celula de consolidacion";
+        $usuario = $_SESSION['usuario'];
+        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return true;
     }
 
@@ -578,7 +598,8 @@ class Consolidacion extends Conectar
 
 
     public function listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
-    {
+    {   
+        $resultado = [];
         $sql = ("SELECT COUNT(*) AS cantidad_consolidaciones, 
         MONTHNAME(fecha) AS mes
         FROM celula_consolidacion

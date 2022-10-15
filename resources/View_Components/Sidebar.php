@@ -147,35 +147,7 @@
         <?php } ?>
 
 
-        <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) {?>
-        <li>
-          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
-            <span class="me-2">
-              <i class="bi bi-people-fill fs-3"></i></span>
-            <span>Gestionar usuario</span>
-            <span class="right-icon ms-auto">
-              <i class="bi bi-chevron-down"></i>
-            </span>
-
-          </a>
-          <div class="collapse" id="user">
-            <div>
-              <ul class="navbar-nav ps-3">
-                <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=listar-usuarios" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard-check"></i></span>
-                      <span>Listar Usuarios</span>
-                    </a>
-                  </li>
-                <?php endif ?>
-
-              </ul>
-            </div>
-          </div>
-        </li>
-        <?php } ?>
+       
 
         
         <li>
@@ -333,6 +305,35 @@
                     </a>
                   </li>
                 <?php endif ?>
+                <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) {?>
+        <li>
+          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
+            <span class="me-2">
+              <i class="bi bi-people-fill fs-3"></i></span>
+            <span>Gestionar usuario</span>
+            <span class="right-icon ms-auto">
+              <i class="bi bi-chevron-down"></i>
+            </span>
+
+          </a>
+          <div class="collapse" id="user">
+            <div>
+              <ul class="navbar-nav ps-3">
+                <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) : ?>
+                  <li>
+                    <a href="?pagina=listar-usuarios" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-clipboard-check"></i></span>
+                      <span>Listar Usuarios</span>
+                    </a>
+                  </li>
+                <?php endif ?>
+
+              </ul>
+            </div>
+          </div>
+        </li>
+        <?php } ?>
               </ul>
             </div>
           </div>
