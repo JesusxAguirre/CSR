@@ -3,8 +3,14 @@ require_once("clase_conexion.php");
 
 class Usuarios extends Conectar
 {
-
+    //atributos de herencia
     private $conexion;
+    private $bitacora;
+
+    //id de modulo
+
+    private $id_modulo;
+
     private $usuario;
     private $clave;
     private $cedula;
@@ -47,6 +53,7 @@ class Usuarios extends Conectar
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        $this->id_modulo= 1;
     }
 
 
@@ -64,7 +71,7 @@ class Usuarios extends Conectar
         return $idRol;
     }
 
-   
+
     public function listar_bitacora()
     {
         //$cedula= $_SESSION['cedula'];
@@ -85,20 +92,19 @@ class Usuarios extends Conectar
     public function validar()
     {
         $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];   
+        $clave = $_SESSION['clave'];
         $ok = 0;
-        $sql=("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
-           
-        $stmt=$this->conexion()->prepare($sql);
+        $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
 
-        $stmt->execute(array(":usuario"=>$usuario));
+        $stmt = $this->conexion()->prepare($sql);
 
-        while($resultado = $stmt->fetch(PDO::FETCH_ASSOC)){
-            
-            if(password_verify($clave,$resultado['password'])){
+        $stmt->execute(array(":usuario" => $usuario));
+
+        while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            if (password_verify($clave, $resultado['password'])) {
                 $ok++;
             }
-            
         }
 
         return $ok;
@@ -133,8 +139,9 @@ class Usuarios extends Conectar
 
             $this->usuario[] = $filas;
         }
+        $usuario = $_SESSION['usuario'];
         $accion = "Listar todos los usuarios";
-        $this->conexion()->registrar_bitacora($accion);
+        parent::registrar_bitacora($usuario, $accion);
         return $this->usuario;
     }
 
@@ -296,15 +303,15 @@ class Usuarios extends Conectar
 
         $this->estado = ucfirst($this->estado);
 
-        
+
 
         $sql = "INSERT INTO usuarios (cedula,id_rol,
         codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
         VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
-    //cifrando password
+        //cifrando password
         $stmt = $this->conexion->prepare($sql);
 
-        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
+        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
         $stmt->execute(array(
             ":ced" => $this->cedula,
             ":id" => 2, ":cod" => $this->cedula . '-' . 'N1' . '-' . $nacionalidad . '-' . $estado . '-' . $sexo . '-' . $estadoc,
@@ -400,7 +407,7 @@ class Usuarios extends Conectar
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
+        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
         $stmt->execute(array(
             ":cedula" => $this->cedula,
@@ -478,7 +485,7 @@ class Usuarios extends Conectar
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
+        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
         $stmt->execute(array(
             ":cedula" => $this->cedula,
@@ -528,7 +535,7 @@ class Usuarios extends Conectar
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $this->clave = password_hash($this->clave,PASSWORD_DEFAULT);
+        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
         $stmt->execute(array(
             ":password" => $this->clave,

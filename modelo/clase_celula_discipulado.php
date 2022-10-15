@@ -1,6 +1,6 @@
 <?php
 require_once("clase_usuario.php");
-class Discipulado extends Usuarios
+class Discipulado extends Conectar
 {
 
     private $listar;

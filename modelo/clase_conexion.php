@@ -30,7 +30,7 @@ class Conectar
 
         return $conexion;
     }
-    public function registrar_bitacora($usuario,$accion)
+    public function registrar_bitacora($usuario,$accion,$id_modulo)
     {
        
         $sql = ("SELECT cedula FROM usuarios WHERE usuario = '$usuario'"); //consultar cedula de usuario actual
@@ -43,14 +43,15 @@ class Conectar
 
         $usuario = $resultado['cedula'];
 
-        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
+        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,id_modulo,fecha_registro,hora_registro,
                               accion_realizada) 
-                              VALUES(:ced,CURDATE(),CURTIME(),:accion)";
+                              VALUES(:ced,:id,CURDATE(),CURTIME(),:accion)";
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
             ":ced" => $usuario,
+            ":id" => $id_modulo,
             ":accion" => $accion
         ));
     }
