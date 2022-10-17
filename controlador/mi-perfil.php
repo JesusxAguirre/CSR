@@ -1,5 +1,5 @@
 <?php
-//destruye la sesion si se tenia una abierta
+r//destruye la sesion si se tenia una abierta
 session_start();
 
 if ($_SESSION['verdadero'] > 0) {
@@ -64,10 +64,7 @@ if ($_SESSION['verdadero'] > 0) {
 } else {
     echo "<script>
            window.location= 'error.php'
-</script>";
-}
-if (isset($_POST['cerrar'])) {
-    session_destroy();
+;
     echo "<script>
     alert('Sesion Cerrada');
     window.location= 'index.php'

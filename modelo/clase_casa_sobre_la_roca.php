@@ -181,8 +181,8 @@ class LaRoca extends Conectar
         $id++;
 
         $sql = "INSERT INTO casas_la_roca (codigo,cedula_lider,
-        nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion) 
-        VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc)";
+        nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion,status) 
+        VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc,1)";
 
         $stmt = $this->conexion->prepare($sql);
         foreach ($this->cedula_lider as $cedula_lider) {
