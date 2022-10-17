@@ -34,7 +34,8 @@ class LaRoca extends Conectar
         $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
         FROM casas_la_roca 
         JOIN usuarios AS lider ON casas_la_roca.cedula_lider = lider.cedula 
-        WHERE casas_la_roca .codigo LIKE '%" . $busqueda . "%' 
+        WHERE casas_la_roca.status = 1 AND 
+        casas_la_roca .codigo LIKE '%" . $busqueda . "%' 
         OR fecha LIKE '%" . $busqueda . "%' 
         OR dia_visita LIKE '%" . $busqueda . "%'
         OR hora_pautada LIKE '%" . $busqueda . "%'
