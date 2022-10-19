@@ -58,7 +58,7 @@ class Correo extends Conectar
       echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
        $accion = "Envio de correo";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
   }
 

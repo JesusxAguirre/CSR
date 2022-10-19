@@ -89,7 +89,7 @@ class LaRoca extends Conectar
             $this->lideres[] = $filas;
         }
         $accion = "Listar lideres sin casa sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
 
@@ -119,7 +119,7 @@ class LaRoca extends Conectar
         }
 
         $accion = "Listar casas sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
 
         return $listar;
@@ -216,7 +216,7 @@ class LaRoca extends Conectar
         } //fin del foreach
 
         $accion = "Registrar casas sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return true;
     }
@@ -287,7 +287,7 @@ class LaRoca extends Conectar
         ));
 
         $accion = "Editar casa sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
@@ -306,7 +306,7 @@ class LaRoca extends Conectar
         if($stmt->rowCount() >= 1){
 
         $accion = "Cierre casa sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
  
         return true;
@@ -331,10 +331,11 @@ class LaRoca extends Conectar
             ":n" => $this->niños, ":confesiones" => $this->confesiones,
             ":fecha" => $this->fecha
         ));
+
         $accion = "Registar reporte casa sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        //fin del foreach
+
         return true;
     }
 
@@ -472,8 +473,9 @@ class LaRoca extends Conectar
         }
 
         $accion = "Generado Reporte estadistico  de casas sobre la roca";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        
         return $resultado;
     }
 }

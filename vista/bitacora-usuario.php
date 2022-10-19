@@ -64,6 +64,7 @@
 
                   <tr role='row'>
                     <th colspan='1' role='columnheader'>Usuario</th>
+                    <th colspan='1' role='columnheader'>Modulo</th>
                     <th colspan='1' role='columnheader'>Fecha</th>
                     <th colspan='1' role='columnheader'>Hora Registro</th>
                     <th colspan='1' role='columnheader'>Accion realizada</th>

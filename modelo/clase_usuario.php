@@ -75,8 +75,8 @@ class Usuarios extends Conectar
     public function listar_bitacora()
     {
         //$cedula= $_SESSION['cedula'];
-        $sql = "SELECT `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` 
-        FROM `bitacora_usuario`, usuarios WHERE `bitacora_usuario`.`cedula_usuario` = `usuarios`.`cedula` 
+        $sql = "SELECT `modulos`.`nombre` AS `nombreModulo`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` 
+        FROM `bitacora_usuario` INNER JOIN `usuarios` ON `bitacora_usuario`.`cedula_usuario` = `usuarios`.`cedula` INNER JOIN `modulos` ON `modulos`.`id` = `bitacora_usuario`.`id_modulo` 
         ORDER BY `bitacora_usuario`.`fecha_registro` DESC, `bitacora_usuario`.`hora_registro` DESC";
 
         $stmt = $this->conexion()->prepare($sql);
@@ -143,6 +143,7 @@ class Usuarios extends Conectar
         $accion = "Listar todos los usuarios";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        
         return $this->usuario;
     }
 

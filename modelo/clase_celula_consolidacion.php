@@ -210,7 +210,7 @@ class Consolidacion extends Conectar
             $this->consolidacion[] = $filas;
         }
         $accion = "Listar celula de Consolidacion";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->consolidacion;
     }
@@ -231,7 +231,7 @@ class Consolidacion extends Conectar
         } //fin del foeach
 
         $accion = "Registrar asistencias en celula de Consolidacion";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
@@ -361,8 +361,9 @@ class Consolidacion extends Conectar
                 ":cedula" => $this->cedula_asistente
             ));
         } //fin del else
+
         $accion = "Registrar Consolidacion";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     
     }
@@ -500,7 +501,7 @@ class Consolidacion extends Conectar
 
             
         $accion = "Actualizar Consolidacion";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         }
 
@@ -535,7 +536,7 @@ class Consolidacion extends Conectar
         } //fin del foreach
 
         $accion = "Agregar participantes a una celula de consolidacion";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
@@ -548,7 +549,7 @@ class Consolidacion extends Conectar
 
         $stmt->execute(array());
         $accion = "Se elimino un participante de la celula de consolidacion";
-        $usuario = $_SESSION['usuario'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return true;
     }
@@ -676,8 +677,8 @@ class Consolidacion extends Conectar
         $this->id_modulo = 8;
         //accion que se realiza
         $accion = "Generado Reporte estadistico  de celula de consolidacion";
-        //guardamos en una variable el correo del usuario que esta iniciado sesion
-        $usuario = $_SESSION['usuario'];
+        //guardamos en una variable la cedula del que esta iniciado sesion
+        $usuario = $_SESSION['cedula'];
         //usamos la funcion parent para llamar a una funcion heredada de la clase  conexion y registrar la bitacora
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;

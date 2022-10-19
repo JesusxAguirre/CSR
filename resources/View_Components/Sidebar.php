@@ -9,13 +9,19 @@
           </div>
         </li>
         <?php if ($_SESSION['rol'] == 1) { ?>
-          <li>
+        <li>
           <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
-            <span>Dashboard</span>
+            <span>Inicio</span>
           </a>
         </li>
        <?php } ?>
+       <li>
+          <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
+            <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
+            <span>Agenda</span>
+          </a>
+        </li>
         <li class="my-4">
           <hr class="dropdown-divider" />
         </li>
@@ -89,7 +95,7 @@
                       <span class="me-2">
                         <i class="bi bi-grid-3x3-gap-fill"></i>
                       </span>
-                      <span>Aula virtual</span>
+                      <span>Aula Virtual Estudiantes</span>
                     </a>
                   </li>
                 <?php } ?>
@@ -106,7 +112,7 @@
                       <span class="me-2">
                         <i class="bi bi-grid-3x3-gap-fill"></i>
                       </span>
-                      <span>Aula virtual</span>
+                      <span>Aula Virtual Profesores</span>
                     </a>
                   </li>
                 <?php } ?>
@@ -126,7 +132,7 @@
                   <a href="?pagina=crear-seccion" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-layout-wtf"></i></span>
-                    <span>Crear seccion</span>
+                    <span>Secciones</span>
                   </a>
                 </li>
                 <?php } ?>
@@ -136,7 +142,7 @@
                   <a href="?pagina=control-notas" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-123"></i></span>
-                    <span>Control de notas</span>
+                    <span>Control de Notas</span>
                   </a>
                 </li>
               <?php } ?>

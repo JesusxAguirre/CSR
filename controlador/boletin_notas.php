@@ -15,8 +15,10 @@ if($_SESSION['verdadero'] > 0){
 
         $listarBotones= $objeto->listarSeccionesON();
 
+        $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado al apartado Boletin de Notas';
-        $objeto->registrar_bitacora($accion);
+        $id_modulo = 3;
+        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
         
         require_once 'vista/'.$pagina.'.php';
     }

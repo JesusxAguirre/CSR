@@ -17,8 +17,10 @@ if($_SESSION['verdadero'] > 0){
         $mis_profesores= $objeto->listar_misProfesores();
         $mis_datosSeccion= $objeto->datos_miSeccionEst();
 
+        $cedula = $_SESSION['cedula'];
         $accion = 'El estudiante ha entrado a su "Aula Virtual Estudiantes"';
-        $objeto->registrar_bitacora($accion);
+        $id_modulo = 3;
+        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
 
         require_once 'vista/'.$pagina.'.php';
     }
