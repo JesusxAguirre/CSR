@@ -166,6 +166,7 @@ class Discipulado extends Conectar
 
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
     {
+        $resultado = [];
         $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_discipulado 
@@ -180,14 +181,14 @@ class Discipulado extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->septiembre[] = $filas;
+            $resultado = $filas;
         }
 
         $accion = "Reporte de Asistencias de celula de discipulado";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        return $this->septiembre;
-    }
+        return $resultado;
+        }
 
     public function listar_no_participantes()
     {
