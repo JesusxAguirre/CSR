@@ -14,8 +14,10 @@ if($_SESSION['verdadero'] > 0){
         require_once('modelo/clase_ecam.php');
         $objeto= new ecam();
 
+        $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha revisado las materias y profesores en el Aula Virtual Estudiantes';
-        $objeto->registrar_bitacora($accion);
+        $id_modulo = 3;
+        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
         
         require_once 'vista/'.$pagina.'.php';
     }

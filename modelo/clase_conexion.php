@@ -30,12 +30,11 @@ class Conectar
 
         return $conexion;
     }
-    public function registrar_bitacora($cedula,$accion,$id_modulo)
+    
+    public function registrar_bitacora($cedula, $accion, $id_modulo)
     {
-       
-        $sql = "INSERT INTO bitacora_usuario (cedula_usuario,id_modulo,fecha_registro,hora_registro,
-                              accion_realizada) 
-                              VALUES(:ced,:id,CURDATE(),CURTIME(),:accion)";
+        $sql = "INSERT INTO bitacora_usuario (cedula_usuario, id_modulo, fecha_registro, hora_registro, accion_realizada) 
+        VALUES(:ced, :id, CURDATE(), CURTIME(), :accion)";
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -45,4 +44,6 @@ class Conectar
             ":accion" => $accion
         ));
     }
+
+
 }

@@ -9,7 +9,10 @@ if ($_SESSION['verdadero'] > 0) {
         $objeto = new Usuarios();
         $matriz_usuario = $objeto->mi_perfil();
 
-
+        $cedula = $_SESSION['cedula'];
+        $id_modulo = 12;
+        $accion = 'El usuario ha entrado a "Mi Perfil"';
+        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
 
         foreach ($matriz_usuario as $usuario) {
             $nombre = $usuario['nombre'];

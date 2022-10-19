@@ -103,7 +103,7 @@
                         <div class="col">
                             <div class="card">
                                 <div class="card-body">
-                                    <label class="form-label text-center fst-italic fw-bold" for="">Agregar profesores</label>
+                                    <label class="form-label text-center fst-italic fw-bold" for="">Agregar profesores a la ECAM</label>
                                     <div id="verProfesoresFuturos">
 
                                     </div>
@@ -133,7 +133,7 @@
                         <!-- BUSCADOR DE MATERIA -->
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-search"></i></span>
-                            <input type="text" class="form-control text-center buscarMateria" id="buscarMateria" placeholder="Nombre o nivel de doctrina">
+                            <input type="text" class="form-control text-center buscarMateria" id="buscarMateria" placeholder="Nombre o nivel academico">
                         </div>
                         <!-- FIN DE BUSCADOR DE MATERIA -->
 

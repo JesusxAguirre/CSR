@@ -41,26 +41,8 @@ class ecam extends Conectar
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        $this->id_modulo = 3;
     }
-
-    // REGISTRAR INFORMACION EN BITACORA
-    // public function registrar_bitacora($accion)
-    // {
-    //     $cedula = $_SESSION['cedula'];
-
-    //     $sql = "INSERT INTO bitacora_usuario (cedula_usuario,fecha_registro,hora_registro,
-    //     accion_realizada) 
-    //     VALUES(:ced,CURDATE(),CURTIME(),:accion)";
-
-    //     $stmt = $this->conexion()->prepare($sql);
-
-    //     $stmt->execute(array(
-    //         ":ced" => $cedula,
-    //         ":accion" => $accion
-    //     ));
-    // }
-
-
 
 
     //REGISTRAR NOTIFICACIONES PARA ESTUDIANTES DE LA ECAM POR SECCIONES
@@ -218,7 +200,7 @@ class ecam extends Conectar
         $stmt->execute(array());
 
         $accion = "Ha agregado una nota final a un estudiante del nivel $nivelAcademico";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $accion2= "Ya tienes tu nota final del curso. Podras verla cuando activen el boletin de nota";
         $this->registrar_notificacionSeccion($seccion, $accion2, $cedula);
@@ -230,7 +212,7 @@ class ecam extends Conectar
         $stmt->execute(array());
 
         $accion = "Se ha eliminado una nota final a un estudiante del nivel $nivelAcademico";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
     //LISTAR NOTAS FINALES DE LOS ESTUDIANTES
     public function listarEstudiantes_notaFinal()
@@ -247,7 +229,8 @@ class ecam extends Conectar
         }
 
         $accion = "Has listado las notas finales de los estudiantes";
-        $this->registrar_bitacora($accion);
+        $cedula = $_SESSION['cedula'];
+        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
 
         return $estudiantes;
     }
@@ -427,18 +410,9 @@ class ecam extends Conectar
         } //Fin del  Foreach
         //Profesores vinculados con la materia
 
-        /*//Agregando status_profesor = 1 a los profesores que se vayan asignando
-        foreach ($this->cedulaProfesor as $cedulaProf) {
-            $sql3 = "UPDATE `usuarios` SET `status_profesor` = '1' WHERE `usuarios`.`cedula` = :cedulaProf";
-            $stmt3 = $this->conexion->prepare($sql3);
-            $stmt3->execute(array(
-                ":cedulaProf" => $cedulaProf,
-            ));
-        }//Fin del Foreach
-        //Profesores con status 1 activados*/
-
+        $cedula = $_SESSION['cedula'];
         $accion = "Ha agregado una materia nueva llamada ".$this->nombre;
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
 
     //AGREGAR PROFESORES A LA ECAM (ACTIVAR STATUS PROFESOR)
@@ -461,8 +435,9 @@ class ecam extends Conectar
             $stmt2->execute(array());
             $filas = $stmt2->fetch(PDO::FETCH_ASSOC);
 
+            $cedula = $_SESSION['cedula'];
             $accion = "Ha agregado a ".$filas['codigo']." ".$filas['nombre']." ".$filas['apellido']." como profesor en la ECAM";
-            $this->registrar_bitacora($accion); 
+            parent::registrar_bitacora($cedula, $accion,$this->id_modulo); 
         }
     }
 
@@ -485,8 +460,10 @@ class ecam extends Conectar
         $stmt4 = $this->conexion->prepare($sql4);
         $stmt4->execute(array());
         $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
+
+        $cedula = $_SESSION['cedula'];
         $accion = "Ha desvinculado a ".$filas['codigo']." ".$filas['nombre']." ".$filas['apellido']." como profesor en la ECAM";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $mensaje = 'Te han vinculado como profesor en la ECAM. ¡Suerte!';
         $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
@@ -527,8 +504,9 @@ class ecam extends Conectar
             $stmt2->execute(array());
             $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
 
+            $cedula2 = $_SESSION['cedula'];
             $accion = "Ha vinculado al profesor ".$infoProfesor['codigo']." ".$infoProfesor['nombre']." ".$infoProfesor['apellido']." a la materia ".$infoMateria['nombre']." Nivel ".$infoMateria['nivelAcademico'];
-            $this->registrar_bitacora($accion);
+            parent::registrar_bitacora($cedula2, $accion,$this->id_modulo);
         }
 
         $mensaje = 'Te han vinculado con la materia "'.$infoMateria['nombre'].'" Nivel '.$infoMateria['nivelAcademico'];
@@ -562,8 +540,9 @@ class ecam extends Conectar
         $stmt4->execute(array());
         $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
 
+        $cedula = $_SESSION['cedula'];
         $accion = "Ha desvinculado al profesor ".$infoProfesor['codigo']." ".$infoProfesor['nombre']." ".$infoProfesor['apellido']." de la materia ".$infoMateria['nombre']." Nivel ".$infoMateria['nivelAcademico'];
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $mensaje = 'Te han desvinculado de la materia "'.$infoMateria['nombre'].'" Nivel '.$infoMateria['nivelAcademico'];
         $this->registrar_notificacionProfesor($mensaje, $cedulaProfDV);
@@ -653,8 +632,9 @@ class ecam extends Conectar
 
         $stmt->execute();
 
+        $cedula = $_SESSION['cedula'];
         $accion = 'Ha eliminado la materia "'.$infoMateria['nombre'].'" Nivel '.$infoMateria['nivelAcademico'].' de la ECAM';
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
 
     //ACTUALIZAR MATERIAS
@@ -670,8 +650,9 @@ class ecam extends Conectar
             ":nivelA" => $this->nivel
         ));
 
+        $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha actualizado los datos de una materia del Nivel '.$this->nivel;
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
 
     //LISTAR PROFESORES DE LAS MATERIAS
@@ -821,8 +802,9 @@ class ecam extends Conectar
             ));
         }
 
+        $cedula = $_SESSION['cedula'];
         $accion = "Ha creado una seccion nueva llamada ".$this->nombreSeccion;
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     } //FIN DEL CREAR SECCION
 
 
@@ -858,8 +840,9 @@ class ecam extends Conectar
         } //FIN DEL FOREACH
         //ESTUDIANTES NUEVOS VINCULADOS A LA SECCION
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha agregado mas estudiante a una seccion";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
 
     //ELIMINAR O DESACTIVAR LA SECCION SELECCIONADA
@@ -900,8 +883,9 @@ class ecam extends Conectar
             ":idSeccionOFF" => $idSeccionEliminar,
         ));
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha cerrado una seccion";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
     //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
@@ -911,8 +895,9 @@ class ecam extends Conectar
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute();
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha desvinculado a un estudiante de una seccion";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
     //ACTUALIZAR DATOS DE LA SECCION SELECCIONADA
@@ -926,8 +911,9 @@ class ecam extends Conectar
             ":fechaCierre" => $this->fechaCierreRefU,
         ));
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha actualizado los datos de una seccion";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
     //SELECT DE LAS MATERIAS QUE NO ESTAN EN LA SECCION PARA AGREGAR
@@ -960,8 +946,9 @@ class ecam extends Conectar
             ":cedulaProf" => $this->cedulaProfAdicional,
         ));
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha actualizado las materias y profesores de una seccion";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
     //ELIMINAR MATERIAS Y PROFESORES DE LA SECCION SELECCIONADA
@@ -977,8 +964,9 @@ class ecam extends Conectar
             ":cedulaProf" => $cedulaProfSec,
         ));
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario eliminado una materia de la seccion";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
     //LISTAR TODAS LAS SECCIONES ACTIVAS
@@ -1080,8 +1068,9 @@ class ecam extends Conectar
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute();
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha eliminado una seccion definitivamente";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
     
 
@@ -1142,8 +1131,9 @@ class ecam extends Conectar
         $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
         
         //REGISTRO DE ACCION EN LA BITACORA
+        $cedula = $_SESSION['cedula'];
         $accion = "El profesor ha agregado contenido a ".$datos['nombreMateria']." nivel ".$datos['nivelAcademico']." en la seccion ".$datos['nombreSeccion'];
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $accion2= "El profesor ha agregado contenido nuevo a ".$datos['nombreMateria'];
         $this->registrar_notificacionSeccion($seccionContRef, $accion2, '');
@@ -1170,8 +1160,9 @@ class ecam extends Conectar
             $listarContenido[] = $filas;
         }
 
+        $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha revisado el contenido de su materia";
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         return $listarContenido;
     }
@@ -1229,8 +1220,9 @@ class ecam extends Conectar
         $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
         
         //REGISTRO DE ACCION EN LA BITACORA
+        $cedula = $_SESSION['cedula'];
         $accion = "Le ha agregado nota de la materia ".$datos['nombreMateria']." a un estudiante de la seccion ".$datos['nombreSeccion'];
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $accion2= "El profesor de ".$datos['nombreMateria']." te ha agregado la nota de la materia";
         $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
@@ -1261,8 +1253,9 @@ class ecam extends Conectar
         $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
         
         //REGISTRO DE ACCION EN LA BITACORA
+        $cedula = $_SESSION['cedula'];
         $accion = "Ha actualizado la nota de la materia ".$datos['nombreMateria']." a un estudiante de la seccion ".$datos['nombreSeccion'];
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $accion2= "El profesor de ".$datos['nombreMateria']." te ha actualizado la nota de la materia";
         $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
@@ -1291,8 +1284,9 @@ class ecam extends Conectar
         $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
         
         //REGISTRO DE ACCION EN LA BITACORA
+        $cedula = $_SESSION['cedula'];
         $accion = "Ha eliminado la nota de la materia ".$datos['nombreMateria']." a un estudiante de la seccion ".$datos['nombreSeccion'];
-        $this->registrar_bitacora($accion);
+        parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
 
         $accion2= "El profesor de ".$datos['nombreMateria']." te ha eliminado la nota de la materia";
         $this->registrar_notificacionSeccion($idSeccionRef2, $accion2, $cedulaEstudianteRef2);

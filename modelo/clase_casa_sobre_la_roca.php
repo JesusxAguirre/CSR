@@ -332,10 +332,11 @@ class LaRoca extends Conectar
             ":n" => $this->niños, ":confesiones" => $this->confesiones,
             ":fecha" => $this->fecha
         ));
+
         $accion = "Registar reporte casa sobre la roca";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        //fin del foreach
+
         return true;
     }
 
@@ -475,6 +476,7 @@ class LaRoca extends Conectar
         $accion = "Generado Reporte estadistico  de casas sobre la roca";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        
         return $resultado;
     }
 }

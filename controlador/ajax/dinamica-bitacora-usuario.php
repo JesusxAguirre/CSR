@@ -18,6 +18,7 @@ if (isset($_POST['activarDatatableBitacora'])) {
                     </div>
                 </div>
             </td>
+            <td><?php echo $key['nombreModulo'] ?></td>
             <td><?php echo $key['fecha_registro'] ?></td>
             <td><?php echo $key['hora_registro'] ?></td>
             <td><?php echo $key['accion_realizada'] ?></td>

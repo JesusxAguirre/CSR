@@ -57,7 +57,7 @@
                 <div class="col">
                     <div class="card sombra">
                         <div class="card-body text-center">
-                            <h1 class="fw-bold d-inline">¡HOLA! ESTE ES TU </h1>
+                            <h1 class="fw-bold d-inline">INICIO DE TU </h1>
                             <h1 class="text-success d-inline fw-bold">DASHBOARD </h1>
                             <h1 class="d-inline fw-bold">DE LA ECAM</h1>
                         </div>

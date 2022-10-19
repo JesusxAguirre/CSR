@@ -113,8 +113,9 @@ class Discipulado extends Conectar
 
             $this->listar[] = $filas;
         }
+
         $accion = "Listar Celula de discipulado";
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->listar;
     }
@@ -136,8 +137,9 @@ class Discipulado extends Conectar
 
             $this->participantes[] = $filas;
         }
+
         $accion = "Listar Discipulos";
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->participantes;
     }
@@ -180,8 +182,9 @@ class Discipulado extends Conectar
 
             $this->septiembre[] = $filas;
         }
+
         $accion = "Reporte de Asistencias de celula de discipulado";
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $this->septiembre;
     }
@@ -219,8 +222,9 @@ class Discipulado extends Conectar
                 ":fecha" => $this->fecha
             ));
         } //fin del foeach
+
         $accion = "Registrar Asistencias de celula de discipulado";
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
@@ -359,7 +363,7 @@ class Discipulado extends Conectar
         } //fin del else si el asitente de la celula y el anfitrion son distintos
 
         $accion = "Registrar  celula de discipulado";
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
@@ -507,8 +511,9 @@ class Discipulado extends Conectar
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
             ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
         ));
+
         $accion = "Editar datos de celula de discipulado";
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     }
 
@@ -604,7 +609,7 @@ class Discipulado extends Conectar
         $accion = "Generado Reporte estadistico cantidad  de celulas de discipulado";
         //cambiando la id del modulo
         $this->id_modulo=8;
-       $usuario = $_SESSION['cedula'];
+        $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
@@ -631,7 +636,7 @@ class Discipulado extends Conectar
         $accion = "Generado Reporte estadistico cantidad discipulos en celulas de discipulado";
            //cambiando la id del modulo
            $this->id_modulo=8;
-          $usuario = $_SESSION['cedula'];
+           $usuario = $_SESSION['cedula'];
            parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }
@@ -704,7 +709,7 @@ class Discipulado extends Conectar
         $accion = "Generado Reporte estadistico crecimiento  lider de celula de discipulado";
            //cambiando la id del modulo
            $this->id_modulo=8;
-          $usuario = $_SESSION['cedula'];
+           $usuario = $_SESSION['cedula'];
            parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
         return $resultado;
     }

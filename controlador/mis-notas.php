@@ -16,8 +16,10 @@ if($_SESSION['verdadero'] > 0){
 
         $notificaciones = $objeto->listar_notificacionSeccion();
 
+        $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha revisado sus notas en el "Aula Virtual Estudiantes"';
-        $objeto->registrar_bitacora($accion);
+        $id_modulo = 3;
+        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
         
         require_once 'vista/'.$pagina.'.php';
     }
