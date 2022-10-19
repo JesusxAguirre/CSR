@@ -16,7 +16,7 @@ if($_SESSION['verdadero'] > 0){
         $objeto= new ecam();
         
         $cedula = $_SESSION['cedula'];
-        $accion = 'El usuario ha entrado al apartado de Crear Seccion';
+        $accion = 'El usuario ha entrado al apartado de "Listar Secciones Cerradas" de la ECAM';
         $id_modulo = 3;
         $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
         
