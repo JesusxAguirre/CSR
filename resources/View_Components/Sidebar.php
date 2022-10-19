@@ -119,20 +119,60 @@
 
                   <?php if ($_SESSION['rol'] <= 2) { ?>
                     <li>
-                      <a href="?pagina=materias" class="nav-link px-3">
+                      <a href="?pagina=agregar-materias" class="nav-link px-3">
                         <span class="me-2">
-                          <i class="bi bi-book-half"></i></span>
-                        <span>Materias</span>
+                        <i class="bi bi-bookshelf"></i></span>
+                        <span>Agregar Materias</span>
                       </a>
                     </li>
                   <?php } ?>
 
                   <?php if ($_SESSION['rol'] <= 2) { ?>
                     <li>
-                      <a href="?pagina=crear-seccion" class="nav-link px-3">
+                      <a href="?pagina=listar-materias" class="nav-link px-3">
                         <span class="me-2">
-                          <i class="bi bi-layout-wtf"></i></span>
-                        <span>Secciones</span>
+                          <i class="bi bi-book-half"></i></span>
+                        <span>Listar Materias</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=agregar-profesores" class="nav-link px-3">
+                        <span class="me-2">
+                        <i class="bi bi-people-fill"></i></span>
+                        <span>Profesores de la ECAM</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=crear-secciones" class="nav-link px-3">
+                        <span class="me-2">
+                        <i class="bi bi-view-list"></i></span>
+                        <span>Crear Secciones</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=listar-secciones" class="nav-link px-3">
+                        <span class="me-2">
+                        <i class="bi bi-house text-info"></i></span>
+                        <span>Listar Secciones</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=listar-secciones-cerradas" class="nav-link px-3">
+                        <span class="me-2">
+                        <i class="bi bi-house text-danger"></i></span>
+                        <span>Listar Secciones Cerradas</span>
                       </a>
                     </li>
                   <?php } ?>
