@@ -9,14 +9,14 @@
           </div>
         </li>
         <?php if ($_SESSION['rol'] == 1) { ?>
+          <li>
+            <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
+              <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
+              <span>Inicio</span>
+            </a>
+          </li>
+        <?php } ?>
         <li>
-          <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
-            <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
-            <span>Inicio</span>
-          </a>
-        </li>
-       <?php } ?>
-       <li>
           <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
             <span>Agenda</span>
@@ -32,130 +32,130 @@
         </li>
 
         <?php if ($_SESSION['rol'] <= 2) { ?>
-        <li>
-          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
-            <span class="me-2">
-              <i class="bi bi-house-heart-fill fs-3"></i></span>
-            <span>Casa sobre la roca</span>
-            <span class="right-icon ms-auto">
-              <i class="bi bi-chevron-down"></i>
-            </span>
-          </a>
-          <div class="collapse" id="roca">
+          <li>
+            <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <span class="me-2">
+                <i class="bi bi-house-heart-fill fs-3"></i></span>
+              <span>Casa sobre la roca</span>
+              <span class="right-icon ms-auto">
+                <i class="bi bi-chevron-down"></i>
+              </span>
+            </a>
+            <div class="collapse" id="roca">
 
-            <ul class="navbar-nav ps-3">
-              <?php if ($_SESSION['permisos']['casa_sobre_la_roca']['listar'] > 0) : ?>
+              <ul class="navbar-nav ps-3">
+                <?php if ($_SESSION['permisos']['casa_sobre_la_roca']['listar'] > 0) : ?>
+                  <li>
+                    <a href="?pagina=listar-casa" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-clipboard-check"></i></span>
+                      <span>Listar CSR</span>
+                    </a>
+                  </li>
+                <?php endif; ?>
+                <?php if ($_SESSION['permisos']['casa_sobre_la_roca']['crear'] > 0) : ?>
+                  <li>
+                    <a href="?pagina=registrar-casa" class="nav-link px-3">
+                      <span class="me-2">
+                        <i class="bi bi-box-seam-fill"></i> </span>
+                      <span>Registrar CSR</span>
+                    </a>
+                  </li>
+                <?php endif; ?>
                 <li>
-                  <a href="?pagina=listar-casa" class="nav-link px-3">
+                  <a href="?pagina=reporte-casa" class="nav-link px-3">
                     <span class="me-2">
-                      <i class="bi bi-clipboard-check"></i></span>
-                    <span>Listar CSR</span>
+                      <i class="bi bi-clipboard2-plus-fill"></i></span>
+                    <span>Reporte CSR</span>
                   </a>
                 </li>
-              <?php endif; ?>
-              <?php if ($_SESSION['permisos']['casa_sobre_la_roca']['crear'] > 0) : ?>
-                <li>
-                  <a href="?pagina=registrar-casa" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-box-seam-fill"></i> </span>
-                    <span>Registrar CSR</span>
-                  </a>
-                </li>
-              <?php endif; ?>
-              <li>
-                <a href="?pagina=reporte-casa" class="nav-link px-3">
-                  <span class="me-2">
-                    <i class="bi bi-clipboard2-plus-fill"></i></span>
-                  <span>Reporte CSR</span>
-                </a>
-              </li>
-            </ul>
+              </ul>
 
-          </div>
-        </li>
+            </div>
+          </li>
         <?php } ?>
 
         <?php if (!$_SESSION['rol'] <= 2) { ?>
-        <li>
-          <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
-            <span class="me-2 fs-4">
-              <i class="bi bi-building"></i></span>
-            <span>ECAM</span>
-            <span class="right-icon ms-auto">
-              <i class="bi bi-chevron-down"></i>
-            </span>
+          <li>
+            <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <span class="me-2 fs-4">
+                <i class="bi bi-building"></i></span>
+              <span>ECAM</span>
+              <span class="right-icon ms-auto">
+                <i class="bi bi-chevron-down"></i>
+              </span>
 
-          </a>
-          <div class="collapse" id="ecam">
-            <div>
-              <ul class="navbar-nav ps-3">
-                <?php if ($_SESSION['rol'] == 4) { ?>
-                  <li>
-                    <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-grid-3x3-gap-fill"></i>
-                      </span>
-                      <span>Aula Virtual Estudiantes</span>
-                    </a>
-                  </li>
-                <?php } ?>
+            </a>
+            <div class="collapse" id="ecam">
+              <div>
+                <ul class="navbar-nav ps-3">
+                  <?php if ($_SESSION['rol'] == 4) { ?>
+                    <li>
+                      <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-grid-3x3-gap-fill"></i>
+                        </span>
+                        <span>Aula Virtual Estudiantes</span>
+                      </a>
+                    </li>
+                  <?php } ?>
 
-                <?php if ($_SESSION['rol'] == 4) { ?>
-                <li id="boletinNotas">
-                  <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
-                </li>
-                <?php } ?>
+                  <?php if ($_SESSION['rol'] == 4) { ?>
+                    <li id="boletinNotas">
+                      <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
+                    </li>
+                  <?php } ?>
 
-                <?php if ($_SESSION['status_profesor'] == 1) { ?>
-                  <li>
-                    <a href="?pagina=aula-virtual-Prof" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-grid-3x3-gap-fill"></i>
-                      </span>
-                      <span>Aula Virtual Profesores</span>
-                    </a>
-                  </li>
-                <?php } ?>
+                  <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                    <li>
+                      <a href="?pagina=aula-virtual-Prof" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-grid-3x3-gap-fill"></i>
+                        </span>
+                        <span>Aula Virtual Profesores</span>
+                      </a>
+                    </li>
+                  <?php } ?>
 
-                <?php if ($_SESSION['rol'] <= 2) { ?>
-                <li>
-                  <a href="?pagina=materias" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-book-half"></i></span>
-                    <span>Materias</span>
-                  </a>
-                </li>
-                <?php } ?>
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=materias" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-book-half"></i></span>
+                        <span>Materias</span>
+                      </a>
+                    </li>
+                  <?php } ?>
 
-                <?php if ($_SESSION['rol'] <= 2) { ?>
-                <li>
-                  <a href="?pagina=crear-seccion" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-layout-wtf"></i></span>
-                    <span>Secciones</span>
-                  </a>
-                </li>
-                <?php } ?>
-                
-                <?php if ($_SESSION['rol'] <= 2) { ?>
-                <li>
-                  <a href="?pagina=control-notas" class="nav-link px-3">
-                    <span class="me-2">
-                      <i class="bi bi-123"></i></span>
-                    <span>Control de Notas</span>
-                  </a>
-                </li>
-              <?php } ?>
-              </ul>
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=crear-seccion" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-layout-wtf"></i></span>
+                        <span>Secciones</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+
+                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                    <li>
+                      <a href="?pagina=control-notas" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-123"></i></span>
+                        <span>Control de Notas</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+                </ul>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
         <?php } ?>
 
 
-       
 
-        
+
+
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -169,24 +169,30 @@
           <div class="collapse" id="discipulado">
             <div>
               <ul class="navbar-nav ps-3">
-                <?php if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard-check"></i></span>
-                      <span>Listar celula discipulado</span>
-                    </a>
-                  </li>
-                <?php endif; ?>
-                <?php if ($_SESSION['permisos']['celula_discipulado']['crear'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-box-seam-fill"></i></span>
-                      <span>Registrar celula discipulado</span>
-                    </a>
-                  </li>
-                <?php endif; ?>
+                <?php if (isset($_SESSION['permisos']['celula_discipulado']['listar'])) {
+                  if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0) { ?>
+                    <li>
+                      <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-clipboard-check"></i></span>
+                        <span>Listar celula discipulado</span>
+                      </a>
+                    </li>
+                <?php }
+                } ?>
+
+                <?php if (isset($_SESSION['permisos']['celula_discipulado']['crear'])) {
+                  if ($_SESSION['permisos']['celula_discipulado']['crear'] > 0) { ?>
+                    <li>
+                      <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-box-seam-fill"></i></span>
+                        <span>Registrar celula discipulado</span>
+                      </a>
+                    </li>
+                <?php }
+                } ?>
+
                 <li>
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
@@ -201,8 +207,8 @@
         </li>
 
 
-        
-       
+
+
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -216,24 +222,30 @@
           <div class="collapse" id="consolidacion">
             <div>
               <ul class="navbar-nav ps-3">
-                <?php if ($_SESSION['permisos']['celula_consolidacion']['listar'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=listar-celula-consolidacion" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard-check"></i></span>
-                      <span>Listar celula consolidacion</span>
-                    </a>
-                  </li>
-                <?php endif; ?>
-                <?php if ($_SESSION['permisos']['celula_consolidacion']['crear'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=registrar-celula-consolidacion" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-box-seam-fill"></i></span>
-                      <span>Registrar celula consolidacion</span>
-                    </a>
-                  </li>
-                <?php endif; ?>
+                <?php if (isset($_SESSION['permisos']['celula_consolidacion']['listar'])) {
+                  if ($_SESSION['permisos']['celula_consolidacion']['listar'] > 0) { ?>
+                    <li>
+                      <a href="?pagina=listar-celula-consolidacion" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-clipboard-check"></i></span>
+                        <span>Listar celula consolidacion</span>
+                      </a>
+                    </li>
+                <?php }
+                } ?>
+
+                <?php if (isset($_SESSION['permisos']['celula_consolidacion']['crear'])) {
+                  if ($_SESSION['permisos']['celula_consolidacion']['crear'] > 0) { ?>
+                    <li>
+                      <a href="?pagina=registrar-celula-consolidacion" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-box-seam-fill"></i></span>
+                        <span>Registrar celula consolidacion</span>
+                      </a>
+                    </li>
+                <?php }
+                } ?>
+
                 <li>
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                     <span class="me-2">
@@ -246,105 +258,114 @@
             </div>
           </div>
         </li>
-    
-        <?php if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) : ?>
-        <li>
-          <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
-            <span class="me-2">
-              <i class="bi bi-clipboard-data-fill fs-3"></i></span>
-            <span>Reportes estadisticos de celulas </span>
 
-          </a>
-        </li>
-        <?php endif ?>
-        <?php if ($_SESSION['permisos']['reporte_estadistico_ecam']['listar'] > 0) : ?>
-        <li>
-          <a href="?pagina=reportes-ecam" class="nav-link px-3">
-            <span class="me-2">
-              <i class="bi bi-bar-chart-line"></i></span>
-            <span>Reportes estadisticos ECAM</span>
-          </a>
-        </li>
-        <?php endif ?>
+        <?php if (isset($_SESSION['permisos']['reporte_estadistico_celulas']['listar'])) {
+          if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) { ?>
+            <li>
+              <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
+                <span class="me-2">
+                  <i class="bi bi-clipboard-data-fill fs-3"></i></span>
+                <span>Reportes estadisticos de celulas </span>
 
-        
-        <?php if ($_SESSION['permisos']['envio_correo']['listar'] > 0) : ?>
-        <li>
-          <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
-            <span class="me-2">
-              <i class="bi bi-envelope-fill fs-3"></i>
-              <span>Envio de correo</span>
-          </a>
-        </li>
-        <?php endif ?>
+              </a>
+            </li>
+        <?php }
+        } ?>
+
+        <?php if (isset($_SESSION['permisos']['reporte_estadistico_ecam']['listar'])) {
+          if ($_SESSION['permisos']['reporte_estadistico_ecam']['listar'] > 0) { ?>
+            <li>
+              <a href="?pagina=reportes-ecam" class="nav-link px-3">
+                <span class="me-2">
+                  <i class="bi bi-bar-chart-line"></i></span>
+                <span>Reportes estadisticos ECAM</span>
+              </a>
+            </li>
+        <?php }
+        } ?>
+
+        <?php if (isset($_SESSION['permisos']['envio_correo']['listar'])) {
+          if ($_SESSION['permisos']['envio_correo']['listar'] > 0) { ?>
+            <li>
+              <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
+                <span class="me-2">
+                  <i class="bi bi-envelope-fill fs-3"></i>
+                  <span>Envio de correo</span>
+              </a>
+            </li>
+        <?php }
+        } ?>
+
+        <?php if ($_SESSION['permisos']['seguridad']['listar'] > 0) { ?>
+          <li>
+            <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#seguridad" role="button" aria-expanded="false" aria-controls="collapseExample">
+              <span class="me-2">
+                <i class="bi bi-shield-lock-fill fs-3"></i></span>
+              <span>Seguridad</span>
+              <span class="right-icon ms-auto">
+                <i class="bi bi-chevron-down"></i>
+              </span>
+
+            </a>
+
+            <div class="collapse" id="seguridad">
+              <div>
+                <ul class="navbar-nav ps-3">
+                  <?php if ($_SESSION['permisos']['bitacora_usuario']['listar'] > 0) { ?>
+                    <li>
+                      <a class="nav-link px-3 sidebar-link" href="?pagina=bitacora-usuario" role="button">
+                        <span class="me-2">
+                          <i class="bi bi-person-lines-fill fs-3"></i>
+                          <span>Bitacora de usuario</span>
+                      </a>
+                    </li>
+                  <?php } ?>
+
+                  <?php if ($_SESSION['permisos']['gestionar_roles']['listar'] > 0) { ?>
+                    <li>
+                      <a href="?pagina=listar-roles" class="nav-link px-3">
+                        <span class="me-2">
+                          <i class="bi bi-clipboard-check"></i></span>
+                        <span>Listar Roles</span>
+                      </a>
+                    </li>
+                  <?php } ?>
 
 
-        <?php if ($_SESSION['permisos']['bitacora_usuario']['listar'] > 0 OR $_SESSION['permisos']['gestionar_roles']['listar'] > 0) : ?>
-        <li>
-          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#seguridad" role="button" aria-expanded="false" aria-controls="collapseExample">
-            <span class="me-2">
-              <i class="bi bi-shield-lock-fill fs-3"></i></span>
-            <span>Seguridad</span>
-            <span class="right-icon ms-auto">
-              <i class="bi bi-chevron-down"></i>
-            </span>
+                  <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) { ?>
+                    <li>
+                      <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <span class="me-2">
+                          <i class="bi bi-people-fill fs-3"></i></span>
+                        <span>Gestionar usuario</span>
+                        <span class="right-icon ms-auto">
+                          <i class="bi bi-chevron-down"></i>
+                        </span>
 
-          </a>
-          <div class="collapse" id="seguridad">
-            <div>
-              <ul class="navbar-nav ps-3">
-              <?php if ($_SESSION['permisos']['bitacora_usuario']['listar'] > 0) : ?>
-                <li>
-                  <a class="nav-link px-3 sidebar-link" href="?pagina=bitacora-usuario" role="button">
-                    <span class="me-2">
-                      <i class="bi bi-person-lines-fill fs-3"></i>
-                      <span>Bitacora de usuario</span>
-                  </a>
-                </li>
-                <?php endif ?>
-                <?php if ($_SESSION['permisos']['gestionar_roles']['listar'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=listar-roles" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard-check"></i></span>
-                      <span>Listar Roles</span>
-                    </a>
-                  </li>
-                <?php endif ?>
-                <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) {?>
-        <li>
-          <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#user" role="button" aria-expanded="false" aria-controls="collapseExample">
-            <span class="me-2">
-              <i class="bi bi-people-fill fs-3"></i></span>
-            <span>Gestionar usuario</span>
-            <span class="right-icon ms-auto">
-              <i class="bi bi-chevron-down"></i>
-            </span>
+                      </a>
+                      <div class="collapse" id="user">
+                        <div>
+                          <ul class="navbar-nav ps-3">
+                            <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) { ?>
+                              <li>
+                                <a href="?pagina=listar-usuarios" class="nav-link px-3">
+                                  <span class="me-2">
+                                    <i class="bi bi-clipboard-check"></i></span>
+                                  <span>Listar Usuarios</span>
+                                </a>
+                              </li>
+                            <?php } ?>
 
-          </a>
-          <div class="collapse" id="user">
-            <div>
-              <ul class="navbar-nav ps-3">
-                <?php if ($_SESSION['permisos']['gestionar_usuario']['listar'] > 0) : ?>
-                  <li>
-                    <a href="?pagina=listar-usuarios" class="nav-link px-3">
-                      <span class="me-2">
-                        <i class="bi bi-clipboard-check"></i></span>
-                      <span>Listar Usuarios</span>
-                    </a>
-                  </li>
-                <?php endif ?>
-
-              </ul>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  <?php } ?>
+                </ul>
+              </div>
             </div>
-          </div>
-        </li>
+          </li>
         <?php } ?>
-              </ul>
-            </div>
-          </div>
-        </li>
-        <?php endif ?>
 
 
       </ul>
