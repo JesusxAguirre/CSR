@@ -181,7 +181,7 @@ class Discipulado extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $resultado = $filas;
+            $resultado[] = $filas;
         }
 
         $accion = "Reporte de Asistencias de celula de discipulado";
