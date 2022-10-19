@@ -197,7 +197,7 @@
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-clipboard2-plus-fill"></i></span>
-                    <span>Reporte celula discipulado</span>
+                    <span>Buscar Reporte celula discipulado</span>
                   </a>
                 </li>
 
@@ -250,7 +250,7 @@
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-clipboard2-plus-fill"></i></span>
-                    <span>Reporte celula consolidacion</span>
+                    <span>Buscar Reporte celula consolidacion</span>
                   </a>
                 </li>
 
