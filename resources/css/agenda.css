@@ -1,0 +1,20 @@
+.page-title-box {
+	margin-bottom: 10px;
+}
+
+a {
+	color: #212529;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #212529;
+}
+
+.fc .fc-daygrid-day-number {
+	cursor: pointer;
+}
+
+.fc .fc-daygrid-day-number:hover {
+	color: #0d6efd;
+}
