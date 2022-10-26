@@ -75,7 +75,7 @@
             }
         }else{ ?>
                 <tr>
-                    <td><h5><em>No hubieron estudiantes en esta seccion :(</em></h5></td>
+                    <td><h5><em>No hubo estudiantes en esta seccion :(</em></h5></td>
                 </tr> <?php
         }
     }

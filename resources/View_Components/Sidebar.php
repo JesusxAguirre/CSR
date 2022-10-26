@@ -132,7 +132,7 @@
                       <a href="?pagina=listar-materias" class="nav-link px-3">
                         <span class="me-2">
                           <i class="bi bi-book-half"></i></span>
-                        <span>Listar Materias</span>
+                        <span>Listar Materias ECAM</span>
                       </a>
                     </li>
                   <?php } ?>
