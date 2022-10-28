@@ -122,7 +122,7 @@ class Discipulado extends Conectar
     }
     public function listar_participantes($busqueda)
     {
-        $participantes= [];
+        $participantes = [];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
         discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
         AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
@@ -453,8 +453,6 @@ class Discipulado extends Conectar
                 ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
                 ":cedula" => $this->cedula_lider
             ));
-
-
         }
         //comprobando si las cedulas de anfitrion y asistente son iguales
         if ($this->cedula_anfitrion == $this->cedula_asistente) {
@@ -483,12 +481,20 @@ class Discipulado extends Conectar
                     ":cedula" => $this->cedula_anfitrion
                 ));
 
-                $sql = ("DELETE FROM discipulos WHERE cedula = '$this->anfitrion'");
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
-        
+
                 $stmt->execute(array());
-    
+
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $this->id
+                ));
             }
         } else {
             if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
@@ -499,11 +505,11 @@ class Discipulado extends Conectar
 
                 $stmt->execute(array());
                 //agregando el codigo a el usuario nuevo
-                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
 
                 $stmt = $this->conexion()->prepare($sql);
                 $stmt->execute(array());
-                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
                 $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
@@ -511,16 +517,24 @@ class Discipulado extends Conectar
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
 
-                $sql = ("DELETE FROM discipulos WHERE cedula = '$this->cedula_asistente'");
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
-        
+
                 $stmt->execute(array());
-    
+
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $this->id
+                ));
             }
             if ($codigo_asistente_antiguo != $this->cedula_asistente) {
 
@@ -546,12 +560,20 @@ class Discipulado extends Conectar
                     ":cedula" => $this->cedula_asistente
                 ));
 
-                $sql = ("DELETE FROM discipulos WHERE cedula = '$this->cedula_asistente'");
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_asistente_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
-        
+
                 $stmt->execute(array());
-    
+
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_asistente,
+                    ":id" => $this->id
+                ));
             }
         }
 
@@ -583,7 +605,7 @@ class Discipulado extends Conectar
             $stmt->execute(array(
                 ":cedula" => $participantes,
                 ":id" => $this->id
-                
+
             ));
         } //fin del foreach
 
