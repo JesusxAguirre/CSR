@@ -277,7 +277,7 @@ class Discipulado extends Conectar
 
 
         foreach ($this->participantes as $participantes) {
-            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+            $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -453,6 +453,8 @@ class Discipulado extends Conectar
                 ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
                 ":cedula" => $this->cedula_lider
             ));
+
+
         }
         //comprobando si las cedulas de anfitrion y asistente son iguales
         if ($this->cedula_anfitrion == $this->cedula_asistente) {
@@ -480,6 +482,13 @@ class Discipulado extends Conectar
                     ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
+
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$this->anfitrion'");
+
+                $stmt = $this->conexion()->prepare($sql);
+        
+                $stmt->execute(array());
+    
             }
         } else {
             if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
@@ -505,6 +514,13 @@ class Discipulado extends Conectar
                     ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
+
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$this->cedula_asistente'");
+
+                $stmt = $this->conexion()->prepare($sql);
+        
+                $stmt->execute(array());
+    
             }
             if ($codigo_asistente_antiguo != $this->cedula_asistente) {
 
@@ -529,6 +545,13 @@ class Discipulado extends Conectar
                     ":codigo" => $codigo_asistente['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_asistente
                 ));
+
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$this->cedula_asistente'");
+
+                $stmt = $this->conexion()->prepare($sql);
+        
+                $stmt->execute(array());
+    
             }
         }
 
@@ -551,7 +574,7 @@ class Discipulado extends Conectar
 
     public function agregar_participantes()
     {
-        $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id");
+        $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
         foreach ($this->participantes as $participantes) {
 
