@@ -193,7 +193,7 @@ class Discipulado extends Conectar
     public function listar_no_participantes()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL 
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE usuarios.cedula NOT IN (SELECT cedula FROM discipulos) 
          AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -645,8 +645,8 @@ class Discipulado extends Conectar
     public function contar_discipulos()
     {
         $sql = ("SELECT count(*) AS cantidad_discipulos 
-        FROM usuarios 
-        WHERE usuarios.id_discipulado IS NOT NULL");
+        FROM discipulos 
+       ");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
