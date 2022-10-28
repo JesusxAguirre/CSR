@@ -551,15 +551,16 @@ class Discipulado extends Conectar
 
     public function agregar_participantes()
     {
-        $sql = ("UPDATE usuarios SET id_discipulado= :id WHERE cedula = :cedula");
+        $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id");
 
         foreach ($this->participantes as $participantes) {
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":id" => $this->id,
-                ":cedula" => $participantes
+                ":cedula" => $participantes,
+                ":id" => $this->id
+                
             ));
         } //fin del foreach
 
@@ -567,7 +568,7 @@ class Discipulado extends Conectar
 
     public function eliminar_participantes($cedula_participante)
     {
-        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$cedula_participante'");
+        $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -651,9 +652,8 @@ class Discipulado extends Conectar
         $sql = ("SELECT COUNT(*) AS cantidad_discipulos, 
         MONTHNAME(fecha) AS mes
         FROM celula_discipulado
-        INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+        INNER JOIN discipulos ON  celula_discipulado.id = discipulos.id_discipulado
         WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-        AND usuarios.id_discipulado IS NOT NULL
         GROUP BY MONTHNAME(fecha)");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -701,9 +701,8 @@ class Discipulado extends Conectar
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
         FROM celula_discipulado
-        INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+        INNER JOIN discipulos ON  celula_discipulado.id = discipulos.id_discipulado
         WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-        AND usuarios.id_discipulado IS NOT NULL
         AND celula_discipulado.cedula_lider='$cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
