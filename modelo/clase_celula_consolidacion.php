@@ -52,7 +52,8 @@ class Consolidacion extends Conectar
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
         FROM celula_consolidacion 
-        INNER JOIN usuarios AS participantes ON celula_consolidacion.id = participantes.id_consolidacion
+        INNER JOIN participantes_consolidacion AS consolidados ON celula_consolidacion.id = consolidados.id_consolidacion
+        INNER JOIN usuarios AS participantes ON consolidados.cedula = participantes.cedula
         WHERE celula_consolidacion.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -329,7 +330,7 @@ class Consolidacion extends Conectar
             ));
 
             //registrando en tabla intermediaria los anfitriones y asistentes
-            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_discipulado) VALUES (:cedula,:id) ");
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -358,7 +359,7 @@ class Consolidacion extends Conectar
             ));
 
             //registrando en tabla intermediaria los anfitriones y asistentes
-            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_discipulado) VALUES (:cedula,:id) ");
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -385,7 +386,7 @@ class Consolidacion extends Conectar
             ));
 
             //registrando en tabla intermediaria los anfitriones y asistentes
-            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_discipulado) VALUES (:cedula,:id) ");
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
