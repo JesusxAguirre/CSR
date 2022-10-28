@@ -101,7 +101,7 @@ class Consolidacion extends Conectar
 
     public function listar_usuarios_N2()
     {
-        $resultado =[];
+        $resultado = [];
         $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
@@ -169,6 +169,7 @@ class Consolidacion extends Conectar
 
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
     {
+        $resultado = [];
         $sql = ("SELECT COUNT(reporte_celula_consolidacion.fecha) AS numero_asistencias, reporte_celula_consolidacion.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono
         FROM reporte_celula_consolidacion 
@@ -183,14 +184,15 @@ class Consolidacion extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->septiembre[] = $filas;
+            $resultado[] = $filas;
         }
-        return $this->septiembre;
+        return $resultado;
     }
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
 
     public function listar_celula_consolidacion()
     {
+        $resultado = [];
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
         lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
         anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
@@ -207,12 +209,12 @@ class Consolidacion extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->consolidacion[] = $filas;
+            $resultado[] = $filas;
         }
         $accion = "Listar celula de Consolidacion";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        return $this->consolidacion;
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        return $resultado;
     }
     //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
     public function registrar_asistencias()
@@ -232,7 +234,7 @@ class Consolidacion extends Conectar
 
         $accion = "Registrar asistencias en celula de Consolidacion";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
     //------------------------------------------------------Registrar consolidacion ----------------------//
@@ -325,6 +327,16 @@ class Consolidacion extends Conectar
 
                 ":cedula" => $this->cedula_anfitrion
             ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_anfitrion,
+                ":id" => $id_consolidacion['id']
+            ));
         } else {
             //agregando codigo de celula por separado de anfitrion y asistente
             $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
@@ -345,6 +357,17 @@ class Consolidacion extends Conectar
                 ":cedula" => $this->cedula_anfitrion
             ));
 
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_anfitrion,
+                ":id" => $id_consolidacion['id']
+            ));
+
+
             $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -360,12 +383,21 @@ class Consolidacion extends Conectar
                 ":codigo" => $codigo_asistente['codigo']  . '-' . 'CC' . $id,
                 ":cedula" => $this->cedula_asistente
             ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_asistente,
+                ":id" => $id_consolidacion['id']
+            ));
         } //fin del else
 
         $accion = "Registrar Consolidacion";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-    
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
     //---------------------------------------------------COMIENZO DE UPDATE-----------------------------------//
     public function update_consolidacion()
@@ -499,10 +531,10 @@ class Consolidacion extends Conectar
                 ));
             }
 
-            
-        $accion = "Actualizar Consolidacion";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+
+            $accion = "Actualizar Consolidacion";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         }
 
         $sql = ("UPDATE celula_consolidacion SET  cedula_lider = :cedula_lider , 
@@ -537,7 +569,7 @@ class Consolidacion extends Conectar
 
         $accion = "Agregar participantes a una celula de consolidacion";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
     //---------------------------------------------------Eliminar participantes------------------------------------//
@@ -550,7 +582,7 @@ class Consolidacion extends Conectar
         $stmt->execute(array());
         $accion = "Se elimino un participante de la celula de consolidacion";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return true;
     }
 
@@ -599,7 +631,7 @@ class Consolidacion extends Conectar
 
 
     public function listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
-    {   
+    {
         $resultado = [];
         $sql = ("SELECT COUNT(*) AS cantidad_consolidaciones, 
         MONTHNAME(fecha) AS mes
@@ -644,7 +676,7 @@ class Consolidacion extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado;
     }
@@ -671,7 +703,7 @@ class Consolidacion extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $resultado= $stmt->fetch(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //inicializamos la variable de id con el modulo
         $this->id_modulo = 8;
@@ -680,7 +712,7 @@ class Consolidacion extends Conectar
         //guardamos en una variable la cedula del que esta iniciado sesion
         $usuario = $_SESSION['cedula'];
         //usamos la funcion parent para llamar a una funcion heredada de la clase  conexion y registrar la bitacora
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
 }
