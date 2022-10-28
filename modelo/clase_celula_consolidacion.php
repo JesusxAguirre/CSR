@@ -121,7 +121,7 @@ class Consolidacion extends Conectar
     public function listar_no_participantes()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_consolidacion IS NULL 
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE usuarios.cedula NOT IN  (SELECT cedula FROM participantes_consolidacion) 
         AND  codigo LIKE  '%N1%' 
         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion)
         AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_consolidacion)
@@ -278,13 +278,13 @@ class Consolidacion extends Conectar
         $id_consolidacion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
         foreach ($this->participantes as $participantes) {
-            $sql = ("UPDATE usuarios SET id_consolidacion = :id WHERE cedula = :cedula");
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":id" => $id_consolidacion['id'],
-                ":cedula" => $participantes
+                ":cedula" => $participantes,
+                ":id" => $id_consolidacion['id']
             ));
         } //fin del foreach
         //id foraneo agregado por cada participante
