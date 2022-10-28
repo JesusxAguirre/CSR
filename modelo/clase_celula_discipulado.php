@@ -122,11 +122,13 @@ class Discipulado extends Conectar
     }
     public function listar_participantes($busqueda)
     {
+        $participantes= [];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
-        participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
-        AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
+        discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
+        AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
         FROM celula_discipulado 
-        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
         WHERE celula_discipulado.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -136,13 +138,13 @@ class Discipulado extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->participantes[] = $filas;
+            $participantes[] = $filas;
         }
 
         $accion = "Listar Discipulos";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        return $this->participantes;
+        return $participantes;
     }
 
     public function listar_celula_discipulado_por_usuario()
