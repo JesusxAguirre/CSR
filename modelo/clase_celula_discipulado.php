@@ -97,6 +97,7 @@ class Discipulado extends Conectar
 
     public function listar_celula_discipulado()
     {
+        $resultado = [];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
         lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
         FROM celula_discipulado 
@@ -111,13 +112,13 @@ class Discipulado extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar[] = $filas;
+            $resultado[] = $filas;
         }
 
         $accion = "Listar Celula de discipulado";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        return $this->listar;
+        return $resultado;
     }
     public function listar_participantes($busqueda)
     {
