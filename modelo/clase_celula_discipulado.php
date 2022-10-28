@@ -388,7 +388,7 @@ class Discipulado extends Conectar
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":cedula" => $this->asistente,
+                ":cedula" => $this->cedula_asistente,
                 ":id" => $id_discipulado['id']
             ));
         } //fin del else si el asitente de la celula y el anfitrion son distintos
@@ -498,12 +498,14 @@ class Discipulado extends Conectar
             }
         } else {
             if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
-                $codigo2 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+                if ($codigo_anfitrion_antiguo == $this->cedula_asistente) {
+                    $codigo2 = '-' . $codigo;
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
-                $stmt = $this->conexion()->prepare($sql);
+                    $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array());
+                    $stmt->execute(array());
+                }
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
 
@@ -537,13 +539,15 @@ class Discipulado extends Conectar
                 ));
             }
             if ($codigo_asistente_antiguo != $this->cedula_asistente) {
+                if ($codigo_asistente_antiguo == $this->cedula_anfitrion) {
 
-                $codigo3 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
+                    $codigo3 = '-' . $codigo;
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
 
-                $stmt = $this->conexion()->prepare($sql);
+                    $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array());
+                    $stmt->execute(array());
+                }
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
 
