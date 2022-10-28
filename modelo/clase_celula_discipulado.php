@@ -316,14 +316,23 @@ class Discipulado extends Conectar
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
-                ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_anfitrion
+            ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_anfitrion,
+                ":id" => $id_discipulado['id']
             ));
         } else { //comienzo del ELSE y fin del IF
             //agregando codigo de celula por separado de anfitrion y asistente
@@ -335,14 +344,23 @@ class Discipulado extends Conectar
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
-                ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_anfitrion
+            ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_anfitrion,
+                ":id" => $id_discipulado['id']
             ));
 
             $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
@@ -352,14 +370,23 @@ class Discipulado extends Conectar
 
             $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_asistente['codigo']  . '-' . 'CD' . $id,
-                ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_asistente
+            ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->asistente,
+                ":id" => $id_discipulado['id']
             ));
         } //fin del else si el asitente de la celula y el anfitrion son distintos
 
