@@ -58,7 +58,7 @@ class Discipulado extends Conectar
 
     public function listar_usuarios_N2()
     {
-        $resultado =[];
+        $resultado = [];
         $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
@@ -116,7 +116,7 @@ class Discipulado extends Conectar
 
         $accion = "Listar Celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $this->listar;
     }
     public function listar_participantes($busqueda)
@@ -140,14 +140,14 @@ class Discipulado extends Conectar
 
         $accion = "Listar Discipulos";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $this->participantes;
     }
 
     public function listar_celula_discipulado_por_usuario()
     {
-        $resultado =[];
-       $usuario = $_SESSION['usuario'];
+        $resultado = [];
+        $usuario = $_SESSION['usuario'];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
         FROM celula_discipulado 
         WHERE celula_discipulado.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
@@ -186,9 +186,9 @@ class Discipulado extends Conectar
 
         $accion = "Reporte de Asistencias de celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
-        }
+    }
 
     public function listar_no_participantes()
     {
@@ -226,7 +226,7 @@ class Discipulado extends Conectar
 
         $accion = "Registrar Asistencias de celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -258,7 +258,7 @@ class Discipulado extends Conectar
         ));
 
 
-        //---------Comienzo de funcion de pasar id foraneo con respecto a los participantes de la celula------------------------//
+        //---------Comienzo de funcion de pasar id foraneo con respecto a los discipulos de la celula------------------------//
         //primero vamos a buscar el id que queremos pasar como clave foranea
 
         $sql = ("SELECT id FROM celula_discipulado 
@@ -274,13 +274,13 @@ class Discipulado extends Conectar
 
 
         foreach ($this->participantes as $participantes) {
-            $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":id" => $id_discipulado['id'],
-                ":cedula" => $participantes
+                ":cedula" => $participantes,
+                ":id" => $id_discipulado['id']
             ));
         } //fin del foreach
         //id foraneo agregado por cada participante
@@ -365,7 +365,7 @@ class Discipulado extends Conectar
 
         $accion = "Registrar  celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
 
@@ -515,7 +515,7 @@ class Discipulado extends Conectar
 
         $accion = "Editar datos de celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
 
@@ -590,7 +590,7 @@ class Discipulado extends Conectar
 
 
     public function listar_cantidad_celulas_discipulado($fecha_inicio, $fecha_final)
-    {   
+    {
         $resultado = [];
         $sql = ("SELECT COUNT(*) AS cantidad_discipulado, 
         MONTHNAME(fecha) AS mes
@@ -609,9 +609,9 @@ class Discipulado extends Conectar
         }
         $accion = "Generado Reporte estadistico cantidad  de celulas de discipulado";
         //cambiando la id del modulo
-        $this->id_modulo=8;
+        $this->id_modulo = 8;
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
     public function listar_numero_discipulos($fecha_inicio, $fecha_final)
@@ -635,10 +635,10 @@ class Discipulado extends Conectar
             $resultado[] = $filas;
         }
         $accion = "Generado Reporte estadistico cantidad discipulos en celulas de discipulado";
-           //cambiando la id del modulo
-           $this->id_modulo=8;
-           $usuario = $_SESSION['cedula'];
-           parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        //cambiando la id del modulo
+        $this->id_modulo = 8;
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
 
@@ -708,10 +708,10 @@ class Discipulado extends Conectar
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $accion = "Generado Reporte estadistico crecimiento  lider de celula de discipulado";
-           //cambiando la id del modulo
-           $this->id_modulo=8;
-           $usuario = $_SESSION['cedula'];
-           parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        //cambiando la id del modulo
+        $this->id_modulo = 8;
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
 
