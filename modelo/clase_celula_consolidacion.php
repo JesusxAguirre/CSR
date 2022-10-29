@@ -48,7 +48,7 @@ class Consolidacion extends Conectar
     //------------------------------------------------------Listar participantes por celulal de consolidacion---------------------//
     public function listar_participantes($busqueda)
     {
-        $resultado= [];
+        $resultado = [];
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion AS codigo_celula,
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
@@ -482,16 +482,33 @@ class Consolidacion extends Conectar
                     ":codigo" => $codigo_anfitrion['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
-            }
-        } else {
-            if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
 
-                $codigo2 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+
+                $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array());
+
+                $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $this->id
+                ));
+            }
+        } else {
+            if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
+                if ($codigo_anfitrion_antiguo == $this->cedula_asistente) {
+                    $codigo2 = '-' . $codigo;
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+
+                    $stmt = $this->conexion()->prepare($sql);
+
+                    $stmt->execute(array());
+                }
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
 
@@ -508,15 +525,31 @@ class Consolidacion extends Conectar
                     ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
-            }
-            if ($codigo_asistente_antiguo != $this->cedula_asistente) {
 
-                $codigo3 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
+                $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array());
+
+                $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $this->id
+                ));
+            }
+            if ($codigo_asistente_antiguo != $this->cedula_asistente) {
+                if ($codigo_asistente_antiguo == $this->cedula_anfitrion) {
+                    $codigo3 = '-' . $codigo;
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
+
+                    $stmt = $this->conexion()->prepare($sql);
+
+                    $stmt->execute(array());
+                }
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
 
@@ -531,6 +564,21 @@ class Consolidacion extends Conectar
                 $stmt->execute(array(
                     ":codigo" => $codigo_asistente['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_asistente
+                ));
+
+                $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = '$cedula_asistente_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+
+                $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_asistente,
+                    ":id" => $this->id
                 ));
             }
 
@@ -583,7 +631,7 @@ class Consolidacion extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-       
+
 
         return true;
     }
