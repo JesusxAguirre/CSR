@@ -624,7 +624,9 @@ class Discipulado extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-
+        $accion = "Se elimino un discipulo de la celula de discipulado";
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return true;
     }
 

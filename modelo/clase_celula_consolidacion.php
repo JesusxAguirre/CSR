@@ -48,6 +48,7 @@ class Consolidacion extends Conectar
     //------------------------------------------------------Listar participantes por celulal de consolidacion---------------------//
     public function listar_participantes($busqueda)
     {
+        $resultado= [];
         $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion AS codigo_celula,
         participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
         AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
@@ -63,9 +64,9 @@ class Consolidacion extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->participantes[] = $filas;
+            $resultado[] = $filas;
         }
-        return $this->participantes;
+        return $resultado;
     }
 
     //-------------------------------------------------------Buscar consolidacion con Ajax---------------------//
@@ -556,7 +557,7 @@ class Consolidacion extends Conectar
 
     public function agregar_participantes()
     {
-        $sql = ("UPDATE usuarios SET id_consolidacion= :id WHERE cedula = :cedula");
+        $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
 
         foreach ($this->participantes as $participantes) {
 
@@ -576,7 +577,7 @@ class Consolidacion extends Conectar
     //---------------------------------------------------Eliminar participantes------------------------------------//
     public function eliminar_participantes($cedula_participante)
     {
-        $sql = ("UPDATE usuarios SET id_consolidacion  = NULL WHERE cedula = '$cedula_participante'");
+        $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -584,6 +585,7 @@ class Consolidacion extends Conectar
         $accion = "Se elimino un participante de la celula de consolidacion";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        
         return true;
     }
 
@@ -669,9 +671,8 @@ class Consolidacion extends Conectar
         SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
         SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
         FROM celula_consolidacion
-        INNER JOIN usuarios ON  celula_consolidacion.id = usuarios.id_consolidacion
+        INNER JOIN participantes_consolidacion ON  celula_consolidacion.id = participantes_consolidacion.id_consolidacion
         WHERE celula_consolidacion.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-        AND usuarios.id_consolidacion IS NOT NULL
         AND celula_consolidacion.cedula_lider='$cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
