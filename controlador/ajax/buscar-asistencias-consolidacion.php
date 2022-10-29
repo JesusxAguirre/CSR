@@ -12,7 +12,6 @@ $fecha_final = $_GET['fecha_final'];
 $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_final);
 ?>
 
-<?php if (!empty($matriz_asistencias)) : ?>
   <div class="table-responsive mt-4">
     <table role='table' class='table table-centered'>
       <thead>
@@ -37,4 +36,3 @@ $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_fin
       </tbody>
     </table>
   </div>
-<?php endif ?>
