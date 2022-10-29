@@ -501,7 +501,7 @@ class Consolidacion extends Conectar
             }
         } else {
             if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
-                if ($codigo_anfitrion_antiguo == $this->cedula_asistente) {
+                if ($codigo_anfitrion_antiguo != $this->cedula_asistente) {
                     $codigo2 = '-' . $codigo;
                     $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -510,11 +510,11 @@ class Consolidacion extends Conectar
                     $stmt->execute(array());
                 }
                 //agregando el codigo a el usuario nuevo
-                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
 
                 $stmt = $this->conexion()->prepare($sql);
                 $stmt->execute(array());
-                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
                 $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
@@ -522,7 +522,7 @@ class Consolidacion extends Conectar
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $this->codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
 
@@ -542,7 +542,7 @@ class Consolidacion extends Conectar
                 ));
             }
             if ($codigo_asistente_antiguo != $this->cedula_asistente) {
-                if ($codigo_asistente_antiguo == $this->cedula_anfitrion) {
+                if ($codigo_asistente_antiguo != $this->cedula_anfitrion) {
                     $codigo3 = '-' . $codigo;
                     $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
 

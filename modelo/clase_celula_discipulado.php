@@ -500,7 +500,7 @@ class Discipulado extends Conectar
             }
         } else {
             if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
-                if ($codigo_anfitrion_antiguo == $this->cedula_asistente) {
+                if ($codigo_anfitrion_antiguo != $this->cedula_asistente) {
                     $codigo2 = '-' . $codigo;
                     $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
@@ -541,7 +541,7 @@ class Discipulado extends Conectar
                 ));
             }
             if ($codigo_asistente_antiguo != $this->cedula_asistente) {
-                if ($codigo_asistente_antiguo == $this->cedula_anfitrion) {
+                if ($codigo_asistente_antiguo != $this->cedula_anfitrion) {
 
                     $codigo3 = '-' . $codigo;
                     $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
