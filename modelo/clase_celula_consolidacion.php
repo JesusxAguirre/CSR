@@ -582,10 +582,8 @@ class Consolidacion extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        $accion = "Se elimino un participante de la celula de consolidacion";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        
+       
+
         return true;
     }
 
