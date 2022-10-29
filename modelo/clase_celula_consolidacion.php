@@ -173,12 +173,13 @@ class Consolidacion extends Conectar
     {
         $resultado = [];
         $sql = ("SELECT COUNT(reporte_celula_consolidacion.fecha) AS numero_asistencias, reporte_celula_consolidacion.cedula_participante, usuarios.nombre,
-        usuarios.codigo, usuarios.telefono
+        usuarios.codigo, usuarios.telefono,
+        MONTHNAME(fecha) AS mes
         FROM reporte_celula_consolidacion 
         INNER JOIN usuarios ON reporte_celula_consolidacion.cedula_participante = usuarios.cedula
         WHERE reporte_celula_consolidacion.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
         AND  reporte_celula_consolidacion.id_consolidacion = '$id'
-        GROUP BY cedula_participante");
+        GROUP BY MONTHNAME(fecha)");
 
         $stmt = $this->conexion()->prepare($sql);
 

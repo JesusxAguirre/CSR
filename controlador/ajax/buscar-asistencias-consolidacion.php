@@ -30,7 +30,7 @@ $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_fin
             <td role='cell'><?php echo $asistencias['nombre'] ?></td>
             <td class="" role='cell'><?php echo $asistencias['telefono'] ?></td>
             <td class="" role='cell'><?php echo $asistencias['codigo'] ?></td>
-            <td role='cell' >Septiembre</td>
+            <td role='cell' ><?php echo $asistencias['mes']?> </td>
             <td role='cell'><?php echo $asistencias['numero_asistencias'] ?></td>
           </tr>
         <?php endforeach;     ?>
