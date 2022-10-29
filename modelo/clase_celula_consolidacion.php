@@ -452,7 +452,7 @@ class Consolidacion extends Conectar
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_lider['codigo'] . '-' . $this->codigo,
+                ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
                 ":cedula" => $this->cedula_lider
             ));
         }
@@ -479,7 +479,7 @@ class Consolidacion extends Conectar
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
 
@@ -522,7 +522,7 @@ class Consolidacion extends Conectar
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
 
@@ -562,7 +562,7 @@ class Consolidacion extends Conectar
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_asistente['codigo'] . '-' . $this->codigo,
+                    ":codigo" => $codigo_asistente['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_asistente
                 ));
 
