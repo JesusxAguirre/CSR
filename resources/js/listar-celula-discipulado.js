@@ -204,7 +204,7 @@ if (actualizar == false) {
 if (registrar_participante == false) {
   Swal.fire({
     icon: 'success',
-    title: 'Se registro correctamente el(la) ó los(as)participante'
+    title: 'Se registro correctamente el(la) ó los(as) discipulos'
   })
   setTimeout(recarga, 2000);
 }
@@ -243,10 +243,10 @@ deleteButton.addEventListener('click', () => {
     type: "post",
   }).done(data => {
     if (data == '1') {
-      fireAlert('success', 'Participante  eliminado correctamente')
+      fireAlert('success', 'Discipulo  eliminado correctamente')
     } else {
       console.log(data)
-      fireAlert('error', 'El participante que intenta eliminar no existe')
+      fireAlert('error', 'El Discipulo que intenta eliminar no existe')
     }
   }).then(() => {
     setTimeout(recarga, 2000);

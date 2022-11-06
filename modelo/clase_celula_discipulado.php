@@ -58,7 +58,7 @@ class Discipulado extends Conectar
 
     public function listar_usuarios_N2()
     {
-        $resultado =[];
+        $resultado = [];
         $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
@@ -97,6 +97,7 @@ class Discipulado extends Conectar
 
     public function listar_celula_discipulado()
     {
+        $resultado = [];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
         lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
         FROM celula_discipulado 
@@ -111,21 +112,23 @@ class Discipulado extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar[] = $filas;
+            $resultado[] = $filas;
         }
 
         $accion = "Listar Celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        return $this->listar;
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        return $resultado;
     }
     public function listar_participantes($busqueda)
     {
+        $participantes = [];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
-        participantes.cedula AS participantes_cedula, participantes.nombre AS participantes_nombre,participantes.apellido 
-        AS participantes_apellido, participantes.codigo AS participantes_codigo, participantes.telefono AS participantes_telefono
+        discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
+        AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
         FROM celula_discipulado 
-        INNER JOIN usuarios AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
         WHERE celula_discipulado.id = '$busqueda'");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -135,19 +138,19 @@ class Discipulado extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->participantes[] = $filas;
+            $participantes[] = $filas;
         }
 
         $accion = "Listar Discipulos";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        return $this->participantes;
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        return $participantes;
     }
 
     public function listar_celula_discipulado_por_usuario()
     {
-        $resultado =[];
-       $usuario = $_SESSION['usuario'];
+        $resultado = [];
+        $usuario = $_SESSION['usuario'];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
         FROM celula_discipulado 
         WHERE celula_discipulado.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
@@ -168,12 +171,12 @@ class Discipulado extends Conectar
     {
         $resultado = [];
         $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
-        usuarios.codigo, usuarios.telefono
+        usuarios.codigo, usuarios.telefono, MONTHNAME(fecha) AS mes
         FROM reporte_celula_discipulado 
         INNER JOIN usuarios ON reporte_celula_discipulado.cedula_participante = usuarios.cedula
         WHERE reporte_celula_discipulado.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
         AND  reporte_celula_discipulado.id_discipulado = '$id'
-        GROUP BY cedula_participante");
+        GROUP BY MONTHNAME(fecha)");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -186,15 +189,17 @@ class Discipulado extends Conectar
 
         $accion = "Reporte de Asistencias de celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
-        }
+    }
 
     public function listar_no_participantes()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE id_discipulado IS NULL 
-         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado);");
+        $sql = ("SELECT cedula, codigo FROM usuarios WHERE usuarios.cedula NOT IN (SELECT cedula FROM discipulos) 
+         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado)
+         AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_discipulado)
+         AND usuarios.cedula NOT IN (SELECT cedula_asistente FROM celula_discipulado)");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -226,7 +231,7 @@ class Discipulado extends Conectar
 
         $accion = "Registrar Asistencias de celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -258,7 +263,7 @@ class Discipulado extends Conectar
         ));
 
 
-        //---------Comienzo de funcion de pasar id foraneo con respecto a los participantes de la celula------------------------//
+        //---------Comienzo de funcion de pasar id foraneo con respecto a los discipulos de la celula------------------------//
         //primero vamos a buscar el id que queremos pasar como clave foranea
 
         $sql = ("SELECT id FROM celula_discipulado 
@@ -274,13 +279,13 @@ class Discipulado extends Conectar
 
 
         foreach ($this->participantes as $participantes) {
-            $sql = ("UPDATE usuarios SET id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id) ");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":id" => $id_discipulado['id'],
-                ":cedula" => $participantes
+                ":cedula" => $participantes,
+                ":id" => $id_discipulado['id']
             ));
         } //fin del foreach
         //id foraneo agregado por cada participante
@@ -316,14 +321,23 @@ class Discipulado extends Conectar
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
-                ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_anfitrion
+            ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_anfitrion,
+                ":id" => $id_discipulado['id']
             ));
         } else { //comienzo del ELSE y fin del IF
             //agregando codigo de celula por separado de anfitrion y asistente
@@ -335,14 +349,23 @@ class Discipulado extends Conectar
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
-                ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_anfitrion
+            ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_anfitrion,
+                ":id" => $id_discipulado['id']
             ));
 
             $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
@@ -352,20 +375,29 @@ class Discipulado extends Conectar
 
             $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo, id_discipulado = :id WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":codigo" => $codigo_asistente['codigo']  . '-' . 'CD' . $id,
-                ":id" => $id_discipulado['id'],
                 ":cedula" => $this->cedula_asistente
+            ));
+
+            //registrando en tabla intermediaria los anfitriones y asistentes
+            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula" => $this->cedula_asistente,
+                ":id" => $id_discipulado['id']
             ));
         } //fin del else si el asitente de la celula y el anfitrion son distintos
 
         $accion = "Registrar  celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
 
@@ -450,21 +482,38 @@ class Discipulado extends Conectar
                     ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
+
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_anfitrion_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $this->id
+                ));
             }
         } else {
             if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
-                $codigo2 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+                if ($codigo_anfitrion_antiguo != $this->cedula_asistente) {
+                    $codigo2 = '-' . $codigo;
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
 
-                $stmt = $this->conexion()->prepare($sql);
+                    $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array());
+                    $stmt->execute(array());
+                }
                 //agregando el codigo a el usuario nuevo
-                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
 
                 $stmt = $this->conexion()->prepare($sql);
                 $stmt->execute(array());
-                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
                 $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
@@ -472,18 +521,35 @@ class Discipulado extends Conectar
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
+                    ":codigo" => $codigo_anfitrion['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_anfitrion
                 ));
-            }
-            if ($codigo_asistente_antiguo != $this->cedula_asistente) {
 
-                $codigo3 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_anfitrion_antiguo'");
 
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array());
+
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $this->id
+                ));
+            }
+            if ($codigo_asistente_antiguo != $this->cedula_asistente) {
+                if ($codigo_asistente_antiguo != $this->cedula_anfitrion) {
+
+                    $codigo3 = '-' . $codigo;
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
+
+                    $stmt = $this->conexion()->prepare($sql);
+
+                    $stmt->execute(array());
+                }
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
 
@@ -498,6 +564,21 @@ class Discipulado extends Conectar
                 $stmt->execute(array(
                     ":codigo" => $codigo_asistente['codigo'] . '-' . $codigo,
                     ":cedula" => $this->cedula_asistente
+                ));
+
+                $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_asistente_antiguo'");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array());
+
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_asistente,
+                    ":id" => $this->id
                 ));
             }
         }
@@ -515,29 +596,31 @@ class Discipulado extends Conectar
 
         $accion = "Editar datos de celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
 
     public function agregar_participantes()
     {
-        $sql = ("UPDATE usuarios SET id_discipulado= :id WHERE cedula = :cedula");
+        $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
         foreach ($this->participantes as $participantes) {
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":id" => $this->id,
-                ":cedula" => $participantes
+                ":cedula" => $participantes,
+                ":id" => $this->id
+
             ));
         } //fin del foreach
 
     }
 
     public function eliminar_participantes($cedula_participante)
-    {
-        $sql = ("UPDATE usuarios SET id_discipulado  = NULL WHERE cedula = '$cedula_participante'");
+    {   
+
+        $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -590,7 +673,7 @@ class Discipulado extends Conectar
 
 
     public function listar_cantidad_celulas_discipulado($fecha_inicio, $fecha_final)
-    {   
+    {
         $resultado = [];
         $sql = ("SELECT COUNT(*) AS cantidad_discipulado, 
         MONTHNAME(fecha) AS mes
@@ -609,9 +692,9 @@ class Discipulado extends Conectar
         }
         $accion = "Generado Reporte estadistico cantidad  de celulas de discipulado";
         //cambiando la id del modulo
-        $this->id_modulo=8;
+        $this->id_modulo = 8;
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
     public function listar_numero_discipulos($fecha_inicio, $fecha_final)
@@ -621,9 +704,8 @@ class Discipulado extends Conectar
         $sql = ("SELECT COUNT(*) AS cantidad_discipulos, 
         MONTHNAME(fecha) AS mes
         FROM celula_discipulado
-        INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+        INNER JOIN discipulos ON  celula_discipulado.id = discipulos.id_discipulado
         WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-        AND usuarios.id_discipulado IS NOT NULL
         GROUP BY MONTHNAME(fecha)");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -635,18 +717,18 @@ class Discipulado extends Conectar
             $resultado[] = $filas;
         }
         $accion = "Generado Reporte estadistico cantidad discipulos en celulas de discipulado";
-           //cambiando la id del modulo
-           $this->id_modulo=8;
-           $usuario = $_SESSION['cedula'];
-           parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        //cambiando la id del modulo
+        $this->id_modulo = 8;
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
 
     public function contar_discipulos()
     {
         $sql = ("SELECT count(*) AS cantidad_discipulos 
-        FROM usuarios 
-        WHERE usuarios.id_discipulado IS NOT NULL");
+        FROM discipulos 
+       ");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
@@ -671,9 +753,8 @@ class Discipulado extends Conectar
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
         SUM(CASE WHEN MONTH(celula_discipulado.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
         FROM celula_discipulado
-        INNER JOIN usuarios ON  celula_discipulado.id = usuarios.id_discipulado
+        INNER JOIN discipulos ON  celula_discipulado.id = discipulos.id_discipulado
         WHERE celula_discipulado.fecha BETWEEN '$fecha_inicio-01' AND '$fecha_final-31'
-        AND usuarios.id_discipulado IS NOT NULL
         AND celula_discipulado.cedula_lider='$cedula_lider'");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -708,10 +789,10 @@ class Discipulado extends Conectar
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $accion = "Generado Reporte estadistico crecimiento  lider de celula de discipulado";
-           //cambiando la id del modulo
-           $this->id_modulo=8;
-           $usuario = $_SESSION['cedula'];
-           parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        //cambiando la id del modulo
+        $this->id_modulo = 8;
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
 

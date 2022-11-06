@@ -25,12 +25,14 @@ class LaRoca extends Conectar
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        //LLAMADA DE FUNCION PARA VERIFICAR SI CASA SOBRE LA ROCA DEBERIA ESTAR DESINCORPORADA
         $this->actualizar_status_CSR();
         $this->id_modulo =2;
     }
-
+    //BUSCAR CSR CON FILTROS
     public function buscar_CSR($busqueda)
     {
+        $resultado= [];
         $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
         FROM casas_la_roca 
         JOIN usuarios AS lider ON casas_la_roca.cedula_lider = lider.cedula 
@@ -51,11 +53,12 @@ class LaRoca extends Conectar
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-                $this->busqueda[] = $filas;
+                $resultado[] = $filas;
             }
         }
-        return $this->busqueda;
+        return $busqueda;
     }
+    //LISTAR USUARIOS DE NIVEL 2 Y 3
     public function listar_usuarios_N2()
     {
         $resultado =[];
@@ -73,7 +76,7 @@ class LaRoca extends Conectar
         return $resultado;
     }
 
-
+    //LISTAR LIDERES SIN CSR
     public function listar_lideres_sin_CSR()
     {
 
@@ -97,7 +100,7 @@ class LaRoca extends Conectar
         return $this->lideres;
 
     }
-
+    //LISTAR CSR
     public function listar_casas_la_roca()
     {
 
@@ -125,6 +128,7 @@ class LaRoca extends Conectar
 
         return $listar;
     }
+    //LISTAR CASAS SOBRE LA ROCA DESINCORPORADAS ESTO ES PARA LOS REPORTES ESTADISITCOS
     public function listar_casas_la_roca_sin_status()
     {
 
@@ -146,7 +150,7 @@ class LaRoca extends Conectar
         }
         return $listar;
     }
-
+    //ESTO ES PARA QUE NADIE QUE NO SEA EL USUARIO QUE CREO LA CSR NO PUEDA REPORTARLA ES UN TIPO VALIDACION POR BACKEND
     public function listar_casas_la_roca_por_usuario()
     {
         $usuario = $_SESSION['usuario'];
@@ -165,7 +169,7 @@ class LaRoca extends Conectar
         }
         return $this->listar;
     }
-
+    //REGISTRAR CASAS SOBRE LA ROCA
     public function registrar_CSR()
     {
         //buscando ultimo id agregando
@@ -237,7 +241,7 @@ class LaRoca extends Conectar
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
-        //guardando en un array asociativo las cedulas
+        //guardando en un array asociativo la CSR
         $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $codigo = $cedulas['codigo_celula'];
@@ -245,7 +249,7 @@ class LaRoca extends Conectar
         $codigo_lider_antiguo = $cedulas['codigo_lider'];
         $cedula_lider_antiguo = $cedulas['cedula_lider'];
 
-
+        //VERIFICANDO QUE EL LIDER DE LA CASA SOBRE LA ROCA SEA EL MISMO QUE ANTES SI ES DISTINTO QUE EL ANTIGUO SE MODIFICA EL CODIGO DE AMBOS USUARIOS
         if ($codigo_lider_antiguo != $this->cedula_lider) {
 
             $codigo1 = '-' . $codigo;
@@ -293,7 +297,7 @@ class LaRoca extends Conectar
     }
 
     //---------Actualizar status cada 3 meses CSR------------------------//
-
+    //ACTUALIZAR CASA SOBRE LA ROCAS CADA 3 MESES DESDE SU CREACION CON UNA ELIMINACION LOGICA
     public function actualizar_status_CSR()
     {
         $sql = ("UPDATE casas_la_roca SET 
@@ -339,7 +343,7 @@ class LaRoca extends Conectar
 
         return true;
     }
-
+    //SET PARA ACTUALIZAR CSR
     public function setActualizar($cedula_lider, $nombre_anfitrion, $telefono_anfitrion, $cantidad, $direccion, $dia, $hora, $id)
     {
         $this->cedula_lider = $cedula_lider;
@@ -352,7 +356,7 @@ class LaRoca extends Conectar
         $this->id = $id;
     }
 
-
+    //SET PARA REGISTRAR CSR
     public function setCSR($cedula_lider, $direccion, $nombre_anfitrion, $telefono, $dia, $hora, $cantidad_integrantes)
     {
         $this->cedula_lider = $cedula_lider;
@@ -364,6 +368,7 @@ class LaRoca extends Conectar
         $this->cantidad_integrantes = $cantidad_integrantes;
         $this->fecha = gmdate("y-m-d", time());
     }
+    //SET PARA REGISTRAR REPORTE
     public function setReporte($CSR, $hombres, $mujeres, $niños, $confesiones)
     {
         $this->CSR = $CSR;
@@ -376,6 +381,7 @@ class LaRoca extends Conectar
     }
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
+    //MOSTRANDO CASAS SOBRE LA ROCA  CON ANIIO ACTUAL
     public function reporte_dashboard()
     {
         $año = date("Y");
@@ -404,7 +410,7 @@ class LaRoca extends Conectar
     }
 
     //------------------------------------------------------Count de casas sobre la roca abiertas ----------------------//
-
+    //CONTAR CASAS SOBRE LA ROCAS ACTIVAS
     public function contar_CSR()
     {
         $sql = ("SELECT count(*) AS casas_abiertas FROM casas_la_roca WHERE status=1");
@@ -415,6 +421,7 @@ class LaRoca extends Conectar
 
         return $resultado;
     }
+    //ESTA FUNCION NO FUE UTILIZADA
     public function contar_asistencias_CSR()
     {
         $resultado = [];

@@ -15,7 +15,7 @@ function estadistico(){
       type: 'area'
     },
     title: {
-      text: 'Reporte de celulas anual'
+      text: 'Reporte de CSR anual'
     },
     subtitle: {
       text: 'Este reporte incluye las casas que estan desincorporadas',

@@ -11,7 +11,6 @@ $fecha_final = $_GET['fecha_final'];
 $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_final);
 ?>
 
-<?php if (!empty($matriz_asistencias)) : ?>
   <div class="table-responsive mt-4">
     <table role='table' class='table table-centered'>
       <thead>
@@ -29,11 +28,10 @@ $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_fin
             <td role='cell'><?php echo $asistencias['nombre'] ?></td>
             <td class="" role='cell'><?php echo $asistencias['telefono'] ?></td>
             <td class="" role='cell'><?php echo $asistencias['codigo'] ?></td>
-            <td role='cell' >Septiembre</td>
+            <td role='cell' ><?php echo $asistencias['mes'] ?></td>
             <td role='cell'><?php echo $asistencias['numero_asistencias'] ?></td>
           </tr>
         <?php endforeach;     ?>
       </tbody>
     </table>
   </div>
-<?php endif ?>
