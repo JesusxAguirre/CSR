@@ -5,7 +5,7 @@ class Usuarios extends Conectar
 {
     //atributos de herencia
     private $conexion;
-   
+
 
     //id de modulo
 
@@ -30,16 +30,6 @@ class Usuarios extends Conectar
 
 
     private $cedula_antigua;
-    private $permiso_read_casa;
-    private $permiso_create_casa;
-    private $permiso_update_casa;
-    private $permiso_read_usuarios;
-    private $permiso_create_usuarios;
-    private $permiso_update_usuarios;
-    private $permiso_read_ecam;
-    private $permiso_create_ecam;
-    private $permiso_update_ecam;
-
     //variables para imagenes
 
     private $nombre_imagen;
@@ -53,7 +43,7 @@ class Usuarios extends Conectar
     public function __construct()
     {
         $this->conexion = parent::conexion();
-        $this->id_modulo= 1;
+        $this->id_modulo = 1;
     }
 
 
@@ -142,8 +132,8 @@ class Usuarios extends Conectar
 
         $accion = "Listar todos los usuarios";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
         return $this->usuario;
     }
 
@@ -243,7 +233,7 @@ class Usuarios extends Conectar
         }
         $accion = "Listar todos los usuarios de nivel 1";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $this->arreglo_n1;
     }
     //==============Buscar usuario por cedula, por nombre o por usuario, falta modificarlo para buscar por codigo =======// 
@@ -272,7 +262,7 @@ class Usuarios extends Conectar
         }
         $accion = "Buscar usuarios";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
         return $this->usuario;
     }
@@ -425,7 +415,7 @@ class Usuarios extends Conectar
 
         $accion = "Editar datos de usuario";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
     public function update_usuarios_sin_rol()
     {
@@ -529,7 +519,7 @@ class Usuarios extends Conectar
 
         $accion = "Editar foto de usuario";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
     public function recuperar_password()
@@ -550,159 +540,6 @@ class Usuarios extends Conectar
     }
 
 
-
-
-    public function get_permisos()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave'");
-
-
-        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-
-            $this->permisos[] = $filas;
-        }
-        return $this->permisos;
-    }
-
-
-    //==============Obtener Permisos casa sobre la roca =======// 
-    public    function get_permiso_casa_read()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='1' AND intermediaria.id_modulos= '2'");
-
-        $this->permiso_read_casa = $sql->rowCount();
-        return $this->permiso_read_casa;
-    }
-
-    public   function get_permiso_casa_create()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='2' AND intermediaria.id_modulos= '2'");
-
-        $this->permiso_create_casa = $sql->rowCount();
-        return $this->permiso_create_casa;
-    }
-    function get_permiso_casa_update()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='3' AND intermediaria.id_modulos= '2'");
-
-        $this->permiso_update_casa = $sql->rowCount();
-        return $this->permiso_update_casa;
-    }
-
-
-
-    //==============Obtener Permisos ecam =======// 
-    public function get_permiso_ecam_read()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='1' AND intermediaria.id_modulos= '3'");
-
-        $this->permiso_read_ecam = $sql->rowCount();
-        return $this->permiso_read_ecam;
-    }
-    public function get_permiso_ecam_create()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='2' AND intermediaria.id_modulos= '3'");
-
-        $this->permiso_read_ecam = $sql->rowCount();
-        return $this->permiso_create_ecam;
-    }
-    public   function get_permiso_ecam_update()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='3' AND intermediaria.id_modulos= '3'");
-
-        $this->permiso_read_ecam = $sql->rowCount();
-        return $this->permiso_update_ecam;
-    }
-
-
-
-
-    //==============Obtener Permisos usuarios =======// 
-
-    public function get_permiso_usuarios_read()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='1' AND intermediaria.id_modulos= '1'");
-
-        $this->permiso_read_usuarios = $sql->rowCount();
-        return $this->permiso_read_usuarios;
-    }
-    public function get_permiso_usuarios_create()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='2' AND intermediaria.id_modulos= '1'");
-
-        $this->permiso_create_usuarios = $sql->rowCount();
-        return $this->permiso_create_usuarios;
-    }
-    public function get_permiso_usuarios_update()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='3' AND intermediaria.id_modulos= '1'");
-
-        $this->permiso_update_usuarios = $sql->rowCount();
-        return $this->permiso_update_usuarios;
-    }
-    public function get_permiso_usuarios_delete()
-    {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $sql = $this->conexion->query("SELECT intermediaria.id_rol, intermediaria.id_permisos, intermediaria.id_modulos FROM intermediaria 
-        INNER JOIN roles  ON  intermediaria.id_rol = roles.id
-        INNER JOIN usuarios ON roles.id = usuarios.id_rol
-        WHERE usuarios.usuario = '$usuario' AND usuarios.password = '$clave' AND intermediaria.id_permisos ='4' AND intermediaria.id_modulos= '1'");
-
-        $this->permiso_delete_usuarios = $sql->rowCount();
-        return $this->permiso_delete_usuarios;
-    }
 
 
 
