@@ -46,7 +46,7 @@ class Usuarios extends Conectar
         $this->id_modulo = 1;
     }
 
-
+    //BUSCAR ID DE ROL DE USUARIO
     public function getIdRol($usuario)
     {
         $sql = "SELECT usuarios.id_rol FROM usuarios WHERE usuarios.usuario = '$usuario'";
@@ -61,7 +61,7 @@ class Usuarios extends Conectar
         return $idRol;
     }
 
-
+    //LISTAR BITACORA
     public function listar_bitacora()
     {
         //$cedula= $_SESSION['cedula'];
@@ -79,6 +79,7 @@ class Usuarios extends Conectar
 
         return $bitacora;
     }
+    //VALIDACION DE ENTRADA PARA USUARIOS
     public function validar()
     {
         $usuario = $_SESSION['usuario'];
@@ -136,7 +137,7 @@ class Usuarios extends Conectar
 
         return $this->usuario;
     }
-
+    //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
     public function buscar_cedula($cedula)
     {
 
@@ -150,7 +151,7 @@ class Usuarios extends Conectar
 
         return $resultado;
     }
-
+    //BUSCAR SI CEDULA YA EXISTE EN MENU PERFIL
     public function buscar_cedula_perfil($cedula)
     {
         $matriz_usuario = $this->mi_perfil();
@@ -168,6 +169,7 @@ class Usuarios extends Conectar
 
         return $resultado;
     }
+    //BUSCAR CORREO EN REGISTRAR USUARIOS
     public function buscar_correo($correo)
     {
 
@@ -182,6 +184,7 @@ class Usuarios extends Conectar
         return $resultado;
     }
 
+    //BUSCAR CORREO EN MI PERFIL
     public function buscar_correo_perfil($correo)
     {
         $matriz_usuario = $this->mi_perfil();
@@ -200,7 +203,8 @@ class Usuarios extends Conectar
 
         return $resultado;
     }
-    //============== Listar usuarios con condicional de lider =======// 
+
+    //============== Listar usuarios DE NIVEL 2 Y 3=======// 
     public function listar_usuarios_N2()
     {
 
@@ -217,6 +221,7 @@ class Usuarios extends Conectar
         }
         return $this->arreglo_n2;
     }
+    //LISTAR USUARIOS DE NIVEL1
     public function listar_usuarios_N1()
     {
 
@@ -236,7 +241,7 @@ class Usuarios extends Conectar
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $this->arreglo_n1;
     }
-    //==============Buscar usuario por cedula, por nombre o por usuario, falta modificarlo para buscar por codigo =======// 
+    //==============Buscar usuario por cedula, por nombre o, estado civil y codigo  =======// 
     public function buscar_usuario($busqueda)
     {
 
@@ -270,7 +275,7 @@ class Usuarios extends Conectar
     //============== Registrar usuarios en el inicio de sesion=======// 
     public  function registrar_usuarios()
     {
-
+        //ESTAS FUNCIONES DE SUBTR ES PARA HACER EL CODIGO DE CADA USUARIO
         $nacionalidad2 = substr($this->nacionalidad, 0, 2);
         $estado2 = substr($this->estado, 0, 2);
         $sexo2 = substr($this->sexo, 0, 1);
@@ -302,7 +307,8 @@ class Usuarios extends Conectar
         $sql = "INSERT INTO usuarios (cedula,id_rol,
         codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
         VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
-        //cifrando password
+
+        //ENCRIPTANDO CLAVE
         $stmt = $this->conexion->prepare($sql);
 
         $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
@@ -318,7 +324,7 @@ class Usuarios extends Conectar
         ));
     }
 
-
+    //ACTUALIZAR USUARIOS
     public function update_usuarios()
     {
         //creando codigo de datos enviados por el usuario
@@ -417,6 +423,8 @@ class Usuarios extends Conectar
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
+
+    //ACTUALIZAR USUARIOS SIN ROL
     public function update_usuarios_sin_rol()
     {
         //creando codigo de datos enviados por el usuario
@@ -522,6 +530,8 @@ class Usuarios extends Conectar
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
+
+    //RECUPERAR CONTRASEÑA
     public function recuperar_password()
     {
 
@@ -542,7 +552,7 @@ class Usuarios extends Conectar
 
 
 
-
+    //METODO SETTER PARA REGISTRAR USUARIO
     public function setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)
     {
         $this->nombre = $nombre;
@@ -557,6 +567,7 @@ class Usuarios extends Conectar
         $this->correo = $correo;
         $this->clave = $clave;
     }
+    //METODO SETTER PARA ACTUALIZAR USUARIO
     public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol)
     {
         $this->nombre = $nombre;
@@ -571,6 +582,7 @@ class Usuarios extends Conectar
         $this->telefono = $telefono;
         $this->rol = $rol;
     }
+    //METODO SETTER PARA ACTUALIZAR USUARIO PERO SIN ID DE ROL
     public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)
     {
         $this->nombre = $nombre;
@@ -586,6 +598,7 @@ class Usuarios extends Conectar
         $this->correo = $correo;
         $this->clave = $clave;
     }
+    //METODO SETTER PARA ACTUALIZAR FOTO DE USUARIO
     public function setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen)
     {
 
@@ -596,7 +609,7 @@ class Usuarios extends Conectar
         $this->tipo_imagen = $tipo_imagen;
         $this->tamaño_imagen = $tamaño_imagen;
     }
-
+    //METODO SETTER PARA RECUPERAR CONTRASENIA
     public function setRecuperar($correo, $clave)
     {
         $this->correo = $correo;
