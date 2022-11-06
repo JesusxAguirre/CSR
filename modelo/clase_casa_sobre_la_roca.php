@@ -421,7 +421,7 @@ class LaRoca extends Conectar
 
         return $resultado;
     }
-    //ESTA FUNCION NO FUE UTILIZADA
+    //ESTA FUNCION BUSCA EL LIDER DEL MES 
     public function contar_asistencias_CSR()
     {
         $resultado = [];
@@ -442,7 +442,7 @@ class LaRoca extends Conectar
 
         return $resultado;
     }
-
+    //CONTAR LIDERES DE CSR PARA DASHBOARD
     public function contar_lideres_CSR()
     {
         $sql = ("SELECT count(*) AS cantidad_lideres 
