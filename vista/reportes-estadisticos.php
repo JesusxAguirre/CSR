@@ -206,7 +206,7 @@
             <div class="mb-3 row">
               <div id="grupo__lider" class="col-sm ">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <label class="form-label fw-bold" for="">Seleccione un lider</label>
                   <i class="input-icon fs-5"></i>
                   <select name="lider[]" id="lider" class="form-control">
                     <option value="">Seleccione una opcion</option>
@@ -257,7 +257,7 @@
             <div class="mb-3 row">
               <div id="grupo__CSR" class="col-sm ">
                 <div class="relative">
-                  <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
+                  <label class="form-label fw-bold" for="">Seleccione una CSR</label>
                   <i class="input-icon fs-5"></i>
                   <select name="CSR[]" id="CSR" class="form-control">
                     <option value="">Seleccione una opcion</option>
