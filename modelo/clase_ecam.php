@@ -93,9 +93,9 @@ class ecam extends Conectar
     {
         $filas1 = [];
         $seccion = $_SESSION['id_seccion'];
-        $cedulaEst = $_SESSION['cedula'];
+        $cedula = $_SESSION['cedula'];
 
-        $sql = "SELECT * FROM `notificaciones_estudiantes` WHERE `id_seccion` = $seccion AND `cedula_estudiante` = $cedulaEst 
+        $sql = "SELECT * FROM `notificaciones_estudiantes` WHERE `id_seccion` = $seccion AND `cedula_estudiante` = $cedula
         OR `cedula_estudiante` IS NULL ORDER BY `notificaciones_estudiantes`.`hora_registro` DESC";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -103,6 +103,10 @@ class ecam extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $filas1[] = $filas;
         }
+
+        $id_modulo = 12;
+        $accion = 'El usuario ha revisado sus notificaciones';
+        parent::registrar_bitacora($cedula, $accion, $id_modulo);
         return $filas1;
     }
     //REGISTRAR NOTIFICACIONES PARA PROFESORES DE LA ECAM
@@ -144,6 +148,10 @@ class ecam extends Conectar
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $filas1[] = $filas;
         }
+
+        $id_modulo = 12;
+        $accion = 'El usuario ha revisado sus notificaciones';
+        parent::registrar_bitacora($cedula, $accion, $id_modulo);
         return $filas1;
     }
 
@@ -1439,8 +1447,11 @@ class ecam extends Conectar
     ///////////////////////////////////APARTADO PARA REPORTES ESTADISTICOS/////////////////////////////
     public function cantidadEstudiantes_seccion(){
         $filas1= [];
-        $sql= "SELECT `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`usuarios`.`cedula`) IS NULL ,'0', COUNT(`usuarios`.`cedula`)) AS `cantidadEstudiantes` 
-        FROM `secciones` LEFT JOIN `usuarios` ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` GROUP BY `secciones`.`id_seccion`";
+        // $sql= "SELECT `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`usuarios`.`cedula`) IS NULL ,'0', COUNT(`usuarios`.`cedula`)) AS `cantidadEstudiantes` 
+        // FROM `secciones` LEFT JOIN `usuarios` ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` GROUP BY `secciones`.`id_seccion`";
+        
+        $sql = "SELECT `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`usuarios`.`cedula`) IS NULL ,'0', COUNT(`usuarios`.`cedula`)) AS `cantidadEstudiantes` 
+        FROM `secciones` LEFT JOIN `usuarios` ON `usuarios`.`id_seccion` = `secciones`.`id_seccion` WHERE `secciones`.`status_seccion` = '1' GROUP BY `secciones`.`id_seccion`";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 
