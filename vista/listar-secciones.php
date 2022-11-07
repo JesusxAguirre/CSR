@@ -19,12 +19,14 @@
 
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
+    <!-- JS de DataTables -->
+    <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
+
+
 
     <!-- Js boostrap -->
     <script src="./resources/js/bootstrap.min.js"></script>
 
-    <!-- JS de DataTables -->
-    <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 
     <!-- CHOICE 2 -->
     <link rel="stylesheet" href="./resources/library/choice/public/assets/styles/choices.min.css">
@@ -83,6 +85,7 @@
                     </div>
                 </div>
             </div>
+        </div>
     </main>
 
 

@@ -65,12 +65,12 @@
                             <h6 class="text-danger"><em>Secciones cerradas</em></h6>
                         </div>
                         <div class="card-body text-white">
-                            <div class="input-group mb-3">
+                            <!-- <div class="input-group mb-3">
                                 <input type="text" class="form-control" placeholder="Escribe la secciones que desees buscar">
                                 <div class="input-group-append">
                                     <span class="input-group-text" id="basic-addon2">@</span>
                                 </div>
-                            </div>
+                            </div> -->
                             <table class="table mt-3 text-white">
                                 <thead>
                                     <tr>

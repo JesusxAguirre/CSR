@@ -1,5 +1,3 @@
-
-
 /////////////////////////////////
 /////APARTADO DE DATATABLES/////
 
@@ -269,7 +267,7 @@ let dataTableSec= $('#listaSecciones').DataTable({
     language: spanish,
 });
 //GUARDANDO LA TABLA EN UNA VARIABLE PARA USARLA PARA RECUPERAR DATOS
-dataTableSec.column( 0 ).visible( false );
+dataTableSec.column(0).visible(false);
 /////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -726,14 +724,15 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////VALIDACIONES PARA EDITAR DATOS DE LA SECCION////////////////////////
+const expresionesSecciones = {
+    nombreSeccion: /^[a-zA-ZÀ-ÿ0-9\s]{8,20}$/, // Letras y espacios, pueden llevar acentos.
+}
 
 var camposEdit_1 = {
     nombreSeccion: false,
     nivelSeccion: false,
     fechaCierre: false,
 }
-
-
 
     
 //VALIDAR NOMBRE DE LA SECCION AL EDITAR
