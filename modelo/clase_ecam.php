@@ -271,7 +271,7 @@ class ecam extends Conectar
 
         $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16) 
-        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL";
+        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -289,7 +289,7 @@ class ecam extends Conectar
         $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 2 AND notaFinal >= 16) 
         AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16)
-        AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL";
+        AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -306,7 +306,7 @@ class ecam extends Conectar
         $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 3 AND notaFinal >= 16) 
         AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 2 AND `notaFinal` >= 16)
-        AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL";
+        AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -350,7 +350,7 @@ class ecam extends Conectar
     public function listar_noProfesores()
     {
         $todos = [];
-        $sql = "SELECT `cedula`,`codigo`,`nombre`,`apellido`,`telefono` FROM `usuarios` WHERE `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL";
+        $sql = "SELECT `cedula`,`codigo`,`nombre`,`apellido`,`telefono` FROM `usuarios` WHERE `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL AND `codigo` LIKE '%N2%'";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
