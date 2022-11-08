@@ -100,7 +100,7 @@ class Consolidacion extends Conectar
         return $this->busqueda;
     }
 
-
+    //LISTAR USUARIOS DE NIVEL 2 O 3
     public function listar_usuarios_N2()
     {
         $resultado = [];
@@ -119,7 +119,7 @@ class Consolidacion extends Conectar
     }
 
 
-
+    //LISTAR USUARIOS QUE NO ESTEN INSCRIPTOS EN UNA CELULA DE CONSOLIDACION
     public function listar_no_participantes()
     {
 
@@ -141,34 +141,9 @@ class Consolidacion extends Conectar
         return $this->codigos;
     }
 
+    
 
-    public function listar_asistencias_meses()
-    {
-        $sql = ("SELECT 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 1 THEN 1 ELSE 0 END) AS Enero, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 2 THEN 1 ELSE 0 END) AS Febrero, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 3 THEN 1 ELSE 0 END) AS Marzo, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 4 THEN 1 ELSE 0 END) AS Abril, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 5 THEN 1 ELSE 0 END) AS Mayo, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 6 THEN 1 ELSE 0 END) AS Junio, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 7 THEN 1 ELSE 0 END) AS Julio, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 8 THEN 1 ELSE 0 END) AS Agosto, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 9 THEN 1 ELSE 0 END) AS Septiembre, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 10 THEN 1 ELSE 0 END) AS Octubre, 
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 11 THEN 1 ELSE 0 END) AS Noviembre,
-        SUM(CASE WHEN MONTH(celula_consolidacion.fecha) = 12 THEN 1 ELSE 0 END) AS Diciembre
-       FROM celula_consolidacion
-       WHERE celula_consolidacion.fecha BETWEEN '2022-01-01' AND '2022-12-31'");
-
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
-
-        $meses = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $meses;
-    }
-
-
+    //LISTAR REPORTE DE CELULA DE CONSOLIDACION
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
     {
         $resultado = [];
@@ -662,13 +637,13 @@ class Consolidacion extends Conectar
     }
 
 
-
+    //SET PARA REGISTRAR PARTICIPANTES
     public function setParticipantes($participantes, $id)
     {
         $this->participantes = $participantes;
         $this->id = $id;
     }
-
+    //SET PARA REGISTRAR REPORTE
     public function setAsistencias($asistentes, $id, $fecha)
     {
         $this->asistentes = $asistentes;
@@ -679,7 +654,7 @@ class Consolidacion extends Conectar
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
 
-
+    //LISTAR CANTIDAD DE CELULAS DE CONSOLIDACION
     public function listar_cantidad_celulas_consolidacion($fecha_inicio, $fecha_final)
     {
         $resultado = [];
@@ -702,6 +677,7 @@ class Consolidacion extends Conectar
         return $resultado;
     }
 
+    //LISTAR NUMERO DE PERSONAS GANADAS POR LIDER     
     public function listar_numero_personas_ganadas_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
     {
         $sql = ("SELECT 
@@ -729,7 +705,7 @@ class Consolidacion extends Conectar
 
         return $resultado;
     }
-
+    //LISTAR CAMTODAD DE CELULAS DE CONSOLIDACION POR LIDER
     public function listar_cantidad_celulas_consolidacion_por_lider($fecha_inicio, $fecha_final, $cedula_lider)
     {
         $sql = ("SELECT 
