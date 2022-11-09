@@ -52,6 +52,47 @@ class Evento extends Conectar {
 		}
 	}
 
+	public function update_evento($idEvento)
+	{
+		$sql = "UPDATE eventos SET titulo = :titulo, descripcion = :descripcion, inicio = :inicio, final = :final, oculto = :oculto WHERE id_evento = :id";
+
+		try {
+			$stmt = $this->conexion->prepare($sql);
+
+			$stmt->bindParam(':titulo', $this->titulo);
+			$stmt->bindParam(':descripcion', $this->descripcion);
+			$stmt->bindParam(':inicio', $this->inicio);
+			$stmt->bindParam(':final', $this->final);
+			$stmt->bindParam(':oculto', $this->oculto);
+			$stmt->bindParam(':id', $idEvento);
+
+			$stmt->execute();
+
+			return true;
+		} catch (PDOException $e) {
+			echo $e;
+			return false;
+		}
+	}
+
+	public function delete_evento($idEvento)
+	{
+		$sql = "DELETE FROM eventos WHERE id_evento = :id";
+
+		try {
+			$stmt = $this->conexion->prepare($sql);
+
+			$stmt->bindParam(':id', $idEvento);
+
+			$stmt->execute();
+
+			return true;
+		} catch (PDOException $e) {
+			echo $e;
+			return false;
+		}
+	}
+
 	public function setDatos($titulo, $descripcion, $inicio, $final, $oculto)
 	{
 		$this->titulo      = $titulo;

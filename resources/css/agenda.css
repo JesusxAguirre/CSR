@@ -18,3 +18,7 @@ a:hover {
 .fc .fc-daygrid-day-number:hover {
 	color: #0d6efd;
 }
+
+.fc-daygrid-event:hover {
+	cursor: pointer;
+}

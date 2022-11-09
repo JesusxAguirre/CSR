@@ -109,11 +109,21 @@
                 },
                 eventClick: function(info) {
                     var editModal = new bootstrap.Modal(document.getElementById('editar'))
+                    var verModal = new bootstrap.Modal(document.getElementById('ver'))
 
+                    document.getElementById('idInputE').value = info.event.id
                     document.getElementById('tituloInputE').value = info.event.title
                     document.getElementById('descripcionInputE').value = info.event.extendedProps.descripcion
                     document.getElementById('inicioInputE').value = info.event.extendedProps.inicio
                     document.getElementById('finalInputE').value = info.event.extendedProps.final
+
+                    document.getElementById('deleteEventName').textContent = info.event.title
+                    document.querySelector('#deleteForm [name=id]').value = info.event.id
+
+                    document.getElementById('tituloInputV').value = info.event.title
+                    document.getElementById('descripcionInputV').value = info.event.extendedProps.descripcion
+                    document.getElementById('inicioInputV').value = info.event.extendedProps.inicio
+                    document.getElementById('finalInputV').value = info.event.extendedProps.final
                     if (info.event.extendedProps.oculto == 0) {
                         if (document.getElementById('noOculto'))
                             document.getElementById('noOculto').checked = 'checked'
@@ -122,7 +132,7 @@
                             document.getElementById('oculto').checked = 'checked'
                     }
 
-                    editModal.show()
+                    verModal.show()
                 }
             });
             calendar.render();
@@ -282,8 +292,85 @@
         </div>
     </div>
 
+    <!-- Modal ver -->
+    <div class="modal fade view-modal" id="ver" tabindex="-1" aria-labelledby="ModalVer" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-light">
+                    <h5 class="modal-title">Detalles del Evento</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="form" method="post" id="viewForm">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="tituloInputV">
+                                Titulo
+                            </label>
+                            <input disabled type="text" name="titulo" id="tituloInputV" class="form-control" placeholder="Ej: Clases de Algebra" autocomplete="off">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold" for="descripcionInputV">
+                                Descripción
+                            </label>
+                            <textarea disabled name="descripcion" id="descripcionInputV" class="form-control"></textarea>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="form-label fw-bold" for="inicioInputV">
+                                    Inicia
+                                </label>
+                                <input disabled type="date" name="inicio" id="inicioInputV" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label fw-bold" for="finalInputV">
+                                    Termina
+                                </label>
+                                <input disabled type="date" name="final" id="finalInputV" class="form-control">
+                            </div>
+                        </div>
+                        
+                        <input type="hidden" name="id" id="idInputV">
+                        <input type="hidden" name="view">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <?php if ($_SESSION['permisos']['agenda']['actualizar']): ?>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editar" data-bs-dismiss="modal">Editar</button>
+                    <?php endif ?>
+                    <?php if ($_SESSION['permisos']['agenda']['eliminar']): ?>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#eliminar" data-bs-dismiss="modal">Eliminar</button>
+                    <?php endif ?>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Eliminar -->
+	<div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header bg-danger text-light">
+					<h5 class="modal-title" id="Modaleliminar">¿Eliminar Evento?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body fs-5">
+					<p>Se eliminará el evento <b id="deleteEventName"></b> permanetemente.</p>
+					<form method="post" id="deleteForm">
+						<input type="hidden" name="id" class="id">
+						<input type="hidden" name="delete">
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+					<button type="submit" class="btn btn-danger" form="deleteForm">Confirmar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
     <script type="text/javascript">
         alertStatus = <?php echo $alert['status'] ?? '""'; ?>;
         alertMsg = <?php echo (isset($alert['msg'])) ? '"' . $alert['msg'] . '"' : '""'; ?>;
     </script>
+    <script type="text/javascript" src="resources/js/agenda.js"></script>
 </body>

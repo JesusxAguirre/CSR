@@ -25,6 +25,39 @@ if (is_file('vista/'.$pagina.'.php')) {
             $alert = "Ha ocurrido un error al crear el evento";
         }
     }
+
+    // Editar Evento
+    if (isset($_POST['edit']) && $_SESSION['permisos']['agenda']['actualizar']) {
+        $idEvento    = $_POST['id'];
+        $titulo      = $_POST['titulo'];
+        $descripcion = $_POST['descripcion'];
+        $inicio      = $_POST['inicio'];
+        $final       = $_POST['final'];
+        $oculto      = $_POST['oculto'] ?? '0';
+
+        $objeto->setDatos($titulo, $descripcion, $inicio, $final, $oculto);
+        
+        if ($objeto->update_evento($idEvento)) {
+            $alert['status'] = true;
+            $alert['msg'] = "Evento modificado correctamente";
+        } else {
+            $alert['status'] = 'false';
+            $alert = "Ha ocurrido un error al modificar el evento";
+        }
+    }
+
+    // Eliminar Evento
+    if (isset($_POST['delete']) && $_SESSION['permisos']['agenda']['eliminar']) {
+        $idEvento = $_POST['id'];
+
+        if ($objeto->delete_evento($idEvento)) {
+            $alert['status'] = true;
+            $alert['msg'] = "Evento eliminado exitosamente";
+        } else {
+            $alert['status'] = 'false';
+            $alert = "Ha ocurrido un error al eliminar el evento";
+        }
+    }
     
     $eventos = $objeto->get_eventos();
     if ($_SESSION['permisos']['agenda_oculta']['listar']) {
