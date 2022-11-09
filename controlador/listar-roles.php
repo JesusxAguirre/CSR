@@ -25,7 +25,11 @@ if($_SESSION['verdadero'] > 0){
                 $alert['status'] = 'false';
                 $alert['msg'] = "Ha ocurrido un error al modificar los permisos";
             }
+
+            //si el rol que se esta modificando es el mismo que el que esta iniciado session se consultan los permisos de nuevo
+            if($_SESSION['rol'] == $idRol){
             $_SESSION['permisos'] = $objeto->get_permisos($idRol);
+            }
         }
 
         // Crear rol
