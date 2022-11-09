@@ -711,6 +711,7 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
                     dataTableSec.ajax.reload();
+                    //console.log(response); Esto es un por si acaso
                 })
             }
         })

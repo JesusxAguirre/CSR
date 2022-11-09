@@ -853,7 +853,7 @@ class ecam extends Conectar
         parent::registrar_bitacora($cedula, $accion,$this->id_modulo);
     }
 
-    //ELIMINAR O DESACTIVAR LA SECCION SELECCIONADA
+    //CERRAR/DESACTIVAR LA SECCION SELECCIONADA
     public function cerrarSeccion($idSeccionEliminar)
     {
         //PASO 1
@@ -884,6 +884,35 @@ class ecam extends Conectar
 
 
         //PASO 3
+        $cedulas_codigo = [];
+        //Comprobamos si los estudiantes que cursaron fueron del nivel 3 y pudieron completar su nivel para graduarse y actualizar el N1 por N2
+        $sql5 = "SELECT cedulaEstudiante FROM notafinal_estudiantes 
+        WHERE id_seccion = $idSeccionEliminar AND nivelAcademico = 3  AND notaFinal >= 16";
+        $stmt5 = $this->conexion->prepare($sql5);
+        $stmt5->execute();
+
+        if ($stmt5->rowCount() > 0) {
+            while ($filas5 = $stmt5->fetch(PDO::FETCH_ASSOC)) {
+                $cedulas_codigo[] = $filas5; //Esta variable es para guardar las cedulas de los estudiantes que pertenecieron a la seccion
+            }
+
+            foreach ($cedulas_codigo as $ce) {
+                $sql6 = "UPDATE `usuarios` SET `codigo` = REPLACE(`codigo`,'N1','N2') WHERE `cedula` = :ce";
+                $stmt6 = $this->conexion->prepare($sql6);
+                $stmt6->execute(array(
+                    ":ce" => $ce['cedulaEstudiante'],
+                ));
+
+                $sql7 = "UPDATE `usuarios` SET `id_rol` = 2 WHERE `cedula` = :ce";
+                $stmt7 = $this->conexion->prepare($sql7);
+                $stmt7->execute(array(
+                    ":ce" => $ce['cedulaEstudiante'],
+                ));
+            }
+        }
+
+
+        //PASO 4
         //LUEGO DEJAMOS EN NULL EL ID_SECCION DE LOS ESTUDIANTES QUE ESTABAN VINCULADOS A LA SECCION
         $sql3 = "UPDATE `usuarios` SET `id_seccion`= NULL WHERE `usuarios`.`cedula` IN (SELECT `usuarios`.`cedula` FROM usuarios WHERE `usuarios`.`id_seccion` = :idSeccionOFF)";
         $stmt3 = $this->conexion->prepare($sql3);
@@ -893,6 +922,8 @@ class ecam extends Conectar
 
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha cerrado una seccion";
+
+        
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
