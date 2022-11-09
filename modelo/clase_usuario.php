@@ -314,7 +314,7 @@ class Usuarios extends Conectar
         $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
         $stmt->execute(array(
             ":ced" => $this->cedula,
-            ":id" => 2, ":cod" => $this->cedula . '-' . 'N1' . '-' . $nacionalidad . '-' . $estado . '-' . $sexo . '-' . $estadoc,
+            ":id" => 3, ":cod" => $this->cedula . '-' . 'N1' . '-' . $nacionalidad . '-' . $estado . '-' . $sexo . '-' . $estadoc,
             ":nom" => $this->nombre, ":ape" => $this->apellido,
             ":edad" => $this->edad, ":sexo" => $this->sexo,
             ":estdc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
