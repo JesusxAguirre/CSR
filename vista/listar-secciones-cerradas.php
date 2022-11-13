@@ -52,7 +52,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row text-center">
                 <h4>CREAR SECCION</h4>

@@ -17,7 +17,7 @@ if (isset($_POST['verProfesores'])) {
             <tr>
                 <td>
                     <div class="d-flex align-items-center">
-                        <div class="fs-2 me-3 text-white"><i class="bi bi-person"></i></div>
+                        <div class="fs-2 me-3"><i class="bi bi-person"></i></div>
                         <div class="mb-0">
                             <h6 class="mb-0 fst-italic"><?php echo $key['codigo']; ?></h6>
                             <p class="mb-0"><?php echo $key['nombre'].' '.$key['apellido']; ?></p>

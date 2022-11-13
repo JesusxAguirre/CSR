@@ -28,7 +28,7 @@
 
 </head>
 
-<body class="fondoEcam">
+<body>
     <!-- Menu.php -->
     <?php
     require_once "./resources/View_Components/Menu.php";
@@ -40,13 +40,13 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <div class="titulo text-center">
-                        <h1>Agregar Materias</h1>
-                    </div>
+                        <h3><em>Agregar Materias</em></h3>
+                    </div><br>
                 </div>
             </div>
 
@@ -55,23 +55,23 @@
                 <div class="col-6">
                     <div class="row">
                         <div class="col">
-                            <div class="card bg-dark">
-                                <div class="card-header text-center">
-                                    <label class="form-label fw-bold text-white">AGREGAR MATERIAS</label>
-                                </div>
+                            <div class="card sombra">
+                                <!-- <div class="card-header text-center">
+                                    <label class="form-label fw-bold">AGREGAR MATERIAS</label>
+                                </div> -->
 
                                 <div class="card-body">
                                     <form id="formularioMateria">
                                         <div class="row">
                                             <div class="col">
-                                                <label class="form-label fst-italic fw-bold text-white" for="nombreMateria">Nombre de la materia</label>
+                                                <label class="form-label fst-italic fw-bold" for="nombreMateria">Nombre de la materia</label>
                                                 <input type="text" name="nombreMateria" id="nombreMateria" class="form-control inputMateria" placeholder="N0MBR3">
                                                 <p hidden id="nomMateriaMal" class="text-danger">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col">
-                                                <label class="form-label fst-italic fw-bold text-white" for="seleccionarNivel">Nivel de doctrina</label>
+                                                <label class="form-label fst-italic fw-bold" for="seleccionarNivel">Nivel de doctrina</label>
                                                 <select class="form-select selectNivel" name="seleccionarNivel" id="seleccionarNivel">
                                                     <option selected value="ninguno">Selecciona el nivel</option>
                                                     <option value="1">Nivel 1</option>
@@ -85,7 +85,7 @@
                                     </form>
                                     <div class="row mt-3" id="formularioAgregarProf">
 
-                                        <label class="form-label fst-italic fw-bold text-white">Profesores que dictaran la materia</label>
+                                        <label class="form-label fst-italic fw-bold">Profesores que dictaran la materia</label>
                                         <div id="profesoresAgregar">
 
                                         </div>
@@ -93,7 +93,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-success botonGuardar" id="agregarMateria">GUARDAR</button>
+                                    <button type="submit" class="btn btn-primary botonGuardar" id="agregarMateria">GUARDAR</button>
                                 </div>
                             </div>
                             <!--FIN DEl FORMULARIO PARA AGREGAR MATERIAS -->

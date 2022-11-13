@@ -259,10 +259,10 @@ let dataTableSec= $('#listaSecciones').DataTable({
         {data: 'nivel_academico'},
         {data: 'fecha_cierre'},
         {defaultContent: 
-        '<button type="button" class="btn btn-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-square"></i></button>'  
-        +'<button type="button" class="btn btn-info editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill"></i></button>'
-        +'<button type="button" class="btn btn-info editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill"></i></button>' 
-        +'<i type="button" class="eliminarSeccion mx-1 bi bi-door-closed btn btn-danger" title="Cerrar seccion"></i>'},
+        '<button type="button" class="btn btn-outline-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-fill fs-5"></i></button>'  
+        +'<button type="button" class="btn btn-outline-primary editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill fs-5"></i></button>'
+        +'<button type="button" class="btn btn-outline-primary editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill fs-5"></i></button>' 
+        +'<i type="button" class="eliminarSeccion mx-1 bi bi-x-lg btn btn-danger fs-5" title="Cerrar seccion"></i>'},
     ],
     language: spanish,
 });

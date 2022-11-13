@@ -40,12 +40,12 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
                     <div class="titulo text-center">
-                        <h1>MATERIAS</h1>
+                        <h3 class="fw-bold"><em>Agregar Profesores</em></h3>
                     </div>
                 </div>
             </div>
@@ -54,15 +54,15 @@
                 <div class="col-6">
                     <div class="row mt-4">
                         <div class="col">
-                            <div class="card">
+                            <div class="card sombra">
                                 <div class="card-body">
                                     <label class="form-label text-center fst-italic fw-bold" for="">Agregar profesores a la ECAM</label>
                                     <div id="verProfesoresFuturos">
 
                                     </div>
-                                    <button type="button" class="btn btn-success botonGuardar" id="crearProfesores">AGREGAR PROFESORES</button>
+                                    <button type="button" class="btn btn-primary botonGuardar" id="crearProfesores">AGREGAR PROFESORES</button><hr>
                                     <table class="table table-hover table-borderless">
-                                        <thead>
+                                        <thead class="table-secondary">
                                             <tr>
                                                 <th>Profesores actuales</th>
                                                 <th>Accion</th>

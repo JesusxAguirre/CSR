@@ -54,15 +54,15 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row text-center">
-                <h4>CREAR SECCION</h4>
+                <h4><em>LISTAR SECCIONES</em></h4>
             </div>
             <div class="row mt-3">
 
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
-                <div class="col-8 m-auto">
+                <div class="col m-auto">
                     <div class="card cartaSeccionesList mt-2">
                         <div class="card-body">
                             <div class="table-responsive">
@@ -127,10 +127,10 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-success" id="guardarEditado1">GUARDAR</button>
+                    <button type="button" class="btn btn-primary" id="guardarEditado1">GUARDAR</button>
                 </div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-warning" id="cerrarEditado1" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-danger" id="cerrarEditado1" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -169,10 +169,10 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-success" id="agregarEditado2">AGREGAR ESTUDIANTES <i class="bi bi-person-plus-fill"></i></button>
+                    <button class="btn btn-primary" id="agregarEditado2">AGREGAR ESTUDIANTES <i class="bi bi-person-plus-fill"></i></button>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-warning" id="cerrarEditado2" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-danger" id="cerrarEditado2" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -228,10 +228,10 @@
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button class="btn btn-success" id="agregarEditado3">AGREGAR <i class="bi bi-journal-check"></i></button>
+                    <button class="btn btn-primary" id="agregarEditado3">AGREGAR <i class="bi bi-journal-check"></i></button>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-warning" id="cerrarEditado3" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-danger" id="cerrarEditado3" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>

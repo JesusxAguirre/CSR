@@ -46,7 +46,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <!-- BIENVENIDA ECAM -->
             <?php
@@ -68,7 +68,7 @@
 
             <div class="row">
                 <div class="col-5 mt-3">
-                    <div class="card sombra bg-info">
+                    <div class="card sombra">
                         <div class="card-body">
                             <div>
                                 <h5 class="fw-bold">Profesores de la ECAM</h5>

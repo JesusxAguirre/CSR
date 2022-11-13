@@ -52,7 +52,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row text-center">
                 <h4>CREAR SECCION</h4>
@@ -112,7 +112,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button disabled id="siguiente1" class="btn btn-dark" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Siguiente</button>
+                    <button disabled id="siguiente1" class="btn btn-primary" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Siguiente</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -157,7 +157,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger" data-bs-target="#form1" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
-                    <button type="button" class="btn btn-dark" id="siguiente2">Siguiente</button>
+                    <button type="button" class="btn btn-primary" id="siguiente2">Siguiente</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 70%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

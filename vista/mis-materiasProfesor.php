@@ -45,7 +45,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <!-- BIENVENIDA ECAM -->
             <?php
@@ -61,7 +61,7 @@
                         </div>
                         <div class="card-body">
                             <table id="tabla_misMateriasProf" class="table table-borderless table-hover">
-                                <thead style="background: #956156; color: white;">
+                                <thead class="table-dark">
                                     <tr>
                                         <th hidden class="py-3 fs-6" scope="col">ID seccion</th>
                                         <th hidden class="py-3 fs-6" scope="col">Cedula</th>

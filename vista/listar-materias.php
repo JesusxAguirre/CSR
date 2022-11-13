@@ -40,7 +40,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row">
                 <div class="col">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="row d-flex justify-content-center">
-                <div class="col-8">
+                <div class="col">
                     <div class="contenedorMaterias">
 
                         <!-- BUSCADOR DE MATERIA -->
@@ -60,19 +60,20 @@
                             <input type="text" class="form-control text-center buscarMateria" id="buscarMateria" placeholder="Nombre o nivel academico">
                         </div>
                         <!-- FIN DE BUSCADOR DE MATERIA -->
-
-                        <table class="table table-light table-striped text-center">
-                            <thead class="table-dark">
-                                <tr>
-                                    <th>MATERIAS</th>
-                                    <th>NIVEL ACADEMICO</th>
-                                    <th>OPCIONES</th>
-                                </tr>
-                            </thead>
-                            <tbody id="datosMaterias">
-                                <!-- AQUI MOSTRARA LAS MATERIAS DE LA BD -->
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-light table-striped text-center table-centered">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>MATERIAS</th>
+                                        <th>NIVEL ACADEMICO</th>
+                                        <th>OPCIONES</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="datosMaterias">
+                                    <!-- AQUI MOSTRARA LAS MATERIAS DE LA BD -->
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -109,10 +110,10 @@
 
                         </div>
                         <div>
-                            <button type="submit" class="btn btn-success botonActualizar" id="actualizarMateria" value="actualizarMateria">ACTUALIZAR</button>
+                            <button type="submit" class="btn btn-primary botonActualizar" id="actualizarMateria" value="actualizarMateria">ACTUALIZAR</button>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-warning botonEliminar cancelarActualizar" data-bs-dismiss="modal">CERRAR</button>
+                            <button type="button" class="btn btn-danger botonEliminar cancelarActualizar" data-bs-dismiss="modal">CERRAR</button>
                         </div>
                     </div>
                 </div>
@@ -131,7 +132,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="mb-4">
-                                <table class="table table-success table-striped text-center">
+                                <table class="table table-striped text-center">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>Codigo</th>
@@ -154,7 +155,7 @@
                             </form>
                         </div>
                         <div>
-                            <button class="btn btn-success botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>
+                            <button class="btn btn-primary botonActualizar" id="actualizarProfesores">AGREGAR PROFESORES</button>
                         </div>
                     </div>
                 </div>

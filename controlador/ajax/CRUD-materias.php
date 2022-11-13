@@ -90,6 +90,7 @@ if (isset($_POST['listarProfesores'])) {
     </select>
 <?php    
 }
+
 //LISTANDO PROFESORES AGREGADOS A LA ECAM EN LA TARJETA
 if (isset($_POST['listarProfesores2'])) {
     $profesores= $objeto->listarProfesores();
@@ -107,7 +108,7 @@ if (isset($_POST['listarProfesores2'])) {
                 </td>
                 <td>
                     <input class="cedulaProfesor d-none" type="text" value="<?php echo$key['cedula'] ?>">
-                    <i class="eliminarProfEcam btn bi bi-x-lg text-danger fw-bold"></i>
+                    <i class="eliminarProfEcam btn bi bi-x-lg text-danger fw-bold fs-5"></i>
                 </td>
             </tr>
        <?php } ?>
