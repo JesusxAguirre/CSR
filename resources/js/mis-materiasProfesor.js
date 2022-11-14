@@ -17,7 +17,7 @@ function listar_misMateriasProf() {
 }
 
 
-
+//VER INFORMACION DE LA MATERIA
 $('#tabla_misMateriasProf tbody').on('click', '.modalContenidoON', function() {
     let elemento = $(this)[0].parentElement.parentElement;
     let div= document.querySelector('.ql-editor');
@@ -41,6 +41,16 @@ $('#tabla_misMateriasProf tbody').on('click', '.modalContenidoON', function() {
     
 });
 
+//AGREGAR INFORMACION A LA MATERIA
+$('#tabla_misMateriasProf tbody').on('click', '.agregarInfo', function() {
+    let elemento = $(this)[0].parentElement.parentElement;
+
+    let idSeccion= elemento.querySelector('.idSeccion_materia').textContent;
+    let idMateria= elemento.querySelector('.idMateria_materia').textContent;
+    $('#seccionContRef').text(idSeccion);
+    $('#materiaContRef').text(idMateria);
+});
+
 $('#guardarCampo').click(function (e) {
     let contenido= quill.root.innerHTML;
     let seccionContRef= document.getElementById('seccionContRef').textContent;
@@ -52,20 +62,34 @@ $('#guardarCampo').click(function (e) {
         materiaContRef: materiaContRef,
         contenido: contenido,
     }
-    $.post("controlador/ajax/dinamica-misMateriasProf.php", data, function (response) {
-        listar_misMateriasProf();
+    if (contenido == '<p><br></p>') {
         Swal.fire({
-            icon: 'success',
+            icon: 'error',
             iconColor: 'white',
-            title: '¡Contenido actualizado!',
+            title: '¡No puedes dejar el campo vacio!',
             toast: true,
-            background: 'green',
+            background: 'red',
             color: 'white',
             showConfirmButton: false,
             timer: 3000,
         })
-    });
-    
+    }else{
+        $.post("controlador/ajax/dinamica-misMateriasProf.php", data, function (response) {
+            listar_misMateriasProf();
+            Swal.fire({
+                icon: 'success',
+                iconColor: 'white',
+                title: '¡Contenido actualizado!',
+                toast: true,
+                background: 'green',
+                color: 'white',
+                showConfirmButton: false,
+                timer: 3000,
+            })
+            //console.log(response);
+        });
+        
+    }
 });
 
 

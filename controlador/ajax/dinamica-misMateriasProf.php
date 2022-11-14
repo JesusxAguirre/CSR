@@ -21,6 +21,13 @@ if (isset($_POST['verContenido'])) {
 
 }
 
+if (isset($_POST['vaciarInfo'])) {
+    $idSeccion= $_POST['idSeccion'];
+    $idMateria= $_POST['idMateria'];
+
+    $listarContenido= $objeto->listarContenido($idSeccion, $idMateria);
+}
+
 if (isset($_POST['listarMisMateriasProf'])) {
 
     $listar_misMaterias= $objeto->listar_misMateriasProf();
@@ -35,8 +42,13 @@ if (isset($_POST['listarMisMateriasProf'])) {
                 <td><?php echo $misMaterias['nombreMateria']; ?></td>
                 <td><?php echo $misMaterias['nivelAcademico']; ?></td>
                 <td>
-                    <button  class="modalContenidoON <?php echo ($misMaterias['contenido'] == NULL || $misMaterias['contenido'] == '<p><br></p>') ? 'btn btn-outline-secondary' : 'btn btn-success';?> " data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf">
-                    <?php echo ($misMaterias['contenido'] == NULL || $misMaterias['contenido'] == '<p><br></p>') ? 'Sin contenido' : 'Contenido' ?>  <i class="bi bi-card-text"></i></button>
+                    <?php if ($misMaterias['contenido'] == NULL || $misMaterias['contenido'] == '<p><br></p>') { ?>
+                        <button class="agregarInfo btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf"><i class="bi bi-plus-circle"></i></button>
+                        <button class="btn btn-secondary" disabled>Sin informacion</button><?php
+                    }else{ ?>
+                        <button class="modalContenidoON btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf">Ver informacion</button>
+                        <i class="vaciarInfo btn btn-outline-danger bi bi-archive-fill"></i><?php
+                    }?>
                 </td>
             </tr>
         

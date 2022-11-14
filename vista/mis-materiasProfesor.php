@@ -69,7 +69,7 @@
                                         <th class="py-3 fs-6" scope="col">Seccion</th>
                                         <th class="py-3 fs-6" scope="col">Nombre de la materia</th>
                                         <th class="py-3 fs-6" scope="col">Nivel academico</th>
-                                        <th class="py-3 fs-6" scope="col">Contenido</th>
+                                        <th class="py-3 fs-6" scope="col">Informacion</th>
                                     </tr>
                                 </thead>
                                 <tbody id="listar_misMateriasProf">
@@ -101,11 +101,11 @@
                 </div>
                 <div class="modal-body">
                     <div id="editarContenido">
-                        tokitokti
+                        
                     </div>
                 </div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-success" id="guardarCampo">GUARDAR</button>
+                    <button type="button" class="btn btn-primary" id="guardarCampo">GUARDAR</button>
                 </div>
             </div>
         </div>
