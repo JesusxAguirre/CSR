@@ -287,7 +287,7 @@ setTimeout(() => {
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonText:'Guardar',
-                    confirmButtonColor: 'green',
+                    confirmButtonColor: '#0078FF',
                     cancelButtonText: 'Cerrar',
                     preConfirm: function() {
                         notaFinal= document.querySelector('.notaFinalRef').value;

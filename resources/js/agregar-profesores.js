@@ -86,19 +86,33 @@ $('#crearProfesores').click(function (e) {
       agregarProfesores: 'agregarProfesores',
       cedulasProfesores: cedulasProfesores,
     }
-  
-    $.post("controlador/ajax/CRUD-materias.php", data, function (data) {
-      listarFuturosProfesores();
-      listarProfesores2();
+    
+    if (cedulasProfesores == '') {
       Swal.fire({
-        title: '¡Agregados exitosamente!',
-        icon: 'success',
+        title: '¡No seleccionaste profesores!',
+        icon: 'error',
         iconColor: 'white',
         toast: true,
-        background: 'green',
+        background: 'red',
         color: 'white',
         showConfirmButton: false,
         timer: 2000,
       })
-    });
+    }else{
+      $.post("controlador/ajax/CRUD-materias.php", data, function (data) {
+        listarFuturosProfesores();
+        listarProfesores2();
+        Swal.fire({
+          title: '¡Agregados exitosamente!',
+          icon: 'success',
+          iconColor: 'white',
+          toast: true,
+          background: 'green',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 2000,
+        })
+      });
+    }
+    
   });

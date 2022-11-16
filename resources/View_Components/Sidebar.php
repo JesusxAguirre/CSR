@@ -19,7 +19,7 @@
         <li>
           <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
-            <span>Agenda</span>
+            <span>Gestionar Agenda</span>
           </a>
         </li>
         <li class="my-4">
@@ -36,7 +36,7 @@
             <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
               <span class="me-2">
                 <i class="bi bi-house-heart-fill fs-3"></i></span>
-              <span>Casa sobre la roca</span>
+              <span>Gestionar Casa Sobre La Roca</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
               </span>
@@ -80,7 +80,7 @@
             <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
               <span class="me-2 fs-4">
                 <i class="bi bi-building"></i></span>
-              <span>ECAM</span>
+              <span>Gestionar ECAM</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
               </span>
@@ -305,7 +305,7 @@
               <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
                 <span class="me-2">
                   <i class="bi bi-clipboard-data-fill fs-3"></i></span>
-                <span>Reportes estadisticos de celulas </span>
+                <span>Gestionar Reportes estadisticos de celulas </span>
 
               </a>
             </li>
@@ -318,7 +318,7 @@
               <a href="?pagina=reportes-ecam" class="nav-link px-3">
                 <span class="me-2">
                   <i class="bi bi-bar-chart-line"></i></span>
-                <span>Reportes estadisticos ECAM</span>
+                <span>Gestionar Reportes estadisticos ECAM</span>
               </a>
             </li>
         <?php }
@@ -330,7 +330,7 @@
               <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
                 <span class="me-2">
                   <i class="bi bi-envelope-fill fs-3"></i>
-                  <span>Envio de correo</span>
+                  <span>Gestionar Envio de Correo</span>
               </a>
             </li>
         <?php }
@@ -341,7 +341,7 @@
             <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#seguridad" role="button" aria-expanded="false" aria-controls="collapseExample">
               <span class="me-2">
                 <i class="bi bi-shield-lock-fill fs-3"></i></span>
-              <span>Seguridad</span>
+              <span>Gestionar Seguridad</span>
               <span class="right-icon ms-auto">
                 <i class="bi bi-chevron-down"></i>
               </span>

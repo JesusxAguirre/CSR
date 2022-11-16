@@ -18,6 +18,10 @@ if ($_SESSION['verdadero'] > 0) {
         $cantidadProfesores = $objeto->cantidadProfesores();
         $cantidadEstudiantes = $objeto->cantidadEstudiantes();
 
+        $cedula = $_SESSION['cedula'];
+        $accion = 'El usuario ha entrado a "Reportes Estadisticos de la ECAM"';
+        $id_modulo = 7;
+        $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
         require_once 'vista/' . $pagina . '.php';
     }
 

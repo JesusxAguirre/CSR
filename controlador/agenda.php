@@ -64,6 +64,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $eventosOcultos = $objeto->get_eventosOcultos();
     }
 
+    
     require_once 'vista/'.$pagina.'.php';
 }
 } else{ 

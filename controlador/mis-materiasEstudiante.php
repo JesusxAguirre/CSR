@@ -18,7 +18,7 @@ if($_SESSION['verdadero'] > 0){
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha revisado sus materias en el "Aula Virtual Estudiantes"';
         $id_modulo = 3;
-        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
+        $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
         
         require_once 'vista/'.$pagina.'.php';
     }

@@ -16,7 +16,7 @@ if($_SESSION['verdadero'] > 0){
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado a Control de Notas';
         $id_modulo = 3;
-        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
+        $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
 
         require_once 'vista/'.$pagina.'.php';
     }

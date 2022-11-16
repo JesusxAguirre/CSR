@@ -18,7 +18,7 @@ if($_SESSION['verdadero'] > 0){
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado al apartado de "Listar Secciones Cerradas" de la ECAM';
         $id_modulo = 3;
-        $objeto->registrar_bitacora($cedula, $accion, $id_modulo);
+        $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
         
         require_once 'vista/'.$pagina.'.php';
 

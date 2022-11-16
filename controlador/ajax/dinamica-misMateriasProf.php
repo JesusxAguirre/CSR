@@ -4,6 +4,7 @@ session_start();
 require_once('../../modelo/clase_ecam.php');
 $objeto= new ecam;
 
+//Agregar cinformacion a la materia
 if (isset($_POST['guardarCampo'])) {
     $seccionContRef= $_POST['seccionContRef'];
     $materiaContRef= $_POST['materiaContRef'];
@@ -12,6 +13,7 @@ if (isset($_POST['guardarCampo'])) {
     $objeto->agregarContenidos($seccionContRef, $materiaContRef, $contenido);
 }
 
+//Ver informacion de la materia
 if (isset($_POST['verContenido'])) {
     $idSeccion= $_POST['idSeccion'];
     $idMateria= $_POST['idMateria'];
@@ -21,12 +23,14 @@ if (isset($_POST['verContenido'])) {
 
 }
 
+//Eliminar informacion a la materia
 if (isset($_POST['vaciarInfo'])) {
     $idSeccion= $_POST['idSeccion'];
     $idMateria= $_POST['idMateria'];
 
-    $listarContenido= $objeto->listarContenido($idSeccion, $idMateria);
+    $listarContenido= $objeto->eliminarContenido($idSeccion, $idMateria);
 }
+
 
 if (isset($_POST['listarMisMateriasProf'])) {
 

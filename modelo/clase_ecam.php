@@ -1206,6 +1206,23 @@ class ecam extends Conectar
         return $listarContenido;
     }
 
+    //ELIMINAR INFORMACION DE LAS MATERIAS PROFESORES
+    public function eliminarContenido($idSeccion, $idMateria){
+        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
+
+        $sql = "UPDATE `secciones-materias-profesores` SET `id_seccion`= :seccion,`id_materia`= :materia,`cedulaProf`= :cedula,`contenido`= NULL";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":seccion" => $idSeccion,
+            ":materia" => $idMateria,
+            ":cedula" => $cedulaProfesor,
+        ));
+
+        $accion = "El usuario ha eliminado la informacion de la materia";
+        parent::registrar_bitacora($cedulaProfesor, $accion, $this->id_modulo);
+    }
+
+
     //LISTAR MATERIAS QUE IMPARTE EL PROFESOR ACTIVO DE LA ECAM
     public function listar_misEstudiantes()
     {
@@ -1538,6 +1555,10 @@ class ecam extends Conectar
 
 
     ///////////////////////METODOS SETTERS/////////////////////////
+    public function set_registrar_bitacora($cedula, $accion, $id_modulo){
+        parent::registrar_bitacora($cedula, $accion, $id_modulo);
+    }
+
     public function setMaterias($nombre, $nivel, $cedulaProfesor)
     {
         $this->nombre = $nombre;

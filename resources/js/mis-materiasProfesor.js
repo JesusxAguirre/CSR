@@ -16,6 +16,50 @@ function listar_misMateriasProf() {
     });
 }
 
+//ELIMINAR INFORMACION DE LA MATERIA
+$('#tabla_misMateriasProf tbody').on('click', '.vaciarInfo', function() {
+    let elemento = $(this)[0].parentElement.parentElement;
+    let div= document.querySelector('.ql-editor');
+
+    let idSeccion= elemento.querySelector('.idSeccion_materia').textContent;
+    let idMateria= elemento.querySelector('.idMateria_materia').textContent;
+    let vaciarInfo = 'vaciarInfo';
+
+    const data = {
+        vaciarInfo: vaciarInfo,
+        idSeccion: idSeccion,
+        idMateria: idMateria,
+    }
+
+    Swal.fire({
+        icon: 'info',
+        title: '¿Estas seguro de eliminar la informacion de la materia?',
+        confirmButtonText: `Si, eliminar`,
+        confirmButtonColor: '#0078FF',
+        showDenyButton: true,
+        denyButtonText: `Cancelar`,
+        denyButtonColor: 'red',
+        background: 'white',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.post("controlador/ajax/dinamica-misMateriasProf.php", data, function (response) {
+                console.log(response);
+                listar_misMateriasProf();
+                Swal.fire({
+                    icon: 'success',
+                    iconColor: 'green',
+                    title: '¡Informacion eliminada correctamente!',
+                    toast: true,
+                    background: 'white',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    })
+                })
+        }
+    })
+    
+});
+
 
 //VER INFORMACION DE LA MATERIA
 $('#tabla_misMateriasProf tbody').on('click', '.modalContenidoON', function() {
@@ -76,6 +120,7 @@ $('#guardarCampo').click(function (e) {
     }else{
         $.post("controlador/ajax/dinamica-misMateriasProf.php", data, function (response) {
             listar_misMateriasProf();
+            $('#modal_misContenidosProf').modal('hide');
             Swal.fire({
                 icon: 'success',
                 iconColor: 'white',

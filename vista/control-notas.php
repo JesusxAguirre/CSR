@@ -48,11 +48,11 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col text-center">
-                    <h1 class="titulo">CONTROL DE NOTAS</h1>
+                    <h1 class="titulo text-primary">CONTROL DE NOTAS</h1>
                 </div>
             </div>
             <div class="row justify-content-center mt-3" id="listados">
-                <div class="col-8">
+                <div class="col-9">
                     <div class="card sombra">
                         <div class="card-body">
                             <table id="estudiantes" class="table table-hover table-borderless w-100">
