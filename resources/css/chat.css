@@ -1,0 +1,48 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.chatCont{
+    width: 60%;
+    height: 620px;
+    box-shadow: 0 0 12px hsl(0, 0%, 50%);
+    background-color: white;
+    border-radius: 10px;
+}
+
+.chatArea{
+    padding: 10px;
+    height: 87%;
+    width: 100%;
+    overflow-y: scroll;
+    /* background-color: white; */
+}
+.miMensaje{
+    max-width: 50%;
+}
+
+.mensajeArea{
+    height: 13%;
+    display: flex;
+    justify-content: space-between;
+}
+.mensajeDiv{
+    width: 80%;
+}
+#mensaje{
+    height: 100%;
+    resize: none;
+}
+
+.enviarDiv{
+    width: 20%;
+}
+#enviar{
+    width: 100%;
+    height: 100%;
+}

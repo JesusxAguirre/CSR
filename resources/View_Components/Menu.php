@@ -21,6 +21,16 @@
       <form class="d-flex ms-auto ">
 
       </form>
+      <!-- Chat -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a href="?pagina=chat" id="verChat" class="fs-3 nav-link btn-dark text-light ms-2" role="button" aria-expanded="false">
+            <i class="bi bi-chat-fill"></i>
+          </a>
+        </li>
+      </ul>
+      <!-- Fin del chat -->
+
       <ul class="navbar-nav">
         <input id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
         <input id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
