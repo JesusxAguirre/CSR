@@ -1,6 +1,6 @@
 //creando objeto websocket
 var msgBox = $('areaChat')
-var wsUri = "ws://localhost:8000"
+var wsUri = "ws://localhost:8080"
 objeto_websocket = new WebSocket(wsUri)
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
