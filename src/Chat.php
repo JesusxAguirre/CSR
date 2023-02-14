@@ -4,22 +4,24 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Usuarios;
 
-session_start();
-require "./modelo/clase_usuario.php";
+
 class Chat implements MessageComponentInterface {
     protected $clients;
 
     public function __construct(){
+      
       $this->clients = new \SplObjectStorage;
       $fecha_actual = date("d-m-Y h:i:s");
+      
       echo "servidor arrancado! {($fecha_actual)} \n";
+      
     }
   
     public function onOpen(ConnectionInterface $conn) {
       $this->clients->attach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
 
-      echo "Nueva conexion $fecha_actual ({$conn->resourceId})\n";
+      echo "Nueva conexion $fecha_actual ({$conn->resourceId})  \n";
     }
     
 
@@ -30,11 +32,9 @@ class Chat implements MessageComponentInterface {
       
 
       $data = json_decode($msg,true);
-      $objeto_usuario = New Usuarios();
-      $datos_usuario = $objeto_usuario->mi_perfil();
-
-      $user_name = $datos_usuario[0]["nombre"];
-      $user_last_name = $datos_usuario[0]["apellido"];
+     
+      
+     
       //$user_cedula = $datos_usuario[0]["cedula"];
       $data["date"] = date("d-m-y h:i:s");
       
@@ -44,8 +44,6 @@ class Chat implements MessageComponentInterface {
         } */
         if($from == $client){
           $data["from"] = "Me";
-        }else{
-          $data["from"] = $user_name . " " . $user_last_name;   
         }
         $client->send(json_encode($data));
       }

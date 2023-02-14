@@ -3,8 +3,7 @@ $(document).ready(function (e) {
 var objeto_websocket = new WebSocket("ws://localhost:8080");
 var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');
-var nombre = document.getElementById("nombre").value
-var apellido = document.getElementById("apellido").value
+var nombre_usuario = $("#nombre").val() + " " + $("#apellido").val()
 
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
@@ -12,7 +11,7 @@ objeto_websocket.onopen = function (e) {//cuando la conexion se abre
   saludo_div.className=  'd-flex justify-content-center';
   saludo_div.innerHTML ='<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
 
-  document.getElementById('areaChat').append(usuario_conectado_div)
+  document.getElementById('areaChat').append(saludo_div)
 
 }
 
@@ -34,7 +33,7 @@ objeto_websocket.onmessage = function (e) {
   
   $("#areaChat").append(html_data)
 
-  $("mensaje").value("")
+  $("#mensaje").val('')
 }
 
 
@@ -42,7 +41,7 @@ objeto_websocket.onmessage = function (e) {
 formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     if (campo[0]) {
-        let mensaje = document.getElementById('mensaje').value;
+        let mensaje = $("#mensaje").val();
         
         var data = {
             mensaje: mensaje,

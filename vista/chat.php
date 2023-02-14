@@ -58,8 +58,13 @@
             </div>
         </div>
     </main>
+    <input hidden id="nombre" value="<?php echo $nombre; ?>">
+    <input hidden id="apellido" value="<?php echo $apellido; ?>">
+    
+ 
   
     
+
 
 
 </body>
