@@ -45,7 +45,7 @@
             <div class="chatCont">
                 <div class="chatArea" id="areaChat">
                     <!-- Aqui van los mensajes -->
-                 
+
                 </div>
                 <form id="chatForm" class="h-100">
                     <div class="mensajeArea">
@@ -60,6 +60,10 @@
     </main>
 </body>
  <!-- <script src="resources/js/webSocket_prueba.js"></script>  -->
+ <script type="text/javascript">
+    color = <?php echo $colors[$color_pick]; ?>;
+
+  </script>
  <script src="resources/js/chat-aguirre.js"></script> 
 
 </html>

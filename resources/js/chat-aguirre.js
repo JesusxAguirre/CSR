@@ -33,6 +33,7 @@ formulario.addEventListener('submit', function(e) {
         
         var data = {
             mensaje: mensaje,
+            color: color
         }
 
         objeto_websocket.send(JSON.stringify(data));
