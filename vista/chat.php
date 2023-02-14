@@ -42,14 +42,16 @@
     <!-- sidebar.php -->
 
     <main style="height: 100vh" class="pt-3">
-        <div class="contenedor">
-            <div class="chatCont">
-                <div class="chatArea" id="areaChat">
-                    <!-- Aqui van los mensajes -->
-
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header"><h3>Sala de chat</h3></div>
+                        <div class="card-body" id="chatArea"></div>
+                    </div>
                 </div>
                 <form id="chatForm" class="h-100">
-                    <div class="mensajeArea">
+                    <div class="input-group mb-3">
                         <div class="mensajeDiv">
                             <textarea name="mensaje" id="mensaje" class="form-control w-100" placeholder="Escribe el mensaje"></textarea>
                         </div>
@@ -57,7 +59,10 @@
                     </div>
                 </form>
             </div>
-        </div>
+        
+               
+            </div>
+      
     </main>
     <input hidden id="nombre" value="<?php echo $nombre; ?>">
     <input hidden id="apellido" value="<?php echo $apellido; ?>">
