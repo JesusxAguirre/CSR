@@ -1,7 +1,6 @@
 //creando objeto websocket
 var msgBox = $('areaChat')
-var wsUri = "ws://localhost:8080"
-objeto_websocket = new WebSocket(wsUri)
+var objeto_websocket = new WebSocket("ws://localhost:8080");
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
   console.log("conexion establecida!")
@@ -30,19 +29,4 @@ objeto_websocket.onmessage = function (e) {
   }
   msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message
 }
-
-websocket.onerror = function (e) { msgBox.append('<div class="system_error">Error Occurred - ' + e.data + '</div>'); };
-websocket.onclose = function (e) { msgBox.append('<div class="system_msg">Connection Closed</div>'); };
-
-//Message send button 
-$('#enviar').click(function () {
-  send_message();
-});
-
-//User hits enter key 
-$("#mensaje").on("keydown", function (event) {
-  if (event.which == 13) {
-    send_message();
-  }
-});
 
