@@ -33,7 +33,7 @@ class Chat implements MessageComponentInterface {
 
       $data = json_decode($msg,true);
      
-      $nombre_usuario = $data["from"]
+      $nombre_usuario = $data["from"];
      
       //$user_cedula = $datos_usuario[0]["cedula"];
       $data["date"] = date("d-m-y h:i:s");
@@ -45,7 +45,7 @@ class Chat implements MessageComponentInterface {
         if($from == $client){
           $data["from"] = "Me";
         }else{
-          $data["from"] = $nombre_usuario
+          $data["from"] = $nombre_usuario;
         }
         $client->send(json_encode($data));
       }

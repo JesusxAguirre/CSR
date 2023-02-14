@@ -28,7 +28,7 @@ objeto_websocket.onmessage = function (e) {
     backgroud_class = "alert-success"
   }
   var html_data = "<div class='"+ row_class + "'<div class='col-sm-10'><div class='shadow-sm alert '" + backgroud_class+"'><b>"+data.from+" - </b>"
-  + data.mensaje + " <br /><div class='text-right'><small><i></i></small></div></div></div> </div>"
+  + data.mensaje + " <br /><div class='text-right font-weight-light'><small><i>"+ data.date +"</i></small></div></div></div> </div>"
   
   $("#areaChat").append(html_data)
 
