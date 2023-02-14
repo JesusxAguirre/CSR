@@ -69,6 +69,6 @@
         </div>
     </main>
 </body>
-<script src="resources/js/webSocket_prueba.js"></script>
+<!-- <script src="resources/js/webSocket_prueba.js"></script> -->
 
 </html>
