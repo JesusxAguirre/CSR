@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="resources/css/style.css">
 
     <!-- Mis CSS -->
-    <link rel="stylesheet" href="./resources/css/chat.css">
+    <!-- <link rel="stylesheet" href="./resources/css/chat.css"> -->
 
     <!-- Jquery-->
     <script src="./resources/js/jquery-3.6.0.min.js"></script>
@@ -26,7 +26,13 @@
     <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
     <!-- Sweet alert 2-->
     <script src="resources/js/sweetalert2.js"></script>
-
+<style>
+    #areaChat{
+        height: 650px;
+        overflow-y: auto;
+        background-color: #e6e6e6;
+    }
+</style>
 </head>
 
 <body>
@@ -43,39 +49,41 @@
 
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-8">
+            <div class="row mt-3">
+                <div class="mt-2 col-lg-8">
                     <div class="card">
-                        <div class="card-header"><h3>Sala de chat</h3></div>
-                        <div class="card-body" id="chatArea"></div>
+                        <div class="card-header bg-success">
+                            <h3>Sala de chat</h3>
+                        </div>
+                        <div class="card-body" id="areaChat">
+
+                        </div>
+                    </div>
+                        <form id="chatForm" class="h-100">
+                            <div class="input-group mb-3    ">
+                                <textarea name="mensaje" id="mensaje" class="form-control" placeholder="Escribe el mensaje"></textarea>
+                                <div class="input-group-append">
+                                    <button disabled type="submit" id="enviar" class="btn btn-primary"><i class="bi bi-send fs-2"></i></button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <form id="chatForm" class="h-100">
-                    <div class="input-group mb-3">
-                        <div class="mensajeDiv">
-                            <textarea name="mensaje" id="mensaje" class="form-control w-100" placeholder="Escribe el mensaje"></textarea>
-                        </div>
-                        <div class="enviarDiv"><button disabled type="submit" id="enviar" class="btn btn-primary">ENVIAR</button></div>
-                    </div>
-                </form>
             </div>
-        
-               
-            </div>
-      
+
     </main>
     <input hidden id="nombre" value="<?php echo $nombre; ?>">
     <input hidden id="apellido" value="<?php echo $apellido; ?>">
-    
- 
-  
-    
+
+
+
+
 
 
 
 </body>
- <!-- <script src="resources/js/webSocket_prueba.js"></script>  -->
- <script src="resources/js/chat-aguirre.js"></script> 
+<!-- <script src="resources/js/webSocket_prueba.js"></script>  -->
+<script src="resources/js/chat-aguirre.js"></script>
 
 
 </html>

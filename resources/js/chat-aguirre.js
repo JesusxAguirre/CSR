@@ -22,13 +22,13 @@ objeto_websocket.onmessage = function (e) {
   
   if(data.from == "Me"){
     row_class = "row justify-content-start"
-    backgroud_class = "text-dark alert-light"
+    backgroud_class = "text-dark alert alert-light"
   }else{
     row_class = "row justify-content-end"
     backgroud_class = "alert-success"
   }
-  var html_data = "<div class='"+ row_class + "'<div class='col-sm-10'><div class='shadow-sm alert '" + backgroud_class+"'><b>"+data.from+" - </b>"
-  + data.mensaje + " <br /><div class='text-warning text-right'><small><i>"+ data.date +"</i></small></div></div></div> </div>"
+  var html_data = "<div class='"+ row_class + "'><div class='col-sm-10'><div class='shadow-sm alert " + backgroud_class+"'><b>"+data.from+" - </b>"
+  + data.mensaje + " <br /><div style='text-aling: right' class='text-right'><small><i>"+ data.date +"</i></small></div></div></div> </div>"
   
   $("#areaChat").append(html_data)
 
