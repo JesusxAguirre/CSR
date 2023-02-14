@@ -5,14 +5,16 @@ var objeto_websocket = new WebSocket("ws://localhost:8080");
 var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');
 var color= generar_color()
+var nombre = document.getElementById("nombre").value
+var apellido = document.getElementById("apellido").value
+var today = new Date();
+var now = today.toLocaleString();
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
-  console.log("conexion establecida!");
-  console.log(nombre)
-  console.log(apellido)
-  msgBox.append('<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>'); //notify user
-  msgBox.append('<div class="system_msg" style="color:#bbbbbb">El usuario' +nombre+ ' ' +apellido + '</div>'); //notify user
-  
+
+  $('#areaChat').append('<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>'); //notify user
+  $('#areaChat').append('<div class="system_msg" style="color:#bbbbbb">'+now+' El usuario ' +nombre+ ' ' +apellido + ' se ha conectado</div>'); //notify user
+  console.log($('#areaChat').val())
 }
 
 objeto_websocket.onmessage = function (e) {
@@ -32,6 +34,8 @@ formulario.addEventListener('submit', function(e) {
         let mensaje = document.getElementById('mensaje').value;
         
         var data = {
+            nombre: nombre,
+            apellido: apellido,
             mensaje: mensaje,
             color: color
         }
