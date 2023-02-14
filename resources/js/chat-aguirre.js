@@ -18,14 +18,23 @@ objeto_websocket.onopen = function (e) {//cuando la conexion se abre
 
 objeto_websocket.onmessage = function (e) {
   console.log(e.data);
-  var response = JSON.parse(e.data);
-  var user_message = response.mensaje
-  var user_name = response.nombre
-  var user_last_name = response.apellido
-  var mensaje_div = document.createElement('div')
-  mensaje_div.innerHTML =   '<div><span class="user_name" style="color:' + user_color + '"></span> ' + user_name + ' '+ user_last_name + ' : <span class="user_message">' + user_message + '</span></div>';
-  document.getElementById('areaChat').append(mensaje_div)
-  msgBox[0].scrollTop = msgBox[0].scrollHeight;
+  var data = JSON.parse(e.data);
+  var row_class = ''
+  var backgroud_class = ''
+  
+  if(data.from == "Me"){
+    row_class = "row justify-content-start"
+    backgroud_class = "text-dark alert-light"
+  }else{
+    row_class = "row justify-content-end"
+    backgroud_class = "alert-success"
+  }
+  var html_data = "<div class='"+ row_class + "'<div class='col-sm-10'><div class='shadow-sm alert '" + backgroud_class+"'><b>"+data.from+" - </b>"
+  + data.mensaje + " <br /><div class='text-right'><small><i></i></small></div></div></div> </div>"
+  
+  $("#areaChat").append(html_data)
+
+  $("mensaje").value("")
 }
 
 
