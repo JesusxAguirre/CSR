@@ -35,8 +35,9 @@ class Chat implements MessageComponentInterface {
 
       $user_name = $datos_usuario[0]["nombre"];
       $user_last_name = $datos_usuario[0]["apellido"];
-      $user_cedula = $datos_usuario[0]["cedula"];
-
+      //$user_cedula = $datos_usuario[0]["cedula"];
+      $data["date"] = date("d-m-y h:i:s");
+      
       foreach($this->clients as $client){
         /* if ($from !== $client){
           $client->send($msg);
