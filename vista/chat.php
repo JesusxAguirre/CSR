@@ -61,7 +61,7 @@
 </body>
  <!-- <script src="resources/js/webSocket_prueba.js"></script>  -->
  <script type="text/javascript">
-    color = <?php echo $colors[$color_pick]; ?>;
+   var color = <?php echo $colors[$color_pick]; ?>;
 
   </script>
  <script src="resources/js/chat-aguirre.js"></script> 
