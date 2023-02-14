@@ -1,6 +1,12 @@
 {
+    "autoload": {
+        "psr-4": {
+            "MyApp\\": "src"
+        }
+    },
     "require": {
         "twbs/bootstrap-icons": "^1.9",
-        "phpmailer/phpmailer": "^6.6"
+        "phpmailer/phpmailer": "^6.6",
+        "cboden/ratchet": "^0.4.4"
     }
 }

@@ -56,10 +56,6 @@
                     <div class="row">
                         <div class="col">
                             <div class="card sombra">
-                                <!-- <div class="card-header text-center">
-                                    <label class="form-label fw-bold">AGREGAR MATERIAS</label>
-                                </div> -->
-
                                 <div class="card-body">
                                     <form id="formularioMateria">
                                         <div class="row">
@@ -105,5 +101,6 @@
     </main>
 </body>
 <script src="resources/js/agregar-materias.js"></script>
+<script src="resources/js/webSocket_prueba.js"></script>
 
 </html>
