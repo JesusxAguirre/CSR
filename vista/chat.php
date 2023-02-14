@@ -58,10 +58,14 @@
             </div>
         </div>
     </main>
-    <script type="text/javascript">
-    nombre <?php echo $matriz_usuario['nombre']  ?>
-    apellido <?php echo $matriz_usuario['apellido']?>
-    </script>
+    <input hidden id="nombre" value="<?php echo $nombre; ?>">
+    <input hidden id="apellido" value="<?php echo $apellido; ?>">
+    
+ 
+  
+    
+
+
     <script src="resources/js/chat-aguirre.js"></script> 
 </body>
  <!-- <script src="resources/js/webSocket_prueba.js"></script>  -->
