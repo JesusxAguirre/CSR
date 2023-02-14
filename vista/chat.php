@@ -48,10 +48,10 @@
     <!-- sidebar.php -->
 
     <main style="height: 100vh" class="pt-3">
-        <div class="container-fluid">
+        <div class="container">
             <div class="row mt-3">
-                <div class="mt-2 col-lg-8">
-                    <div class="card">
+                <div class="mt-2 col-lg-12">
+                    <div class="card ">
                         <div class="card-header bg-success">
                             <h3>Sala de chat</h3>
                         </div>
