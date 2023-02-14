@@ -10,8 +10,7 @@ objeto_websocket.onopen = function (e) {//cuando la conexion se abre
   var saludo_div = document.createElement('div')
   saludo_div.className=  'd-flex justify-content-center';
   saludo_div.innerHTML ='<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
-
-  document.getElementById('areaChat').append(saludo_div)
+  $("#areaChat").append(saludo_div)
 
 }
 
@@ -45,8 +44,9 @@ formulario.addEventListener('submit', function(e) {
         
         var data = {
             mensaje: mensaje,
+            from: nombre_usuario
         }
-
+        console.log(data)
         objeto_websocket.send(JSON.stringify(data));
     }
 })
