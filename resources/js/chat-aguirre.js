@@ -1,14 +1,10 @@
 //creando objeto websocket
-var msgBox = $('areaChat')
+var msgBox = document.getElementById('areaChat')
 var objeto_websocket = new WebSocket("ws://localhost:8080");
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
   console.log("conexion establecida!")
-  var div = document.createElement('div');
-  div.innerHTML = "conexion establecida!"
-  div.className = 'alert alert-primary';
-  div.role = 'alert';
-  msgBox.append(div)
+  msgBox.append("<div  style='color:#bbbbbb'>Welcome to my Demo WebSocket Chat box!</div>") //notify user
 }
 
 objeto_websocket.onmessage = function (e) {
@@ -30,3 +26,18 @@ objeto_websocket.onmessage = function (e) {
   msgBox[0].scrollTop = msgBox[0].scrollHeight; //scroll message
 }
 
+var formulario = document.getElementById('chatForm');
+var mensaje = document.getElementById('mensaje');
+
+formulario.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (campo[0]) {
+        let mensaje = document.getElementById('mensaje').value;
+        
+        var data = {
+            mensaje: mensaje,
+        }
+
+        conn.send(JSON.stringify(data));
+    }
+})
