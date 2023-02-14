@@ -7,7 +7,9 @@ var mensaje = document.getElementById('mensaje');
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
   console.log("conexion establecida!");
-  msgBox.append('<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca!</div>'); //notify user 
+  msgBox.append('<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>'); //notify user
+  
+  
 
 }
 
