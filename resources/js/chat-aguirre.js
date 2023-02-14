@@ -1,6 +1,6 @@
 $(document).ready(function (e) {
 //creando objeto websocket
-var msgBox = document.getElementById('areaChat');
+var msgBox = $('#areaChat');
 var objeto_websocket = new WebSocket("ws://localhost:8080");
 var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');

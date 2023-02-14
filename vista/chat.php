@@ -45,17 +45,7 @@
             <div class="chatCont">
                 <div class="chatArea" id="areaChat">
                     <!-- Aqui van los mensajes -->
-                    <!-- <div class="iz d-flex justify-content-start w-100">
-                        <div class="alert alert-primary miMensaje" role="alert">
-                            A simple primary aler
-                        </div>
-                    </div>
-                    <div class="der d-flex justify-content-end w-100">
-                        <div class="alert alert-warning w-50" role="alert">
-                            A simple primary alert—check it out!ahsdasgdhgasd
-                            jagsdhgashdgahsgdh
-                        </div>
-                    </div> -->
+                 
                 </div>
                 <form id="chatForm" class="h-100">
                     <div class="mensajeArea">
