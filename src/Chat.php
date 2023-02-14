@@ -24,7 +24,7 @@ class Chat implements MessageComponentInterface {
       $numRecv = count($this->clients) - 1;
       echo sprintf('El usuario %d esta enviando el mensaje: "%s" to %d other connection%s' . "\n"
       , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
-      echo "este es el arreglo mandadto en formato json $msg";
+      
       foreach($this->clients as $client){
         if ($from !== $client){
           $client->send($msg);

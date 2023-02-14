@@ -5,6 +5,7 @@ var objeto_websocket = new WebSocket("ws://localhost:8080");
 var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');
 var color= generar_color()
+
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
   console.log("conexion establecida!");
   msgBox.append('<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>'); //notify user
@@ -15,13 +16,11 @@ objeto_websocket.onopen = function (e) {//cuando la conexion se abre
 
 objeto_websocket.onmessage = function (e) {
   console.log(e.data);
-  var data = JSON.parse(e.data);
-  var div = document.createElement('div');
-  div.innerHTML = data.mensaje;
-  div.className = 'alert alert-primary';
-  div.role = 'alert';
-
-  msgBox.append(div);
+  var response = JSON.parse(e.data);
+  var user_color = response.color
+  var user_message = response.mensaje
+  msgBox.append('<div><span class="user_name" style="color:' + user_color + '"></span> : <span class="user_message">' + user_message + '</span></div>');
+  msgBox[0].scrollTop = msgBox[0].scrollHeight;
 }
 
 
@@ -66,19 +65,12 @@ mensaje.addEventListener('keyup', function(e) {
 //////////Fin de la validacion
 
 function generar_color(){
-  //creamos los arrays
-  var r = new Array("00","33","66","99","CC","FF");
-  var g = new Array("00","33","66","99","CC","FF");
-  var b = new Array("00","33","66","99","CC","FF");
+  var colors= ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 
+  'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 
+  'silver', 'teal', 'white', 'yellow'];
 
-  //hacemos el bucle anidado
-  for (i=0;i<r.length;i++) {
-      for (j=0;j<g.length;j++) {
-          for (k=0;k<b.length;k++) {
-              //creamos el color
-              return color = "#" + r[i] + g[j] + b[k];
-          }
-        }
-      }
+  color =colors[Math.floor(Math.random() * colors.length)];
+
+  return color
 }
 });

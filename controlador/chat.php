@@ -1,7 +1,7 @@
 <?php
 session_start();
-
-
+require_once("modelo/clase_usuario.php");
+$matriz_usuario = $objeto->mi_perfil();
 if($_SESSION['verdadero'] > 0){
 
     if (is_file('vista/'.$pagina.'.php')) {
