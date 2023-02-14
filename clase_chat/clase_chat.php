@@ -8,6 +8,8 @@ class Chat implements MessageComponentInterface {
 
     public function __construct(){
       $this->clients = new \SplObjectStorage;
+      $fecha_actual = date("d-m-Y h:i:s");
+      echo "servidor arrancado! {($fecha_actual)} \n";
     }
   
     public function onOpen(ConnectionInterface $conn) {
