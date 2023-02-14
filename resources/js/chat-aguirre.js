@@ -1,28 +1,30 @@
 $(document).ready(function (e) {
 //creando objeto websocket
-var msgBox = $('#areaChat');
 var objeto_websocket = new WebSocket("ws://localhost:8080");
 var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');
-var color= generar_color()
 var nombre = document.getElementById("nombre").value
 var apellido = document.getElementById("apellido").value
-var today = new Date();
-var now = today.toLocaleString();
+
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
+  var saludo_div = document.createElement('div')
+  saludo_div.className=  'd-flex justify-content-center';
+  saludo_div.innerHTML ='<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
 
-  $('#areaChat').append('<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>'); //notify user
-  $('#areaChat').append('<div class="system_msg" style="color:#bbbbbb">'+now+' El usuario ' +nombre+ ' ' +apellido + ' se ha conectado</div>'); //notify user
-  console.log($('#areaChat').val())
+  document.getElementById('areaChat').append(usuario_conectado_div)
+
 }
 
 objeto_websocket.onmessage = function (e) {
   console.log(e.data);
   var response = JSON.parse(e.data);
-  var user_color = response.color
   var user_message = response.mensaje
-  msgBox.append('<div><span class="user_name" style="color:' + user_color + '"></span> : <span class="user_message">' + user_message + '</span></div>');
+  var user_name = response.nombre
+  var user_last_name = response.apellido
+  var mensaje_div = document.createElement('div')
+  mensaje_div.innerHTML =   '<div><span class="user_name" style="color:' + user_color + '"></span> ' + user_name + ' '+ user_last_name + ' : <span class="user_message">' + user_message + '</span></div>';
+  document.getElementById('areaChat').append(mensaje_div)
   msgBox[0].scrollTop = msgBox[0].scrollHeight;
 }
 
@@ -34,10 +36,7 @@ formulario.addEventListener('submit', function(e) {
         let mensaje = document.getElementById('mensaje').value;
         
         var data = {
-            nombre: nombre,
-            apellido: apellido,
             mensaje: mensaje,
-            color: color
         }
 
         objeto_websocket.send(JSON.stringify(data));
@@ -69,13 +68,4 @@ mensaje.addEventListener('keyup', function(e) {
 });
 //////////Fin de la validacion
 
-function generar_color(){
-  var colors= ['aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 
-  'lime', 'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 
-  'silver', 'teal', 'white', 'yellow'];
-
-  color =colors[Math.floor(Math.random() * colors.length)];
-
-  return color
-}
 });
