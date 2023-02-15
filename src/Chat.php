@@ -26,13 +26,13 @@ class Chat implements MessageComponentInterface {
     
 
     public function onMessage(ConnectionInterface $from, $msg) {
-      global $data;
-      $numRecv = count($this->clients) - 1;
-      echo sprintf('El usuario %d esta enviando el mensaje: "%s" to %d other connection%s' . "\n"
+       global $data;
+       $numRecv = count($this->clients) - 1;
+       echo sprintf('El usuario %d esta enviando el mensaje: "%s" to %d other connection%s' . "\n"
       , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
       
-
-      $data = json_decode($msg,true);
+      
+      $data= json_decode($msg,true);
      
       $nombre_usuario = $data["from"];
      
@@ -52,16 +52,17 @@ class Chat implements MessageComponentInterface {
       }
     } 
 
-    public function onClose(ConnectionInterface $conn,$data) {
-      $data = json_decode($data);
-      $data['event'] = "left";
+    public function onClose(ConnectionInterface $conn) {
+      global $data;
+      $data["event"] = "left";
+      $data["mensaje"] =  "el usuario {$conn->resourceId} se desconecto ";
+     
       foreach($this->clients as $client){
         $client->send(json_encode($data));
-      }
-      $this->clients->
+      } 
       $this->clients->detach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
-      echo "el usuario " . $data['cedula'] ." se ha desconectado $fecha_actual \n";
+      echo "el usuario {$conn->resourceId} se ha desconectado $fecha_actual \n";
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {

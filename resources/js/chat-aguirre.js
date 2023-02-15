@@ -6,7 +6,7 @@ var mensaje = document.getElementById('mensaje');
 var nombre_usuario = $("#nombre").val() + " " + $("#apellido").val()
 var fecha_hora = new Date().toLocaleDateString()
 var cedula_usuario = $("#cedula").val()
-var data = ''
+
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
   var saludo_html ='<div class="row justify-content-center" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
   $("#areaChat").append(saludo_html)
@@ -37,23 +37,38 @@ objeto_websocket.onmessage = function (e) {
           $("#mensaje").val('')
           break
     case "left":
-        row_class = "row justify-content-center"
+        if(data.from){
+            row_class = "d-flex justify-content-center"
 
-        var html_data = "<div class='" + row_class + "'><div class='text-warning'> el usuario " +nombre_usuario + "ha salido de la sala" 
-        + data.date+ "</div</div>"
-        $("#areaChat").append(html_data)
+            var html_data = "<div class='" + row_class + "'><div class='text-warning'> el usuario " +data.from+ " ha salido de la sala " 
+            + data.date+ "</div</div>"
+            $("#areaChat").append(html_data)
+        }else{
+            row_class = "d-flex justify-content-center"
+            var html_data = "<div class='" +row_class +"'><div class='text-secondary'>" +data.mensaje +"</div></div>"
+            $("#areaChat").append(html_data)
+        }
   }
   
 }
 
-objeto_websocket.onclose(JSON.stringify(data))
+objeto_websocket.onclose =function(e){
+    var data = {
+        event: "mensaje",
+        cedula: cedula_usuario,
+        mensaje: mensaje,
+        from: nombre_usuario
+    }
+    console.log(data)
+    objeto_websocket.send(JSON.stringify(data))
+}
 
 formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     if (campo[0]) {
         let mensaje = $("#mensaje").val();
         console.log(cedula_usuario)
-        data = {
+        var data = {
             event: "mensaje",
             cedula: cedula_usuario,
             mensaje: mensaje,
