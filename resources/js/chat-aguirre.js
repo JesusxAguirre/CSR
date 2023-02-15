@@ -4,14 +4,13 @@ var objeto_websocket = new WebSocket("ws://localhost:8080");
 var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');
 var nombre_usuario = $("#nombre").val() + " " + $("#apellido").val()
-
+var fecha_hora = new Date().toLocaleDateString()
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
-  var saludo_div = document.createElement('div')
-  saludo_div.className=  'd-flex justify-content-center';
-  saludo_div.innerHTML ='<div class="system_msg" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
+  saludo_html ='<div class="d-flex justify-conten-center" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
   $("#areaChat").append(saludo_div)
 
+ aviso_html = "<div>el usuario " +nombre_usuario+ " ha entrado en el chat, "+fecha_hora +"</div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
 }
 
 objeto_websocket.onmessage = function (e) {
