@@ -4,7 +4,7 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Usuarios;
 
-
+$data;
 class Chat implements MessageComponentInterface {
     protected $clients;
 
@@ -26,6 +26,7 @@ class Chat implements MessageComponentInterface {
     
 
     public function onMessage(ConnectionInterface $from, $msg) {
+      global $data;
       $numRecv = count($this->clients) - 1;
       echo sprintf('El usuario %d esta enviando el mensaje: "%s" to %d other connection%s' . "\n"
       , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
@@ -43,7 +44,7 @@ class Chat implements MessageComponentInterface {
           $client->send($msg);
         } */
         if($from == $client){
-          $data["from"] = "Me";
+          $data["from"] = "Yo";
         }else{
           $data["from"] = $nombre_usuario;
         }
@@ -52,6 +53,7 @@ class Chat implements MessageComponentInterface {
     } 
 
     public function onClose(ConnectionInterface $conn) {
+      
       $this->clients->detach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
       echo "el usuario ({$conn->resourceId}) se ha desconectado $fecha_actual \n";

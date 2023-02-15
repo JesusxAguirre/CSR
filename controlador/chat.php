@@ -7,6 +7,7 @@ $matriz_usuario = $objeto->mi_perfil();
 foreach ($matriz_usuario as $usuario) {
     $nombre = $usuario['nombre'];
     $apellido = $usuario['apellido'];
+    $cedula = $usuario['cedula'];
  
 }
 if($_SESSION['verdadero'] > 0){

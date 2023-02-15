@@ -5,12 +5,14 @@ var formulario = document.getElementById('chatForm');
 var mensaje = document.getElementById('mensaje');
 var nombre_usuario = $("#nombre").val() + " " + $("#apellido").val()
 var fecha_hora = new Date().toLocaleDateString()
+var cedula_usuario = $("#cedula").val()
 
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
-  saludo_html ='<div class="d-flex justify-conten-center" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
-  $("#areaChat").append(saludo_div)
+  var saludo_html ='<div class="row justify-content-center" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
+  $("#areaChat").append(saludo_html)
 
- aviso_html = "<div>el usuario " +nombre_usuario+ " ha entrado en el chat, "+fecha_hora +"</div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
+  var aviso_html = "<div class='d-flex justify-content-center'><div class='text-warning'>el usuario " +nombre_usuario+ " ha entrado en el chat, "+fecha_hora +"</div></div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
+  $("#areaChat").append(aviso_html)
 }
 
 objeto_websocket.onmessage = function (e) {
@@ -42,6 +44,8 @@ formulario.addEventListener('submit', function(e) {
         let mensaje = $("#mensaje").val();
         
         var data = {
+            event: "mensaje",
+            cedula: cedula_usuario,
             mensaje: mensaje,
             from: nombre_usuario
         }
