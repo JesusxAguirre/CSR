@@ -20,7 +20,12 @@ class Chat implements MessageComponentInterface {
     public function onOpen(ConnectionInterface $conn) {
       $this->clients->attach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
+      $data["event"] = "iniciar";
+      $data["mensaje"] = "el usuario {$conn->resourceId} ha iniciado sesion";
 
+      foreach($this->clients as $client){
+        $client->send(json_encode($data));
+      }
       echo "Nueva conexion $fecha_actual ({$conn->resourceId})  \n";
     }
     
@@ -62,7 +67,7 @@ class Chat implements MessageComponentInterface {
       } 
       $this->clients->detach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
-      echo "el usuario {$conn->resourceId} se ha desconectado $fecha_actual \n";
+      echo "el usuario {$conn->resourceId}  se ha desconectado $fecha_actual \n";
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {

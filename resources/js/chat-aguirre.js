@@ -11,8 +11,7 @@ objeto_websocket.onopen = function (e) {//cuando la conexion se abre
   var saludo_html ='<div class="row justify-content-center" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
   $("#areaChat").append(saludo_html)
 
-  var aviso_html = "<div class='d-flex justify-content-center'><div class='text-warning'>el usuario " +nombre_usuario+ " ha entrado en el chat, "+fecha_hora +"</div></div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
-  $("#areaChat").append(aviso_html)
+
 }
 
 objeto_websocket.onmessage = function (e) {
@@ -48,6 +47,12 @@ objeto_websocket.onmessage = function (e) {
             var html_data = "<div class='" +row_class +"'><div class='text-secondary'>" +data.mensaje +"</div></div>"
             $("#areaChat").append(html_data)
         }
+    break
+    
+    case "iniciar":
+        var aviso_html = "<div class='d-flex justify-content-center'><div class='text-warning'>el usuario " +nombre_usuario+ " ha entrado en el chat, "+fecha_hora +"</div></div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
+        $("#areaChat").append(aviso_html)
+    break
   }
   
 }
