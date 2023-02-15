@@ -40,7 +40,7 @@ objeto_websocket.onmessage = function (e) {
         if(data.from){
             row_class = "d-flex justify-content-center"
 
-            var html_data = "<div class='" + row_class + "'><div class='text-warning'> el usuario " +data.from+ " ha salido de la sala " 
+            var html_data = "<div class='" + row_class + "'><div class='text-secondary'> el usuario " +data.from+ " ha salido de la sala " 
             + data.date+ "</div</div>"
             $("#areaChat").append(html_data)
         }else{

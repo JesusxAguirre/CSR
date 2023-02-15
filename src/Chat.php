@@ -4,7 +4,7 @@ use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Usuarios;
 
-$data;
+$data= array();
 class Chat implements MessageComponentInterface {
     protected $clients;
 
@@ -32,33 +32,33 @@ class Chat implements MessageComponentInterface {
       , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
       
       
-      $data= json_decode($msg,true);
+      $data[$from->resourceId]=  json_decode($msg,true);
      
-      $nombre_usuario = $data["from"];
+      $nombre_usuario = $data[$from->resourceId]["from"];
      
       //$user_cedula = $datos_usuario[0]["cedula"];
-      $data["date"] = date("d-m-y h:i:s");
+      $data[$from->resourceId]["date"] = date("d-m-y h:i:s");
       
       foreach($this->clients as $client){
         /* if ($from !== $client){
           $client->send($msg);
         } */
         if($from == $client){
-          $data["from"] = "Yo";
+          $data[$from->resourceId]["from"] = "Yo";
         }else{
-          $data["from"] = $nombre_usuario;
+          $data[$from->resourceId]["from"] = $nombre_usuario;
         }
-        $client->send(json_encode($data));
+        $client->send(json_encode($data[$from->resourceId]));
       }
     } 
 
     public function onClose(ConnectionInterface $conn) {
       global $data;
-      $data["event"] = "left";
-      $data["mensaje"] =  "el usuario {$conn->resourceId} se desconecto ";
+      $data[$conn->resourceId]["event"] = "left";
+      $data[$conn->resourceId]["mensaje"] =  "el usuario {$conn->resourceId} se desconecto ";
      
       foreach($this->clients as $client){
-        $client->send(json_encode($data));
+        $client->send(json_encode($data[$conn->resourceId]));
       } 
       $this->clients->detach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
