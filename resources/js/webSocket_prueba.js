@@ -1,5 +1,5 @@
 $(document).ready(function (e) {
-    
+
     var conn = new WebSocket("ws://localhost:8080");
     conn.onopen = function (e) {
         console.log("Connection established!");
@@ -8,26 +8,45 @@ $(document).ready(function (e) {
     conn.onmessage = function (e) {
         console.log(e.data);
         var data = JSON.parse(e.data);
+
         var div = document.createElement('div');
-        div.innerHTML = data.mensaje;
-        div.className = 'alert alert-primary';
-        div.role = 'alert';
+        div.className = 'd-flex justify-content-end';
+        div.innerHTML = `<div class = "alert alert-secondary msgStyle" role = "alert">${data.mensaje}</div>`;
 
         document.getElementById('areaChat').append(div);
     };
 
-    
     var formulario = document.getElementById('chatForm');
     var mensaje = document.getElementById('mensaje');
 
-    formulario.addEventListener('submit', function(e) {
+    formulario.addEventListener('submit', function (e) {
         e.preventDefault();
         if (campo[0]) {
             let mensaje = document.getElementById('mensaje').value;
-            
+
+            //Hora del envio del mensaje
+            //var now = tiempo.toLocaleTimeString(); //otra solucion "mas rapida"
+            var tiempo = new Date();
+            var hora = tiempo.getHours() > 12 ? tiempo.getHours() - 12 : tiempo.getHours();
+            var am_pm = tiempo.getHours() >= 12 ? 'PM' : 'AM';
+            var msgHora = hora + ":" + tiempo.getMinutes() + am_pm;
+            //Fin de la hora de envio
+
             var data = {
                 mensaje: mensaje,
+                msgHora: msgHora,
             }
+
+            var div = document.createElement('div');
+            div.className = 'd-flex justify-content-start';
+            div.innerHTML = `<div class = "alert alert-primary msgStyle" role = "alert">
+            ${data.mensaje}
+            <div class="divisorMsg"></div>
+            <span class="msgInfo d-flex justify-content-between"><i><b>Me</b></i> 12:27PM</span>
+            </div>`;
+
+            document.getElementById('areaChat').append(div);
+            document.getElementById('mensaje').value = '';
 
             conn.send(JSON.stringify(data));
         }
@@ -46,14 +65,17 @@ $(document).ready(function (e) {
     function validar(evento) {
         if (expresiones.expresioness.test(evento.value)) {
             document.getElementById('enviar').removeAttribute('disabled');
-            campo[0]= true;
-        }else{
+            campo[0] = true;
+        } else {
             document.getElementById('enviar').setAttribute('disabled', "");
             campo[0] = false;
         }
     }
-    
-    mensaje.addEventListener('keyup', function(e) {
+
+    mensaje.addEventListener('keyup', function (e) {
+        validar(mensaje);
+    });
+    mensaje.addEventListener('blur', function (e) {
         validar(mensaje);
     });
     //////////Fin de la validacion

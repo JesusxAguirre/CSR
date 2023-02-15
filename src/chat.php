@@ -1,7 +1,10 @@
 <?php
+
 namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
+
+require_once ('modelo/clase_datosUsuario.php');
 
 class Chat implements MessageComponentInterface {
     protected $clients;

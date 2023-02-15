@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Materias</title>
+    <title>Chat Virtual</title>
 
     <!-- Bostrap 5 -->
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
@@ -43,19 +43,18 @@
     <main style="height: 100vh" class="pt-3">
         <div class="contenedor">
             <div class="chatCont">
+                <span class="d-none" id="ci"><?php echo $_SESSION['cedula'] ?></span>
                 <div class="chatArea" id="areaChat">
                     <!-- Aqui van los mensajes -->
-                    <!-- <div class="iz d-flex justify-content-start w-100">
-                        <div class="alert alert-primary miMensaje" role="alert">
-                            A simple primary aler
+                    
+                    <div class="d-flex justify-content-end">
+                        <div class="msgStyle alert alert-warning">
+                            A simple primary alert—csdsdasdasdasdasdasdasdasdasdasd
+                            <div class="divisorMsg"></div>
+                            <span class="msgInfo d-flex justify-content-between"><i><b>Me</b></i> 12:27PM</span>
                         </div>
                     </div>
-                    <div class="der d-flex justify-content-end w-100">
-                        <div class="alert alert-warning w-50" role="alert">
-                            A simple primary alert—check it out!ahsdasgdhgasd
-                            jagsdhgashdgahsgdh
-                        </div>
-                    </div> -->
+
                 </div>
                 <form id="chatForm" class="h-100">
                     <div class="mensajeArea">

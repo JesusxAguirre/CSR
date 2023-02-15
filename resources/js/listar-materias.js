@@ -236,7 +236,7 @@ function choices2() {
 
 //ACTUALIZANDO MATERIAS
 $("#actualizarMateria").on("click", function (e) {
-  const data2 = {
+  var data2 = {
     actualizarMateria: $("#actualizarMateria").val(),
     idMateria2: $("#idMateria2").val(),
     nombreMateria2: $("#nombreMateria2").val(),
@@ -245,6 +245,7 @@ $("#actualizarMateria").on("click", function (e) {
 
   if (campos2[0] && campos2[1]) {
     $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
+      console.log(response);  
       listarMaterias();
       document.getElementById('nombreMateria2').classList.remove('validarBien');
       document.getElementById('seleccionarNivel2').classList.remove('validarBien');

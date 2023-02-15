@@ -648,7 +648,7 @@ class ecam extends Conectar
     //ACTUALIZAR MATERIAS
     public function actualizarMateria()
     {   
-        $sql = "UPDATE `materias` SET `nombre` = :nom, `nivelAcademico` = :nivelD WHERE `materias`.`id_materia` = :idMa";
+        $sql = "UPDATE `materias` SET `nombre` = :nom, `nivelAcademico` = :nivelA WHERE `materias`.`id_materia` = :idMa";
 
         $stmt = $this->conexion()->prepare($sql);
 
