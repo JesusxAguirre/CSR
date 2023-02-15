@@ -43,17 +43,18 @@
     <main style="height: 100vh" class="pt-3">
         <div class="contenedor">
             <div class="chatCont">
+                <span class="d-none" id="usuario"><?php echo $_SESSION['nombre'] ?></span>
                 <span class="d-none" id="ci"><?php echo $_SESSION['cedula'] ?></span>
                 <div class="chatArea" id="areaChat">
                     <!-- Aqui van los mensajes -->
                     
-                    <div class="d-flex justify-content-end">
+                    <!-- <div class="d-flex justify-content-end">
                         <div class="msgStyle alert alert-warning">
                             A simple primary alert—csdsdasdasdasdasdasdasdasdasdasd
                             <div class="divisorMsg"></div>
                             <span class="msgInfo d-flex justify-content-between"><i><b>Me</b></i> 12:27PM</span>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
                 <form id="chatForm" class="h-100">

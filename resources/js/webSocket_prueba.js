@@ -11,7 +11,11 @@ $(document).ready(function (e) {
 
         var div = document.createElement('div');
         div.className = 'd-flex justify-content-end';
-        div.innerHTML = `<div class = "alert alert-secondary msgStyle" role = "alert">${data.mensaje}</div>`;
+        div.innerHTML = `<div class = "alert alert-secondary msgStyle" role = "alert">
+        ${data.mensaje}
+        <div class="divisorMsg"></div>
+        <span class="msgInfo d-flex justify-content-between"><i class = "me-5"><b>${data.usuario}</b></i> 12:27PM</span>
+        </div>`;
 
         document.getElementById('areaChat').append(div);
     };
@@ -22,19 +26,24 @@ $(document).ready(function (e) {
     formulario.addEventListener('submit', function (e) {
         e.preventDefault();
         if (campo[0]) {
+            //Capturando mensaje
             let mensaje = document.getElementById('mensaje').value;
+
+            //Capturando cedula del usuario\
+            let usuario = document.getElementById('nombre').textContent;
 
             //Hora del envio del mensaje
             //var now = tiempo.toLocaleTimeString(); //otra solucion "mas rapida"
             var tiempo = new Date();
             var hora = tiempo.getHours() > 12 ? tiempo.getHours() - 12 : tiempo.getHours();
             var am_pm = tiempo.getHours() >= 12 ? 'PM' : 'AM';
-            var msgHora = hora + ":" + tiempo.getMinutes() + am_pm;
+            const msgHora = hora + ":" + tiempo.getMinutes() + am_pm;
             //Fin de la hora de envio
 
             var data = {
                 mensaje: mensaje,
                 msgHora: msgHora,
+                usuario: usuario,
             }
 
             var div = document.createElement('div');
@@ -42,7 +51,7 @@ $(document).ready(function (e) {
             div.innerHTML = `<div class = "alert alert-primary msgStyle" role = "alert">
             ${data.mensaje}
             <div class="divisorMsg"></div>
-            <span class="msgInfo d-flex justify-content-between"><i><b>Me</b></i> 12:27PM</span>
+            <span class="msgInfo d-flex justify-content-between"><i class = "me-5"><b>Me:</b></i>${msgHora}</span>
             </div>`;
 
             document.getElementById('areaChat').append(div);

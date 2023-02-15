@@ -1,6 +1,8 @@
 <?php
 
 namespace MyApp;
+
+use datosUsuario;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
@@ -25,6 +27,12 @@ class Chat implements MessageComponentInterface {
         $numRecv = count($this->clients) - 1;
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n"
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
+
+        //Capturando datos del JS
+        //$data = json_decode($msg, true);
+
+        // $usuario_obj = new datosUsuario; //Otra forma de hacerlo, pero mas complicado creo
+
 
         foreach ($this->clients as $client) {
             if ($from !== $client) {
