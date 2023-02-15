@@ -6,7 +6,7 @@ var mensaje = document.getElementById('mensaje');
 var nombre_usuario = $("#nombre").val() + " " + $("#apellido").val()
 var fecha_hora = new Date().toLocaleDateString()
 var cedula_usuario = $("#cedula").val()
-
+var data = ''
 objeto_websocket.onopen = function (e) {//cuando la conexion se abre 
   var saludo_html ='<div class="row justify-content-center" style="color:#bbbbbb">Bienvenido al chat de casa sobre la roca !</div>';
   $("#areaChat").append(saludo_html)
@@ -46,14 +46,14 @@ objeto_websocket.onmessage = function (e) {
   
 }
 
-
+objeto_websocket.onclose(JSON.stringify(data))
 
 formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     if (campo[0]) {
         let mensaje = $("#mensaje").val();
         console.log(cedula_usuario)
-        var data = {
+        data = {
             event: "mensaje",
             cedula: cedula_usuario,
             mensaje: mensaje,

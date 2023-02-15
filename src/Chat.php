@@ -52,13 +52,13 @@ class Chat implements MessageComponentInterface {
       }
     } 
 
-    public function onClose(ConnectionInterface $conn) {
-      global $data;
+    public function onClose(ConnectionInterface $conn,$data) {
+      $data = json_decode($data);
       $data['event'] = "left";
       foreach($this->clients as $client){
         $client->send(json_encode($data));
       }
-      
+      $this->clients->
       $this->clients->detach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
       echo "el usuario " . $data['cedula'] ." se ha desconectado $fecha_actual \n";

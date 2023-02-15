@@ -18,12 +18,13 @@ interface ComponentInterface {
      * @param  ConnectionInterface $conn The socket/connection that is closing/closed
      * @throws \Exception
      */
-    function onClose(ConnectionInterface $conn);
+    function onClose(ConnectionInterface $conn,$data);
 
     /**
      * If there is an error with one of the sockets, or somewhere in the application where an Exception is thrown,
      * the Exception is sent back down the stack, handled by the Server and bubbled back up the application through this method
      * @param  ConnectionInterface $conn
+     * @param  ConnectionInterface $data
      * @param  \Exception          $e
      * @throws \Exception
      */
