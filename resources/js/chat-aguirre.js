@@ -21,7 +21,7 @@ objeto_websocket.onmessage = function (e) {
   var row_class = ''
   var backgroud_class = ''
   
-  if(data.from == "Me"){
+  if(data.from == "Yo"){
     row_class = "row justify-content-start"
     backgroud_class = "text-dark alert alert-light"
   }else{
