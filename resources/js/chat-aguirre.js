@@ -20,20 +20,30 @@ objeto_websocket.onmessage = function (e) {
   var data = JSON.parse(e.data);
   var row_class = ''
   var backgroud_class = ''
-  
-  if(data.from == "Yo"){
-    row_class = "row justify-content-start"
-    backgroud_class = "text-dark alert alert-light"
-  }else{
-    row_class = "row justify-content-end"
-    backgroud_class = "alert-success"
-  }
-  var html_data = "<div class='"+ row_class + "'><div class='col-sm-10'><div class='shadow-sm alert " + backgroud_class+"'><b>"+data.from+" - </b>"
-  + data.mensaje + " <br /><div class='d-flex justify-content-end'><small><i>"+ data.date +"</i></small></div></div></div> </div>"
-  
-  $("#areaChat").append(html_data)
+  switch(data.event){
+    case "mensaje":
+        if(data.from == "Yo"){
+            row_class = "row justify-content-start"
+            backgroud_class = "text-dark alert alert-light"
+          }else{
+            row_class = "row justify-content-end"
+            backgroud_class = "alert-success"
+          }
+          var html_data = "<div class='"+ row_class + "'><div class='col-sm-10'><div class='shadow-sm alert " + backgroud_class+"'><b>"+data.from+" - </b>"
+          + data.mensaje + " <br /><div class='d-flex justify-content-end'><small><i>"+ data.date +"</i></small></div></div></div> </div>"
+          
+          $("#areaChat").append(html_data)
+        
+          $("#mensaje").val('')
+          break
+    case "left":
+        row_class = "row justify-content-center"
 
-  $("#mensaje").val('')
+        var html_data = "<div class='" + row_class + "'><div class='text-warning'> el usuario " +nombre_usuario + "ha salido de la sala" 
+        + data.date+ "</div</div>"
+        $("#areaChat").append(html_data)
+  }
+  
 }
 
 
@@ -42,7 +52,7 @@ formulario.addEventListener('submit', function(e) {
     e.preventDefault();
     if (campo[0]) {
         let mensaje = $("#mensaje").val();
-        
+        console.log(cedula_usuario)
         var data = {
             event: "mensaje",
             cedula: cedula_usuario,

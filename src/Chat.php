@@ -61,7 +61,7 @@ class Chat implements MessageComponentInterface {
       
       $this->clients->detach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
-      echo "el usuario " . $data['cedula'] ."se ha desconectado $fecha_actual \n";
+      echo "el usuario " . $data['cedula'] ." se ha desconectado $fecha_actual \n";
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
