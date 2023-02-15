@@ -21,7 +21,7 @@ class Chat implements MessageComponentInterface {
       $this->clients->attach($conn);
       $fecha_actual = date("d-m-Y h:i:s");
       $data["event"] = "iniciar";
-      $data["mensaje"] = "el usuario {$conn->resourceId} ha iniciado sesion";
+      $data["mensaje"] = "el usuario {$conn->resourceId} ha entrado en el Chat";
 
       foreach($this->clients as $client){
         $client->send(json_encode($data));

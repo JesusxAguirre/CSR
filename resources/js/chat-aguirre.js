@@ -39,18 +39,18 @@ objeto_websocket.onmessage = function (e) {
         if(data.from){
             row_class = "d-flex justify-content-center"
 
-            var html_data = "<div class='" + row_class + "'><div class='text-secondary'> el usuario " +data.from+ " ha salido de la sala " 
+            var html_data = "<div class='mt-3 " + row_class + "'><div class='text-secondary'> el usuario " +data.from+ " ha salido de la sala " 
             + data.date+ "</div</div>"
             $("#areaChat").append(html_data)
         }else{
             row_class = "d-flex justify-content-center"
-            var html_data = "<div class='" +row_class +"'><div class='text-secondary'>" +data.mensaje +"</div></div>"
+            var html_data = "<div class='mt-3 " +row_class +"'><div class='text-secondary'>" +data.mensaje +"</div></div>"
             $("#areaChat").append(html_data)
         }
     break
     
     case "iniciar":
-        var aviso_html = "<div class='d-flex justify-content-center'><div class='text-warning'>el usuario " +nombre_usuario+ " ha entrado en el chat, "+fecha_hora +"</div></div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
+        var aviso_html = "<div class='d-flex justify-content-center mt-3'><div class='text-secondary'>" +data.mensaje+ " "+fecha_hora +"</div></div>"  //variable donde se guarda el div html para enviar un mensaje de que usuario ha entrado a la sala
         $("#areaChat").append(aviso_html)
     break
   }
