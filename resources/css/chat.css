@@ -33,7 +33,7 @@
 .mensajeDiv{
     width: 80%;
 }
-#mensaje{
+#mensajeChat{
     height: 100%;
     resize: none;
 }
@@ -41,7 +41,7 @@
 .enviarDiv{
     width: 20%;
 }
-#enviar{
+#enviarMensajeChat{
     width: 100%;
     height: 100%;
 }

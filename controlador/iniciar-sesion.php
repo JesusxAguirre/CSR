@@ -71,6 +71,9 @@ if (isset($_POST['enviar'])) {
 	$buscarStatusProf = $objeto2->statusProfesor();
 	$_SESSION['status_profesor'] = $buscarStatusProf[0]['status_profesor'];
 
+	//Status para saber si esta conectado o no
+	$_SESSION['status_login'] = 'ON';
+
 
 	if ($_SESSION['verdadero'] > 0) {
 	

@@ -5,7 +5,9 @@ session_start();
 if($_SESSION['verdadero'] > 0){
 
     if (is_file('vista/'.$pagina.'.php')) {
-        
+        require_once('modelo/clase_chatRoom.php');
+        $obj = new ChatRoom;
+        $chat_datos = $obj->getChatDatos();
         
         require_once 'vista/'.$pagina.'.php';
     }

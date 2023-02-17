@@ -1,12 +1,10 @@
 <?php
 
 namespace MyApp;
-
-use datosUsuario;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-require_once ('modelo/clase_datosUsuario.php');
+require dirname(__DIR__) . '/modelo/clase_chatRoom.php';
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -21,6 +19,7 @@ class Chat implements MessageComponentInterface {
         $this->clients->attach($conn);
 
         echo "New connection! ({$conn->resourceId})\n";
+        
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
@@ -29,23 +28,44 @@ class Chat implements MessageComponentInterface {
             , $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
 
         //Capturando datos del JS
-        //$data = json_decode($msg, true);
+        $data = json_decode($msg, true);
 
-        // $usuario_obj = new datosUsuario; //Otra forma de hacerlo, pero mas complicado creo
-
+        //Capturando informacion de usuarios y mensajes
+        $chat_objeto = new \chatRoom;
+        /*$chat_objeto->setUserId($data['cedula']);
+        $chat_objeto->setMensaje($data['mensaje']);
+        $chat_objeto->setHoraMensaje($data['msgHora']);*/
+        $chat_objeto->guardar_chat($data['cedula'], $data['mensaje'], $data['msgHora']);  //Este metodo guardara los datos del Chat Room
+        
 
         foreach ($this->clients as $client) {
-            if ($from !== $client) {
+            /*if ($from !== $client) {
                 // The sender is not the receiver, send to each client connected
                 $client->send($msg);
+            }*/
+
+            if ($from == $client) {
+                $data['from'] = 'Me';
+                $data['event'] = 'mensaje';
+            }else{
+                $data['from'] = $data['usuario'];
+                $data['event'] = 'mensaje';
             }
+            $client->send(json_encode($data));
         }
     }
 
     public function onClose(ConnectionInterface $conn) {
         // The connection is closed, remove it, as we can no longer send it messages
-        $this->clients->detach($conn);
+        global $datos;
 
+        $datos['event'] = 'outside';
+        $datos['respuesta'] = "El usuario {$conn->resourceId} se ha desconectado";
+        foreach ($this->clients as $client) {
+            $client->send(json_encode($datos));
+        }
+
+        $this->clients->detach($conn);
         echo "Connection {$conn->resourceId} has disconnected\n";
     }
 

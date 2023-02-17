@@ -5,32 +5,68 @@ $(document).ready(function (e) {
         console.log("Connection established!");
     };
 
+    //Capturando datos del usuario
+    let timeSocket = new Date();
+    var timeNow = timeSocket.toLocaleTimeString(); //otra solucion "mas rapida"
+    const usuarioSocket = document.getElementById('usuarioSocket').textContent;
+    const cedulaSocket = document.getElementById('cedulaSocket').textContent;
+    parseInt(cedulaSocket);
+
+
     conn.onmessage = function (e) {
         console.log(e.data);
         var data = JSON.parse(e.data);
 
-        var div = document.createElement('div');
-        div.className = 'd-flex justify-content-end';
-        div.innerHTML = `<div class = "alert alert-secondary msgStyle" role = "alert">
-        ${data.mensaje}
-        <div class="divisorMsg"></div>
-        <span class="msgInfo d-flex justify-content-between"><i class = "me-5"><b>${data.usuario}</b></i> 12:27PM</span>
-        </div>`;
+        switch (data.event) {
+            case 'mensaje':
+                if (data.from == 'Me') {
+                    var div = document.createElement('div');
+                    div.className = 'd-flex justify-content-start';
+                    div.innerHTML = `<div class = "alert alert-primary msgStyle" role = "alert">
+                    ${data.mensaje}
+                    <div class="divisorMsg"></div>
+                    <span class="msgInfo d-flex justify-content-between"><i class="me-5"><b>Me:</b></i>${data.msgHora}</span>
+                    </div>`;
+        
+                    document.getElementById('areaChat').append(div);
+                }else{
+                    var div = document.createElement('div');
+                    div.className = 'd-flex justify-content-end';
+                    div.innerHTML = `<div class = "alert alert-secondary msgStyle" role = "alert">
+                    ${data.mensaje}
+                    <div class="divisorMsg"></div>
+                    <span class="msgInfo d-flex justify-content-between"><i class = "me-5"><b>${data.usuario}:</b></i>${data.msgHora}</span>
+                    </div>`;
+                    
+                    //Creando notificacion
+                    /*let div2 = document.createElement('div');
+                    div2.className = 'alert alert-primary text-center';
+                    div2.role = 'alert';
+                    div2.innerHTML = `<i><b>${data.usuario}</b> ha escrito en el Chat Virtual</i>`;
+                    document.getElementById('notificaciones2').append(div2);*/
+                }
+                break;
+            case 'outside':
+                let html = `<div class="d-flex justify-content-center">
+                <span><i>${data.respuesta}</i></span>
+                </div>`;
 
-        document.getElementById('areaChat').append(div);
+                $('#areaChat').append(html);
+            break;
+        
+        }
+
     };
 
-    var formulario = document.getElementById('chatForm');
-    var mensaje = document.getElementById('mensaje');
+    var formularioSocket = document.getElementById('chatForm');
+    var mensajeSocket = document.getElementById('mensajeChat');
 
-    formulario.addEventListener('submit', function (e) {
+    formularioSocket.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (campo[0]) {
-            //Capturando mensaje
-            let mensaje = document.getElementById('mensaje').value;
+        if (campoSocket[0]) {
 
-            //Capturando cedula del usuario\
-            let usuario = document.getElementById('nombre').textContent;
+            //Capturando mensaje
+            let mensaje = document.getElementById('mensajeChat').value;
 
             //Hora del envio del mensaje
             //var now = tiempo.toLocaleTimeString(); //otra solucion "mas rapida"
@@ -43,19 +79,11 @@ $(document).ready(function (e) {
             var data = {
                 mensaje: mensaje,
                 msgHora: msgHora,
-                usuario: usuario,
+                usuario: usuarioSocket,
+                cedula: cedulaSocket,
             }
 
-            var div = document.createElement('div');
-            div.className = 'd-flex justify-content-start';
-            div.innerHTML = `<div class = "alert alert-primary msgStyle" role = "alert">
-            ${data.mensaje}
-            <div class="divisorMsg"></div>
-            <span class="msgInfo d-flex justify-content-between"><i class = "me-5"><b>Me:</b></i>${msgHora}</span>
-            </div>`;
-
-            document.getElementById('areaChat').append(div);
-            document.getElementById('mensaje').value = '';
+            document.getElementById('mensajeChat').value = '';
 
             conn.send(JSON.stringify(data));
         }
@@ -63,29 +91,29 @@ $(document).ready(function (e) {
 
 
     //////////Validaciones de mensaje vacio
-    const expresiones = {
-        expresioness: /^[a-zA-ZÀ-ÿ0-9\s]{1,10000}$/, // Letras y espacios, pueden llevar acentos.
+    const expresionesSocket = {
+        expresiones: /^[a-zA-ZÀ-ÿ0-9\s]{1,10000}$/, // Letras y espacios, pueden llevar acentos.
     }
 
-    var campo = {
+    var campoSocket = {
         existe: false,
     }
 
     function validar(evento) {
-        if (expresiones.expresioness.test(evento.value)) {
-            document.getElementById('enviar').removeAttribute('disabled');
-            campo[0] = true;
+        if (expresionesSocket.expresiones.test(evento.value)) {
+            document.getElementById('enviarMensajeChat').removeAttribute('disabled');
+            campoSocket[0] = true;
         } else {
-            document.getElementById('enviar').setAttribute('disabled', "");
-            campo[0] = false;
+            document.getElementById('enviarMensajeChat').setAttribute('disabled', "");
+            campoSocket[0] = false;
         }
     }
 
-    mensaje.addEventListener('keyup', function (e) {
-        validar(mensaje);
+    mensajeSocket.addEventListener('keyup', function (e) {
+        validar(mensajeSocket);
     });
-    mensaje.addEventListener('blur', function (e) {
-        validar(mensaje);
+    mensajeSocket.addEventListener('blur', function (e) {
+        validar(mensajeSocket);
     });
     //////////Fin de la validacion
 

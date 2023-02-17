@@ -30,7 +30,26 @@
         </li>
       </ul>
       <!-- Fin del chat -->
+      <!-- Notificaciones con WebSocket -->
+      <ul class="navbar-nav">
+        <input class="d-none" type="text">
+        <li class="nav-item dropdown">
+          <a id="verNotificaciones2" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+          </a>
+          <ul id="notificaciones2" class="dropdown-menu dropdown-menu-end notificacionesPrevista">
+            <!-- DATOS PRUEBA CON WEBSOCKET-->
+            <!-- <div class="alert alert-primary text-center" role="alert">
+              <i>A simple primary alert—check it out!</i>
+            </div> -->
+          </ul>
+        </li>
+      </ul>
+      <!-- Fin de notificaciones con WebSocket -->
 
+
+
+      <!-- NOTIFICACIONES ORIGINALES -->
       <ul class="navbar-nav">
         <input id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
         <input id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
@@ -44,12 +63,14 @@
           </ul>
         </li>
       </ul>
+      <!-- Fin notificaciones originales -->
+
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <div id="fotoPerfil">
-            <!-- AQUI VA LA FOTO DE PERFIL -->
-          </div>
+            <div id="fotoPerfil">
+              <!-- AQUI VA LA FOTO DE PERFIL -->
+            </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
             <li><a class="dropdown-item" href="?pagina=mi-perfil">Mi perfil</a></li>
@@ -64,3 +85,4 @@
 </nav>
 <!-- NavBar -->
 <script src="./resources/js/menu.js"></script>
+<script src="./resources/js/webSocket_prueba.js"></script>

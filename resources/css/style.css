@@ -105,4 +105,12 @@ padding-left: 20px;
     height: calc(100% - var(--topNavbarHeight));
   }
  
+
+
+  .notificacionesPrevista{
+    width: 400px;
+    max-height: 400px;
+    padding: 5px;
+    overflow-y: auto;
+  }
 }
