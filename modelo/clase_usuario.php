@@ -89,7 +89,7 @@ class Usuarios extends Conectar
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(":usuario" => $usuario));
+        $stmt->execute(array(":usuario" => $usuario,));
 
         while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 

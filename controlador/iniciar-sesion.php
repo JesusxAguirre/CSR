@@ -71,12 +71,10 @@ if (isset($_POST['enviar'])) {
 	$buscarStatusProf = $objeto2->statusProfesor();
 	$_SESSION['status_profesor'] = $buscarStatusProf[0]['status_profesor'];
 
-	//Status para saber si esta conectado o no
-	$_SESSION['status_login'] = 'ON';
 
 
-	if ($_SESSION['verdadero'] > 0) {
 	
+	if ($_SESSION['verdadero'] > 0) {
 		//primero se busca la id del rol del usuario con el correo del usuario
 		$idRol = $objeto->getIdRol($_SESSION['usuario']);
 		$_SESSION['rol'] = $idRol;
