@@ -629,9 +629,11 @@ class ecam extends Conectar
     public function eliminarMateria($idMateria)
     {
         //Obteniendo informacion de la materia
-        $sql = "SELECT * FROM materias WHERE materias.id_materia = $idMateria";
+        $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = :idMateria";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":idMateria" => $idMateria,
+        ));
         $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
