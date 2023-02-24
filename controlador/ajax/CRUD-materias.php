@@ -22,7 +22,8 @@ if (isset($_POST['agregarProfesores'])) {
 if (isset($_POST['botonEliminar'])) {
     $idMateria= $_POST['idMateria'];
 
-    $objeto->eliminarMateria($idMateria);
+    $response =$objeto->eliminarMateria($idMateria);
+    echo $response;
 }
 
 //ACTUALIZANDO MATERIAS
