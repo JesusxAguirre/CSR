@@ -27,7 +27,11 @@ class Usuarios extends Conectar
     private $num_filas;
     private $rol;
 
+    private $edad;
 
+    private $sexo;
+
+    private $civil;
 
     private $cedula_antigua;
     //variables para imagenes
@@ -244,7 +248,7 @@ class Usuarios extends Conectar
     //==============Buscar usuario por cedula, por nombre o, estado civil y codigo  =======// 
     public function buscar_usuario($busqueda)
     {
-
+        
 
         $sql = ("SELECT usuarios.cedula,usuarios.codigo,usuarios.nombre,usuarios.apellido,usuarios.telefono,usuarios.sexo,usuarios.estado_civil,
         usuarios.nacionalidad,usuarios.estado,edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
