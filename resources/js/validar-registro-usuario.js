@@ -198,13 +198,15 @@ formulario2.addEventListener('submit', (e) => {
 	}
 })
 
-if (error == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se registro el usuario correctamente'
-	})
+if (error == true) {
+		fireAlert( 'success','Se registro el usuario correctamente')
+		
 	setTimeout(recarga, 2000);
+}else{
+	fireAlert2("error","Lo siento","Registra el formulario correctamente")
 }
+
+
 
 if (recuperacion == false) {
 	Swal.fire({
@@ -215,6 +217,12 @@ if (recuperacion == false) {
 }
 
 function fireAlert(icon, msg) {
+	Swal.fire({
+		icon: icon,
+		title: msg
+	})
+}
+function fireAlert2(icon, title,msg) {
 	Swal.fire({
 		icon: icon,
 		title: msg
