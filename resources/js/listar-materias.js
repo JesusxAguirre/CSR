@@ -199,21 +199,29 @@ $(document).on('click', '#eliminarMateria', function () {
         idMateria,
         botonEliminar
       }, function (response) {
+        console.log(response);
         listarMaterias();
-        Swal.fire({
-          icon: 'success',
-          title: "¡Eliminado correctamente!",
-          toast: true,
-          background: 'green',
-          color: 'white',
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        if (response == true) {
+          fireAlert('success', 'Eliminado correctamente!');
+        }else{
+          fireAlert('error', 'Ocurrio un error');
+        }
       })
     }
   })
 });
 
+function fireAlert(icon, msg) {
+  Swal.fire({
+    icon: icon,
+    title: msg,
+    toast: true,
+    background: 'green',
+    color: 'white',
+    showConfirmButton: false,
+    timer: 3000,
+  });
+}
 
 
 
