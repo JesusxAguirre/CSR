@@ -400,54 +400,70 @@ class ecam extends Conectar
     //AGREGAR MATERIAS
     public function agregarMaterias()
     {
-        $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
+        try {
+            $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
 
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array(
-            ":nom" => $this->nombre,
-            ":nivelD" => $this->nivel
-        ));
-
-        /*Buscando ultimo ID de la materia agregada para guardar ese valor, luego ese valor es
-        introducido en la consulta de aqui abajo para que sea dinamico*/
-        foreach ($this->cedulaProfesor as $cedulaP) {
-            $sql2 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaP, (SELECT MAX(id_materia) FROM `materias`))";
-            $stmt2 = $this->conexion->prepare($sql2);
-            $stmt2->execute(array(
-                ":cedulaP" => $cedulaP,
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->execute(array(
+                ":nom" => $this->nombre,
+                ":nivelD" => $this->nivel
             ));
-        } //Fin del  Foreach
-        //Profesores vinculados con la materia
 
-        $cedula = $_SESSION['cedula'];
-        $accion = "Ha agregado una materia nueva llamada " . $this->nombre;
-        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            /*Buscando ultimo ID de la materia agregada para guardar ese valor, luego ese valor es
+            introducido en la consulta de aqui abajo para que sea dinamico*/
+            foreach ($this->cedulaProfesor as $cedulaP) {
+                $sql2 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaP, (SELECT MAX(id_materia) FROM `materias`))";
+                $stmt2 = $this->conexion->prepare($sql2);
+                $stmt2->execute(array(
+                    ":cedulaP" => $cedulaP,
+                ));
+            } //Fin del  Foreach
+            //Profesores vinculados con la materia
+
+            $cedula = $_SESSION['cedula'];
+            $accion = "Ha agregado una materia nueva llamada " . $this->nombre;
+            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+        } catch (Exception $e) {
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            exit();
+        }
+        
     }
 
     //AGREGAR PROFESORES A LA ECAM (ACTIVAR STATUS PROFESOR)
     public function agregar_profesores($cedulasProfesores)
-    {
-        //Agregando status_profesor = 1 a los profesores que se vayan asignando
-        foreach ($cedulasProfesores as $cedulaProf) {
-            $sql = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->execute(array(
-                ":cedulaProf" => $cedulaProf,
-            ));
-        } //Fin del Foreach
-        //Profesores con status 1 activados
+    {   
+        try {
+             //Agregando status_profesor = 1 a los profesores que se vayan asignando
+            foreach ($cedulasProfesores as $cedulaProf) {
+                $sql = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
+                $stmt = $this->conexion->prepare($sql);
+                $stmt->execute(array(
+                    ":cedulaProf" => $cedulaProf,
+                ));
+            } //Fin del Foreach
+            //Profesores con status 1 activados
 
-        //$profesoresAgregados = [];
-        foreach ($cedulasProfesores as $cedulaProfA) {
-            $sql2 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfA";
-            $stmt2 = $this->conexion->prepare($sql2);
-            $stmt2->execute(array());
-            $filas = $stmt2->fetch(PDO::FETCH_ASSOC);
+            //$profesoresAgregados = [];
+            foreach ($cedulasProfesores as $cedulaProfA) {
+                $sql2 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfA";
+                $stmt2 = $this->conexion->prepare($sql2);
+                $stmt2->execute(array());
+                $filas = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-            $cedula = $_SESSION['cedula'];
-            $accion = "Ha agregado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
-            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+                $cedula = $_SESSION['cedula'];
+                $accion = "Ha agregado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
+                parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            }
+        } catch (Exception $e) {
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            exit();
         }
+       
     }
 
     //ELIMINAR PROFESORES DE LA ECAM

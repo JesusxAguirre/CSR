@@ -80,10 +80,10 @@ $("#agregarMateria").on("click", function (e) {
 /////////////////////////////////////////////
 
 const expresionesMaterias = {
-    nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,50}$/, // Letras y espacios, pueden llevar acentos.
+    nombreMateria:  /^[A-Za-z]{5,30}[\s]{0,1}[0-9]{0,1}$/,//letras espacio y numero
   }
   
-  var campos = {
+  var campos = { 
     nombreMateria: false,
     nivelMateria: false,
   }
