@@ -59,6 +59,7 @@ $(document).on('click', '.eliminarProfEcam', function () {
       if (result.isConfirmed) {
         $.post("controlador/ajax/CRUD-materias.php", data,
         function (data) {
+          console.log(data)
           listarFuturosProfesores();
           listarProfesores2();
           Swal.fire({

@@ -49,7 +49,8 @@ if (isset($_POST['eliminarProfMat'])) {
 if (isset($_POST['eliminar_profesor'])) {
     $cedulaProf= $_POST['cedulaProf'];
 
-    $objeto->eliminar_profesor($cedulaProf);
+    $response =$objeto->eliminar_profesor($cedulaProf);
+    echo $response;
 }
 
 //AGREGANDO(VINCULANDO) PROFESOR A LA MATERIA

@@ -473,23 +473,23 @@ class ecam extends Conectar
         try{
         $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = :cedulaProfesor";
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array("
-        :cedulaProfesor"=>$cedulaProfesor));
+        $stmt->execute(array(
+            ":cedulaProfesor"=>$cedulaProfesor,));
 
         $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = :cedulaProfesor";
         $stmt2 = $this->conexion()->prepare($sql2);
-        $stmt2->execute(array("
-        :cedulaProfesor"=>$cedulaProfesor));
+        $stmt2->execute(array(
+            ":cedulaProfesor"=>$cedulaProfesor,));
 
         $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedulaProfesor";
         $stmt3 = $this->conexion()->prepare($sql3);
-        $stmt3->execute(array("
-        :cedulaProfesor"=>$cedulaProfesor));
+        $stmt3->execute(array(
+            ":cedulaProfesor"=>$cedulaProfesor,));
 
         $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = :cedulaProfesor";
         $stmt4 = $this->conexion->prepare($sql4);
-        $stmt4->execute(array("
-        :cedulaProfesor"=>$cedulaProfesor));
+        $stmt4->execute(array(
+            ":cedulaProfesor"=>$cedulaProfesor,));
         $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
 
         $cedula = $_SESSION['cedula'];
@@ -500,9 +500,8 @@ class ecam extends Conectar
         $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
         }catch (Exception $e) {
 
-            echo $e->getMessage();
+            return $e->getMessage() . $e->getLine();
 
-            echo "Linea del error: " . $e->getLine();
         }
     }
 
@@ -970,9 +969,9 @@ class ecam extends Conectar
     //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
     public function eliminarEstSeccion($cedulaEstborrar)
     {
-        $sql = "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = $cedulaEstborrar";
+        $sql = "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = :cedula";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(array(":cedula"=>$cedulaEstborrar));
 
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha desvinculado a un estudiante de una seccion";
@@ -982,12 +981,13 @@ class ecam extends Conectar
     //ACTUALIZAR DATOS DE LA SECCION SELECCIONADA
     public function actualizarDatosSeccion($idSeccionRefU)
     {
-        $sql = "UPDATE `secciones` SET `nombre` = :nombreSecU, `nivel_academico` = :nivelSecU, `fecha_cierre` = :fechaCierre WHERE `secciones`.`id_seccion` = $idSeccionRefU";
+        $sql = "UPDATE `secciones` SET `nombre` = :nombreSecU, `nivel_academico` = :nivelSecU, `fecha_cierre` = :fechaCierre WHERE `secciones`.`id_seccion` = :id_seccion";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array(
             ":nombreSecU" => $this->nombreSeccionU,
             ":nivelSecU" => $this->nivelSeccionU,
             ":fechaCierre" => $this->fechaCierreRefU,
+            ":id_seccion"=> $idSeccionRefU,
         ));
 
         $cedula = $_SESSION['cedula'];
