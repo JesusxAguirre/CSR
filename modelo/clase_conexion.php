@@ -2,7 +2,7 @@
 
 class Conectar
 {
-    
+    private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
     private $expresion_especial = "/[[:punct:]]/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";

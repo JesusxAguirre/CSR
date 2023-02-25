@@ -10,7 +10,9 @@ if (isset($_POST['guardarCampo'])) {
     $materiaContRef= $_POST['materiaContRef'];
     $contenido= $_POST['contenido'];
 
-    $objeto->agregarContenidos($seccionContRef, $materiaContRef, $contenido);
+    $respuesta = $objeto->agregarContenidos($seccionContRef, $materiaContRef, $contenido);
+
+    echo $respuesta;
 }
 
 //Ver informacion de la materia

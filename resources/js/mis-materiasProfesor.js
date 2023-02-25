@@ -131,7 +131,7 @@ $('#guardarCampo').click(function (e) {
                 showConfirmButton: false,
                 timer: 3000,
             })
-            //console.log(response);
+            console.log(response);
         });
         
     }

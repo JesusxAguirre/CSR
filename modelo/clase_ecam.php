@@ -1160,6 +1160,7 @@ class ecam extends Conectar
     //AGREGAR O SUBIR CONTENIDOS A LAS MATERIAS DEL PROFESOR ACTIVO
     public function agregarContenidos($seccionContRef, $materiaContRef, $contenido)
     {
+        try{
         $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
 
         $sql = "UPDATE `secciones-materias-profesores` SET `contenido`= :contenido WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccionProf 
@@ -1187,6 +1188,12 @@ class ecam extends Conectar
 
         $accion2 = "El profesor ha agregado contenido nuevo a " . $datos['nombreMateria'];
         $this->registrar_notificacionSeccion($seccionContRef, $accion2, '');
+
+        return true;
+        }catch(Exception $e){
+
+            return false;
+        }
     }
 
     //LISTAR CONTENIDOS DE LAS MATERIAS PROFESORES
