@@ -400,6 +400,7 @@ class ecam extends Conectar
     //AGREGAR MATERIAS
     public function agregarMaterias()
     {
+        
         try {
             $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
 
@@ -469,21 +470,26 @@ class ecam extends Conectar
     //ELIMINAR PROFESORES DE LA ECAM
     public function eliminar_profesor($cedulaProfesor)
     {
-        $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = $cedulaProfesor";
+        try{
+        $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = :cedulaProfesor";
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(array("
+        :cedulaProfesor"=>$cedulaProfesor));
 
-        $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = $cedulaProfesor";
+        $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = :cedulaProfesor";
         $stmt2 = $this->conexion()->prepare($sql2);
-        $stmt2->execute();
+        $stmt2->execute(array("
+        :cedulaProfesor"=>$cedulaProfesor));
 
-        $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = $cedulaProfesor";
+        $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedulaProfesor";
         $stmt3 = $this->conexion()->prepare($sql3);
-        $stmt3->execute();
+        $stmt3->execute(array("
+        :cedulaProfesor"=>$cedulaProfesor));
 
-        $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfesor";
+        $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = :cedulaProfesor";
         $stmt4 = $this->conexion->prepare($sql4);
-        $stmt4->execute(array());
+        $stmt4->execute(array("
+        :cedulaProfesor"=>$cedulaProfesor));
         $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
 
         $cedula = $_SESSION['cedula'];
@@ -492,6 +498,12 @@ class ecam extends Conectar
 
         $mensaje = 'Te han vinculado como profesor en la ECAM. ¡Suerte!';
         $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
+        }catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+        }
     }
 
     //ACTUALIZAR Y VINCULAR PROFESOR CON LA MATERIA

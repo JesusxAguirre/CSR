@@ -52,6 +52,7 @@ $("#agregarMateria").on("click", function (e) {
         $("#formularioMateria").trigger("reset");
         document.getElementById('nombreMateria').classList.remove('validarBien');
         document.getElementById('seleccionarNivel').classList.remove('validarBien');
+
       });
       
     } else {
@@ -94,8 +95,8 @@ const expresionesMaterias = {
   
   var validarNombreMateria = (evento) => {
   
-    switch (evento.target.name) {
-      case 'nombreMateria':
+     switch (evento.target.name) {
+     case 'nombreMateria':
         if (expresionesMaterias.nombreMateria.test(evento.target.value)) {
           document.getElementById('nombreMateria').classList.remove('validarMal');
           document.getElementById('nombreMateria').classList.add('validarBien');
@@ -107,9 +108,9 @@ const expresionesMaterias = {
           document.getElementById("nomMateriaMal").removeAttribute("hidden");
           campos[0] = false;
         }
-        break;
+        break; 
   
-    }
+    } 
   }
   
   inputsFC.forEach((evento) => {
