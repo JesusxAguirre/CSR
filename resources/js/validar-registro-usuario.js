@@ -9,9 +9,9 @@ const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando un
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
-	nombre: true,
+	nombre: false,
 	apellido: false,
-	cedula: true,
+	cedula: false,
 	edad: false,
 	correo: false,
 	telefono: false,
@@ -37,12 +37,12 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
 	switch (e.target.name) {
-		// case "cedula":
-		// 	ValidarCampo(expresiones.cedula, e.target, 'cedula');
-		// 	break;
-		// case "nombre":
-		// 	ValidarCampo(expresiones.nombre, e.target, 'nombre');
-		// 	break;
+		/* case "cedula":
+			ValidarCampo(expresiones.cedula, e.target, 'cedula');
+			break; */	
+		case "nombre":
+			ValidarCampo(expresiones.nombre, e.target, 'nombre');
+			break;
 		case "apellido":
 			ValidarCampo(expresiones.nombre, e.target, 'apellido');
 			break;
@@ -106,27 +106,28 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 		//comprobando si la cedula existe en la bd
-		// if (campos.cedula == true) {
-		// 	let id = document.getElementById("cedula")
-		// 	let cedula = id.value
-
-		// 	$.ajax({
-		// 		data: 'cedula=' + cedula,
-		// 		url: "controlador/ajax/buscar-cedula.php",
-		// 		type: "post",
-		// 	}).done(data => {
-		// 		if (data == '1') {
-		// 			fireAlert('error', 'Esta cedula ya existe')
-		// 			document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-		// 			document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		// 			document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-		// 			document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-		// 			campos.cedula = false;
-		// 			let mensaje = document.getElementById("mensaje_cedula")
-		// 			mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
-		// 		}
-		// 	})
-		// }
+		 if (campos.cedula == true) {
+		 	let id = document.getElementById("cedula")
+		 	let cedula = id.value
+			console.log(cedula)
+		 	$.ajax({
+		 		data: 'cedula=' + cedula,
+		 		url: "controlador/ajax/buscar-cedula.php",
+		 		type: "post",
+		 	}).done(data => {
+		 		if (data == '1') {
+		 			fireAlert('error', 'Esta cedula ya existe')
+		 			document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		 			document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+		 			document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+		 			document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		 			campos.cedula = false;
+		 			let mensaje = document.getElementById("mensaje_cedula")
+		 			mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
+		 		}
+				console.log(data)
+		 	})
+		 }
 		if (campos.correo == true) {
 			let id = document.getElementById("correo")
 			let correo = id.value
@@ -198,13 +199,11 @@ formulario2.addEventListener('submit', (e) => {
 	}
 })
 
-if (error == true) {
-		fireAlert( 'success','Se registro el usuario correctamente')
-		
+if (error == false) {
+	fireAlert('success', 'Se registro el usuario correctamente')
+
 	setTimeout(recarga, 2000);
-}else{
-	fireAlert2("error","Lo siento","Registra el formulario correctamente")
-}
+} 
 
 
 
@@ -222,13 +221,7 @@ function fireAlert(icon, msg) {
 		title: msg
 	})
 }
-function fireAlert2(icon, title,msg) {
-	Swal.fire({
-		icon: icon,
-		title: msg
-	})
-}
 
 function recarga() {
-  window.location = "index.php?pagina=iniciar-sesion";
+	window.location = "index.php?pagina=iniciar-sesion";
 }

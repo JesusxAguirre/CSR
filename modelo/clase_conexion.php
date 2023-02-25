@@ -2,9 +2,12 @@
 
 class Conectar
 {
-
+    
     private $expresion_especial = "/[[:punct:]]/";
 
+    private $expresion_cedula = "/^[0-9]{7,8}$/";
+ 
+    private $expresion_nombre = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/";
     protected static function conexion()
     {
 
@@ -51,6 +54,13 @@ class Conectar
         $respuesta = preg_match_all($this->expresion_especial,$array);
         
         return $respuesta;
+    }
+
+
+    protected function validar_letras($string){
+    
+    return preg_match($this->expresion_cedula,$string);
+      
     }
 
 

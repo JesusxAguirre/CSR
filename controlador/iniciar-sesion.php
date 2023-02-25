@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require_once('modelo/clase_usuario.php');
@@ -9,7 +8,7 @@ $objeto = new Usuarios();
 $objeto2 = new datosUsuario();
 $objRoles = new Roles();
 
-
+$error = true;
 if (isset($_POST['registrar'])) {
 
 	$nombre = $_POST['nombre'];

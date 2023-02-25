@@ -24,7 +24,7 @@ class Usuarios extends Conectar
     private $listar;
     private $arreglo_n1;
     private $arreglo_n2;
-    private $num_filas;
+
     private $rol;
 
     private $edad;
@@ -48,6 +48,8 @@ class Usuarios extends Conectar
     {
         $this->conexion = parent::conexion();
         $this->id_modulo = 1;
+
+     
     }
 
     //BUSCAR ID DE ROL DE USUARIO
@@ -327,14 +329,14 @@ class Usuarios extends Conectar
                 ":telefono" => $this->telefono,
                 ":pass" => $this->clave
             ));
-            return true;
+            return false;
         } catch (Exception $e) {
 
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
-            return false;
+            return true;
         }
     }
 
