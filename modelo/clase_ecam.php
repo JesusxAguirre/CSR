@@ -647,8 +647,13 @@ class ecam extends Conectar
             $accion = 'Ha eliminado la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'] . ' de la ECAM';
             parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
 
+<<<<<<< Updated upstream
 
             return true;
+=======
+            
+            return false;
+>>>>>>> Stashed changes
         } catch (Exception $e) {
             echo $e->getMessage();
 
