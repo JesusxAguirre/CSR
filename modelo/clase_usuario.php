@@ -248,7 +248,7 @@ class Usuarios extends Conectar
     //==============Buscar usuario por cedula, por nombre o, estado civil y codigo  =======// 
     public function buscar_usuario($busqueda)
     {
-        
+
 
         $sql = ("SELECT usuarios.cedula,usuarios.codigo,usuarios.nombre,usuarios.apellido,usuarios.telefono,usuarios.sexo,usuarios.estado_civil,
         usuarios.nacionalidad,usuarios.estado,edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
@@ -279,53 +279,63 @@ class Usuarios extends Conectar
     //============== Registrar usuarios en el inicio de sesion=======// 
     public  function registrar_usuarios()
     {
-        //ESTAS FUNCIONES DE SUBTR ES PARA HACER EL CODIGO DE CADA USUARIO
-        $nacionalidad2 = substr($this->nacionalidad, 0, 2);
-        $estado2 = substr($this->estado, 0, 2);
-        $sexo2 = substr($this->sexo, 0, 1);
-        $estadoc2 = substr($this->civil, 0, 1);
-        $nacionalidad = strtoupper($nacionalidad2);
-        $estado = strtoupper($estado2);
-        $sexo = strtoupper($sexo2);
-        $estadoc = strtoupper($estadoc2);
+        try {
+            //ESTAS FUNCIONES DE SUBTR ES PARA HACER EL CODIGO DE CADA USUARIO
+            $nacionalidad2 = substr($this->nacionalidad, 0, 2);
+            $estado2 = substr($this->estado, 0, 2);
+            $sexo2 = substr($this->sexo, 0, 1);
+            $estadoc2 = substr($this->civil, 0, 1);
+            $nacionalidad = strtoupper($nacionalidad2);
+            $estado = strtoupper($estado2);
+            $sexo = strtoupper($sexo2);
+            $estadoc = strtoupper($estadoc2);
 
-        //cambiando datos ingresados con mayusculas o minisculas
-        $this->nombre = strtolower($this->nombre);
+            //cambiando datos ingresados con mayusculas o minisculas
+            $this->nombre = strtolower($this->nombre);
 
-        $this->nombre = ucfirst($this->nombre);
-        //lo mismo con el apellido
-        $this->apellido = strtolower($this->apellido);
+            $this->nombre = ucfirst($this->nombre);
+            //lo mismo con el apellido
+            $this->apellido = strtolower($this->apellido);
 
-        $this->apellido = ucfirst($this->apellido);
-        //Lo mismo con la nacionalidad
-        $this->nacionalidad = strtolower($this->nacionalidad);
+            $this->apellido = ucfirst($this->apellido);
+            //Lo mismo con la nacionalidad
+            $this->nacionalidad = strtolower($this->nacionalidad);
 
-        $this->nacionalidad = ucfirst($this->nacionalidad);
-        //Lo mismo con la estado
-        $this->estado = strtolower($this->estado);
+            $this->nacionalidad = ucfirst($this->nacionalidad);
+            //Lo mismo con la estado
+            $this->estado = strtolower($this->estado);
 
-        $this->estado = ucfirst($this->estado);
+            $this->estado = ucfirst($this->estado);
 
 
 
-        $sql = "INSERT INTO usuarios (cedula,id_rol,
+            $sql = "INSERT INTO usuarios (cedula,id_rol,
         codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
         VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
 
-        //ENCRIPTANDO CLAVE
-        $stmt = $this->conexion->prepare($sql);
+            //ENCRIPTANDO CLAVE
+            $stmt = $this->conexion->prepare($sql);
 
-        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
-        $stmt->execute(array(
-            ":ced" => $this->cedula,
-            ":id" => 3, ":cod" => $this->cedula . '-' . 'N1' . '-' . $nacionalidad . '-' . $estado . '-' . $sexo . '-' . $estadoc,
-            ":nom" => $this->nombre, ":ape" => $this->apellido,
-            ":edad" => $this->edad, ":sexo" => $this->sexo,
-            ":estdc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
-            ":estado" => $this->estado, ":usuario" => $this->correo,
-            ":telefono" => $this->telefono,
-            ":pass" => $this->clave
-        ));
+            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            $stmt->execute(array(
+                ":ced" => $this->cedula,
+                ":id" => 3, ":cod" => $this->cedula . '-' . 'N1' . '-' . $nacionalidad . '-' . $estado . '-' . $sexo . '-' . $estadoc,
+                ":nom" => $this->nombre, ":ape" => $this->apellido,
+                ":edad" => $this->edad, ":sexo" => $this->sexo,
+                ":estdc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
+                ":estado" => $this->estado, ":usuario" => $this->correo,
+                ":telefono" => $this->telefono,
+                ":pass" => $this->clave
+            ));
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
 
     //ACTUALIZAR USUARIOS
@@ -534,9 +544,10 @@ class Usuarios extends Conectar
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
-    
-    public function bitacora($cedula,$accion,$id_modulo){
-        parent::registrar_bitacora($cedula,$accion,$id_modulo);
+
+    public function bitacora($cedula, $accion, $id_modulo)
+    {
+        parent::registrar_bitacora($cedula, $accion, $id_modulo);
     }
 
     //RECUPERAR CONTRASEÑA
@@ -623,7 +634,4 @@ class Usuarios extends Conectar
         $this->correo = $correo;
         $this->clave = $clave;
     }
-
-
-
 }

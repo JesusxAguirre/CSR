@@ -9,7 +9,7 @@ $objeto = new Usuarios();
 $objeto2 = new datosUsuario();
 $objRoles = new Roles();
 
-$error = true;
+
 if (isset($_POST['registrar'])) {
 
 	$nombre = $_POST['nombre'];
@@ -26,8 +26,8 @@ if (isset($_POST['registrar'])) {
 
 	$objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
-	$objeto->registrar_usuarios();
-	$error = false;
+	$error = $objeto->registrar_usuarios();
+	
 }
 
 $recuperacion = true;

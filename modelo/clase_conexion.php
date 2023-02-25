@@ -3,6 +3,8 @@
 class Conectar
 {
 
+    private $expresion_especial = "/[[:punct:]]/";
+
     protected static function conexion()
     {
 
@@ -43,6 +45,12 @@ class Conectar
             ":id" => $id_modulo,
             ":accion" => $accion
         ));
+    }
+
+    protected function validar_inyeccion($array){
+        $respuesta = preg_match_all($this->expresion_especial,$array);
+        
+        return $respuesta;
     }
 
 
