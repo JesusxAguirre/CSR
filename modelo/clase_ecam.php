@@ -400,7 +400,7 @@ class ecam extends Conectar
     //AGREGAR MATERIAS
     public function agregarMaterias()
     {
-        
+
         try {
             $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
 
@@ -430,14 +430,13 @@ class ecam extends Conectar
             echo "Linea del error: " . $e->getLine();
             exit();
         }
-        
     }
 
     //AGREGAR PROFESORES A LA ECAM (ACTIVAR STATUS PROFESOR)
     public function agregar_profesores($cedulasProfesores)
-    {   
+    {
         try {
-             //Agregando status_profesor = 1 a los profesores que se vayan asignando
+            //Agregando status_profesor = 1 a los profesores que se vayan asignando
             foreach ($cedulasProfesores as $cedulaProf) {
                 $sql = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
                 $stmt = $this->conexion->prepare($sql);
@@ -464,44 +463,46 @@ class ecam extends Conectar
             echo "Linea del error: " . $e->getLine();
             exit();
         }
-       
     }
 
     //ELIMINAR PROFESORES DE LA ECAM
     public function eliminar_profesor($cedulaProfesor)
     {
-        try{
-        $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = :cedulaProfesor";
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array(
-            ":cedulaProfesor"=>$cedulaProfesor,));
+        try {
+            $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = :cedulaProfesor";
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":cedulaProfesor" => $cedulaProfesor,
+            ));
 
-        $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = :cedulaProfesor";
-        $stmt2 = $this->conexion()->prepare($sql2);
-        $stmt2->execute(array(
-            ":cedulaProfesor"=>$cedulaProfesor,));
+            $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = :cedulaProfesor";
+            $stmt2 = $this->conexion()->prepare($sql2);
+            $stmt2->execute(array(
+                ":cedulaProfesor" => $cedulaProfesor,
+            ));
 
-        $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedulaProfesor";
-        $stmt3 = $this->conexion()->prepare($sql3);
-        $stmt3->execute(array(
-            ":cedulaProfesor"=>$cedulaProfesor,));
+            $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedulaProfesor";
+            $stmt3 = $this->conexion()->prepare($sql3);
+            $stmt3->execute(array(
+                ":cedulaProfesor" => $cedulaProfesor,
+            ));
 
-        $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = :cedulaProfesor";
-        $stmt4 = $this->conexion->prepare($sql4);
-        $stmt4->execute(array(
-            ":cedulaProfesor"=>$cedulaProfesor,));
-        $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
+            $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = :cedulaProfesor";
+            $stmt4 = $this->conexion->prepare($sql4);
+            $stmt4->execute(array(
+                ":cedulaProfesor" => $cedulaProfesor,
+            ));
+            $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
 
-        $cedula = $_SESSION['cedula'];
-        $accion = "Ha desvinculado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
-        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            $cedula = $_SESSION['cedula'];
+            $accion = "Ha desvinculado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
+            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
 
-        $mensaje = 'Te han vinculado como profesor en la ECAM. ¡Suerte!';
-        $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
-        }catch (Exception $e) {
+            $mensaje = 'Te han vinculado como profesor en la ECAM. ¡Suerte!';
+            $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
+        } catch (Exception $e) {
 
             return $e->getMessage() . $e->getLine();
-
         }
     }
 
@@ -509,9 +510,11 @@ class ecam extends Conectar
     public function vincularProfesor($cedulaProfesorV, $idMateriaV)
     {
         //Obteniendo informacion de la materia
-        $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = $idMateriaV";
+        $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = :idMateriaV";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":idMateriaV" => $idMateriaV,
+        ));
         $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
 
         foreach ($cedulaProfesorV as $cedulaPV) {
@@ -534,9 +537,11 @@ class ecam extends Conectar
 
         //Obteniendo informacion del profesor
         foreach ($cedulaProfesorV as $cedula) {
-            $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = $cedula";
+            $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = :cedula";
             $stmt2 = $this->conexion->prepare($sql2);
-            $stmt2->execute(array());
+            $stmt2->execute(array(
+                ":cedula" => $cedula,
+            ));
             $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
 
             $cedula2 = $_SESSION['cedula'];
@@ -552,11 +557,13 @@ class ecam extends Conectar
     public function desvincularProfesor($cedulaProfDV, $idMateriaDV)
     {
         $sql = "DELETE FROM `profesores-materias` 
-        WHERE `profesores-materias`.`cedula_profesor` = $cedulaProfDV 
-        AND `profesores-materias`.`id_materia` = $idMateriaDV";
-
+        WHERE `profesores-materias`.`cedula_profesor` = :cedulaProfDV 
+        AND `profesores-materias`.`id_materia` = :idMateriaDV";
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(array(
+            ":cedulaProfDV" => $cedulaProfDV,
+            ":idMateriaDV" => $idMateriaDV,
+        ));
 
         //DESVINCULANDO PROFESORES DE LAS SECCION A LA QUE FUE ASIGNADA SU MATERIA Y PRESENCIA
         $sql2 = "DELETE FROM `secciones-materias-profesores` WHERE `id_materia` = $idMateriaDV AND `cedulaProf` = $cedulaProfDV";
@@ -971,7 +978,7 @@ class ecam extends Conectar
     {
         $sql = "UPDATE `usuarios` SET `id_seccion` = NULL WHERE `usuarios`.`cedula` = :cedula";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array(":cedula"=>$cedulaEstborrar));
+        $stmt->execute(array(":cedula" => $cedulaEstborrar));
 
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha desvinculado a un estudiante de una seccion";
@@ -987,7 +994,7 @@ class ecam extends Conectar
             ":nombreSecU" => $this->nombreSeccionU,
             ":nivelSecU" => $this->nivelSeccionU,
             ":fechaCierre" => $this->fechaCierreRefU,
-            ":id_seccion"=> $idSeccionRefU,
+            ":id_seccion" => $idSeccionRefU,
         ));
 
         $cedula = $_SESSION['cedula'];
@@ -1127,29 +1134,47 @@ class ecam extends Conectar
     //LISTAR TODAS LAS SECCIONES CERRADAS
     public function estudiantes_seccionOFF($seccionOFF)
     {
-        $estudiantesOFF = [];
+        try {
+            $estudiantesOFF = [];
 
-        $sql = "SELECT `sc`.`id_seccion`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-cerradas` AS `sc` 
-        INNER JOIN `usuarios` ON `sc`.`cedula_estudiante` = `usuarios`.`cedula` WHERE `sc`.`id_seccion` = $seccionOFF";
+            $sql = "SELECT `sc`.`id_seccion`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-cerradas` AS `sc` 
+            INNER JOIN `usuarios` ON `sc`.`cedula_estudiante` = `usuarios`.`cedula` WHERE `sc`.`id_seccion` = :seccionOFF";
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":seccionOFF" => $seccionOFF,
+            ));
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $estudiantesOFF[] = $filas;
+            }
+            return $estudiantesOFF;
+        } catch (Exception $e) {
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $estudiantesOFF[] = $filas;
+            echo $e->getMessage();
+            echo "Linea del error: " . $e->getLine();
+            exit;
         }
-        return $estudiantesOFF;
     }
     //ELIMINAR DEFINITAVAMENTE UNA SECCION
     public function eliminarSeccion($seccion)
     {
-        $sql = "DELETE FROM `secciones` WHERE `id_seccion` = $seccion";
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute();
+        try {
+            $sql = "DELETE FROM `secciones` WHERE `id_seccion` = :seccion";
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":seccion" => $seccion,
+            ));
 
-        $cedula = $_SESSION['cedula'];
-        $accion = "El usuario ha eliminado una seccion definitivamente";
+            $cedula = $_SESSION['cedula'];
+            $accion = "El usuario ha eliminado una seccion definitivamente";
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+            echo "Linea del error: " . $e->getLine();
+            exit;
+        }
+        
     }
 
 
@@ -1398,7 +1423,7 @@ class ecam extends Conectar
 
             $accion2 = "El profesor de " . $datos['nombreMateria'] . " te ha eliminado la nota de la materia";
             $this->registrar_notificacionSeccion($idSeccionRef2, $accion2, $cedulaEstudianteRef2);
-            }catch (Exception $e) {
+        } catch (Exception $e) {
 
             echo $e->getMessage();
 
