@@ -6,7 +6,9 @@ class Conectar
     private $expresion_especial = "/[[:punct:]]/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
- 
+
+    private $expresion_numero = "/^[0-9]$/";
+
     private $expresion_nombre = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/";
     protected static function conexion()
     {
@@ -35,7 +37,7 @@ class Conectar
 
         return $conexion;
     }
-    
+
     protected function registrar_bitacora($cedula, $accion, $id_modulo)
     {
         $sql = "INSERT INTO bitacora_usuario (cedula_usuario, id_modulo, fecha_registro, hora_registro, accion_realizada) 
@@ -50,18 +52,14 @@ class Conectar
         ));
     }
 
-    protected function validar_inyeccion($array){
-        $respuesta = preg_match_all($this->expresion_especial,$array);
-        
-        return $respuesta;
+    protected function validar_inyeccion($array)
+    {
+        return preg_match_all($this->expresion_especial, $array);
     }
 
 
-    protected function validar_letras($string){
-    
-    return preg_match($this->expresion_cedula,$string);
-      
+    protected function validar_letras($string)
+    {
+        return preg_match($this->expresion_cedula, $string);
     }
-
-
 }
