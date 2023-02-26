@@ -441,7 +441,7 @@ class Discipulado extends Conectar
             $stmt->execute(array());
             //agregando el codigo a el usuario nuevo
             $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
-
+        
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array());
             $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -603,7 +603,7 @@ class Discipulado extends Conectar
     public function agregar_participantes()
     {
         $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
-
+        
         foreach ($this->participantes as $participantes) {
 
             $stmt = $this->conexion()->prepare($sql);
@@ -620,11 +620,11 @@ class Discipulado extends Conectar
     public function eliminar_participantes($cedula_participante)
     {   
 
-        $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_participante'");
+        $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_participante");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(":cedula_participante"=>$cedula_participante));
 
         return true;
     }
