@@ -1,6 +1,9 @@
 <?php
+namespace Csr\Modelo;
 
-class Conectar
+use PDO;
+use Exception;
+class clase_conexion
 {
     private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
     private $expresion_especial = "/[[:punct:]]/";

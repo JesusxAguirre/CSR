@@ -4,7 +4,8 @@ use PHPUnit\Framework\TestCase;
 final class LoginTest extends TestCase
 {
    
-    public function testSumar()
+    /** @test **/
+    public function test_login_admin ()
     {
       $suma = 2 + 3 ;
       $expected = 4;

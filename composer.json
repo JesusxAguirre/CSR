@@ -9,7 +9,8 @@
     },
     "autoload": {
     	"psr-4": {
-    		"Modelo\\": "modelo"
+            "Csr\\Modelo\\": "modelo/"
+
     	}
     },
     "license": "001",

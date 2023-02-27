@@ -1,5 +1,5 @@
 <?php
-require_once('clase_conexion.php');
+use Csr\Modelo\clase_conexion as Conectar;
 
 class ecam extends Conectar
 {
