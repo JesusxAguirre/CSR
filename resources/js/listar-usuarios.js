@@ -258,6 +258,8 @@ function addEvents(){
     cedulaInput.value = cedula_participante.textContent
     nombre_participante.textContent = nombre.textContent
     apellido_participante.textContent = apellido.textContent
+
+		
   }))
 }
 

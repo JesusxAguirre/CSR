@@ -214,7 +214,7 @@
   </div>
   
   
-   <div class="modal fade" id="eliminar_usuarios" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+   <div class="modal fade" id="eliminar_usuario" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-danger text-light">
