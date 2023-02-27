@@ -346,207 +346,236 @@ class Usuarios extends Conexion
     //ACTUALIZAR USUARIOS
     public function update_usuarios()
     {
-        //creando codigo de datos enviados por el usuario
-        $nacionalidad2 = substr($this->nacionalidad, 0, 2);
-        $estado2 = substr($this->estado, 0, 2);
-        $sexo2 = substr($this->sexo, 0, 1);
-        $estadoc2 = substr($this->civil, 0, 1);
-        $nacionalidad = strtoupper($nacionalidad2);
-        $estado = strtoupper($estado2);
-        $sexo = strtoupper($sexo2);
-        $estadoc = strtoupper($estadoc2);
-        //buscando codigo viejo para suplantarlo por el nuevo
-        $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
+        try {
+            //creando codigo de datos enviados por el usuario
+            $nacionalidad2 = substr($this->nacionalidad, 0, 2);
+            $estado2 = substr($this->estado, 0, 2);
+            $sexo2 = substr($this->sexo, 0, 1);
+            $estadoc2 = substr($this->civil, 0, 1);
+            $nacionalidad = strtoupper($nacionalidad2);
+            $estado = strtoupper($estado2);
+            $sexo = strtoupper($sexo2);
+            $estadoc = strtoupper($estadoc2);
+            //buscando codigo viejo para suplantarlo por el nuevo
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
-        $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
+            $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
-        $longitud_cedula_antigua = strlen($this->cedula_antigua);
-        if ($longitud_cedula_antigua == 8) {
-            $nacionalidad_antigua = substr($codigo_usuario['codigo'], 12, 2);
-            $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
-            $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
-            $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
-        } else {
-            $nacionalidad_antigua = substr($codigo_usuario['codigo'], 11, 2);
-            $estado_antigua = substr($codigo_usuario['codigo'], 14, 2);
-            $sexo_antigua = substr($codigo_usuario['codigo'], 17, 1);
-            $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
-        }
-        //actualizando cedula en codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
+            //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
+            $longitud_cedula_antigua = strlen($this->cedula_antigua);
+            if ($longitud_cedula_antigua == 8) {
+                $nacionalidad_antigua = substr($codigo_usuario['codigo'], 12, 2);
+                $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
+                $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
+                $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
+            } else {
+                $nacionalidad_antigua = substr($codigo_usuario['codigo'], 11, 2);
+                $estado_antigua = substr($codigo_usuario['codigo'], 14, 2);
+                $sexo_antigua = substr($codigo_usuario['codigo'], 17, 1);
+                $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
+            }
+            //actualizando cedula en codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando nacionalidad del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando nacionalidad del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando estado del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estado_antigua','$estado') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando estado del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estado_antigua','$estado') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando sexo del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando sexo del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando estado_civil del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando estado_civil del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando todos los datos menos el codigo que se hizo mas arriba
-        $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
+            //actualizando todos los datos menos el codigo que se hizo mas arriba
+            $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono WHERE cedula = :ced");
 
 
-        //cambiando datos ingresados con mayusculas o minisculas
-        $this->nombre = strtolower($this->nombre);
+            //cambiando datos ingresados con mayusculas o minisculas
+            $this->nombre = strtolower($this->nombre);
 
-        $this->nombre = ucfirst($this->nombre);
-        //lo mismo con el apellido
-        $this->apellido = strtolower($this->apellido);
+            $this->nombre = ucfirst($this->nombre);
+            //lo mismo con el apellido
+            $this->apellido = strtolower($this->apellido);
 
-        $this->apellido = ucfirst($this->apellido);
-        //Lo mismo con la nacionalidad
-        $this->nacionalidad = strtolower($this->nacionalidad);
+            $this->apellido = ucfirst($this->apellido);
+            //Lo mismo con la nacionalidad
+            $this->nacionalidad = strtolower($this->nacionalidad);
 
-        $this->nacionalidad = ucfirst($this->nacionalidad);
-        //Lo mismo con la estado
-        $this->estado = strtolower($this->estado);
+            $this->nacionalidad = ucfirst($this->nacionalidad);
+            //Lo mismo con la estado
+            $this->estado = strtolower($this->estado);
 
-        $this->estado = ucfirst($this->estado);
-        //encriptando password
+            $this->estado = ucfirst($this->estado);
+            //encriptando password
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
-        $stmt->execute(array(
-            ":cedula" => $this->cedula,
-            ":rol" => $this->rol,
-            ":nombre" => $this->nombre, ":apellido" => $this->apellido,
-            ":edad" => $this->edad, ":sexo" => $this->sexo,
-            ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
-            ":estado" => $this->estado,
-            ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
-        ));
+            $stmt->execute(array(
+                ":cedula" => $this->cedula,
+                ":rol" => $this->rol,
+                ":nombre" => $this->nombre, ":apellido" => $this->apellido,
+                ":edad" => $this->edad, ":sexo" => $this->sexo,
+                ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
+                ":estado" => $this->estado,
+                ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
+            ));
 
-        $accion = "Editar datos de usuario";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            $accion = "Editar datos de usuario";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
 
     //ACTUALIZAR USUARIOS SIN ROL
     public function update_usuarios_sin_rol()
     {
-        //creando codigo de datos enviados por el usuario
-        $nacionalidad2 = substr($this->nacionalidad, 0, 2);
-        $estado2 = substr($this->estado, 0, 2);
-        $sexo2 = substr($this->sexo, 0, 1);
-        $estadoc2 = substr($this->civil, 0, 1);
-        $nacionalidad = strtoupper($nacionalidad2);
-        $estado = strtoupper($estado2);
-        $sexo = strtoupper($sexo2);
-        $estadoc = strtoupper($estadoc2);
-        //buscando codigo viejo para suplantarlo por el nuevo
-        $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
+        try {
+            //creando codigo de datos enviados por el usuario
+            $nacionalidad2 = substr($this->nacionalidad, 0, 2);
+            $estado2 = substr($this->estado, 0, 2);
+            $sexo2 = substr($this->sexo, 0, 1);
+            $estadoc2 = substr($this->civil, 0, 1);
+            $nacionalidad = strtoupper($nacionalidad2);
+            $estado = strtoupper($estado2);
+            $sexo = strtoupper($sexo2);
+            $estadoc = strtoupper($estadoc2);
+            //buscando codigo viejo para suplantarlo por el nuevo
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
-        $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
+            $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
-        $longitud_cedula_antigua = strlen($this->cedula_antigua);
-        if ($longitud_cedula_antigua == 8) {
-            $nacionalidad_antigua = substr($codigo_usuario['codigo'], 12, 2);
-            $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
-            $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
-            $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
-        } else {
-            $nacionalidad_antigua = substr($codigo_usuario['codigo'], 11, 2);
-            $estado_antigua = substr($codigo_usuario['codigo'], 14, 2);
-            $sexo_antigua = substr($codigo_usuario['codigo'], 17, 1);
-            $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
-        }
-        //actualizando cedula en codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
+            //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
+            $longitud_cedula_antigua = strlen($this->cedula_antigua);
+            if ($longitud_cedula_antigua == 8) {
+                $nacionalidad_antigua = substr($codigo_usuario['codigo'], 12, 2);
+                $estado_antigua = substr($codigo_usuario['codigo'], 15, 2);
+                $sexo_antigua = substr($codigo_usuario['codigo'], 18, 1);
+                $estadoCivil_antigua = substr($codigo_usuario['codigo'], 20, 1);
+            } else {
+                $nacionalidad_antigua = substr($codigo_usuario['codigo'], 11, 2);
+                $estado_antigua = substr($codigo_usuario['codigo'], 14, 2);
+                $sexo_antigua = substr($codigo_usuario['codigo'], 17, 1);
+                $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
+            }
+            //actualizando cedula en codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando nacionalidad del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando nacionalidad del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando estado del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estado_antigua','$estado') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando estado del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estado_antigua','$estado') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando sexo del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando sexo del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando estado_civil del codigo
-        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            //actualizando estado_civil del codigo
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array());
 
-        //actualizando todos los datos menos el codigo que se hizo mas arriba
-        $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
+            //actualizando todos los datos menos el codigo que se hizo mas arriba
+            $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
-        $stmt->execute(array(
-            ":cedula" => $this->cedula,
-            ":nombre" => $this->nombre, ":apellido" => $this->apellido,
-            ":edad" => $this->edad, ":sexo" => $this->sexo,
-            ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
-            ":estado" => $this->estado,
-            ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua,
-            ":usuario" => $this->correo, ":clave" => $this->clave
-        ));
+            $stmt->execute(array(
+                ":cedula" => $this->cedula,
+                ":nombre" => $this->nombre, ":apellido" => $this->apellido,
+                ":edad" => $this->edad, ":sexo" => $this->sexo,
+                ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
+                ":estado" => $this->estado,
+                ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua,
+                ":usuario" => $this->correo, ":clave" => $this->clave
+            ));
 
-        session_destroy();
-        echo "<script>
+            session_destroy();
+            echo "<script>
             alert('Sesion Cerrada');
             window.location= 'index.php'
         </script>";
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
 
     public function actualizar_foto()
     {
+        try {
+            //agregando archivo a carpeta temporal
+            $carpeta_destino = 'resources/imagenes-usuarios/';
+            move_uploaded_file($_FILES['imagen']['tmp_name'], $this->carpeta_destino . $this->nombre_imagen);
 
-        //agregando archivo a carpeta temporal
-        $carpeta_destino = 'resources/imagenes-usuarios/';
-        move_uploaded_file($_FILES['imagen']['tmp_name'], $this->carpeta_destino . $this->nombre_imagen);
-
-        //consulta update
-        $sql = ("UPDATE usuarios SET ruta_imagen = :ruta
+            //consulta update
+            $sql = ("UPDATE usuarios SET ruta_imagen = :ruta
          WHERE cedula = :ced");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(
-            ":ruta" => $carpeta_destino . $this->nombre_imagen,
-            ":ced" => $this->cedula
-        ));
+            $stmt->execute(array(
+                ":ruta" => $carpeta_destino . $this->nombre_imagen,
+                ":ced" => $this->cedula
+            ));
 
-        $accion = "Editar foto de usuario";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            $accion = "Editar foto de usuario";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
 
 
