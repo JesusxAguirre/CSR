@@ -1,6 +1,8 @@
 <?php
 namespace Csr\Modelo;
 use Csr\Modelo\Conexion;
+use PDO;
+
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -16,6 +18,7 @@ class Correo extends Conexion
   private $correo;
   private $id_modulo;
 
+  private $conexion;
 
   public function __construct()
   {
