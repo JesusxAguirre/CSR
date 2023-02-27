@@ -1491,14 +1491,13 @@ class Ecam extends Conexion
     public function listar_misCompaneros()
     {
         try {
+        
             $listar_misCompaneros = [];
 
             $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = :id_seccion";
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array(
-                ":id_seccion"=>$_SESSION['id_session']
-            ));
+            $stmt->execute(array(":id_seccion"=>$_SESSION['id_seccion']));
 
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $listar_misCompaneros[] = $filas;

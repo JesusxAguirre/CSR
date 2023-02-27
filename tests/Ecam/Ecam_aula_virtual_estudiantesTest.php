@@ -13,20 +13,23 @@ final class Ecam_aula_virtual_estudiantesTest extends TestCase
   public function setUp(): void
   {
     $this->objeto_ecam   = new Ecam();
-    $_SESSION['id_seccion'] = 14;
+    
   }
   /** @test **/
   public function test_listar_mis_compañeros()
-  {
-    //Init
-
-
-    $expected = true;
-    //Act  
-  
-    //Asert
-  
-  }
+    {
+      //Init
+      $_SESSION['id_seccion'] = 14;
+      $key = "cedula";
+      //Act  
+      $array_estudiantes =$this->objeto_ecam->listar_misCompaneros();
+      
+      //Asert
+      
+      $this->assertArrayHasKey($key,$array_estudiantes[0]);
+      
+      
+    }
 
  
 }
