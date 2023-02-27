@@ -246,10 +246,14 @@ function addEvents(){
     let cedula_participante = fila.querySelector('.cedula')
     let nombre = fila.querySelector('.nombre')
     let apellido = fila.querySelector('.apellido')
+		console.log(fila)
+		console.log(cedula_participante)
+		console.log(nombre)
+		console.log(apellido)
 
-    const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
-    const nombre_participante = document.getElementById('deleteParticipanteName')
-    const apellido_participante = document.getElementById('deleteParticipanteApellido')
+    const cedulaInput = document.querySelector('#deleteForm .delete_usuario_cedula')
+    const nombre_participante = document.getElementById('delete_usuario_name')
+    const apellido_participante = document.getElementById('delete_usuario_apellido')
 
     cedulaInput.value = cedula_participante.textContent
     nombre_participante.textContent = nombre.textContent
@@ -260,3 +264,5 @@ function addEvents(){
 function recarga() {
   window.location = "index.php?pagina=listar-usuarios";
 }
+
+

@@ -8,15 +8,15 @@
 
 
   <!-- Bostrap 5 -->
-  <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./resources/css/style.css">
-  <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
 
   <!-- Jquery-->
-  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+  <script src="resources/js/jquery-3.6.0.min.js"></script>
 
   <!-- Js boostrap -->
-  <script src="./resources/js/bootstrap.min.js"></script>
+  <script src="resources/js/bootstrap.min.js"></script>
   <!-- Estilos de validacion-->
   <link rel="stylesheet" href="resources/css/listar-usuario.css">
   <!-- Sweet alert 2-->
@@ -81,6 +81,7 @@
       </div>
     </div>
   </main>
+  
   <!-- Modal editar -->
   <div class="modal fade edit-modal" id="editar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -212,8 +213,8 @@
     </div>
   </div>
   
-
-   <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+  
+   <div class="modal fade" id="eliminar_usuarios" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header bg-danger text-light">
@@ -221,9 +222,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body fs-5">
-          <p>Se eliminará el usuario permanetemente.</p>
+          <p>Se eliminará el usuario <b id="delete_usuario_name"></b> <b id="delete_usuario_apellido"></b> permanetemente.</p>
           <form method="post" id="deleteForm">
-            <input type="hidden" name="cedula_participante" class="cedula_participante">
+            <input type="hidden" name="delete_usuario_cedula" class="delete_usuario_cedula">
             <input type="hidden" name="delete">
           </form>
         </div>
@@ -243,11 +244,7 @@
     eliminar = <?php echo ($eliminar) ? 'true' : 'false'; ?>;
 
 
-    $('#myModal').on('shown.bs.modal', function() {
-      $('#myInput').trigger('focus')
-    })
   </script>
 
   <script src="resources/js/listar-usuarios.js"></script>
-
 </body>

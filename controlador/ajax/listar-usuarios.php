@@ -23,7 +23,7 @@ foreach ($matriz_usuario as $usuario) {?>
       <td class="estado_civil" role='cell'><?php echo  $usuario['estado_civil'] ?></td>
       <td class="" role="cell">
         <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-        <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+        <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuarios" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
       </td>
     </tr>
 <?php }
