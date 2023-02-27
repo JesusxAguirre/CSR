@@ -111,10 +111,10 @@ class Usuarios extends Conectar
     {
         $usuario = $_SESSION["usuario"];
 
-        $sql = ("SELECT * FROM usuarios WHERE usuario='$usuario'");
+        $sql = ("SELECT * FROM usuarios WHERE usuario=:usuario");
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(":usuario"=>$usuario));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     //==============Listar usuarios sin condicionales=======// 
