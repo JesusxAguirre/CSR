@@ -16,8 +16,8 @@ final class LoginTest extends TestCase
       $expected = 1;
      //Act  
       $response = $objeto_usuarios->validar();
-
+      
      //Asert
-     $this->assertEquals($expected,$objeto_usuarios);
+     $this->assertEquals($expected,$response);
     }
 }

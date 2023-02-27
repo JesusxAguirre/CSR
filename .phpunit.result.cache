@@ -1,1 +1,1 @@
-{"version":1,"defects":{"LoginTest::testSumar":3,"LoginTest::test_login_admin":3},"times":{"LoginTest::testSumar":0.006,"LoginTest::test_login_admin":0.274}}
+{"version":1,"defects":{"LoginTest::testSumar":3,"LoginTest::test_login_admin":3},"times":{"LoginTest::testSumar":0.006,"LoginTest::test_login_admin":0.104}}
