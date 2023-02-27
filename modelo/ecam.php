@@ -1491,13 +1491,13 @@ class Ecam extends Conexion
     public function listar_misCompaneros()
     {
         try {
-        
+
             $listar_misCompaneros = [];
 
             $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = :id_seccion";
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array(":id_seccion"=>$_SESSION['id_seccion']));
+            $stmt->execute(array(":id_seccion" => $_SESSION['id_seccion']));
 
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $listar_misCompaneros[] = $filas;
@@ -1514,19 +1514,26 @@ class Ecam extends Conexion
     //LISTAR PROFESORES DE MI SECCION
     public function listar_misProfesores()
     {
-        $miSeccion = $_SESSION['id_seccion'];
-        $listar_misProfesores = [];
+        try {
+            $listar_misProfesores = [];
 
-        $sql = "SELECT `materias`.`nombre` as nombreMateria, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS smp 
-        INNER JOIN usuarios ON `usuarios`.`cedula` = `smp`.`cedulaProf` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` WHERE `smp`.`id_seccion` = $miSeccion";
+            $sql = "SELECT `materias`.`nombre` as nombreMateria, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS smp 
+        INNER JOIN usuarios ON `usuarios`.`cedula` = `smp`.`cedulaProf` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` WHERE `smp`.`id_seccion` = :id_seccion";
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":id_seccion" => $_SESSION['id_seccion']));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $listar_misProfesores[] = $filas;
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $listar_misProfesores[] = $filas;
+            }
+            return $listar_misProfesores;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-        return $listar_misProfesores;
     }
     //LISTAR LAS MATERIAS QUE LE CORRESPONDE AL ESTUDIANTE ACTIVO DE LA ECAM
     public function listar_misMateriasEst()
