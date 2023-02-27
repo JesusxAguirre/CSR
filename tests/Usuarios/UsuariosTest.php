@@ -48,9 +48,9 @@ final class UsuariosTest extends TestCase
     $nombre = "Mario";
     $apellido = "Cercano";
     $cedula = "27543321";
-    $edad =40;
+    $edad =24;
     $sexo = "hombre";
-    $civil = "soltero";
+    $civil = "casado";
     $nacionalidad = "Venezolana";
     $estado = "Yaracuy";
     $telefono = "04122654321";

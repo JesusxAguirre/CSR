@@ -123,6 +123,13 @@ if (actualizar == true) {
   })
   setTimeout(recarga, 2000);
 }
+if (eliminar == true) {
+  Swal.fire({
+    icon: 'success',
+    title: 'Se actualizo la informacion correctamente'
+  })
+  setTimeout(recarga, 2000);
+}
 //------------------------------------------------Funciones ajax --------------------------//
 
 //busqueda ajax 

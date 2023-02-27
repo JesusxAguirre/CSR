@@ -38,6 +38,15 @@ if ($_SESSION['verdadero'] > 0) {
 
            $actualizar=$objeto->update_usuarios();
         }
+
+        $eliminar = false;
+        if(isset($_POST['eliminar'])){
+            $cedula = $_POST['cedula'];
+
+            $objeto->setEliminar($cedula);
+
+            $eliminar =$objeto->delete_usuarios();
+        }
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

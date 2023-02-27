@@ -610,6 +610,26 @@ class Usuarios extends Conexion
             return false;
         }
     }
+    public function delete_usuarios()
+    {
+        try {
+            $sql = ("DELETE FROM usuarios WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                                ":cedula" => $this->cedula
+            ));
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
+    }
 
 
 
@@ -676,5 +696,9 @@ class Usuarios extends Conexion
     {
         $this->correo = $correo;
         $this->clave = $clave;
+    }
+
+    public function setEliminar($cedula){
+        $this->cedula = $cedula;
     }
 }
