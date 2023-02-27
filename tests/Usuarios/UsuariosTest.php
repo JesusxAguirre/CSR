@@ -33,13 +33,12 @@ final class UsuariosTest extends TestCase
     $expected = true;
     //Act  
     $this->objeto_usuarios->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
-    $response = $this->objeto_usuarios->registrar_usuarios(
-      
-    );
+    $response = $this->objeto_usuarios->registrar_usuarios();
 
     //Asert
     $this->assertEquals($expected, $response);
   }
+  
   /** @test **/
   public function test_editar_usuario()
   {
