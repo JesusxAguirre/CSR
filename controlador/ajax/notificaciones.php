@@ -1,7 +1,9 @@
-<?php 
+<?php
+require_once("../../vendor/autoload.php");
 session_start();
-require_once('../../modelo/clase_ecam.php');
-require_once('../../modelo/clase_usuario.php');
+use Csr\Modelo\Ecam;
+use Csr\Modelo\Usuarios;
+
 $objeto = new ecam();
 $objeto2 = new Usuarios();
 

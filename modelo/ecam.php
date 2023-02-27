@@ -4,7 +4,7 @@ use Csr\Modelo\Conexion;
 
 use PDO;
 use Exception;
-class ecam extends Conexion
+class Ecam extends Conexion
 {
     private $conexion;
     private $idMateria;

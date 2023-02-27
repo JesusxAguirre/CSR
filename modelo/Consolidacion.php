@@ -1,4 +1,6 @@
 <?php
+namespace Csr\Modelo;
+
 use Csr\Modelo\Conexion;
 
 use PDO;

@@ -1,6 +1,8 @@
 <?php
+require_once("../../vendor/autoload.php");
+
 session_start();
-require_once('../../modelo/clase_celula_consolidacion.php');
+use Csr\Modelo\Consolidacion;
 
 $objeto = new Consolidacion();
 

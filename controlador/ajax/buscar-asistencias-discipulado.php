@@ -1,6 +1,8 @@
 <?php
+require_once("../../vendor/autoload.php");
+
 session_start();
-require_once('../../modelo/clase_celula_discipulado.php');
+use Csr\Modelo\Discipulado;
 $objeto = new Discipulado;
 
 $id = $_GET['codigo_discipulado'];
