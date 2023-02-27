@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 //destruye la sesion si se tenia una abierta
 

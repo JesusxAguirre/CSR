@@ -2,7 +2,7 @@
 session_start();
 require_once("../../vendor/autoload.php");
 use Csr\Modelo\Ecam;
-$objeto= new ecam;
+$objeto= new Ecam();
 
 
 if (isset($_POST['verMaterias'])) {

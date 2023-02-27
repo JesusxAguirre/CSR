@@ -1,5 +1,5 @@
 <?php
-
+use Csr\Modelo\LaRoca;
 //destruye la sesion si se tenia una abierta
 session_start();
 
@@ -12,7 +12,7 @@ if($_SESSION['verdadero'] > 0){
 
     }
 if (is_file('vista/'.$pagina.'.php')) {
-    require_once("modelo/clase_casa_sobre_la_roca.php");
+    ;
     $objeto = new LaRoca();
    
     $matriz_csr = $objeto->listar_casas_la_roca();

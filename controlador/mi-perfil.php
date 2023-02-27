@@ -1,5 +1,5 @@
 <?php
-    require_once("modelo/clase_usuario.php");
+use Csr\Modelo\Usuarios;
 //destruye la sesion si se tenia una abierta
 session_start();
 

@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+use Csr\Modelo\Ecam;
 if($_SESSION['verdadero'] > 0){
     
     if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] != 4) {
@@ -10,8 +10,8 @@ if($_SESSION['verdadero'] > 0){
 		</script>";
     }
     if (is_file('vista/'.$pagina.'.php')) {
-        require_once('modelo/clase_ecam.php');
-        $objeto= new ecam();
+       
+        $objeto= new Ecam();
         $misNotas= $objeto->listar_misNotas();
 
         $notificaciones = $objeto->listar_notificacionSeccion();

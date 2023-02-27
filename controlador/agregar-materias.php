@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+use Csr\Modelo\Ecam;
 
 if($_SESSION['verdadero'] > 0){
     
@@ -12,7 +12,7 @@ if($_SESSION['verdadero'] > 0){
 
     }
     if (is_file('vista/'.$pagina.'.php')) {
-        use Csr\Modelo\Ecam;
+    
         $objeto= new Ecam();
         
         $cedula = $_SESSION['cedula'];

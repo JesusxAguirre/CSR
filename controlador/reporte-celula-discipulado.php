@@ -2,7 +2,7 @@
 
 //destruye la sesion si se tenia una abierta
 session_start();
-require_once('modelo/clase_celula_discipulado.php');
+use Csr\Modelo\Discipulado;
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
       $objeto = new Discipulado();

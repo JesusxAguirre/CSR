@@ -1,7 +1,7 @@
 <?php
 session_start();
 //destruye la sesion si se tenia una abierta
-
+use Csr\Modelo\Ecam;
 if ($_SESSION['verdadero'] > 0) {
     
     if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] == 3 || $_SESSION['rol'] == 4) {
@@ -12,8 +12,8 @@ if ($_SESSION['verdadero'] > 0) {
 
     }
     if (is_file('vista/'. $pagina .'.php')) {
-        require_once('modelo/clase_ecam.php');
-        $objeto= new ecam();
+       
+        $objeto= new Ecam();
 
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado en el apartado de "Listar Materias" de la ECAM';

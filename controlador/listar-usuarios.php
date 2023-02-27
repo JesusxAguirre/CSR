@@ -1,7 +1,8 @@
 <?php
 session_start();    
-require_once('modelo/clase_usuario.php');
-require_once('modelo/clase_roles.php');
+use Csr\Modelo\Usuarios;
+use Csr\Modelo\Roles;
+
 if ($_SESSION['verdadero'] > 0) {
     
     if (!$_SESSION['permisos']['gestionar_usuario']['listar']) {

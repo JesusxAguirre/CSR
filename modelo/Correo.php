@@ -1,4 +1,5 @@
 <?php
+namespace Csr\Modelo;
 use Csr\Modelo\Conexion;
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function

@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once('modelo/clase_celula_consolidacion.php');
-require_once("modelo/clase_casa_sobre_la_roca.php");
+use Csr\Modelo\Consolidacion;
+use Csr\Modelo\LaRoca;
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
 

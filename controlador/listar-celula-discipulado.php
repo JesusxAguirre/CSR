@@ -1,5 +1,5 @@
 <?php
-require_once("modelo/clase_celula_discipulado.php");
+use Csr\Modelo\Discipulado;
 //destruye la sesion si se tenia una abierta
 session_start();
 

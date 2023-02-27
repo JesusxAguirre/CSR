@@ -1,6 +1,6 @@
 <?php
 //destruye la sesion si se tenia una abierta
-require_once('modelo/clase_usuario.php');
+use Csr\Modelo\Usuarios;
 session_start();
 if ($_SESSION['verdadero'] > 0) {
     

@@ -1,5 +1,5 @@
 <?php
-require_once("modelo/clase_casa_sobre_la_roca.php");
+use Csr\Modelo\LaRoca;
 
 //destruye la sesion si se tenia una abierta
 session_start();

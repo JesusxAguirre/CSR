@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+use Csr\Modelo\Roles;
 if($_SESSION['verdadero'] > 0){
     if (!$_SESSION['permisos']['gestionar_roles']['listar']) {
         echo "<script>
@@ -10,7 +10,7 @@ if($_SESSION['verdadero'] > 0){
 
     }
     if (is_file('vista/'.$pagina.'.php')) {
-        require_once('modelo/clase_roles.php');
+        
         $objeto = new Roles();
 
         // Actualizar permisos

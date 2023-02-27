@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+use Csr\Modelo\Ecam;
 if($_SESSION['verdadero'] > 0){
     
     if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] != 4) {
@@ -11,8 +11,7 @@ if($_SESSION['verdadero'] > 0){
 
     }
     if (is_file('vista/'.$pagina.'.php')) {
-        require_once('modelo/clase_ecam.php');
-        $objeto= new ecam();
+        $objeto= new Ecam();
         $mis_companeros= $objeto->listar_misCompaneros();
         $mis_profesores= $objeto->listar_misProfesores();
         $mis_datosSeccion= $objeto->datos_miSeccionEst();

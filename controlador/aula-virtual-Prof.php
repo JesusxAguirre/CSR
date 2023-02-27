@@ -1,8 +1,8 @@
 <?php
 session_start();
-
+use Csr\Modelo\Ecam;
 if($_SESSION['verdadero'] > 0){
-    
+
     if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] < 2 && !$_SESSION['status_profesor']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
@@ -11,8 +11,8 @@ if($_SESSION['verdadero'] > 0){
 
     }
     if (is_file('vista/'.$pagina.'.php')) {
-        require_once('modelo/clase_ecam.php');
-        $objeto= new ecam();
+       
+        $objeto= new Ecam();
 
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado a "Aula Virtual Profesores"';

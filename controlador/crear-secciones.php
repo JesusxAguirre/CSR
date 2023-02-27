@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+use Csr\Modelo\Ecam;
 
 if($_SESSION['verdadero'] > 0){
     
@@ -12,8 +12,8 @@ if($_SESSION['verdadero'] > 0){
 
     }
     if (is_file('vista/'.$pagina.'.php')) {
-        require_once('modelo/clase_ecam.php');
-        $objeto= new ecam();
+     
+        $objeto= new Ecam();
         
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado al apartado de Crear Seccion';

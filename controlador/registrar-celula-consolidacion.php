@@ -1,5 +1,5 @@
 <?php
-require_once("modelo/clase_celula_consolidacion.php");
+use Csr\Modelo\Consolidacion;
 //destruye la sesion si se tenia una abierta
 session_start();
 if($_SESSION['verdadero'] > 0){

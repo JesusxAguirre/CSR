@@ -1,10 +1,12 @@
 <?php
 //destruye la sesion si se tenia una abierta
 session_start();
-
+use Csr\Modelo\Evento;
 if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
-    require_once 'modelo/clase_evento.php';
+    
+  
+
     $objeto = new Evento();
 
     // Crear Evento

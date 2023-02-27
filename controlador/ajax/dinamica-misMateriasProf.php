@@ -3,7 +3,7 @@ session_start();
 
 require_once("../../vendor/autoload.php");
 use Csr\Modelo\Ecam;
-$objeto= new ecam;
+$objeto= new Ecam();
 
 //Agregar cinformacion a la materia
 if (isset($_POST['guardarCampo'])) {

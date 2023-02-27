@@ -1,6 +1,5 @@
 <?php
-require_once("modelo/clase_correo.php");
-
+use Csr\Modelo\Correo;
 //destruye la sesion si se tenia una abierta
 session_start();
 
