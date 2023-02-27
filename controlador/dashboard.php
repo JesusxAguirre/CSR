@@ -1,7 +1,9 @@
 <?php
-require_once("modelo/clase_casa_sobre_la_roca.php");
-require_once("modelo/clase_celula_discipulado.php");
-require_once('modelo/clase_ecam.php');
+use Csr\Modelo\LaRoca;
+use Csr\Modelo\Discipulado;
+use Csr\Modelo\ecam;
+
+
 //destruye la sesion si se tenia una abierta
 session_start();
 
