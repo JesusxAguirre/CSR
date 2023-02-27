@@ -66,6 +66,18 @@ final class UsuariosTest extends TestCase
     //Asert
     $this->assertEquals($expected, $response);
     
- 
+  }
+
+  /** **/
+  public function test_eliminar_usuario(){
+    //Init
+    $cedula = "27543321";
+    $expected = true;
+    //Act
+    $this->objeto_usuarios->setEliminar($cedula);
+    $response = $this->objeto_usuarios->delete_usuarios();
+    //Asert
+
+    $this->assertEquals($expected,$response);
   }
 }
