@@ -199,7 +199,7 @@ formulario2.addEventListener('submit', (e) => {
 	}
 })
 
-if (error == false) {
+if (error == true) {
 	fireAlert('success', 'Se registro el usuario correctamente')
 
 	setTimeout(recarga, 2000);

@@ -11,7 +11,7 @@ $objeto = new Usuarios();
 $objeto2 = new datosUsuario();
 $objRoles = new Roles();
 
-$error = true;
+$error = false;
 if (isset($_POST['registrar'])) {
 
 	$nombre = $_POST['nombre'];

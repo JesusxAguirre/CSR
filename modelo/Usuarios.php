@@ -1,8 +1,11 @@
 <?php
+
 namespace Csr\Modelo;
+
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
+
 class Usuarios extends Conexion
 {
     //atributos de herencia
@@ -50,8 +53,6 @@ class Usuarios extends Conexion
     {
         $this->conexion = parent::conexion();
         $this->id_modulo = 1;
-
-     
     }
 
     //BUSCAR ID DE ROL DE USUARIO
@@ -116,7 +117,7 @@ class Usuarios extends Conexion
         $sql = ("SELECT * FROM usuarios WHERE usuario=:usuario");
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(":usuario"=>$usuario));
+        $stmt->execute(array(":usuario" => $usuario));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
     //==============Listar usuarios sin condicionales=======// 
@@ -331,14 +332,14 @@ class Usuarios extends Conexion
                 ":telefono" => $this->telefono,
                 ":pass" => $this->clave
             ));
-            return false;
+            return true;
         } catch (Exception $e) {
 
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
-            return true;
+            return false;
         }
     }
 
@@ -557,19 +558,28 @@ class Usuarios extends Conexion
     //RECUPERAR CONTRASEÑA
     public function recuperar_password()
     {
-
-        //consulta update
-        $sql = ("UPDATE usuarios SET password = :password
+        try {
+            //consulta update
+            $sql = ("UPDATE usuarios SET password = :password
          WHERE usuario = :usuario");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
-        $stmt->execute(array(
-            ":password" => $this->clave,
-            ":usuario" => $this->correo
-        ));
+            $stmt->execute(array(
+                ":password" => $this->clave,
+                ":usuario" => $this->correo
+            ));
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
 
 
