@@ -211,12 +211,36 @@
       </div>
     </div>
   </div>
+  
 
+   <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-light">
+          <h5 class="modal-title" id="Modaleliminar">Estas seguro(a) que deseas eliminar este discipulo?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fs-5">
+          <p>Se eliminará el usuario permanetemente.</p>
+          <form method="post" id="deleteForm">
+            <input type="hidden" name="cedula_participante" class="cedula_participante">
+            <input type="hidden" name="delete">
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" id="deleteButton">Confirmar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Eliminar Participante -->
 
 
 
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
+    eliminar = <?php echo ($eliminar) ? 'true' : 'false'; ?>;
 
 
     $('#myModal').on('shown.bs.modal', function() {

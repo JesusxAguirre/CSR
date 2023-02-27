@@ -126,7 +126,7 @@ if (actualizar == true) {
 if (eliminar == true) {
   Swal.fire({
     icon: 'success',
-    title: 'Se actualizo la informacion correctamente'
+    title: 'Se elimino la usuario'
   })
   setTimeout(recarga, 2000);
 }
@@ -237,6 +237,24 @@ function addEvents(){
 		})
 	
 	}))
+
+	// Actualizar contenido del modal Eliminar
+  const deleteButtons = document.querySelectorAll('table td .delete-btn')
+
+  deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let cedula_participante = fila.querySelector('.cedula')
+    let nombre = fila.querySelector('.nombre')
+    let apellido = fila.querySelector('.apellido')
+
+    const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
+    const nombre_participante = document.getElementById('deleteParticipanteName')
+    const apellido_participante = document.getElementById('deleteParticipanteApellido')
+
+    cedulaInput.value = cedula_participante.textContent
+    nombre_participante.textContent = nombre.textContent
+    apellido_participante.textContent = apellido.textContent
+  }))
 }
 
 function recarga() {
