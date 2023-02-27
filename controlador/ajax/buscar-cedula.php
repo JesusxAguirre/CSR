@@ -1,5 +1,8 @@
 <?php
-require_once('../../modelo/clase_usuario.php');
+require_once("../../vendor/autoload.php");
+
+use Csr\Modelo\Usuarios;
+
 $objeto = new Usuarios();
 $cedula = $_POST['cedula'];
 

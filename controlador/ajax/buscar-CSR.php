@@ -1,5 +1,10 @@
 <?php
-require_once('../../modelo/clase_casa_sobre_la_roca.php');
+require_once("../../vendor/autoload.php");
+
+session_start();
+
+use Csr\Modelo\LaRoca;
+
 $objeto = new LaRoca();
 
 $busqueda = $_GET['busqueda'];
