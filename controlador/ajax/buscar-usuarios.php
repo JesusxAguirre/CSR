@@ -1,6 +1,8 @@
 <?php
-require_once('../../modelo/clase_usuario.php');
+require_once("../../vendor/autoload.php");
 session_start();
+
+use Csr\Modelo\Usuarios;
 $objeto = new Usuarios;
 
 $busqueda = $_POST['busqueda'];

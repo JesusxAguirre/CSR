@@ -1,5 +1,6 @@
 <?php
-require_once('../../modelo/clase_celula_consolidacion.php');
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Consolidacion;
 $objeto = new Consolidacion();
 
 $busqueda = $_GET['busqueda'];

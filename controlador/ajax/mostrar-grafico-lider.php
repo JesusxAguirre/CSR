@@ -1,8 +1,10 @@
 <?php
 session_start();
-require_once('../../modelo/clase_celula_discipulado.php');
-require_once('../../modelo/clase_celula_consolidacion.php');
-require_once('../../modelo/clase_casa_sobre_la_roca.php');
+require_once("../../vendor/autoload.php");
+
+use Csr\Modelo\Discipulado;
+use Csr\Modelo\Consolidacion;
+use Csr\Modelo\LaRoca;
 $objeto = new Discipulado();
 $objeto2 = new Consolidacion();
 $objeto3 = new LaRoca();

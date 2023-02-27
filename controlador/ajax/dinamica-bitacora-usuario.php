@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../../modelo/clase_usuario.php');
+use Csr\Modelo\Usuarios;
 $objeto = new Usuarios();
 
 

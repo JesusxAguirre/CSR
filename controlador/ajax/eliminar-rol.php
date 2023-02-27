@@ -1,5 +1,6 @@
 <?php
-require_once('../../modelo/clase_roles.php');
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Roles;
 $objeto = new Roles();
 $id = $_POST['id'];
 

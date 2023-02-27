@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../../modelo/clase_celula_discipulado.php');
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Discipulado;
 $objeto = new Discipulado();
 
 $fecha_inicio = $_POST['fecha_inicio'];

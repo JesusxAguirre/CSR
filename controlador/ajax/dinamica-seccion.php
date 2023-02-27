@@ -1,7 +1,9 @@
  <?php
  session_start();
-    require_once('../../modelo/clase_ecam.php');
-    $objeto = new ecam();
+ require_once("../../vendor/autoload.php");
+
+ use Csr\Modelo\Ecam;
+ $objeto = new Ecam();
 
 
     //ACTIVAR DATATABLE DE SECCIONES Y TRAER INFORMACION

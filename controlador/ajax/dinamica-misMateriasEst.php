@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../../modelo/clase_ecam.php');
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Ecam;
 $objeto= new ecam;
 
 

@@ -1,5 +1,6 @@
 <?php
-require_once('../../modelo/clase_celula_discipulado.php');
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Discipulado;
 $objeto = new Discipulado();
 $cedula_participante = $_POST['participante_cedula'];
 

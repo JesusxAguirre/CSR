@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../../modelo/clase_celula_consolidacion.php');
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Consolidacion;
 $objeto = new Consolidacion();
 
 $fecha_inicio = $_POST['fecha_inicio'];

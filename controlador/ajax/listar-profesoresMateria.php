@@ -1,6 +1,7 @@
 <?php
-require_once('../../modelo/clase_ecam.php');
-$objeto= new ecam;
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Ecam;
+$objeto= new Ecam();
 
 $idMateriaProf= $_POST['idMateriaProf'];
 $listarProfMat= $objeto->listarProfesoresMateria($idMateriaProf);

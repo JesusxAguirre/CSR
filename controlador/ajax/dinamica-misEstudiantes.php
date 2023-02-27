@@ -1,7 +1,8 @@
 <?php
 session_start();
-require_once('../../modelo/clase_ecam.php');
-$objeto = new ecam;
+require_once("../../vendor/autoload.php");
+use Csr\Modelo\Ecam;
+$objeto = new Ecam();
 
 if (isset($_POST['agregarNota'])) {
     $notaEstudiante = $_POST['notaEstudiante'];
