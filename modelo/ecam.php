@@ -1538,57 +1538,83 @@ class Ecam extends Conexion
     //LISTAR LAS MATERIAS QUE LE CORRESPONDE AL ESTUDIANTE ACTIVO DE LA ECAM
     public function listar_misMateriasEst()
     {
-        $idSeccionEstudiante = $_SESSION['id_seccion']; //Aqui acapta la id_seccion del usuario activo jeje
+        try {
 
-        $sql = "SELECT `smp`.`id_seccion`, `materias`.`id_materia`, `smp`.`contenido`, `usuarios`.`cedula` AS `cedulaProf`, `materias`.`nombre` as `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
+
+            $sql = "SELECT `smp`.`id_seccion`, `materias`.`id_materia`, `smp`.`contenido`, `usuarios`.`cedula` AS `cedulaProf`, `materias`.`nombre` as `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
         FROM `secciones-materias-profesores` AS `smp` INNER JOIN `materias` ON `materias`.`id_materia` = `smp`.`id_materia` 
         INNER JOIN `usuarios` ON `usuarios`.`cedula` = `smp`.`cedulaProf` WHERE `smp`.`id_seccion` = :idSeccion";
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array(
-            ":idSeccion" => $idSeccionEstudiante,
-        ));
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":idSeccion" => $_SESSION['id_seccion'],
+            ));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->listar_misMateriasEst[] = $filas;
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $this->listar_misMateriasEst[] = $filas;
+            }
+            return $this->listar_misMateriasEst;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-        return $this->listar_misMateriasEst;
     }
     //DATOS DE LA SECCION DEL ESTUDIANTE ACTIVO
     public function datos_miSeccionEst()
     {
-        $miSeccion = $_SESSION['id_seccion']; //Aqui acapta la id_seccion del usuario activo jeje
-        $misDatosSeccion = [];
+        try {
 
-        $sql = "SELECT `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`smp`.`id_materia`) > 0, COUNT(`smp`.`id_materia`), '0') AS `cantidadMaterias`, `secciones`.`fecha_cierre` FROM `secciones-materias-profesores` AS `smp` 
-        LEFT JOIN `secciones` ON `secciones`.`id_seccion` = `smp`.`id_seccion` WHERE `smp`.`id_seccion` = $miSeccion";
+            $misDatosSeccion = [];
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            $sql = "SELECT `secciones`.`nombre` AS `nombreSeccion`, IF(COUNT(`smp`.`id_materia`) > 0, COUNT(`smp`.`id_materia`), '0') AS `cantidadMaterias`, `secciones`.`fecha_cierre` FROM `secciones-materias-profesores` AS `smp` 
+        LEFT JOIN `secciones` ON `secciones`.`id_seccion` = `smp`.`id_seccion` WHERE `smp`.`id_seccion` = :id_seccion";
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $misDatosSeccion[] = $filas;
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":id_seccion" => $_SESSION['id_seccion']));
+
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $misDatosSeccion[] = $filas;
+            }
+            return $misDatosSeccion;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-        return $misDatosSeccion;
     }
     //LISTAR LAS NOTAS DEL ESTUDIANTE ACTIVO
     public function listar_misNotas()
     {
-        $miSeccion = $_SESSION['id_seccion'];
-        $miCedula = $_SESSION['cedula'];
-        $misNotas = [];
+        try {
+            
+            $misNotas = [];
 
-        $sql = "SELECT `secciones`.`id_seccion`, `materias`.`id_materia`, `notas`.`nota`, `notas`.`fecha_agregado`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
+            $sql = "SELECT `secciones`.`id_seccion`, `materias`.`id_materia`, `notas`.`nota`, `notas`.`fecha_agregado`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
         FROM `notamateria_estudiantes` AS `notas` INNER JOIN `materias` ON `materias`.`id_materia` = `notas`.`id_materia` INNER JOIN `usuarios` ON `usuarios`.`cedula` = `notas`.`cedula` 
-        INNER JOIN `secciones` ON `notas`.`id_seccion` = `secciones`.`id_seccion` WHERE `secciones`.`id_seccion` = $miSeccion AND `notas`.`cedula` = $miCedula";
+        INNER JOIN `secciones` ON `notas`.`id_seccion` = `secciones`.`id_seccion` WHERE `secciones`.`id_seccion` = :id_seccion AND `notas`.`cedula` = :cedula";
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":id_seccion"=>$_SESSION['id_seccion'],
+                ":cedula"=>$_SESSION['cedula']
+            ));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $misNotas[] = $filas;
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $misNotas[] = $filas;
+            }
+            return $misNotas;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-        return $misNotas;
     }
 
 

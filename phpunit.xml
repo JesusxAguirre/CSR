@@ -5,7 +5,7 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Test suite">
-            <directory>tests/Ecam</directory>
+            <directory>tests/Ecam/Ecam_aula_estudiantes</directory>
         </testsuite>
     </testsuites>
 </phpunit>
