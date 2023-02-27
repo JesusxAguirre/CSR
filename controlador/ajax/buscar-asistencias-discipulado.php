@@ -8,7 +8,6 @@ $fecha_inicio = $_GET['fecha_inicio'];
 $fecha_final = $_GET['fecha_final'];
 
 
-
 $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_final);
 ?>
 

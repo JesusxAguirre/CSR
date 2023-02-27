@@ -177,7 +177,6 @@ class Discipulado extends Conectar
         WHERE reporte_celula_discipulado.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
         AND  reporte_celula_discipulado.id_discipulado = '$id'
         GROUP BY MONTHNAME(fecha)");
-        
 
         $stmt = $this->conexion()->prepare($sql);
 
@@ -624,7 +623,7 @@ class Discipulado extends Conectar
         $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_participante");
 
         $stmt = $this->conexion()->prepare($sql);
-        
+
         $stmt->execute(array(":cedula_participante"=>$cedula_participante));
 
         return true;
