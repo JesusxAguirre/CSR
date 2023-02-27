@@ -315,8 +315,8 @@ class Usuarios extends Conexion
 
 
             $sql = "INSERT INTO usuarios (cedula,id_rol,
-        codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
-        VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
+            codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
+            VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
 
             //ENCRIPTANDO CLAVE
             $stmt = $this->conexion->prepare($sql);

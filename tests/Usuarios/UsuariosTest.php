@@ -18,6 +18,8 @@ final class UsuariosTest extends TestCase
   public function test_registrar_usuario()
   {
     //Init
+    $_SESSION['cedula'] = "27666555";
+    $usuario = $_SESSION['cedula'];
     $nombre = "Mario";
     $apellido = "Cercano";
     $cedula = "27543321";
@@ -38,14 +40,14 @@ final class UsuariosTest extends TestCase
     //Asert
     $this->assertEquals($expected, $response);
   }
-  
+
   /** @test **/
   public function test_editar_usuario()
   {
     //Init
     $nombre = "Mario";
     $apellido = "Cercano";
-    $cedula = "22333443";
+    $cedula = "27543321";
     $edad =40;
     $sexo = "hombre";
     $civil = "soltero";
@@ -60,8 +62,10 @@ final class UsuariosTest extends TestCase
     $this->objeto_usuarios->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol);    
 
     $response = $this->objeto_usuarios->update_usuarios();
-
+    
     //Asert
     $this->assertEquals($expected, $response);
+    
+ 
   }
 }
