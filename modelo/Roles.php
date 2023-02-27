@@ -1,7 +1,10 @@
 <?php   
-use Csr\Modelo\clase_conexion as Conectar;
-
-class Roles extends Conectar {
+namespace Csr\Modelo;
+use Csr\Modelo\Conexion;
+use PDO;
+use Exception;
+use PDOException;
+class Roles extends Conexion {
 
 	private $conexion;
 	private $nombre;

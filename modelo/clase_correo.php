@@ -1,5 +1,5 @@
 <?php
-require_once("clase_conexion.php");
+use Csr\Modelo\Conexion;
 //Import PHPMailer classes into the global namespace
 //These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
@@ -10,7 +10,7 @@ require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
 require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 require 'vendor/phpmailer/phpmailer/src/Exception.php';
 
-class Correo extends Conectar
+class Correo extends Conexion
 {
   private $correo;
   private $id_modulo;

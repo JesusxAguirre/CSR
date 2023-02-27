@@ -3,7 +3,7 @@ namespace Csr\Modelo;
 
 use PDO;
 use Exception;
-class clase_conexion
+class Conexion
 {
     private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
     private $expresion_especial = "/[[:punct:]]/";

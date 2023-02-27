@@ -1,6 +1,10 @@
 <?php
-use Csr\Modelo\clase_conexion as Conectar;
-class LaRoca extends Conectar
+namespace Csr\Modelo;
+use Csr\Modelo\Conexion;
+
+use PDO;
+use Exception;
+class LaRoca extends Conexion
 {
     private $conexion;
     private $id_modulo;

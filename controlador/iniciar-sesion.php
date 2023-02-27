@@ -1,6 +1,9 @@
 <?php
 session_start();
-require_once('modelo/clase_usuario.php');
+
+use Csr\Modelo\Usuarios;
+use Csr\Modelo\clase_datosUsuario;
+
 require_once('modelo/clase_datosUsuario.php');
 require_once('modelo/clase_roles.php');
 

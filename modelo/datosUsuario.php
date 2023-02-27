@@ -1,13 +1,18 @@
 <?php
-use Csr\Modelo\clase_conexion as Conectar;
 
-class datosUsuario extends Conectar
+namespace Csr\Modelo;
+
+use Csr\Modelo\Conexion;
+
+use PDO;
+use Exception;
+class datosUsuario extends Conexion
 {
     private $nombre;
     private $cedula;
     private $idSeccion;
     private $statusProfesor;
-
+    private $conexion;
     public function __construct()
     {
         $this->conexion = parent::conexion();

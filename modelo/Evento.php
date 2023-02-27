@@ -1,7 +1,11 @@
-<?php   
-require_once("clase_conexion.php");
+<?php
+namespace Csr\Modelo;   
+use Csr\Modelo\Conexion;
 
-class Evento extends Conectar {
+use PDO;
+use Exception;
+use PDOException;
+class Evento extends Conexion {
 
 	private $conexion;
 	private $titulo;

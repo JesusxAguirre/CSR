@@ -1,8 +1,9 @@
 <?php
-use Csr\Modelo\clase_conexion as Conectar;
-
-
-class Usuarios extends Conectar
+namespace Csr\Modelo;
+use Csr\Modelo\Conexion;
+use PDO;
+use Exception;
+class Usuarios extends Conexion
 {
     //atributos de herencia
     private $conexion;
