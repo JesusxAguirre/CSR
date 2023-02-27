@@ -37,9 +37,9 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
 	switch (e.target.name) {
-		/* case "cedula":
+		 case "cedula":
 			ValidarCampo(expresiones.cedula, e.target, 'cedula');
-			break; */	
+			break; 
 		case "nombre":
 			ValidarCampo(expresiones.nombre, e.target, 'nombre');
 			break;
