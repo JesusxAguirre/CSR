@@ -29,6 +29,7 @@ class Consolidacion extends Conexion
     private $participantes;
     private $direccion;
 
+    
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -37,6 +38,7 @@ class Consolidacion extends Conexion
     //-------------------------------------------------------Listar todas las celulas------------------------//
     public function listar()
     {
+        $resultado = [];
         $sql = ("SELECT * FROM celula_consolidacion");
 
         $stmt = $this->conexion()->prepare($sql);
@@ -46,9 +48,9 @@ class Consolidacion extends Conexion
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar[] = $filas;
+            $resultado[] = $filas;
         }
-        return $this->listar;
+        return $resultado;
     }
     //------------------------------------------------------Listar participantes por celulal de consolidacion---------------------//
     public function listar_participantes($busqueda)
@@ -60,11 +62,11 @@ class Consolidacion extends Conexion
         FROM celula_consolidacion 
         INNER JOIN participantes_consolidacion AS consolidados ON celula_consolidacion.id = consolidados.id_consolidacion
         INNER JOIN usuarios AS participantes ON consolidados.cedula = participantes.cedula
-        WHERE celula_consolidacion.id = '$busqueda'");
+        WHERE celula_consolidacion.id = :busqueda");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(":busqueda"=>$busqueda));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
@@ -223,6 +225,7 @@ class Consolidacion extends Conexion
     //------------------------------------------------------Registrar consolidacion ----------------------//
     public function registrar_consolidacion()
     {
+        try{
         //buscando ultimo id agregando
         $sql = ("SELECT MAX(id) AS id FROM celula_consolidacion");
 
@@ -381,6 +384,16 @@ class Consolidacion extends Conexion
         $accion = "Registrar Consolidacion";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+        return true;
+    } catch (Exception $e) {
+
+        echo $e->getMessage();
+
+        echo "Linea del error: " . $e->getLine();
+
+        return false;
+    }
     }
     //---------------------------------------------------COMIENZO DE UPDATE-----------------------------------//
     public function update_consolidacion()

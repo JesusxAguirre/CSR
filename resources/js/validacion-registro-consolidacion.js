@@ -165,7 +165,7 @@ $("#codigoLider").on('change', function () {
 });
 
 
-if (error == false) {
+if (error == true) {
 	Swal.fire({
 		icon: 'success',
 		title: 'Se registro la celula correctamente'
