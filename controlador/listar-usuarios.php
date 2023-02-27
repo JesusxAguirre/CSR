@@ -21,7 +21,7 @@ if ($_SESSION['verdadero'] > 0) {
         //funcion de actualizar
         //variable que manda mensaje de firealert
         
-        $actualizar=true;
+        $actualizar=false;
         if(isset($_POST['update'])){
             $cedula= $_POST['cedula'];
             $cedula_antigua= $_POST['cedula_antigua'];
@@ -36,9 +36,7 @@ if ($_SESSION['verdadero'] > 0) {
             $rol = $_POST['rol'];
            $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol);    
 
-           $objeto->update_usuarios();
-
-           $actualizar=false;
+           $actualizar=$objeto->update_usuarios();
         }
         require_once 'vista/' . $pagina . '.php';
     }

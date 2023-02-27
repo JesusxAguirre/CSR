@@ -54,7 +54,7 @@ final class UsuariosTest extends TestCase
     $estado = "Yaracuy";
     $telefono = "04122654321";
     $cedula_antigua ="27543321";
-    $rol = "1";
+    $rol = 1;
 
     $expected = true;
     //Act  

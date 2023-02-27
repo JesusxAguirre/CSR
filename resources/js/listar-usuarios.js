@@ -112,11 +112,11 @@ formulario.addEventListener('submit', (e) => {
 			icon: 'error',
 			title: 'Lo siento ',
 			text: 'Registra el formulario correctamente '
-		})
+		})	
 	}
 })
 
-if (actualizar == false) {
+if (actualizar == true) {
   Swal.fire({
     icon: 'success',
     title: 'Se actualizo la informacion correctamente'
