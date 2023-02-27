@@ -2,10 +2,10 @@
 session_start();
 
 use Csr\Modelo\Usuarios;
-use Csr\Modelo\clase_datosUsuario;
+use Csr\Modelo\datosUsuario;
+use Csr\Modelo\Roles;
 
-require_once('modelo/clase_datosUsuario.php');
-require_once('modelo/clase_roles.php');
+
 
 $objeto = new Usuarios();
 $objeto2 = new datosUsuario();
