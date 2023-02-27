@@ -1,9 +1,12 @@
 <?php
+
 namespace Csr\Modelo;
+
 use Csr\Modelo\Conexion;
 
 use PDO;
 use Exception;
+
 class Ecam extends Conexion
 {
     private $conexion;
@@ -1170,14 +1173,13 @@ class Ecam extends Conexion
 
             $cedula = $_SESSION['cedula'];
             $accion = "El usuario ha eliminado una seccion definitivamente";
-        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
         } catch (Exception $e) {
 
             echo $e->getMessage();
             echo "Linea del error: " . $e->getLine();
             exit;
         }
-        
     }
 
 
@@ -1488,18 +1490,27 @@ class Ecam extends Conexion
     //LISTAR COMPANEROS DE MI SECCION 
     public function listar_misCompaneros()
     {
-        $miSeccion = $_SESSION['id_seccion'];
-        $listar_misCompaneros = [];
+        try {
+            $listar_misCompaneros = [];
 
-        $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = $miSeccion";
+            $sql = "SELECT `cedula`, `codigo`, `nombre`, `apellido` FROM `usuarios` WHERE `usuarios`.`id_seccion` = :id_seccion";
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":id_seccion"=>$_SESSION['id_session']
+            ));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $listar_misCompaneros[] = $filas;
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $listar_misCompaneros[] = $filas;
+            }
+            return $listar_misCompaneros;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-        return $listar_misCompaneros;
     }
     //LISTAR PROFESORES DE MI SECCION
     public function listar_misProfesores()
