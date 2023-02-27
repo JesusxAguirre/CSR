@@ -207,7 +207,7 @@ if (error == true) {
 
 
 
-if (recuperacion == false) {
+if (recuperacion == true) {
 	Swal.fire({
 		icon: 'success',
 		title: 'Se cambio la contraseña correctamente'
