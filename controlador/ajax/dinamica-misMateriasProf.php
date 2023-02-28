@@ -31,7 +31,7 @@ if (isset($_POST['vaciarInfo'])) {
     $idSeccion= $_POST['idSeccion'];
     $idMateria= $_POST['idMateria'];
 
-    $listarContenido= $objeto->eliminarContenido($idSeccion, $idMateria);
+    $objeto->eliminarContenido($idSeccion, $idMateria);
 }
 
 
