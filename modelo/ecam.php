@@ -44,6 +44,10 @@ class Ecam extends Conexion
     private $nota_miEstudiante2; //actualizar
     private $id_modulo;
 
+
+    //propiedades que daban error attt Jesus Aguirre
+
+    private $notaIDseccion2;
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -1350,34 +1354,39 @@ class Ecam extends Conexion
     //AGREGAR LAS NOTAS DE LAS MATERIAS A LOS ESTUDIANTES
     public function agregarNotaMateria($nota)
     {
-        $sql = "INSERT INTO `notamateria_estudiantes` (`id_seccion`, `cedula`, `id_materia`, `nota`, `fecha_agregado`) 
+        try {
+            $sql = "INSERT INTO `notamateria_estudiantes` (`id_seccion`, `cedula`, `id_materia`, `nota`, `fecha_agregado`) 
         VALUES (:notaIDseccion, :notaCIestudiante, :notaIDmateria, :nota, CURDATE())";
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array(
-            ":notaIDseccion" => $this->notaIDseccion,
-            ":notaCIestudiante" => $this->notaCIestudiante,
-            ":notaIDmateria" => $this->notaIDmateria,
-            ":nota" => $nota,
-        ));
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":notaIDseccion" => $this->notaIDseccion,
+                ":notaCIestudiante" => $this->notaCIestudiante,
+                ":notaIDmateria" => $this->notaIDmateria,
+                ":nota" => $nota,
+            ));
 
-        //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
-        $sql2 = "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
+            //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
+            $sql2 = "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
         FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
-        $stmt2 = $this->conexion()->prepare($sql2);
-        $stmt2->execute(array(
-            ":idMateria" => $this->notaIDmateria,
-            ":idSeccion" => $this->notaIDseccion,
-        ));
-        $datos = $stmt2->fetch(PDO::FETCH_ASSOC);
+            $stmt2 = $this->conexion()->prepare($sql2);
+            $stmt2->execute(array(
+                ":idMateria" => $this->notaIDmateria,
+                ":idSeccion" => $this->notaIDseccion,
+            ));
+            $datos = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-        //REGISTRO DE ACCION EN LA BITACORA
-        $cedula = $_SESSION['cedula'];
-        $accion = "Le ha agregado nota de la materia " . $datos['nombreMateria'] . " a un estudiante de la seccion " . $datos['nombreSeccion'];
-        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            //REGISTRO DE ACCION EN LA BITACORA
+            $cedula = $_SESSION['cedula'];
+            $accion = "Le ha agregado nota de la materia " . $datos['nombreMateria'] . " a un estudiante de la seccion " . $datos['nombreSeccion'];
+            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
 
-        $accion2 = "El profesor de " . $datos['nombreMateria'] . " te ha agregado la nota de la materia";
-        $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
+            $accion2 = "El profesor de " . $datos['nombreMateria'] . " te ha agregado la nota de la materia";
+            $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
+        } catch (Exception $e) {
+
+            return false;
+        }
     }
 
     //ACTUALIZAR LA NOTA DEL ESTUDIANTE SELECCIONADO DEL PROFESOR ACTIVO EN LA SESION
