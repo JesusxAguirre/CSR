@@ -1466,12 +1466,13 @@ class Ecam extends Conexion
 
             $accion2 = "El profesor de " . $datos['nombreMateria'] . " te ha eliminado la nota de la materia";
             $this->registrar_notificacionSeccion($idSeccionRef2, $accion2, $cedulaEstudianteRef2);
+            return true;
         } catch (Exception $e) {
 
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
-            exit;
+            return false;
         }
     }
 

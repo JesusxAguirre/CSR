@@ -133,12 +133,26 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
   
     $this->objeto_ecam->setActualizarMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
     
-    print_r($array_estudiante);
+  
     $response = $this->objeto_ecam->actualizarNotaMateria($nota);
     //Asert
     
     $this->assertTrue($response);
 
     return $array_estudiante;
+  }
+
+  /**
+   * @depends test_actualizarNotaMateria
+   */
+  public function test_eliminarNotaMateria(array $array_estudiante)
+  {
+    //Init
+
+    //Act
+    $response = $this->objeto_ecam->eliminarNotaMateria($array_estudiante['cedula'],$array_estudiante['id_materia'],$array_estudiante['id_seccion']);
+
+    //Asert
+    $this->assertTrue($response);
   }
 }
