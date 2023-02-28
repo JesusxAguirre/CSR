@@ -34,6 +34,7 @@ class ecam extends Conectar
     private $notaIDmateria; //agregar
     private $notaCIestudiante; //agregar
     private $notaIDmateria2; //actualizar
+    private $notaIDseccion2;
     private $notaCIestudiante2; //actualizar
     private $nota_miEstudiante2; //actualizar
 
@@ -265,57 +266,28 @@ class ecam extends Conectar
 
 
 
-    //LISTAR ESTUDIANTES SIN NIVEL 1
-    public function sinNivel1()
+    //LISTAR ESTUDIANTES SIN NIVEL 1, 2 o 3. Funciona mandando el nivel academico por parametro
+    public function sinNivel($n)
     {
         $listarEstudiantes_nivel1= [];
 
-        $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16) 
+        /*$sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
+        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 12) 
+        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";*/
+
+        $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
+        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 12) 
         AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
 
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":nivel" => $n,
+        ));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $listarEstudiantes_nivel1[] = $filas;
         }
         return $listarEstudiantes_nivel1;
-    }
-
-    public function sinNivel2()
-    {
-        $listarEstudiantes_nivel2= [];
-
-        $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 2 AND notaFinal >= 16) 
-        AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16)
-        AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
-
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
-
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $listarEstudiantes_nivel2[] = $filas;
-        }
-        return $listarEstudiantes_nivel2;
-    }
-    public function sinNivel3()
-    {
-        $listarEstudiantes_nivel3= [];
-
-        $sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 3 AND notaFinal >= 16) 
-        AND `usuarios`.`cedula` IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 2 AND `notaFinal` >= 16)
-        AND `usuarios`.`status_profesor` = 0 AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
-
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
-
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $listarEstudiantes_nivel3[] = $filas;
-        }
-        return $listarEstudiantes_nivel3;
     }
 
 
@@ -1304,8 +1276,8 @@ class ecam extends Conectar
         FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
         $stmt2 = $this->conexion()->prepare($sql2);
         $stmt2->execute(array(
-            ":idMateria" => $this->notaIDmateria,
-            ":idSeccion" => $this->notaIDseccion,
+            ":idMateria" => $this->notaIDmateria2,
+            ":idSeccion" => $this->notaIDseccion2,
         ));
         $datos= $stmt2->fetch(PDO::FETCH_ASSOC);
         
