@@ -21,7 +21,6 @@ if($_SESSION['verdadero'] > 0){
         $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
         
         require_once 'vista/'.$pagina.'.php';
-
     }
 
 } else { 
