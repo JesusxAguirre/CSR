@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../../modelo/clase_ecam.php');
+use Csr\Modelo\Ecam;
 $objeto = new ecam();
 
 //AGREGANDO MATERIAS
