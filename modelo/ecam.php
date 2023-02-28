@@ -42,7 +42,6 @@ class Ecam extends Conexion
     private $notaIDmateria2; //actualizar
     private $notaCIestudiante2; //actualizar
     private $nota_miEstudiante2; //actualizar
-
     private $id_modulo;
 
     public function __construct()
@@ -1299,7 +1298,7 @@ class Ecam extends Conexion
     {
         $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
 
-        $sql = "UPDATE `secciones-materias-profesores` SET `id_seccion`= :seccion,`id_materia`= :materia,`cedulaProf`= :cedula,`contenido`= NULL";
+        $sql= "UPDATE `secciones-materias-profesores` SET `contenido`= NULL WHERE `id_materia` = :materia AND `cedulaProf` = :cedula AND `id_seccion` = :seccion";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
             ":seccion" => $idSeccion,
