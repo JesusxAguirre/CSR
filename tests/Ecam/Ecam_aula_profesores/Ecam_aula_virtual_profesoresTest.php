@@ -15,7 +15,7 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     $this->objeto_ecam   = new Ecam();
     $_SESSION['cedula'] = 27666555;
   }
-  
+
   public function test_listar_misMateriasProf(): array
   {
     //Init
@@ -46,25 +46,24 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     //Act  
     $response = $this->objeto_ecam->agregarContenidos($datos_profesor['id_seccion'], $datos_profesor['id_materia'], $contenido);
 
-    if($response == true){
+    if ($response == true) {
       echo "si esta en verdadero";
-    }else{
+    } else {
       echo "no esta en verdadero";
     }
     //Asert
 
-    $this->assertEquals(true,$response);
+    $this->assertEquals(true, $response);
 
     return $datos_profesor;
   }
-  
+
   /**
    * @depends test_agregarContenidos
    */
   public function test_listarContenido(array $datos_profesor): array
   {
     //Init
-    //$contenido = "Esta materia trata sobre logica de programacion comenzaremos en breve viendo pseudo codigo";
     $key_expected = "contenido";
 
     //Act  
@@ -74,6 +73,24 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     //Asert
 
     $this->assertArrayHasKey($key_expected, $array_contenido[0]);
+
+    return $datos_profesor;
+  }
+  /**
+   * @depends test_agregarContenidos
+   */
+  public function test_eliminarContenido(array $datos_profesor): array
+  {
+    //Init
+
+
+    //Act  
+    $response = $this->objeto_ecam->eliminarContenido($datos_profesor['id_seccion'], $datos_profesor['id_materia']);
+
+
+    //Asert
+
+    $this->assertTrue($response);
 
     return $datos_profesor;
   }

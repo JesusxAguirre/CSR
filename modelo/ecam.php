@@ -1247,9 +1247,9 @@ class Ecam extends Conexion
             $datos = $stmt2->fetch(PDO::FETCH_ASSOC);
 
             //REGISTRO DE ACCION EN LA BITACORA
-            $cedula = $_SESSION['cedula'];
+
             $accion = "El profesor ha agregado contenido a " . $datos['nombreMateria'] . " nivel " . $datos['nivelAcademico'] . " en la seccion " . $datos['nombreSeccion'];
-            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            parent::registrar_bitacora($_SESSION['cedula'], $accion, $this->id_modulo);
 
             $accion2 = "El profesor ha agregado contenido nuevo a " . $datos['nombreMateria'];
             $this->registrar_notificacionSeccion($seccionContRef, $accion2, '');
@@ -1296,18 +1296,23 @@ class Ecam extends Conexion
     //ELIMINAR INFORMACION DE LAS MATERIAS PROFESORES
     public function eliminarContenido($idSeccion, $idMateria)
     {
-        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
+        try {
 
-        $sql = "UPDATE `secciones-materias-profesores` SET `contenido`= NULL WHERE `id_materia` = :materia AND `cedulaProf` = :cedula AND `id_seccion` = :seccion";
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array(
-            ":seccion" => $idSeccion,
-            ":materia" => $idMateria,
-            ":cedula" => $cedulaProfesor,
-        ));
+            $sql = "UPDATE `secciones-materias-profesores` SET `contenido`= NULL WHERE `id_materia` = :materia AND `cedulaProf` = :cedula AND `id_seccion` = :seccion";
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":seccion" => $idSeccion,
+                ":materia" => $idMateria,
+                ":cedula" => $_SESSION['cedula'], //Aqui capta la cedula del profesor activo jeje
+            ));
 
-        $accion = "El usuario ha eliminado la informacion de la materia";
-        parent::registrar_bitacora($cedulaProfesor, $accion, $this->id_modulo);
+            $accion = "El usuario ha eliminado la informacion de la materia";
+            parent::registrar_bitacora($_SESSION['cedula'], $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
+
+            return false;
+        }
     }
 
 
