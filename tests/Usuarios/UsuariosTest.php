@@ -48,39 +48,45 @@ final class UsuariosTest extends TestCase
   /**
    * @depends test_registrar_usuario
    */
-  public function test_editar_usuario(array $array_usuario)
+  public function test_editar_usuario(array $array_usuario): array
   {
     //Init
-    $nombre = "Mario";
-    $apellido = "Cercano";
-    $cedula = "27543321";
+    $nombre = "Maria";
+    $apellido = "Marcano";
+    $cedula = "22357445";
     $edad = 24;
-    $sexo = "hombre";
-    $civil = "casado";
+    $sexo = "Mujer";
+    $civil = "soltera";
     $nacionalidad = "Venezolana";
-    $estado = "Yaracuy";
+    $estado = "Distrito Capital";
     $telefono = "04122654321";
-    $cedula_antigua = "27543321";
+ 
     $rol = 1;
 
     $expected = true;
     //Act  
-    $this->objeto_usuarios->setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol);
+    $this->objeto_usuarios->setUpdate($nombre, $apellido, $cedula, $array_usuario['cedula'], $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol);
 
     $this->objeto_usuarios->update_usuarios();
-    $this->objeto_usuarios->
+    $array_usuario =$this->objeto_usuarios->get_usuario($cedula);
       //Asert 
-      $this->assertEquals($expected, $response);
+    $this->assertEqualsCanonicalizing(
+      [$nombre,$apellido,$cedula,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol],
+      [$array_usuario['nombre'],$array_usuario['apellido'],$array_usuario['cedula'],$array_usuario['edad'],$array_usuario['estado_civl'],$array_usuario['nacionalidad'],$array_usuario['estado'],$array_usuario['telefono'],$array_usuario['id_rol']]
+    );
+
+    return $array_usuario;
   }
 
-  /** **/
-  public function test_eliminar_usuario()
+   /**
+   * @depends test_editar_usuario
+   */
+  public function test_eliminar_usuario(array $array_usuario )
   {
     //Init
-    $cedula = "27543321";
     $expected = true;
     //Act
-    $this->objeto_usuarios->setEliminar($cedula);
+    $this->objeto_usuarios->setEliminar($array_usuario['cedula']);
     $response = $this->objeto_usuarios->delete_usuarios();
     //Asert
 
