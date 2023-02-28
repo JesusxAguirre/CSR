@@ -41,8 +41,8 @@ if (isset($_POST['eliminarNota'])) {
     $idMateriaRef2= $_POST['idMateriaRef2'];
     $idSeccionRef2= $_POST['idSeccionRef2'];
 
-    $respuesta = $objeto->eliminarNotaMateria($cedulaEstudianteRef2, $idMateriaRef2, $idSeccionRef2);
-    echo $respuesta;
+    $objeto->eliminarNotaMateria($cedulaEstudianteRef2, $idMateriaRef2, $idSeccionRef2);
+    
 }
 
 

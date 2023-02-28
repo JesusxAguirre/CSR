@@ -94,4 +94,33 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
 
     return $datos_profesor;
   }
+
+
+  public function test_listar_misEstudiantes(){
+    //Init
+    $key_expected = "cedula";
+    //Act
+     $array_estudiantes = $this->objeto_ecam->listar_misEstudiantes();
+     //Asert
+
+    $this->assertArrayHasKey($key_expected,$array_estudiantes[0]);
+
+    return $array_estudiantes[0];
+  }
+
+    /**
+   * @depends test_listar_misEstudiantes
+   */
+  public function test_agregarNotaMateria(array $array_estudiante)//: array
+  {
+    //Init
+
+
+    //Act  
+
+
+    //Asert
+
+  }
 }
+

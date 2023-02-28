@@ -1319,29 +1319,32 @@ class Ecam extends Conexion
     //LISTAR MATERIAS QUE IMPARTE EL PROFESOR ACTIVO DE LA ECAM
     public function listar_misEstudiantes()
     {
-        $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
-
-        /*$sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` as `nombreMateria`, `materias`.`nivelDoctrina`, `materias`.`id_materia`, 
+        try {
+            /*$sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` as `nombreMateria`, `materias`.`nivelDoctrina`, `materias`.`id_materia`, 
         `secciones`.`id_seccion`, `secciones`.`nombre` AS `nombreSeccion` FROM `secciones-materias-profesores` AS `smp` INNER JOIN `usuarios` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` INNER JOIN `materias` ON `smp`.`id_materia`= `materias`.`id_materia`
         INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` WHERE `smp`.`cedulaProf`= :cedulaProfesor";*/
 
-        $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` 
+            $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `materias`.`nombre` 
         AS `nombreMateria`, `materias`.`nivelAcademico`, `materias`.`id_materia`, `secciones`.`id_seccion`, `secciones`.`nombre` 
         AS `nombreSeccion`, `nme`.`nota` FROM `secciones-materias-profesores` AS `smp` INNER JOIN `usuarios` ON `smp`.`id_seccion` = `usuarios`.`id_seccion` 
         INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` INNER JOIN `secciones` ON `smp`.`id_seccion` = `secciones`.`id_seccion` 
         LEFT JOIN notamateria_estudiantes AS nme ON `nme`.`cedula` = `usuarios`.`cedula` AND `nme`.`id_seccion` = `smp`.`id_seccion` AND `nme`.`id_materia` = `materias`.`id_materia` WHERE `smp`.`cedulaProf` = :cedulaProfesor";
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array(
-            ":cedulaProfesor" => $cedulaProfesor,
-        ));
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":cedulaProfesor" =>  $_SESSION['cedula'], //Aqui capta la cedula del profesor activo jeje,
+            ));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar_misEstudiantes[] = $filas;
+                $this->listar_misEstudiantes[] = $filas;
+            }
+            return $this->listar_misEstudiantes;
+        } catch (Exception $e) {
+
+            return false;
         }
-        return $this->listar_misEstudiantes;
     }
 
     //AGREGAR LAS NOTAS DE LAS MATERIAS A LOS ESTUDIANTES
