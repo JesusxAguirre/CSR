@@ -435,6 +435,7 @@ class Ecam extends Conexion
             $cedula = $_SESSION['cedula'];
             $accion = "Ha agregado una materia nueva llamada " . $this->nombre;
             parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            return true;
         } catch (Exception $e) {
             echo $e->getMessage();
 
