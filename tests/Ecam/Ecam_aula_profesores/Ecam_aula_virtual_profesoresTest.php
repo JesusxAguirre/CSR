@@ -46,11 +46,6 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     //Act  
     $response = $this->objeto_ecam->agregarContenidos($datos_profesor['id_seccion'], $datos_profesor['id_materia'], $contenido);
 
-    if ($response == true) {
-      echo "si esta en verdadero";
-    } else {
-      echo "no esta en verdadero";
-    }
     //Asert
 
     $this->assertEquals(true, $response);
@@ -69,7 +64,6 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     //Act  
     $array_contenido = $this->objeto_ecam->listarContenido($datos_profesor['id_seccion'], $datos_profesor['id_materia']);
 
-    print_r($array_contenido);
     //Asert
 
     $this->assertArrayHasKey($key_expected, $array_contenido[0]);
@@ -118,6 +112,7 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     $nota = 16;
 
     //Act  
+    //print($array_estudiante);
     $this->objeto_ecam->setNotaMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
     $response = $this->objeto_ecam->agregarNotaMateria($nota);
     //Asert
@@ -127,17 +122,23 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
   }
 
   /**
-   * @depends test_listar_misEstudiantes
+   * @depends test_agregarNotaMateria
    */
-  public function test_actualizarNotaMateria(array $array_estudiante) //: array
+  public function test_actualizarNotaMateria(array $array_estudiante) : array
   {
     //Init
     $nota = 14;
 
     //Act  
+  
     $this->objeto_ecam->setActualizarMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
+    
+    print_r($array_estudiante);
     $response = $this->objeto_ecam->actualizarNotaMateria($nota);
     //Asert
+    
     $this->assertTrue($response);
+
+    return $array_estudiante;
   }
 }

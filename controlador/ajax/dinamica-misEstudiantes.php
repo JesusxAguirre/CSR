@@ -33,7 +33,8 @@ if (isset($_POST['actualizarNota'])) {
     $notaNueva = $_POST['notaNueva'];
 
     $objeto->setActualizarMateriaEstudiante($notaIDseccion2, $notaIDmateria2, $notaCIestudiante2);
-    $objeto->actualizarNotaMateria($notaNueva);
+    $response =$objeto->actualizarNotaMateria($notaNueva);
+    echo $response;
 }
 
 if (isset($_POST['eliminarNota'])) {

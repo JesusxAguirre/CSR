@@ -353,6 +353,7 @@ setTimeout(() => {
                         notaNueva: result.value,
                     };
                     $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
+                        console.log(response)
                         listar_misEstudiantes();
                         Swal.fire({
                             icon: 'success',

@@ -48,6 +48,8 @@ class Ecam extends Conexion
     //propiedades que daban error attt Jesus Aguirre
 
     private $notaIDseccion2;
+
+    
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -1408,11 +1410,11 @@ class Ecam extends Conexion
 
             //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
             $sql2 = "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
-        FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
+            FROM `materias`, `secciones` WHERE `id_materia` = :idMateria AND `secciones`.`id_seccion` = :idSeccion";
             $stmt2 = $this->conexion()->prepare($sql2);
             $stmt2->execute(array(
-                ":idMateria" => $this->notaIDmateria,
-                ":idSeccion" => $this->notaIDseccion,
+                ":idMateria" => $this->notaIDmateria2,
+                ":idSeccion" => $this->notaIDseccion2,
             ));
             $datos = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -1423,10 +1425,11 @@ class Ecam extends Conexion
 
             $accion2 = "El profesor de " . $datos['nombreMateria'] . " te ha actualizado la nota de la materia";
             $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
+            
             return true;
         } catch (Exception $e) {
 
-            return false;
+            return $e;
         }
     }
 
