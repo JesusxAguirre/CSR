@@ -282,6 +282,11 @@ setTimeout(() => {
               step: 1
             },
             inputValue: 0,
+            preConfirm: (value) => {
+                if (value == 0) {
+                    Swal.showValidationMessage('No puedes agregar "0" como nota');
+                }
+            }
         }).then((result) => {
         if (result.isConfirmed) {
             const data= {
