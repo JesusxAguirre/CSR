@@ -96,32 +96,48 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
   }
 
 
-  public function test_listar_misEstudiantes(){
+  public function test_listar_misEstudiantes()
+  {
     //Init
     $key_expected = "cedula";
     //Act
-     $array_estudiantes = $this->objeto_ecam->listar_misEstudiantes();
-     //Asert
+    $array_estudiantes = $this->objeto_ecam->listar_misEstudiantes();
+    //Asert
 
-    $this->assertArrayHasKey($key_expected,$array_estudiantes[0]);
+    $this->assertArrayHasKey($key_expected, $array_estudiantes[0]);
 
     return $array_estudiantes[0];
   }
 
-    /**
+  /**
    * @depends test_listar_misEstudiantes
    */
-  public function test_agregarNotaMateria(array $array_estudiante)//: array
+  public function test_agregarNotaMateria(array $array_estudiante) //: array
   {
     //Init
     $nota = 16;
 
     //Act  
-    $this->objeto_ecam->setNotaMateriaEstudiante($array_estudiante['id_seccion'],$array_estudiante['id_materia'],$array_estudiante['cedula']);
+    $this->objeto_ecam->setNotaMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
     $response = $this->objeto_ecam->agregarNotaMateria($nota);
     //Asert
     $this->assertTrue($response);
 
+    return $array_estudiante;
+  }
+
+  /**
+   * @depends test_listar_misEstudiantes
+   */
+  public function test_actualizarNotaMateria(array $array_estudiante) //: array
+  {
+    //Init
+    $nota = 14;
+
+    //Act  
+    $this->objeto_ecam->setActualizarMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
+    $response = $this->objeto_ecam->actualizarNotaMateria($nota);
+    //Asert
+    $this->assertTrue($response);
   }
 }
-
