@@ -13,37 +13,68 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
   public function setUp(): void
   {
     $this->objeto_ecam   = new Ecam();
-    $_SESSION['id_seccion'] = 14;
-    $_SESSION['cedula'] =27666555;
-    $this->id_materia = 1;
-   
+    $_SESSION['cedula'] = 27666555;
   }
-  /** @test **/
-  public function test_listar_misMateriasProf()
+  
+  public function test_listar_misMateriasProf(): array
   {
     //Init
 
     $key = "id_materia";
     //Act  
     $array_materias = $this->objeto_ecam->listar_misMateriasProf();
-  
+
+    $datos_profesor['id_materia'] = $array_materias[0]["id_materia"];
+    $datos_profesor['id_seccion'] = $array_materias[0]["id_seccion"];
     //Asert
 
+
     $this->assertArrayHasKey($key, $array_materias[0]);
+
+    return $datos_profesor;
   }
-  public function test_agregarContenidos()
+
+  /**
+   * @depends test_listar_misMateriasProf
+   */
+  public function test_agregarContenidos(array $datos_profesor): array
   {
     //Init
     $contenido = "Esta materia trata sobre logica de programacion comenzaremos en breve viendo pseudo codigo";
-    
- 
+
+
     //Act  
-    $response = $this->objeto_ecam->agregarContenidos($_SESSION['id_seccion'],$this->id_materia,$contenido);
-    
+    $response = $this->objeto_ecam->agregarContenidos($datos_profesor['id_seccion'], $datos_profesor['id_materia'], $contenido);
+
+    if($response == true){
+      echo "si esta en verdadero";
+    }else{
+      echo "no esta en verdadero";
+    }
     //Asert
 
-    $this->assertTrue($response);
-  }
+    $this->assertEquals(true,$response);
 
- 
+    return $datos_profesor;
+  }
+  
+  /**
+   * @depends test_agregarContenidos
+   */
+  public function test_listarContenido(array $datos_profesor): array
+  {
+    //Init
+    //$contenido = "Esta materia trata sobre logica de programacion comenzaremos en breve viendo pseudo codigo";
+    $key_expected = "contenido";
+
+    //Act  
+    $array_contenido = $this->objeto_ecam->listarContenido($datos_profesor['id_seccion'], $datos_profesor['id_materia']);
+
+    print_r($array_contenido);
+    //Asert
+
+    $this->assertArrayHasKey($key_expected, $array_contenido[0]);
+
+    return $datos_profesor;
+  }
 }

@@ -1223,7 +1223,7 @@ class Ecam extends Conexion
     public function agregarContenidos($seccionContRef, $materiaContRef, $contenido)
     {
         try {
-           
+
 
             $sql = "UPDATE `secciones-materias-profesores` SET `contenido`= :contenido WHERE `secciones-materias-profesores`.`id_seccion` = :idSeccionProf 
         AND `secciones-materias-profesores`.`id_materia` = :idMateriaProf AND `secciones-materias-profesores`.`cedulaProf` = :cedulaProfesor";
@@ -1238,11 +1238,11 @@ class Ecam extends Conexion
 
             //CONSULTA PARA EL REGISTRO EN LA BITACORA Y DE NOTIFICACIONES
             $sql2 = "SELECT `secciones`.`nombre` AS `nombreSeccion`, `materias`.`nombre` AS `nombreMateria`, `materias`.`nivelAcademico` 
-        FROM `materias`, `secciones` WHERE `id_materia` = :id_materia AND `secciones`.`id_seccion` = :id_seccion";
+            FROM `materias`, `secciones` WHERE `id_materia` = :id_materia AND `secciones`.`id_seccion` = :id_seccion";
             $stmt2 = $this->conexion()->prepare($sql2);
             $stmt2->execute(array(
-                ":id_materia"=>$materiaContRef,
-                ":id_seccopm"=>$seccionContRef
+                ":id_materia" => $materiaContRef,
+                ":id_seccion" => $seccionContRef
             ));
             $datos = $stmt2->fetch(PDO::FETCH_ASSOC);
 
@@ -1257,7 +1257,7 @@ class Ecam extends Conexion
             return true;
         } catch (Exception $e) {
 
-            return false;
+            return $e;
         }
     }
 
@@ -1298,7 +1298,7 @@ class Ecam extends Conexion
     {
         $cedulaProfesor = $_SESSION['cedula']; //Aqui capta la cedula del profesor activo jeje
 
-        $sql= "UPDATE `secciones-materias-profesores` SET `contenido`= NULL WHERE `id_materia` = :materia AND `cedulaProf` = :cedula AND `id_seccion` = :seccion";
+        $sql = "UPDATE `secciones-materias-profesores` SET `contenido`= NULL WHERE `id_materia` = :materia AND `cedulaProf` = :cedula AND `id_seccion` = :seccion";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
             ":seccion" => $idSeccion,
