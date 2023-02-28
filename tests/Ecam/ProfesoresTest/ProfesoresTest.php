@@ -65,9 +65,13 @@ final class ProfesoresTest extends TestCase
 
     $array_profesores = $this->objeto_ecam->listarProfesores();
     
-    
-    $this->assertEquals($array_cedula[0],$array_profesores[0]['cedula']);
+    //guardando en un array las cedulas de todos los profesores para verificar que si exista la que se agrego
+    foreach($array_profesores as $profesor){
+      $cedulas_profesores[] = $profesor['cedula'];
+    }
 
+    //Assert
+    $this->assertContains($array_cedula[0],$cedulas_profesores);
   }
 
   
