@@ -27,8 +27,9 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     $datos_profesor['id_materia'] = $array_materias[0]["id_materia"];
     $datos_profesor['id_seccion'] = $array_materias[0]["id_seccion"];
     //Asert
-
-
+  
+    
+    
     $this->assertArrayHasKey($key, $array_materias[0]);
 
     return $datos_profesor;
@@ -112,7 +113,7 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     $nota = 16;
 
     //Act  
-    //print($array_estudiante);
+    print_r($array_estudiante);
     $this->objeto_ecam->setNotaMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
     $response = $this->objeto_ecam->agregarNotaMateria($nota);
     //Asert
@@ -132,7 +133,7 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
 
     $array_estudiante = $this->objeto_ecam->listarNota_miEstudiante($array_estudiante['id_materia'], $array_estudiante['id_seccion'], $array_estudiante['cedula']);
     //Asert
-    print_r($array_estudiante);
+    
 
     $this->assertArrayHasKey($key_expected, $array_estudiante[0]);
 

@@ -3,9 +3,9 @@
          colors="true"
          verbose="true"
          stopOnFailure="false">
-    <testsuites>
+    <testsuites>hj
         <testsuite name="Test suite">
-            <directory>tests/Usuarios</directory>
+            <directory>tests/Ecam/Ecam_aula_profesores</directory>
         </testsuite>
     </testsuites>
 </phpunit>
