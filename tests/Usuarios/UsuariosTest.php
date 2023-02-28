@@ -15,7 +15,7 @@ final class UsuariosTest extends TestCase
     $this->objeto_usuarios   = new Usuarios();
   }
   /** @test **/
-  public function test_registrar_usuario()
+  public function test_registrar_usuario(): array
   {
     //Init
     $_SESSION['cedula'] = "27666555";
@@ -23,7 +23,7 @@ final class UsuariosTest extends TestCase
     $nombre = "Mario";
     $apellido = "Cercano";
     $cedula = "27543321";
-    $edad =40;
+    $edad = 40;
     $sexo = "hombre";
     $civil = "soltero";
     $nacionalidad = "Venezolana";
@@ -35,41 +35,47 @@ final class UsuariosTest extends TestCase
     $expected = true;
     //Act  
     $this->objeto_usuarios->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
-    $response = $this->objeto_usuarios->registrar_usuarios();
+    $this->objeto_usuarios->registrar_usuarios();
 
+    $array_usuario = $this->objeto_usuarios->get_usuario($cedula);
     //Asert
-    $this->assertEquals($expected, $response);
+
+    $this->assertEquals($cedula, $array_usuario['cedula']);
+
+    return $array_usuario;
   }
 
-  /** @test **/
-  public function test_editar_usuario()
+  /**
+   * @depends test_registrar_usuario
+   */
+  public function test_editar_usuario(array $array_usuario)
   {
     //Init
     $nombre = "Mario";
     $apellido = "Cercano";
     $cedula = "27543321";
-    $edad =24;
+    $edad = 24;
     $sexo = "hombre";
     $civil = "casado";
     $nacionalidad = "Venezolana";
     $estado = "Yaracuy";
     $telefono = "04122654321";
-    $cedula_antigua ="27543321";
+    $cedula_antigua = "27543321";
     $rol = 1;
 
     $expected = true;
     //Act  
-    $this->objeto_usuarios->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol);    
+    $this->objeto_usuarios->setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol);
 
-    $response = $this->objeto_usuarios->update_usuarios();
-    
-    //Asert
-    $this->assertEquals($expected, $response);
-    
+    $this->objeto_usuarios->update_usuarios();
+    $this->objeto_usuarios->
+      //Asert 
+      $this->assertEquals($expected, $response);
   }
 
   /** **/
-  public function test_eliminar_usuario(){
+  public function test_eliminar_usuario()
+  {
     //Init
     $cedula = "27543321";
     $expected = true;
@@ -78,6 +84,6 @@ final class UsuariosTest extends TestCase
     $response = $this->objeto_usuarios->delete_usuarios();
     //Asert
 
-    $this->assertEquals($expected,$response);
+    $this->assertEquals($expected, $response);
   }
 }

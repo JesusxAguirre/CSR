@@ -618,7 +618,7 @@ class Usuarios extends Conexion
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                                ":cedula" => $this->cedula
+                ":cedula" => $this->cedula
             ));
             return true;
         } catch (Exception $e) {
@@ -630,6 +630,30 @@ class Usuarios extends Conexion
             return false;
         }
     }
+
+    public function get_usuario($cedula)
+    {
+        
+        try {
+            $sql = ("SELECT * FROM usuarios WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":cedula" => $cedula));
+
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            return $resultado;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
+    }
+
 
 
 
@@ -698,7 +722,8 @@ class Usuarios extends Conexion
         $this->clave = $clave;
     }
 
-    public function setEliminar($cedula){
+    public function setEliminar($cedula)
+    {
         $this->cedula = $cedula;
     }
 }

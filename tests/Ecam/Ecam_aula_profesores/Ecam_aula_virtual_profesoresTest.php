@@ -120,24 +120,44 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
 
     return $array_estudiante;
   }
+  /**
+   * @depends test_agregarNotaMateria
+   */
+  public function test_listarNota_miEstudiante(array $array_estudiante): array
+  {
+    //Init
+
+    $key_expected = "nota";
+    //Act  
+
+    $array_estudiante = $this->objeto_ecam->listarNota_miEstudiante($array_estudiante['id_materia'], $array_estudiante['id_seccion'], $array_estudiante['cedula']);
+    //Asert
+    print_r($array_estudiante);
+
+    $this->assertArrayHasKey($key_expected, $array_estudiante[0]);
+
+    return $array_estudiante;
+  }
 
   /**
    * @depends test_agregarNotaMateria
    */
-  public function test_actualizarNotaMateria(array $array_estudiante) : array
+  public function test_actualizarNotaMateria(array $array_estudiante): array
   {
     //Init
     $nota = 14;
 
     //Act  
-  
+
     $this->objeto_ecam->setActualizarMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
-    
-  
-    $response = $this->objeto_ecam->actualizarNotaMateria($nota);
+
+
+    $this->objeto_ecam->actualizarNotaMateria($nota);
+
+    $response = $this->objeto_ecam->listarNota_miEstudiante($array_estudiante['id_materia'], $array_estudiante['id_seccion'], $array_estudiante['cedula']);
     //Asert
-    
-    $this->assertTrue($response);
+
+    $this->assertEquals($nota, $response[0]['nota']);
 
     return $array_estudiante;
   }
@@ -150,7 +170,7 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     //Init
 
     //Act
-    $response = $this->objeto_ecam->eliminarNotaMateria($array_estudiante['cedula'],$array_estudiante['id_materia'],$array_estudiante['id_seccion']);
+    $response = $this->objeto_ecam->eliminarNotaMateria($array_estudiante['cedula'], $array_estudiante['id_materia'], $array_estudiante['id_seccion']);
 
     //Asert
     $this->assertTrue($response);
