@@ -37,7 +37,7 @@ final class UsuariosTest extends TestCase
     $this->objeto_usuarios->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
     $this->objeto_usuarios->registrar_usuarios();
 
-    $array_usuario = $this->objeto_usuarios->get_usuario($cedula);
+    $array_usuario = $this->objeto_usuarios->get_usuario_sin_rol($cedula);
     //Asert
 
     $this->assertEquals($cedula, $array_usuario['cedula']);
@@ -58,22 +58,23 @@ final class UsuariosTest extends TestCase
     $sexo = "Mujer";
     $civil = "soltera";
     $nacionalidad = "Venezolana";
-    $estado = "Distrito Capital";
+    $estado = "Distrito capital";
     $telefono = "04122654321";
- 
+    
     $rol = 1;
 
-    $expected = true;
+    $expected = ["nombre"=>$nombre,"apellido"=>$apellido,"cedula"=>$cedula,"edad"=>"24","sexo"=>$sexo,"estado_civil"=>$civil,"nacionalidad"=>$nacionalidad,
+    "estado"=>$estado,"telefono"=>$telefono,"id_rol"=>"1"];
     //Act  
     $this->objeto_usuarios->setUpdate($nombre, $apellido, $cedula, $array_usuario['cedula'], $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol);
 
     $this->objeto_usuarios->update_usuarios();
-    $array_usuario =$this->objeto_usuarios->get_usuario($cedula);
+    $array_usuario =$this->objeto_usuarios->get_usuario_sin_rol($cedula);
+
+    print_r($array_usuario);
       //Asert 
-    $this->assertEqualsCanonicalizing(
-      [$nombre,$apellido,$cedula,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol],
-      [$array_usuario['nombre'],$array_usuario['apellido'],$array_usuario['cedula'],$array_usuario['edad'],$array_usuario['estado_civl'],$array_usuario['nacionalidad'],$array_usuario['estado'],$array_usuario['telefono'],$array_usuario['id_rol']]
-    );
+    
+    $this->assertEquals($expected,$array_usuario);
 
     return $array_usuario;
   }

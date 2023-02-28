@@ -631,9 +631,9 @@ class Usuarios extends Conexion
         }
     }
 
-    public function get_usuario($cedula)
+    public function get_usuario_con_rol($cedula)
     {
-        
+
         try {
             $sql = ("SELECT * FROM usuarios WHERE cedula = :cedula");
 
@@ -642,7 +642,30 @@ class Usuarios extends Conexion
             $stmt->execute(array(":cedula" => $cedula));
 
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
+            return $resultado;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
+    }
+    public function get_usuario_sin_rol($cedula)
+    {
+
+        try {
+            $sql = ("SELECT nombre,apellido,cedula,edad,sexo,estado_civil,nacionalidad,estado,telefono,id_rol 
+            FROM usuarios WHERE cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":cedula" => $cedula));
+
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
             return $resultado;
         } catch (Exception $e) {
 
