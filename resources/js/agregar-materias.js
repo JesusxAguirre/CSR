@@ -40,19 +40,33 @@ $("#agregarMateria").on("click", function (e) {
   
     if (campos[0] && campos[1]) {
       $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
-        Swal.fire({
-          icon: 'success',
-          title: "¡Agregado exitosamente!",
-          toast: true,
-          background: 'green',
-          color: 'white',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        $("#formularioMateria").trigger("reset");
-        document.getElementById('nombreMateria').classList.remove('validarBien');
-        document.getElementById('seleccionarNivel').classList.remove('validarBien');
-
+        var resp = JSON.parse(response);
+        if (resp != 'true') {
+          Swal.fire({
+            icon: 'success',
+            title: "¡Agregado exitosamente!",
+            toast: true,
+            background: 'green',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          $("#formularioMateria").trigger("reset");
+          document.getElementById('nombreMateria').classList.remove('validarBien');
+          document.getElementById('seleccionarNivel').classList.remove('validarBien');
+        }else{
+          Swal.fire({
+            iconColor: 'white',
+            icon: 'error',
+            title: "¡Esta materia ya existe!",
+            toast: true,
+            background: 'red',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+        
       });
       
     } else {
@@ -81,10 +95,10 @@ $("#agregarMateria").on("click", function (e) {
 /////////////////////////////////////////////
 
 const expresionesMaterias = {
-    nombreMateria:  /^[A-Za-z]{5,30}[\s]{0,1}[0-9]{0,1}$/,//letras espacio y numero
+    nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,50}$/, // Letras y espacios, pueden llevar acentos.
   }
   
-  var campos = { 
+  var campos = {
     nombreMateria: false,
     nivelMateria: false,
   }
@@ -95,8 +109,8 @@ const expresionesMaterias = {
   
   var validarNombreMateria = (evento) => {
   
-     switch (evento.target.name) {
-     case 'nombreMateria':
+    switch (evento.target.name) {
+      case 'nombreMateria':
         if (expresionesMaterias.nombreMateria.test(evento.target.value)) {
           document.getElementById('nombreMateria').classList.remove('validarMal');
           document.getElementById('nombreMateria').classList.add('validarBien');
@@ -108,9 +122,9 @@ const expresionesMaterias = {
           document.getElementById("nomMateriaMal").removeAttribute("hidden");
           campos[0] = false;
         }
-        break; 
+        break;
   
-    } 
+    }
   }
   
   inputsFC.forEach((evento) => {

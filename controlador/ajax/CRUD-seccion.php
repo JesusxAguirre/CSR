@@ -1,8 +1,7 @@
 <?php
 session_start();
-require_once("../../vendor/autoload.php");
-use Csr\Modelo\Ecam;
-$objeto = new Ecam();
+require_once('../../modelo/clase_ecam.php');
+$objeto = new ecam();
 
 if (isset($_POST['crear'])) {
     $nombreSeccion= $_POST['nombreSeccion'];

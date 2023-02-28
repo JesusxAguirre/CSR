@@ -1,16 +1,25 @@
 <?php
 session_start();
-require_once("../../vendor/autoload.php");
-use Csr\Modelo\Ecam;
-$objeto = new Ecam();
+require_once('../../modelo/clase_ecam.php');
+$objeto = new ecam();
 
 //AGREGANDO MATERIAS
 if (isset($_POST['agregarMateria'])) {
     $nombreMateria= $_POST['nombreMateria'];
     $nivelSeleccionado= $_POST['seleccionarNivel'];
-    $cedulaProfesor= $_POST['cedulaProfesor'];
-    $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado, $cedulaProfesor);
-    $objeto->agregarMaterias();
+    $cedulaProfesor;
+
+    $validacion = $objeto->validar_materia($nombreMateria, $nivelSeleccionado);
+
+    if ($validacion > 0) {
+       echo json_encode('true');
+    }else{
+        $cedulaProfesor= $_POST['cedulaProfesor'];
+        $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado, $cedulaProfesor);
+        $objeto->agregarMaterias();
+        echo json_encode('false');
+    }
+    
 }
 
 //AGREGANDO PROFESORES A LA ECAM
@@ -23,8 +32,7 @@ if (isset($_POST['agregarProfesores'])) {
 if (isset($_POST['botonEliminar'])) {
     $idMateria= $_POST['idMateria'];
 
-    $response =$objeto->eliminarMateria($idMateria);
-    echo $response;
+    $objeto->eliminarMateria($idMateria);
 }
 
 //ACTUALIZANDO MATERIAS
@@ -50,8 +58,7 @@ if (isset($_POST['eliminarProfMat'])) {
 if (isset($_POST['eliminar_profesor'])) {
     $cedulaProf= $_POST['cedulaProf'];
 
-    $response =$objeto->eliminar_profesor($cedulaProf);
-    echo $response;
+    $objeto->eliminar_profesor($cedulaProf);
 }
 
 //AGREGANDO(VINCULANDO) PROFESOR A LA MATERIA
