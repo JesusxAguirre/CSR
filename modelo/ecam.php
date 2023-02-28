@@ -1,7 +1,11 @@
 <?php
-require_once('clase_conexion.php');
+namespace Csr\Modelo;
 
-class ecam extends Conectar
+use Csr\Modelo\Conexion;
+use PDO;
+use Exception;
+
+class ecam extends Conexion
 {
     private $conexion;
     private $idMateria;
