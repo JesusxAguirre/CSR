@@ -7,9 +7,19 @@ $objeto = new ecam();
 if (isset($_POST['agregarMateria'])) {
     $nombreMateria= $_POST['nombreMateria'];
     $nivelSeleccionado= $_POST['seleccionarNivel'];
-    $cedulaProfesor= $_POST['cedulaProfesor'];
-    $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado, $cedulaProfesor);
-    $objeto->agregarMaterias();
+    $cedulaProfesor;
+
+    $validacion = $objeto->validar_materia($nombreMateria, $nivelSeleccionado);
+
+    if ($validacion > 0) {
+       echo json_encode('true');
+    }else{
+        $cedulaProfesor= $_POST['cedulaProfesor'];
+        $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado, $cedulaProfesor);
+        $objeto->agregarMaterias();
+        echo json_encode('false');
+    }
+    
 }
 
 //AGREGANDO PROFESORES A LA ECAM
