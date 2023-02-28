@@ -114,11 +114,38 @@
                     <p class="lead">Ganar,Crecer,Evangelizar!</p>
                 </div>
             </div>
-
         </div>
     </section>
+    <footer class="footer text-center bg-secondary text-white mb-0">
+        <div class="container">
+            <!-- About Section Heading-->
+            <h2 class="page-section-heading text-center text-uppercase ">Desarrolladores</h2>
+            <!-- Icon Divider-->
+            <div class="divider-custom divider-light">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+            <!-- About Section Content-->
+            <div class="row">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center">
+                    <h4 class="text-uppercase mb-4">Jesus Aguirre </h4>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/jesus-david-aguirre-bastidas-12b349242"><i class="bi bi-linkedin"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/JesusxAguirre"><i class="bi bi-github"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="//wa.me/584122689578"><i class="bi bi-whatsapp"></i></a>
+                </div>
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center">
+                <h4 class="text-uppercase mb-4">Jesus Canelon </h4>
+                <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="bi bi-linkedin"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/JesusCAN3LON"><i class="bi bi-github"></i></a>
+                    <a class="btn btn-outline-light btn-social mx-1" href="//wa.me/584143545920"><i class="bi bi-whatsapp"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
     <!-- Footer-->
-    <footer class="footer text-center">
+    <footer style="background-color: wheat;" class="footer text-center text-black">
         <div class="container">
             <div class="row">
                 <!-- Footer Location-->
@@ -133,26 +160,24 @@
                 <!-- Footer Social Icons-->
                 <div class="col-lg-4 mb-5 mb-lg-0">
                     <h4 class="text-uppercase mb-4">Nuestras redes</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="bi bi-facebook"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="bi bi-whatsapp"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="https://www.instagram.com/apostol_miguel_angel_gomez/?next=%2F"><i class="bi bi-instagram"></i></a>
+                    <a class="btn btn-outline-dark btn-social mx-1" href="#!"><i class="bi bi-facebook"></i></a>
+                    <a class="btn btn-outline-dark btn-social mx-1" href="#!"><i class="bi bi-whatsapp"></i></a>
+                    <a class="btn btn-outline-dark btn-social mx-1" href="https://www.instagram.com/apostol_miguel_angel_gomez/?next=%2F"><i class="bi bi-instagram"></i></a>
 
                 </div>
                 <!-- Footer About Text-->
                 <div class="col-lg-4">
-                    <h4 class="text-uppercase mb-4">Desarroladores</h4>
+                    <h4 class="text-uppercase mb-4">Agradecimientos</h4>
                     <p class="lead mb-0">
                         Sistema Desarrolado en la Universidad Politecnica Andres Eloy Blanco
                         @Derechos-Reservados 2022
                     </p>
                 </div>
+                
             </div>
         </div>
     </footer>
-    <!-- Copyright Section-->
-    <div class="copyright py-4 text-center text-white">
-        <div class="container"><small>Copyright &copy; Your Website 2022</small></div>
-    </div>
+   
     <!-- Portfolio Modals-->
     <!-- Portfolio Modal 1-->
     <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" aria-labelledby="portfolioModal1" aria-hidden="true">
@@ -229,7 +254,7 @@
                         <div class="row justify-content-center">
                             <div class="col-lg-8">
                                 <!-- Portfolio Modal - Title-->
-                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Circus Tent</h2>
+                                <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0">Prueba</h2>
                                 <!-- Icon Divider-->
                                 <div class="divider-custom">
                                     <div class="divider-custom-line"></div>
@@ -239,10 +264,10 @@
                                 <!-- Portfolio Modal - Image-->
                                 <img class="img-fluid rounded mb-5" src="assets/img/portfolio/circus.png" alt="..." />
                                 <!-- Portfolio Modal - Text-->
-                                <p class="mb-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.</p>
+                                <p class="mb-4">.</p>
                                 <button class="btn btn-primary" data-bs-dismiss="modal">
                                     <i class="fas fa-xmark fa-fw"></i>
-                                    Close Window
+                                   Cerrar ventana
                                 </button>
                             </div>
                         </div>
@@ -256,7 +281,7 @@
 
         <div class="row">
             <div class="col-2">
-                <i class="bi bi-person-circle fs-1"></i>
+                <i class="bi bi-person-circle fs-3"></i>
             </div>
             <div class="col my-auto fs-5 fw-bold">
                 <span>INICIAR SESION</span>

@@ -530,6 +530,10 @@ class Usuarios extends Conectar
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
+    
+    public function bitacora($cedula,$accion,$id_modulo){
+        parent::registrar_bitacora($cedula,$accion,$id_modulo);
+    }
 
     //RECUPERAR CONTRASEÑA
     public function recuperar_password()
@@ -615,4 +619,7 @@ class Usuarios extends Conectar
         $this->correo = $correo;
         $this->clave = $clave;
     }
+
+
+
 }

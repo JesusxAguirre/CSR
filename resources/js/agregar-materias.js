@@ -40,18 +40,33 @@ $("#agregarMateria").on("click", function (e) {
   
     if (campos[0] && campos[1]) {
       $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
-        Swal.fire({
-          icon: 'success',
-          title: "¡Agregado exitosamente!",
-          toast: true,
-          background: 'green',
-          color: 'white',
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        $("#formularioMateria").trigger("reset");
-        document.getElementById('nombreMateria').classList.remove('validarBien');
-        document.getElementById('seleccionarNivel').classList.remove('validarBien');
+        var resp = JSON.parse(response);
+        if (resp != 'true') {
+          Swal.fire({
+            icon: 'success',
+            title: "¡Agregado exitosamente!",
+            toast: true,
+            background: 'green',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+          $("#formularioMateria").trigger("reset");
+          document.getElementById('nombreMateria').classList.remove('validarBien');
+          document.getElementById('seleccionarNivel').classList.remove('validarBien');
+        }else{
+          Swal.fire({
+            iconColor: 'white',
+            icon: 'error',
+            title: "¡Esta materia ya existe!",
+            toast: true,
+            background: 'red',
+            color: 'white',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
+        
       });
       
     } else {

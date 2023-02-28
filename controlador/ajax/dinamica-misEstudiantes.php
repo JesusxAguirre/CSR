@@ -69,9 +69,8 @@ if (isset($_POST['listarMisEstudiantes'])) {
                 <td class="notaNombreMateria"><?php echo $misEst['nombreMateria'] . ' (Nivel ' . $misEst['nivelAcademico'].')'; ?></td>
                 <td><?php echo $misEst['nombreSeccion']; ?></td>
                 <td>
-                    <?php if ($misEst['nota'] == NULL) { ?>
-                        <button class="agregarNota btn btn-primary"><i class="bi bi-plus-circle"></i></button>
-                        <button class="btn btn-outline-secondary" disabled>SIN NOTA</button>
+                    <?php if ($misEst['nota'] == '') { ?>
+                        <button class="agregarNota btn btn-secondary">AGREGAR NOTA</button>
                     <?php } else { ?>
                         <button class="verNotaAgregada btn btn-primary">VER NOTA <i class="bi bi-calculator-fill"></i></button>
                         <button class="eliminarNota btn btn-danger"><i class="bi bi-file-earmark-minus-fill"></i></button>
