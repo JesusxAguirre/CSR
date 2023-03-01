@@ -497,23 +497,25 @@ class ecam extends Conexion
             $sql = "UPDATE `usuarios` SET `status_profesor` = '0' WHERE `usuarios`.`cedula` = :cedulaProfesor";
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
-                ":cedulaProfesor" => $cedulaProfesor
+                ":cedulaProfesor" => $cedulaProfesor,
             ));
 
             $sql2 = "DELETE FROM `profesores-materias` WHERE `cedula_profesor` = :cedulaProfesor";
             $stmt2 = $this->conexion()->prepare($sql2);
-            $stmt2->execute(array(":cedulaProfesor"=>$cedulaProfesor));
+            $stmt2->execute(array(
+                ":cedulaProfesor" => $cedulaProfesor,
+            ));
 
-            $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` :cedulaProfesor";
+            $sql3 = "DELETE FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedulaProfesor";
             $stmt3 = $this->conexion()->prepare($sql3);
             $stmt3->execute(array(
-                ":cedulaProfesor" => $cedulaProfesor
+                ":cedulaProfesor" => $cedulaProfesor,
             ));
 
             $sql4 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = :cedulaProfesor";
             $stmt4 = $this->conexion->prepare($sql4);
             $stmt4->execute(array(
-                ":cedulaProfesor" => $cedulaProfesor
+                ":cedulaProfesor" => $cedulaProfesor,
             ));
             $filas = $stmt4->fetch(PDO::FETCH_ASSOC);
 
