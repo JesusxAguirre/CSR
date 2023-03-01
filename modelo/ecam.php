@@ -609,8 +609,8 @@ class ecam extends Conexion
     {
         try{
             $sql = "DELETE FROM `profesores-materias` 
-        WHERE `profesores-materias`.`cedula_profesor` = :cedulaProf 
-        AND `profesores-materias`.`id_materia` = :idMateria";
+            WHERE `profesores-materias`.`cedula_profesor` = :cedulaProf 
+            AND `profesores-materias`.`id_materia` = :idMateria";
 
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(
@@ -638,7 +638,7 @@ class ecam extends Conexion
                     ":idMateria" => $idMateriaDV,
                 )
             );
-            $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
+            $infoMateria = $stmt3->fetch(PDO::FETCH_ASSOC);
 
             //Obteniendo informacion del profesor
             $sql4 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = :cedula";
@@ -648,7 +648,7 @@ class ecam extends Conexion
                     ":cedula" => $cedulaProfDV,
                 )
             );
-            $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
+            $infoProfesor = $stmt4->fetch(PDO::FETCH_ASSOC);
 
             $cedula = $_SESSION['cedula'];
             $accion = "Ha desvinculado al profesor " . $infoProfesor['codigo'] . " " . $infoProfesor['nombre'] . " " . $infoProfesor['apellido'] . " de la materia " . $infoMateria['nombre'] . " Nivel " . $infoMateria['nivelAcademico'];
@@ -656,7 +656,7 @@ class ecam extends Conexion
 
             $mensaje = 'Te han desvinculado de la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'];
             $this->registrar_notificacionProfesor($mensaje, $cedulaProfDV);
-            
+
             return true;
         }
         catch (Exception $e) {
