@@ -73,17 +73,29 @@ final class ProfesoresTest extends TestCase
     //Assert
     $this->assertContains($array_cedula[0],$cedulas_profesores);
 
-    return $array_cedula;
+    return intval($array_cedula[0]);
   }
 
-  public function test_eliminar_profesor(array $array_cedula){
+  /**
+     * @depends test_agregar_profesores
+  */
+  public function test_eliminar_profesor(int $cedula_profesor){
     //Init
 
-    
+    echo $cedula_profesor;
     //Act
+    $response = $this->objeto_ecam->eliminar_profesor($cedula_profesor);
+
+    $array_profesores = $this->objeto_ecam->listarProfesores();
     
+    //guardando en un array las cedulas de todos los profesores para verificar que no exista
+    foreach($array_profesores as $profesor){
+      $cedulas_profesores[] = $profesor['cedula'];
+    }
 
     //Asert
+    $this->assertTrue($response);
+    $this->assertNotContains($cedula_profesor,$cedulas_profesores);
   }
   
 }
