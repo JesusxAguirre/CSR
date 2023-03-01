@@ -154,9 +154,9 @@ final class MateriasTest extends TestCase
   /**
    * @depends test_actualizarMateria 
    * **/
-public function test_eliminarMateria(int $id_materia){
+public function test_eliminarMateria(string $id_materia){
   //Init
-  $id_materia2 = intval($id_materia);
+  
   //Act
   $this->objeto_ecam->eliminarMateria($id_materia);
 

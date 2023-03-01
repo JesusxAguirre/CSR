@@ -198,6 +198,7 @@ $(document).on('click', '#eliminarMateria', function () {
     if (result.isConfirmed) {
       $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response) {
         listarMaterias();
+        console.log(response);
         Swal.fire({
           icon: 'success',
           iconColor: 'white',

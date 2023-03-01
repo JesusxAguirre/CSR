@@ -755,7 +755,7 @@ class ecam extends Conexion
             ));
             $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
+            $sql = "DELETE FROM materias WHERE id_materia = :id_materia";
 
             $stmt = $this->conexion()->prepare($sql);
 
