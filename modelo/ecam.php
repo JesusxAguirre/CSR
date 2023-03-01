@@ -129,7 +129,7 @@ class ecam extends Conexion
         $stmt->execute(
             array(
                 ":cedulaProfesor" => $cedulaProf,
-                ":mensaje" => $cedulaProf,
+                ":mensaje" => $mensaje,
             )
         );
     }
