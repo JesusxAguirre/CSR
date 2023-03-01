@@ -70,11 +70,13 @@ final class MateriasTest extends TestCase
 
 
     //Act
-
+    //desvinculando profesor de materia aleatorio
     $this->objeto_ecam->desvincularProfesor($profesores_cedula[0], $id_materia);
-
+    
+    //buscando profesores que imparten la materia por ids
     $array_profesores_materia = $this->objeto_ecam->listarProfesoresMateria($id_materia);
 
+    //guardando las cedulas de esos profesores en otrro array para comprobar que el profesor que se elimino no exista en el array
     foreach ($array_profesores_materia as $profesor) {
       $cedulas_profesores_materias[] = $profesor['cedula_profesor'];
     }
@@ -99,12 +101,36 @@ final class MateriasTest extends TestCase
 
     $this->objeto_ecam->vincularProfesor($cedulas_a_vincular, $profesor_a_vincular['id_materia']);
 
+    //obteniendo profesores que dan la materia
     $array_profesores_materia = $this->objeto_ecam->listarProfesoresMateria($profesor_a_vincular['id_materia']);
 
+    //guardando solamente las cedulas en otro array para comprobar que exista la cedula del profesor
     foreach ($array_profesores_materia as $profesor) {
       $cedulas_profesores_materias[] = $profesor['cedula_profesor'];
     }
     
     $this->assertContains($profesor_a_vincular['cedula'], $cedulas_profesores_materias);
+  }
+
+  /**
+   * @depends test_agregarMaterias 
+   * **/
+  public function test_actualizarMateria(array $array_materias){
+    //Init
+    $nombre_materia_antiguo ="Programacion 1";
+    $nombre_materia = "Programacion 2";
+    $nivel = "2";
+
+    foreach ($array_materias as $materia) {
+      if ($nombre_materia_antiguo == $materia['nombre']) {
+        $id_materia = $materia['id_materia'];
+      }
+    }
+    
+    //Asert
+    $response = $this->objeto_ecam->validar_materia($nombre_materia, $nivel);
+    $this->assertEquals(0, $response, $message = "Esta materia ya existe en la base de datos por favor cambie el dato a ingresar");
+
+    
   }
 }
