@@ -72,7 +72,18 @@ final class ProfesoresTest extends TestCase
 
     //Assert
     $this->assertContains($array_cedula[0],$cedulas_profesores);
+
+    return $array_cedula;
   }
 
+  public function test_eliminar_profesor(array $array_cedula){
+    //Init
+
+    
+    //Act
+    
+
+    //Asert
+  }
   
 }
