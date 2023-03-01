@@ -33,6 +33,7 @@ final class ProfesoresTest extends TestCase
     
   }
 
+  /** @test **/
   public function test_listarProfesores(): array
   {
     //Init
