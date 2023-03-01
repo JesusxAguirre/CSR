@@ -199,14 +199,13 @@ class ecam extends Conexion
             $cantidad = $stmt->rowCount();
 
             return $cantidad;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
+        }
     }
 
     //CANTIDAD DE ESTUDIANTES EN LA ECAM
@@ -219,15 +218,13 @@ class ecam extends Conexion
             $cantidad = $stmt->rowCount();
 
             return $cantidad;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
 
@@ -295,15 +292,13 @@ class ecam extends Conexion
                 $notas[] = $filas;
             }
             return $notas;
-
         } catch (Exception $e) {
-             echo $e->getMessage();
+            echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
         }
-        
     }
 
 
@@ -434,59 +429,76 @@ class ecam extends Conexion
     //AGREGAR MATERIAS
     public function agregarMaterias()
     {
-        $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
+        try {
+            $sql = "INSERT INTO materias (nombre, nivelAcademico, fecha_creacion) VALUES (:nom, :nivelD, CURDATE())";
 
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(
-            array(
-                ":nom" => $this->nombre,
-                ":nivelD" => $this->nivel
-            )
-        );
-
-        /*Buscando ultimo ID de la materia agregada para guardar ese valor, luego ese valor es
-        introducido en la consulta de aqui abajo para que sea dinamico*/
-        foreach ($this->cedulaProfesor as $cedulaP) {
-            $sql2 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaP, (SELECT MAX(id_materia) FROM `materias`))";
-            $stmt2 = $this->conexion->prepare($sql2);
-            $stmt2->execute(
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->execute(
                 array(
-                    ":cedulaP" => $cedulaP,
+                    ":nom" => $this->nombre,
+                    ":nivelD" => $this->nivel
                 )
             );
-        } //Fin del  Foreach
-        //Profesores vinculados con la materia
 
-        $cedula = $_SESSION['cedula'];
-        $accion = "Ha agregado una materia nueva llamada " . $this->nombre;
-        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            /*Buscando ultimo ID de la materia agregada para guardar ese valor, luego ese valor es
+        introducido en la consulta de aqui abajo para que sea dinamico*/
+            foreach ($this->cedulaProfesor as $cedulaP) {
+                $sql2 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaP, (SELECT MAX(id_materia) FROM `materias`))";
+                $stmt2 = $this->conexion->prepare($sql2);
+                $stmt2->execute(
+                    array(
+                        ":cedulaP" => $cedulaP,
+                    )
+                );
+            } //Fin del  Foreach
+            //Profesores vinculados con la materia
+
+            $cedula = $_SESSION['cedula'];
+            $accion = "Ha agregado una materia nueva llamada " . $this->nombre;
+            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+        }
     }
 
     //AGREGAR PROFESORES A LA ECAM (ACTIVAR STATUS PROFESOR)
     public function agregar_profesores($cedulasProfesores)
     {
-        //Agregando status_profesor = 1 a los profesores que se vayan asignando
-        foreach ($cedulasProfesores as $cedulaProf) {
-            $sql = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->execute(
-                array(
-                    ":cedulaProf" => $cedulaProf,
-                )
-            );
-        } //Fin del Foreach
-        //Profesores con status 1 activados
+        try {
+            //Agregando status_profesor = 1 a los profesores que se vayan asignando
+            foreach ($cedulasProfesores as $cedulaProf) {
+                $sql = "UPDATE `usuarios` SET `status_profesor` = 1 WHERE `usuarios`.`cedula` = :cedulaProf";
+                $stmt = $this->conexion->prepare($sql);
+                $stmt->execute(
+                    array(
+                        ":cedulaProf" => $cedulaProf,
+                    )
+                );
+            } //Fin del Foreach
+            //Profesores con status 1 activados
 
-        //$profesoresAgregados = [];
-        foreach ($cedulasProfesores as $cedulaProfA) {
-            $sql2 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfA";
-            $stmt2 = $this->conexion->prepare($sql2);
-            $stmt2->execute(array());
-            $filas = $stmt2->fetch(PDO::FETCH_ASSOC);
+            //$profesoresAgregados = [];
+            foreach ($cedulasProfesores as $cedulaProfA) {
+                $sql2 = "SELECT * FROM `usuarios` WHERE `usuarios`.`cedula` = $cedulaProfA";
+                $stmt2 = $this->conexion->prepare($sql2);
+                $stmt2->execute(array());
+                $filas = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-            $cedula = $_SESSION['cedula'];
-            $accion = "Ha agregado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
-            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+                $cedula = $_SESSION['cedula'];
+                $accion = "Ha agregado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
+                parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            }
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
     }
 
@@ -539,48 +551,57 @@ class ecam extends Conexion
     //ACTUALIZAR Y VINCULAR PROFESOR CON LA MATERIA
     public function vincularProfesor($cedulaProfesorV, $idMateriaV)
     {
-        //Obteniendo informacion de la materia
-        $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = $idMateriaV";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array());
-        $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            //Obteniendo informacion de la materia
+            $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = $idMateriaV";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->execute(array());
+            $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        foreach ($cedulaProfesorV as $cedulaPV) {
-            $sql3 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaProf, :idMateria)";
-            $stmt3 = $this->conexion->prepare($sql3);
-            $stmt3->execute(
-                array(
-                    ":cedulaProf" => $cedulaPV,
-                    ":idMateria" => $idMateriaV,
-                )
-            );
+            foreach ($cedulaProfesorV as $cedulaPV) {
+                $sql3 = "INSERT INTO `profesores-materias` (`cedula_profesor`, `id_materia`) VALUES (:cedulaProf, :idMateria)";
+                $stmt3 = $this->conexion->prepare($sql3);
+                $stmt3->execute(
+                    array(
+                        ":cedulaProf" => $cedulaPV,
+                        ":idMateria" => $idMateriaV,
+                    )
+                );
 
-            $sql4 = "UPDATE `usuarios` SET `status_profesor` = '1' WHERE `usuarios`.`cedula` = :cedulaProfesor";
-            $stmt4 = $this->conexion->prepare($sql4);
-            $stmt4->execute(
-                array(
-                    ":cedulaProfesor" => $cedulaPV,
-                )
-            );
-        } //Fin del  Foreach
-        //Profesores vinculados con la materia
-        //Usuarios con status profesor activado
+                $sql4 = "UPDATE `usuarios` SET `status_profesor` = '1' WHERE `usuarios`.`cedula` = :cedulaProfesor";
+                $stmt4 = $this->conexion->prepare($sql4);
+                $stmt4->execute(
+                    array(
+                        ":cedulaProfesor" => $cedulaPV,
+                    )
+                );
+            } //Fin del  Foreach
+            //Profesores vinculados con la materia
+            //Usuarios con status profesor activado
 
 
-        //Obteniendo informacion del profesor
-        foreach ($cedulaProfesorV as $cedula) {
-            $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = $cedula";
-            $stmt2 = $this->conexion->prepare($sql2);
-            $stmt2->execute(array());
-            $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
+            //Obteniendo informacion del profesor
+            foreach ($cedulaProfesorV as $cedula) {
+                $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = $cedula";
+                $stmt2 = $this->conexion->prepare($sql2);
+                $stmt2->execute(array());
+                $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
 
-            $cedula2 = $_SESSION['cedula'];
-            $accion = "Ha vinculado al profesor " . $infoProfesor['codigo'] . " " . $infoProfesor['nombre'] . " " . $infoProfesor['apellido'] . " a la materia " . $infoMateria['nombre'] . " Nivel " . $infoMateria['nivelAcademico'];
-            parent::registrar_bitacora($cedula2, $accion, $this->id_modulo);
+                $cedula2 = $_SESSION['cedula'];
+                $accion = "Ha vinculado al profesor " . $infoProfesor['codigo'] . " " . $infoProfesor['nombre'] . " " . $infoProfesor['apellido'] . " a la materia " . $infoMateria['nombre'] . " Nivel " . $infoMateria['nivelAcademico'];
+                parent::registrar_bitacora($cedula2, $accion, $this->id_modulo);
+            }
+
+            $mensaje = 'Te han vinculado con la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'];
+            $this->registrar_notificacionProfesor($mensaje, $cedulaProfesorV);
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-
-        $mensaje = 'Te han vinculado con la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'];
-        $this->registrar_notificacionProfesor($mensaje, $cedulaProfesorV);
     }
 
     //ELIMINAR PROFESORES DE LAS MATERIAS
@@ -1259,15 +1280,13 @@ class ecam extends Conexion
                 $this->listar_misMateriasProf[] = $filas;
             }
             return $this->listar_misMateriasProf;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //AGREGAR O SUBIR CONTENIDOS A LAS MATERIAS DEL PROFESOR ACTIVO
@@ -1308,15 +1327,13 @@ class ecam extends Conexion
             $this->registrar_notificacionSeccion($seccionContRef, $accion2, '');
 
             return true;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //LISTAR CONTENIDOS DE LAS MATERIAS PROFESORES
@@ -1348,15 +1365,13 @@ class ecam extends Conexion
             parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
 
             return $listarContenido;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //ELIMINAR INFORMACION DE LAS MATERIAS PROFESORES
@@ -1379,15 +1394,13 @@ class ecam extends Conexion
             parent::registrar_bitacora($cedulaProfesor, $accion, $this->id_modulo);
 
             return true;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
 
@@ -1419,15 +1432,13 @@ class ecam extends Conexion
             }
 
             return $this->listar_misEstudiantes;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //AGREGAR LAS NOTAS DE LAS MATERIAS A LOS ESTUDIANTES
@@ -1468,15 +1479,13 @@ class ecam extends Conexion
             $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
 
             return true;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //ACTUALIZAR LA NOTA DEL ESTUDIANTE SELECCIONADO DEL PROFESOR ACTIVO EN LA SESION
@@ -1517,15 +1526,13 @@ class ecam extends Conexion
             $this->registrar_notificacionSeccion($this->notaIDseccion, $accion2, $this->notaCIestudiante);
 
             return true;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //ELIMINAR LA NOTA DEL ESTUDIANTE SELECCIONADO POR EL PROFESOR ACTIVO EN LA SESION
@@ -1564,15 +1571,13 @@ class ecam extends Conexion
             $this->registrar_notificacionSeccion($idSeccionRef2, $accion2, $cedulaEstudianteRef2);
 
             return true;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //MOSTRAR LA NOTA DE LA MATERIA DEL ESTUDIANTE SELECCIONADO
@@ -1596,15 +1601,13 @@ class ecam extends Conexion
                 $nota_miEstudiante[] = $filas;
             }
             return $nota_miEstudiante;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     public function cantidad_materiasSecciones()
@@ -1626,15 +1629,13 @@ class ecam extends Conexion
                 $cantidad_materiasSecciones[] = $filas;
             }
             return $cantidad_materiasSecciones;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1669,14 +1670,13 @@ class ecam extends Conexion
                 $listar_misCompaneros[] = $filas;
             }
             return $listar_misCompaneros;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
+        }
     }
 
     //LISTAR PROFESORES DE MI SECCION
@@ -1698,15 +1698,13 @@ class ecam extends Conexion
                 $listar_misProfesores[] = $filas;
             }
             return $listar_misProfesores;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //LISTAR LAS MATERIAS QUE LE CORRESPONDE AL ESTUDIANTE ACTIVO DE LA ECAM
@@ -1730,15 +1728,13 @@ class ecam extends Conexion
                 $this->listar_misMateriasEst[] = $filas;
             }
             return $this->listar_misMateriasEst;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //DATOS DE LA SECCION DEL ESTUDIANTE ACTIVO
@@ -1761,15 +1757,13 @@ class ecam extends Conexion
             }
 
             return $misDatosSeccion;
-
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
     //LISTAR LAS NOTAS DEL ESTUDIANTE ACTIVO
@@ -1793,17 +1787,15 @@ class ecam extends Conexion
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $misNotas[] = $filas;
             }
-            
-            return $misNotas;
 
+            return $misNotas;
         } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
 
             return false;
-       }
-        
+        }
     }
 
 
