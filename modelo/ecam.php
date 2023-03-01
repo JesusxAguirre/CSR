@@ -777,7 +777,7 @@ class ecam extends Conexion
             array(
                 ":idMa" => $this->idMateria,
                 ":nom" => $this->nombre,
-                ":nivelA" => $this->nivel
+                ":nivelD" => $this->nivel
             )
         );
 

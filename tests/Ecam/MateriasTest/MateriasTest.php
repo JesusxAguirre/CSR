@@ -152,14 +152,23 @@ final class MateriasTest extends TestCase
 
   
   /**
-   * @depends test_agregarMaterias 
+   * @depends test_actualizarMateria 
    * **/
 public function test_eliminarMateria(int $id_materia){
   //Init
 
   //Act
+  $this->objeto_ecam->eliminarMateria($id_materia);
+
+  $array_materias = $this->objeto_ecam->listarMaterias();
 
 
+  //guardando en un array los id de las materias
+  foreach ($array_materias as $materia) {
+    $array_materias_comprobar[] = $materia['id_materia'];
+  }
   //Asert
+
+  $this->assertNotContains($id_materia,$array_materias_comprobar);
 }
 }
