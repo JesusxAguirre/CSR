@@ -587,27 +587,37 @@ class ecam extends Conexion
     public function desvincularProfesor($cedulaProfDV, $idMateriaDV)
     {
         $sql = "DELETE FROM `profesores-materias` 
-        WHERE `profesores-materias`.`cedula_profesor` = $cedulaProfDV 
-        AND `profesores-materias`.`id_materia` = $idMateriaDV";
+        WHERE `profesores-materias`.`cedula_profesor` = :cedulaProf 
+        AND `profesores-materias`.`id_materia` = :idMateria";
 
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(array(
+            ":cedulaProf" => $cedulaProfDV,
+            ":idMateria" => $idMateriaDV,
+        ));
 
         //DESVINCULANDO PROFESORES DE LAS SECCION A LA QUE FUE ASIGNADA SU MATERIA Y PRESENCIA
-        $sql2 = "DELETE FROM `secciones-materias-profesores` WHERE `id_materia` = $idMateriaDV AND `cedulaProf` = $cedulaProfDV";
+        $sql2 = "DELETE FROM `secciones-materias-profesores` WHERE `id_materia` = :idmateria AND `cedulaProf` = :cedulaprofesor";
         $stmt2 = $this->conexion()->prepare($sql2);
-        $stmt2->execute();
+        $stmt2->execute(array(
+            ":idmateria" => $idMateriaDV,
+            ":cedulaProfesor" => $cedulaProfDV,
+        ));
 
         //Obteniendo informacion de la materia
-        $sql3 = "SELECT * FROM materias WHERE materias.id_materia = $idMateriaDV";
+        $sql3 = "SELECT * FROM materias WHERE `materias`.`id_materia` = :idMateria";
         $stmt3 = $this->conexion->prepare($sql3);
-        $stmt3->execute(array());
+        $stmt3->execute(array(
+            ":idMateria" => $idMateriaDV,
+        ));
         $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //Obteniendo informacion del profesor
-        $sql4 = "SELECT * FROM usuarios WHERE usuarios.cedula = $cedulaProfDV";
+        $sql4 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = :cedula";
         $stmt4 = $this->conexion->prepare($sql4);
-        $stmt4->execute(array());
+        $stmt4->execute(array(
+            ":cedula" => $cedulaProfDV,
+        ));
         $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
 
         $cedula = $_SESSION['cedula'];
