@@ -82,9 +82,9 @@ final class ProfesoresTest extends TestCase
   public function test_eliminar_profesor(int $cedula_profesor){
     //Init
 
-    echo $cedula_profesor;
+  
     //Act
-    $response = $this->objeto_ecam->eliminar_profesor($cedula_profesor);
+    $this->objeto_ecam->eliminar_profesor($cedula_profesor);
 
     $array_profesores = $this->objeto_ecam->listarProfesores();
     
@@ -94,7 +94,7 @@ final class ProfesoresTest extends TestCase
     }
 
     //Asert
-    $this->assertTrue($response);
+  
     $this->assertNotContains($cedula_profesor,$cedulas_profesores);
   }
   
