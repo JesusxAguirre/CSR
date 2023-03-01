@@ -787,7 +787,17 @@ class ecam extends Conexion
     //////////////////////////////////////////////////APARTADO DE SECCIONES/////////////////////////////////////////////////
     public function validar_seccion($nombre, $nivel)
     {
-        # code...
+        $sql = "SELECT * FROM secciones WHERE nombre = :nombre AND nivel_academico = :nivel";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(
+            array(
+                ":nombre" => $nombre,
+                ":nivel" => $nivel,
+            )
+        );
+
+        $resultado = $stmt->rowCount();
+        return $resultado;
     }
     public function crearSeccion()
     {
