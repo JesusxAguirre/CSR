@@ -119,7 +119,7 @@ final class MateriasTest extends TestCase
     //Init
     $nombre_materia_antiguo ="Programacion 1";
     $nombre_materia = "Programacion 2";
-    $nivel = "2";
+    $nivel = 2;
 
     foreach ($array_materias as $materia) {
       if ($nombre_materia_antiguo == $materia['nombre']) {
@@ -131,6 +131,35 @@ final class MateriasTest extends TestCase
     $response = $this->objeto_ecam->validar_materia($nombre_materia, $nivel);
     $this->assertEquals(0, $response, $message = "Esta materia ya existe en la base de datos por favor cambie el dato a ingresar");
 
+    $this->objeto_ecam->setActualizar($id_materia,$nombre_materia,$nivel);
+
+    $this->objeto_ecam->actualizarMateria();
+
     
+    $array_materias = $this->objeto_ecam->listarMaterias();
+
+
+    //guardando en un array los nombres de las materias
+    foreach ($array_materias as $materia) {
+      $array_materias_comprobar[] = $materia['nombre'];
+    }
+    //Asert  
+
+    $this->assertcontains($nombre_materia, $array_materias_comprobar);
+  
+    return $id_materia;
   }
+
+  
+  /**
+   * @depends test_agregarMaterias 
+   * **/
+public function test_eliminarMateria(int $id_materia){
+  //Init
+
+  //Act
+
+
+  //Asert
+}
 }
