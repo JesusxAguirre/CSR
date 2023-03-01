@@ -71,16 +71,15 @@ final class MateriasTest extends TestCase
 
     //Act
 
-    $this->objeto_ecam->desvincularProfesor($profesores_cedula[0],$id_materia);
+    $this->objeto_ecam->desvincularProfesor($profesores_cedula[0], $id_materia);
 
     $array_profesores_materia = $this->objeto_ecam->listarProfesoresMateria($id_materia);
 
-
-    foreach($array_profesores_materia as $profesor){
-      $cedulas_profesores_materias = $profesor['cedula'];
+    foreach ($array_profesores_materia as $profesor) {
+      $cedulas_profesores_materias[] = $profesor['cedula_profesor'];
     }
-
-    $this->assertNotContains($profesores_cedula[0],$cedulas_profesores_materias);
+ 
+    $this->assertNotContains($profesores_cedula[0], $cedulas_profesores_materias);
 
     $profesor_a_vincular['cedula'] = $profesores_cedula[0];
     $profesor_a_vincular['id_materia'] = $id_materia;
@@ -94,20 +93,18 @@ final class MateriasTest extends TestCase
   public function test_vincularProfesor(array $profesor_a_vincular)
   {
     //Init
-    
+    $cedulas_a_vincular[] = $profesor_a_vincular['cedula'];
 
     //Asert
 
-    $this->objeto_ecam->vincularProfesor($profesor_a_vincular['cedula'],$profesor_a_vincular['id_materia']);
+    $this->objeto_ecam->vincularProfesor($cedulas_a_vincular, $profesor_a_vincular['id_materia']);
 
     $array_profesores_materia = $this->objeto_ecam->listarProfesoresMateria($profesor_a_vincular['id_materia']);
 
-    foreach($array_profesores_materia as $profesor){
-      $cedulas_profesores_materias = $profesor['cedula'];
+    foreach ($array_profesores_materia as $profesor) {
+      $cedulas_profesores_materias[] = $profesor['cedula_profesor'];
     }
     
-    $this->assertContains($profesor_a_vincular['cedula'],$cedulas_profesores_materias);
+    $this->assertContains($profesor_a_vincular['cedula'], $cedulas_profesores_materias);
   }
-
-
 }
