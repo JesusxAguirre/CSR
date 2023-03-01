@@ -20,7 +20,6 @@ if (isset($_POST['agregarMateria'])) {
         $objeto->agregarMaterias();
         echo json_encode('false');
     }
-    
 }
 
 //AGREGANDO PROFESORES A LA ECAM
@@ -42,8 +41,15 @@ if (isset($_POST['actualizarMateria'])) {
     $nombreMateria2= $_POST['nombreMateria2'];
     $nivelSeleccionado2= $_POST['seleccionarNivel2'];
 
-    $objeto->setActualizar($idMateria2, $nombreMateria2, $nivelSeleccionado2);
-    $objeto->actualizarMateria();
+    $validacion = $objeto->validar_materia($nombreMateria2, $nivelSeleccionado2);
+
+    if ($validacion > 0) {
+       echo json_encode('true');
+    }else{
+        $objeto->setActualizar($idMateria2, $nombreMateria2, $nivelSeleccionado2);
+        $objeto->actualizarMateria();
+        echo json_encode('false');
+    }
 }
 
 

@@ -53,8 +53,15 @@ if (isset($_POST['actualizarDatosSeccion'])) {
     $idSeccionRefU= $_POST['idSeccionRefU'];
     $fechaCierreRefU= $_POST['fechaCierreRefU'];
 
-    $objeto->setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU, $fechaCierreRefU);
-    $objeto->actualizarDatosSeccion($idSeccionRefU);
+    $respuesta = $objeto->validar_seccion($nombreSeccionU, $nivelSeccionU);
+
+    if ($respuesta > 0) {
+        echo json_encode('true');
+    }else{
+        $objeto->setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU, $fechaCierreRefU);
+        $objeto->actualizarDatosSeccion($idSeccionRefU);
+        echo json_encode('false');
+    }
 }
 
 //AGREGAR O ACTUALIZAR LAS MATERIAS Y PROFESORES DE LA SECCION SELECCIONADA

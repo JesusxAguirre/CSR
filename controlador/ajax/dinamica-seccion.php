@@ -252,4 +252,18 @@ require_once("../../vendor/autoload.php");
     }
 
 
+    //Verificar datos basicos de la seccion
+    if (isset($_POST['verificarSeccion'])) {
+        $nombre = $_POST['nombre'];
+        $nivel = $_POST['nivel'];
+
+        $respuesta = $objeto->validar_seccion($nombre, $nivel);
+        if ($respuesta > 0) {
+            echo json_encode('true');
+        }else{
+            echo json_encode('false');
+        }
+    }
+
+
 ?>

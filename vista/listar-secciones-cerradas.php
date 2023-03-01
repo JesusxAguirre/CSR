@@ -54,9 +54,7 @@
 
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row text-center">
-                <h4>CREAR SECCION</h4>
-            </div>
+            
             <div class="row mt-3 d-flex justify-content-center">
                 <!-- LISTAR TODAS LAS SECCIONES CERRADAS -->
                 <div class="col-6">

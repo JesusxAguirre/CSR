@@ -10,8 +10,8 @@ $("#nivelSeccion").click(function () {
     const nivel = document.getElementById("nivelSeccion").value;
     let div = document.getElementById("datos_PM");
     if (nivel == "ninguno") {
-        div.innerHTML= '<h2 class="text-center text-danger">¡SELECCIONE EL NIVEL ACADEMICO DE LA SECCION!</h2>'
-    }else if (nivel == 1 || nivel == 2 || nivel == 3) {
+        div.innerHTML = '<h2 class="text-center text-danger">¡SELECCIONE EL NIVEL ACADEMICO DE LA SECCION!</h2>'
+    } else if (nivel == 1 || nivel == 2 || nivel == 3) {
         seleccionarEstudiantes(nivel);
         $.ajax({
             data: {
@@ -50,7 +50,7 @@ function seleccionarEstudiantes(nivelRef) {
 function selectEstudiantesOFF() {
     let div = document.getElementById("selectMasEstudiantes");
     let verEstudiantes2 = "ver";
-    let nivelAcademicoRef= $('#nivelAcademicoRef').val();
+    let nivelAcademicoRef = $('#nivelAcademicoRef').val();
 
     $.ajax({
         data: {
@@ -74,30 +74,30 @@ function selectEstudiantesOFF() {
 ////////////////////FUNCIONES CHOICES SELECT////////////////////
 
 
-function choices2 () {
+function choices2() {
     var estudiantesON = document.getElementById('seleccionarEstudiantes');
     new Choices(estudiantesON, {
-      position: 'top',
-      allowHTML: true,
-      removeItems: true,
-      maxItemCount: 40,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay estudiantes disponibles',
-      placeholderValue: 'Buscar estudiantes',
+        position: 'top',
+        allowHTML: true,
+        removeItems: true,
+        maxItemCount: 40,
+        removeItemButton: true,
+        noResultsText: 'No hay coicidencias',
+        noChoicesText: 'No hay estudiantes disponibles',
+        placeholderValue: 'Buscar estudiantes',
     });
 }
 
-function choices3 () {
+function choices3() {
     var estudiantesON = document.getElementById('estudiante');
     new Choices(estudiantesON, {
-      position: 'bottom',
-      allowHTML: true,
-      removeItems: true,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay estudiantes disponibles',
-      placeholderValue: 'Buscar estudiantes',
+        position: 'bottom',
+        allowHTML: true,
+        removeItems: true,
+        removeItemButton: true,
+        noResultsText: 'No hay coicidencias',
+        noChoicesText: 'No hay estudiantes disponibles',
+        placeholderValue: 'Buscar estudiantes',
     });
 }
 ////////////////////////////////////////////////////////////////////
@@ -112,19 +112,19 @@ function choices3 () {
 ///////////////////////////////////////////////////////////////////////////////
 
 const expresionesSecciones = {
-    nombreSeccion: /^[a-zA-ZÀ-ÿ0-9\s]{8,20}$/, // Letras y espacios, pueden llevar acentos.
+    nombreSeccion: /^[a-zA-ZÀ-ÿ0-9\s]{6,20}$/, // Letras y espacios, pueden llevar acentos.
 }
-  
-  var camposForm_1 = {
+
+var camposForm_1 = {
     nombreSeccion: false,
     nivelSeccion: false,
     fechaCierre: false,
-  }
+}
 
 function validarSiguiente1() {
     if (camposForm_1[0] && camposForm_1[1] && camposForm_1[2]) {
         document.getElementById("siguiente1").removeAttribute("disabled");
-    }else{
+    } else {
         document.getElementById("siguiente1").setAttribute("disabled", "disabled");
     }
 }
@@ -133,44 +133,44 @@ function validarSiguiente1() {
 const inputs_DatosSeccion = document.querySelectorAll('#formulario_datosSeccion input');
 var validarNombreSeccion = (evento) => {
 
-  switch (evento.target.name) {
-    case 'nombreSeccion':
+    switch (evento.target.name) {
+        case 'nombreSeccion':
 
-      if (expresionesSecciones.nombreSeccion.test(evento.target.value)) {
-        document.getElementById('nombreSeccion').classList.remove('validarMal');
-        document.getElementById('nombreSeccion').classList.add('validarBien');
-        document.getElementById("alertaNombre").setAttribute("hidden", "hidden");
-        camposForm_1[0] = true;
-      } else {
-        document.getElementById('nombreSeccion').classList.remove('validarBien');
-        document.getElementById('nombreSeccion').classList.add('validarMal');
-        document.getElementById("alertaNombre").removeAttribute("hidden");
-        camposForm_1[0] = false;
-      }
-      validarSiguiente1();
-      break;
+            if (expresionesSecciones.nombreSeccion.test(evento.target.value)) {
+                document.getElementById('nombreSeccion').classList.remove('validarMal');
+                document.getElementById('nombreSeccion').classList.add('validarBien');
+                document.getElementById("alertaNombre").setAttribute("hidden", "hidden");
+                camposForm_1[0] = true;
+            } else {
+                document.getElementById('nombreSeccion').classList.remove('validarBien');
+                document.getElementById('nombreSeccion').classList.add('validarMal');
+                document.getElementById("alertaNombre").removeAttribute("hidden");
+                camposForm_1[0] = false;
+            }
+            validarSiguiente1();
+            break;
 
-    case 'fechaCierre':
-      if (evento.target.value == "") {
-        document.getElementById('fechaCierre').classList.remove('validarBien');
-        document.getElementById('fechaCierre').classList.add('validarMal');
-        document.getElementById("alertaFecha").removeAttribute("hidden");
-        camposForm_1[2] = false;
-      }else{
-        document.getElementById('fechaCierre').classList.remove('validarMal');
-        document.getElementById('fechaCierre').classList.add('validarBien');
-        document.getElementById("alertaFecha").setAttribute("hidden", "hidden");
-        camposForm_1[2] = true;
-      }
-        validarSiguiente1();
-        break;
+        case 'fechaCierre':
+            if (evento.target.value == "") {
+                document.getElementById('fechaCierre').classList.remove('validarBien');
+                document.getElementById('fechaCierre').classList.add('validarMal');
+                document.getElementById("alertaFecha").removeAttribute("hidden");
+                camposForm_1[2] = false;
+            } else {
+                document.getElementById('fechaCierre').classList.remove('validarMal');
+                document.getElementById('fechaCierre').classList.add('validarBien');
+                document.getElementById("alertaFecha").setAttribute("hidden", "hidden");
+                camposForm_1[2] = true;
+            }
+            validarSiguiente1();
+            break;
 
-  }
+    }
 }
 
 inputs_DatosSeccion.forEach((evento) => {
-  evento.addEventListener("keyup", validarNombreSeccion);
-  evento.addEventListener("blur", validarNombreSeccion);
+    evento.addEventListener("keyup", validarNombreSeccion);
+    evento.addEventListener("blur", validarNombreSeccion);
 });
 
 //VALIDAR SELECTS DE SELECCIONAR NIVEL DE LA SECCIONES
@@ -178,62 +178,87 @@ const select_DatosSeccion = document.querySelectorAll('#formulario_datosSeccion 
 
 var validarNivelSeccion = (evento) => {
 
-  if (evento.target.value == 1 || evento.target.value == 2 || evento.target.value == 3) {
-    document.getElementById('nivelSeccion').classList.remove('validarMal');
-    document.getElementById('nivelSeccion').classList.add('validarBien');
-    document.getElementById("alertaSeccion").setAttribute("hidden", "hidden");
-    camposForm_1[1] = true;
-  } else {
-    document.getElementById('nivelSeccion').classList.remove('validarBien');
-    document.getElementById('nivelSeccion').classList.add('validarMal');
-    document.getElementById("alertaSeccion").removeAttribute("hidden");
-    camposForm_1[1] = false;
-  }
-  validarSiguiente1();
+    if (evento.target.value == 1 || evento.target.value == 2 || evento.target.value == 3) {
+        document.getElementById('nivelSeccion').classList.remove('validarMal');
+        document.getElementById('nivelSeccion').classList.add('validarBien');
+        document.getElementById("alertaSeccion").setAttribute("hidden", "hidden");
+        camposForm_1[1] = true;
+    } else {
+        document.getElementById('nivelSeccion').classList.remove('validarBien');
+        document.getElementById('nivelSeccion').classList.add('validarMal');
+        document.getElementById("alertaSeccion").removeAttribute("hidden");
+        camposForm_1[1] = false;
+    }
+    validarSiguiente1();
 }
 
 select_DatosSeccion.forEach((evento) => {
-  evento.addEventListener("click", validarNivelSeccion);
-  evento.addEventListener("blur", validarNivelSeccion);
+    evento.addEventListener("click", validarNivelSeccion);
+    evento.addEventListener("blur", validarNivelSeccion);
 });
 //FIN DE VALIDACIONES DE DATOS DE LAS SECCIONES
 
 
 //ACTIVAR VER SEMINARIOS PARA CREAR SECCION
-$('#siguiente1').click(function (e) { 
-    let div= document.querySelector('#seleccionarMateriaSeminario');
-    $.post("controlador/ajax/dinamica-seccion.php", {verSeminarios: 'prueba1'}, function (data) {
-        div.innerHTML= data;
-        $(".seleccionarProfesores").select2({
-            theme: "bootstrap4",
-            dropdownParent: $("#form2")
-        });
-        
-        $("#seleccionarProfesorSeminario").select2({
-            theme: "bootstrap4",
-            dropdownParent: $("#form2")
-        });
+$('#siguiente1').click(function (e) {
+
+    const dataSeccion = {
+        verificarSeccion: 'verificar',
+        nombre: document.getElementById('nombreSeccion').value,
+        nivel: document.getElementById('nivelSeccion').value,
+    }
+    $.post("controlador/ajax/dinamica-seccion.php", dataSeccion, function (response) {
+        var resp = JSON.parse(response);
+        console.log(resp);
+        if (resp == 'true') {
+            Swal.fire({
+                iconColor: 'white',
+                icon: 'error',
+                color: 'white',
+                background: 'red',
+                title: '¡La seccion ingresada ya existe!',
+                showConfirmButton: false,
+                timer: 2000,
+            })
+        } else {
+            let div = document.querySelector('#seleccionarMateriaSeminario');
+            $.post("controlador/ajax/dinamica-seccion.php", { verSeminarios: 'prueba1' }, function (data) {
+                div.innerHTML = data;
+                $(".seleccionarProfesores").select2({
+                    theme: "bootstrap4",
+                    dropdownParent: $("#form2")
+                });
+
+                $("#seleccionarProfesorSeminario").select2({
+                    theme: "bootstrap4",
+                    dropdownParent: $("#form2")
+                });
+                $('#form1').modal('hide');
+                $('#form2').modal('show');
+            });
+        }
     });
+
 })
 
 //ACTIVAR O DESACTIVAR EL CAMPO PARA ELEGIR SEMINARIOS
-$('#seleccionarMateriaSeminario').click(function (e) { 
-    let div= document.getElementById('seleccionarProfesorSeminario');
-    let seminario= document.getElementById('seleccionarMateriaSeminario');
+$('#seleccionarMateriaSeminario').click(function (e) {
+    let div = document.getElementById('seleccionarProfesorSeminario');
+    let seminario = document.getElementById('seleccionarMateriaSeminario');
 
     if (seminario.value == 'no') {
         document.querySelector("#seleccionarProfesorSeminario").setAttribute("disabled", "disabled");
-        document.querySelector("#seleccionarProfesorSeminario").value= '';
-    }else{
-        let seminarioSeleccionado= seminario.value;
-        $.post("controlador/ajax/dinamica-seccion.php", {seminarioSeleccionado: seminarioSeleccionado}, function (data) {
-            div.innerHTML= data;
+        document.querySelector("#seleccionarProfesorSeminario").value = '';
+    } else {
+        let seminarioSeleccionado = seminario.value;
+        $.post("controlador/ajax/dinamica-seccion.php", { seminarioSeleccionado: seminarioSeleccionado }, function (data) {
+            div.innerHTML = data;
             document.querySelector("#seleccionarProfesorSeminario").removeAttribute("disabled");
-            
-        } );
-        
+
+        });
+
     }
-    
+
 });
 
 
@@ -245,21 +270,21 @@ var camposForm_2 = {
     profesorSeminario: false,
 };
 
-$('#siguiente2').click(function (e) { 
-    
-    let datos1= document.querySelectorAll('.seleccionarProfesores');
-    let info1=[];
+$('#siguiente2').click(function (e) {
+
+    let datos1 = document.querySelectorAll('.seleccionarProfesores');
+    let info1 = [];
     datos1.forEach(elemento => {
         info1.push(elemento.value);
     });
 
-    let info2= document.querySelector('#seleccionarProfesorSeminario').value;
+    let info2 = document.querySelector('#seleccionarProfesorSeminario').value;
 
     if (info1.includes('ninguno') || info1.length === 0 || info2 == 'no') {
         document.querySelector(".alertaMatProf").removeAttribute("hidden");
         camposForm_2[0] = false;
         camposForm_2[1] = false;
-    }else{
+    } else {
         info2 == 'no' || info2 == '' ? camposForm_2[1] = false : camposForm_2[1] = true;
         camposForm_2[0] = true;
         document.querySelector(".alertaMatProf").setAttribute("hidden", "hidden");
@@ -275,15 +300,15 @@ var camposForm_3 = {
 }
 
 $('#datos_E').on('change', 'div div', function () {
-    let arregloEstudiante= $('#seleccionarEstudiantes').val();
+    let arregloEstudiante = $('#seleccionarEstudiantes').val();
     if (arregloEstudiante.length >= 1) {
         document.querySelector(".alertaNoEstudiantes").setAttribute("hidden", "hidden");
         document.querySelector("#crear").removeAttribute("disabled");
-        camposForm_3[0]= true;
-    }else{
+        camposForm_3[0] = true;
+    } else {
         document.querySelector(".alertaNoEstudiantes").removeAttribute("hidden");
         document.querySelector("#crear").setAttribute("disabled", "disabled");
-        camposForm_3[0]= false;
+        camposForm_3[0] = false;
     }
 });
 
@@ -303,7 +328,7 @@ $("#crear").click(function () {
         seleccionarMaterias.forEach((sm) => {
             arregloMateria.push(sm.value);
         });
-        camposForm_2[1] ? arregloMateria.push($('#seleccionarMateriaSeminario').val()): false ;
+        camposForm_2[1] ? arregloMateria.push($('#seleccionarMateriaSeminario').val()) : false;
 
         //ALMACENANDO TODOS LOS VALORES DE LOS SELECT DE PROFESOR
         let seleccionarProfesores = document.querySelectorAll(".seleccionarProfesores");
@@ -311,11 +336,11 @@ $("#crear").click(function () {
         seleccionarProfesores.forEach((sp) => {
             arregloProfesores.push(sp.value);
         });
-        camposForm_2[1] ? arregloProfesores.push($('#seleccionarProfesorSeminario').val()): false ;
+        camposForm_2[1] ? arregloProfesores.push($('#seleccionarProfesorSeminario').val()) : false;
 
         let nombreSeccion = document.getElementById('nombreSeccion');
         let nivelSeccion = document.getElementById('nivelSeccion');
-        let fechaCierre= document.getElementById('fechaCierre');
+        let fechaCierre = document.getElementById('fechaCierre');
 
         let data = {
             crear: $('#crear').val(),
@@ -354,7 +379,7 @@ $("#crear").click(function () {
     } else {
         console.log('o ooouuu');
     }
-   
+
 });
 
 $(".cerrarCrear").click(function () {
@@ -370,7 +395,7 @@ $(".cerrarCrear").click(function () {
     document.getElementById('fechaCierre').classList.remove('validarMal');
     document.getElementById('fechaCierre').classList.remove('validarBien');
     document.getElementById("alertaFecha").setAttribute("hidden", "hidden");
-    
+
 })
 
 

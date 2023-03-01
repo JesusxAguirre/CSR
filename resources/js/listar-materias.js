@@ -187,7 +187,8 @@ $(document).on('click', '#eliminarMateria', function () {
 
   Swal.fire({
     icon: 'warning',
-    title: 'Estas seguro que deseas eliminar?',
+    iconColor: 'red',
+    title: 'Estas seguro de eliminar la materia?',
     showDenyButton: true,
     confirmButtonText: `Eliminar`,
     confirmButtonColor: 'red',
@@ -195,22 +196,24 @@ $(document).on('click', '#eliminarMateria', function () {
     denyButtonColor: 'black'
   }).then((result) => {
     if (result.isConfirmed) {
-      $.post("controlador/ajax/CRUD-materias.php", {
-        idMateria,
-        botonEliminar
-      }, function (response) {
-        console.log(response);
+      $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response) {
         listarMaterias();
-        if (response == true) {
-          fireAlert('success', 'Eliminado correctamente!');
-        }else{
-          fireAlert('error', 'Ocurrio un error');
-        }
+        Swal.fire({
+          icon: 'success',
+          iconColor: 'white',
+          title: "¡Materia eliminada correctamente!",
+          background: 'green',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 3000,
+        });
       })
     }
   })
 });
 
+/* //EJEMPLO de usar firealert funcion para ahorrar algunas lineas
+fireAlert('success', 'Eliminado correctamente!');
 function fireAlert(icon, msg) {
   Swal.fire({
     icon: icon,
@@ -222,6 +225,7 @@ function fireAlert(icon, msg) {
     timer: 3000,
   });
 }
+*/
 
 
 
@@ -252,25 +256,46 @@ $("#actualizarMateria").on("click", function (e) {
   };
 
   if (campos2[0] && campos2[1]) {
+
     $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
-      listarMaterias();
-      document.getElementById('nombreMateria2').classList.remove('validarBien');
-      document.getElementById('seleccionarNivel2').classList.remove('validarBien');
+      var resp = JSON.parse(response);
+
+      //Primero validamos que los datos de la seccion no existan al actualizar
+      if (resp == 'true') {
+        Swal.fire({
+          icon: 'error',
+          iconColor: 'white',
+          title: "¡La materia ya existe!",
+          background: 'red',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }else{
+        listarMaterias();
+        document.getElementById('nombreMateria2').classList.remove('validarBien');
+        document.getElementById('seleccionarNivel2').classList.remove('validarBien');
+        Swal.fire({
+          icon: 'success',
+          iconColor: 'white',
+          title: "¡Materia actualizada correctamente!",
+          background: 'green',
+          color: 'white',
+          showConfirmButton: false,
+          timer: 3000,
+        });
+      }
     });
   } else {
-    const toast = Swal.mixin({
-      toast: true,
+    Swal.fire({
+      icon: 'error',
+      iconColor: 'white',
+      title: "Debes cumplir con los requisitos de los campos",
       background: 'red',
       color: 'white',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 3000,
     });
-
-    toast.fire({
-      icon: 'error',
-      iconColor: 'white',
-      title: 'Debes cumplir con los requisitos de los campos',
-    })
   }
 });
 

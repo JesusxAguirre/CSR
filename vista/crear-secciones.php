@@ -54,9 +54,6 @@
 
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row text-center">
-                <h4>CREAR SECCION</h4>
-            </div>
             <div class="row mt-3 d-flex justify-content-center">
                 <div class="col-5 text-center">
                     <button class="btn btn-info rounded-pill" data-bs-toggle="modal" data-bs-target="#form1">PRESIONA AQUI PARA CREAR UNA SECCION</button>
@@ -85,7 +82,7 @@
                         <label class="form-label">Introduzca el nombre de la seccion</label>
                         <input type="text" id="nombreSeccion" name="nombreSeccion" class="form-control">
                         <div hidden class="alert-danger" role="alert" id="alertaNombre">
-                            ¡Deberias colocar un nombre de 8 a 20 digitos sin caracteres especiales como (/*_-.,)!
+                            ¡Deberias colocar un nombre de 6 a 20 digitos sin caracteres especiales como (/*_-.,)!
                         </div>
                         <!-- FIN DEL CAMPO NOMBRE -->
                         <!-- CAMPO SELECCION DE NIVEL -->
@@ -112,7 +109,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button disabled id="siguiente1" class="btn btn-primary" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Siguiente</button>
+                    <button disabled id="siguiente1" class="btn btn-primary" >Siguiente</button>
                 </div>
                 <div class="progress">
                     <div class="progress-bar" role="progressbar" style="width: 40%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>

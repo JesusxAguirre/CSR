@@ -799,28 +799,43 @@ $('#guardarEditado1').click(function (e) {
         }
     
         Swal.fire({
-            background: '#ebebeb',
+            background: 'white',
             icon: 'warning',
+            iconColor: 'orange',
             title: '¿Esta segur@ de haber hecho los cambios correctos para procesar?',
             showDenyButton: true,
-            confirmButtonText: `DE ACUERDO`,
+            confirmButtonText: `Si, actualizar`,
             confirmButtonColor: 'green',
-            denyButtonText: `NO`,
-            denyButtonColor: 'orange',
+            denyButtonText: `No`,
+            denyButtonColor: 'red',
         }).then((result) => {
                 if (result.isConfirmed) {
                     $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                        dataTableSec.ajax.reload();
-                        Swal.fire({
-                            icon: 'success',
-                            iconColor: 'white',
-                            title: '¡Actualizado correctamente!',
-                            toast: true,
-                            background: 'green',
-                            color: 'white',
-                            showConfirmButton: false,
-                            timer: 2000,
-                        })
+                        let resp = JSON.parse(response);
+                        
+                        //VALIDANDO que no exista otra seccion con los mismos datos
+                        if (resp == 'true') {
+                            Swal.fire({
+                                icon: 'error',
+                                iconColor: 'white',
+                                title: '¡La seccion ya existe!',
+                                background: 'red',
+                                color: 'white',
+                                showConfirmButton: false,
+                                timer: 2000,
+                            })
+                        }else{
+                            dataTableSec.ajax.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                iconColor: 'white',
+                                title: '¡Actualizado correctamente!',
+                                background: 'green',
+                                color: 'white',
+                                showConfirmButton: false,
+                                timer: 2000,
+                            })
+                        }
                     });
                 }
         })
@@ -829,15 +844,12 @@ $('#guardarEditado1').click(function (e) {
             icon: 'error',
             iconColor: 'white',
             title: '¡Verifique de haber hecho cambios correctos!',
-            toast: true,
             background: 'red',
             color: 'white',
             showConfirmButton: false,
             timer: 2000,
         })
     }
-    
-      
 });
 
 

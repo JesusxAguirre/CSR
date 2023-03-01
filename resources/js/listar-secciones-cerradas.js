@@ -43,13 +43,14 @@ $(document).on('click', '#eliminarSeccionOFF', function () {
         idSeccionCerrada: idSeccionCerrada,
     }
     Swal.fire({
-      title: '¿Seguro que desea eliminar definitivamente la seccion?',
-      icon: 'info',
+      title: '¿Segur@ que desea eliminar definitivamente la seccion?',
+      icon: 'warning',
+      iconColor: 'red',
       showCancelButton: true,
       confirmButtonColor: 'green',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'SI',
-      cancelButtonText: 'NO'
+      cancelButtonColor: 'red',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
     }).then((result) => {
       if (result.isConfirmed) {
         $.post("controlador/ajax/CRUD-seccion.php", data,
@@ -59,7 +60,6 @@ $(document).on('click', '#eliminarSeccionOFF', function () {
                 icon: 'success',
                 iconColor: 'white',
                 title: '¡Seccion eliminada definitivamente!',
-                toast: true,
                 background: 'green',
                 color: 'white',
                 showConfirmButton: false,

@@ -70,19 +70,15 @@ $("#agregarMateria").on("click", function (e) {
       });
       
     } else {
-      const toast = Swal.mixin({
-        toast: true,
+      Swal.fire({
+        icon: 'error',
+        iconColor: 'white',
+        title: "Debes cumplir con los requisitos de los campos",
         background: 'red',
         color: 'white',
         showConfirmButton: false,
         timer: 3000,
       });
-  
-      toast.fire({
-        icon: 'error',
-        iconColor: 'white',
-        title: 'Debes cumplir con los requisitos de los campos',
-      })
     }
   });
 

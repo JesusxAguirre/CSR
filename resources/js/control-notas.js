@@ -365,8 +365,9 @@ setTimeout(() => {
             nivelAcademico: nivelAcademico,
         }
         Swal.fire({
-            icon: 'info',
-            title: '¿Esta segur@ de eliminar la nota final seleccionada?',
+            icon: 'warning',
+            iconColor: 'red',
+            title: '¿Esta segur@ de eliminar la nota final del estudiante?',
             showConfirmButton: true,
             showCancelButton: true,
             confirmButtonText:'Si, estoy seguro',
@@ -381,7 +382,6 @@ setTimeout(() => {
                         icon: 'success',
                         iconColor: 'white',
                         title: '¡Eliminada correctamente!',
-                        toast: true,
                         background: 'green',
                         color: 'white',
                         showConfirmButton: false,
