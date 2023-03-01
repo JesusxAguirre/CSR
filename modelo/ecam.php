@@ -621,7 +621,7 @@ class ecam extends Conexion
             );
 
             //DESVINCULANDO PROFESORES DE LAS SECCION A LA QUE FUE ASIGNADA SU MATERIA Y PRESENCIA
-            $sql2 = "DELETE FROM `secciones-materias-profesores` WHERE `id_materia` = :idmateria AND `cedulaProf` = :cedulaprofesor";
+            $sql2 = "DELETE FROM `secciones-materias-profesores` WHERE `id_materia` = :idmateria AND `cedulaProf` = :cedulaProfesor";
             $stmt2 = $this->conexion()->prepare($sql2);
             $stmt2->execute(
                 array(
