@@ -26,16 +26,25 @@ final class MateriasTest extends TestCase
     $nombre_materia = "Programacion 1";
     $nivel = 1;
     
-    print_r($profesores_cedula);
+    $response = $this->objeto_ecam->validar_materia($nombre_materia,$nivel);
+    $this->assertEquals(0,$response,$message = "Esta materia ya existe en la base de datos por favor cambie el dato a ingresar");
     //Act  
     $this->objeto_ecam->setMaterias($nombre_materia,$nivel,$profesores_cedula);
 
     $this->objeto_ecam->agregarMaterias();
     
     $array_materias = $this->objeto_ecam->listarMaterias();
-    print_r($array_materias);
+
+
+    //guardando en un array los nombres de las materias y el nivel
+    foreach($array_materias as $materia){
+      $array_materias_comprobar[]= $materia['nombre'];
+
+    }
     //Asert  
-    $this->assertContains($nombre_materia,$array_materias);
+    
+    $this->assertcontains($nombre_materia,$array_materias_comprobar);
+ 
 
     return $array_materias;
   }
