@@ -582,18 +582,21 @@ class ecam extends Conexion
 
             //Obteniendo informacion del profesor
             foreach ($cedulaProfesorV as $cedula) {
-                $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = $cedula";
+                $sql2 = "SELECT * FROM usuarios WHERE `usuarios`.`cedula` = :cedula";
                 $stmt2 = $this->conexion->prepare($sql2);
-                $stmt2->execute(array());
+                $stmt2->execute(array(
+                    ":cedula" => $cedula,
+                ));
                 $infoProfesor = $stmt2->fetch(PDO::FETCH_ASSOC);
 
                 $cedula2 = $_SESSION['cedula'];
                 $accion = "Ha vinculado al profesor " . $infoProfesor['codigo'] . " " . $infoProfesor['nombre'] . " " . $infoProfesor['apellido'] . " a la materia " . $infoMateria['nombre'] . " Nivel " . $infoMateria['nivelAcademico'];
                 parent::registrar_bitacora($cedula2, $accion, $this->id_modulo);
-            }
 
-            $mensaje = 'Te han vinculado con la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'];
-            $this->registrar_notificacionProfesor($mensaje, $cedulaProfesorV);
+                $mensaje = 'Te han vinculado con la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'];
+                $this->registrar_notificacionProfesor($mensaje, $cedula);
+            }
+            
             return true;
         } catch (Exception $e) {
 
