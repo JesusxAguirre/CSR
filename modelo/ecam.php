@@ -314,7 +314,7 @@ class ecam extends Conexion
         AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";*/
 
         $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
-        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 12) 
+        NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 16) 
         AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
 
         $stmt = $this->conexion()->prepare($sql);

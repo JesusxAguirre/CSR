@@ -22,7 +22,11 @@ foreach ($matriz_usuario as $usuario) {?>
       <td class="telefono" role='cell'><?php echo  $usuario['telefono'] ?></td>
       <td class="estado_civil" role='cell'><?php echo  $usuario['estado_civil'] ?></td>
       <td class="" role="cell">
-        <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
+        <?php
+        if ($_SESSION['permisos']['gestionar_usuario']['actualizar']) { ?>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
+        <?php } ?>
+        
         <button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuarios" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
       </td>
     </tr>
