@@ -53,9 +53,8 @@ final class ProfesoresTest extends TestCase
   }
   /**
      * @depends test_listar_noProfesores
-     * @depends test_listarProfesores
   */
-  public function test_agregar_profesores(array $futuro_profesor,array $array_profesores) //: array
+  public function test_agregar_profesores(array $futuro_profesor): int
   {
     //Init
    
