@@ -188,7 +188,7 @@ class Discipulado extends Conexion
         $sql = "SELECT `rp`.`id_discipulado`, `usuarios`.`nombre`, `usuarios`.`apellido`, `usuarios`.`telefono`, `usuarios`.`codigo`, COUNT(DISTINCT `rp`.`fecha`) as `asistencias`, COUNT(DISTINCT `rpd`.`fecha`) as `total` FROM `usuarios` 
         INNER JOIN `reporte_celula_discipulado` AS `rp` ON `rp`.`cedula_participante` = `usuarios`.`cedula` 
         RIGHT JOIN `reporte_celula_discipulado` as `rpd` ON `rpd`.`id_discipulado` = $id 
-        WHERE `rp`.`fecha` BETWEEN $fecha_inicio AND $fecha_final AND `rp`.`id_discipulado` = $id AND `rpd`.`fecha` BETWEEN $fecha_inicio AND $fecha_final GROUP BY `usuarios`.`cedula`";
+        WHERE `rp`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' AND `rp`.`id_discipulado` = $id AND `rpd`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' GROUP BY `usuarios`.`cedula`";
 
         $stmt = $this->conexion()->prepare($sql);
 

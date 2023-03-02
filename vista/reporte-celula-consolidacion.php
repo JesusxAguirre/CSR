@@ -89,7 +89,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
                       <i class="input-icon fs-5"></i>
-                      <input name="fecha_final" id="fecha_final" class="form-control" type="date" />
+                      <input name="fecha_final" id="fecha_final" class="form-control" type="date">
                     </div>
                     <p class="text-danger d-none">Este campo no puede estar vacio</p>
                   </div>

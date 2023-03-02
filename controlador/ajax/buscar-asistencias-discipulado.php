@@ -12,9 +12,12 @@ $fecha_final = $_GET['fecha_final'];
 
 $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_final);
 ?>
-
+  <div class="text-center">
+    <h4><b>REPORTE</b></h4>
+    <h6><i><?php echo $fecha_inicio ?> hasta el <?php echo $fecha_final ?></i></h6>
+  </div>
   <div class="table-responsive mt-4">
-    <table role='table' class='table table-centered'>
+    <table role='table' class='table table-centered table-light'>
       <thead>
         <tr role='row'>
           <th colspan='1' role='columnheader' class=' sortable' style='cursor: pointer;'>No</th>
