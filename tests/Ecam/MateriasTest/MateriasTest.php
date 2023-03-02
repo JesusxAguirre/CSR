@@ -38,13 +38,13 @@ final class MateriasTest extends TestCase
     $array_materias = $this->objeto_ecam->listarMaterias();
 
 
-    //guardando en un array los nombres de las materias y el nivel
+    //guardando en un array los nombres de las materias 
     foreach ($array_materias as $materia) {
       $array_materias_comprobar[] = $materia['nombre'];
     }
     //Asert  
 
-    $this->assertcontains($nombre_materia, $array_materias_comprobar);
+   $this->assertcontains($nombre_materia, $array_materias_comprobar);
 
     return $array_materias;
   }
@@ -52,7 +52,7 @@ final class MateriasTest extends TestCase
   /**
    * @depends test_agregarMaterias 
    * **/
-  public function test_desvincularProfesor(array $array_materias)
+  public function test_desvincularProfesor(array $array_materias): array
   {
     //Init
     //obteniendo cedulas de profesores
@@ -97,8 +97,8 @@ final class MateriasTest extends TestCase
     //Init
     $cedulas_a_vincular[] = $profesor_a_vincular['cedula'];
 
-    //Asert
-
+   
+    //Act
     $this->objeto_ecam->vincularProfesor($cedulas_a_vincular, $profesor_a_vincular['id_materia']);
 
     //obteniendo profesores que dan la materia
@@ -108,7 +108,7 @@ final class MateriasTest extends TestCase
     foreach ($array_profesores_materia as $profesor) {
       $cedulas_profesores_materias[] = $profesor['cedula_profesor'];
     }
-    
+     //Asert
     $this->assertContains($profesor_a_vincular['cedula'], $cedulas_profesores_materias);
   }
 
@@ -127,7 +127,7 @@ final class MateriasTest extends TestCase
       }
     }
     
-    //Asert
+    //Act
     $response = $this->objeto_ecam->validar_materia($nombre_materia, $nivel);
     $this->assertEquals(0, $response, $message = "Esta materia ya existe en la base de datos por favor cambie el dato a ingresar");
 
@@ -146,7 +146,7 @@ final class MateriasTest extends TestCase
     //Asert  
 
     $this->assertcontains($nombre_materia, $array_materias_comprobar);
-  
+ 
     return $id_materia;
   }
 
