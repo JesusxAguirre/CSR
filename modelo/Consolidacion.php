@@ -153,9 +153,9 @@ class Consolidacion extends Conexion
     //LISTAR REPORTE DE CELULA DE CONSOLIDACION
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
     {
+        $resultado = [];
         try {
-            $resultado = [];
-
+           
             $sql = "SELECT `rp`.`id_consolidacion`, `usuarios`.`nombre`, `usuarios`.`apellido`, `usuarios`.`telefono`, `usuarios`.`codigo`, COUNT(DISTINCT `rp`.`fecha`) as `asistencias`, COUNT(DISTINCT `rpd`.`fecha`) as `total` FROM `usuarios` 
             INNER JOIN `reporte_celula_consolidacion` AS `rp` ON `rp`.`cedula_participante` = `usuarios`.`cedula` 
             RIGHT JOIN `reporte_celula_consolidacion` as `rpd` ON `rpd`.`id_consolidacion` = $id 
