@@ -78,9 +78,9 @@ formulario.addEventListener('click', (e) => {
     const enviar = document.getElementById('consultar')
     const respuesta = document.getElementById('respuesta');
     enviar.addEventListener('click', () => {
-      let codigo_consolidacion2 = codigo_consolidacion_ajax.value
-      let fecha_inicio2 = fecha_inicio.value
-      let fecha_final2 = fecha_final.value
+      let codigo_consolidacion2 = codigo_consolidacion_ajax.value;
+      let fecha_inicio2 = fecha_inicio.value;
+      let fecha_final2 = fecha_final.value;
 
       $.ajax({
         data: {
@@ -89,7 +89,7 @@ formulario.addEventListener('click', (e) => {
           fecha_final: fecha_final2,
         },
         url: "controlador/ajax/buscar-asistencias-consolidacion.php",
-        type: "get",
+        type: "POST",
       }).done(data => {
         respuesta.innerHTML = data
       })

@@ -174,20 +174,26 @@ class Discipulado extends Conexion
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
     {
         $resultado = [];
-        $sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
+
+        //SENTENCIA ANTIGUA HECHA POR JESUS AGUIRRE
+
+        /*$sql = ("SELECT COUNT(reporte_celula_discipulado.fecha) AS numero_asistencias, reporte_celula_discipulado.cedula_participante, usuarios.nombre,
         usuarios.codigo, usuarios.telefono, MONTHNAME(fecha) AS mes
         FROM reporte_celula_discipulado 
         INNER JOIN usuarios ON reporte_celula_discipulado.cedula_participante = usuarios.cedula
         WHERE reporte_celula_discipulado.fecha BETWEEN '$fecha_inicio' AND  '$fecha_final' 
         AND  reporte_celula_discipulado.id_discipulado = '$id'
-        GROUP BY MONTHNAME(fecha)");
+        GROUP BY MONTHNAME(fecha)");*/
+
+        $sql = "SELECT `rp`.`id_discipulado`, `usuarios`.`nombre`, `usuarios`.`apellido`, `usuarios`.`telefono`, `usuarios`.`codigo`, COUNT(DISTINCT `rp`.`fecha`) as `asistencias`, COUNT(DISTINCT `rpd`.`fecha`) as `total` FROM `usuarios` 
+        INNER JOIN `reporte_celula_discipulado` AS `rp` ON `rp`.`cedula_participante` = `usuarios`.`cedula` 
+        RIGHT JOIN `reporte_celula_discipulado` as `rpd` ON `rpd`.`id_discipulado` = $id 
+        WHERE `rp`.`fecha` BETWEEN $fecha_inicio AND $fecha_final AND `rp`.`id_discipulado` = $id AND `rpd`.`fecha` BETWEEN $fecha_inicio AND $fecha_final GROUP BY `usuarios`.`cedula`";
 
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
             $resultado[] = $filas;
         }
 
