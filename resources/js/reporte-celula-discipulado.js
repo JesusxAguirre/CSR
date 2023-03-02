@@ -62,22 +62,22 @@ const ValidarSelect = (select, campo) => {
   }
 }
 
-formulario.addEventListener('click', (e) => {
-  if (!(campos.codigo_discipulado && campos.fecha_inicio && campos.fecha_final)) {
-    e.preventDefault();
-    Swal.fire({
-      icon: 'error',
-      title: 'Lo siento ',
-      text: 'Registra el formulario correctamente'
-    })
-  } else {
-    //busqueda ajax 
-    const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
-    const fecha_inicio = document.getElementById('fecha_inicio')
-    const fecha_final = document.getElementById('fecha_final')
-    const enviar = document.getElementById('consultar')
-    const respuesta = document.getElementById('respuesta');
-    enviar.addEventListener('click', () => {
+
+const enviar = document.getElementById('consultar');
+enviar.addEventListener('click', (e) => {
+    if (!(campos.codigo_discipulado && campos.fecha_inicio && campos.fecha_final)) {
+      e.preventDefault();
+      Swal.fire({
+        icon: 'error',
+        title: 'Lo siento ',
+        text: 'Registra el formulario correctamente'
+      })
+    }else{
+      //busqueda ajax 
+      const codigo_discipulado_ajax = document.getElementById('codigo_discipulado')
+      const fecha_inicio = document.getElementById('fecha_inicio')
+      const fecha_final = document.getElementById('fecha_final')
+      const respuesta = document.getElementById('respuesta');
       let codigo_discipulado2 = codigo_discipulado_ajax.value
       let fecha_inicio2 = fecha_inicio.value
       let fecha_final2 = fecha_final.value
@@ -93,12 +93,11 @@ formulario.addEventListener('click', (e) => {
       }).done(data => {
         respuesta.innerHTML = data
       })
-    })
   }
 })
 
 inputs.forEach((input) => {
-  input.addEventListener('keyup', ValidarFormulario);
+  input.addEventListener('change', ValidarFormulario);
   input.addEventListener('blur', ValidarFormulario);
 
 });

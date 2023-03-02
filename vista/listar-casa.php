@@ -74,7 +74,8 @@
                   </thead>
 
                   <tbody id="datos" role='rowgroup'>
-                    <?php foreach ($matriz_csr as $csr) : ?>
+                    <?php if (!empty($matriz_csr)) {
+                      foreach ($matriz_csr as $csr) : ?>
                       <tr role='row'>
                         <td hidden class="id" role='cell'><?php echo $csr['id'] ?></td>
                         <td class="codigo" role='cell'><?php echo $csr['codigo'] ?></td>
@@ -90,7 +91,12 @@
                           <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                         </td>
                       </tr>
-                    <?php endforeach;       ?>
+                    <?php endforeach;
+                    }else{ ?>
+                      <tr role="row">
+                        <td><h5><em>Aun no hay secciones cerradas</em></h5></td>
+                      </tr>
+                    <?php } ?>
                   </tbody>
                 </table>
               </div>

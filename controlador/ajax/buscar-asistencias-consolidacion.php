@@ -10,14 +10,15 @@ $id = $_POST['codigo_consolidacion'];
 $fecha_inicio = $_POST['fecha_inicio'];
 $fecha_final = $_POST['fecha_final'];
 
-
 $matriz_asistencias = $objeto->listar_asistencias($id, $fecha_inicio, $fecha_final);
-echo json_encode($matriz_asistencias);
-print_r($matriz_asistencias);
-?>
 
+?>
+  <div class="text-center">
+    <h4><b>REPORTE</b></h4>
+    <h6><i><?php echo $fecha_inicio ?> hasta el <?php echo $fecha_final ?></i></h6>
+  </div>
   <div class="table-responsive mt-4">
-    <table role='table' class='table table-centered'>
+    <table role='table' class='table table-centered table-light'>
       <thead>
         <tr role='row'>
           <th colspan='1' role='columnheader' class=' sortable' style='cursor: pointer;'>No</th>

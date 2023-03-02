@@ -9,7 +9,7 @@
     <a class="navbar-brand fw-bold text-uppercase " href="#">
       <img src="./resources/img/casawhite.jpg" alt="" width="120" height="94" class="d-inline-block align-text-top rounded-circle">
     </a>
-    <a class="navbar-brand fw-bold text-uppercase  fs-6-xs href=" #">
+    <a class="navbar-brand fw-bold text-uppercase  fs-xs-2" href="#">
       CASA SOBRE LA ROCA
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

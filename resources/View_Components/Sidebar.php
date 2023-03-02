@@ -12,14 +12,14 @@
           <li>
             <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
               <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
-              <span>Inicio</span>
+              <span class="h5">Inicio</span>
             </a>
           </li>
         <?php } ?>
         <li>
           <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
-            <span>Gestionar Agenda</span>
+            <span class="h5">Gestionar Agenda</span>
           </a>
         </li>
         <li class="my-4">
