@@ -596,7 +596,7 @@ class ecam extends Conexion
                 $mensaje = 'Te han vinculado con la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'];
                 $this->registrar_notificacionProfesor($mensaje, $cedula);
             }
-            
+
             return true;
         } catch (Exception $e) {
 
@@ -610,7 +610,7 @@ class ecam extends Conexion
     //ELIMINAR PROFESORES DE LAS MATERIAS
     public function desvincularProfesor($cedulaProfDV, $idMateriaDV)
     {
-        try{
+        try {
             $sql = "DELETE FROM `profesores-materias` 
             WHERE `profesores-materias`.`cedula_profesor` = :cedulaProf 
             AND `profesores-materias`.`id_materia` = :idMateria";
@@ -661,8 +661,7 @@ class ecam extends Conexion
             $this->registrar_notificacionProfesor($mensaje, $cedulaProfDV);
 
             return true;
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
 
             echo $e->getMessage();
 
@@ -747,23 +746,35 @@ class ecam extends Conexion
     //ELIMINAR MATERIAS
     public function eliminarMateria($idMateria)
     {
-        //Obteniendo informacion de la materia
-        $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = :idMateria";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array(
-            ":idMateria" => $idMateria,
-        ));
-        $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            //Obteniendo informacion de la materia
+            $sql = "SELECT * FROM `materias` WHERE `materias`.`id_materia` = :idMateria";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->execute(array(
+                ":idMateria" => $idMateria,
+            ));
+            $infoMateria = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $sql = "DELETE FROM materias WHERE id_materia = $idMateria";
+            $sql = "DELETE FROM materias WHERE id_materia = :id_materia";
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute();
+            $stmt->execute(array(
+                ":id_materia" => $idMateria
+            ));
 
-        $cedula = $_SESSION['cedula'];
-        $accion = 'Ha eliminado la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'] . ' de la ECAM';
-        parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            $cedula = $_SESSION['cedula'];
+            $accion = 'Ha eliminado la materia "' . $infoMateria['nombre'] . '" Nivel ' . $infoMateria['nivelAcademico'] . ' de la ECAM';
+            parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return $e;
+        }
     }
 
     //ACTUALIZAR MATERIAS
@@ -777,7 +788,7 @@ class ecam extends Conexion
             array(
                 ":idMa" => $this->idMateria,
                 ":nom" => $this->nombre,
-                ":nivelA" => $this->nivel
+                ":nivelD" => $this->nivel
             )
         );
 
