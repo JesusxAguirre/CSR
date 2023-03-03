@@ -250,6 +250,7 @@ function buscarConsolidacion(busqueda) {
     url: "controlador/ajax/buscar-consolidacion.php",
     type: "get",
   }).done(data => {
+    console.log(data)
     datosEl.innerHTML = data
     addEvents()
   })

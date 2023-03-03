@@ -175,7 +175,7 @@ class Consolidacion extends Conexion
 
             echo "Linea del error: " . $e->getLine();
 
-            return false;
+            return $e;
         }
         
     }
