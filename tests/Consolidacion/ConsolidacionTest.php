@@ -59,12 +59,17 @@ final class UsuariosTest extends TestCase
     $direccion_celula = "Villa crepuscular";
 
     foreach($array_usuarios_n2_3 as $usuarios){
-      $cedulas_n2 = $usuarios['cedula'];
+      $cedulas_n2[] = $usuarios['cedula'];
+    }
+    foreach($array_usuarios_a_consolidar as $usuarios){
+      $cedulas_usuarios_a_consolidar[] = $usuarios['cedula'];
     }
     //Act
    
+    print_r($cedulas_n2);
+    print_r($cedulas_usuarios_a_consolidar);
     $this->objeto_consolidacion->setConsolidacion($cedulas_n2[0],$cedulas_n2[1],
-    $cedulas_n2[2],$dia_reunion,$hora,$direccion_celula,$array_usuarios_a_consolidar);
+    $cedulas_n2[2],$dia_reunion,$hora,$direccion_celula,[$cedulas_usuarios_a_consolidar[0]]);
 
     $this->objeto_consolidacion->registrar_consolidacion();
 
@@ -77,7 +82,7 @@ final class UsuariosTest extends TestCase
       }
     }
 
-    $this->assertContains($cedulas_n2,$celula_consolidacion_nueva);
+    $this->assertContains($cedulas_n2[0],$celula_consolidacion_nueva);
 
     return $celula_consolidacion_nueva;
   }
