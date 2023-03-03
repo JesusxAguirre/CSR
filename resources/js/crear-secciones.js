@@ -328,6 +328,7 @@ $("#crear").click(function () {
         seleccionarMaterias.forEach((sm) => {
             arregloMateria.push(sm.value);
         });
+
         camposForm_2[1] ? arregloMateria.push($('#seleccionarMateriaSeminario').val()) : false;
 
         //ALMACENANDO TODOS LOS VALORES DE LOS SELECT DE PROFESOR
@@ -341,7 +342,7 @@ $("#crear").click(function () {
         let nombreSeccion = document.getElementById('nombreSeccion');
         let nivelSeccion = document.getElementById('nivelSeccion');
         let fechaCierre = document.getElementById('fechaCierre');
-
+        
         let data = {
             crear: $('#crear').val(),
             nombreSeccion: nombreSeccion.value,

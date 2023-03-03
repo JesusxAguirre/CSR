@@ -969,6 +969,8 @@ class ecam extends Conexion
         $cedula = $_SESSION['cedula'];
         $accion = "Ha creado una seccion nueva llamada " . $this->nombreSeccion;
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+
+        return $id;
     } //FIN DEL CREAR SECCION
 
 
