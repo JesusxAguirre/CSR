@@ -1,0 +1,1 @@
+{"version":1,"defects":{"UsuariosTest::test_listar_usuarios_N2":5,"UsuariosTest::test_listar_no_participantes":5,"UsuariosTest::test_registrar_consolidacion":4},"times":{"UsuariosTest::test_listar_usuarios_N2":0.011,"UsuariosTest::test_listar_no_participantes":0.003,"UsuariosTest::test_registrar_consolidacion":0.049}}
