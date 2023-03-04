@@ -265,7 +265,7 @@ class Consolidacion extends Conexion
 
             $sql = "INSERT INTO celula_consolidacion (codigo_celula_consolidacion,cedula_lider,
         cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora) 
-        VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora)";
+        VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direccion)";
 
             $stmt = $this->conexion->prepare($sql);
 
@@ -273,7 +273,7 @@ class Consolidacion extends Conexion
                 ":codigo" => 'CC' . $id,
                 ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
                 ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
-                ":fecha" => $this->fecha, ":hora" => $this->hora
+                ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion"=>$this->direccion
             ));
             //---------Comienzo de funcion de pasar id foraneo con respecto a los participantes de la celula------------------------//
             //agregando codigo de celula a codigo de usuario
@@ -667,13 +667,14 @@ class Consolidacion extends Conexion
         $this->participantes = $participantes;
     }
     //-------- SET actualizar para actualizar consolidacions-------------------------------------//
-    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora,$direccion, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
         $this->cedula_asistente = $cedula_asistente;
         $this->dia = $dia;
         $this->hora = $hora;
+        $this->direccion = $direccion;
         $this->fecha = gmdate("y-m-d", time());
         $this->id = $id;
     }
