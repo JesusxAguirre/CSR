@@ -606,7 +606,7 @@ class Consolidacion extends Conexion
         }
 
         $sql = ("UPDATE celula_consolidacion SET  cedula_lider = :cedula_lider , 
-            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora :direccion WHERE id= :id");
+            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora, direccion = :direccion WHERE id= :id");
 
         $stmt = $this->conexion()->prepare($sql);
 

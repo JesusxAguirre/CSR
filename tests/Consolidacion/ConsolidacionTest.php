@@ -120,13 +120,14 @@ final class ConsolidacionTest extends TestCase
     
     foreach($celulas_cosolidacion as $celulas){
       if($celula_consolidacion_nueva['id'] == $celulas['id']){
-        $celula_consolidacion_nueva - $celulas;
+        $celula_consolidacion_nueva = $celulas;
       }
     }
     //Assert
 
     print_r($celula_consolidacion_nueva);
-    $this->assertContains([$dia_reunion,$hora,$direccion_celula],[$celula_consolidacion_nueva['dia_reunion'],$celula_consolidacion_nueva['hora'],$celula_consolidacion_nueva['direccion']]);
+    $this->assertEquals([$dia_reunion,$hora,$direccion_celula],
+    [$celula_consolidacion_nueva['dia_reunion'],$celula_consolidacion_nueva['hora'],$celula_consolidacion_nueva['direccion']]);
   }
  
 
