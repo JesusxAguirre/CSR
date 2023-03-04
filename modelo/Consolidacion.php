@@ -181,11 +181,16 @@ class Consolidacion extends Conexion
             $sql = "SELECT `rp`.`id_consolidacion`, `usuarios`.`nombre`, `usuarios`.`apellido`, `usuarios`.`telefono`, `usuarios`.`codigo`, COUNT(DISTINCT `rp`.`fecha`) as `asistencias`, COUNT(DISTINCT `rpd`.`fecha`) as `total` FROM `usuarios` 
             INNER JOIN `reporte_celula_consolidacion` AS `rp` ON `rp`.`cedula_participante` = `usuarios`.`cedula` 
             RIGHT JOIN `reporte_celula_consolidacion` as `rpd` ON `rpd`.`id_consolidacion` = $id 
-            WHERE `rp`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' AND `rp`.`id_consolidacion` = $id AND `rpd`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' GROUP BY `usuarios`.`cedula`";
+            WHERE `rp`.`fecha` BETWEEN :rpfecha_inicio AND rpfecha_final AND `rp`.`id_consolidacion` = :id_consolidacion AND `rpd`.`fecha` 
+            BETWEEN :rpdfecha_inicio AND :rpdfecha_final GROUP BY `usuarios`.`cedula`";
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":rpfecha_inicio" => $fecha_inicio, ":rpfecha_final" => $fecha_final,
+                ":id_consolidacion" => $id, ":rpdfecha_inicio" => $fecha_inicio,
+                ":rpdfecha_final" => $fecha_final
+            ));
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $resultado[] = $filas;
             }
@@ -196,7 +201,7 @@ class Consolidacion extends Conexion
 
             echo "Linea del error: " . $e->getLine();
 
-            return $e;
+            return false;
         }
     }
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
