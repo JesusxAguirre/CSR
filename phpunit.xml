@@ -5,7 +5,7 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="Test suite">
-            <directory>tests/Ecam/SeccionesTest/CrudSecciones.php</directory>
+            <directory>tests/Consolidacion/</directory>
         </testsuite>
     </testsuites>
 </phpunit>

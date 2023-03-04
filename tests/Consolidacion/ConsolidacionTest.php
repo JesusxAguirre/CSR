@@ -52,8 +52,9 @@ final class UsuariosTest extends TestCase
    * @depends test_listar_no_participantes
    * @depends test_listar_usuarios_N2
    * **/
-  public function test_registrar_consolidacion($array_usuarios_a_consolidar, $array_usuarios_n2_3){
-    //Init
+  public function test_registrar_consolidacion($array_usuarios_a_consolidar, $array_usuarios_n2_3): array
+  {
+
     $dia_reunion = "Jueves";
     $hora = date("h:i:s");
     $direccion_celula = "Villa crepuscular";
@@ -66,8 +67,6 @@ final class UsuariosTest extends TestCase
     }
     //Act
    
-    print_r($cedulas_n2);
-    print_r($cedulas_usuarios_a_consolidar);
     $this->objeto_consolidacion->setConsolidacion($cedulas_n2[0],$cedulas_n2[1],
     $cedulas_n2[2],$dia_reunion,$hora,$direccion_celula,[$cedulas_usuarios_a_consolidar[0]]);
 
@@ -82,9 +81,33 @@ final class UsuariosTest extends TestCase
       }
     }
 
+
+    $this->assertArrayHasKey("id",$array_celulas_consolidacion[0]);
     $this->assertContains($cedulas_n2[0],$celula_consolidacion_nueva);
+
 
     return $celula_consolidacion_nueva;
   }
+
+
+    /**
+   * @depends test_registrar_consolidacion
+   * **/
+  public function test_update_consolidacion($celula_consolidacion_nueva){
+    //Init
+    $dia_reunion = "Domingos";
+    $hora = date("h:i:s");
+    $direccion_celula = "Villa roca";
+    $array_usuarios_n2_n3 = $this->objeto_consolidacion->listar_usuarios_N2();
+    $array_usuarios_a_consolidar = $this->objeto_consolidacion->listar_no_participantes();
+
+    foreach($array_usuarios_n2_n3 as $usuarios){
+      $cedulas_n2[] = $usuarios['cedula'];
+    }
+    foreach($array_usuarios_a_consolidar as $usuarios){
+      $cedulas_a_consolidar[] = $usuarios['cedula'];
+    }
+  }
+ 
 
 }

@@ -196,8 +196,9 @@ class Consolidacion extends Conexion
 
     public function listar_celula_consolidacion()
     {
-        $resultado = [];
-        $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
+        try {
+            $resultado = [];
+            $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
         lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
         anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
         asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente
@@ -206,19 +207,23 @@ class Consolidacion extends Conexion
         INNER JOIN usuarios AS anfitrion  ON   celula_consolidacion.cedula_anfitrion = anfitrion.cedula
         INNER JOIN usuarios AS asistente  ON   celula_consolidacion.cedula_asistente = asistente.cedula");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array());
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $resultado[] = $filas;
+                $resultado[] = $filas;
+            }
+            $accion = "Listar celula de Consolidacion";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
         }
-        $accion = "Listar celula de Consolidacion";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        return $resultado;
     }
     //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
     public function registrar_asistencias()
