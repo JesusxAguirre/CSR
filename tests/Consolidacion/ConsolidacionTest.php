@@ -160,21 +160,21 @@ final class ConsolidacionTest extends TestCase
       $cedulas_no_participantes[] = $no_participante['cedula'];
     }
     
-
+  
     //Act
-    $this->objeto_consolidacion->setParticipantes($cedulas_no_participantes[0], $celula_consolidacion_nueva['id']);
+    $this->objeto_consolidacion->setParticipantes([$cedulas_no_participantes[0]], $celula_consolidacion_nueva['id']);
     $this->objeto_consolidacion->agregar_participantes();
 
     $participantes = $this->objeto_consolidacion->listar_participantes($celula_consolidacion_nueva['id']);
 
-    
+
+
     foreach ($participantes as $participante) {
       $cedulas_participantes[] = $participante['participantes_cedula'];
     }
 
     //Assert
-    print_r($cedulas_no_participantes);
-    print_r($cedulas_participantes);
+   
     //aqui tambien se testea la funcion listar participantes
     $this->assertArrayHasKey("participantes_cedula", $participantes[0]);
 
@@ -200,7 +200,7 @@ final class ConsolidacionTest extends TestCase
     $this->objeto_consolidacion->registrar_asistencias();
 
     $asistencias_participantes = $this->objeto_consolidacion->listar_asistencias($celula_consolidacion_nueva['id'],
-    "01-01-2022","12-12-2023");
+    $fecha_actual,$fecha_actual);
 
     print_r($asistencias_participantes);
     //Assert

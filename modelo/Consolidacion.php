@@ -180,18 +180,12 @@ class Consolidacion extends Conexion
 
             $sql = "SELECT `rp`.`id_consolidacion`, `usuarios`.`nombre`, `usuarios`.`apellido`, `usuarios`.`telefono`, `usuarios`.`codigo`, COUNT(DISTINCT `rp`.`fecha`) as `asistencias`, COUNT(DISTINCT `rpd`.`fecha`) as `total` FROM `usuarios` 
             INNER JOIN `reporte_celula_consolidacion` AS `rp` ON `rp`.`cedula_participante` = `usuarios`.`cedula` 
-            RIGHT JOIN `reporte_celula_consolidacion` as `rpd` ON `rpd`.`id_consolidacion` = :rpdid_consolidacion
-            WHERE `rp`.`fecha` BETWEEN :rpfecha_inicio AND rpfecha_final AND `rp`.`id_consolidacion` = :rpid_consolidacion AND `rpd`.`fecha` 
-            BETWEEN :rpdfecha_inicio AND :rpdfecha_final GROUP BY `usuarios`.`cedula`";
+            RIGHT JOIN `reporte_celula_consolidacion` as `rpd` ON `rpd`.`id_consolidacion` = $id 
+            WHERE `rp`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' AND `rp`.`id_consolidacion` = $id AND `rpd`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' GROUP BY `usuarios`.`cedula`";
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(
-                ":rpdid_consolidacion" => $id,
-                ":rpfecha_inicio" => $fecha_inicio, ":rpfecha_final" => $fecha_final,
-                ":rpid_consolidacion" => $id, ":rpdfecha_inicio" => $fecha_inicio,
-                ":rpdfecha_final" => $fecha_final
-            ));
+            $stmt->execute(array());
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 $resultado[] = $filas;
             }
@@ -234,11 +228,32 @@ class Consolidacion extends Conexion
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
             return $resultado;
         } catch (Exception $e) {
+            echo $e->getMessage();
 
+            echo "Linea del error: " . $e->getLine();
             return false;
         }
     }
+    //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
+    public function registrar_asistencias()
+    {
+        $sql = "INSERT INTO reporte_celula_consolidacion (id_consolidacion,cedula_participante,fecha) 
+            VALUES(:id_consolidacion,:cedula_participante,:fecha)";
 
+        $stmt = $this->conexion->prepare($sql);
+        //recorriendo arreglo de asistentes
+        foreach ($this->asistentes as $asistente) {
+            $stmt->execute(array(
+                ":id_consolidacion" => $this->id,
+                ":cedula_participante" => $asistente,
+                ":fecha" => $this->fecha
+            ));
+        } //fin del foeach
+
+        $accion = "Registrar asistencias en celula de Consolidacion";
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+    }
 
     //------------------------------------------------------Registrar consolidacion ----------------------//
     public function registrar_consolidacion()
@@ -673,33 +688,6 @@ class Consolidacion extends Conexion
         }
     }
 
-    //------------------------------------------------------Registrar Asitencias de consolidacion ----------------------//
-    public function registrar_asistencias()
-    {
-        try {
-            $sql = "INSERT INTO reporte_celula_consolidacion (id_consolidacion,cedula_participante,fecha) 
-             VALUES(:id_consolidacion,:cedula_participante,:fecha)";
-
-            $stmt = $this->conexion->prepare($sql);
-            //recorriendo arreglo de asistentes
-            foreach ($this->asistentes as $asistente) {
-                $stmt->execute(array(
-                    ":id_consolidacion" => $this->id,
-                    ":cedula_participante" => $asistente,
-                    ":fecha" => $this->fecha
-                ));
-            } //fin del foeach
-
-            $accion = "Registrar asistencias en celula de Consolidacion";
-            $usuario = $_SESSION['cedula'];
-            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        } catch (Exception $e) {
-            echo $e->getMessage();
-
-            echo "Linea del error: " . $e->getLine();
-            return false;
-        }
-    }
 
     //-------- SET DATOS Para registar consolidacion-------------------------------------//
     public function setConsolidacion($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $participantes)
