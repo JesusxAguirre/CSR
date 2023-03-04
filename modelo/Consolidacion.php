@@ -613,7 +613,7 @@ class Consolidacion extends Conexion
         $stmt->execute(array(
             ":cedula_lider" => $this->cedula_lider,
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-            ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion"=>$this->direccion 
+            ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion"=>$this->direccion, 
             ":id" => $this->id
         ));
     }
