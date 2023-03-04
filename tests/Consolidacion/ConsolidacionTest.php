@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use Csr\Modelo\Consolidacion;
 
 
-final class UsuariosTest extends TestCase
+final class ConsolidacionTest extends TestCase
 {
   private $objeto_consolidacion;
 
@@ -74,7 +74,7 @@ final class UsuariosTest extends TestCase
 
     $array_celulas_consolidacion = $this->objeto_consolidacion->listar_celula_consolidacion();
     //Assert
-    print_r($array_celulas_consolidacion);
+   
     foreach($array_celulas_consolidacion as $celulas_consolidacion){
       if($cedulas_n2[0] == $celulas_consolidacion['cedula_lider']){
         $celula_consolidacion_nueva = $celulas_consolidacion;
@@ -107,6 +107,26 @@ final class UsuariosTest extends TestCase
     foreach($array_usuarios_a_consolidar as $usuarios){
       $cedulas_a_consolidar[] = $usuarios['cedula'];
     }
+
+    //Act
+    print_r($celula_consolidacion_nueva);
+    $this->objeto_consolidacion->setActualizar($celula_consolidacion_nueva['cedula_lider'],$celula_consolidacion_nueva['cedula_anfitrion'],
+    $celula_consolidacion_nueva['cedula_asistente'],$dia_reunion,$hora,$direccion_celula,$celula_consolidacion_nueva['id']);
+
+    $this->objeto_consolidacion->update_consolidacion();
+
+    $celulas_cosolidacion = $this->objeto_consolidacion->listar_celula_consolidacion();
+    
+    
+    foreach($celulas_cosolidacion as $celulas){
+      if($celula_consolidacion_nueva['id'] == $celulas['id']){
+        $celula_consolidacion_nueva - $celulas;
+      }
+    }
+    //Assert
+
+    print_r($celula_consolidacion_nueva);
+    $this->assertContains([$dia_reunion,$hora,$direccion_celula],[$celula_consolidacion_nueva['dia_reunion'],$celula_consolidacion_nueva['hora'],$celula_consolidacion_nueva['direccion']]);
   }
  
 

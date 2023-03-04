@@ -264,7 +264,7 @@ class Consolidacion extends Conexion
             $id++;
 
             $sql = "INSERT INTO celula_consolidacion (codigo_celula_consolidacion,cedula_lider,
-        cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora) 
+        cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
         VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direccion)";
 
             $stmt = $this->conexion->prepare($sql);
