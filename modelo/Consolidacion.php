@@ -198,7 +198,7 @@ class Consolidacion extends Conexion
     {
         try {
             $resultado = [];
-            $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, 
+            $sql = ("SELECT celula_consolidacion.id, celula_consolidacion.codigo_celula_consolidacion, celula_consolidacion.dia_reunion, celula_consolidacion.hora, celula_consolidacion.direccion, 
         lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
         anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
         asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente

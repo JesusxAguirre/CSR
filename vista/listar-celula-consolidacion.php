@@ -75,6 +75,7 @@
                     <?php foreach ($matriz_celula as $celula) : ?>
                       <tr role='row'>
                         <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
+                        <td hidden class="direccion" role='cell'><?php echo $celula['direccion'] ?></td>   
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_consolidacion'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
                         <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
@@ -83,8 +84,8 @@
                         <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
                         <td class="" role="cell">
-                          <?php   if ($_SESSION['permisos']['celula_consolidacion']['actualizar'] > 0) :?>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
+                          <?php if ($_SESSION['permisos']['celula_consolidacion']['actualizar'] > 0) : ?>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <?php endif; ?>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
@@ -137,6 +138,16 @@
                   <input type="time" name="hora" id="horaInput" class="form-control" placeholder="">
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div id="grupo__direccion" class="col-sm col-md-12">
+                <div class="relative">
+                  <label class="form-label fw-bold" for="formGridZip">Dirección de la celula</label>
+                  <i class="input-icon2  fs-5"></i>
+                  <input name="direccion" id="direccionInput" type="text" placeholder="" class="form-control">
+                </div>
+                <p class="text-danger d-none">Este campo no puede quedar vacio</p>
               </div>
             </div>
             <div class="mb-3 row">
@@ -312,8 +323,8 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar participantes que si asistieron</label>
                   <i class="input-icon fs-5"></i>
-                  <div id="asistencias4" ></div>
-                
+                  <div id="asistencias4"></div>
+
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
               </div>

@@ -11,7 +11,7 @@ const eliminar__participantes = document.getElementById('eliminar__participantes
 const modal_eliminar_participates = document.getElementById('datos4')
 const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
-const expandir =  document.getElementById('asistencias4')
+const expandir = document.getElementById('asistencias4')
 
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
@@ -33,6 +33,7 @@ const campos = {
   codigoAsistente: true,
   dia: true,
   hora: true,
+  direccion: true,
   codigo: true,
   participantes: false,
   fecha: false,
@@ -42,6 +43,7 @@ const campos = {
 const expresiones = { //objeto con varias expresiones regulares
 
   dia: /^[a-zA-ZÀ-ÿ]{5,20}$/, // Letras y espacios, pueden llevar acentos.
+  direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
   codigo: /^[CC]{2}[0-9]{1,5}$/ //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
 }
@@ -75,6 +77,10 @@ const ValidarFormulario = (e) => {
       break;
     case "fecha":
       ValidarSelect(e.target, 'fecha');
+      break;
+
+    case "direccion":
+      ValidarCampo(expresiones.direccion, e.target, 'direccion');
       break;
   }
 }
@@ -134,7 +140,7 @@ const ValidarCampo = (expresion, input, campo) => {
 
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
+  if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo && campos.direccion)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -308,6 +314,7 @@ function addEvents() {
   editButtons.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
+    let direccion = fila.querySelector('.direccion')
 
     let dia = fila.querySelector('.dia')
     let hora = fila.querySelector('.hora')
@@ -320,6 +327,7 @@ function addEvents() {
 
     const diaInput = document.getElementById('diaInput')
     const horaInput = document.getElementById('horaInput')
+    const direccionInput = document.getElementById('direccionInput')
     const liderInput = document.getElementById('codigoLider')
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
@@ -331,6 +339,7 @@ function addEvents() {
 
     diaInput.value = dia.textContent
     horaInput.value = hora.textContent
+    direccionInput.value = direccion.textContent
     //cedulas de usuarios
 
 
