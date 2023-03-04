@@ -157,7 +157,7 @@ final class ConsolidacionTest extends TestCase
     //Init
     $no_participantes = $this->objeto_consolidacion->listar_no_participantes();
     foreach ($no_participantes as $no_participante) {
-      $cedulas_no_participantes = $no_participante['cedula'];
+      $cedulas_no_participantes[] = $no_participante['cedula'];
     }
     
 
@@ -173,7 +173,8 @@ final class ConsolidacionTest extends TestCase
     }
 
     //Assert
-   
+    print_r($cedulas_no_participantes);
+    print_r($cedulas_participantes);
     //aqui tambien se testea la funcion listar participantes
     $this->assertArrayHasKey("participantes_cedula", $participantes[0]);
 
