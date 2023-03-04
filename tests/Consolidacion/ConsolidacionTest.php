@@ -140,6 +140,21 @@ final class ConsolidacionTest extends TestCase
     }
    //$fecha_actual = date("d-m-Y");
 
+   //Act
+   $this->objeto_consolidacion->setParticipantes($cedulas_no_participantes[0],$celula_consolidacion_nueva['id']);
+   $this->objeto_consolidacion->agregar_participantes();
+
+   $participantes = $this->objeto_consolidacion->listar_participantes($celula_consolidacion_nueva['id']);
+
+
+  foreach($participantes as $participante){
+    $cedulas_participantes = $participante['participantes_celula'];
+  }
+    
+    //Assert
+   $this->assertArrayHasKey("participantes_celula",$participantes[0]);
+
+   $this->assertContains($cedulas_no_participantes[0],$cedulas_participantes);
   }
  
 
