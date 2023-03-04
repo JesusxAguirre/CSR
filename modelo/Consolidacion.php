@@ -273,7 +273,7 @@ class Consolidacion extends Conexion
                 ":codigo" => 'CC' . $id,
                 ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
                 ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
-                ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion"=>$this->direccion
+                ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion" => $this->direccion
             ));
             //---------Comienzo de funcion de pasar id foraneo con respecto a los participantes de la celula------------------------//
             //agregando codigo de celula a codigo de usuario
@@ -421,7 +421,8 @@ class Consolidacion extends Conexion
     }
     //---------------------------------------------------COMIENZO DE UPDATE-----------------------------------//
     public function update_consolidacion()
-    {
+    {   
+        try{
         //buscando las cedulas de los usuarios por id de celula
         $sql = ("SELECT  celula_consolidacion.codigo_celula_consolidacion AS codigo_celula,  
         lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
@@ -583,11 +584,11 @@ class Consolidacion extends Conexion
                     ":cedula" => $this->cedula_asistente
                 ));
 
-                $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = '$cedula_asistente_antiguo'");
+                $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = :cedula_asistente_antiguo");
 
                 $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array());
+                $stmt->execute(array(":cedula_asistente_antiguo"=>$cedula_asistente_antiguo));
 
                 $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
 
@@ -613,9 +614,17 @@ class Consolidacion extends Conexion
         $stmt->execute(array(
             ":cedula_lider" => $this->cedula_lider,
             ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-            ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion"=>$this->direccion, 
+            ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direccion" => $this->direccion,
             ":id" => $this->id
         ));
+        return true;
+    }catch(Exception $e){
+        echo $e->getMessage();
+
+        echo "Linea del error: " . $e->getLine();
+
+        return false
+    }
     }
     //---------------------------------------------------FIN DE UPDATE------------------------------------//
 
@@ -624,34 +633,45 @@ class Consolidacion extends Conexion
 
     public function agregar_participantes()
     {
-        $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
+        try {
+            $sql = ("INSERT INTO participantes_consolidacion (cedula,id_consolidacion) VALUES (:cedula,:id)");
 
-        foreach ($this->participantes as $participantes) {
+            foreach ($this->participantes as $participantes) {
 
-            $stmt = $this->conexion()->prepare($sql);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(
-                ":id" => $this->id,
-                ":cedula" => $participantes
-            ));
-        } //fin del foreach
+                $stmt->execute(array(
+                    ":id" => $this->id,
+                    ":cedula" => $participantes
+                ));
+            } //fin del foreach
 
-        $accion = "Agregar participantes a una celula de consolidacion";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            $accion = "Agregar participantes a una celula de consolidacion";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+            return true;
+        } catch (Exception $e) {
+
+            return false;
+        }
     }
 
     //---------------------------------------------------Eliminar participantes------------------------------------//
     public function eliminar_participantes($cedula_participante)
-    {
-        $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = '$cedula_participante'");
+    {   
+        try{
+        $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = ':cedula_participante'");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(":cedula_participante"=>$cedula_participante));
 
 
         return true;
+        } catch(Exception $e){
+            return false;
+        }
     }
 
 
@@ -668,7 +688,7 @@ class Consolidacion extends Conexion
         $this->participantes = $participantes;
     }
     //-------- SET actualizar para actualizar consolidacions-------------------------------------//
-    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora,$direccion, $id)
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;

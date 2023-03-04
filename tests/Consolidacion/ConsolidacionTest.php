@@ -129,6 +129,18 @@ final class ConsolidacionTest extends TestCase
     $this->assertEquals([$dia_reunion,$hora,$direccion_celula],
     [$celula_consolidacion_nueva['dia_reunion'],$celula_consolidacion_nueva['hora'],$celula_consolidacion_nueva['direccion']]);
   }
+    /**
+   * @depends test_registrar_consolidacion
+   * **/
+  public function agregar_participantes($celula_consolidacion_nueva){
+    //Init
+    $no_participantes = $this->objeto_consolidacion->listar_no_participantes();
+    foreach($no_participantes as $no_participante){
+      $cedulas_no_participantes = $no_participante['cedula'];
+    }
+   //$fecha_actual = date("d-m-Y");
+
+  }
  
 
 }
