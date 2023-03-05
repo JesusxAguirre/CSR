@@ -610,14 +610,16 @@ class Discipulado extends Conexion
             }
 
             $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
-            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora WHERE id= :id");
+            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora,
+            direccion = :direc WHERE id= :id");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
                 ":cedula_lider" => $this->cedula_lider,
                 ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-                ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":id" => $this->id
+                ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc"=>$this->direccion, 
+                ":id" => $this->id
             ));
 
             $accion = "Editar datos de celula de discipulado";
@@ -684,13 +686,14 @@ class Discipulado extends Conexion
     }
     //-------- SET actualizar para actualizar disicpulados-------------------------------------//
 
-    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id)
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora,$direccion, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
         $this->cedula_asistente = $cedula_asistente;
         $this->dia = $dia;
         $this->hora = $hora;
+        $this->direccion = $direccion;
         $this->fecha = gmdate("y-m-d", time());
         $this->id = $id;
     }
