@@ -234,8 +234,7 @@ final class DiscipuladoTest extends TestCase
       $cedulas_participantes[] = $participante['participantes_cedula'];
     }
     //Assert
-    print_r($cedulas_participantes);
-    print_r($cedula_participante);
+
     $this->assertNotContains($cedula_participante, $cedulas_participantes);
   }
 }
