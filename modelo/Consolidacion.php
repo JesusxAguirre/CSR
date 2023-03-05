@@ -288,13 +288,16 @@ class Consolidacion extends Conexion
             //agregando codigo de celula a codigo de usuario
             //agregando a lider
             $sql = ("SELECT id FROM celula_consolidacion 
-        WHERE cedula_lider= '$this->cedula_lider'
-        AND cedula_anfitrion = '$this->cedula_anfitrion'
-        AND cedula_asistente = '$this->cedula_asistente'");
+            WHERE cedula_lider= :cedula_lider
+            AND cedula_anfitrion = :cedula_anfitrion
+            AND cedula_asistente = :cedula_asistente");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":cedula_lider"=>$this->cedula_lider,":cedula_anfitrion"=>$this->cedula_anfitrion,
+                ":cedula_asistente"=>$this->cedula_asistente
+            ));
 
             $id_consolidacion  = $stmt->fetch(PDO::FETCH_ASSOC);
 

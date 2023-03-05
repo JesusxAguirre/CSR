@@ -249,6 +249,7 @@ class Discipulado extends Conexion
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
     {
+        try{
         //buscando ultimo id agregando
         $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
 
@@ -280,13 +281,16 @@ class Discipulado extends Conexion
         //primero vamos a buscar el id que queremos pasar como clave foranea
 
         $sql = ("SELECT id FROM celula_discipulado 
-        WHERE cedula_lider= '$this->cedula_lider'
-        AND cedula_anfitrion = '$this->cedula_anfitrion'
-        AND cedula_asistente = '$this->cedula_asistente'");
+        WHERE cedula_lider= :cedula_lider
+        AND cedula_anfitrion = :cedula_anfitrion
+        AND cedula_asistente = :cedula_asistente");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
+            ":cedula_asistente" => $this->cedula_asistente
+        ));
 
         $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -308,10 +312,10 @@ class Discipulado extends Conexion
         //---------Comienzo de funcion de pasar id foraneo con respecto a el lider de la celula------------------------//
         //agregando codigo de celula a codigo de usuario
         //agregando a lider
-        $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+        $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+        $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
         $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -326,11 +330,11 @@ class Discipulado extends Conexion
 
         //comprobando que el anfitrion y el asistente sean la misma cedula
         if ($this->cedula_anfitrion == $this->cedula_asistente) {
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
+            $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -354,11 +358,11 @@ class Discipulado extends Conexion
             ));
         } else { //comienzo del ELSE y fin del IF
             //agregando codigo de celula por separado de anfitrion y asistente
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
+            $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
 
             $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -381,10 +385,10 @@ class Discipulado extends Conexion
                 ":id" => $id_discipulado['id']
             ));
 
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_asistente");
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(":cedula_asistente" => $this->cedula_asistente));
 
             $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -411,6 +415,14 @@ class Discipulado extends Conexion
         $accion = "Registrar  celula de discipulado";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+        return true;
+        }catch(Exception $e){
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
+        }
     }
 
 
@@ -562,13 +574,13 @@ class Discipulado extends Conexion
 
                         $stmt = $this->conexion()->prepare($sql);
 
-                        $stmt->execute(array(":cedula_asistente_antiguo"=>$cedula_asistente_antiguo));
+                        $stmt->execute(array(":cedula_asistente_antiguo" => $cedula_asistente_antiguo));
                     }
                     //agregando el codigo a el usuario nuevo
                     $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_asistente");
 
                     $stmt = $this->conexion()->prepare($sql);
-                    $stmt->execute(array(":cedula_asistente"=>$this->cedula_asistente));
+                    $stmt->execute(array(":cedula_asistente" => $this->cedula_asistente));
                     $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
@@ -584,7 +596,7 @@ class Discipulado extends Conexion
 
                     $stmt = $this->conexion()->prepare($sql);
 
-                    $stmt->execute(array(":cedula_asistente_antiguo"=>$cedula_asistente_antiguo));
+                    $stmt->execute(array(":cedula_asistente_antiguo" => $cedula_asistente_antiguo));
 
                     $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
