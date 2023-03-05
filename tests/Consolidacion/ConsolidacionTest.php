@@ -235,6 +235,6 @@ final class ConsolidacionTest extends TestCase
     }
     //Assert
 
-    $this->assertContains($cedula_participante, $cedulas_participantes);
+    $this->assertNotContains($cedula_participante, $cedulas_participantes);
   }
 }
