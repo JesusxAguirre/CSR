@@ -37,15 +37,15 @@ final class DiscipuladoTest extends TestCase
     //Init
     $key_expected = "cedula";
     //Act
-    $array_usuarios_a_consolidar = $this->objeto_discipulado->listar_no_participantes();
+    $array_usuarios_a_discipular = $this->objeto_discipulado->listar_no_participantes();
 
     //Assert
 
 
 
-    $this->assertArrayHasKey($key_expected, $array_usuarios_a_consolidar[0]);
+    $this->assertArrayHasKey($key_expected, $array_usuarios_a_discipular[0]);
 
-    return $array_usuarios_a_consolidar;
+    return $array_usuarios_a_discipular;
   }
 
 
@@ -53,7 +53,7 @@ final class DiscipuladoTest extends TestCase
    * @depends test_listar_no_participantes
    * @depends test_listar_usuarios_N2
    * **/
-  public function test_registrar_discipulado($array_usuarios_a_consolidar, $array_usuarios_n2_3): array
+  public function test_registrar_discipulado($array_usuarios_a_discipular, $array_usuarios_n2_3): array
   {
 
     $dia_reunion = "Jueves";
@@ -63,8 +63,8 @@ final class DiscipuladoTest extends TestCase
     foreach ($array_usuarios_n2_3 as $usuarios) {
       $cedulas_n2[] = $usuarios['cedula'];
     }
-    foreach ($array_usuarios_a_consolidar as $usuarios) {
-      $cedulas_usuarios_a_consolidar[] = $usuarios['cedula'];
+    foreach ($array_usuarios_a_discipular as $usuarios) {
+      $cedulas_usuarios_a_discipular[] = $usuarios['cedula'];
     }
     //Act
 
@@ -75,69 +75,69 @@ final class DiscipuladoTest extends TestCase
       $dia_reunion,
       $hora,
       $direccion_celula,
-      [$cedulas_usuarios_a_consolidar[0]]
+      [$cedulas_usuarios_a_discipular[0]]
     );
 
     $this->objeto_discipulado->registrar_discipulado();
     
-    $array_celulas_consolidacion = $this->objeto_discipulado->listar_celula_discipulado();
+    $array_celulas_discipulacion = $this->objeto_discipulado->listar_celula_discipulado();
     //Assert
 
-    foreach ($array_celulas_consolidacion as $celulas_consolidacion) {
-      if ($cedulas_n2[0] == $celulas_consolidacion['cedula_lider']) {
-        $celula_consolidacion_nueva = $celulas_consolidacion;
+    foreach ($array_celulas_discipulacion as $celulas_discipulacion) {
+      if ($cedulas_n2[0] == $celulas_discipulacion['cedula_lider']) {
+        $celula_discipulacion_nueva = $celulas_discipulacion;
       }
     }
 
 
-    //aqui tambien se testea la funcion listar celulas de consolidacion
-    $this->assertArrayHasKey("id", $array_celulas_consolidacion[0]);
-    $this->assertContains($cedulas_n2[0], $celula_consolidacion_nueva);
+    //aqui tambien se testea la funcion listar celulas de discipulacion
+    $this->assertArrayHasKey("id", $array_celulas_discipulacion[0]);
+    $this->assertContains($cedulas_n2[0], $celula_discipulacion_nueva);
 
 
-    return $celula_consolidacion_nueva;
+    return $celula_discipulacion_nueva;
   }
 
 
   /**
-   * @depends test_registrar_consolidacion
+   * @depends test_registrar_discipulacion
    * **/
-  public function test_update_consolidacion($celula_consolidacion_nueva)
+  public function test_update_discipulacion($celula_discipulacion_nueva)
   {
     //Init
     $dia_reunion = "Domingos";
     $hora = date("h:i:s");
     $direccion_celula = "Villa roca";
     $array_usuarios_n2_n3 = $this->objeto_discipulado->listar_usuarios_N2();
-    $array_usuarios_a_consolidar = $this->objeto_discipulado->listar_no_participantes();
+    $array_usuarios_a_discipular = $this->objeto_discipulado->listar_no_participantes();
     
     foreach ($array_usuarios_n2_n3 as $usuarios) {
       $cedulas_n2[] = $usuarios['cedula'];
     }
-    foreach ($array_usuarios_a_consolidar as $usuarios) {
-      $cedulas_a_consolidar[] = $usuarios['cedula'];
+    foreach ($array_usuarios_a_discipular as $usuarios) {
+      $cedulas_a_discipular[] = $usuarios['cedula'];
     }
 
     //Act
 
     $this->objeto_discipulado->setActualizar(
-      $celula_consolidacion_nueva['cedula_lider'],
-      $celula_consolidacion_nueva['cedula_anfitrion'],
-      $celula_consolidacion_nueva['cedula_asistente'],
+      $celula_discipulacion_nueva['cedula_lider'],
+      $celula_discipulacion_nueva['cedula_anfitrion'],
+      $celula_discipulacion_nueva['cedula_asistente'],
       $dia_reunion,
       $hora,
       $direccion_celula,
-      $celula_consolidacion_nueva['id']
+      $celula_discipulacion_nueva['id']
     );
 
-    $this->objeto_discipulado->update_consolidacion();
+    $this->objeto_discipulado->actualizar_discipulado();
 
-    $celulas_cosolidacion = $this->objeto_discipulado->listar_celula_consolidacion();
+    $celulas_discipulado = $this->objeto_discipulado->listar_celula_discipulado();
 
 
-    foreach ($celulas_cosolidacion as $celulas) {
-      if ($celula_consolidacion_nueva['id'] == $celulas['id']) {
-        $celula_consolidacion_nueva = $celulas;
+    foreach ($celulas_discipulado as $celulas) {
+      if ($celula_discipulacion_nueva['id'] == $celulas['id']) {
+        $celula_discipulacion_nueva = $celulas;
       }
     }
     //Assert
@@ -145,14 +145,14 @@ final class DiscipuladoTest extends TestCase
 
     $this->assertEquals(
       [$dia_reunion, $hora, $direccion_celula],
-      [$celula_consolidacion_nueva['dia_reunion'], $celula_consolidacion_nueva['hora'], $celula_consolidacion_nueva['direccion']]
+      [$celula_discipulacion_nueva['dia_reunion'], $celula_discipulacion_nueva['hora'], $celula_discipulacion_nueva['direccion']]
     );
   }
 
   /**
-   * @depends test_registrar_consolidacion
+   * @depends test_registrar_discipulacion
    * **/
-  public function test_agregar_participantes($celula_consolidacion_nueva)
+  public function test_agregar_participantes($celula_discipulacion_nueva)
   {
     //Init
     $no_participantes = $this->objeto_discipulado->listar_no_participantes();
@@ -162,10 +162,10 @@ final class DiscipuladoTest extends TestCase
 
 
     //Act
-    $this->objeto_discipulado->setParticipantes([$cedulas_no_participantes[0]], $celula_consolidacion_nueva['id']);
+    $this->objeto_discipulado->setParticipantes([$cedulas_no_participantes[0]], $celula_discipulacion_nueva['id']);
     $this->objeto_discipulado->agregar_participantes();
 
-    $participantes = $this->objeto_discipulado->listar_participantes($celula_consolidacion_nueva['id']);
+    $participantes = $this->objeto_discipulado->listar_participantes($celula_discipulacion_nueva['id']);
 
 
 
@@ -181,29 +181,29 @@ final class DiscipuladoTest extends TestCase
     $this->assertContains($cedulas_no_participantes[0], $cedulas_participantes);
 
 
-    $celula_consolidacion_nueva['cedulas_participantes'] = $cedulas_no_participantes;
+    $celula_discipulacion_nueva['cedulas_participantes'] = $cedulas_no_participantes;
 
-    return $celula_consolidacion_nueva;
+    return $celula_discipulacion_nueva;
   }
 
   /**
    * @depends test_agregar_participantes
    * **/
-  public function test_agregar_asistencias(array $celula_consolidacion_nueva)
+  public function test_agregar_asistencias(array $celula_discipulacion_nueva)
   {
     //Init
     $fecha_actual = date("Y-m-d");
     //Act
     $this->objeto_discipulado->setAsistencias(
-      $celula_consolidacion_nueva['cedulas_participantes'],
-      $celula_consolidacion_nueva['id'],
+      $celula_discipulacion_nueva['cedulas_participantes'],
+      $celula_discipulacion_nueva['id'],
       $fecha_actual
     );
 
     $this->objeto_discipulado->registrar_asistencias();
 
     $asistencias_participantes = $this->objeto_discipulado->listar_asistencias(
-      $celula_consolidacion_nueva['id'],
+      $celula_discipulacion_nueva['id'],
       $fecha_actual,
       $fecha_actual
     );
@@ -211,24 +211,24 @@ final class DiscipuladoTest extends TestCase
 
     //Assert
 
-    $this->assertArrayHasKey("id_consolidacion", $asistencias_participantes[0]);
+    $this->assertArrayHasKey("id_discipulacion", $asistencias_participantes[0]);
 
 
-    return $celula_consolidacion_nueva;
+    return $celula_discipulacion_nueva;
   }
 
   /**
    * @depends test_agregar_asistencias
    * **/
-  public function test_eliminar_participantes(array $celula_consolidacion_nueva)
+  public function test_eliminar_participantes(array $celula_discipulacion_nueva)
   {
     //Init
 
-    $cedula_participante = $celula_consolidacion_nueva['cedulas_participantes'][0];
+    $cedula_participante = $celula_discipulacion_nueva['cedulas_participantes'][0];
 
     //Act
     $this->objeto_discipulado->eliminar_participantes($cedula_participante);
-    $participantes = $this->objeto_discipulado->listar_participantes($celula_consolidacion_nueva['id']);
+    $participantes = $this->objeto_discipulado->listar_participantes($celula_discipulacion_nueva['id']);
 
     foreach ($participantes as $participante) {
       $cedulas_participantes[] = $participante['participantes_cedula'];
