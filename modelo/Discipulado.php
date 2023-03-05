@@ -426,10 +426,10 @@ class Discipulado extends Conexion
         INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
         INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
         INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
-        WHERE celula_discipulado.id = '$this->id'");
+        WHERE celula_discipulado.id = :id");
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
+            $stmt->execute(array(":id" => $this->id));
             //guardando en un array asociativo las cedulas
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -448,16 +448,16 @@ class Discipulado extends Conexion
             if ($codigo_lider_antiguo != $this->cedula_lider) {
 
                 $codigo1 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = '$cedula_lider_antiguo'");
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = :cedula_lider_antiguo");
 
                 $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array());
+                $stmt->execute(array(":cedula_lider_antiguo" => $cedula_lider_antiguo));
                 //agregando el codigo a el usuario nuevo
-                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
                 $stmt = $this->conexion()->prepare($sql);
-                $stmt->execute(array());
+                $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
                 $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -475,16 +475,16 @@ class Discipulado extends Conexion
                 if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
 
                     $codigo2 = '-' . $codigo;
-                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = :cedula_anfitrion_antiguo");
 
                     $stmt = $this->conexion()->prepare($sql);
 
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo));
                     //agregando el codigo a el usuario nuevo
-                    $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+                    $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
                     $stmt = $this->conexion()->prepare($sql);
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
                     $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -497,11 +497,11 @@ class Discipulado extends Conexion
                         ":cedula" => $this->cedula_anfitrion
                     ));
 
-                    $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_anfitrion_antiguo'");
+                    $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_anfitrion_antiguo");
 
                     $stmt = $this->conexion()->prepare($sql);
 
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo));
 
                     $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
@@ -516,17 +516,17 @@ class Discipulado extends Conexion
                 if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
                     if ($codigo_anfitrion_antiguo != $this->cedula_asistente) {
                         $codigo2 = '-' . $codigo;
-                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = '$cedula_anfitrion_antiguo'");
+                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = :cedula_anfitrion_antiguo");
 
                         $stmt = $this->conexion()->prepare($sql);
 
-                        $stmt->execute(array());
+                        $stmt->execute(array(":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo));
                     }
                     //agregando el codigo a el usuario nuevo
-                    $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_anfitrion'");
+                    $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
                     $stmt = $this->conexion()->prepare($sql);
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
                     $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -539,11 +539,11 @@ class Discipulado extends Conexion
                         ":cedula" => $this->cedula_anfitrion
                     ));
 
-                    $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_anfitrion_antiguo'");
+                    $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_anfitrion_antiguo");
 
                     $stmt = $this->conexion()->prepare($sql);
 
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo));
 
                     $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
@@ -558,17 +558,17 @@ class Discipulado extends Conexion
                     if ($codigo_asistente_antiguo != $this->cedula_anfitrion) {
 
                         $codigo3 = '-' . $codigo;
-                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = '$cedula_asistente_antiguo'");
+                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = :cedula_asistente_antiguo");
 
                         $stmt = $this->conexion()->prepare($sql);
 
-                        $stmt->execute(array());
+                        $stmt->execute(array(":cedula_asistente_antiguo"=>$cedula_asistente_antiguo));
                     }
                     //agregando el codigo a el usuario nuevo
-                    $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_asistente'");
+                    $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_asistente");
 
                     $stmt = $this->conexion()->prepare($sql);
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_asistente"=>$this->cedula_asistente));
                     $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
@@ -580,11 +580,11 @@ class Discipulado extends Conexion
                         ":cedula" => $this->cedula_asistente
                     ));
 
-                    $sql = ("DELETE FROM discipulos WHERE cedula = '$cedula_asistente_antiguo'");
+                    $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_asistente_antiguo");
 
                     $stmt = $this->conexion()->prepare($sql);
 
-                    $stmt->execute(array());
+                    $stmt->execute(array(":cedula_asistente_antiguo"=>$cedula_asistente_antiguo));
 
                     $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
@@ -611,6 +611,7 @@ class Discipulado extends Conexion
             $accion = "Editar datos de celula de discipulado";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return true;
         } catch (Exception $e) {
             echo $e->getMessage();
 
