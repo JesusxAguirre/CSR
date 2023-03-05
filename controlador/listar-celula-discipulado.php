@@ -29,11 +29,11 @@ if ($_SESSION['verdadero'] > 0) {
             $cedula_asistente = $_POST['codigoAsistente'];
             $dia = $_POST['dia'];
             $hora = $_POST['hora'];
-
+            $direccion = $_POST['direccion'];
             $id = $_POST['id'];
 
 
-            $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $id);
+            $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora,$direccion, $id);
 
             $objeto->actualizar_discipulado();
             $actualizar = false;

@@ -105,7 +105,7 @@ class Discipulado extends Conexion
     public function listar_celula_discipulado()
     {
         $resultado = [];
-        $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, 
+        $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado, celula_discipulado.dia_reunion, celula_discipulado.hora, celula_discipulado.direccion,
         lider.codigo AS codigo_lider,  anfitrion.codigo AS codigo_anfitrion, asistente.codigo AS codigo_asistente
         FROM celula_discipulado 
         INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
