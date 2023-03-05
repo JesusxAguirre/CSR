@@ -127,8 +127,9 @@ class Discipulado extends Conexion
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
-    public function listar_participantes($busqueda)
+    public function listar_participantes($id_discipulado)
     {
+        try{
         $participantes = [];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
         discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
@@ -136,11 +137,11 @@ class Discipulado extends Conexion
         FROM celula_discipulado 
         INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
         INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
-        WHERE celula_discipulado.id = '$busqueda'");
+        WHERE celula_discipulado.id = :id_discipulado");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(":id_discipulado"=>$id_discipulado));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
@@ -152,10 +153,19 @@ class Discipulado extends Conexion
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $participantes;
+        }catch(Exception $e){
+        echo $e->getMessage();
+
+        echo "Linea del error: " . $e->getLine();
+
+        return false;
+        }
+
     }
 
     public function listar_celula_discipulado_por_usuario()
     {
+        try{
         $resultado = [];
         $usuario = $_SESSION['usuario'];
         $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
@@ -172,6 +182,12 @@ class Discipulado extends Conexion
             $resultado[] = $filas;
         }
         return $resultado;
+        }catch(Exception $e){
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
+        }
     }
 
     public function listar_asistencias($id, $fecha_inicio, $fecha_final)
