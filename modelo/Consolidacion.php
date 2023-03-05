@@ -196,7 +196,7 @@ class Consolidacion extends Conexion
 
             echo "Linea del error: " . $e->getLine();
 
-            return false;
+            return $e;
         }
     }
     //-------------------------------------------------------Buscar datos de lider por celula----------------------//
@@ -672,7 +672,7 @@ class Consolidacion extends Conexion
     public function eliminar_participantes($cedula_participante)
     {
         try {
-            $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = ':cedula_participante'");
+            $sql = ("DELETE FROM participantes_consolidacion WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);
 

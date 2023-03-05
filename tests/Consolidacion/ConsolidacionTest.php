@@ -192,7 +192,7 @@ final class ConsolidacionTest extends TestCase
   public function test_agregar_asistencias(array $celula_consolidacion_nueva) 
   {
     //Init
-    $fecha_actual = date("d-m-Y");
+    $fecha_actual = date("Y-m-d");
     //Act
     $this->objeto_consolidacion->setAsistencias($celula_consolidacion_nueva['cedulas_participantes'],
     $celula_consolidacion_nueva['id'],$fecha_actual);
@@ -205,6 +205,26 @@ final class ConsolidacionTest extends TestCase
     print_r($asistencias_participantes);
     //Assert
 
+    $this->assertArrayHasKey("id_consolidacion",$asistencias_participantes[0]);
+
+
+    return $celula_consolidacion_nueva;
+  }
+
+   /**
+   * @depends test_agregar_asistencias
+   * **/
+  public function test_eliminar_participantes(array $celula_consolidacion_nueva) 
+  {
+    //Init
+    print_r($celula_consolidacion_nueva);
+    $cedula_participante = $celula_consolidacion_nueva['cedulas_participantes'][0];
+    print_r($cedula_participante);
+    //Act
+      $response = $this->objeto_consolidacion->eliminar_participantes($cedula_participante);
+    //Assert
+
+    $this->assertTrue($response);
 
   }
 }
