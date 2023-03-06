@@ -315,7 +315,9 @@ function buscarParticipantesAsistencias(busqueda) {
   })
 }
 
-
+$(document).ready(function () {
+  $('#mi_tabla').DataTable();
+});
 
 function addEvents() {
   // Actualizar contenido del modal Editar

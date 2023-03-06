@@ -176,6 +176,9 @@ function recarga() {
   window.location = "index.php?pagina=listar-casa";
 }
 
+$(document).ready(function () {
+  $('#mi_tabla').DataTable();
+});
 
 function addEvents() {
   // Actualizar contenido del modal Editar
@@ -217,6 +220,7 @@ function addEvents() {
 
 
   }))
+
 
 
 }
