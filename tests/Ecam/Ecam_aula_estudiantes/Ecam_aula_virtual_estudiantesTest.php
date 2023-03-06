@@ -13,7 +13,7 @@ final class Ecam_aula_virtual_estudiantesTest extends TestCase
   public function setUp(): void
   {
     $this->objeto_ecam   = new Ecam();
-    $_SESSION['id_seccion'] = 14;
+    $_SESSION['id_seccion'] = 19;
     $_SESSION['cedula'] =2345698;
   }
   /** @test **/

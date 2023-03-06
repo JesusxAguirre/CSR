@@ -113,7 +113,6 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
     $nota = 16;
 
     //Act  
-    print_r($array_estudiante);
     $this->objeto_ecam->setNotaMateriaEstudiante($array_estudiante['id_seccion'], $array_estudiante['id_materia'], $array_estudiante['cedula']);
     $response = $this->objeto_ecam->agregarNotaMateria($nota);
     //Asert

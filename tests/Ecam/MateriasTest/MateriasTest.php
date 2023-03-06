@@ -22,8 +22,8 @@ final class MateriasTest extends TestCase
   {
     //Init
     $array_profesores = $this->objeto_ecam->listarProfesores();
-    foreach ($array_profesores as $profsor) {
-      $profesores_cedula[] = $profsor['cedula'];
+    foreach ($array_profesores as $profesor) {
+      $profesores_cedula[] = $profesor['cedula'];
     }
     $nombre_materia = "Programacion 1";
     $nivel = 1;
@@ -154,7 +154,7 @@ final class MateriasTest extends TestCase
   /**
    * @depends test_actualizarMateria 
    * **/
-public function test_eliminarMateria(string $id_materia){
+public function test_eliminarMateria($id_materia){
   //Init
   
   //Act

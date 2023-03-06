@@ -51,8 +51,8 @@
 
     <main style="height: 100vh" class="pt-3 fondoEcam">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-6">
+            <div class="row mt-3">
+                <div class="col-xs-12 col-md-6 col-lg-6 mb-2">
                     <div class="card sombra">
                         <div class="card-body">
                             <h5 class="card-title fw-bold text-center font-monospace"><em>Bienvenid@ a los graficos estadisticos de la ECAM</em></h5>
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-xs-6 col-md-3 col-lg-3 mb-2">
                     <div class="card sombra">
                         <div class="card-body text-center">
                             <h6 class="card-title">Cantidad total de profesores en la ECAM</h6>
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-xs-6 col-md-3 col-lg-3 mb-2">
                     <div class="card sombra">
                         <div class="card-body text-center">
                             <h6 class="card-title">Cantidad total de estudiantes en la ECAM</h6>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-4">
+                <div class="col-xs-12 col-md-4 col-lg-4 mb-2">
                     <div class="card sombra">
                         <div class="card-body">
                             <h6 class="card-title text-center">Cantidad de estudiantes por seccion</h6>
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                
-                <div class="col-8">
+                <div class="col-xs-12 col-md-4 col-lg-8 mb-2">
                     <div class="card sombra">
                         <div class="card-body">
                             <h6 class="card-title text-center">Cantidad de graduados de la ECAM de este año</h6>

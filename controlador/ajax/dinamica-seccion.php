@@ -73,7 +73,12 @@ require_once("../../vendor/autoload.php");
                             
                         </div>
                     </td>
-                </tr> <?php
+                </tr>
+                <tr>
+                    <td>
+                        <?php echo $estOFF['nota_final'] ?>
+                    </td>
+                </tr><?php
             }
         }else{ ?>
                 <tr>
@@ -117,7 +122,7 @@ require_once("../../vendor/autoload.php");
             <?php endforeach; ?>
         </select> 
         <div hidden class="alertaNoEstudiantes alert alert-danger" role="alert">
-            ¡Debes seleccionar minimo 1 estudiante!
+            ¡Debes seleccionar minimo 10 estudiante!
         </div> <?php
     }
 
@@ -148,12 +153,12 @@ require_once("../../vendor/autoload.php");
                 <tr>
                     <td hidden class="idMateriaProfON"><?php echo $listProf['id_materia']; ?></td>
                     <td hidden class="cedulaProfON"><?php echo $listProf['cedula']; ?></td>
-                    <td class="table-info fw-bold"><?php echo $listProf['nombreMateria']; ?></td>
+                    <td class="table-primary fw-bold"><?php echo $listProf['nombreMateria']; ?></td>
                     <td><?php echo $listProf['codigo']; ?></td>
                     <td><?php echo $listProf['nombre']; ?></td>
                     <td><?php echo $listProf['apellido']; ?></td>
                     <td>
-                        <i type="button" class="text-danger fs-5 bi bi-dash-circle" id="eliminarMP_ON" title="Pulsa para eliminar"></i>
+                        <button class="btn btn-danger" id="eliminarMP_ON"><i class="bi bi-x-lg" title="Pulsa para eliminar"></i></button>
                     </td>
                 </tr> <?php
             }

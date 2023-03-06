@@ -30,7 +30,14 @@ if (isset($_POST['actualizarEstudiantes'])) {
 if (isset($_POST['eliminarSeccion'])) {
     $idSeccionEliminar= $_POST['idSeccionEliminar'];
 
-    $objeto->cerrarSeccion($idSeccionEliminar);
+    $validacion = $objeto->validar_cerrar_seccion($idSeccionEliminar);
+    if ($validacion > 0) {
+        echo json_encode($validacion);
+    }else{
+        $objeto->cerrarSeccion($idSeccionEliminar);
+        echo json_encode('true');
+    }
+    
 }
 //ELIMINAR SECCION SELECCIONADA DEFINITIVAMENTE
 if (isset($_POST['eliminarSeccion2'])) {
@@ -42,8 +49,15 @@ if (isset($_POST['eliminarSeccion2'])) {
 ///ELIMINAR ESTUDIANTES SECCION SELECCIONADA
 if (isset($_POST['eliminarEstSeccion'])) {
     $cedulaEstborrar= $_POST['cedulaEstborrar'];
+    $id_seccion = $_POST['idSeccionRef'];
 
-    $objeto->eliminarEstSeccion($cedulaEstborrar);
+    $validacion = $objeto->validar_eliminar_estudiantes($id_seccion, $cedulaEstborrar);
+    if ($validacion > 0) {
+        echo json_encode('true');
+    }else{
+        echo json_encode('false');
+        $objeto->eliminarEstSeccion($cedulaEstborrar);
+    }
 }
 
 //ACTUALIZAR INFORMACION DE LOS DATOS DE LA SECCION
@@ -80,6 +94,13 @@ if (isset($_POST['eliminarMateriaProf'])) {
     $cedulaProfSec= $_POST['cedulaProfSec'];
     $idSeccionMatProfSec= $_POST['idSeccionMatProfSec'];
 
-    $objeto->eliminarMateriaProf_seccion($idSeccionMatProfSec, $idMateriaSec, $cedulaProfSec);
+    $validar = $objeto->validar_eliminar_profesorMateria($idSeccionMatProfSec, $idMateriaSec);
+    if ($validar > 0) {
+        echo json_encode('true');
+    }else{
+        $objeto->eliminarMateriaProf_seccion($idSeccionMatProfSec, $idMateriaSec, $cedulaProfSec);
+        echo json_encode('false');
+    }
+    
 }
 ?>

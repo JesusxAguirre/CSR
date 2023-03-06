@@ -100,8 +100,6 @@ class Consolidacion extends Conexion
 
         if ($stmt->rowCount() > 0) {
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
                 $this->busqueda[] = $filas;
             }
         }

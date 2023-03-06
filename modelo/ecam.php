@@ -1028,20 +1028,24 @@ class ecam extends Conexion
         //PASO 2
         $cedulas = [];
         //GUARDAMOS LOS ESTUDIANTES QUE PASARON POR LA SECCION
-        $sql2 = "SELECT `cedula` FROM `usuarios` WHERE `id_seccion`= $idSeccionEliminar";
+        $sql2 = "SELECT * FROM `notafinal_estudiantes` AS `nte` WHERE `nte`.`id_seccion` = :id_seccion";
         $stmt2 = $this->conexion->prepare($sql2);
-        $stmt2->execute(array());
+        $stmt2->execute(array(
+            ":id_seccion" => $idSeccionEliminar,
+        ));
         while ($filas = $stmt2->fetch(PDO::FETCH_ASSOC)) {
             $cedulas[] = $filas; //Esta variable es para guardar las cedulas de los estudiantes que pertenecieron a la seccion
         }
+
         //AHORA INSERTAMOS LA SECCION Y TODOS LOS ESTUDIANTES QUE ESTUVIERON EN ELLA EN LA TABLA DE SECCIONES CERRADAS
         foreach ($cedulas as $ci) {
-            $sql4 = "INSERT INTO `secciones-cerradas`(`id_seccion`, `cedula_estudiante`) VALUES (:idSeccionEliminar, :ci)";
+            $sql4 = "INSERT INTO `secciones-cerradas-estudiantes`(`id_seccion`, `cedula_estudiante`, `nota_final`) VALUES (:id_seccion, :cedula, :nota_final)";
             $stmt4 = $this->conexion->prepare($sql4);
             $stmt4->execute(
                 array(
-                    ":idSeccionEliminar" => $idSeccionEliminar,
-                    ":ci" => $ci['cedula'],
+                    ":id_seccion" => $idSeccionEliminar,
+                    ":cedula" => $ci['cedulaEstudiante'],
+                    ":nota_final" => $ci['nota_final']
                 )
             );
         }
@@ -1092,8 +1096,6 @@ class ecam extends Conexion
 
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha cerrado una seccion";
-
-
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
     }
 
@@ -1125,6 +1127,8 @@ class ecam extends Conexion
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha actualizado los datos de una seccion";
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+
+        return true;
     }
 
     //SELECT DE LAS MATERIAS QUE NO ESTAN EN LA SECCION PARA AGREGAR
@@ -1189,7 +1193,7 @@ class ecam extends Conexion
     //LISTAR TODAS LAS SECCIONES ACTIVAS
     public function listarSeccionesON()
     {
-        $sql = "SELECT * FROM `secciones` WHERE `status_seccion` = 1  ORDER BY `nivel_academico` ASC";
+        $sql = "SELECT * FROM `secciones` WHERE `status_seccion` = 1  ORDER BY `id_seccion` ASC";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
@@ -1267,11 +1271,13 @@ class ecam extends Conexion
     {
         $estudiantesOFF = [];
 
-        $sql = "SELECT `sc`.`id_seccion`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-cerradas` AS `sc` 
-        INNER JOIN `usuarios` ON `sc`.`cedula_estudiante` = `usuarios`.`cedula` WHERE `sc`.`id_seccion` = $seccionOFF";
+        $sql = "SELECT `sc`.`id_seccion`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `sc`.`nota_final` FROM `secciones-cerradas-estudiantes` AS `sc` 
+        INNER JOIN `usuarios` ON `sc`.`cedula_estudiante` = `usuarios`.`cedula` WHERE `sc`.`id_seccion` = :id_seccion";
 
         $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":id_seccion" => $seccionOFF,
+        ));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $estudiantesOFF[] = $filas;
@@ -1899,6 +1905,65 @@ class ecam extends Conexion
         return $resultado;
     }
 
+
+
+
+
+
+    ////////////////////////////VALIDACIONES DE ELIMINACION Y AGREGACION///////////////////////////
+
+    public function validar_eliminar_profesorMateria($id_seccion, $id_materia)
+    {   
+        $sql = "SELECT * FROM `notamateria_estudiantes` AS `nte` WHERE nte.id_seccion = :id_seccion AND nte.id_materia = :id_materia";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $id_seccion,
+            ":id_materia" => $id_materia,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    public function validar_eliminar_estudiantes($id_seccion, $cedula_estudiante)
+    {
+        $sql = "SELECT * FROM `notamateria_estudiantes` AS `nte` WHERE nte.id_seccion = :id_seccion AND nte.cedula = :cedula_estudiante";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $id_seccion,
+            ":cedula_estudiante" => $cedula_estudiante,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    //Validar datos antes de cerrar una seccion
+    public function validar_cerrar_seccion($id_seccion)
+    {
+        $sql = "SELECT cedula FROM usuarios WHERE usuarios.id_seccion = :id_seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $id_seccion,
+        ));
+
+        $estudiantes_seccion = $stmt->rowCount();
+
+        $sql2 = "SELECT cedulaEstudiante FROM notafinal_estudiantes AS ntf WHERE ntf.id_seccion = :id_seccion";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":id_seccion" => $id_seccion,
+        ));
+
+        $estudiantes_nota = $stmt2->rowCount();
+
+        if ($estudiantes_seccion == $estudiantes_nota) {
+            return 0;
+        }else{
+            $valor = ($estudiantes_seccion - $estudiantes_nota);
+            return $valor;
+        }
+    }
 
 
 

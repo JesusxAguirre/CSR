@@ -17,7 +17,7 @@ final class SeccionesTest extends TestCase
   {
     $this->objeto_ecam   = new Ecam();
     $_SESSION['cedula'] = 27666555;
-    $this->nombreSeccion = 'Losjesuses';
+    $this->nombreSeccion = 'Los Desarrolladores';
     $this->nivelSeccion = 1;
     $this->fechaCierre = '2023-03-04';
   }
@@ -113,7 +113,7 @@ final class SeccionesTest extends TestCase
     foreach ($expected as $valor2) {
       $expected[] = $valor2['id_seccion'];
     }
-    print_r($expected);
+    
     $this->assertContains($valor, $expected);
   }
 }

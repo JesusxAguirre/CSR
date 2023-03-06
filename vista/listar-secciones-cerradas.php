@@ -101,7 +101,8 @@
                         <table id="" class="table table-borderless table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Informacion de los estudiantes</th>
+                                    <th>Informacion de los Estudiantes</th>
+                                    <th>Nota Final</ht>
                                 </tr>
                             </thead>
                             <tbody id="estudiantes_seccionCerrada">

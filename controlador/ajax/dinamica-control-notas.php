@@ -63,6 +63,7 @@ if (isset($_POST['verNotaFinal'])) {
         <h5>DE PROMEDIO</h5>
     </div><?php
 }
+
 //GUARDAR NOTA FINAL DEL NIVEL ACADEMICO
 if (isset($_POST['guardarNotaFinal'])) {
     $notaFinal= $_POST['notaFinal'];
@@ -71,6 +72,7 @@ if (isset($_POST['guardarNotaFinal'])) {
     $nivelAcademico = $_POST['nivelAcademico'];
     $objeto->agregar_notaFinal($seccion, $cedula, $notaFinal, $nivelAcademico);
 }
+
 //ELIMINAR NOTA FINAL DEL NIVEL ACADEMICO
 if (isset($_POST['eliminarNotaFinal'])) {
     $seccion = $_POST['seccion'];

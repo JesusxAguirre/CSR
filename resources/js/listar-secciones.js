@@ -411,23 +411,20 @@ $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVO
                 icon: 'success',
                 iconColor: 'white',
                 title: '¡Agregado correctamente!',
-                toast: true,
                 background: 'green',
                 color: 'white',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 1700,
             })
         });
     }else{
         Swal.fire({
             icon: 'error',
-            iconColor: 'white',
+            iconColor: 'red',
             title: '¡No dejes ningun campo vacio!',
-            toast: true,
-            background: 'red',
-            color: 'white',
+            background: 'white',
             showConfirmButton: false,
-            timer: 2000,
+            timer: 1700,
         })
     }
 });
@@ -449,30 +446,41 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
     
     Swal.fire({
         icon: 'warning',
-        iconColor: 'white',
+        iconColor: 'red',
         title: '¿Estas segur@ que deseas eliminarlo?',
-        color: 'white',
-        background: 'orange',
+        background: 'white',
         showDenyButton: true,
-        confirmButtonText: `SI`,
-        confirmButtonColor: 'green',
-        denyButtonText: `NO`,
+        confirmButtonText: `Si, eliminar`,
+        confirmButtonColor: '#0059FF',
+        denyButtonText: `Cancelar`,
         denyButtonColor: 'red',
       }).then((result) => {
         if (result.isConfirmed) {
           $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-            listarProfesoresSeccion();
-            selectMasMaterias();
-
-            Swal.fire({
-                icon: 'success',
-                iconColor: 'green',
-                title: '¡Eliminado correctamente!',
-                toast: true,
-                background: 'white',
-                showConfirmButton: false,
-                timer: 2000,
-            })
+            var resp = JSON.parse(response);
+            console.log(resp);
+            if (resp == 'true') {
+                Swal.fire({
+                    iconColor: 'red',
+                    icon: 'error',
+                    background: 'white',
+                    title: 'Error!',
+                    text: 'No puedes eliminar estos datos de la seccion mientras existan notas asociadas a los estudiantes',
+                    confirmButtonColor: '#0059FF'
+                })
+            }else{
+                listarProfesoresSeccion();
+                selectMasMaterias();
+                Swal.fire({
+                    icon: 'success',
+                    iconColor: 'white',
+                    title: '¡Eliminado correctamente!',
+                    color: 'white',
+                    background: 'green',
+                    showConfirmButton: false,
+                    timer: 1700,
+                })
+            }
           })
         }
       })
@@ -521,13 +529,11 @@ $("#agregarEditado2").on("click", function (e) {
     if (campo.value == '') {
         Swal.fire({
             icon: 'error',
-            iconColor: 'white',
+            iconColor: 'red',
             title: '¡No ha agregado a ningun estudiante!',
-            toast: true,
-            background: 'red',
-            color: 'white',
+            background: 'white',
             showConfirmButton: false,
-            timer: 2000,
+            timer: 1700,
         });
     }else{
         const data = {
@@ -544,11 +550,10 @@ $("#agregarEditado2").on("click", function (e) {
                 icon: 'success',
                 iconColor: 'white',
                 title: '¡Estudiante guardado correctamente!',
-                toast: true,
                 background: 'green',
                 color: 'white',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 1700,
             });
         });
     }
@@ -568,29 +573,42 @@ $(document).on('click', '#eliminarEstON', function () {
     }
 
     Swal.fire({
-        background: '#ebebeb',
+        background: 'white',
         icon: 'warning',
+        iconColor: 'red',
         title: '¿Segur@a de eliminar a este estudiante?',
         showDenyButton: true,
-        confirmButtonText: `SI`,
-        confirmButtonColor: 'green',
-        denyButtonText: `NO`,
+        confirmButtonText: `Si`,
+        confirmButtonColor: '#0059FF',
+        denyButtonText: `Cancelar`,
         denyButtonColor: 'red',
     }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    listarEstudiantesSeccion(idSeccionRef);
-                    selectEstudiantesOFF();
-                    Swal.fire({
-                        icon: 'success',
-                        iconColor: 'white',
-                        title: '¡Estudiante eliminado!',
-                        toast: true,
-                        background: 'green',
-                        color: 'white',
-                        showConfirmButton: false,
-                        timer: 2000,
-                    });
+                    var resp = JSON.parse(response);
+
+                    if (resp == 'true') {
+                        Swal.fire({
+                            iconColor: 'red',
+                            icon: 'error',
+                            background: 'white',
+                            title: 'Error!',
+                            text: 'No puedes eliminar al estudiante de la seccion porque existen notas asociadas a el/ella',
+                            confirmButtonColor: '#0059FF'
+                        })
+                    }else{
+                        listarEstudiantesSeccion(idSeccionRef);
+                        selectEstudiantesOFF();
+                        Swal.fire({
+                            icon: 'success',
+                            iconColor: 'white',
+                            title: '¡Estudiante eliminado correctamente!',
+                            background: 'green',
+                            color: 'white',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                    }
                 });
             }
     })
@@ -699,19 +717,41 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
         idSeccionEliminar: idSeccionRef,
     }
     Swal.fire({
-        background: '#ebebeb',
+        background: 'white',
         icon: 'warning',
         title: '¿Estas segur@ que deseas cerrar la seccion?',
         showDenyButton: true,
-        confirmButtonText: `CERRAR`,
-        confirmButtonColor: 'red',
-        denyButtonText: `CANCELAR`,
-        denyButtonColor: 'orange',
+        confirmButtonText: `Si, cerrar`,
+        confirmButtonColor: '#0059FF',
+        denyButtonText: `Cancelar`,
+        denyButtonColor: 'red',
     }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    dataTableSec.ajax.reload();
-                    //console.log(response); Esto es un por si acaso
+                    let resp = JSON.parse(response);
+                    console.log(response);
+
+                    if (resp == 'true') {
+                        Swal.fire({
+                            iconColor: 'white',
+                            icon: 'success',
+                            background: 'green',
+                            color: 'white',
+                            title: 'Seccion cerrada correctamente!',
+                            showConfirmButton: false,
+                            timer: 1500,
+                        });
+                        dataTableSec.ajax.reload();
+                    }else{
+                        Swal.fire({
+                            iconColor: 'red',
+                            icon: 'error',
+                            background: 'white',
+                            title: 'Error!',
+                            text: 'No puedes cerrar esta seccion porque aun faltan '+resp+' estudiantes por agregarle su nota final',
+                            confirmButtonColor: '#0059FF'
+                        });
+                    }
                 })
             }
         })
@@ -801,12 +841,12 @@ $('#guardarEditado1').click(function (e) {
         Swal.fire({
             background: 'white',
             icon: 'warning',
-            iconColor: 'orange',
+            iconColor: 'red',
             title: '¿Esta segur@ de haber hecho los cambios correctos para procesar?',
             showDenyButton: true,
             confirmButtonText: `Si, actualizar`,
-            confirmButtonColor: 'green',
-            denyButtonText: `No`,
+            confirmButtonColor: '#0059FF',
+            denyButtonText: `Cancelar`,
             denyButtonColor: 'red',
         }).then((result) => {
                 if (result.isConfirmed) {
@@ -817,12 +857,11 @@ $('#guardarEditado1').click(function (e) {
                         if (resp == 'true') {
                             Swal.fire({
                                 icon: 'error',
-                                iconColor: 'white',
+                                iconColor: 'red',
                                 title: '¡La seccion ya existe!',
-                                background: 'red',
-                                color: 'white',
+                                background: 'white',
                                 showConfirmButton: false,
-                                timer: 2000,
+                                timer: 1500,
                             })
                         }else{
                             dataTableSec.ajax.reload();
@@ -842,12 +881,11 @@ $('#guardarEditado1').click(function (e) {
     }else{
         Swal.fire({
             icon: 'error',
-            iconColor: 'white',
+            iconColor: 'red',
             title: '¡Verifique de haber hecho cambios correctos!',
-            background: 'red',
-            color: 'white',
+            background: 'white',
             showConfirmButton: false,
-            timer: 2000,
+            timer: 1500,
         })
     }
 });

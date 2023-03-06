@@ -47,10 +47,10 @@ $(document).on('click', '#eliminarSeccionOFF', function () {
       icon: 'warning',
       iconColor: 'red',
       showCancelButton: true,
-      confirmButtonColor: 'green',
+      confirmButtonColor: '#0059FF',
       cancelButtonColor: 'red',
-      confirmButtonText: 'Si',
-      cancelButtonText: 'No'
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         $.post("controlador/ajax/CRUD-seccion.php", data,

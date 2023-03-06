@@ -148,7 +148,7 @@
                     <h5>ESTUDIANTES DE LA SECCION</h5>
                     <hr>
                     <div class="table-responsive">
-                        <table id="listaEstudiantes" class="table table-striped" style="width:100%">
+                        <table id="listaEstudiantes" class="table table-striped table-hover" style="width:100%">
                             <thead>
                                 <tr>
                                     <th hidden>CEDULA</th>
@@ -194,13 +194,13 @@
                     <h5>MATERIAS Y PROFESORES DE LA SECCION: "<span id="nombreSeccionProMatfU"></span>"</h5>
                     <hr>
                     <div class="table-responsive">
-                        <table id="listaProfesores" class="table table-borderless table-hover" style="width:100%">
+                        <table id="listaProfesores" class="table table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th class="table-info">MATERIA</th>
-                                    <th class="table-primary">CODIGO</th>
-                                    <th class="table-primary">NOMBRE</th>
-                                    <th class="table-primary">APELLIDO</th>
+                                    <th class="table-primary">MATERIA</th>
+                                    <th>CODIGO</th>
+                                    <th>NOMBRE</th>
+                                    <th>APELLIDO</th>
                                 </tr>
                             </thead>
                             <tbody id="listaProfDatos">
