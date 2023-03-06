@@ -31,9 +31,10 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_asistente = $_POST['codigoAsistente'];
         $dia = $_POST['dia'];
         $hora = $_POST['hora'];
+        $direccion = $_POST['direccion'];
         $id = $_POST['id'];
-
-        $objeto->setActualizar($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$id);
+       
+        $objeto->setActualizar($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$id);
 
         $objeto->update_consolidacion();
         $actualizar = false;

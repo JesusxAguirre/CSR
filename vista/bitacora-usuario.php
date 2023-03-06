@@ -83,5 +83,5 @@
   </main>
 
 </body>
-<script src="./resources/js/bitacora-usuario.js"></script>
+<script src="resources/js/bitacora-usuario.js"></script>
 </html>

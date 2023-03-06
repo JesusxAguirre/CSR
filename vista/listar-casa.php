@@ -24,6 +24,12 @@
   <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
   <!-- Sweet alert 2-->
   <script src="resources/js/sweetalert2.js"></script>
+
+  <!-- DATATABLES CSS -->
+  <link rel="stylesheet" href="resources/library/dataTables/css/jquery.dataTables.min.css">
+
+  <!-- JS de DataTables --> 
+  <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
@@ -56,7 +62,7 @@
               <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
 
-                <table role='table' class='table table-centered'>
+                <table role='table' class='table table-centered' id="mi_tabla">
                   <thead>
 
                     <tr role='row'>
@@ -94,7 +100,7 @@
                     <?php endforeach;
                     }else{ ?>
                       <tr role="row">
-                        <td><h5><em>Aun no hay secciones cerradas</em></h5></td>
+                        <td><h5><em>Aun no hay CSR registradas</em></h5></td>
                       </tr>
                     <?php } ?>
                   </tbody>
@@ -213,6 +219,8 @@
 
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
+
   </script>
   <script src="resources/js/listar-casa.js"></script>
+  
 </body>

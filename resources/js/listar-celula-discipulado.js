@@ -42,6 +42,7 @@ const campos = {
 const expresiones = { //objeto con varias expresiones regulares
 
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
+  direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
   codigo: /^[CD]{2}[0-9]{1,5}$/, //expresion regular de codigo, primero espera las dos letras CC y luego de 1 a 20 numeros
   codigo2: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
 }
@@ -79,6 +80,9 @@ const ValidarFormulario = (e) => {
     case "fecha":
       ValidarSelect(e.target, 'fecha');
       break;
+      case "direccion":
+        ValidarCampo(expresiones.direccion, e.target, 'direccion');
+        break;
   }
 }
 
@@ -320,7 +324,7 @@ function addEvents() {
   editButtons.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let id = fila.querySelector('.id')
-
+    let direccion = fila.querySelector('.direccion')
     let dia = fila.querySelector('.dia')
     let hora = fila.querySelector('.hora')
     let lider = fila.querySelector('.lider')
@@ -332,6 +336,7 @@ function addEvents() {
 
     const diaInput = document.getElementById('diaInput')
     const horaInput = document.getElementById('horaInput')
+    const direccionInput = document.getElementById('direccionInput')
     const liderInput = document.getElementById('codigoLider')
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
@@ -343,6 +348,7 @@ function addEvents() {
 
     diaInput.value = dia.textContent
     horaInput.value = hora.textContent
+    direccionInput.value = direccion.textContent
     //cedulas de usuarios
 
 

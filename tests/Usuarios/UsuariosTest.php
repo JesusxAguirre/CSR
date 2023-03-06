@@ -71,7 +71,7 @@ final class UsuariosTest extends TestCase
     $this->objeto_usuarios->update_usuarios();
     $array_usuario =$this->objeto_usuarios->get_usuario_sin_rol($cedula);
 
-    print_r($array_usuario);
+    
       //Asert 
     
     $this->assertEquals($expected,$array_usuario);

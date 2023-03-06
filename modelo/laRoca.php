@@ -1,9 +1,12 @@
 <?php
+
 namespace Csr\Modelo;
+
 use Csr\Modelo\Conexion;
 
 use PDO;
 use Exception;
+
 class LaRoca extends Conexion
 {
     private $conexion;
@@ -31,12 +34,12 @@ class LaRoca extends Conexion
         $this->conexion = parent::conexion();
         //LLAMADA DE FUNCION PARA VERIFICAR SI CASA SOBRE LA ROCA DEBERIA ESTAR DESINCORPORADA
         $this->actualizar_status_CSR();
-        $this->id_modulo =2;
+        $this->id_modulo = 2;
     }
     //BUSCAR CSR CON FILTROS
     public function buscar_CSR($busqueda)
     {
-        $resultado= [];
+        $resultado = [];
         $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
         FROM casas_la_roca 
         JOIN usuarios AS lider ON casas_la_roca.cedula_lider = lider.cedula 
@@ -65,7 +68,7 @@ class LaRoca extends Conexion
     //LISTAR USUARIOS DE NIVEL 2 Y 3
     public function listar_usuarios_N2()
     {
-        $resultado =[];
+        $resultado = [];
         $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
@@ -98,39 +101,42 @@ class LaRoca extends Conexion
         }
         $accion = "Listar lideres sin casa sobre la roca";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
 
         return $this->lideres;
-
     }
     //LISTAR CSR
     public function listar_casas_la_roca()
     {
-
-        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
+        try {
+            $listar = [];
+            $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
         casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
         FROM casas_la_roca 
         INNER JOIN usuarios AS lider  ON casas_la_roca.cedula_lider = lider.cedula
         WHERE casas_la_roca.status = 1");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array());
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $listar[] = $filas;
+                $listar[] = $filas;
+            }
 
+            $accion = "Listar casas sobre la roca";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+            return $listar;
+        } catch (Exception $e) {
+
+            return false;
         }
-
-        $accion = "Listar casas sobre la roca";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-
-        return $listar;
     }
     //LISTAR CASAS SOBRE LA ROCA DESINCORPORADAS ESTO ES PARA LOS REPORTES ESTADISITCOS
     public function listar_casas_la_roca_sin_status()
@@ -226,7 +232,7 @@ class LaRoca extends Conexion
 
         $accion = "Registrar casas sobre la roca";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return true;
     }
 
@@ -297,7 +303,7 @@ class LaRoca extends Conexion
 
         $accion = "Editar casa sobre la roca";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
 
     //---------Actualizar status cada 3 meses CSR------------------------//
@@ -312,14 +318,14 @@ class LaRoca extends Conexion
 
         $stmt->execute(array());
 
-        if($stmt->rowCount() >= 1){
+        if ($stmt->rowCount() >= 1) {
 
-        $accion = "Cierre casa sobre la roca";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
- 
-        return true;
-        }else{
+            $accion = "Cierre casa sobre la roca";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+            return true;
+        } else {
             return true;
         }
     }
@@ -343,7 +349,7 @@ class LaRoca extends Conexion
 
         $accion = "Registar reporte casa sobre la roca";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
         return true;
     }
@@ -486,8 +492,8 @@ class LaRoca extends Conexion
 
         $accion = "Generado Reporte estadistico  de casas sobre la roca";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
-        
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
         return $resultado;
     }
 }
