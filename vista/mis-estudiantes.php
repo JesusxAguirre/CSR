@@ -60,6 +60,7 @@
                             ---Mis estudiantes---
                         </div>
                         <div class="card-body" id="cartita">
+                        <div class="table-responsive">
                             <table id="tabla_misEstudiantes" class="table table-borderless table-hover w-100">
                                 <thead class="table-dark">
                                     <tr>
@@ -76,6 +77,7 @@
 
                                 </tbody>
                             </table>
+                        </div>
                         </div>
                     </div>
                 </div>

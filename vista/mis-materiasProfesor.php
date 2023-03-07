@@ -60,23 +60,25 @@
                             ---Mis materias---
                         </div>
                         <div class="card-body">
-                            <table id="tabla_misMateriasProf" class="table table-borderless table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th hidden class="py-3 fs-6" scope="col">ID seccion</th>
-                                        <th hidden class="py-3 fs-6" scope="col">Cedula</th>
-                                        <th hidden class="py-3 fs-6" scope="col">ID materia</th>
-                                        <th class="py-3 fs-6" scope="col">Seccion</th>
-                                        <th class="py-3 fs-6" scope="col">Nombre de la materia</th>
-                                        <th class="py-3 fs-6" scope="col">Nivel academico</th>
-                                        <th class="py-3 fs-6" scope="col">Informacion</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="listar_misMateriasProf">
+                            <div class="table-responsive">
+                                <table id="tabla_misMateriasProf" class="table table-borderless table-hover ">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th hidden class="py-3 fs-6" scope="col">ID seccion</th>
+                                            <th hidden class="py-3 fs-6" scope="col">Cedula</th>
+                                            <th hidden class="py-3 fs-6" scope="col">ID materia</th>
+                                            <th class="py-3 fs-6" scope="col">Seccion</th>
+                                            <th class="py-3 fs-6" scope="col">Nombre de la materia</th>
+                                            <th class="py-3 fs-6" scope="col">Nivel academico</th>
+                                            <th class="py-3 fs-6" scope="col">Informacion</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="listar_misMateriasProf">
 
-                                </tbody>
+                                    </tbody>
 
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -101,7 +103,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="editarContenido">
-                        
+
                     </div>
                 </div>
                 <div class="d-grid">
@@ -110,7 +112,7 @@
             </div>
         </div>
     </div>
-        
+
 </body>
 <script src="./node_modules/quill/dist/quill.min.js"></script>
 <script src="./resources/js/mis-materiasProfesor.js"></script>
