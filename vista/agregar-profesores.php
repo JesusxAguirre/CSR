@@ -43,15 +43,15 @@
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
-                    <div class="titulo text-center">
+                <div class="col-sm col-lg">
+                    <div class="titulo text-center mt-5">
                         <h3 class="fw-bold"><em>Agregar Profesores</em></h3>
                     </div>
                 </div>
             </div>
 
             <div class="row d-flex justify-content-center">
-                <div class="col-6">
+                <div class="col-sm col-lg-6">
                     <div class="row mt-4">
                         <div class="col">
                             <div class="card sombra">
