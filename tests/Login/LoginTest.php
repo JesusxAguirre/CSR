@@ -18,7 +18,7 @@ final class LoginTest extends TestCase
   public function test_login_admin()
   {
     //Init
-    $_SESSION['usuario'] = "casasobrelaroca@gmail.com";
+    $_SESSION['usuario'] = "example@gmail.com";
     $_SESSION['clave'] = "12345678";
     $expected = 1;
     //Act  
@@ -32,7 +32,7 @@ final class LoginTest extends TestCase
   public function test_recuperar_password()
   {
     //Init
-    $correo = "casasobrelaroca@gmail.com";
+    $correo = "example@gmail.com";
     $clave = "12345678";
     $expected = 1;
     //Act  
