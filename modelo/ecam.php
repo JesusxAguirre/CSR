@@ -977,6 +977,7 @@ class ecam extends Conexion
     //LISTAR PROFESORES DE LA SECCION POR MATERIA
     public function listarProfesores_seccionMateria($idSeccionProfConsulta)
     {
+        $listarProfesores_SM = [];
         $sql = "SELECT `materias`.`id_materia`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `secciones-materias-profesores` AS `smp` 
         INNER JOIN `usuarios` ON `smp`.`cedulaProf` = `usuarios`.`cedula` 
         INNER JOIN `materias` ON `smp`.`id_materia` = `materias`.`id_materia` WHERE `smp`.`id_seccion` = :idSeccionProfComsulta";
@@ -989,9 +990,9 @@ class ecam extends Conexion
         );
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->listarProfesores_SM[] = $filas;
+            $listarProfesores_SM[] = $filas;
         }
-        return $this->listarProfesores_SM;
+        return $listarProfesores_SM;
     }
 
     //AGREGANDO O ACTUALIZANDO MAS ESTUDIANTES A LA SECCION SELECCIONADA
@@ -1097,6 +1098,8 @@ class ecam extends Conexion
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha cerrado una seccion";
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+
+        return true;
     }
 
     //ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA
@@ -1294,6 +1297,8 @@ class ecam extends Conexion
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha eliminado una seccion definitivamente";
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
+
+        return true;
     }
 
 

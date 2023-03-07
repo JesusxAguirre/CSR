@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Csr\Modelo\Ecam;
+use Csr\Modelo\Usuarios;
 
 
 final class SeccionesTest extends TestCase
 {
   private $objeto_ecam;
+  private $objeto_usuario;
   private $nombreSeccion;
   private $nivelSeccion;
   private $fechaCierre;
@@ -16,7 +18,9 @@ final class SeccionesTest extends TestCase
   public function setUp(): void
   {
     $this->objeto_ecam   = new Ecam();
-    $_SESSION['cedula'] = 27666555;
+    $this->objeto_usuario = new Usuarios();
+    $return = $this->objeto_usuario->listar_usuarios_N2();
+    $_SESSION['cedula'] = $return[0]['cedula'];
     $this->nombreSeccion = 'Los Desarrolladores';
     $this->nivelSeccion = 1;
     $this->fechaCierre = '2023-03-04';

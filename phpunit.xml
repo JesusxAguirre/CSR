@@ -5,8 +5,20 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="pruebas_csr">
+            <file>tests/Login/LoginTest.php</file>
+            <file>tests/Usuarios/UsuariosTest.php</file>
+            <file>tests/Consolidacion/ConsolidacionTest.php</file>
+            <file>tests/Discipulado/DiscipuladoTest.php</file>
             <file>tests/Integracion/Ecam/ProfesoresTest/ProfesoresTest.php</file>
-            <file>tests/Integracion/Ecam/ProfesoresTest/ProfesoresTest.php</file>
+            <file>tests/Integracion/Ecam/MateriasTest/MateriasTest.php</file>
+            <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file>
+            <file>tests/Integracion/Ecam/Ecam_aula_profesores/Ecam_aula_virtual_profesoresTest.php</file>
+            <file>tests/Integracion/Ecam/Ecam_aula_estudiantes/Ecam_aula_virtual_estudiantesTest.php</file>
+            <file>tests/Integracion/Ecam/Control_notasTest/ControlTest.php</file>
+            <file>tests/Integracion/Ecam/BoletinNotas/Boletin_notas.php</file>
+            <file>tests/Integracion/Ecam/SeccionesTest/vaciarSeccion.php</file>
+            <file>tests/Integracion/Ecam/SeccionesCerradas/Secciones_cerradas.php</file>
+            <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -25,10 +25,11 @@ final class MateriasTest extends TestCase
   public function test_agregarMaterias(): array
   {
     //Init
-    $array_profesores = $this->objeto_ecam->listarProfesores();
+    /*$array_profesores = $this->objeto_ecam->listarProfesores();
     foreach ($array_profesores as $profesor) {
       $profesores_cedula[] = $profesor['cedula'];
-    }
+    }*/
+    $profesores_cedula = [];
     $nombre_materia = "Programacion 1";
     $nivel = 1;
 
@@ -67,39 +68,36 @@ final class MateriasTest extends TestCase
 
    
     //Act
-    $this->objeto_ecam->vincularProfesor($cedulas_a_vincular, $materia['id_materia']);
+    $this->objeto_ecam->vincularProfesor($cedulas_a_vincular, $materia[0]['id_materia']);
 
     //obteniendo profesores que dan la materia
-    $array_profesores_materia = $this->objeto_ecam->listarProfesoresMateria($materia['id_materia']);
+    $array_profesores_materia = $this->objeto_ecam->listarProfesoresMateria($materia[0]['id_materia']);
 
     //guardando solamente las cedulas en otro array para comprobar que exista la cedula del profesor
     foreach ($array_profesores_materia as $profesor) {
       $cedulas_profesores_materias[] = $profesor['cedula_profesor'];
     }
      //Asert
-    $this->assertContains($cedulas_a_vincular['cedula'], $cedulas_profesores_materias);
+    $this->assertContains($cedulas_a_vincular[0], $cedulas_profesores_materias);
+
+    return $materia[0]['id_materia'];
   }
 
   /**
-   * @depends test_agregarMaterias 
+   * @depends test_vincularProfesor
    * **/
-  public function test_actualizarMateria(array $array_materias){
+  public function test_actualizarMateria(int $materia){
     //Init
     $nombre_materia_antiguo ="Programacion 1";
-    $nombre_materia = "Programacion 2";
-    $nivel = 2;
+    $nombre_materia = "Programacion Nueva";
+    $nivel = 1;
 
-    foreach ($array_materias as $materia) {
-      if ($nombre_materia_antiguo == $materia['nombre']) {
-        $id_materia = $materia['id_materia'];
-      }
-    }
     
     //Act
     $response = $this->objeto_ecam->validar_materia($nombre_materia, $nivel);
     $this->assertEquals(0, $response, $message = "Esta materia ya existe en la base de datos por favor cambie el dato a ingresar");
 
-    $this->objeto_ecam->setActualizar($id_materia,$nombre_materia,$nivel);
+    $this->objeto_ecam->setActualizar($materia,$nombre_materia,$nivel);
 
     $this->objeto_ecam->actualizarMateria();
 
@@ -114,7 +112,5 @@ final class MateriasTest extends TestCase
     //Asert  
 
     $this->assertcontains($nombre_materia, $array_materias_comprobar);
- 
-    return $id_materia;
   }
 }

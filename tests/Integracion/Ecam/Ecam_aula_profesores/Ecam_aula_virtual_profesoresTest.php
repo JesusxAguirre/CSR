@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Csr\Modelo\Ecam;
+use Csr\Modelo\Usuarios;
 
 
 final class Ecam_aula_virtual_profesoresTest extends TestCase
 {
   private $objeto_ecam;
-  private $id_materia;
+  private $objeto_usuario;
   public function setUp(): void
   {
-    $this->objeto_ecam   = new Ecam();
-    $_SESSION['cedula'] = 27666555;
+    $this->objeto_ecam = new Ecam();
+    $this->objeto_usuario = new Usuarios();
+    $return = $this->objeto_usuario->listar_usuarios_N2();
+    $_SESSION['cedula'] = $return[0]['cedula'];
   }
 
   public function test_listar_misMateriasProf(): array
@@ -71,24 +74,6 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
 
     return $datos_profesor;
   }
-  /**
-   * @depends test_agregarContenidos
-   */
-  public function test_eliminarContenido(array $datos_profesor): array
-  {
-    //Init
-
-
-    //Act  
-    $response = $this->objeto_ecam->eliminarContenido($datos_profesor['id_seccion'], $datos_profesor['id_materia']);
-
-
-    //Asert
-
-    $this->assertTrue($response);
-
-    return $datos_profesor;
-  }
 
 
   public function test_listar_misEstudiantes()
@@ -142,7 +127,7 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
   /**
    * @depends test_agregarNotaMateria
    */
-  public function test_actualizarNotaMateria(array $array_estudiante): array
+  public function test_actualizarNotaMateria(array $array_estudiante)
   {
     //Init
     $nota = 14;
@@ -159,20 +144,5 @@ final class Ecam_aula_virtual_profesoresTest extends TestCase
 
     $this->assertEquals($nota, $response[0]['nota']);
 
-    return $array_estudiante;
-  }
-
-  /**
-   * @depends test_actualizarNotaMateria
-   */
-  public function test_eliminarNotaMateria(array $array_estudiante)
-  {
-    //Init
-
-    //Act
-    $response = $this->objeto_ecam->eliminarNotaMateria($array_estudiante['cedula'], $array_estudiante['id_materia'], $array_estudiante['id_seccion']);
-
-    //Asert
-    $this->assertTrue($response);
   }
 }

@@ -4,17 +4,23 @@ declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 use Csr\Modelo\Ecam;
+use Csr\Modelo\Usuarios;
 
 
 final class Ecam_aula_virtual_estudiantesTest extends TestCase
 {
   private $objeto_ecam;
+  private $objeto_usuario;
 
   public function setUp(): void
   {
-    $this->objeto_ecam   = new Ecam();
-    $_SESSION['id_seccion'] = 19;
-    $_SESSION['cedula'] =2345698;
+    $this->objeto_ecam = new Ecam();
+    $this->objeto_usuario = new Usuarios();
+    $return = $this->objeto_ecam->listarSeccionesON();
+    $return2 = $this->objeto_ecam->listarEstudiantesON($return[0]['id_seccion']);
+    
+    $_SESSION['id_seccion'] = $return[0]['id_seccion'];
+    $_SESSION['cedula'] = $return2[0]['cedula'];
   }
   /** @test **/
   public function test_listar_mis_compañeros()
