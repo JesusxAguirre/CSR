@@ -1963,7 +1963,7 @@ class ecam extends Conexion
         $estudiantes_nota = $stmt2->rowCount();
 
         if ($estudiantes_seccion == $estudiantes_nota) {
-            return 0;
+            return '0';
         }else{
             $valor = ($estudiantes_seccion - $estudiantes_nota);
             return $valor;

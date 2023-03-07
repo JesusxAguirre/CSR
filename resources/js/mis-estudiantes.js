@@ -385,15 +385,13 @@ setTimeout(() => {
 
         Swal.fire({
             icon: 'warning',
-            iconColor: 'white',
+            iconColor: 'red',
             title: '¿Estas seguro?',
-            color: 'white',
-            confirmButtonText: `SI`,
+            confirmButtonText: `Si, eliminar`,
             confirmButtonColor: '#0078FF',
             showDenyButton: true,
-            denyButtonText: `NO`,
+            denyButtonText: `Cancelar`,
             denyButtonColor: 'red',
-            background: 'orange',
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
