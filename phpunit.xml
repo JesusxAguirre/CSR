@@ -9,11 +9,15 @@
             <file>tests/Usuarios/UsuariosTest.php</file>
             <file>tests/Consolidacion/ConsolidacionTest.php</file>
             <file>tests/Discipulado/DiscipuladoTest.php</file>
-            <file>tests/ProfesoresTest/ProfesoresTest.php</file>
-            <file>tests/MateriasTest/MateriasTest.php</file>
-            <file>tests/SecciontesTest/SecciontesTest.php</file>
-            <file>tests/SecciontesTest/CrudSecciones.php</file>
-            <file>tests/SecciontesTest/SecciontesTest.php</file>
+            <file>tests/Ecam/ProfesoresTest/ProfesoresTest.php</file>
+            <file>tests/Ecam/MateriasTest/MateriasTest.php</file>
+            <file>tests/Ecam/SeccionesTest/SeccionesTest.php</file>
+            <file>tests/Ecam/Ecam_aula_estudiantes/Ecam_aula_virtual_estudiantesTest.php</file>
+            <file>tests/Ecam/Ecam_aula_profesores/Ecam_aula_virtual_profesoresTest.php</file>
+            <file>tests/Ecam/Control_notasTest/ControlTest.php</file>
+            <file>tests/Ecam/BoletinNotas/Boletin_notas.php</file>
+            <file>tests/Ecam/SeccionesTest/CrudSecciones.php</file>
+            <file>tests/Ecam/SeccionesCerradas/Secciones_cerradas.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
