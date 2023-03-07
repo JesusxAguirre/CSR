@@ -73,10 +73,10 @@ require_once("../../vendor/autoload.php");
                             
                         </div>
                     </td>
-                </tr>
-                <tr>
                     <td>
-                        <?php echo $estOFF['nota_final'] ?>
+                        <div class="d-grid">
+                            <button disabled class="btn <?php echo $estOFF['nota_final'] >= 16 ?'btn-primary':'btn-warning' ?>"><?php echo $estOFF['nota_final'] ?></button>
+                        </div>
                     </td>
                 </tr><?php
             }

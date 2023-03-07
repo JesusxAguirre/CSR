@@ -41,27 +41,36 @@ if (isset($_POST['verNotaFinal'])) {
     $cedula= $_POST['cedula'];
     $materiasNotas= $objeto->ver_misNotasMaterias($cedula, $seccion);
     $nota = 0; 
-    foreach ($materiasNotas as $key) {
-        $nota+= $key['nota'];
-    };
-    $promedio = number_format($nota/count($materiasNotas), 2);
-    
-    foreach ($materiasNotas as $mn) {?>
-        <div class="row">
-            <div class="col-6">
-                <h5><?php echo $mn['nombreMateria'].': ' ?></h5>
-            </div>
-            <div class="col-6">
-                <h5><?php echo $mn['nota'].'/20' ?></h5>
-            </div>
-           
+    if (!empty($materiasNotas)) {
+        foreach ($materiasNotas as $key) {
+            $nota+= $key['nota'];
+        };
+
+        $promedio = number_format($nota/count($materiasNotas), 2);
+        foreach ($materiasNotas as $mn) { ?>
+            <div class="row">
+                <div class="col-6">
+                    <h5><?php echo $mn['nombreMateria'].': ' ?></h5>
+                </div>
+                <div class="col-6">
+                    <h5><?php echo $mn['nota'].'/20' ?></h5>
+                </div>
+               
+            </div> <?php
+        } ?>
+
+        <div>
+            <input class="notaFinalRef d-none" type="text" value="<?php echo $promedio ?>">
+            <h2 class="notaFinal"><?php echo $promedio.'/20' ?></h2>
+            <h5>DE PROMEDIO</h5>
         </div><?php
-    }?>
-    <div>
-        <input class="notaFinalRef d-none" type="text" value="<?php echo $promedio ?>">
-        <h2 class="notaFinal"><?php echo $promedio.'/20' ?></h2>
-        <h5>DE PROMEDIO</h5>
-    </div><?php
+    }else{ ?>
+        <div class="row">
+            <div class="col-12 text-center">
+                <h5>Aun no existen materias para la nota final</h5>
+            </div>
+        </div> <?php
+    } 
 }
 
 //GUARDAR NOTA FINAL DEL NIVEL ACADEMICO

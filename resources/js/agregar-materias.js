@@ -91,7 +91,7 @@ $("#agregarMateria").on("click", function (e) {
 /////////////////////////////////////////////
 
 const expresionesMaterias = {
-    nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,50}$/, // Letras y espacios, pueden llevar acentos.
+    nombreMateria: /^[a-zA-ZÀ-ÿ\s]{5,20}$/, // Letras y espacios, pueden llevar acentos.
   }
   
   var campos = {

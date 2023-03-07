@@ -296,7 +296,6 @@ setTimeout(() => {
                             Swal.showValidationMessage('No puedes agregar "0" como nota final')
                         }
                     },
-                    
                   }).then((result) => { 
                     if (result.isConfirmed) {
                         
@@ -341,7 +340,6 @@ setTimeout(() => {
             cedula: cedula
         }
         $.post("controlador/ajax/dinamica-control-notas.php", data, function (data) {
-                
             Swal.fire({
                 html: data,
                 showCancelButton: true,

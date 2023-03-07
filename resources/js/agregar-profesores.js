@@ -46,38 +46,48 @@ $(document).on('click', '.eliminarProfEcam', function () {
   
     Swal.fire({
       title: 'AVISO',
-      text: 'Al eliminar un profesor de la ECAM, automaticamente se desvinculara de todo a lo\
-      que estaba asociado a sus datos, incluyendo contenidos, notificaciones, acciones y demas',
-  
+      text: 'Para poder eliminar un profesor, este seguro que no este vinculado a otras secciones del sistema para poder proceder',
       icon: 'warning',
+      iconColor: 'red',
       showCancelButton: true,
-      confirmButtonColor: 'green',
+      confirmButtonColor: '#0059FF',
       cancelButtonColor: 'red',
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Estoy seguro, proceder'
     }).then((result) => {
       if (result.isConfirmed) {
         $.post("controlador/ajax/CRUD-materias.php", data,
-        function (data) {
-          console.log(data)
-          listarFuturosProfesores();
-          listarProfesores2();
-          Swal.fire({
-                    icon: 'success',
-                    iconColor: 'white',
-                    title: '¡Profesor eliminado correctamente!',
-                    toast: true,
-                    background: 'green',
-                    color: 'white',
-                    showConfirmButton: false,
-                    timer: 2000,
-                })
-        },
-        );
+        function (response) {
+          let resp = JSON.parse(response);
+
+          if (resp == 'true') {
+            listarFuturosProfesores();
+            listarProfesores2();
+            Swal.fire({
+              icon: 'success',
+              iconColor: 'green',
+              title: '¡Profesor eliminado correctamente!',
+              background: 'white',
+              showConfirmButton: false,
+              timer: 2000,
+            })
+          }else{
+            Swal.fire({
+              icon: 'error',
+              iconColor: 'red',
+              title: 'Error',
+              text: 'No puedes eliminar a este profesor del sistema porque aun existen datos asociados a el/ella',
+              background: 'white',
+              confirmButtonColor: '#0059FF',
+              timer: 4000,
+            })
+          }
+        });
       }
     })
     
 });
+
 
 //AGREGANDO PROFESORES A LA ECAM
 $('#crearProfesores').click(function (e) {
@@ -90,12 +100,10 @@ $('#crearProfesores').click(function (e) {
     
     if (cedulasProfesores == '') {
       Swal.fire({
-        title: '¡No seleccionaste profesores!',
+        title: 'Error',
+        text: '¡No seleccionaste profesores!',
         icon: 'error',
-        iconColor: 'white',
-        toast: true,
-        background: 'red',
-        color: 'white',
+        iconColor: 'red',
         showConfirmButton: false,
         timer: 2000,
       })

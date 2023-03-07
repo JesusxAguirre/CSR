@@ -190,24 +190,35 @@ $(document).on('click', '#eliminarMateria', function () {
     iconColor: 'red',
     title: 'Estas seguro de eliminar la materia?',
     showDenyButton: true,
-    confirmButtonText: `Eliminar`,
-    confirmButtonColor: 'red',
+    confirmButtonText: `Si, eliminar`,
+    confirmButtonColor: '#0059FF',
     denyButtonText: `Cancelar`,
-    denyButtonColor: 'black'
+    denyButtonColor: 'red'
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response) {
-        listarMaterias();
-        console.log(response);
-        Swal.fire({
-          icon: 'success',
-          iconColor: 'white',
-          title: "¡Materia eliminada correctamente!",
-          background: 'green',
-          color: 'white',
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        let resp = JSON.parse(response);
+
+        if (resp == 'true') {
+          listarMaterias();
+          Swal.fire({
+            icon: 'success',
+            iconColor: 'green',
+            title: "¡Materia eliminada correctamente!",
+            background: 'white',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+        }else{
+          Swal.fire({
+            icon: 'error',
+            iconColor: 'red',
+            text: "No puedes eliminar esta materia porque se encuentra asociada a otros datos del sistema",
+            background: 'white',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
       })
     }
   })
@@ -265,12 +276,11 @@ $("#actualizarMateria").on("click", function (e) {
       if (resp == 'true') {
         Swal.fire({
           icon: 'error',
-          iconColor: 'white',
+          iconColor: 'red',
           title: "¡La materia ya existe!",
-          background: 'red',
-          color: 'white',
+          background: 'white',
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
         });
       }else{
         listarMaterias();
@@ -278,12 +288,11 @@ $("#actualizarMateria").on("click", function (e) {
         document.getElementById('seleccionarNivel2').classList.remove('validarBien');
         Swal.fire({
           icon: 'success',
-          iconColor: 'white',
+          iconColor: 'green',
           title: "¡Materia actualizada correctamente!",
-          background: 'green',
-          color: 'white',
+          background: 'white',
           showConfirmButton: false,
-          timer: 3000,
+          timer: 2000,
         });
       }
     });
@@ -317,7 +326,7 @@ $("#actualizarMateria").on("click", function (e) {
 //INICIO DE VALIDACIONES AL ACTUALIZAR MATERIAS
 ///////////////////////////////////////////////
 const expresionesMaterias2 = {
-  nombreMateria: /^[a-zA-ZÀ-ÿ0-9\s]{3,30}$/, // Letras y espacios, pueden llevar acentos.
+  nombreMateria: /^[a-zA-ZÀ-ÿ\s]{5,20}$/, // Letras y espacios, pueden llevar acentos.
 }
 
 var campos2 = {

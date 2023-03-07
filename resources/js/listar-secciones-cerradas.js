@@ -1,7 +1,6 @@
 seccionesCerradas();
 
 
-
 //LISTAR SECCIONES CERRADAS
 function seccionesCerradas() {
     let div = document.getElementById('listarSeccionesOFF');
@@ -54,17 +53,31 @@ $(document).on('click', '#eliminarSeccionOFF', function () {
     }).then((result) => {
       if (result.isConfirmed) {
         $.post("controlador/ajax/CRUD-seccion.php", data,
-        function (data) {
-            seccionesCerradas();
-            Swal.fire({
-                icon: 'success',
-                iconColor: 'white',
-                title: '¡Seccion eliminada definitivamente!',
-                background: 'green',
-                color: 'white',
-                showConfirmButton: false,
-                timer: 2000,
-            });
+        function (response) {
+            let resp = JSON.parse(response);
+
+            if (resp == 'true') {
+                seccionesCerradas();
+                Swal.fire({
+                    icon: 'success',
+                    iconColor: 'white',
+                    title: '¡Seccion eliminada definitivamente!',
+                    background: 'green',
+                    color: 'white',
+                    showConfirmButton: false,
+                    timer: 1700,
+                });
+            }else{
+                Swal.fire({
+                    iconColor: 'red',
+                    icon: 'error',
+                    background: 'white',
+                    title: 'Error!',
+                    text: 'No puedes eliminar esta seccion porque hubo existencia de estudiantes en ella',
+                    confirmButtonColor: '#0059FF'
+                });
+            }
+           
         });
       }
     })

@@ -272,6 +272,7 @@ class ecam extends Conexion
 
         return $estudiantes;
     }
+    
     //VER LAS NOTAS DE LAS MATERIAS DEL ESTUDIANTES SELECCIONADO O QUE EL PUEDA VER SUS NOTAS
     public function ver_misNotasMaterias($cedula, $seccion)
     {
@@ -534,9 +535,7 @@ class ecam extends Conexion
             $cedula = $_SESSION['cedula'];
             $accion = "Ha desvinculado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
             parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
-
-            $mensaje = 'Te han vinculado como profesor en la ECAM. ¡Suerte!';
-            $this->registrar_notificacionProfesor($mensaje, $cedulaProfesor);
+          
             return true;
         } catch (Exception $e) {
 
@@ -1037,6 +1036,7 @@ class ecam extends Conexion
             $cedulas[] = $filas; //Esta variable es para guardar las cedulas de los estudiantes que pertenecieron a la seccion
         }
 
+
         //AHORA INSERTAMOS LA SECCION Y TODOS LOS ESTUDIANTES QUE ESTUVIERON EN ELLA EN LA TABLA DE SECCIONES CERRADAS
         foreach ($cedulas as $ci) {
             $sql4 = "INSERT INTO `secciones-cerradas-estudiantes`(`id_seccion`, `cedula_estudiante`, `nota_final`) VALUES (:id_seccion, :cedula, :nota_final)";
@@ -1045,7 +1045,7 @@ class ecam extends Conexion
                 array(
                     ":id_seccion" => $idSeccionEliminar,
                     ":cedula" => $ci['cedulaEstudiante'],
-                    ":nota_final" => $ci['nota_final']
+                    ":nota_final" => $ci['notaFinal']
                 )
             );
         }
@@ -1965,7 +1965,69 @@ class ecam extends Conexion
         }
     }
 
+    public function validar_eliminar_seccion($id_seccion)
+    {
+        $sql = "SELECT * FROM `secciones-cerradas-estudiantes` WHERE id_seccion = :id_seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $id_seccion,
+        ));
 
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    //Validar que una materia este vinculada a las secciones y demas para ser eliminada
+    public function validar_eliminar_materia($id_seccion)
+    {
+        $sql = "SELECT * FROM `profesores-materias` WHERE id_materia = :id_seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $id_seccion,
+        ));
+
+        $validacion = $stmt->rowCount();
+
+        $sql2 = "SELECT * FROM `secciones-materias-profesores` WHERE id_materia = :id_seccion";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":id_seccion" => $id_seccion,
+        ));
+
+        $validacion2 = $stmt->rowCount();
+
+        if ($validacion == $validacion2) {
+            return 'stop';
+        }else{
+            return 'start';
+        }
+    }
+
+    //Validar que un profesor no este vinculado a otros datos para ser eliminado su status
+    public function validar_eliminar_profesor($cedula)
+    {
+        $sql = "SELECT * FROM `profesores-materias` WHERE cedula_profesor = :cedula";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":cedula" => $cedula,
+        ));
+
+        $validacion = $stmt->rowCount();
+
+        $sql2 = "SELECT * FROM `secciones-materias-profesores` WHERE cedulaProf = :cedula";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":cedula" => $cedula,
+        ));
+
+        $validacion2 = $stmt2->rowCount();
+
+        if ($validacion == $validacion2) {
+            return 'start';
+        }else{
+            return 'stop';
+        }
+    }
 
 
 

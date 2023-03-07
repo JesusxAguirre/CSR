@@ -32,7 +32,14 @@ if (isset($_POST['agregarProfesores'])) {
 if (isset($_POST['botonEliminar'])) {
     $idMateria= $_POST['idMateria'];
 
-    $objeto->eliminarMateria($idMateria);
+    $validacion = $objeto->validar_eliminar_materia($idMateria);
+    if ($validacion == 'stop') {
+        echo json_encode('stop');
+    }else{
+        $objeto->eliminarMateria($idMateria);
+        echo json_encode('true');
+    }
+    
 }
 
 //ACTUALIZANDO MATERIAS
@@ -65,7 +72,14 @@ if (isset($_POST['eliminarProfMat'])) {
 if (isset($_POST['eliminar_profesor'])) {
     $cedulaProf= $_POST['cedulaProf'];
 
-    $objeto->eliminar_profesor($cedulaProf);
+    $validacion = $objeto->validar_eliminar_profesor($cedulaProf);
+    if ($validacion == 'stop') {
+        echo json_encode('stop');
+    }else{
+        $objeto->eliminar_profesor($cedulaProf);
+        echo json_encode('true');
+    }
+    
 }
 
 //AGREGANDO(VINCULANDO) PROFESOR A LA MATERIA

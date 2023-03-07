@@ -729,7 +729,6 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
                     let resp = JSON.parse(response);
-                    console.log(response);
 
                     if (resp == 'true') {
                         Swal.fire({

@@ -66,7 +66,7 @@
                                             <div class="col">
                                                 <label class="form-label fst-italic fw-bold" for="nombreMateria">Nombre de la materia</label>
                                                 <input type="text" name="nombreMateria" id="nombreMateria" class="form-control inputMateria" placeholder="N0MBR3">
-                                                <p hidden id="nomMateriaMal" class="text-danger">Deberias colocar un nombre de 3 a 20 digitos sin caracteres especiales como (/*_-.,)</p>
+                                                <p hidden id="nomMateriaMal" class="text-danger">Deberias colocar un nombre de 5 a 20 digitos sin numeros y caracteres especiales como (/*_-.,)</p>
                                             </div>
                                         </div>
                                         <div class="row mt-3">

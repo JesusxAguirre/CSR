@@ -34,8 +34,8 @@ if (isset($_POST['eliminarSeccion'])) {
     if ($validacion > 0) {
         echo json_encode($validacion);
     }else{
-        $objeto->cerrarSeccion($idSeccionEliminar);
-        echo json_encode('true');
+        //echo json_encode('true');
+        echo json_encode($objeto->cerrarSeccion($idSeccionEliminar));
     }
     
 }
@@ -43,7 +43,14 @@ if (isset($_POST['eliminarSeccion'])) {
 if (isset($_POST['eliminarSeccion2'])) {
     $seccionOFF= $_POST['idSeccionCerrada'];
 
-    $objeto->eliminarSeccion($seccionOFF);
+    $validacion = $objeto->validar_eliminar_seccion($seccionOFF);
+    if ($validacion > 0) {
+        echo json_encode('stop');
+    }else{
+        $objeto->eliminarSeccion($seccionOFF);
+        echo json_encode('true');
+    }
+    
 }
 
 ///ELIMINAR ESTUDIANTES SECCION SELECCIONADA
