@@ -37,9 +37,9 @@
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <div >
+          <div id="fotoPerfil">
             <!-- AQUI VA LA FOTO DE PERFIL -->
-            <img class="img-fluid" src="resources/img/nothingPhoto.png" alt="" width="50" height="10">
+            <!-- <img class="img-fluid" src="resources/img/nothingPhoto.png" alt="" width="50" height="10"> -->
           </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">

@@ -731,6 +731,7 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
                     let resp = JSON.parse(response);
 
                     if (resp == 'true') {
+                        dataTableSec.ajax.reload();
                         Swal.fire({
                             iconColor: 'white',
                             icon: 'success',
@@ -740,7 +741,7 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
                             showConfirmButton: false,
                             timer: 1500,
                         });
-                        dataTableSec.ajax.reload();
+                        
                     }else{
                         Swal.fire({
                             iconColor: 'red',

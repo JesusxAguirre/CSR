@@ -34,8 +34,8 @@ if (isset($_POST['eliminarSeccion'])) {
     if ($validacion > 0) {
         echo json_encode($validacion);
     }else{
-        //echo json_encode('true');
-        echo json_encode($objeto->cerrarSeccion($idSeccionEliminar));
+        echo json_encode('true');
+        $objeto->cerrarSeccion($idSeccionEliminar);
     }
     
 }
