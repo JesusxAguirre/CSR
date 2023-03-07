@@ -49,7 +49,7 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3 fondoEcam">
+    <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <div class="row mt-3">
                 <div class="col-xs-12 col-md-6 col-lg-6 mb-2">
@@ -89,7 +89,7 @@
                     </div>
                 </div>
                
-                <div class="col-xs-12 col-md-4 col-lg-8 mb-2">
+                <div class="col-xs-12 col-md-8 col-lg-8 mb-2">
                     <div class="card sombra">
                         <div class="card-body">
                             <h6 class="card-title text-center">Cantidad de graduados de la ECAM de este año</h6>
