@@ -50,7 +50,7 @@
 
                     <div class="text-center mt-2">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#registrar" class="small btn btn-link text-white mb-5 pb-lg-2" href="?pagina=iniciar-sesion">¿No tienes usuario?</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#recuperar" class="small btn btn-link text-white mb-5 pb-lg-2" href="?pagina=iniciar-sesion">Recuperar Contraseña<button>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#recuperar" class="small btn btn-link text-white mb-5 pb-lg-2" href="?pagina=iniciar-sesion">Recuperar Contraseña</button>
                     </div>
                 </form>
             </div>
