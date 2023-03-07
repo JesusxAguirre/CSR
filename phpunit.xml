@@ -4,11 +4,16 @@
          verbose="true"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="pruebas">
+        <testsuite name="pruebas_csr">
             <file>tests/Login/LoginTest.php</file>
             <file>tests/Usuarios/UsuariosTest.php</file>
             <file>tests/Consolidacion/ConsolidacionTest.php</file>
             <file>tests/Discipulado/DiscipuladoTest.php</file>
+            <file>tests/ProfesoresTest/ProfesoresTest.php</file>
+            <file>tests/MateriasTest/MateriasTest.php</file>
+            <file>tests/SecciontesTest/SecciontesTest.php</file>
+            <file>tests/SecciontesTest/CrudSecciones.php</file>
+            <file>tests/SecciontesTest/SecciontesTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>
