@@ -208,7 +208,6 @@ final class ConsolidacionTest extends TestCase
       $fecha_actual
     );
 
-    print_r($asistencias_participantes);
     //Assert
 
     $this->assertArrayHasKey("id_consolidacion", $asistencias_participantes[0]);

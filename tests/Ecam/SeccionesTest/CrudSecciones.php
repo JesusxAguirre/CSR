@@ -119,8 +119,8 @@ final class CrudSecciones extends TestCase
 
     $this->assertNotContains($this->id_seccion, $expected2);
   }
-
-  /*public function test_listar_secciones_cerradas()
+/* 
+  public function test_listar_secciones_cerradas()
   {
     $expected = [];
     foreach ($this->objeto_ecam->listarSeccionesOFF() as $value) {
@@ -142,5 +142,5 @@ final class CrudSecciones extends TestCase
     }
 
     $this->assertNotContains($this->id_seccion, $expected);
-  }*/
+  } */
 }

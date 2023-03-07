@@ -39,8 +39,9 @@ class LaRoca extends Conexion
     //BUSCAR CSR CON FILTROS
     public function buscar_CSR($busqueda)
     {
-        $resultado = [];
-        $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
+        try {
+            $resultado = [];
+            $sql = ("SELECT *, lider.codigo 'cod_lider', lider.cedula 'ced_lider'
         FROM casas_la_roca 
         JOIN usuarios AS lider ON casas_la_roca.cedula_lider = lider.cedula 
         WHERE casas_la_roca.status = 1 AND 
@@ -51,19 +52,26 @@ class LaRoca extends Conexion
         OR direccion LIKE '%" . $busqueda . "%'
         OR lider.codigo LIKE '%" . $busqueda . "%' ");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
-
-
-        if ($stmt->rowCount() > 0) {
-            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $stmt->execute(array());
 
 
-                $resultado[] = $filas;
+            if ($stmt->rowCount() > 0) {
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+
+                    $resultado[] = $filas;
+                }
             }
+            return $resultado;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
-        return $busqueda;
     }
     //LISTAR USUARIOS DE NIVEL 2 Y 3
     public function listar_usuarios_N2()

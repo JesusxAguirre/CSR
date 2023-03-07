@@ -89,6 +89,7 @@ final class SeccionesTest extends TestCase
       $expected = $this->objeto_ecam->sinNivel($this->nivelSeccion);
 
       //Art
+   
       $this->assertContains($expected[0]['cedula'], $cedula_estudiantes);
       $arreglo['cedula_estudiantes'] = $cedula_estudiantes;
 
