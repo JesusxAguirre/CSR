@@ -31,6 +31,8 @@
             <h1 class="display-1 text-danger mb-0">404</h1>
             <!-- Subtitle -->
             <h2>ha ocurrido un error comuniquese con el equipo de desarrollo</h2>
+            <button type="submit" class="btn btn-secondary" onclick="redirigir()">PRESIONA AQUI PARA IR A LA PAGINA DE INICIO</button>
+            <br><br>
             <!-- info -->
            <!--  <p class="mb-4">Si el problema persiste comuniquese con el equipo de mantenimiento.</p> -->
             <!-- spinner -->
@@ -42,7 +44,11 @@
       </div>
     </section>
   </main>
-
+  <script>
+    function redirigir() {
+        window.location= 'index.php'
+    }
+</script>
 </body>
 
 </html>

@@ -58,7 +58,7 @@
             <div class="row fuenteTimes">
                 <?php if (!empty($misNotas)) {
                     foreach ($misNotas as $key) { ?>
-                        <div class="col-2 mt-3">
+                        <div class="col-sm col-lg-2 mt-3">
                             <div class="card text-center sombra hover">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $key['nombreMateria']; ?></h5>
@@ -71,7 +71,7 @@
                         </div>
                 <?php }
                 } ?>
-                <div class="col-2 mt-3">
+                <div class="col-sm col-lg-2 mt-3">
                     <div class="card text-center sombra hover">
                         <div class="card-body">
                             <h5 class="card-title">Estas son tus notas actuales</h5>

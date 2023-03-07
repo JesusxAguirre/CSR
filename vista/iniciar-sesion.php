@@ -28,7 +28,7 @@
             </div>
             <div class="col loginCard">
                 <div class="text-center">
-                    <img src="./resources/img/casawhite.png" width="300" height="210" alt="logo" srcset="">
+                    <img class="img-fluid" src="./resources/img/casawhite.png" width="300" height="210" alt="logo" srcset="">
                 </div>
                 <div class="text-center">
                     <h3>BIENVENIDO</h3>
@@ -250,5 +250,4 @@
     </script>
     <script src="resources/js/validar-registro-usuario.js"></script>
 </body>
-
 </html>

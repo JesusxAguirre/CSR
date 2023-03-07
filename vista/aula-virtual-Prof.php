@@ -67,7 +67,7 @@
             </div>
 
             <div class="row">
-                <div class="col-5 mt-3">
+                <div class="col-sm col-lg-5 mt-3">
                     <div class="card sombra">
                         <div class="card-body">
                             <div>
@@ -86,7 +86,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-3 mt-3">
+                <div class="col-sm col-lg-3 mt-3">
                     <div class="card sombra">
                         <div class="card-body text-center">
                             <h5 class="fw-bold">FECHA ACTUAL</h5>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-sm col-lg-4 mt-3">
                     <div class="card sombra">
                         <div class="card-body">
                             <h6 class="text-center">Cantidad de materias por seccion</h6>

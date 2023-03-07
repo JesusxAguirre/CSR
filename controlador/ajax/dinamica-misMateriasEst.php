@@ -10,7 +10,7 @@ if (isset($_POST['verMaterias'])) {
 
     if (!empty($listarMaterias)) {
         foreach ($listarMaterias as $listado) { ?>
-            <div class="col-3 mt-3 me-3">
+            <div class="col-sm col-lg-3 mt-3 me-3">
                 <div class="card sombra hover">
                     <div class="position-relative">
                         <img src="./resources/img/pizarra.png" class="card-img-top" alt="...">

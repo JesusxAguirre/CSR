@@ -66,9 +66,9 @@
             </div>
 
             <div class="row mt-3">
-                <div class="col-4">
+                <div class="col-sm col-lg-4">
                     <div class="card sombra cartaEstilo">
-                        <div class="card-body">
+                        <div style="background-color: #fff;" class="card-body">
                             <div>
                                 <h4 class="fw-bold">Mis compañeros</h4>
                             </div>
@@ -103,16 +103,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg col-sm">
                     <div class="card sombra cartaEstilo">
-                        <div class="card-body text-center">
+                        <div  style="background-color: #fff;"  class="card-body text-center">
                             <h5 class="fw-bold">SECCION</h5>
                             <h5><i><?php echo '"'.$mis_datosSeccion[0]['nombreSeccion'].'"'; ?></i></h5>
                         </div>
                     </div>
 
                     <div class="card mt-3 sombra cartaEstilo">
-                        <div class="card-body">
+                        <div style="background-color: #fff;" class="card-body">
                             <div class="d-flex justify-content-center align-items-center">
                                 <span class="display-6"><i class="bi bi-boxes mx-3 d-inline"></i></span>
                                 <div>
@@ -123,15 +123,15 @@
                         </div>
                     </div>
                     <div class="card mt-3 sombra cartaEstilo">
-                        <div class="card-body text-center">
+                        <div style="background-color: #fff;" class="card-body text-center">
                             <h5 class="fw-bold">FECHA DE CIERRE</h5>
                             <h6><i><?php echo $mis_datosSeccion[0]['fecha_cierre'] ?></i></h6>
                         </div>
                     </div>
                 </div>
-                <div class="col-5">
+                <div class="col-sm col-lg-5">
                 <div class="card sombra cartaEstilo">
-                        <div class="card-body">
+                        <div style="background-color: #fff;" class="card-body">
                             <div>
                                 <h4 class="fw-bold">Mis profesores</h4>
                             </div>
