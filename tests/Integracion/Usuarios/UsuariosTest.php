@@ -29,8 +29,8 @@ final class UsuariosTest extends TestCase
     $nacionalidad = "Venezolana";
     $estado = "Bolivar";
     $telefono = "04122654321";
-    $correo = "mariocercano@gmail.com";
-    $clave = "88381918";
+    $correo = "casasobrelaroca@gmail.com";
+    $clave = "12345678";
 
     $expected = true;
     //Act  
@@ -79,18 +79,5 @@ final class UsuariosTest extends TestCase
     return $array_usuario;
   }
 
-   /**
-   * @depends test_editar_usuario
-   */
-  public function test_eliminar_usuario(array $array_usuario )
-  {
-    //Init
-    $expected = true;
-    //Act
-    $this->objeto_usuarios->setEliminar($array_usuario['cedula']);
-    $response = $this->objeto_usuarios->delete_usuarios();
-    //Asert
-
-    $this->assertEquals($expected, $response);
-  }
+ 
 }

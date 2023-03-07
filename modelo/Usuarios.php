@@ -677,6 +677,25 @@ class Usuarios extends Conexion
         }
     }
 
+    public function listar_usuarios()
+    {
+        $resultado = [];
+        $consulta = ("SELECT * FROM usuarios ");
+
+        $sql = $this->conexion()->prepare($consulta);
+
+        $sql->execute(array());
+
+        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+
+
+            $resultado[] = $filas;
+        }
+
+     
+        return $resultado;
+    }
+
 
 
 
