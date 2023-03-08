@@ -24,10 +24,11 @@ if (isset($_POST['verEstudiantes'])) {
         <td><?php echo 'Nivel '.$key['nivel_academico'] ?></td>
         <td>
             <?php if ($key['notaFinal'] == 0) { ?>
-                <input class="notaFinalEst d-none" value="<?php echo $key['notaFinal'] ?>" type="text">
+                <!-- <input class="notaFinalEst d-none" value="<?php //echo $key['notaFinal'] ?>" type="text"> -->
                 <button class="agregarNotaFinal btn btn-primary"><i class="bi bi-plus-lg"></i></button>
                 <button class="btn btn-secondary" disabled>SIN NOTA</button>
             <?php } else { ?>
+                <input class="notaFinalEst d-none" value="<?php echo $key['notaFinal'] ?>" type="text">
                 <button class="verNotaFinal btn btn-success rounded-pill">VER NOTA <i class="bi bi-calculator-fill"></i></button>
                 <button class="eliminarNotaFinal btn btn-danger rounded-pill"><i class="bi bi-trash"></i></button>
             <?php } ?>
@@ -79,7 +80,14 @@ if (isset($_POST['guardarNotaFinal'])) {
     $seccion = $_POST['seccion'];
     $cedula = $_POST['cedula'];
     $nivelAcademico = $_POST['nivelAcademico'];
-    $objeto->agregar_notaFinal($seccion, $cedula, $notaFinal, $nivelAcademico);
+    
+    $validacion = $objeto->validar_agregar_notaFinal($cedula, $seccion);
+    if ($validacion > 0) {
+        echo json_encode($validacion);
+     }else{
+        $objeto->agregar_notaFinal($seccion, $cedula, $notaFinal, $nivelAcademico);
+        echo json_encode('true');
+     }
 }
 
 //ELIMINAR NOTA FINAL DEL NIVEL ACADEMICO
@@ -87,9 +95,14 @@ if (isset($_POST['eliminarNotaFinal'])) {
     $seccion = $_POST['seccion'];
     $cedula = $_POST['cedula'];
     $nivelAcademico= $_POST['nivelAcademico'];
-    $objeto->eliminar_notaFinal($seccion, $cedula, $nivelAcademico);
+
+    $validacion = $objeto->validar_eliminar_notaFinal($seccion);
+    if ($validacion > 0) {
+        $objeto->eliminar_notaFinal($seccion, $cedula, $nivelAcademico);
+        echo json_encode('true');
+     }else{
+        echo json_encode('stop');
+     }
 }
-
-
 
 ?>

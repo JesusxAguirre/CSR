@@ -1917,6 +1917,7 @@ class ecam extends Conexion
 
     ////////////////////////////VALIDACIONES DE ELIMINACION Y AGREGACION///////////////////////////
 
+    //Desvincular profesor de la seccion
     public function validar_eliminar_profesorMateria($id_seccion, $id_materia)
     {   
         $sql = "SELECT * FROM `notamateria_estudiantes` AS `nte` WHERE nte.id_seccion = :id_seccion AND nte.id_materia = :id_materia";
@@ -1924,6 +1925,19 @@ class ecam extends Conexion
         $stmt->execute(array(
             ":id_seccion" => $id_seccion,
             ":id_materia" => $id_materia,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    //Desvincular profesor de la materia
+    public function validar_desvincular_profesorMateria($cedula_profesor)
+    {   
+        $sql = "SELECT * FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedula_profesor";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":cedula_profesor" => $cedula_profesor,
         ));
 
         $validacion = $stmt->rowCount();
@@ -2031,6 +2045,60 @@ class ecam extends Conexion
             return 'start';
         }else{
             return 'stop';
+        }
+    }
+
+    //Validar que no haya nota final para poder eliminar la nota de la materia
+    public function validar_eliminar_notaMateria($cedula_estudiante, $id_seccion)
+    {
+        $sql = "SELECT * FROM `notafinal_estudiantes` WHERE cedulaEstudiante = :cedula_estudiante AND id_seccion = :id_seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":cedula_estudiante" => $cedula_estudiante,
+            ":id_seccion" => $id_seccion,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+    
+    //Validar que la seccion este abierta para poder eliminar la nota final
+    public function validar_eliminar_notaFinal($seccion)
+    {
+        $sql = "SELECT * FROM `secciones` WHERE id_seccion = :id_seccion AND `status_seccion` = 1";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $seccion,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    //Validar que el estudiante tenga todas las notas de sus materias para poder agregar la nota final
+    public function validar_agregar_notaFinal($cedula, $seccion)
+    {
+        $sql = "SELECT * FROM `secciones-materias-profesores` WHERE id_seccion = :seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":seccion" => $seccion,
+        ));
+
+        $validacion1 = $stmt->rowCount();
+
+        $sql2 = "SELECT * FROM `notamateria_estudiantes` WHERE id_seccion = :seccion AND cedula = :cedula";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":seccion" => $seccion,
+            ":cedula" => $cedula,
+        ));
+
+        $validacion2 = $stmt2->rowCount();
+
+        if ($validacion1 == $validacion2) {
+            return '0';
+        }else{
+            return ($validacion1 - $validacion2);
         }
     }
 

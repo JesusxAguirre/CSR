@@ -65,7 +65,13 @@ if (isset($_POST['eliminarProfMat'])) {
     $cedulaProf= $_POST['cedulaProf'];
     $idMateria2= $_POST['idMateria2'];
 
-    $objeto->desvincularProfesor($cedulaProf, $idMateria2);
+    $validacion = $objeto->validar_desvincular_profesorMateria($cedulaProf);
+    if ($validacion > 0) {
+        echo json_encode('stop');
+     }else{
+        $objeto->desvincularProfesor($cedulaProf, $idMateria2);
+        echo json_encode('true');
+     }
 }
 
 //ELIMINANDO PROFESORES DE LA ECAM DEFINITIVAMENTE

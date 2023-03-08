@@ -42,8 +42,13 @@ if (isset($_POST['eliminarNota'])) {
     $idMateriaRef2= $_POST['idMateriaRef2'];
     $idSeccionRef2= $_POST['idSeccionRef2'];
 
-    $objeto->eliminarNotaMateria($cedulaEstudianteRef2, $idMateriaRef2, $idSeccionRef2);
-    
+    $validacion = $objeto->validar_eliminar_notaMateria($cedulaEstudianteRef2, $idSeccionRef2);
+    if ($validacion > 0) {
+        echo json_encode('stop');
+     }else{
+        $objeto->eliminarNotaMateria($cedulaEstudianteRef2, $idMateriaRef2, $idSeccionRef2);
+         echo json_encode('true');
+     }
 }
 
 

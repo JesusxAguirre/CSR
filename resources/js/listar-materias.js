@@ -135,12 +135,14 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
 
   Swal.fire({
     icon: 'warning',
-    title: 'Estas segur@ que deseas desvincular al profesor de la materia?',
+    iconColor: 'red',
+    title: 'AVISO',
+    text: 'Estas segur@ que deseas desvincular al profesor de la materia?',
     showDenyButton: true,
-    confirmButtonText: `Eliminar`,
-    confirmButtonColor: 'red',
+    confirmButtonText: `Si, eliminar`,
+    confirmButtonColor: '#0059FF',
     denyButtonText: `Cancelar`,
-    denyButtonColor: 'black'
+    denyButtonColor: 'grey'
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("controlador/ajax/CRUD-materias.php", {
@@ -148,17 +150,30 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
         idMateria2,
         eliminarProfMat
       }, function (response) {
-        listarProfesoresMateria(idMateria2);
-        consultaDeProfesores(idMateria2);
-        Swal.fire({
-          icon: 'success',
-          title: "¡Profesor desvinculado de la materia correctamente!",
-          toast: true,
-          background: 'green',
-          color: 'white',
-          showConfirmButton: false,
-          timer: 3000,
-        });
+        var resp = JSON.parse(response);
+
+        if (resp == 'true') {
+          listarProfesoresMateria(idMateria2);
+          consultaDeProfesores(idMateria2);
+          Swal.fire({
+            icon: 'success',
+            iconColor: 'green',
+            title: "¡Profesor desvinculado de la materia correctamente!",
+            showConfirmButton: false,
+            background: 'green',
+            color: 'white',
+            timer: 2000,
+          });
+        }else{
+          Swal.fire({
+            icon: 'error',
+            iconColor: 'red',
+            title: "Error",
+            text: 'No puedes eliminar a este profesor porque existen datos asociados a el en alguna seccion de la Ecam',
+            showConfirmButton: true,
+            confirmButtonColor: '#0059FF',
+          });
+        }
       })
     }
   })
@@ -308,10 +323,6 @@ $("#actualizarMateria").on("click", function (e) {
     });
   }
 });
-
-
-
-
 
 
 

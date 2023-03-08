@@ -271,11 +271,11 @@ setTimeout(() => {
             icon: 'question',
             input: 'range',
             inputLabel: 'Deslize la barra',
-            confirmButtonText: `AGREGAR`,
+            confirmButtonText: `Agregar`,
             confirmButtonColor: '#0078FF',
             showDenyButton: true,
-            denyButtonText: `CANCELAR`,
-            denyButtonColor: 'red',
+            denyButtonText: `Cancelar`,
+            denyButtonColor: 'grey',
             inputAttributes: {
               min: 0,
               max: 20,
@@ -303,11 +303,10 @@ setTimeout(() => {
                     icon: 'success',
                     iconColor: 'white',
                     title: '¡Nota agregada!',
-                    toast: true,
                     background: 'green',
                     color: 'white',
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 1700,
                 })
             });
             }
@@ -332,11 +331,11 @@ setTimeout(() => {
                 html: '<span>'+nombreEstudiante+'</span><h5>Materia: '+nombreMateria+'</h5><h1>'+data+'/20</h1>',
                 inputLabel: 'Puedes cambiar la nota aqui si deseas',
                 input: 'range',
-                confirmButtonText: `ACTUALIZAR`,
+                confirmButtonText: `Actualizar`,
                 confirmButtonColor: '#0078FF',
                 showDenyButton: true,
-                denyButtonText: `CANCELAR`,
-                denyButtonColor: 'orange',
+                denyButtonText: `Cancelar`,
+                denyButtonColor: 'grey',
                 inputAttributes: {
                   min: 0,
                   max: 20,
@@ -359,11 +358,10 @@ setTimeout(() => {
                             icon: 'success',
                             iconColor: 'white',
                             title: '¡Nota actualizada!',
-                            toast: true,
                             background: 'green',
                             color: 'white',
                             showConfirmButton: false,
-                            timer: 3000,
+                            timer: 2000,
                         })
                     });
                     }
@@ -386,38 +384,41 @@ setTimeout(() => {
         Swal.fire({
             icon: 'warning',
             iconColor: 'red',
-            title: '¿Estas seguro?',
+            title: 'AVISO',
+            text: '¿Estas segur@ de eliminar su nota asignada?',
             confirmButtonText: `Si, eliminar`,
             confirmButtonColor: '#0078FF',
             showDenyButton: true,
             denyButtonText: `Cancelar`,
-            denyButtonColor: 'red',
+            denyButtonColor: 'grey',
         }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
-                    console.log(response);
-                listar_misEstudiantes();
-                Swal.fire({
-                    icon: 'success',
-                    iconColor: 'green',
-                    title: '¡Nota eliminada!',
-                    toast: true,
-                    background: 'white',
-                    showConfirmButton: false,
-                    timer: 3000,
-                    })
-                })
+                    var resp = JSON.parse(response);
+                    if (resp == 'true') {
+                        listar_misEstudiantes();
+                        Swal.fire({
+                            icon: 'success',
+                            iconColor: 'white',
+                            title: '¡Nota eliminada correctamente!',
+                            background: 'green',
+                            color: 'white',
+                            showConfirmButton: false,
+                            timer: 1700,
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            iconColor: 'red',
+                            title: 'AVISO',
+                            text: 'No puedes eliminar la nota de este estudiante porque ya se agrego su nota final en la seccion',
+                            showConfirmButton: true,
+                            confirmButtonColor: '#0078FF',
+                        })
+                    }
+                });
             }
         })
     })
-
         
 }, 100);
-
-
-
-
-
-
-
-    

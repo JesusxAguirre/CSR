@@ -287,18 +287,18 @@ setTimeout(() => {
                     showCloseButton: true,
                     showCancelButton: true,
                     confirmButtonText:'Guardar',
-                    confirmButtonColor: '#0078FF',
+                    confirmButtonColor: '#0059FF',
                     cancelButtonText: 'Cerrar',
+                    cancelButtonColor: 'grey',
                     preConfirm: function() {
                         notaFinal= document.querySelector('.notaFinalRef').value;
-                        console.log(notaFinal);
+
                         if (notaFinal == 0) {
                             Swal.showValidationMessage('No puedes agregar "0" como nota final')
                         }
                     },
                   }).then((result) => { 
                     if (result.isConfirmed) {
-                        
                         let data = {
                             guardarNotaFinal: 'guardarNotaFinal',
                             seccion: seccion,
@@ -306,21 +306,31 @@ setTimeout(() => {
                             notaFinal: notaFinal,
                             nivelAcademico: nivelAcademico,
                         }
-                        $.post("controlador/ajax/dinamica-control-notas.php", data,
-                            function (data) {
+                        $.post("controlador/ajax/dinamica-control-notas.php", data, function (response) {
+                            var resp = JSON.parse(response);
+
+                            if (resp == 'true') {
                                 listarEstudiantes();
                                 Swal.fire({
                                     icon: 'success',
                                     iconColor: 'white',
                                     title: '¡Guardado con exito!',
-                                    toast: true,
                                     background: 'green',
                                     color: 'white',
                                     showConfirmButton: false,
-                                    timer: 3000,
+                                    timer: 1700,
                                 })
-                            },
-                        );
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    iconColor: 'red',
+                                    title: 'DENEGADO',
+                                    text: 'A este estudiante aun le faltan '+resp+' notas de materias por ser agregadas',
+                                    showConfirmButton: true,
+                                    confirmButtonColor: '#0059FF',
+                                })
+                            }
+                        },);
                     }
                   })
             },
@@ -369,22 +379,35 @@ setTimeout(() => {
             showConfirmButton: true,
             showCancelButton: true,
             confirmButtonText:'Si, estoy seguro',
-            confirmButtonColor: 'green',
-            cancelButtonColor: 'red',
+            confirmButtonColor: '#0059FF',
+            cancelButtonColor: 'grey',
             cancelButtonText: 'No, cancelar',
           }).then((result) => {
             if (result.isConfirmed) {
-                $.post("controlador/ajax/dinamica-control-notas.php", data, function (data) {
-                    listarEstudiantes();
-                    Swal.fire({
-                        icon: 'success',
-                        iconColor: 'white',
-                        title: '¡Eliminada correctamente!',
-                        background: 'green',
-                        color: 'white',
-                        showConfirmButton: false,
-                        timer: 3000,
-                    })
+                $.post("controlador/ajax/dinamica-control-notas.php", data, function (response) {
+                    var resp = JSON.parse(response);
+
+                    if (resp == 'true') {
+                        listarEstudiantes();
+                        Swal.fire({
+                            icon: 'success',
+                            iconColor: 'white',
+                            title: '¡Eliminada correctamente!',
+                            background: 'green',
+                            color: 'white',
+                            showConfirmButton: false,
+                            timer: 1700,
+                        })
+                    }else{
+                        Swal.fire({
+                            icon: 'error',
+                            iconColor: 'red',
+                            title: 'AVISO',
+                            text: 'No puedes eliminar la nota final del estudiante porque la seccion ya se encuentra cerrada. Esto podria ocacionar errores en la base de datos',
+                            showConfirmButton: true,
+                            confirmButtonColor: '#0059FF',
+                        })
+                    }
                 })
             }
           }) 
