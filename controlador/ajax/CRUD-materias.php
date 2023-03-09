@@ -13,12 +13,12 @@ if (isset($_POST['agregarMateria'])) {
     $validacion = $objeto->validar_materia($nombreMateria, $nivelSeleccionado);
 
     if ($validacion > 0) {
-       echo json_encode('true');
+       echo json_encode('stop');
     }else{
-        $cedulaProfesor= $_POST['cedulaProfesor'];
+        echo json_encode('true');
+        $cedulaProfesor = $_POST['cedulaProfesor'];
         $objeto->setMaterias(ucfirst($nombreMateria), $nivelSeleccionado, $cedulaProfesor);
         $objeto->agregarMaterias();
-        echo json_encode('false');
     }
 }
 

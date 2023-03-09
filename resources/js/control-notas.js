@@ -355,6 +355,7 @@ setTimeout(() => {
                 showCancelButton: true,
                 showConfirmButton: false,
                 cancelButtonText: 'Cerrar',
+                cancelButtonColor: 'grey',
             })
         })
     })

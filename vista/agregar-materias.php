@@ -42,7 +42,7 @@
 
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row d-flex justify-content-center">
                 <div class="col-sm col-lg-8">
                     <div class="titulo text-center mt-5">
                         <h3><em>Agregar Materias</em></h3>
@@ -84,12 +84,10 @@
                                         </div>
                                     </form>
                                     <div class="row mt-3" id="formularioAgregarProf">
-
                                         <label class="form-label fst-italic fw-bold">Profesores que dictaran la materia</label>
-                                        <div id="profesoresAgregar">
+                                        <div id="profesoresAgregar" class="">
 
                                         </div>
-
                                     </div>
                                 </div>
                                 <div>

@@ -95,17 +95,15 @@ $(document).on('click', '#actualizarProfesores', function (e) {
   if (data2.cedulaProfesorV == '') {
 
     const toast = Swal.mixin({
-      toast: true,
-      background: 'red',
-      color: 'white',
       showConfirmButton: false,
       timer: 2000,
     });
 
     toast.fire({
       icon: 'error',
-      iconColor: 'white',
-      title: 'No seleccionaste ninguno de los profesores disponibles',
+      iconColor: 'red',
+      title: 'ERROR',
+      text: 'No seleccionaste ninguno de los profesores disponibles',
     });
   } else {
     $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
@@ -115,11 +113,10 @@ $(document).on('click', '#actualizarProfesores', function (e) {
       Swal.fire({
         icon: 'success',
         title: "¡Profesores agregados correctamente!",
-        toast: true,
         background: 'green',
         color: 'white',
         showConfirmButton: false,
-        timer: 3000,
+        timer: 2000,
       });
     });
   }
@@ -157,7 +154,7 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
           consultaDeProfesores(idMateria2);
           Swal.fire({
             icon: 'success',
-            iconColor: 'green',
+            iconColor: 'white',
             title: "¡Profesor desvinculado de la materia correctamente!",
             showConfirmButton: false,
             background: 'green',
@@ -168,7 +165,7 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
           Swal.fire({
             icon: 'error',
             iconColor: 'red',
-            title: "Error",
+            title: "DENEGADO",
             text: 'No puedes eliminar a este profesor porque existen datos asociados a el en alguna seccion de la Ecam',
             showConfirmButton: true,
             confirmButtonColor: '#0059FF',
@@ -208,7 +205,7 @@ $(document).on('click', '#eliminarMateria', function () {
     confirmButtonText: `Si, eliminar`,
     confirmButtonColor: '#0059FF',
     denyButtonText: `Cancelar`,
-    denyButtonColor: 'red'
+    denyButtonColor: 'grey'
   }).then((result) => {
     if (result.isConfirmed) {
       $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response) {
@@ -218,7 +215,6 @@ $(document).on('click', '#eliminarMateria', function () {
           listarMaterias();
           Swal.fire({
             icon: 'success',
-            iconColor: 'green',
             title: "¡Materia eliminada correctamente!",
             background: 'white',
             showConfirmButton: false,
