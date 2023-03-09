@@ -112,6 +112,7 @@ $(document).on('click', '#actualizarProfesores', function (e) {
       consultaDeProfesores(data2.idMateriaV);
       Swal.fire({
         icon: 'success',
+        iconColor: 'white',
         title: "¡Profesores agregados correctamente!",
         background: 'green',
         color: 'white',
@@ -224,10 +225,11 @@ $(document).on('click', '#eliminarMateria', function () {
           Swal.fire({
             icon: 'error',
             iconColor: 'red',
+            title: 'DENEGADO',
             text: "No puedes eliminar esta materia porque se encuentra asociada a otros datos del sistema",
             background: 'white',
-            showConfirmButton: false,
-            timer: 3000,
+            showConfirmButton: true,
+            confirmButtonColor: '#0059FF',
           });
         }
       })

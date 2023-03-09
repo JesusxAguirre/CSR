@@ -47,7 +47,7 @@ $(document).on('click', '#eliminarSeccionOFF', function () {
       iconColor: 'red',
       showCancelButton: true,
       confirmButtonColor: '#0059FF',
-      cancelButtonColor: 'red',
+      cancelButtonColor: 'grey',
       confirmButtonText: 'Si, eliminar',
       cancelButtonText: 'Cancelar'
     }).then((result) => {

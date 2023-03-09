@@ -1932,12 +1932,13 @@ class ecam extends Conexion
     }
 
     //Desvincular profesor de la materia
-    public function validar_desvincular_profesorMateria($cedula_profesor)
+    public function validar_desvincular_profesorMateria($cedula_profesor, $id_materia)
     {   
-        $sql = "SELECT * FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedula_profesor";
+        $sql = "SELECT * FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedula_profesor AND `id_materia` = :id_materia";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
             ":cedula_profesor" => $cedula_profesor,
+            ":id_materia" => $id_materia,
         ));
 
         $validacion = $stmt->rowCount();
@@ -1997,28 +1998,36 @@ class ecam extends Conexion
     }
 
     //Validar que una materia este vinculada a las secciones y demas para ser eliminada
-    public function validar_eliminar_materia($id_seccion)
+    public function validar_eliminar_materia($id_materia)
     {
-        $sql = "SELECT * FROM `profesores-materias` WHERE id_materia = :id_seccion";
+        $sql = "SELECT * FROM `profesores-materias` WHERE id_materia = :id_materia";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
-            ":id_seccion" => $id_seccion,
+            ":id_materia" => $id_materia,
         ));
 
         $validacion = $stmt->rowCount();
 
-        $sql2 = "SELECT * FROM `secciones-materias-profesores` WHERE id_materia = :id_seccion";
+        $sql2 = "SELECT * FROM `secciones-materias-profesores` WHERE id_materia = :id_materia";
         $stmt2 = $this->conexion()->prepare($sql2);
         $stmt2->execute(array(
-            ":id_seccion" => $id_seccion,
+            ":id_materia" => $id_materia,
         ));
 
-        $validacion2 = $stmt->rowCount();
+        $validacion2 = $stmt2->rowCount();
 
-        if ($validacion == $validacion2) {
-            return 'stop';
+        $sql3 = "SELECT * FROM `notamateria_estudiantes` WHERE id_materia = :id_materia";
+        $stmt3 = $this->conexion()->prepare($sql3);
+        $stmt3->execute(array(
+            ":id_materia" => $id_materia,
+        ));
+
+        $validacion3 = $stmt3->rowCount();
+
+        if ($validacion == $validacion2 && $validacion2 == $validacion3) {
+            return 'true';
         }else{
-            return 'start';
+            return 'stop';
         }
     }
 

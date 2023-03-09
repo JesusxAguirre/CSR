@@ -65,7 +65,7 @@ if (isset($_POST['eliminarProfMat'])) {
     $cedulaProf= $_POST['cedulaProf'];
     $idMateria2= $_POST['idMateria2'];
 
-    $validacion = $objeto->validar_desvincular_profesorMateria($cedulaProf);
+    $validacion = $objeto->validar_desvincular_profesorMateria($cedulaProf, $idMateria2);
     if ($validacion > 0) {
         echo json_encode('stop');
      }else{
