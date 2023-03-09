@@ -739,9 +739,8 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
                             color: 'white',
                             title: 'Seccion cerrada correctamente!',
                             showConfirmButton: false,
-                            timer: 1500,
+                            timer: 2000,
                         });
-                        
                     }else{
                         Swal.fire({
                             iconColor: 'red',

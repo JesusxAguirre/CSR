@@ -145,7 +145,7 @@ const expresionesMaterias = {
   }
   
   selectsFC.forEach((evento) => {
-    evento.addEventListener("click", validarNivelMateria);
+    evento.addEventListener("change", validarNivelMateria);
     evento.addEventListener("blur", validarNivelMateria);
   });
 

@@ -310,25 +310,61 @@ class ecam extends Conexion
     {
         $listarEstudiantes_nivel1 = [];
 
+        //CONSULTA VIEJISIMA (NO SIRVE)
         /*$sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 12) 
         AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";*/
 
-        $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
+
+
+        //ULTIMA CONSULTA QUE USE PARA RESPALDO SI NO LOGRO DAR CON NADA (OPCIONAL PORQUE ESTA MALA TAMBIEN)
+        /*$sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 16) 
-        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
+        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";*/
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(
-            array(
-                ":nivel" => $n,
-            )
-        );
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $listarEstudiantes_nivel1[] = $filas;
+        switch ($n) {
+            case 1:
+                $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
+                NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16) 
+                AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $listarEstudiantes_nivel1[] = $filas;
+                }
+                return $listarEstudiantes_nivel1;
+            
+            case 2:
+                $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` 
+                INNER JOIN notafinal_estudiantes as ntf on ntf.cedulaEstudiante = usuarios.cedula and ntf.nivelAcademico = 1 and ntf.notaFinal >= 16 
+                INNER JOIN notafinal_estudiantes as ntf2 on ntf2.cedulaEstudiante NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 2 AND notaFinal >= 16)
+                WHERE usuarios.id_seccion IS NULL AND usuarios.codigo LIKE '%N1%' GROUP BY cedula";
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $listarEstudiantes_nivel1[] = $filas;
+                }
+                return $listarEstudiantes_nivel1;
+
+            case 3:
+                $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` 
+                INNER JOIN notafinal_estudiantes as ntf on ntf.cedulaEstudiante = usuarios.cedula and ntf.nivelAcademico = 2 and ntf.notaFinal >= 16 
+                INNER JOIN notafinal_estudiantes as ntf2 on ntf2.cedulaEstudiante NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 3 AND notaFinal >= 16)
+                WHERE usuarios.id_seccion IS NULL AND usuarios.codigo LIKE '%N1%' GROUP BY cedula";
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $listarEstudiantes_nivel1[] = $filas;
+                }
+                return $listarEstudiantes_nivel1;
         }
-        return $listarEstudiantes_nivel1;
     }
 
 
@@ -1978,7 +2014,7 @@ class ecam extends Conexion
         $estudiantes_nota = $stmt2->rowCount();
 
         if ($estudiantes_seccion == $estudiantes_nota) {
-            return '0';
+            return 'true';
         }else{
             $valor = ($estudiantes_seccion - $estudiantes_nota);
             return $valor;

@@ -71,7 +71,7 @@
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col">
-                                                <label class="form-label fst-italic fw-bold" for="seleccionarNivel">Nivel de doctrina</label>
+                                                <label class="form-label fst-italic fw-bold" for="seleccionarNivel">Nivel academico</label>
                                                 <select class="form-select selectNivel" name="seleccionarNivel" id="seleccionarNivel">
                                                     <option selected value="ninguno">Selecciona el nivel</option>
                                                     <option value="1">Nivel 1</option>

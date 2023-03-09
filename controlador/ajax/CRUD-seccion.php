@@ -31,11 +31,11 @@ if (isset($_POST['eliminarSeccion'])) {
     $idSeccionEliminar= $_POST['idSeccionEliminar'];
 
     $validacion = $objeto->validar_cerrar_seccion($idSeccionEliminar);
-    if ($validacion > 0) {
-        echo json_encode($validacion);
-    }else{
+    if ($validacion == 'true') {
         echo json_encode('true');
         $objeto->cerrarSeccion($idSeccionEliminar);
+    }else{
+        echo json_encode($validacion);
     }
     
 }
