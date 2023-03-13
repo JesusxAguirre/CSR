@@ -357,10 +357,10 @@ class Usuarios extends Conexion
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
             //buscando codigo viejo para suplantarlo por el nuevo
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula= :cedula_antigua");
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(":cedula_antigua"=>$this->cedula_antigua));
             $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
