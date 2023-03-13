@@ -376,6 +376,7 @@ class Usuarios extends Conexion
                 $sexo_antigua = substr($codigo_usuario['codigo'], 17, 1);
                 $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
             }
+            
             //actualizando cedula en codigo
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
 
@@ -403,8 +404,9 @@ class Usuarios extends Conexion
             $stmt->execute(array());
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
-            $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
-        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono WHERE cedula = :ced");
+            $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, 
+            edad = :edad, sexo = :sexo, estado_civil = :estadoc ,nacionalidad = :nacionalidad , estado = :estado,
+            telefono = :telf WHERE cedula = :ced");
 
 
             //cambiando datos ingresados con mayusculas o minisculas
@@ -423,12 +425,21 @@ class Usuarios extends Conexion
             $this->estado = strtolower($this->estado);
 
             $this->estado = ucfirst($this->estado);
-            //encriptando password
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
-
+/*             echo $this->cedula;
+            echo $this->rol;
+            echo $this->nombre;
+            echo $this->apellido;
+            echo $this->edad;
+            echo $this->sexo;
+            echo $this->civil;
+            echo $this->nacionalidad;
+            echo $this->estado;
+            echo $this->telefono;
+            echo $this->cedula_antigua;
+            exit; */
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
                 ":rol" => $this->rol,
@@ -436,7 +447,7 @@ class Usuarios extends Conexion
                 ":edad" => $this->edad, ":sexo" => $this->sexo,
                 ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
                 ":estado" => $this->estado,
-                ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua
+                ":telf" => $this->telefono, ":ced" => $this->cedula_antigua
             ));
 
             $accion = "Editar datos de usuario";
@@ -449,7 +460,7 @@ class Usuarios extends Conexion
 
             echo "Linea del error: " . $e->getLine();
 
-            return false;
+            return $e;
         }
     }
 
@@ -729,6 +740,11 @@ class Usuarios extends Conexion
         $this->estado = $estado;
         $this->telefono = $telefono;
         $this->rol = $rol;
+
+        $this->cedula = trim($this->cedula);
+        $this->cedula_antigua = trim($this->cedula_antigua);
+
+   
     }
     //METODO SETTER PARA ACTUALIZAR USUARIO PERO SIN ID DE ROL
     public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)
