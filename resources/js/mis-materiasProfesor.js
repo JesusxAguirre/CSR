@@ -38,7 +38,7 @@ $('#tabla_misMateriasProf tbody').on('click', '.vaciarInfo', function() {
         confirmButtonColor: '#0078FF',
         showDenyButton: true,
         denyButtonText: `Cancelar`,
-        denyButtonColor: 'red',
+        denyButtonColor: 'grey',
         background: 'white',
     }).then((result) => {
         if (result.isConfirmed) {

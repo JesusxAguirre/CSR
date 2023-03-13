@@ -581,7 +581,7 @@ $(document).on('click', '#eliminarEstON', function () {
         confirmButtonText: `Si`,
         confirmButtonColor: '#0059FF',
         denyButtonText: `Cancelar`,
-        denyButtonColor: 'red',
+        denyButtonColor: 'grey',
     }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
@@ -724,7 +724,7 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
         confirmButtonText: `Si, cerrar`,
         confirmButtonColor: '#0059FF',
         denyButtonText: `Cancelar`,
-        denyButtonColor: 'red',
+        denyButtonColor: 'grey',
     }).then((result) => {
             if (result.isConfirmed) {
                 $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
@@ -739,9 +739,8 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
                             color: 'white',
                             title: 'Seccion cerrada correctamente!',
                             showConfirmButton: false,
-                            timer: 1500,
+                            timer: 2000,
                         });
-                        
                     }else{
                         Swal.fire({
                             iconColor: 'red',
@@ -847,7 +846,7 @@ $('#guardarEditado1').click(function (e) {
             confirmButtonText: `Si, actualizar`,
             confirmButtonColor: '#0059FF',
             denyButtonText: `Cancelar`,
-            denyButtonColor: 'red',
+            denyButtonColor: 'grey',
         }).then((result) => {
                 if (result.isConfirmed) {
                     $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {

@@ -212,10 +212,8 @@ $('#siguiente1').click(function (e) {
         console.log(resp);
         if (resp == 'true') {
             Swal.fire({
-                iconColor: 'white',
+                iconColor: 'red',
                 icon: 'error',
-                color: 'white',
-                background: 'red',
                 title: '¡La seccion ingresada ya existe!',
                 showConfirmButton: false,
                 timer: 2000,
@@ -359,7 +357,6 @@ $("#crear").click(function () {
                 color: 'white',
                 background: 'green',
                 title: '¡Seccion creada exitosamente!',
-                toast: true,
                 showConfirmButton: false,
                 timer: 2000,
             })

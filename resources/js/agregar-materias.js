@@ -38,32 +38,27 @@ $("#agregarMateria").on("click", function (e) {
       cedulaProfesor: $("#seleccionarProf").val(),
     };
   
-    if (campos[0] && campos[1]) {
+    if (campos[0] && campos[1] && campos[2]) {
       $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
         var resp = JSON.parse(response);
-        if (resp != 'true') {
+
+        if (resp == 'true') {
           Swal.fire({
             icon: 'success',
             title: "¡Agregado exitosamente!",
-            toast: true,
-            background: 'green',
-            color: 'white',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 2000,
           });
           $("#formularioMateria").trigger("reset");
           document.getElementById('nombreMateria').classList.remove('validarBien');
           document.getElementById('seleccionarNivel').classList.remove('validarBien');
+          document.getElementById('profesoresAgregar').classList.remove('validarBien');
         }else{
           Swal.fire({
-            iconColor: 'white',
             icon: 'error',
             title: "¡Esta materia ya existe!",
-            toast: true,
-            background: 'red',
-            color: 'white',
             showConfirmButton: false,
-            timer: 3000,
+            timer: 2000,
           });
         }
         
@@ -84,7 +79,6 @@ $("#agregarMateria").on("click", function (e) {
 
 
 
-
   
 /////////////////////////////////////////////
 //INICIO DE VALIDACIONES AL AGREGAR MATERIAS
@@ -97,6 +91,7 @@ const expresionesMaterias = {
   var campos = {
     nombreMateria: false,
     nivelMateria: false,
+    profesores: false,
   }
   
   
@@ -150,7 +145,22 @@ const expresionesMaterias = {
   }
   
   selectsFC.forEach((evento) => {
-    evento.addEventListener("click", validarNivelMateria);
+    evento.addEventListener("change", validarNivelMateria);
     evento.addEventListener("blur", validarNivelMateria);
   });
+
+
+  $('#profesoresAgregar').on('change', function(e) {
+    var validar = $('#seleccionarProf').val();
+
+    if (validar == '') {
+      document.getElementById('profesoresAgregar').classList.remove('validarBien');
+      document.getElementById('profesoresAgregar').classList.add('validarMal');
+      campos[2] = false;
+    }else{
+      document.getElementById('profesoresAgregar').classList.remove('validarMal');
+      document.getElementById('profesoresAgregar').classList.add('validarBien');
+      campos[2] = true;
+    }
+  })
   //FIN DE VALIDACIONES AL AGREGAR MATERIAS

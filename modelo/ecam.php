@@ -310,25 +310,61 @@ class ecam extends Conexion
     {
         $listarEstudiantes_nivel1 = [];
 
+        //CONSULTA VIEJISIMA (NO SIRVE)
         /*$sql= "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 12) 
         AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";*/
 
-        $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
+
+
+        //ULTIMA CONSULTA QUE USE PARA RESPALDO SI NO LOGRO DAR CON NADA (OPCIONAL PORQUE ESTA MALA TAMBIEN)
+        /*$sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
         NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = :nivel AND `notaFinal` >= 16) 
-        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
+        AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";*/
 
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(
-            array(
-                ":nivel" => $n,
-            )
-        );
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $listarEstudiantes_nivel1[] = $filas;
+        switch ($n) {
+            case 1:
+                $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` WHERE `usuarios`.`cedula` 
+                NOT IN (SELECT `cedulaEstudiante` FROM `notafinal_estudiantes` WHERE `nivelAcademico` = 1 AND `notaFinal` >= 16) 
+                AND `usuarios`.`status_profesor` = 0  AND `usuarios`.`id_seccion` IS NULL AND `usuarios`.`codigo` LIKE '%N1%'";
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $listarEstudiantes_nivel1[] = $filas;
+                }
+                return $listarEstudiantes_nivel1;
+            
+            case 2:
+                $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` 
+                INNER JOIN notafinal_estudiantes as ntf on ntf.cedulaEstudiante = usuarios.cedula and ntf.nivelAcademico = 1 and ntf.notaFinal >= 16 
+                INNER JOIN notafinal_estudiantes as ntf2 on ntf2.cedulaEstudiante NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 2 AND notaFinal >= 16)
+                WHERE usuarios.id_seccion IS NULL AND usuarios.codigo LIKE '%N1%' GROUP BY cedula";
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $listarEstudiantes_nivel1[] = $filas;
+                }
+                return $listarEstudiantes_nivel1;
+
+            case 3:
+                $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` 
+                INNER JOIN notafinal_estudiantes as ntf on ntf.cedulaEstudiante = usuarios.cedula and ntf.nivelAcademico = 2 and ntf.notaFinal >= 16 
+                INNER JOIN notafinal_estudiantes as ntf2 on ntf2.cedulaEstudiante NOT IN (SELECT cedulaEstudiante FROM notafinal_estudiantes WHERE nivelAcademico = 3 AND notaFinal >= 16)
+                WHERE usuarios.id_seccion IS NULL AND usuarios.codigo LIKE '%N1%' GROUP BY cedula";
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+
+                while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                    $listarEstudiantes_nivel1[] = $filas;
+                }
+                return $listarEstudiantes_nivel1;
         }
-        return $listarEstudiantes_nivel1;
     }
 
 
@@ -1917,12 +1953,27 @@ class ecam extends Conexion
 
     ////////////////////////////VALIDACIONES DE ELIMINACION Y AGREGACION///////////////////////////
 
+    //Desvincular profesor de la seccion
     public function validar_eliminar_profesorMateria($id_seccion, $id_materia)
     {   
         $sql = "SELECT * FROM `notamateria_estudiantes` AS `nte` WHERE nte.id_seccion = :id_seccion AND nte.id_materia = :id_materia";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
             ":id_seccion" => $id_seccion,
+            ":id_materia" => $id_materia,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    //Desvincular profesor de la materia
+    public function validar_desvincular_profesorMateria($cedula_profesor, $id_materia)
+    {   
+        $sql = "SELECT * FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedula_profesor AND `id_materia` = :id_materia";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":cedula_profesor" => $cedula_profesor,
             ":id_materia" => $id_materia,
         ));
 
@@ -1963,7 +2014,7 @@ class ecam extends Conexion
         $estudiantes_nota = $stmt2->rowCount();
 
         if ($estudiantes_seccion == $estudiantes_nota) {
-            return '0';
+            return 'true';
         }else{
             $valor = ($estudiantes_seccion - $estudiantes_nota);
             return $valor;
@@ -1983,28 +2034,36 @@ class ecam extends Conexion
     }
 
     //Validar que una materia este vinculada a las secciones y demas para ser eliminada
-    public function validar_eliminar_materia($id_seccion)
+    public function validar_eliminar_materia($id_materia)
     {
-        $sql = "SELECT * FROM `profesores-materias` WHERE id_materia = :id_seccion";
+        $sql = "SELECT * FROM `profesores-materias` WHERE id_materia = :id_materia";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
-            ":id_seccion" => $id_seccion,
+            ":id_materia" => $id_materia,
         ));
 
         $validacion = $stmt->rowCount();
 
-        $sql2 = "SELECT * FROM `secciones-materias-profesores` WHERE id_materia = :id_seccion";
+        $sql2 = "SELECT * FROM `secciones-materias-profesores` WHERE id_materia = :id_materia";
         $stmt2 = $this->conexion()->prepare($sql2);
         $stmt2->execute(array(
-            ":id_seccion" => $id_seccion,
+            ":id_materia" => $id_materia,
         ));
 
-        $validacion2 = $stmt->rowCount();
+        $validacion2 = $stmt2->rowCount();
 
-        if ($validacion == $validacion2) {
-            return 'stop';
+        $sql3 = "SELECT * FROM `notamateria_estudiantes` WHERE id_materia = :id_materia";
+        $stmt3 = $this->conexion()->prepare($sql3);
+        $stmt3->execute(array(
+            ":id_materia" => $id_materia,
+        ));
+
+        $validacion3 = $stmt3->rowCount();
+
+        if ($validacion == $validacion2 && $validacion2 == $validacion3) {
+            return 'true';
         }else{
-            return 'start';
+            return 'stop';
         }
     }
 
@@ -2031,6 +2090,60 @@ class ecam extends Conexion
             return 'start';
         }else{
             return 'stop';
+        }
+    }
+
+    //Validar que no haya nota final para poder eliminar la nota de la materia
+    public function validar_eliminar_notaMateria($cedula_estudiante, $id_seccion)
+    {
+        $sql = "SELECT * FROM `notafinal_estudiantes` WHERE cedulaEstudiante = :cedula_estudiante AND id_seccion = :id_seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":cedula_estudiante" => $cedula_estudiante,
+            ":id_seccion" => $id_seccion,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+    
+    //Validar que la seccion este abierta para poder eliminar la nota final
+    public function validar_eliminar_notaFinal($seccion)
+    {
+        $sql = "SELECT * FROM `secciones` WHERE id_seccion = :id_seccion AND `status_seccion` = 1";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":id_seccion" => $seccion,
+        ));
+
+        $validacion = $stmt->rowCount();
+        return $validacion;
+    }
+
+    //Validar que el estudiante tenga todas las notas de sus materias para poder agregar la nota final
+    public function validar_agregar_notaFinal($cedula, $seccion)
+    {
+        $sql = "SELECT * FROM `secciones-materias-profesores` WHERE id_seccion = :seccion";
+        $stmt = $this->conexion()->prepare($sql);
+        $stmt->execute(array(
+            ":seccion" => $seccion,
+        ));
+
+        $validacion1 = $stmt->rowCount();
+
+        $sql2 = "SELECT * FROM `notamateria_estudiantes` WHERE id_seccion = :seccion AND cedula = :cedula";
+        $stmt2 = $this->conexion()->prepare($sql2);
+        $stmt2->execute(array(
+            ":seccion" => $seccion,
+            ":cedula" => $cedula,
+        ));
+
+        $validacion2 = $stmt2->rowCount();
+
+        if ($validacion1 == $validacion2) {
+            return '0';
+        }else{
+            return ($validacion1 - $validacion2);
         }
     }
 
