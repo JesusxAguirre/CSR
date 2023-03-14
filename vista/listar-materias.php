@@ -42,13 +42,6 @@
 
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm col ">
-                    <div class="titulo text-center mt-5">
-                        <h1>MATERIAS</h1>
-                    </div>
-                </div>
-            </div>
 
             <div class="row d-flex justify-content-center">
                 <div class="col-sm">
@@ -61,7 +54,7 @@
                         </div>
                         <!-- FIN DE BUSCADOR DE MATERIA -->
                         <div class="table-responsive">
-                            <table class="table table-light table-striped text-center table-centered">
+                            <table class="table table-light text-center table-centered table-hover">
                                 <thead class="table-dark">
                                     <tr>
                                         <th>MATERIAS</th>

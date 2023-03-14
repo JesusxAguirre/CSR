@@ -195,7 +195,7 @@
 
 
 
-
+        <?php if ($_SESSION['rol'] != 4) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -298,6 +298,7 @@
             </div>
           </div>
         </li>
+        <?php } ?>
 
         <?php if (isset($_SESSION['permisos']['reporte_estadistico_celulas']['listar'])) {
           if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) { ?>
