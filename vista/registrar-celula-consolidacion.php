@@ -122,7 +122,7 @@
                     <div id="grupo__hora" class="col-sm col-md-6">
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridZip">Hora</label>
-                        <i class="input-icon2  fs-5"></i>
+                  
                         <input name="hora" type="time" placeholder="1" id="formGridZip" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede quedar vacio</p>
