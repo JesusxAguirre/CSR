@@ -99,7 +99,7 @@
               <div id="grupo__fecha_inicio" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_inicio" id="fecha_inicio" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -107,7 +107,7 @@
               <div id="grupo__fecha_final" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_final" id="fecha_final" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -135,7 +135,7 @@
               <div id="grupo__fecha_inicio2" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_inicio2" id="fecha_inicio2" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -143,7 +143,7 @@
               <div id="grupo__fecha_final2" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_final2" id="fecha_final2" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -171,7 +171,7 @@
               <div id="grupo__fecha_inicio3" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_inicio3" id="fecha_inicio3" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -179,7 +179,7 @@
               <div id="grupo__fecha_final3" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_final3" id="fecha_final3" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
