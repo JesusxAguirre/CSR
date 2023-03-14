@@ -222,7 +222,7 @@
               <div id="grupo__fecha_inicio4" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_inicio4" id="fecha_inicio4" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -230,7 +230,7 @@
               <div id="grupo__fecha_final4" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_final4" id="fecha_final4" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -258,7 +258,7 @@
               <div id="grupo__CSR" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Seleccione una CSR</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <select name="CSR[]" id="CSR" class="form-control">
                     <option value="">Seleccione una opcion</option>
                     <?php foreach ($matriz_csr as $csr) : ?>
@@ -273,7 +273,7 @@
               <div id="grupo__fecha_inicio5" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_inicio5" id="fecha_inicio5" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -281,7 +281,7 @@
               <div id="grupo__fecha_final5" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="fecha_final5" id="fecha_final5" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
