@@ -42,9 +42,9 @@ if ($_SESSION['verdadero'] > 0) {
             $estado = $_POST['estado'];
             $telefono = $_POST['telefono'];
             $correo = $_POST['correo'];
-            $clave = $_POST['clave'];
 
-            $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula,$cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
+
+            $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula,$cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo);
             $objeto->update_usuarios_sin_rol();
 
             $actualizar = false;

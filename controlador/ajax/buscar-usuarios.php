@@ -17,7 +17,7 @@ $busqueda = $_POST['busqueda'];
       <td hidden class="edad" role='cell'><?php echo $user['edad'] ?></td>
       <td hidden class="nacionalidad" role='cell'><?php echo $user['nacionalidad'] ?></td>
       <td hidden class="estado" role='cell'><?php echo $user['estado'] ?></td>
-      <td hidden class="telefono" role='cell'><?php echo $usuario['telefono'] ?></td>
+      <td hidden class="telefono" role='cell'><?php echo $user['telefono'] ?></td>
       <td role='cell'><?php echo $user['codigo'] ?></td>
       <td class="nombre" role='cell'><?php echo  $user['nombre'] ?></td>
       <td class="apellido" role='cell'><?php echo  $user['apellido'] ?></td>
