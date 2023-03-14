@@ -473,7 +473,7 @@ class Usuarios extends Conexion
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
-        
+
             return $e;
         }
     }
@@ -552,7 +552,7 @@ class Usuarios extends Conexion
                 ":estadoc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
                 ":estado" => $this->estado,
                 ":telefono" => $this->telefono, ":ced" => $this->cedula_antigua,
-                ":usuario" => $this->correo, 
+                ":usuario" => $this->correo,
             ));
 
             session_destroy();
@@ -609,6 +609,7 @@ class Usuarios extends Conexion
         parent::registrar_bitacora($cedula, $accion, $id_modulo);
     }
 
+
     //RECUPERAR CONTRASEÑA
     public function recuperar_password()
     {
@@ -635,6 +636,8 @@ class Usuarios extends Conexion
             return false;
         }
     }
+
+    //ELIMINAR USUARIOS
     public function delete_usuarios()
     {
         try {
@@ -656,6 +659,7 @@ class Usuarios extends Conexion
         }
     }
 
+    //METODO GETTER PARA USUARIO CON ROL FUNCION CREADA PARA LAS PRUEBAS
     public function get_usuario_con_rol($cedula)
     {
 
@@ -678,6 +682,8 @@ class Usuarios extends Conexion
             return false;
         }
     }
+
+    //METODO GETTER PARA USUARIO CON ROL FUNCION CREADA PARA LAS PRUEBAS
     public function get_usuario_sin_rol($cedula)
     {
 
@@ -702,6 +708,7 @@ class Usuarios extends Conexion
         }
     }
 
+    //METODO GETTER PARA USUARIO CON ROL FUNCION CREADA PARA LAS PRUEBAS
     public function listar_usuarios()
     {
         $resultado = [];
@@ -772,7 +779,6 @@ class Usuarios extends Conexion
         $this->estado = $estado;
         $this->telefono = $telefono;
         $this->correo = $correo;
-
     }
     //METODO SETTER PARA ACTUALIZAR FOTO DE USUARIO
     public function setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen)
