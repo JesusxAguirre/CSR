@@ -38,7 +38,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "hora":
-      ValidarCampo(expresiones.hora, e.target, 'hora');
+      ValidarHora(expresiones.hora, e.target, 'hora');
       break;
 
     case "codigoLider":
@@ -83,6 +83,21 @@ const ValidarDia = (input, campo) => {
   }
 }
 
+const ValidarHora = (expresion, input, campo) => {
+  if (expresion.test(input.value)) {
+  
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
+  }
+}
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
 

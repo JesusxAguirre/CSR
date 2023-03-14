@@ -50,43 +50,44 @@ const campos = {
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "fecha_inicio":
-      ValidarSelect(e.target, 'fecha_inicio');
+      ValidarFecha(e.target, 'fecha_inicio');
       break;
     case "fecha_final":
-      ValidarSelect(e.target, 'fecha_final');
+      ValidarFecha(e.target, 'fecha_final');
       break;
     case "fecha_inicio2":
-      ValidarSelect(e.target, 'fecha_inicio2');
+      ValidarFecha(e.target, 'fecha_inicio2');
       break;
     case "fecha_final2":
-      ValidarSelect(e.target, 'fecha_final2');
+      ValidarFecha(e.target, 'fecha_final2');
       break;
     case "fecha_inicio3":
-      ValidarSelect(e.target, 'fecha_inicio3');
+      ValidarFecha(e.target, 'fecha_inicio3');
       break;
     case "fecha_final3":
-      ValidarSelect(e.target, 'fecha_final3');
+      ValidarFecha(e.target, 'fecha_final3');
       break;
     case "lider[]":
       ValidarSelect(e.target, 'lider');
       break;
     case "fecha_inicio4":
-      ValidarSelect(e.target, 'fecha_inicio4');
+      ValidarFecha(e.target, 'fecha_inicio4');
       break;
     case "fecha_final4":
-      ValidarSelect(e.target, 'fecha_final4');
+      ValidarFecha(e.target, 'fecha_final4');
       break;
     case "CSR[]":
-      ValidarSelect(e.target, 'CSR');
+      ValidarFecha(e.target, 'CSR');
       break;
     case "fecha_inicio5":
-      ValidarSelect(e.target, 'fecha_inicio5');
+      ValidarFecha(e.target, 'fecha_inicio5');
       break;
     case "fecha_final5":
-      ValidarSelect(e.target, 'fecha_final5');
+      ValidarFecha(e.target, 'fecha_final5');
       break;
   }
 }
+
 
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
@@ -99,6 +100,22 @@ const ValidarSelect = (select, campo) => {
     document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  }
+}
+
+const ValidarFecha = (select, campo) => {
+  if (select.value == '') {
+    
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
+  } else {
+
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   }

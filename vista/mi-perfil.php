@@ -171,20 +171,40 @@
                     </div>
                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                   </div>
-                  <div id="grupo__clave" class="col-sm col-md-3 ">
-                    <div class="relative">
-                      <label class="form-label fw-bold">Clave</label>
-                      <i class="input-icon fs-5"></i>
-                      <input id="clave" value="<?php echo $clave ?>" type="password" placeholder="******" name="clave" class="form-control">
-                    </div>
-                    <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
-
-                  </div>
-
                 </div>
                 <div class="mb-3" id="">
                 </div>
                 <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="mt-2 col">
+          <div class="card">
+            <div class="card-body">
+              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil" enctype="multipart/form-data">
+               
+              <div id="grupo__correo" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Correo</label>
+                      <i class="input-icon fs-5"></i>
+                      <input id="correo" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo" class="form-control">
+                    </div>
+                    <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                  </div>
+                  <div id="grupo__clave" class="col-sm col-md-3 ">
+                    <div class="relative">
+                      <label class="form-label fw-bold">Clave</label>
+                      <i class="input-icon fs-5"></i>
+                      <input id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-4">
+                    </div>
+                    <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
+                </div>
+                <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
+
+                <button name="actualizar_imagen" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>
@@ -213,7 +233,6 @@
           </div>
         </div>
       </div>
-    </div>
     </div>
   </main>
   <script type="text/javascript">

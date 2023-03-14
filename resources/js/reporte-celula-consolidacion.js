@@ -37,10 +37,10 @@ const ValidarFormulario = (e) => {
       ValidarSelect(e.target, 'codigo_consolidacion');  
       break;
     case "fecha_inicio":
-      ValidarSelect(e.target, 'fecha_inicio');
+      ValidarFecha(e.target, 'fecha_inicio');
       break;
     case "fecha_final":
-      ValidarSelect(e.target, 'fecha_final');
+      ValidarFecha(e.target, 'fecha_final');
       break;
   }
 }
@@ -62,6 +62,21 @@ const ValidarSelect = (select, campo) => {
   }
 }
 
+const ValidarFecha = (select, campo) => {
+  if (select.value == '') {
+    
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
+  } else {
+
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  }
+}
 
 const enviar = document.getElementById('consultar');
 enviar.addEventListener('click', (e) => {
