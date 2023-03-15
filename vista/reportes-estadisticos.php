@@ -61,30 +61,94 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-12">
+        <div class="col">
           <div class="card">
             <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between mb-2">
+          
+                <div class="row g-4">
+
+
+
+                  <div class="card m-2 col-sm col-md-2 col-lg-4" style="width: 18rem;">
+                    <div class="card-header bg-success text-white">
+                      Reporte estadistico de cantidad de celulas de discipulado
+                    </div>
+                    <img class="card-img-top" src="resources/img/cantidad-de-celulas-de-d.png" alt="Card image cap">
+                    <div class="card-body">
+                      <p class="card-text">Aqui se puede generar un reporte de la cantidad de celulas de discipulado. presiona el boton de abajo.</p>
+                      <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Generar reporte</a>
+                    </div>
+                  </div>
+
+
+                  <div class="card m-2 col-sm col-md-2 col-lg-4" style="width: 18rem;">
+                    <div class="card-header bg-success text-white">
+                      Reporte estadistico de cantidad de discipulos
+                    </div>
+                    <img class="card-img-top" src="resources/img/cantidad-de-discipulos.png" alt="Card image cap">
+                    <div class="card-body">
+                      <p class="card-text">Aqui se puede generar un reporte de la cantidad de discipulos. presiona el boton de abajo.</p>
+                      <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Generar reporte</a>
+                    </div>
+                  </div>
+
+
+                  <div class="card m-2 col-sm col-md-2 col-lg-4" style="width: 18rem;">
+                    <div class="card-header bg-success text-white">
+                      Reporte estadistico de cantidad de celulas de consolidacion
+                    </div>
+                    <img class="card-img-top" src="resources/img/cantidad-de-celulas-de-c.png" alt="Card image cap">
+                    <div class="card-body">
+                      <p class="card-text">Aqui se puede generar un reporte de la cantidad de celulas de consolidacion. presiona el boton de abajo.</p>
+                      <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Generar reporte</a>
+                    </div>
+                  </div>
+
+
+                  <div class="card m-2 col-sm col-md-2 col-lg-4" style="width: 18rem;">
+                    <div class="card-header bg-success text-white">
+                      Reporte estadistico crecimiento de lider
+                    </div>
+                    <img class="card-img-top" src="resources/img/reporte-de-crecimiento-d.png" alt="Card image cap">
+                    <div class="card-body">
+                      <p class="card-text">Aqui se puede generar un reporte de el crecimiento de un lider. presiona el boton de abajo.</p>
+                      <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#lider-form" role="button">Generar reporte</a>
+                    </div>
+                  </div>
+
+
+                  <div class="card m-2 col-sm col-md-2 col-lg-4" style="width: 18rem;">
+                    <div class="card-header bg-success text-white">
+                      Reporte estadistico CSR
+                    </div>
+                    <img class="card-img-top" src="resources/img/reporte-de-csr.png" alt="Card image cap">
+                    <div class="card-body">
+                      <p class="card-text">Aqui se puede generar un reporte de las visitas de una casa sobre la roca. presiona el boton de abajo.</p>
+                      <a class="btn btn-primary mt-3" data-bs-toggle="modal" id="reporte" href="#csr-form" role="button">Generar reporte </a>
+                    </div>
+                  </div>
+
+
+                </div>
+
+
+
+
+
+                <div id="respuesta"></div>
+                <div id="respuesta2"></div>
+                <div id="respuesta3"></div>
+                <div id="respuesta4"></div>
+                <div id="respuesta5"></div>
               </div>
-              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form" role="button">Reporte estadistico cantidad de celulas de discipulado</a>
-              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#discipulado-form2" role="button">Reporte estadistico numero de discipulos</a>
-              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#consolidacion-form" role="button">Reporte estadistico cantidad de celulas de consolidacion</a>
-              <a class="btn btn-primary" data-bs-toggle="modal" id="reporte" href="#lider-form" role="button">Reporte estadistico crecimiento de lider</a>
-              <a class="btn btn-primary mt-3" data-bs-toggle="modal" id="reporte" href="#csr-form" role="button">Reporte estadistico CSR </a>
-
-              <div id="respuesta"></div>
-              <div id="respuesta2"></div>
-              <div id="respuesta3"></div>
-              <div id="respuesta4"></div>
-              <div id="respuesta5"></div>
-
             </div>
           </div>
         </div>
       </div>
-    </div>
-    </div>
   </main>
+
+
+
   <!-- Modal para formulario de fechas de discipulados creados-->
   <div class="modal fade" id="discipulado-form" aria-hidden="true" aria-labelledby="" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -99,7 +163,7 @@
               <div id="grupo__fecha_inicio" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  
+
                   <input name="fecha_inicio" id="fecha_inicio" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -107,7 +171,7 @@
               <div id="grupo__fecha_final" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  
+
                   <input name="fecha_final" id="fecha_final" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -135,7 +199,7 @@
               <div id="grupo__fecha_inicio2" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  
+
                   <input name="fecha_inicio2" id="fecha_inicio2" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -143,7 +207,7 @@
               <div id="grupo__fecha_final2" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  
+
                   <input name="fecha_final2" id="fecha_final2" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -171,7 +235,7 @@
               <div id="grupo__fecha_inicio3" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  
+
                   <input name="fecha_inicio3" id="fecha_inicio3" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -179,7 +243,7 @@
               <div id="grupo__fecha_final3" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  
+
                   <input name="fecha_final3" id="fecha_final3" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -222,7 +286,7 @@
               <div id="grupo__fecha_inicio4" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  
+
                   <input name="fecha_inicio4" id="fecha_inicio4" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -230,7 +294,7 @@
               <div id="grupo__fecha_final4" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  
+
                   <input name="fecha_final4" id="fecha_final4" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -258,7 +322,7 @@
               <div id="grupo__CSR" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Seleccione una CSR</label>
-                  
+
                   <select name="CSR[]" id="CSR" class="form-control">
                     <option value="">Seleccione una opcion</option>
                     <?php foreach ($matriz_csr as $csr) : ?>
@@ -273,7 +337,7 @@
               <div id="grupo__fecha_inicio5" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de inicio de la consulta</label>
-                  
+
                   <input name="fecha_inicio5" id="fecha_inicio5" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -281,7 +345,7 @@
               <div id="grupo__fecha_final5" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Coloque la fecha de fin de la consulta</label>
-                  
+
                   <input name="fecha_final5" id="fecha_final5" class="form-control" type="month" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -379,4 +443,5 @@
   <script src="resources/js/reporte-estadisticos-celulas.js"></script>
 
 </body>
+
 </html>
