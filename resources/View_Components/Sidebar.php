@@ -76,7 +76,7 @@
             </div>
           </li>
         <?php endif; ?>
-
+            
         <?php if (!$_SESSION['rol'] <= 2) { ?>
           <li>
             <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -197,7 +197,7 @@
 
 
 
-        <?php if ($_SESSION['rol'] != 4 && $_SESSION['rol'] != 3) { ?>
+        <?php if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0 or $_SESSION['permisos']['celula_discipulado']['crear']> 0) : ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -234,7 +234,7 @@
                     </li>
                 <?php }
                 } ?>
-
+              <?php  if ($_SESSION['permisos']['celula_discipulado']['listar'] > 0) : ?>
                 <li>
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
@@ -242,15 +242,15 @@
                     <span>Buscar Reporte Celula de Discipulado</span>
                   </a>
                 </li>
-
+              <?php endif; ?>
               </ul>
             </div>
           </div>
         </li>
+        <?php endif; ?>
 
 
-
-
+        <?php if ($_SESSION['permisos']['celula_consolidacion']['listar'] > 0 or $_SESSION['permisos']['celula_consolidacion']['crear']> 0) : ?>        
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
@@ -287,7 +287,7 @@
                     </li>
                 <?php }
                 } ?>
-
+                <?php if($_SESSION['permisos']['celula_consolidacion']['listar'] > 0): ?>
                 <li>
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                     <span class="me-2">
@@ -295,12 +295,12 @@
                     <span>Buscar Reporte Celula de Consolidacion</span>
                   </a>
                 </li>
-
+                <?php endif ?>
               </ul>
             </div>
           </div>
         </li>
-        <?php } ?>
+        <?php endif; ?>
 
         <?php if (isset($_SESSION['permisos']['reporte_estadistico_celulas']['listar'])) {
           if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) { ?>
