@@ -674,6 +674,34 @@ class Discipulado extends Conexion
     public function eliminar_participantes($cedula_participante)
     {
         try {
+
+            $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_participante");
+
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":cedula_participante"=>$cedula_participante,
+            ));
+            $id_discipulado =$stmt->fetch(PDO::FETCH_ASSOC);
+
+            $sql = ("SELECT codigo FROM celula_discipulado WHERE id = :id");
+
+            $stmt=  $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":id"=>$id_discipulado['id_discipulado']));
+
+            $codigo_celula = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $codigo_celula = "-" . $codigo_celula;
+            
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:codigo_discipulado,'') WHERE cedula = :cedula_participante");
+            
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo_disicpulado "=>$codigo_celula,
+                ":cedula_participante"=>$cedula_participante
+            ));
+
             $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);

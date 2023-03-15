@@ -32,9 +32,10 @@ class LaRoca extends Conexion
     public function __construct()
     {
         $this->conexion = parent::conexion();
+        $this->id_modulo = 2;
         //LLAMADA DE FUNCION PARA VERIFICAR SI CASA SOBRE LA ROCA DEBERIA ESTAR DESINCORPORADA
         $this->actualizar_status_CSR();
-        $this->id_modulo = 2;
+       
     }
     //BUSCAR CSR CON FILTROS
     public function buscar_CSR($busqueda)
