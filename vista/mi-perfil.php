@@ -184,13 +184,13 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil" enctype="multipart/form-data">
+              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil" >
                
               <div id="grupo__correo2" class="col-sm col-md-3 ">
                     <div class="relative">
                       <label class="form-label fw-bold">Correo</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="correo2" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo2" class="form-control">
+                      <input disabled id="correo2" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo2" class="form-control">
                     </div>
                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                   </div>

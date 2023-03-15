@@ -62,6 +62,11 @@ if ($_SESSION['verdadero'] > 0) {
             $objeto->actualizar_foto();
             $actualizar = false;
         }
+
+        if (isset($_POST['recuperar_password'])){
+            
+            $objeto->setRecuperar($cedula,$_POST['clave']);
+        }
         require_once 'vista/' . $pagina . '.php';
     }
 } else {
