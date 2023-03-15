@@ -8,14 +8,14 @@
             HOME
           </div>
         </li>
-        <?php if ($_SESSION['rol'] == 1) { ?>
+        <?php if ($_SESSION['permisos']['dashboard']['listar'] > 0) : ?>
           <li>
             <a href="?pagina=dashboard" class="nav-link px-3 active fs-4">
               <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
               <span class="h5">Inicio</span>
             </a>
           </li>
-        <?php } ?>
+        <?php  endif ;?>
         <li>
           <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
             <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
@@ -31,7 +31,7 @@
           </div>
         </li>
 
-        <?php if ($_SESSION['rol'] <= 2) { ?>
+        <?php if ($_SESSION['permisos']['casa_sobre_la_roca']['listar'] > 0 or $_SESSION['permisos']['casa_sobre_la_roca']['crear']> 0) : ?>
           <li>
             <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#roca" role="button" aria-expanded="false" aria-controls="collapseExample">
               <span class="me-2">
@@ -62,6 +62,7 @@
                     </a>
                   </li>
                 <?php endif; ?>
+                <?php if ($_SESSION['permisos']['casa_sobre_la_roca']['listar'] > 0) : ?>
                 <li>
                   <a href="?pagina=reporte-casa" class="nav-link px-3">
                     <span class="me-2">
@@ -69,11 +70,12 @@
                     <span>Reporte CSR</span>
                   </a>
                 </li>
+                <?php endif; ?>
               </ul>
 
             </div>
           </li>
-        <?php } ?>
+        <?php endif; ?>
 
         <?php if (!$_SESSION['rol'] <= 2) { ?>
           <li>
