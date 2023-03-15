@@ -675,7 +675,7 @@ class Discipulado extends Conexion
     {
         try {
 
-            $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_participante");
+           /*  $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
@@ -701,7 +701,7 @@ class Discipulado extends Conexion
                 ":codigo_disicpulado "=>$codigo_celula,
                 ":cedula_participante"=>$cedula_participante
             ));
-
+ */
             $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);
