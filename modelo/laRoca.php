@@ -318,23 +318,45 @@ class LaRoca extends Conexion
     //ACTUALIZAR CASA SOBRE LA ROCAS CADA 3 MESES DESDE SU CREACION CON UNA ELIMINACION LOGICA
     public function actualizar_status_CSR()
     {
-        $sql = ("UPDATE casas_la_roca SET 
-            status  = 0  
-            WHERE DATE_ADD(fecha, INTERVAL 90 DAY) < NOW();");
 
+        $sql = ("SELECT id,codigo,cedula_lider,status
+                FROM casas_la_roca  
+                WHERE DATE_ADD(fecha, INTERVAL 90 DAY) < NOW();");
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array());
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-        if ($stmt->rowCount() >= 1) {
+            if ($filas["status"] == 1) {
+                $codigo_csr = "-" . $filas['codigo'];
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:codigo_csr,'') WHERE cedula = :cedula_lider");
 
-            $accion = "Cierre casa sobre la roca";
-            $usuario = $_SESSION['cedula'];
-            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+                $stmt = $this->conexion()->prepare($sql);
+                
+                $stmt->execute(array(
+                    ":codigo_csr"=>$codigo_csr,
+                    ":cedula_lider"=>$filas['cedula_lider'],
+                ));
 
-            return true;
-        } else {
-            return true;
+                $sql = ("UPDATE casas_la_roca 
+                        SET status  = 0  
+                        WHERE id = :id");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":id" => $filas["id"],
+                ));
+
+                if ($stmt->rowCount() >= 1) {
+
+                    $accion = "Cierre casa sobre la roca";
+                    $usuario = $_SESSION['cedula'];
+                    parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+                    return true;
+                }
+            }
         }
     }
     //---------registrar reporte de CSR------------------------//
