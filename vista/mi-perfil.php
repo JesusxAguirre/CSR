@@ -186,11 +186,11 @@
             <div class="card-body">
               <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil" enctype="multipart/form-data">
                
-              <div id="grupo__correo" class="col-sm col-md-3 ">
+              <div id="grupo__correo2" class="col-sm col-md-3 ">
                     <div class="relative">
                       <label class="form-label fw-bold">Correo</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="correo" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo" class="form-control">
+                      <input id="correo2" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo2" class="form-control">
                     </div>
                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                   </div>
@@ -204,7 +204,7 @@
                 </div>
                 <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
 
-                <button name="actualizar_imagen" type="submit" class="btn btn-primary">Enviar</button>
+                <button name="recuperar_password" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
           </div>
