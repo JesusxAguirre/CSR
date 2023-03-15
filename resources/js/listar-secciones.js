@@ -409,10 +409,7 @@ $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVO
             selectMasMaterias();
             Swal.fire({
                 icon: 'success',
-                iconColor: 'white',
-                title: '¡Agregado correctamente!',
-                background: 'green',
-                color: 'white',
+                title: '¡Materia con profesor agregado correctamente!',
                 showConfirmButton: false,
                 timer: 1700,
             })
@@ -420,9 +417,7 @@ $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVO
     }else{
         Swal.fire({
             icon: 'error',
-            iconColor: 'red',
             title: '¡No dejes ningun campo vacio!',
-            background: 'white',
             showConfirmButton: false,
             timer: 1700,
         })
@@ -461,10 +456,8 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
             console.log(resp);
             if (resp == 'true') {
                 Swal.fire({
-                    iconColor: 'red',
                     icon: 'error',
-                    background: 'white',
-                    title: 'Error!',
+                    title: 'DENEGADO',
                     text: 'No puedes eliminar estos datos de la seccion mientras existan notas asociadas a los estudiantes',
                     confirmButtonColor: '#0059FF'
                 })
@@ -473,10 +466,7 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
                 selectMasMaterias();
                 Swal.fire({
                     icon: 'success',
-                    iconColor: 'white',
-                    title: '¡Eliminado correctamente!',
-                    color: 'white',
-                    background: 'green',
+                    title: '¡Eliminados correctamente!',
                     showConfirmButton: false,
                     timer: 1700,
                 })
@@ -529,9 +519,7 @@ $("#agregarEditado2").on("click", function (e) {
     if (campo.value == '') {
         Swal.fire({
             icon: 'error',
-            iconColor: 'red',
             title: '¡No ha agregado a ningun estudiante!',
-            background: 'white',
             showConfirmButton: false,
             timer: 1700,
         });
@@ -548,10 +536,7 @@ $("#agregarEditado2").on("click", function (e) {
             selectEstudiantesOFF();
             Swal.fire({
                 icon: 'success',
-                iconColor: 'white',
-                title: '¡Estudiante guardado correctamente!',
-                background: 'green',
-                color: 'white',
+                title: '¡Estudiante agregado correctamente!',
                 showConfirmButton: false,
                 timer: 1700,
             });
@@ -589,10 +574,8 @@ $(document).on('click', '#eliminarEstON', function () {
 
                     if (resp == 'true') {
                         Swal.fire({
-                            iconColor: 'red',
                             icon: 'error',
-                            background: 'white',
-                            title: 'Error!',
+                            title: 'DENEGADO',
                             text: 'No puedes eliminar al estudiante de la seccion porque existen notas asociadas a el/ella',
                             confirmButtonColor: '#0059FF'
                         })
@@ -733,20 +716,15 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
                     if (resp == 'true') {
                         dataTableSec.ajax.reload();
                         Swal.fire({
-                            iconColor: 'white',
                             icon: 'success',
-                            background: 'green',
-                            color: 'white',
                             title: 'Seccion cerrada correctamente!',
                             showConfirmButton: false,
                             timer: 2000,
                         });
                     }else{
                         Swal.fire({
-                            iconColor: 'red',
                             icon: 'error',
-                            background: 'white',
-                            title: 'Error!',
+                            title: 'DENEGADO',
                             text: 'No puedes cerrar esta seccion porque aun faltan '+resp+' estudiantes por agregarle su nota final',
                             confirmButtonColor: '#0059FF'
                         });

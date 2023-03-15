@@ -27,7 +27,7 @@
         </li>
         <li>
           <div class="text-muted small fw-bold text-uppercase px-3">
-            interfaces
+            Interfaces
           </div>
         </li>
 
@@ -195,12 +195,12 @@
 
 
 
-        <?php if ($_SESSION['rol'] != 4) { ?>
+        <?php if ($_SESSION['rol'] != 4 && $_SESSION['rol'] != 3) { ?>
         <li>
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#discipulado" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
               <i class="bi bi-cloud-check-fill fs-3"></i></span>
-            <span>Gestionar celula discipulado</span>
+            <span>Gestionar Celula de Discipulado</span>
             <span class="right-icon ms-auto">
               <i class="bi bi-chevron-down"></i>
             </span>
@@ -215,7 +215,7 @@
                       <a href="?pagina=listar-celula-discipulado" class="nav-link px-3">
                         <span class="me-2">
                           <i class="bi bi-clipboard-check"></i></span>
-                        <span>Listar celula discipulado</span>
+                        <span>Listar Celula de Discipulado</span>
                       </a>
                     </li>
                 <?php }
@@ -227,7 +227,7 @@
                       <a href="?pagina=registrar-celula-discipulado" class="nav-link px-3">
                         <span class="me-2">
                           <i class="bi bi-box-seam-fill"></i></span>
-                        <span>Registrar celula discipulado</span>
+                        <span>Registrar Celula de Discipulado</span>
                       </a>
                     </li>
                 <?php }
@@ -237,7 +237,7 @@
                   <a href="?pagina=reporte-celula-discipulado" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-clipboard2-plus-fill"></i></span>
-                    <span>Buscar Reporte celula discipulado</span>
+                    <span>Buscar Reporte Celula de Discipulado</span>
                   </a>
                 </li>
 
@@ -253,7 +253,7 @@
           <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#consolidacion" role="button" aria-expanded="false" aria-controls="collapseExample">
             <span class="me-2">
               <i class="bi bi-patch-check-fill fs-3"></i></span>
-            <span>Gestionar celula consolidacion</span>
+            <span>Gestionar Celula de Consolidacion</span>
             <span class="right-icon ms-auto">
               <i class="bi bi-chevron-down"></i>
             </span>
@@ -268,7 +268,7 @@
                       <a href="?pagina=listar-celula-consolidacion" class="nav-link px-3">
                         <span class="me-2">
                           <i class="bi bi-clipboard-check"></i></span>
-                        <span>Listar celula consolidacion</span>
+                        <span>Listar Celula de Consolidacion</span>
                       </a>
                     </li>
                 <?php }
@@ -280,7 +280,7 @@
                       <a href="?pagina=registrar-celula-consolidacion" class="nav-link px-3">
                         <span class="me-2">
                           <i class="bi bi-box-seam-fill"></i></span>
-                        <span>Registrar celula consolidacion</span>
+                        <span>Registrar Celula de Consolidacion</span>
                       </a>
                     </li>
                 <?php }
@@ -290,7 +290,7 @@
                   <a href="?pagina=reporte-celula-consolidacion" class="nav-link px-3">
                     <span class="me-2">
                       <i class="bi bi-clipboard2-plus-fill"></i></span>
-                    <span>Buscar Reporte celula consolidacion</span>
+                    <span>Buscar Reporte Celula de Consolidacion</span>
                   </a>
                 </li>
 
@@ -306,7 +306,7 @@
               <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
                 <span class="me-2">
                   <i class="bi bi-clipboard-data-fill fs-3"></i></span>
-                <span>Gestionar Reportes estadisticos de celulas </span>
+                <span>Gestionar Reportes Estadisticos de Celulas </span>
 
               </a>
             </li>
@@ -319,7 +319,7 @@
               <a href="?pagina=reportes-ecam" class="nav-link px-3">
                 <span class="me-2">
                   <i class="bi bi-bar-chart-line"></i></span>
-                <span>Gestionar Reportes estadisticos ECAM</span>
+                <span>Gestionar Reportes Estadisticos ECAM</span>
               </a>
             </li>
         <?php }

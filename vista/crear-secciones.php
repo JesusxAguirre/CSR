@@ -178,7 +178,7 @@
                     <button class="btn btn-danger" data-bs-target="#form2" data-bs-toggle="modal" data-bs-dismiss="modal">Regresar</button>
                 </div>
                 <div class="d-grid mt-3">
-                    <button disabled class="btn btn-success" id="crear">CREAR SECCION <i class="bi bi-plus-circle"></i></button>
+                    <button disabled class="btn btn-primary" id="crear">CREAR SECCION <i class="bi bi-plus-circle"></i></button>
                 </div>
             </div>
         </div>

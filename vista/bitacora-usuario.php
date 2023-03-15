@@ -46,7 +46,7 @@
   <!-- sidebar.php -->
   <main style="height: 100vh" class="pt-3">
     <div class="container-fluid">
-      <div class="row justify-content-center mt-3 bg-white">
+      <div class="row justify-content-center bg-white">
         <div class="col-6">
           <img src="./resources/img/user.png" class="rounded mx-auto d-block" width="150" height="140">
           <h5 class="text-center"><em>¡Hola <?php echo $_SESSION['nombre'] ?>!</em></h5>

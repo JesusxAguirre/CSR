@@ -103,7 +103,6 @@ $('#crearProfesores').click(function (e) {
         title: 'Error',
         text: '¡No seleccionaste profesores!',
         icon: 'error',
-        iconColor: 'red',
         showConfirmButton: false,
         timer: 2000,
       })
@@ -114,10 +113,6 @@ $('#crearProfesores').click(function (e) {
         Swal.fire({
           title: '¡Agregados exitosamente!',
           icon: 'success',
-          iconColor: 'white',
-          toast: true,
-          background: 'green',
-          color: 'white',
           showConfirmButton: false,
           timer: 2000,
         })

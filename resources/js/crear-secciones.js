@@ -212,7 +212,6 @@ $('#siguiente1').click(function (e) {
         console.log(resp);
         if (resp == 'true') {
             Swal.fire({
-                iconColor: 'red',
                 icon: 'error',
                 title: '¡La seccion ingresada ya existe!',
                 showConfirmButton: false,
@@ -353,9 +352,6 @@ $("#crear").click(function () {
         $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
             Swal.fire({
                 icon: 'success',
-                iconColor: 'white',
-                color: 'white',
-                background: 'green',
                 title: '¡Seccion creada exitosamente!',
                 showConfirmButton: false,
                 timer: 2000,

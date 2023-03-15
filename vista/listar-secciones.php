@@ -130,7 +130,7 @@
                     <button type="button" class="btn btn-primary" id="guardarEditado1">GUARDAR</button>
                 </div>
                 <div class="d-grid">
-                    <button type="button" class="btn btn-danger" id="cerrarEditado1" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-secondary" id="cerrarEditado1" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                     <button class="btn btn-primary" id="agregarEditado2">AGREGAR ESTUDIANTES <i class="bi bi-person-plus-fill"></i></button>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-danger" id="cerrarEditado2" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-secondary" id="cerrarEditado2" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>
@@ -231,7 +231,7 @@
                     <button class="btn btn-primary" id="agregarEditado3">AGREGAR <i class="bi bi-journal-check"></i></button>
                 </div>
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-danger" id="cerrarEditado3" data-bs-dismiss="modal">CERRAR</button>
+                    <button type="submit" class="btn btn-secondary" id="cerrarEditado3" data-bs-dismiss="modal">CERRAR</button>
                 </div>
             </div>
         </div>

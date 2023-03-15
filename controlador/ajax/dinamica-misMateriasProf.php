@@ -51,9 +51,9 @@ if (isset($_POST['listarMisMateriasProf'])) {
                 <td>
                     <?php if ($misMaterias['contenido'] == NULL || $misMaterias['contenido'] == '<p><br></p>') { ?>
                         <button class="agregarInfo btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf"><i class="bi bi-plus-circle"></i></button>
-                        <button class="btn btn-secondary" disabled>Sin informacion</button><?php
+                        <button class="btn btn-secondary" disabled>Sin Descripcion</button><?php
                     }else{ ?>
-                        <button class="modalContenidoON btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf">Ver informacion</button>
+                        <button class="modalContenidoON btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_misContenidosProf">Ver Descripcion</button>
                         <i class="vaciarInfo btn btn-outline-danger bi bi-archive-fill"></i><?php
                     }?>
                 </td>
