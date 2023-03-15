@@ -67,15 +67,12 @@ const ValidarFormulario = (e) => {
 		case "telefono":
 			ValidarCampo(expresiones.telefono, e.target, 'telefono');
 			break;
-		case "clave":
-			ValidarCampo(expresiones.password, e.target, 'clave');
-			break;
 		//segundo formulario
 		case "correo2":
 			ValidarCampo(expresiones.correo, e.target, 'correo2');
 			break;
-		case "clave2":
-			ValidarCampo(expresiones.password, e.target, 'clave2');
+		case "clave":
+			ValidarCampo(expresiones.password, e.target, 'clave');
 			break;
 	}
 }
@@ -129,6 +126,26 @@ const ValidarCampo = (expresion, input, campo) => {
 		 	})
 		 }
 		if (campos.correo == true) {
+			let id = document.getElementById("correo")
+			let correo = id.value
+			$.ajax({
+				data: 'correo=' + correo,
+				url: "controlador/ajax/buscar-correo.php",
+				type: "post",
+			}).done(data => {
+				if (data == '1') {
+					fireAlert('error', 'Este corrreo ya existe')
+					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					campos.correo = false;
+					let mensaje = document.getElementById("mensaje_correo")
+					mensaje.textContent = "Esta correo ya existe en la base de datos, ingrese otro por favor"
+				}
+			})
+		}
+		if (campos.correo2 == true) {
 			let id = document.getElementById("correo")
 			let correo = id.value
 			$.ajax({

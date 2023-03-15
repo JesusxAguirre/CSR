@@ -616,7 +616,7 @@ class Usuarios extends Conexion
         try {
             //consulta update
             $sql = ("UPDATE usuarios SET password = :password
-         WHERE usuario = :usuario");
+         WHERE cedula = :usuario");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -624,7 +624,7 @@ class Usuarios extends Conexion
 
             $stmt->execute(array(
                 ":password" => $this->clave,
-                ":usuario" => $this->correo
+                ":usuario" => $this->cedula
             ));
             return true;
         } catch (Exception $e) {
@@ -792,10 +792,11 @@ class Usuarios extends Conexion
         $this->tamaño_imagen = $tamaño_imagen;
     }
     //METODO SETTER PARA RECUPERAR CONTRASENIA
-    public function setRecuperar($correo, $clave)
+    public function setRecuperar($cedula, $clave)
     {
-        $this->correo = $correo;
+        $this->cedula = $cedula;
         $this->clave = $clave;
+
     }
 
     public function setEliminar($cedula)
