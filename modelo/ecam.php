@@ -964,7 +964,7 @@ class ecam extends Conexion
 
         //AGREGANDO ESTUDIANTES A LA SECCION
         foreach ($this->cedulaEstSeccion as $cedulaEst) {
-            $sql2 = "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones) WHERE `usuarios`.`cedula` = :cedulaEst";
+            $sql2 = "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones), `id_rol` = 4 WHERE `usuarios`.`cedula` = :cedulaEst";
             $stmt2 = $this->conexion->prepare($sql2);
             $stmt2->execute(
                 array(
@@ -1131,6 +1131,16 @@ class ecam extends Conexion
             )
         );
 
+        //PASO 5
+        //DESVINCULAREMOS TODOS LOS PROFESROES DE LA SECCION
+        $sql8 = "DELETE FROM `secciones-materias-profesores` WHERE id_seccion = :id_seccion";
+        $stmt8 = $this->conexion->prepare($sql8);
+        $stmt8->execute(
+            array(
+                ":id_seccion" => $idSeccionEliminar,
+            )
+        );
+
         $cedula = $_SESSION['cedula'];
         $accion = "El usuario ha cerrado una seccion";
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
@@ -1232,15 +1242,16 @@ class ecam extends Conexion
     //LISTAR TODAS LAS SECCIONES ACTIVAS
     public function listarSeccionesON()
     {
+        $listarSeccionesON = [];
         $sql = "SELECT * FROM `secciones` WHERE `status_seccion` = 1  ORDER BY `id_seccion` ASC";
 
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $this->listarSeccionesON[] = $filas;
+            $listarSeccionesON[] = $filas;
         }
-        return $this->listarSeccionesON;
+        return $listarSeccionesON;
     }
 
     //CONSULTAR FECHA DE CREACION Y DE CIERRE PARA VOLVER ALGUNAS OPCIONES
@@ -1866,7 +1877,7 @@ class ecam extends Conexion
             $miCedula = $_SESSION['cedula'];
             $misNotas = [];
 
-            $sql = "SELECT `secciones`.`id_seccion`, `materias`.`id_materia`, `notas`.`nota`, `notas`.`fecha_agregado`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
+            $sql = "SELECT `secciones`.`id_seccion`, `materias`.`id_materia`, `materias`.`nivelAcademico`, `notas`.`nota`, `notas`.`fecha_agregado`, `materias`.`nombre` AS `nombreMateria`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` 
             FROM `notamateria_estudiantes` AS `notas` INNER JOIN `materias` ON `materias`.`id_materia` = `notas`.`id_materia` INNER JOIN `usuarios` ON `usuarios`.`cedula` = `notas`.`cedula` 
             INNER JOIN `secciones` ON `notas`.`id_seccion` = `secciones`.`id_seccion` WHERE `secciones`.`id_seccion` = :seccion AND `notas`.`cedula` = :cedula";
 

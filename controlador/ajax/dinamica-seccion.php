@@ -16,7 +16,10 @@ require_once("../../vendor/autoload.php");
                 $json['data'][] = $key;
             }
         } else {
-            $json['data'][] = null;
+            $json['data']['id_seccion'] = null;
+            $json['data']['nombre'] = null;
+            $json['data']['nivel_academico'] = null;
+            $json['data']['fecha_cierre'] = null;
         }
         echo json_encode($json);
     }
@@ -65,7 +68,7 @@ require_once("../../vendor/autoload.php");
                 <tr>
                     <td>
                         <div class="d-flex align-items-center">
-                            <div class="fs-2 me-3 text-danger"><i class="bi bi-person-video2"></i></div>
+                            <div class="fs-2 me-3 text-secondary"><i class="bi bi-person-video2"></i></div>
                             <div class="mb-0">
                                 <h6 class="mb-0 fst-italic"><?php echo $estOFF['codigo']; ?></h6>
                                 <p class="mb-0"><em><?php echo $estOFF['nombre'].' '.$estOFF['apellido'];?></em></p>
@@ -75,7 +78,7 @@ require_once("../../vendor/autoload.php");
                     </td>
                     <td>
                         <div class="d-grid">
-                            <button disabled class="btn <?php echo $estOFF['nota_final'] >= 16 ?'btn-primary':'btn-warning' ?>"><?php echo $estOFF['nota_final'] ?></button>
+                            <button disabled class="btn <?php echo $estOFF['nota_final'] >= 16 ?'btn-primary':'btn-danger' ?>"><?php echo $estOFF['nota_final'] ?></button>
                         </div>
                     </td>
                 </tr><?php

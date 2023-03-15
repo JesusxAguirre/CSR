@@ -97,7 +97,7 @@
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title font-monospace">Informacion de la materia</h5>
+                    <h5 class="modal-title font-monospace">Descripcion de la materia</h5>
                     <span hidden id="seccionContRef"></span><span hidden id="materiaContRef"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>

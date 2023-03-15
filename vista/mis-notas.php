@@ -61,7 +61,7 @@
                         <div class="col-sm col-lg-2 mt-3">
                             <div class="card text-center sombra hover">
                                 <div class="card-body">
-                                    <h5 class="card-title"><?php echo $key['nombreMateria']; ?></h5>
+                                    <h5 class="card-title"><?php echo $key['nombreMateria'].' '.$key['nivelAcademico']; ?></h5>
                                     <h2 class="fw-bold"><?php echo $key['nota'] ?>/20</h2>
                                 </div>
                                 <div class="card-footer text-muted">

@@ -33,7 +33,7 @@ $('#tabla_misMateriasProf tbody').on('click', '.vaciarInfo', function() {
 
     Swal.fire({
         icon: 'info',
-        title: '¿Estas seguro de eliminar la informacion de la materia?',
+        title: '¿Estas seguro de eliminar la descripcion de la materia?',
         confirmButtonText: `Si, eliminar`,
         confirmButtonColor: '#0078FF',
         showDenyButton: true,
@@ -47,12 +47,9 @@ $('#tabla_misMateriasProf tbody').on('click', '.vaciarInfo', function() {
                 listar_misMateriasProf();
                 Swal.fire({
                     icon: 'success',
-                    iconColor: 'green',
                     title: '¡Informacion eliminada correctamente!',
-                    toast: true,
-                    background: 'white',
                     showConfirmButton: false,
-                    timer: 3000,
+                    timer: 2000,
                     })
                 })
         }
@@ -123,13 +120,9 @@ $('#guardarCampo').click(function (e) {
             $('#modal_misContenidosProf').modal('hide');
             Swal.fire({
                 icon: 'success',
-                iconColor: 'white',
-                title: '¡Contenido actualizado!',
-                toast: true,
-                background: 'green',
-                color: 'white',
+                title: '¡Descripcion agregada correctamente!',
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 2000,
             })
             console.log(response);
         });

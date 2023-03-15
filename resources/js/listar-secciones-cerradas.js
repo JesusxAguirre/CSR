@@ -60,19 +60,14 @@ $(document).on('click', '#eliminarSeccionOFF', function () {
                 seccionesCerradas();
                 Swal.fire({
                     icon: 'success',
-                    iconColor: 'white',
                     title: '¡Seccion eliminada definitivamente!',
-                    background: 'green',
-                    color: 'white',
                     showConfirmButton: false,
                     timer: 1700,
                 });
             }else{
                 Swal.fire({
-                    iconColor: 'red',
                     icon: 'error',
-                    background: 'white',
-                    title: 'Error!',
+                    title: 'DENEGADO',
                     text: 'No puedes eliminar esta seccion porque hubo existencia de estudiantes en ella',
                     confirmButtonColor: '#0059FF'
                 });
