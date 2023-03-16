@@ -228,7 +228,7 @@ class Discipulado extends Conexion
 
     public function listar_no_participantes()
     {
-
+        $resultado = [];
         $sql = ("SELECT cedula, codigo,nombre,apellido FROM usuarios WHERE usuarios.cedula NOT IN (SELECT cedula FROM discipulos) 
          AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado)
          AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_discipulado)
@@ -245,11 +245,12 @@ class Discipulado extends Conexion
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->codigos[] = $filas;
+            $resultado[] = $filas;
         }
 
-        return $this->codigos;
+        return $resultado;
     }
+   
     //------------------------------------------------------Registrar Asitencias de discipulado ----------------------//
     public function registrar_asistencias()
     {

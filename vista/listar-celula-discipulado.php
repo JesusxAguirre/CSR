@@ -81,7 +81,7 @@
                         <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
                                                       echo $hora; ?></td>
                         <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
-                        <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion'] ?></td>
+                        <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion']  ?></td>
                         <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
                         <td hidden class="cedula_anfitrion" role='cell'><?php echo  $celula['cedula_anfitrion'] ?></td>
                         <td hidden class="cedula_asistente" role='cell'><?php echo  $celula['cedula_asistente'] ?></td>
@@ -162,7 +162,7 @@
                     <?php
                     foreach ($matriz_lideres as $lider) :
                     ?>
-                      <option data-value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
+                      <option data-value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo'] . " " . $lider['nombre'] . " " . $lider['apellido']; ?></option>
                     <?php
                     endforeach;
                     ?>
@@ -179,7 +179,7 @@
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
                     ?>
-                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo'] . " " . $usuario['nombre'] . " " . $usuario['apellido']; ?></option>
                     <?php
                     endforeach;
                     ?>
@@ -196,7 +196,7 @@
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
                     ?>
-                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo'] . " " . $usuario['nombre'] . " " . $usuario['apellido']; ?></option>
                     <?php
                     endforeach;
                     ?>

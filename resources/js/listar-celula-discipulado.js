@@ -365,7 +365,8 @@ function addEvents() {
     let anfitrion = fila.querySelector('.anfitrion')
     let asistente = fila.querySelector('.asistente')
 
- 
+    let cedula_anfitrion = fila.querySelector('.cedula_anfitrion')
+    let cedula_asistente = fila.querySelector('.cedula_asistente')
 
     const idInput = document.getElementById('idInput')
 
@@ -376,6 +377,8 @@ function addEvents() {
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
    
+    const anfitrion_lista = document.getElementById("anfitrion")
+    const asistente_lista = document.getElementById("asistente")
 
 
 
@@ -389,9 +392,14 @@ function addEvents() {
     direccionInput.value = direccion.textContent
     //cedulas de usuarios
 
+
+  
     //agregar a datalist datos de anfitrion y asistente
     
-
+/*     anfitrion_lista.value = cedula_anfitrion.textContent
+    anfitrion_lista.label = cedula_anfitrion.textContent
+    asistente_lista.value = cedula_anfitrion.textContent   */
+  
   }))
 
   const participanteModal = document.querySelectorAll('table td .modal-btn')

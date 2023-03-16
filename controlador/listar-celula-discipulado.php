@@ -19,6 +19,7 @@ if ($_SESSION['verdadero'] > 0) {
         $matriz_celula = $objeto->listar_celula_discipulado();
 
         $matriz_usuarios = $objeto->listar_no_participantes();
+        
         $matriz_lideres = $objeto->listar_usuarios_N2();
         //actualizar celula
         $actualizar = true;
