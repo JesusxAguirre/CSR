@@ -1,5 +1,5 @@
 $(document).ready(function (e) {
-
+    
     var conn = new WebSocket("ws://localhost:8080");
     conn.onopen = function (e) {
         console.log("Connection established!");
@@ -37,7 +37,9 @@ $(document).ready(function (e) {
                     <div class="divisorMsg"></div>
                     <span class="msgInfo d-flex justify-content-between"><i class = "me-5"><b>${data.usuario}:</b></i>${data.msgHora}</span>
                     </div>`;
-                    
+
+                    document.getElementById('areaChat').append(div);
+
                     //Creando notificacion
                     /*let div2 = document.createElement('div');
                     div2.className = 'alert alert-primary text-center';

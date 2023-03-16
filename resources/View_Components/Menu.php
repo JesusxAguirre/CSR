@@ -32,20 +32,16 @@
       </ul>
       <!-- Fin del chat -->
       <!-- Notificaciones con WebSocket -->
-      <ul class="navbar-nav">
+      <!-- <ul class="navbar-nav">
         <input class="d-none" type="text">
         <li class="nav-item dropdown">
           <a id="verNotificaciones2" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="bi bi-bell"></i>
           </a>
           <ul id="notificaciones2" class="dropdown-menu dropdown-menu-end notificacionesPrevista">
-            <!-- DATOS PRUEBA CON WEBSOCKET-->
-            <!-- <div class="alert alert-primary text-center" role="alert">
-              <i>A simple primary alert—check it out!</i>
-            </div> -->
           </ul>
         </li>
-      </ul>
+      </ul> -->
       <!-- Fin de notificaciones con WebSocket -->
 
 
@@ -82,5 +78,11 @@
   </div>
 </nav>
 <!-- NavBar -->
+
 <script src="resources/js/menu.js"></script>
-<script src="resources/js/webSocket_chat.js"></script>
+<?php if ($_SERVER["REQUEST_URI"] == '/Codes/CSR/index.php?pagina=chat') {
+  ?> <script src="resources/js/webSocket_chat.js"></script> <?php
+}else{ ?>
+  <script src="resources/js/webSocket_header.js"></script> <?php
+}  ?>
+
