@@ -1,7 +1,12 @@
 <?php
-require_once('clase_conexion.php');
 
-class chatRoom extends Conectar
+namespace Csr\Modelo;
+
+use Csr\Modelo\Conexion;
+use PDO;
+use Exception;
+
+class ChatRoom extends Conexion
 {
     public $conx;
     private $conexion;
@@ -48,7 +53,7 @@ class chatRoom extends Conectar
     {
        
         try {
-            $sql = "INSERT INTO `chatroom_prueba` (`user`, `msg`, `hora_msg`, `fecha_agregada`) VALUES (:cedula, :mensaje, :hora_enviado, CURDATE())";
+            $sql = "INSERT INTO `chatroom` (`user`, `msg`, `hora_msg`, `fecha_agregada`) VALUES (:cedula, :mensaje, :hora_enviado, CURDATE())";
             $stmt = $this->conexion->prepare($sql);
             $stmt->execute(array(
                 ":cedula" => $cedula,
@@ -66,7 +71,7 @@ class chatRoom extends Conectar
     public function getChatDatos()
     {
         $filas = [];
-        $sql = "SELECT * FROM chatroom_prueba INNER JOIN usuarios ON usuarios.cedula = chatroom_prueba.user ORDER BY chatroom_prueba.id ASC";
+        $sql = "SELECT * FROM chatroom INNER JOIN usuarios ON usuarios.cedula = chatroom.user ORDER BY chatroom.id ASC";
         $stmt = $this->conexion->prepare($sql);
         $stmt->execute(array());
 

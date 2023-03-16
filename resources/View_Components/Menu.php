@@ -21,6 +21,34 @@
       <form class="d-flex ms-auto ">
 
       </form>
+      
+      <!-- Chat -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a href="?pagina=chat" id="verChat" class="fs-3 nav-link btn-dark text-light ms-2" role="button" aria-expanded="false">
+            <i class="bi bi-chat-fill"></i>
+          </a>
+        </li>
+      </ul>
+      <!-- Fin del chat -->
+      <!-- Notificaciones con WebSocket -->
+      <ul class="navbar-nav">
+        <input class="d-none" type="text">
+        <li class="nav-item dropdown">
+          <a id="verNotificaciones2" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell"></i>
+          </a>
+          <ul id="notificaciones2" class="dropdown-menu dropdown-menu-end notificacionesPrevista">
+            <!-- DATOS PRUEBA CON WEBSOCKET-->
+            <!-- <div class="alert alert-primary text-center" role="alert">
+              <i>A simple primary alert—check it out!</i>
+            </div> -->
+          </ul>
+        </li>
+      </ul>
+      <!-- Fin de notificaciones con WebSocket -->
+
+
       <ul class="navbar-nav">
         <input id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
         <input id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
@@ -55,3 +83,4 @@
 </nav>
 <!-- NavBar -->
 <script src="resources/js/menu.js"></script>
+<script src="resources/js/webSocket_chat.js"></script>

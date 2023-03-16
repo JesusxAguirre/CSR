@@ -3,8 +3,8 @@
 namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-
-require dirname(__DIR__) . '/modelo/clase_chatRoom.php';
+use Csr\Modelo\ChatRoom;
+//require dirname(__DIR__) . '/modelo/ChatRoom.php';
 
 class Chat implements MessageComponentInterface {
     protected $clients;
@@ -32,7 +32,7 @@ class Chat implements MessageComponentInterface {
         $data = json_decode($msg, true);
 
         //Capturando informacion de usuarios y mensajes
-        $chat_objeto = new \chatRoom;
+        $chat_objeto = new ChatRoom;
         /*$chat_objeto->setUserId($data['cedula']);
         $chat_objeto->setMensaje($data['mensaje']);
         $chat_objeto->setHoraMensaje($data['msgHora']);*/

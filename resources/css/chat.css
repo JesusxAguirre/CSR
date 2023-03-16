@@ -1,0 +1,64 @@
+.contenedor{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.chatCont{
+    /* width: 60%; */
+    height: 620px;
+    box-shadow: 0 0 12px hsl(0, 0%, 50%);
+    background-color: white;
+    border-radius: 10px;
+}
+
+.chatArea{
+    padding: 10px;
+    height: 87%;
+    width: 100%;
+    overflow-y: scroll;
+}
+.miMensaje{
+    max-width: 50%;
+}
+
+.mensajeArea{
+    height: 13%;
+    display: flex;
+    justify-content: space-between;
+}
+.mensajeDiv{
+    width: 80%;
+}
+#mensajeChat{
+    height: 100%;
+    resize: none;
+}
+
+.enviarDiv{
+    width: 20%;
+}
+#enviarMensajeChat{
+    width: 100%;
+    height: 100%;
+}
+
+.msgStyle{
+    color: black;
+    font-size: 1rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding-bottom: 3px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+.divisorMsg{
+    background-color: rgb(100, 100, 100);
+    height: 1px;
+}
+.msgInfo{
+    font-size: 0.9rem;
+    color: rgb(100, 100, 100);
+}
