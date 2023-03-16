@@ -934,19 +934,64 @@ class ecam extends Conexion
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////APARTADO DE SECCIONES/////////////////////////////////////////////////
-    public function validar_seccion($nombre, $nivel)
+    public function validar_seccion($id_seccion, $nombre, $nivel)
     {
-        $sql = "SELECT * FROM secciones WHERE nombre = :nombre AND nivel_academico = :nivel";
+        $seccion = [];
+
+        //Consulta para comparar que la seccion tiene el mismo nivel
+        $sql = "SELECT * FROM secciones WHERE id_seccion = :id_seccion";
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(
+        $stmt->execute(array(":id_seccion" => $id_seccion,));
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $seccion[] = $filas;
+        }
+
+        //Consulta para comparar que existe la seccion con los datos enviados
+        $sql1 = "SELECT * FROM secciones WHERE nombre = :nombre AND nivel_academico = :nivel";
+        $stmt1 = $this->conexion->prepare($sql1);
+        $stmt1->execute(
             array(
                 ":nombre" => $nombre,
                 ":nivel" => $nivel,
             )
         );
+        $resultado = $stmt1->rowCount();
 
-        $resultado = $stmt->rowCount();
-        return $resultado;
+        if ($nivel == $seccion[0]['nivel_academico']) { //Si el nivel es igual, retornara la coincidencia de la seccion
+            
+            return $resultado;
+        }else{ //Si el nivel es diferente se hara lo siguiente
+
+            //Condicion para consultar que la coincidencia sea 0 para seguir el proceso.
+            if ($resultado == 0) {
+                $sql3 = "SELECT * FROM `notamateria_estudiantes` WHERE id_seccion = :id_seccion";
+                $stmt3 = $this->conexion->prepare($sql3);
+                $stmt3->execute(array(":id_seccion" => $id_seccion,));
+                $matriz = $stmt3->rowCount();
+    
+                if ($matriz > 0) {
+                    return 'denegado';
+                }else{
+                    $sql4 = "DELETE FROM `notamateria_estudiantes` WHERE id_seccion = :id_seccion";
+                    $stmt4 = $this->conexion->prepare($sql4);
+                    $stmt4->execute(array(":id_seccion" => $id_seccion));
+
+                    $sql5 = "UPDATE `usuarios` SET id_seccion = NULL WHERE usuarios.id_seccion = :id_seccion";
+                    $stmt5 = $this->conexion->prepare($sql5);
+                    $stmt5->execute(array(":id_seccion" => $id_seccion));
+
+                    $sql6 = "DELETE FROM `secciones-materias-profesores` WHERE id_seccion = :id_seccion";
+                    $stmt6 = $this->conexion->prepare($sql6);
+                    $stmt6->execute(array(":id_seccion" => $id_seccion));
+
+                    return $resultado;
+                }
+            }else{
+                return $resultado;
+            }
+        }
+
+        
     }
     public function crearSeccion()
     {

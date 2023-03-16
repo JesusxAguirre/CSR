@@ -16,16 +16,15 @@ $(document).ready(function (e) {
                     
                 }else{
                     Swal.fire({
-                        icon: false,
                         position: 'bottom-end',
                         toast: true,
-                        background: 'black',
+                        background: '#2E2E2E',
                         color: 'white',
                         showConfirmButton: false,
                         timer: 5000,
                         title: `${data.usuario}`,
                         text: `${data.mensaje}`,
-                      })
+                      });
                     //Creando notificacion
                     /*let div2 = document.createElement('div');
                     div2.className = 'alert alert-primary text-center';

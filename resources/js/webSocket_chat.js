@@ -5,6 +5,16 @@ $(document).ready(function (e) {
         console.log("Connection established!");
     };
 
+
+    //scroll hacia abajo
+    function scrollFinal() {
+        var element = document.getElementById("areaChat");
+        element.scrollTop = element.scrollHeight;
+    }
+    window.onload = function() {
+        scrollFinal();
+    }
+
     //Capturando datos del usuario
     let timeSocket = new Date();
     var timeNow = timeSocket.toLocaleTimeString(); //otra solucion "mas rapida"
@@ -29,6 +39,7 @@ $(document).ready(function (e) {
                     </div>`;
         
                     document.getElementById('areaChat').append(div);
+                    scrollFinal();
                 }else{
                     var div = document.createElement('div');
                     div.className = 'd-flex justify-content-end';
@@ -39,6 +50,7 @@ $(document).ready(function (e) {
                     </div>`;
 
                     document.getElementById('areaChat').append(div);
+                    scrollFinal();
 
                     //Creando notificacion
                     /*let div2 = document.createElement('div');
@@ -48,13 +60,24 @@ $(document).ready(function (e) {
                     document.getElementById('notificaciones2').append(div2);*/
                 }
                 break;
+
             case 'outside':
-                let html = `<div class="d-flex justify-content-center">
+                let outside = `<div class="alert-dark d-flex justify-content-center">
                 <span><i>${data.respuesta}</i></span>
                 </div>`;
 
-                $('#areaChat').append(html);
+                $('#areaChat').append(outside);
+                scrollFinal();
             break;
+
+            case 'inside':
+                let inside = `<div class="alert-info d-flex justify-content-center">
+                <span><i>${data.respuesta}</i></span>
+                </div>`;
+
+                $('#areaChat').append(inside);
+                scrollFinal();
+                break;
         
         }
 

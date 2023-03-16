@@ -74,14 +74,16 @@ if (isset($_POST['actualizarDatosSeccion'])) {
     $idSeccionRefU= $_POST['idSeccionRefU'];
     $fechaCierreRefU= $_POST['fechaCierreRefU'];
 
-    $respuesta = $objeto->validar_seccion($nombreSeccionU, $nivelSeccionU);
+    $respuesta = $objeto->validar_seccion($idSeccionRefU, $nombreSeccionU, $nivelSeccionU);
 
-    if ($respuesta > 0) {
-        echo json_encode('true');
+    if($respuesta == 'denegado'){
+        echo json_encode('denegado');
+    }else if($respuesta > 0){
+        echo json_encode('encontrada');
     }else{
         $objeto->setActualizarDatosSeccion($nombreSeccionU, $nivelSeccionU, $fechaCierreRefU);
         $objeto->actualizarDatosSeccion($idSeccionRefU);
-        echo json_encode('false');
+        echo json_encode('actualizada');
     }
 }
 

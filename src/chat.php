@@ -8,14 +8,23 @@ use Csr\Modelo\ChatRoom;
 
 class Chat implements MessageComponentInterface {
     protected $clients;
-
+    protected $usuario;
     public function __construct() {
         $this->clients = new \SplObjectStorage;
         echo 'Servidor iniciado!';
     }
 
     public function onOpen(ConnectionInterface $conn) {
+        global $datos;
+
+        $datos['event'] = 'inside';
+        //$datos['respuesta'] = "El usuario {$conn->resourceId} se ha conectado";
         
+        $datos['respuesta'] = "El usuario {$conn->resourceId} se ha conectado";
+        foreach ($this->clients as $client) {
+            $client->send(json_encode($datos));
+        }
+        $this->usuario = '';
         // Store the new connection to send messages to later
         $this->clients->attach($conn);
 
@@ -30,6 +39,9 @@ class Chat implements MessageComponentInterface {
 
         //Capturando datos del JS
         $data = json_decode($msg, true);
+
+        //prueba nombre
+        $this->usuario = $data['usuario'];
 
         //Capturando informacion de usuarios y mensajes
         $chat_objeto = new ChatRoom;
@@ -61,10 +73,12 @@ class Chat implements MessageComponentInterface {
         global $datos;
 
         $datos['event'] = 'outside';
-        $datos['respuesta'] = "El usuario {$conn->resourceId} se ha desconectado";
+        //$datos['respuesta'] = "El usuario {$conn->resourceId} se ha desconectado";
+        $datos['respuesta'] = "El usuario {$this->usuario} se ha desconectado";
         foreach ($this->clients as $client) {
             $client->send(json_encode($datos));
         }
+        $this->usuario = '';
 
         $this->clients->detach($conn);
         echo "Connection {$conn->resourceId} has disconnected\n";

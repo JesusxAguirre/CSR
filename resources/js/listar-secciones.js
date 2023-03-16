@@ -831,16 +831,25 @@ $('#guardarEditado1').click(function (e) {
                         let resp = JSON.parse(response);
                         
                         //VALIDANDO que no exista otra seccion con los mismos datos
-                        if (resp == 'true') {
+                        if (resp == 'encontrada') {
                             Swal.fire({
                                 icon: 'error',
                                 iconColor: 'red',
                                 title: '¡La seccion ya existe!',
                                 background: 'white',
                                 showConfirmButton: false,
-                                timer: 1500,
-                            })
-                        }else{
+                                timer: 2000,
+                            });
+                        }else if (resp == 'denegado'){
+                            Swal.fire({
+                                icon: 'error',
+                                iconColor: 'red',
+                                title: 'DENEGADO',
+                                text: 'No puedes cambiar el nivel de la seccion porque ya se encuentran notas asociadas al nivel academico de la seccion',
+                                background: 'white',
+                                showConfirmButton: true,
+                            });
+                        }else if (resp == 'actualizada'){
                             dataTableSec.ajax.reload();
                             Swal.fire({
                                 icon: 'success',
@@ -850,7 +859,7 @@ $('#guardarEditado1').click(function (e) {
                                 color: 'white',
                                 showConfirmButton: false,
                                 timer: 2000,
-                            })
+                            });
                         }
                     });
                 }

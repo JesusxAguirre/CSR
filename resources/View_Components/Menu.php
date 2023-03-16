@@ -77,10 +77,11 @@
     </div>
   </div>
 </nav>
+
 <!-- NavBar -->
 
 <script src="resources/js/menu.js"></script>
-<?php if ($_SERVER["REQUEST_URI"] == '/Codes/CSR/index.php?pagina=chat') {
+<?php if (strpos($_SERVER["REQUEST_URI"], '?pagina=chat')) {
   ?> <script src="resources/js/webSocket_chat.js"></script> <?php
 }else{ ?>
   <script src="resources/js/webSocket_header.js"></script> <?php
