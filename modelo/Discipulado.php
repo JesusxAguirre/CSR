@@ -66,7 +66,9 @@ class Discipulado extends Conexion
     public function listar_usuarios_N2()
     {
         $resultado = [];
-        $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
+        $consulta = ("SELECT cedula,codigo 
+        FROM usuarios 
+        WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
         $sql = $this->conexion()->prepare($consulta);
 
@@ -227,10 +229,14 @@ class Discipulado extends Conexion
     public function listar_no_participantes()
     {
 
-        $sql = ("SELECT cedula, codigo FROM usuarios WHERE usuarios.cedula NOT IN (SELECT cedula FROM discipulos) 
+        $sql = ("SELECT cedula, codigo,nombre,apellido FROM usuarios WHERE usuarios.cedula NOT IN (SELECT cedula FROM discipulos) 
          AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_discipulado)
          AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_discipulado)
-         AND usuarios.cedula NOT IN (SELECT cedula_asistente FROM celula_discipulado)");
+         AND usuarios.cedula NOT IN (SELECT cedula_asistente FROM celula_discipulado)
+         AND usuarios.cedula NOT IN  (SELECT cedula FROM participantes_consolidacion) 
+         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion)
+         AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_consolidacion)
+         AND usuarios.cedula NOT IN (SELECT cedula_asistente FROM celula_consolidacion)");
 
         $stmt = $this->conexion()->prepare($sql);
 
