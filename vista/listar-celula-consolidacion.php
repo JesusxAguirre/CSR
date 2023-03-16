@@ -160,7 +160,7 @@
                     <?php
                     foreach ($matriz_lideres as $lider) :
                     ?>
-                      <option data-value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo']; ?></option>
+                      <option data-value="<?php echo $lider['cedula']; ?>"> <?php echo $lider['codigo'] . " " . $lider['nombre'] . " ". $lider['apellido']; ?></option>
                     <?php
                     endforeach;
                     ?>
@@ -177,7 +177,7 @@
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
                     ?>
-                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo'] . " " . $usuario['nombre'] . " " . $usuario['apellido']; ?></option>
                     <?php
                     endforeach;
                     ?>
@@ -194,7 +194,7 @@
                     <?php
                     foreach ($matriz_usuarios as $usuario) :
                     ?>
-                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
+                      <option data-value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo'] . " " . $usuario['nombre'] . " " . $usuario['apellido']; ?></option>
                     <?php
                     endforeach;
                     ?>
