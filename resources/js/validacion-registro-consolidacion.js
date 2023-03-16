@@ -2,7 +2,7 @@ const formulario = document.getElementById('formulario'); //declarando una const
 
 var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
-var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando id de lideres
+var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
   return option.value;
 });
 var lista_anfitriones = document.getElementById('anfitrion') //buscando id de lista de anfitriones
