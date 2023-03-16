@@ -1,10 +1,21 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
-var lista_lideres = document.getElementById('lider')
 
-var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) {
+var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
+
+var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
   return option.value;
 });
-console.log(lideres_array)
+var lista_anfitriones = document.getElementById('anfitrion')
+
+var anfitriones_array = Array.prototype.map.call(lista_anfitriones.options, function (option) {
+  return option.value;
+});
+var lista_asistentes = document.getElementById('asistente')
+
+var asistentes_array = Array.prototype.map.call(lista_asistentes.options, function (option) {
+  return option.value;
+});
+
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
   allowHTML: true,
@@ -47,15 +58,15 @@ const ValidarFormulario = (e) => {
       break;
 
     case "codigoLider":
-      ValidarLider( e.target, 'codigoLider');
+      ValidarCodigo(lideres_array, e.target, 'codigoLider');
       break;
 
     case "codigoAnfitrion":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoAnfitrion');
+      ValidarCodigo(anfitriones_array, e.target, 'codigoAnfitrion');
       break;
 
     case "codigoAsistente":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoAsistente');
+      ValidarCodigo(asistentes_array, e.target, 'codigoAsistente');
       break;
 
     case "participantes[]":
@@ -69,8 +80,8 @@ const ValidarFormulario = (e) => {
   }
 }
 
-const ValidarLider = ( input, campo) => {
-  if (lideres_array.indexOf(input.value) >= 0) {
+const ValidarCodigo = (codigo_array, input, campo) => {
+  if (codigo_array.indexOf(input.value) >= 0) {
     document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
