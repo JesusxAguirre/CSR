@@ -3,7 +3,7 @@
         'name' => 'csr/modelo',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0439ccb2acf45675a243f4830d41335ed1c5c301',
+        'reference' => '46502cb0b2806a81dd40a6cc3f496f7a733306ee',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'csr/modelo' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0439ccb2acf45675a243f4830d41335ed1c5c301',
+            'reference' => '46502cb0b2806a81dd40a6cc3f496f7a733306ee',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
