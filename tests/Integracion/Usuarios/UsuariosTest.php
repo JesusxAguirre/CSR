@@ -20,10 +20,10 @@ final class UsuariosTest extends TestCase
     //Init
     $_SESSION['cedula'] = "27666555";
     $usuario = $_SESSION['cedula'];
-    $nombre = "Mario";
-    $apellido = "Cercano";
-    $cedula = "27543321";
-    $edad = 40;
+    $nombre = "Ricardo";
+    $apellido = "Ortiz";
+    $cedula = "27332178";
+    $edad = 23;
     $sexo = "hombre";
     $civil = "soltero";
     $nacionalidad = "Venezolana";
@@ -51,12 +51,12 @@ final class UsuariosTest extends TestCase
   public function test_editar_usuario(array $array_usuario): array
   {
     //Init
-    $nombre = "Maria";
-    $apellido = "Marcano";
-    $cedula = "22357445";
+    $nombre = "Ricardo";
+    $apellido = "Ortiz";
+    $cedula = "27737970";
     $edad = 24;
-    $sexo = "Mujer";
-    $civil = "soltera";
+    $sexo = "Hombre";
+    $civil = "soltero";
     $nacionalidad = "Venezolana";
     $estado = "Distrito capital";
     $telefono = "04122654321";
