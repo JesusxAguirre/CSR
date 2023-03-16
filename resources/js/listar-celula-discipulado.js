@@ -4,6 +4,21 @@ const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
 const formulario4 = document.getElementById('eliminar_participante')
 
+var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
+
+var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
+  return option.value;
+});
+var lista_anfitriones = document.getElementById('anfitrion')
+
+var anfitriones_array = Array.prototype.map.call(lista_anfitriones.options, function (option) {
+  return option.value;
+});
+var lista_asistentes = document.getElementById('asistente')
+
+var asistentes_array = Array.prototype.map.call(lista_asistentes.options, function (option) {
+  return option.value;
+});
 
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#agregar_usuarios input');
@@ -63,13 +78,15 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.codigo, e.target, 'codigo');
       break;
     case "codigoLider":
-      ValidarCampo(expresiones.codigo2, e.target, 'codigoLider');
+      ValidarCodigo(lideres_array, e.target, 'codigoLider');
       break;
+
     case "codigoAnfitrion":
-      ValidarCampo(expresiones.codigo2, e.target, 'codigoAnfitrion');
+      ValidarCodigo(anfitriones_array, e.target, 'codigoAnfitrion');
       break;
+
     case "codigoAsistente":
-      ValidarCampo(expresiones.codigo2, e.target, 'codigoAsistente');
+      ValidarCodigo(asistentes_array, e.target, 'codigoAsistente');
       break;
     case "participantes[]":
       ValidarSelect(e.target, 'participantes');
@@ -80,9 +97,26 @@ const ValidarFormulario = (e) => {
     case "fecha":
       ValidarSelect(e.target, 'fecha');
       break;
-      case "direccion":
-        ValidarCampo(expresiones.direccion, e.target, 'direccion');
-        break;
+    case "direccion":
+      ValidarCampo(expresiones.direccion, e.target, 'direccion');
+      break;
+  }
+}
+
+
+const ValidarCodigo = (codigo_array, input, campo) => {
+  if (codigo_array.indexOf(input.value) >= 0) {
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
   }
 }
 
@@ -331,6 +365,7 @@ function addEvents() {
     let anfitrion = fila.querySelector('.anfitrion')
     let asistente = fila.querySelector('.asistente')
 
+ 
 
     const idInput = document.getElementById('idInput')
 
@@ -340,6 +375,9 @@ function addEvents() {
     const liderInput = document.getElementById('codigoLider')
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
+   
+
+
 
     liderInput.value = lider.textContent
     anfitrionInput.value = anfitrion.textContent
@@ -351,6 +389,8 @@ function addEvents() {
     direccionInput.value = direccion.textContent
     //cedulas de usuarios
 
+    //agregar a datalist datos de anfitrion y asistente
+    
 
   }))
 
