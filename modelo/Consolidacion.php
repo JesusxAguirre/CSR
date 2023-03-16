@@ -118,7 +118,7 @@ class Consolidacion extends Conexion
     {
         try {
             $resultado = [];
-            $consulta = ("SELECT cedula,codigo FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
+            $consulta = ("SELECT cedula,codigo,nombre,apellido FROM usuarios WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
             $sql = $this->conexion()->prepare($consulta);
 
