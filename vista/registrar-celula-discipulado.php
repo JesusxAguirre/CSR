@@ -67,13 +67,14 @@
                           <?php
                           foreach ($matriz_lideres as $lider) :
                           ?>
-                            <option data-ejemplo="<?php echo $lider['cedula']; ?>" value="<?php echo $lider['codigo']; ?>">
+                            <option data-ejemplo="<?php echo $lider['cedula']; ?>" value="<?php echo $lider['codigo'] . " " . $lider['nombre'] . " " . 
+                            $lider['apellido']; ?>">
                           <?php
                           endforeach;
                           ?>
                         </datalist>
                       </div>
-                      <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                      <p class="text-danger d-none">Selecciona o escribe el codigo de un lider valido</p>
                     </div>
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
@@ -84,7 +85,7 @@
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
                           ?>
-                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo']; ?>" > 
+                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo'] . " " . $usuario['nombre'] . " " . $usuario ['apellido']; ?>" > 
                           <?php
                           endforeach;
                           ?>
@@ -101,7 +102,7 @@
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
                           ?>
-                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo']; ?>" >
+                            <option data-ejemplo="<?php echo $usuario['cedula']; ?>" value="<?php echo $usuario['codigo'] . " " . $usuario['nombre'] . " " . $usuario ['apellido']; ?>" >
                           <?php
                           endforeach;
                           ?>

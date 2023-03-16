@@ -1,5 +1,10 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
+var lista_lideres = document.getElementById('lider')
 
+var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) {
+  return option.value;
+});
+console.log(lideres_array)
 var participantes = document.getElementById('participantes');
 var choices1 = new Choices(participantes, {
   allowHTML: true,
@@ -42,7 +47,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "codigoLider":
-      ValidarCampo(expresiones.codigo, e.target, 'codigoLider');
+      ValidarLider( e.target, 'codigoLider');
       break;
 
     case "codigoAnfitrion":
@@ -58,13 +63,27 @@ const ValidarFormulario = (e) => {
       break;
 
     case "direccion":
-      ValidarCampo(expresiones.direccion,e.target, 'direccion');
+      ValidarCampo(expresiones.direccion, e.target, 'direccion');
       break;
 
   }
 }
 
-
+const ValidarLider = ( input, campo) => {
+  if (lideres_array.indexOf(input.value) >= 0) {
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
+  }
+}
 const ValidarDia = (input, campo) => {
   if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
     console.log("entra en la funcion DE DIA");
@@ -85,7 +104,7 @@ const ValidarDia = (input, campo) => {
 
 const ValidarHora = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-  
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
@@ -181,13 +200,13 @@ $("#codigoLider").on('change', function () {
 
 
 if (error == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se registro la celula correctamente'
-	})
-const myTimeout = setTimeout(recarga, 2000);
+  Swal.fire({
+    icon: 'success',
+    title: 'Se registro la celula correctamente'
+  })
+  const myTimeout = setTimeout(recarga, 2000);
 
-function recarga() {
-window.location="index.php?pagina=registrar-celula-discipulado";
-}
+  function recarga() {
+    window.location = "index.php?pagina=registrar-celula-discipulado";
+  }
 }

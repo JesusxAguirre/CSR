@@ -144,7 +144,7 @@ class Consolidacion extends Conexion
     {
         $resultado = [];
         try {
-            $sql = ("SELECT cedula, codigo FROM usuarios WHERE usuarios.cedula NOT IN  (SELECT cedula FROM participantes_consolidacion) 
+            $sql = ("SELECT cedula, codigo,nombre,apellido FROM usuarios WHERE usuarios.cedula NOT IN  (SELECT cedula FROM participantes_consolidacion) 
         AND  codigo LIKE  '%N1%' 
         AND usuarios.cedula NOT IN (SELECT cedula_lider FROM celula_consolidacion)
         AND usuarios.cedula NOT IN (SELECT cedula_anfitrion FROM celula_consolidacion)

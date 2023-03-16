@@ -66,7 +66,7 @@ class Discipulado extends Conexion
     public function listar_usuarios_N2()
     {
         $resultado = [];
-        $consulta = ("SELECT cedula,codigo 
+        $consulta = ("SELECT cedula,codigo,nombre,apellido 
         FROM usuarios 
         WHERE codigo LIKE '%N2%' OR codigo LIKE '%N3%'");
 
