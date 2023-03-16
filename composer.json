@@ -5,12 +5,13 @@
     "require": {
         "phpmailer/phpmailer": "^6.7",
         "phpunit/phpunit": "^9.6",
-        "twbs/bootstrap-icons": "^1.10"
+        "twbs/bootstrap-icons": "^1.10",
+        "cboden/ratchet": "^0.4.4"
     },
     "autoload": {
     	"psr-4": {
-            "Csr\\Modelo\\": "modelo/"
-
+            "Csr\\Modelo\\": "modelo/",
+            "MyApp\\": "src"
     	}
     },
     "license": "001",
