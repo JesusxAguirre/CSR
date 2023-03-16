@@ -44,6 +44,7 @@
         <div class="container-fluid">
             <div class="row d-flex justify-content-center">
                 <div class="col-xs-9 col-md-9 col-lg-8">
+
                     <div class="chatCont">
                         <span class="d-none" id="usuarioSocket">
                             <?php echo $_SESSION['nombre'] ?>
@@ -51,6 +52,9 @@
                         <span class="d-none" id="cedulaSocket">
                             <?php echo $_SESSION['cedula'] ?>
                         </span>
+                        <div class="d-grid bg-primary">
+                            <div class="text-center text-white fst-italic h4 fw-bold">Chat Global</div>
+                        </div>
                         <div class="chatArea" id="areaChat">
                             <!-- Aqui van los mensajes -->
                             <?php
@@ -82,7 +86,7 @@
                     </div> -->
 
                         </div>
-                        <form id="chatForm" class="h-100">
+                        <form id="chatForm">
                             <div class="mensajeArea">
                                 <div class="mensajeDiv">
                                     <textarea name="mensaje" id="mensajeChat" class="form-control w-100"
