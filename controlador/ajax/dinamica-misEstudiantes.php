@@ -32,9 +32,14 @@ if (isset($_POST['actualizarNota'])) {
     $notaIDseccion2 = $_POST['notaIDseccion2'];
     $notaNueva = $_POST['notaNueva'];
 
-    $objeto->setActualizarMateriaEstudiante($notaIDseccion2, $notaIDmateria2, $notaCIestudiante2);
-    $response =$objeto->actualizarNotaMateria($notaNueva);
-    echo $response;
+    $validacion = $objeto->validar_eliminar_notaMateria($notaCIestudiante2, $notaIDseccion2);
+    if ($validacion > 0) {
+        echo json_encode('denegado');
+    }else{
+        $objeto->setActualizarMateriaEstudiante($notaIDseccion2, $notaIDmateria2, $notaCIestudiante2);
+        $objeto->actualizarNotaMateria($notaNueva);
+        echo json_encode('actualizada');
+    }
 }
 
 if (isset($_POST['eliminarNota'])) {
@@ -45,10 +50,10 @@ if (isset($_POST['eliminarNota'])) {
     $validacion = $objeto->validar_eliminar_notaMateria($cedulaEstudianteRef2, $idSeccionRef2);
     if ($validacion > 0) {
         echo json_encode('stop');
-     }else{
+    }else{
         $objeto->eliminarNotaMateria($cedulaEstudianteRef2, $idMateriaRef2, $idSeccionRef2);
          echo json_encode('true');
-     }
+    }
 }
 
 

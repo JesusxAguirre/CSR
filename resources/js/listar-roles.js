@@ -50,11 +50,12 @@ deleteButton.addEventListener('click', () => {
 		url: "controlador/ajax/eliminar-rol.php",
 		type: "post",
 	}).done(data => {
-		if (data == '1') {
+		var resp = JSON.parse(data);
+
+		if (resp == 'eliminado') {
 			fireAlert('success', 'Rol eliminado correctamente')
 		} else {
-			console.log(data)
-			fireAlert('error', 'El rol que intenta eliminar no existe')
+			fireAlert('error', 'No puedes eliminar este rol porque se encuentra en uso');
 		}
 	}).then(() => {
 		document.querySelector('#eliminar .btn-close').click()

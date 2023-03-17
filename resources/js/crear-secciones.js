@@ -213,9 +213,9 @@ $('#siguiente1').click(function (e) {
         if (resp == 'true') {
             Swal.fire({
                 icon: 'error',
-                title: '¡La seccion ingresada ya existe!',
+                title: '¡Los datos que ingresaste ya existen!',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 3000,
             })
         } else {
             let div = document.querySelector('#seleccionarMateriaSeminario');

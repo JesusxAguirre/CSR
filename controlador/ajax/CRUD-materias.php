@@ -48,14 +48,16 @@ if (isset($_POST['actualizarMateria'])) {
     $nombreMateria2= $_POST['nombreMateria2'];
     $nivelSeleccionado2= $_POST['seleccionarNivel2'];
 
-    $validacion = $objeto->validar_materia($nombreMateria2, $nivelSeleccionado2);
+    $validacion = $objeto->validar_actualizar_materia($idMateria2, $nombreMateria2, $nivelSeleccionado2);
 
-    if ($validacion > 0) {
-       echo json_encode('true');
+    if ($validacion == 'denegado') {
+        echo json_encode('denegado');
+    }else if ($validacion > 0) {
+       echo json_encode('encontrada');
     }else{
-        $objeto->setActualizar($idMateria2, $nombreMateria2, $nivelSeleccionado2);
+        $objeto->setActualizar(ucfirst($idMateria2), $nombreMateria2, $nivelSeleccionado2);
         $objeto->actualizarMateria();
-        echo json_encode('false');
+        echo json_encode('actualizada');
     }
 }
 

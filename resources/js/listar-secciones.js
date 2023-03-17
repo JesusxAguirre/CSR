@@ -448,7 +448,7 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
         confirmButtonText: `Si, eliminar`,
         confirmButtonColor: '#0059FF',
         denyButtonText: `Cancelar`,
-        denyButtonColor: 'red',
+        denyButtonColor: 'grey',
       }).then((result) => {
         if (result.isConfirmed) {
           $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
@@ -521,7 +521,7 @@ $("#agregarEditado2").on("click", function (e) {
             icon: 'error',
             title: '¡No ha agregado a ningun estudiante!',
             showConfirmButton: false,
-            timer: 1700,
+            timer: 2000,
         });
     }else{
         const data = {
@@ -584,10 +584,7 @@ $(document).on('click', '#eliminarEstON', function () {
                         selectEstudiantesOFF();
                         Swal.fire({
                             icon: 'success',
-                            iconColor: 'white',
                             title: '¡Estudiante eliminado correctamente!',
-                            background: 'green',
-                            color: 'white',
                             showConfirmButton: false,
                             timer: 1500,
                         });
@@ -834,29 +831,22 @@ $('#guardarEditado1').click(function (e) {
                         if (resp == 'encontrada') {
                             Swal.fire({
                                 icon: 'error',
-                                iconColor: 'red',
                                 title: '¡La seccion ya existe!',
-                                background: 'white',
                                 showConfirmButton: false,
                                 timer: 2000,
                             });
                         }else if (resp == 'denegado'){
                             Swal.fire({
                                 icon: 'error',
-                                iconColor: 'red',
                                 title: 'DENEGADO',
                                 text: 'No puedes cambiar el nivel de la seccion porque ya se encuentran notas asociadas al nivel academico de la seccion',
-                                background: 'white',
                                 showConfirmButton: true,
                             });
                         }else if (resp == 'actualizada'){
                             dataTableSec.ajax.reload();
                             Swal.fire({
                                 icon: 'success',
-                                iconColor: 'white',
-                                title: '¡Actualizado correctamente!',
-                                background: 'green',
-                                color: 'white',
+                                title: '¡Datos actualizados correctamente!',
                                 showConfirmButton: false,
                                 timer: 2000,
                             });
@@ -867,11 +857,9 @@ $('#guardarEditado1').click(function (e) {
     }else{
         Swal.fire({
             icon: 'error',
-            iconColor: 'red',
             title: '¡Verifique de haber hecho cambios correctos!',
-            background: 'white',
             showConfirmButton: false,
-            timer: 1500,
+            timer: 2000,
         })
     }
 });

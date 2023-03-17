@@ -313,17 +313,13 @@ setTimeout(() => {
                                 listarEstudiantes();
                                 Swal.fire({
                                     icon: 'success',
-                                    iconColor: 'white',
                                     title: '¡Guardado con exito!',
-                                    background: 'green',
-                                    color: 'white',
                                     showConfirmButton: false,
                                     timer: 1700,
                                 })
                             }else{
                                 Swal.fire({
                                     icon: 'error',
-                                    iconColor: 'red',
                                     title: 'DENEGADO',
                                     text: 'A este estudiante aun le faltan '+resp+' notas de materias por ser agregadas',
                                     showConfirmButton: true,
@@ -392,10 +388,7 @@ setTimeout(() => {
                         listarEstudiantes();
                         Swal.fire({
                             icon: 'success',
-                            iconColor: 'white',
                             title: '¡Eliminada correctamente!',
-                            background: 'green',
-                            color: 'white',
                             showConfirmButton: false,
                             timer: 1700,
                         })
