@@ -29,7 +29,7 @@ if (isset($_POST['verEstudiantes'])) {
                 <button class="btn btn-secondary" disabled>SIN NOTA</button>
             <?php } else { ?>
                 <input class="notaFinalEst d-none" value="<?php echo $key['notaFinal'] ?>" type="text">
-                <button class="verNotaFinal btn btn-success rounded-pill">VER NOTA <i class="bi bi-calculator-fill"></i></button>
+                <button class="verNotaFinal btn btn-primary rounded-pill">VER NOTA <i class="bi bi-calculator-fill"></i></button>
                 <button class="eliminarNotaFinal btn btn-danger rounded-pill"><i class="bi bi-trash"></i></button>
             <?php } ?>
         </td>
