@@ -87,6 +87,7 @@ class Consolidacion extends Conexion
     //-------------------------------------------------------Buscar consolidacion con Ajax---------------------//
     public function buscar_consolidacion($busqueda)
     {
+        $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
         FROM celula_consolidacion 
         JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula 
