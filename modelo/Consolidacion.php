@@ -92,17 +92,26 @@ class Consolidacion extends Conexion
         JOIN usuarios AS lider ON celula_consolidacion.cedula_lider = lider.cedula 
         JOIN usuarios AS anfitrion ON celula_consolidacion.cedula_anfitrion = anfitrion.cedula 
         JOIN usuarios AS asistente ON celula_consolidacion.cedula_asistente = asistente.cedula  
-        WHERE codigo_celula_consolidacion LIKE '%" . $busqueda . "%' 
-        OR fecha LIKE '%" . $busqueda . "%' 
-        OR dia_reunion LIKE '%" . $busqueda . "%'
-        OR hora LIKE '%" . $busqueda . "%'
-        OR lider.codigo LIKE '%" . $busqueda . "%'
-        OR anfitrion.codigo LIKE '%" . $busqueda . "%'
-        OR asistente.codigo LIKE '%" . $busqueda . "%'");
+        WHERE codigo_celula_consolidacion LIKE :busqueda1  
+        OR fecha LIKE  :busqueda2  
+        OR dia_reunion LIKE  :busqueda3  
+        OR hora LIKE   :busqueda4  
+        OR lider.codigo LIKE   :busqueda5  
+        OR anfitrion.codigo LIKE   :busqueda6  
+        OR asistente.codigo LIKE   :busqueda7  ");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":busqueda1"=>$busqueda,
+            ":busqueda2"=>$busqueda,
+            ":busqueda3"=>$busqueda,
+            ":busqueda4"=>$busqueda,
+            ":busqueda5"=>$busqueda,
+            ":busqueda6"=>$busqueda,
+            ":busqueda7"=>$busqueda,
+
+        ));
 
 
         if ($stmt->rowCount() > 0) {
