@@ -1,10 +1,10 @@
-<div class="offcanvas offcanvas-start sidebar bg-dark text-light " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+<div style="background-color: #51585E;" class="offcanvas offcanvas-start sidebar  text-light " tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
 
   <div class="offcanvas-body p-0">
     <nav class="navbar-dark">
       <ul class="navbar-nav">
         <li>
-          <div class="text-muted small fw-bold text-uppercase px-3 ">
+          <div style="color: white;" class=" small fw-bold text-uppercase px-3 ">
             HOME
           </div>
         </li>
@@ -26,7 +26,7 @@
           <hr class="dropdown-divider" />
         </li>
         <li>
-          <div class="text-muted small fw-bold text-uppercase px-3">
+          <div style="color: white;" class=" small fw-bold text-uppercase px-3">
             Interfaces
           </div>
         </li>
