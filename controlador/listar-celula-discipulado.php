@@ -66,6 +66,12 @@ if ($_SESSION['verdadero'] > 0) {
             $objeto->registrar_asistencias();
             $registrar_asistencia = false;
         }
+      
+        if (isset($_POST['cedula_discipulo'])) {
+           
+            echo json_encode(array("response" => 1));
+            return true;   
+        }
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

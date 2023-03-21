@@ -312,17 +312,17 @@
       </div>
     </div>
   </div>
-  <!-- Modal Eliminar  Participante -->
+  <!-- Modal Editar nivel de  discipulo -->
   <div class="modal fade" id="editar_nivel" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="modal-header bg-warning text-light">
-          <h5 class="modal-title" id="Modaleliminar">Editar nivel de discipulo</h5>
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title  fw-bold" id="Modaleliminar">Editar nivel de discipulo</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body fs-5">
-        <p style="color: black;" >Estas cambiando el nivel de <b id="nivel_discipulo_nombre"></b> <b id="nivel_discipulo_apellido"></b> </p>
-          <form method="post" id="EditarNivelForm">
+          <p style="color: black;">Estas cambiando el nivel de <b id="nivel_discipulo_nombre"></b> <b id="nivel_discipulo_apellido"></b> </p>
+          <form id="EditarNivelForm" action="?pagina=listar-celula-discipulado" method="POST">
             <input type="hidden" name="cedula_discipulo" class="cedula_participante">
             <div id="grupo__nivel" class="col-sm ">
               <div class="relative">
@@ -341,12 +341,13 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" id="deleteButton">Guardar</button>
+          <button type="submit" class="btn btn-primary" name="EditarNivelForm" form="EditarNivelForm"">Guardar</button>
+
         </div>
       </div>
     </div>
   </div>
-  <!-- Modal Eliminar Participante -->
+  <!-- Modal Editar nivel de discipulo -->
 
   <!-- Modal agregar_asistencia -->
   <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">

@@ -3,6 +3,8 @@ const formulario = document.getElementById('editForm'); //declarando una constan
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
 const formulario4 = document.getElementById('eliminar_participante')
+const selects = document.querySelectorAll('#EditarNivelForm select'); 
+
 
 var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
@@ -103,12 +105,9 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
       break;
     case "nivel":
+
       ValidarSelect(e.target, 'nivel');
-
       break;
-
-    case "cedula_discipulo":
-      ValidarSelect(e.target,"cedula_discipulo")
   }
 }
 
@@ -217,7 +216,7 @@ formulario3.addEventListener('submit', (e) => {
 
 $("#EditarNivelForm").submit(function (e) {
   e.preventDefault()
-  if (!(campos.nivel && campos.cedula)) {
+  if (!(campos.nivel)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -226,20 +225,21 @@ $("#EditarNivelForm").submit(function (e) {
     })
   } else {
     console.log("entra en el submit")
+  
     $.ajax({
       type: "POST",
       url: "?pagina=listar-celula-discipulado",
       data: $(this).serialize(),
       success: function (response) {
+        console.log(response)
         var data = JSON.parse(response);
         console.log(data)
         if (data.response == "1") {
-          document.getElementById("respuesta").innerHTML = "<div class='alert alert-success' role='alert'>" +
-            "Te has registrado correctamente te redirigemos al login para que inicies sesion" +
-            "</div>"
-          const myTimeout = setTimeout(recarga, 5000);
-
-
+          Swal.fire({
+            icon: 'success',
+            title: 'Se actualizo la informacion correctamente'
+          })
+          addEvents()
         } else {
           console.log("Envio malicioso de datos")
         }
@@ -248,7 +248,10 @@ $("#EditarNivelForm").submit(function (e) {
   }
 })
 
+selects.forEach((select) => {
+	select.addEventListener('click', ValidarFormulario);
 
+});
 
 inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
