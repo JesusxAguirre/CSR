@@ -11,13 +11,10 @@ class Discipulado extends Conexion
 {
     private $conexion;
     private $id_modulo;
-
-    private $listar;
-    private $codigos;
+   
     private $direccion;
     private $participantes;
-    private $asistentes;
-    private $cedula_participante;
+    private $asistentes; 
     private $dia;
     private $hora;
     private $id;
@@ -51,13 +48,13 @@ class Discipulado extends Conexion
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-        ":busqueda1"=>$busqueda,
-        ":busqueda2"=>$busqueda,
-        ":busqueda3"=>$busqueda,
-        ":busqueda4"=>$busqueda,
-        ":busqueda5"=>$busqueda,
-        ":busqueda6"=>$busqueda,
-        ":busqueda7"=>$busqueda,
+            ":busqueda1" => $busqueda,
+            ":busqueda2" => $busqueda,
+            ":busqueda3" => $busqueda,
+            ":busqueda4" => $busqueda,
+            ":busqueda5" => $busqueda,
+            ":busqueda6" => $busqueda,
+            ":busqueda7" => $busqueda,
         ));
 
 
@@ -142,9 +139,9 @@ class Discipulado extends Conexion
     }
     public function listar_participantes($id_discipulado)
     {
-        try{
-        $participantes = [];
-        $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
+        try {
+            $participantes = [];
+            $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
         discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
         AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
         FROM celula_discipulado 
@@ -152,50 +149,49 @@ class Discipulado extends Conexion
         INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
         WHERE celula_discipulado.id = :id_discipulado");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(":id_discipulado"=>$id_discipulado));
+            $stmt->execute(array(":id_discipulado" => $id_discipulado));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $participantes[] = $filas;
+                $participantes[] = $filas;
+            }
+
+            $accion = "Listar Discipulos";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return $participantes;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
         }
-
-        $accion = "Listar Discipulos";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        return $participantes;
-        }catch(Exception $e){
-        echo $e->getMessage();
-
-        echo "Linea del error: " . $e->getLine();
-
-        return false;
-        }
-
     }
 
     public function listar_celula_discipulado_por_usuario()
     {
-        try{
-        $resultado = [];
-        $usuario = $_SESSION['usuario'];
-        $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
+        try {
+            $resultado = [];
+            $usuario = $_SESSION['usuario'];
+            $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado
         FROM celula_discipulado 
         WHERE celula_discipulado.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') ");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array());
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $resultado[] = $filas;
-        }
-        return $resultado;
-        }catch(Exception $e){
+                $resultado[] = $filas;
+            }
+            return $resultado;
+        } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
@@ -219,12 +215,19 @@ class Discipulado extends Conexion
 
         $sql = "SELECT `rp`.`id_discipulado`, `usuarios`.`nombre`, `usuarios`.`apellido`, `usuarios`.`telefono`, `usuarios`.`codigo`, COUNT(DISTINCT `rp`.`fecha`) as `asistencias`, COUNT(DISTINCT `rpd`.`fecha`) as `total` FROM `usuarios` 
         INNER JOIN `reporte_celula_discipulado` AS `rp` ON `rp`.`cedula_participante` = `usuarios`.`cedula` 
-        RIGHT JOIN `reporte_celula_discipulado` as `rpd` ON `rpd`.`id_discipulado` = $id 
-        WHERE `rp`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' AND `rp`.`id_discipulado` = $id AND `rpd`.`fecha` BETWEEN '$fecha_inicio' AND '$fecha_final' GROUP BY `usuarios`.`cedula`";
+        RIGHT JOIN `reporte_celula_discipulado` as `rpd` ON `rpd`.`id_discipulado` = :id1
+        WHERE `rp`.`fecha` BETWEEN :fecha_inicio1 AND :fecha_final2 AND `rp`.`id_discipulado` = :id2 AND `rpd`.`fecha` BETWEEN :fecha_inicio2 AND :fecha_final2 GROUP BY `usuarios`.`cedula`";
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":id1"=>$id,
+            ":fecha_inicio1"=>$fecha_inicio,
+            ":fecha_final1"=>$fecha_final,
+            ":id2"=>$id,
+            ":fecha_inicio2"=>$fecha_inicio,
+            ":fecha_final2"=>$fecha_final
+        ));
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $resultado[] = $filas;
         }
@@ -259,7 +262,7 @@ class Discipulado extends Conexion
 
         return $resultado;
     }
-   
+
     //------------------------------------------------------Registrar Asitencias de discipulado ----------------------//
     public function registrar_asistencias()
     {
@@ -283,175 +286,175 @@ class Discipulado extends Conexion
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
     {
-        try{
-        //buscando ultimo id agregando
-        $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
+        try {
+            //buscando ultimo id agregando
+            $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array());
 
-        $contador = $stmt->fetch(PDO::FETCH_ASSOC);
+            $contador = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $id = $contador['id'];
-        //sumandole un numero para que sea dinamico 
-        $id++;
+            $id = $contador['id'];
+            //sumandole un numero para que sea dinamico 
+            $id++;
 
-        $sql = "INSERT INTO celula_discipulado (codigo_celula_discipulado,cedula_lider,
+            $sql = "INSERT INTO celula_discipulado (codigo_celula_discipulado,cedula_lider,
         cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
         VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direc)";
 
-        $stmt = $this->conexion->prepare($sql);
+            $stmt = $this->conexion->prepare($sql);
 
-        $stmt->execute(array(
-            ":codigo" => 'CD' . $id,
-            ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
-            ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
-            ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc" => $this->direccion
-        ));
+            $stmt->execute(array(
+                ":codigo" => 'CD' . $id,
+                ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
+                ":cedula_asistente" => $this->cedula_asistente, ":dia" => $this->dia,
+                ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc" => $this->direccion
+            ));
 
 
-        //---------Comienzo de funcion de pasar id foraneo con respecto a los discipulos de la celula------------------------//
-        //primero vamos a buscar el id que queremos pasar como clave foranea
+            //---------Comienzo de funcion de pasar id foraneo con respecto a los discipulos de la celula------------------------//
+            //primero vamos a buscar el id que queremos pasar como clave foranea
 
-        $sql = ("SELECT id FROM celula_discipulado 
+            $sql = ("SELECT id FROM celula_discipulado 
         WHERE cedula_lider= :cedula_lider
         AND cedula_anfitrion = :cedula_anfitrion
         AND cedula_asistente = :cedula_asistente");
 
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array(
-            ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
-            ":cedula_asistente" => $this->cedula_asistente
-        ));
-
-        $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-        foreach ($this->participantes as $participantes) {
-            $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id) ");
-
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":cedula" => $participantes,
-                ":id" => $id_discipulado['id']
+                ":cedula_lider" => $this->cedula_lider, ":cedula_anfitrion" => $this->cedula_anfitrion,
+                ":cedula_asistente" => $this->cedula_asistente
             ));
-        } //fin del foreach
-        //id foraneo agregado por cada participante
+
+            $id_discipulado  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+            foreach ($this->participantes as $participantes) {
+                $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $participantes,
+                    ":id" => $id_discipulado['id']
+                ));
+            } //fin del foreach
+            //id foraneo agregado por cada participante
 
 
 
-        //---------Comienzo de funcion de pasar id foraneo con respecto a el lider de la celula------------------------//
-        //agregando codigo de celula a codigo de usuario
-        //agregando a lider
-        $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
-
-        $stmt = $this->conexion()->prepare($sql);
-        $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
-        $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-        $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array(
-            ":codigo" => $codigo_lider['codigo'] . '-' . 'CD' . $id,
-            ":cedula" => $this->cedula_lider
-        ));
-
-        //comprobando que el anfitrion y el asistente sean la misma cedula
-        if ($this->cedula_anfitrion == $this->cedula_asistente) {
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
+            //---------Comienzo de funcion de pasar id foraneo con respecto a el lider de la celula------------------------//
+            //agregando codigo de celula a codigo de usuario
+            //agregando a lider
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
+            $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
-
-            $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
-                ":cedula" => $this->cedula_anfitrion
+                ":codigo" => $codigo_lider['codigo'] . '-' . 'CD' . $id,
+                ":cedula" => $this->cedula_lider
             ));
 
-            //registrando en tabla intermediaria los anfitriones y asistentes
-            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+            //comprobando que el anfitrion y el asistente sean la misma cedula
+            if ($this->cedula_anfitrion == $this->cedula_asistente) {
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
-            $stmt = $this->conexion()->prepare($sql);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(
-                ":cedula" => $this->cedula_anfitrion,
-                ":id" => $id_discipulado['id']
-            ));
-        } else { //comienzo del ELSE y fin del IF
-            //agregando codigo de celula por separado de anfitrion y asistente
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
+                $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
 
-            $stmt = $this->conexion()->prepare($sql);
+                $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
-            $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+                $stmt->execute(array(
+                    ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
+                    ":cedula" => $this->cedula_anfitrion
+                ));
 
-            $stmt = $this->conexion()->prepare($sql);
+                //registrando en tabla intermediaria los anfitriones y asistentes
+                $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
 
-            $stmt->execute(array(
-                ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
-                ":cedula" => $this->cedula_anfitrion
-            ));
+                $stmt = $this->conexion()->prepare($sql);
 
-            //registrando en tabla intermediaria los anfitriones y asistentes
-            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $id_discipulado['id']
+                ));
+            } else { //comienzo del ELSE y fin del IF
+                //agregando codigo de celula por separado de anfitrion y asistente
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
-            $stmt = $this->conexion()->prepare($sql);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(
-                ":cedula" => $this->cedula_anfitrion,
-                ":id" => $id_discipulado['id']
-            ));
+                $stmt->execute(array(":cedula_anfitrion" => $this->cedula_anfitrion));
 
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_asistente");
+                $codigo_anfitrion  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array(":cedula_asistente" => $this->cedula_asistente));
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
-            $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+                $stmt->execute(array(
+                    ":codigo" => $codigo_anfitrion['codigo']  . '-' . 'CD' . $id,
+                    ":cedula" => $this->cedula_anfitrion
+                ));
 
-            $stmt = $this->conexion()->prepare($sql);
+                //registrando en tabla intermediaria los anfitriones y asistentes
+                $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
 
-            $stmt->execute(array(
-                ":codigo" => $codigo_asistente['codigo']  . '-' . 'CD' . $id,
-                ":cedula" => $this->cedula_asistente
-            ));
+                $stmt = $this->conexion()->prepare($sql);
 
-            //registrando en tabla intermediaria los anfitriones y asistentes
-            $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_anfitrion,
+                    ":id" => $id_discipulado['id']
+                ));
 
-            $stmt = $this->conexion()->prepare($sql);
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_asistente");
 
-            $stmt->execute(array(
-                ":cedula" => $this->cedula_asistente,
-                ":id" => $id_discipulado['id']
-            ));
-        } //fin del else si el asitente de la celula y el anfitrion son distintos
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array(":cedula_asistente" => $this->cedula_asistente));
 
-        $accion = "Registrar  celula de discipulado";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+                $codigo_asistente  = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return true;
-        }catch(Exception $e){
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":codigo" => $codigo_asistente['codigo']  . '-' . 'CD' . $id,
+                    ":cedula" => $this->cedula_asistente
+                ));
+
+                //registrando en tabla intermediaria los anfitriones y asistentes
+                $sql = ("INSERT INTO discipulos(cedula,id_discipulado) VALUES (:cedula,:id) ");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $this->cedula_asistente,
+                    ":id" => $id_discipulado['id']
+                ));
+            } //fin del else si el asitente de la celula y el anfitrion son distintos
+
+            $accion = "Registrar  celula de discipulado";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+            return true;
+        } catch (Exception $e) {
             echo $e->getMessage();
 
             echo "Linea del error: " . $e->getLine();
@@ -652,7 +655,7 @@ class Discipulado extends Conexion
             $stmt->execute(array(
                 ":cedula_lider" => $this->cedula_lider,
                 ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-                ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc"=>$this->direccion, 
+                ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc" => $this->direccion,
                 ":id" => $this->id
             ));
 
@@ -687,11 +690,32 @@ class Discipulado extends Conexion
 
     }
 
+    public function editar_discipulo_nivel($cedula_discipulo)
+    {
+        try {
+
+
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'N1','N2') WHERE cedula = :cedula_discipulo");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":cedula_discipulo" => $cedula_discipulo));
+
+            return true;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
+    }
+
     public function eliminar_participantes($cedula_participante)
     {
         try {
 
-           /*  $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_participante");
+            /*  $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
@@ -748,7 +772,7 @@ class Discipulado extends Conexion
     }
     //-------- SET actualizar para actualizar disicpulados-------------------------------------//
 
-    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora,$direccion, $id)
+    public function setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id)
     {
         $this->cedula_lider = $cedula_lider;
         $this->cedula_anfitrion = $cedula_anfitrion;
