@@ -52,6 +52,8 @@ const campos = {
   participantes: false,
   fecha: false,
   asistentes: false,
+  cedula_discipulo: false,
+  nivel: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -100,6 +102,13 @@ const ValidarFormulario = (e) => {
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
       break;
+    case "nivel":
+      ValidarSelect(e.target, 'nivel');
+
+      break;
+
+    case "cedula_discipulo":
+      ValidarSelect(e.target,"cedula_discipulo")
   }
 }
 
@@ -206,7 +215,38 @@ formulario3.addEventListener('submit', (e) => {
   }
 })
 
+$("#EditarNivelForm").submit(function (e) {
+  e.preventDefault()
+  if (!(campos.nivel && campos.cedula)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente '
+    })
+  } else {
+    console.log("entra en el submit")
+    $.ajax({
+      type: "POST",
+      url: "?pagina=listar-celula-discipulado",
+      data: $(this).serialize(),
+      success: function (response) {
+        var data = JSON.parse(response);
+        console.log(data)
+        if (data.response == "1") {
+          document.getElementById("respuesta").innerHTML = "<div class='alert alert-success' role='alert'>" +
+            "Te has registrado correctamente te redirigemos al login para que inicies sesion" +
+            "</div>"
+          const myTimeout = setTimeout(recarga, 5000);
 
+
+        } else {
+          console.log("Envio malicioso de datos")
+        }
+      }
+    })
+  }
+})
 
 
 
@@ -376,7 +416,7 @@ function addEvents() {
     const liderInput = document.getElementById('codigoLider')
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
-   
+
     const anfitrion_lista = document.getElementById("anfitrion")
     const asistente_lista = document.getElementById("asistente")
 
@@ -393,13 +433,13 @@ function addEvents() {
     //cedulas de usuarios
 
 
-  
+
     //agregar a datalist datos de anfitrion y asistente
-    
-/*     anfitrion_lista.value = cedula_anfitrion.textContent
-    anfitrion_lista.label = cedula_anfitrion.textContent
-    asistente_lista.value = cedula_anfitrion.textContent   */
-  
+
+    /*     anfitrion_lista.value = cedula_anfitrion.textContent
+        anfitrion_lista.label = cedula_anfitrion.textContent
+        asistente_lista.value = cedula_anfitrion.textContent   */
+
   }))
 
   const participanteModal = document.querySelectorAll('table td .modal-btn')
@@ -414,7 +454,7 @@ function addEvents() {
     buscarParticipantes(busqueda);
   }))
 
-  // Actualizar contenido del modal Eliminar
+  //ELIMINAR DISCIPULOS COLOCAR CAMPOS OCULTOS
   const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
   deleteButtons.forEach(boton => boton.addEventListener('click', () => {
@@ -426,6 +466,24 @@ function addEvents() {
     const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
     const nombre_participante = document.getElementById('deleteParticipanteName')
     const apellido_participante = document.getElementById('deleteParticipanteApellido')
+
+    cedulaInput.value = cedula_participante.textContent
+    nombre_participante.textContent = nombre.textContent
+    apellido_participante.textContent = apellido.textContent
+  }))
+
+  //EDITAR NIVEL DE COLOCAR CAMPOS OCULTOS
+  const editar_nivel_buttons = document.querySelectorAll('table td .edit-nivel-btn')
+
+  editar_nivel_buttons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let cedula_participante = fila.querySelector('.participantes_cedula')
+    let nombre = fila.querySelector('.participantes_nombre')
+    let apellido = fila.querySelector('.participantes_apellido')
+
+    const cedulaInput = document.querySelector('#EditarNivelForm .cedula_participante')
+    const nombre_participante = document.getElementById('nivel_discipulo_nombre')
+    const apellido_participante = document.getElementById('nivel_discipulo_apellido')
 
     cedulaInput.value = cedula_participante.textContent
     nombre_participante.textContent = nombre.textContent
