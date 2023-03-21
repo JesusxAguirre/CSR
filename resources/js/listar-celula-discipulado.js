@@ -243,6 +243,7 @@ $("#EditarNivelForm").submit(function (e) {
 
           buscarDiscipulado(busqueda);
           
+     
           addEvents()
         } else {
           console.log("Envio malicioso de datos")
@@ -485,6 +486,7 @@ function addEvents() {
   editar_nivel_buttons.forEach(boton => boton.addEventListener('click', () => {
     let fila = boton.parentElement.parentElement
     let cedula_participante = fila.querySelector('.participantes_cedula')
+    var id_discipulado_nivel = fila.querySelector('.id')
     let nombre = fila.querySelector('.participantes_nombre')
     let apellido = fila.querySelector('.participantes_apellido')
     let codigo_discipulo = fila.querySelector('.participantes_codigo')

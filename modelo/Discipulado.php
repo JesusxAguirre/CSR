@@ -707,7 +707,14 @@ class Discipulado extends Conexion
                 ":cedula_discipulo" => $cedula_discipulo
             ));
 
-            return true;
+            $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_discipulo");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":cedula_discipulo"=>$cedula_discipulo));
+
+            $id_discipulado =  $stmt->fetch(PDO::FETCH_ASSOC);
+            return $id_discipulado[['id_discipulado']];
         } catch (Exception $e) {
             echo $e->getMessage();
 
