@@ -37,14 +37,16 @@ if($_SESSION['verdadero'] > 0){
             $nombreRol      = $_POST['nombre'];
             $descripcionRol = $_POST['descripcion'];
 
-            $objeto->setDatos($nombreRol, $descripcionRol);
+            $validacion = $objeto->validar_crear_rol($nombreRol);
 
-            if ($objeto->create_rol()) {
+            if ($validacion > 0) {
+                $alert['status'] = 'false';
+                $alert['msg'] = "El rol ingresado ya existe";
+            } else {
+                $objeto->setDatos($nombreRol, $descripcionRol);
+                $objeto->create_rol();
                 $alert['status'] = true;
                 $alert['msg'] = "Rol creado con éxito";
-            } else {
-                $alert['status'] = 'false';
-                $alert = "Ha ocurrido un error al crear el rol";
             }
         }
 
@@ -54,14 +56,17 @@ if($_SESSION['verdadero'] > 0){
             $nombreRol      = $_POST['nombre'];
             $descripcionRol = $_POST['descripcion'];
 
-            $objeto->setDatos($nombreRol, $descripcionRol);
 
-            if ($objeto->update_rol($idRol)) {
+            $validacion = $objeto->validar_crear_rol($nombreRol);
+
+            if ($validacion > 0) {
+                $alert['status'] = 'false';
+                $alert['msg'] = "El rol ingresado ya existe";
+            } else {
+                $objeto->setDatos($nombreRol, $descripcionRol);
+                $objeto->update_rol($idRol);
                 $alert['status'] = true;
                 $alert['msg'] = "Rol modificado correctamente";
-            } else {
-                $alert['status'] = 'false';
-                $alert = "Ha ocurrido un error al modificar el rol";
             }
         }
 

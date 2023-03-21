@@ -446,21 +446,69 @@ class ecam extends Conexion
         return $todosProfesores2;
     }
 
-
-    //Validar que no exista otra materia igual
+    //Validar que no exista la materia para leugo ser agregada
     function validar_materia($nombre, $nivel)
     {
-        $sql = "SELECT * FROM materias WHERE nombre = :nombre AND nivelAcademico = :nivel";
-        $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(
+        $sql2 = "SELECT * FROM materias WHERE nombre = :nombre AND nivelAcademico = :nivel";
+        $stmt2 = $this->conexion->prepare($sql2);
+        $stmt2->execute(
             array(
                 ":nombre" => $nombre,
                 ":nivel" => $nivel,
             )
         );
-
-        $resultado = $stmt->rowCount();
+        $resultado = $stmt2->rowCount();
         return $resultado;
+    }
+    //Validar la actualizacion de datos de la materia
+    function validar_actualizar_materia($id_materia, $nombre, $nivel)
+    {
+        $sql = "SELECT * FROM materias WHERE id_materia = :id_materia";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(
+            array(
+                ":id_materia" => $id_materia,
+            )
+        );
+        $datos = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $sql2 = "SELECT * FROM materias WHERE nombre = :nombre AND nivelAcademico = :nivel";
+        $stmt2 = $this->conexion->prepare($sql2);
+        $stmt2->execute(
+            array(
+                ":nombre" => $nombre,
+                ":nivel" => $nivel,
+            )
+        );
+        $resultado = $stmt2->rowCount();
+
+        if ($nivel == $datos['nivelAcademico']) {
+            return $resultado;
+        }else{
+
+            if ($resultado == 0) {
+                $sql3 = "SELECT * FROM `notamateria_estudiantes` WHERE id_materia = :id_materia";
+                $stmt3 = $this->conexion->prepare($sql3);
+                $stmt3->execute(array(":id_materia" => $id_materia));
+                $matriz = $stmt3->rowCount();
+
+                if ($matriz > 0) {
+                    return 'denegado';
+                }else{
+                    $sql4 = "DELETE FROM `secciones-materias-profesores` WHERE id_materia = :id_materia";
+                    $stmt4 = $this->conexion->prepare($sql4);
+                    $stmt4->execute(array(":id_materia" => $id_materia));
+
+                    $sql5 = "DELETE FROM `profesores-materias` WHERE id_materia = :id_materia";
+                    $stmt5 = $this->conexion->prepare($sql5);
+                    $stmt5->execute(array(":id_materia" => $id_materia));
+
+                    return $resultado;
+                }
+            }else{
+                return $resultado;
+            }
+        }
     }
 
     //AGREGAR MATERIAS
@@ -934,7 +982,24 @@ class ecam extends Conexion
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////APARTADO DE SECCIONES/////////////////////////////////////////////////
-    public function validar_seccion($id_seccion, $nombre, $nivel)
+    
+    //Validar que no exista los datos ingresados de la seccion para ser creada
+    public function validar_seccion($nombre, $nivel)
+    {
+        //Consulta para comparar que existe la seccion con los datos enviados
+        $sql1 = "SELECT * FROM secciones WHERE nombre = :nombre AND nivel_academico = :nivel";
+        $stmt1 = $this->conexion->prepare($sql1);
+        $stmt1->execute(
+            array(
+                ":nombre" => $nombre,
+                ":nivel" => $nivel,
+            )
+        );
+        $resultado = $stmt1->rowCount();
+
+        return $resultado;
+    }
+    public function validar_actualizar_seccion($id_seccion, $nombre, $nivel)
     {
         $seccion = [];
 
@@ -990,8 +1055,6 @@ class ecam extends Conexion
                 return $resultado;
             }
         }
-
-        
     }
     public function crearSeccion()
     {

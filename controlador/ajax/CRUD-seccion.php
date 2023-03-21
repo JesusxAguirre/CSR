@@ -15,7 +15,6 @@ if (isset($_POST['crear'])) {
 
     $objeto->setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion, $fechaCierre);
     $objeto->crearSeccion();
-    
 }
 
 ///AGREGAR O ACTUALIZAR ESTUDIANTES A LA SECCION SELECCIONADA
@@ -74,7 +73,7 @@ if (isset($_POST['actualizarDatosSeccion'])) {
     $idSeccionRefU= $_POST['idSeccionRefU'];
     $fechaCierreRefU= $_POST['fechaCierreRefU'];
 
-    $respuesta = $objeto->validar_seccion($idSeccionRefU, $nombreSeccionU, $nivelSeccionU);
+    $respuesta = $objeto->validar_actualizar_seccion($idSeccionRefU, $nombreSeccionU, $nivelSeccionU);
 
     if($respuesta == 'denegado'){
         echo json_encode('denegado');

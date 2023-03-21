@@ -112,10 +112,7 @@ $(document).on('click', '#actualizarProfesores', function (e) {
       consultaDeProfesores(data2.idMateriaV);
       Swal.fire({
         icon: 'success',
-        iconColor: 'white',
         title: "¡Profesores agregados correctamente!",
-        background: 'green',
-        color: 'white',
         showConfirmButton: false,
         timer: 2000,
       });
@@ -155,17 +152,13 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
           consultaDeProfesores(idMateria2);
           Swal.fire({
             icon: 'success',
-            iconColor: 'white',
             title: "¡Profesor desvinculado de la materia correctamente!",
             showConfirmButton: false,
-            background: 'green',
-            color: 'white',
             timer: 2000,
           });
         }else{
           Swal.fire({
             icon: 'error',
-            iconColor: 'red',
             title: "DENEGADO",
             text: 'No puedes eliminar a este profesor porque existen datos asociados a el en alguna seccion de la Ecam',
             showConfirmButton: true,
@@ -217,17 +210,14 @@ $(document).on('click', '#eliminarMateria', function () {
           Swal.fire({
             icon: 'success',
             title: "¡Materia eliminada correctamente!",
-            background: 'white',
             showConfirmButton: false,
             timer: 2000,
           });
         }else{
           Swal.fire({
             icon: 'error',
-            iconColor: 'red',
             title: 'DENEGADO',
             text: "No puedes eliminar esta materia porque se encuentra asociada a otros datos del sistema",
-            background: 'white',
             showConfirmButton: true,
             confirmButtonColor: '#0059FF',
           });
@@ -286,26 +276,31 @@ $("#actualizarMateria").on("click", function (e) {
       var resp = JSON.parse(response);
 
       //Primero validamos que los datos de la seccion no existan al actualizar
-      if (resp == 'true') {
-        Swal.fire({
-          icon: 'error',
-          iconColor: 'red',
-          title: "¡La materia ya existe!",
-          background: 'white',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-      }else{
+      if (resp == 'actualizada') {
         listarMaterias();
         document.getElementById('nombreMateria2').classList.remove('validarBien');
         document.getElementById('seleccionarNivel2').classList.remove('validarBien');
         Swal.fire({
           icon: 'success',
-          iconColor: 'green',
           title: "¡Materia actualizada correctamente!",
-          background: 'white',
           showConfirmButton: false,
           timer: 2000,
+        });
+        
+      }else if(resp == 'encontrada'){
+        Swal.fire({
+          icon: 'error',
+          title: "¡La materia ya existe!",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+      }else if(resp == 'denegado'){
+        Swal.fire({
+          icon: 'error',
+          title: "DENEGADO",
+          text: 'No puede cambiar el nivel de la materia porque esta ya se encuentra asociada a notas de estudiantes',
+          showConfirmButton: true,
+          confirmButtonColor: '#0059FF',
         });
       }
     });

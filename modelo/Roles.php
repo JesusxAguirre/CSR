@@ -99,6 +99,7 @@ class Roles extends Conexion {
 		
 	}
 
+	
 	public function update_rol($idRol)
 	{
 		$sql = "UPDATE roles SET nombre = :nombre, descripcion = :descripcion WHERE id = :id";
@@ -119,6 +120,17 @@ class Roles extends Conexion {
 		}
 	}
 
+
+	//Validar eliminar Rol
+	public function validar_eliminar_rol($idRol)
+	{
+		$sql = "SELECT * FROM usuarios WHERE usuarios.id_rol = :id_rol";
+		$stmt = $this->conexion->prepare($sql);
+		$stmt->execute(array("id_rol" => $idRol));
+		$resultado = $stmt->rowCount();
+
+		return $resultado;
+	}
 	public function delete_rol($idRol)
 	{
 		// Verifica si existe el rol a eliminar
@@ -153,6 +165,16 @@ class Roles extends Conexion {
 		}
 	}
 
+	//Validar datos enviados para crear rol
+	public function validar_crear_rol($nombre)
+	{
+		$sql = "SELECT * FROM `roles` WHERE nombre = :nombre";
+		$stmt = $this->conexion->prepare($sql);
+		$stmt->execute(array(":nombre" => $nombre));
+		$resultado = $stmt->rowCount();
+
+		return $resultado;
+	}
 	public function create_rol()
 	{
 		$sql = "INSERT INTO roles (id, nombre, descripcion) VALUES (NULL, :nombre, :descripcion)";

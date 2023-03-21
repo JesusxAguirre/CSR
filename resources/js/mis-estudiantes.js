@@ -301,10 +301,7 @@ setTimeout(() => {
                 listar_misEstudiantes();
                 Swal.fire({
                     icon: 'success',
-                    iconColor: 'white',
                     title: '¡Nota agregada!',
-                    background: 'green',
-                    color: 'white',
                     showConfirmButton: false,
                     timer: 1700,
                 })
@@ -352,17 +349,24 @@ setTimeout(() => {
                         notaNueva: result.value,
                     };
                     $.post("controlador/ajax/dinamica-misEstudiantes.php", data, function (response) {
-                        console.log(response)
-                        listar_misEstudiantes();
-                        Swal.fire({
-                            icon: 'success',
-                            iconColor: 'white',
-                            title: '¡Nota actualizada!',
-                            background: 'green',
-                            color: 'white',
-                            showConfirmButton: false,
-                            timer: 2000,
-                        })
+                        var resp = JSON.parse(response);
+                        if (resp == 'actualizada') {
+                            listar_misEstudiantes();
+                            Swal.fire({
+                                icon: 'success',
+                                title: '¡Nota actualizada!',
+                                showConfirmButton: false,
+                                timer: 2000,
+                            })
+                        }else{
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'DEGENEADO',
+                                text: 'No puedes actualizar su nota de materia porque ya se encuentra asociada a su nota final',
+                                showConfirmButton: true,
+                                confirmButtonColor: '#0078FF',
+                            })
+                        }
                     });
                     }
                 })
@@ -399,10 +403,7 @@ setTimeout(() => {
                         listar_misEstudiantes();
                         Swal.fire({
                             icon: 'success',
-                            iconColor: 'white',
                             title: '¡Nota eliminada correctamente!',
-                            background: 'green',
-                            color: 'white',
                             showConfirmButton: false,
                             timer: 1700,
                         })
@@ -411,7 +412,7 @@ setTimeout(() => {
                             icon: 'error',
                             iconColor: 'red',
                             title: 'AVISO',
-                            text: 'No puedes eliminar la nota de este estudiante porque ya se agrego su nota final en la seccion',
+                            text: 'No puedes eliminar la nota de este estudiante porque ya se encuentra asociada a su nota final',
                             showConfirmButton: true,
                             confirmButtonColor: '#0078FF',
                         })
