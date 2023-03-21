@@ -1,6 +1,8 @@
 <?php
 
 use Csr\Modelo\Discipulado;
+use PhpParser\Node\Stmt\Else_;
+
 //destruye la sesion si se tenia una abierta
 session_start();
 
@@ -68,8 +70,15 @@ if ($_SESSION['verdadero'] > 0) {
         }
       
         if (isset($_POST['cedula_discipulo'])) {
-           
+            
+            $cedula_discipulo = trim($_POST['cedula_discipulo']);
+            $nivel = trim($_POST['nivel']);
+
+            if(ctype_digit($cedula_discipulo) && ($nivel == "N1" OR $nivel=="N2")){
             echo json_encode(array("response" => 1));
+            }else{
+                echo json_encode(array("response"=>0));
+            }
             return true;   
         }
         require_once 'vista/' . $pagina . '.php';

@@ -3,7 +3,7 @@ const formulario = document.getElementById('editForm'); //declarando una constan
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
 const formulario4 = document.getElementById('eliminar_participante')
-const selects = document.querySelectorAll('#EditarNivelForm select'); 
+const selects = document.querySelectorAll('#EditarNivelForm select');
 
 
 var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
@@ -225,7 +225,7 @@ $("#EditarNivelForm").submit(function (e) {
     })
   } else {
     console.log("entra en el submit")
-  
+
     $.ajax({
       type: "POST",
       url: "?pagina=listar-celula-discipulado",
@@ -239,6 +239,9 @@ $("#EditarNivelForm").submit(function (e) {
             icon: 'success',
             title: 'Se actualizo la informacion correctamente'
           })
+          let busqueda = busquedaEl.value
+
+          buscarDiscipulado(busqueda);
           addEvents()
         } else {
           console.log("Envio malicioso de datos")
@@ -249,7 +252,7 @@ $("#EditarNivelForm").submit(function (e) {
 })
 
 selects.forEach((select) => {
-	select.addEventListener('click', ValidarFormulario);
+  select.addEventListener('click', ValidarFormulario);
 
 });
 

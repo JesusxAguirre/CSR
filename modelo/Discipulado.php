@@ -785,18 +785,21 @@ class Discipulado extends Conexion
     }
 
 
-
+    //METODO SETTER PARA REGISTRAR DISCIPULOS
     public function setParticipantes($participantes, $id)
     {
         $this->participantes = $participantes;
         $this->id = $id;
     }
+     //METODO SETTER PARA REGISTRAR ASISTENCIAS
     public function setAsistencias($asistentes, $id, $fecha)
     {
         $this->asistentes = $asistentes;
         $this->id = $id;
         $this->fecha = $fecha;
     }
+
+     //METODO SETTER PARA CAMBIARL EL NIVEL DE UN DISCIPULO
 
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
