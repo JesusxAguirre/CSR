@@ -242,6 +242,7 @@ $("#EditarNivelForm").submit(function (e) {
           let busqueda = busquedaEl.value
 
           buscarDiscipulado(busqueda);
+          
           addEvents()
         } else {
           console.log("Envio malicioso de datos")
