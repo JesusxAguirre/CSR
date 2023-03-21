@@ -24,6 +24,8 @@ class Discipulado extends Conexion
     private $cedula_asistente;
     private $busqueda;
 
+ 
+
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -690,16 +692,20 @@ class Discipulado extends Conexion
 
     }
 
-    public function editar_discipulo_nivel($cedula_discipulo)
+    public function editar_discipulo_nivel($cedula_discipulo,$nivel_actual,$nivel_actualizar)
     {
         try {
 
 
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'N1','N2') WHERE cedula = :cedula_discipulo");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:nivel_actual,:nivel_actualizar) WHERE cedula = :cedula_discipulo");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(":cedula_discipulo" => $cedula_discipulo));
+            $stmt->execute(array(
+                ":nivel_actual"=>$nivel_actual,
+                ":nivel_actualizar"=>$nivel_actualizar,
+                ":cedula_discipulo" => $cedula_discipulo
+            ));
 
             return true;
         } catch (Exception $e) {
@@ -799,8 +805,7 @@ class Discipulado extends Conexion
         $this->fecha = $fecha;
     }
 
-     //METODO SETTER PARA CAMBIARL EL NIVEL DE UN DISCIPULO
-
+     
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
 

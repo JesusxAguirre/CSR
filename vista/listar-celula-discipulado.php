@@ -324,6 +324,7 @@
           <p style="color: black;">Estas cambiando el nivel de <b id="nivel_discipulo_nombre"></b> <b id="nivel_discipulo_apellido"></b> </p>
           <form id="EditarNivelForm" action="?pagina=listar-celula-discipulado" method="POST">
             <input type="hidden" name="cedula_discipulo" class="cedula_participante">
+            <input type="hidden" name="codigo_discipulo" id="codigo_discipulo">
             <div id="grupo__nivel" class="col-sm ">
               <div class="relative">
                 <label class="form-label fw-bold">Cambiar Nivel</label>

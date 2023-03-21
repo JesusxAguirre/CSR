@@ -486,12 +486,15 @@ function addEvents() {
     let cedula_participante = fila.querySelector('.participantes_cedula')
     let nombre = fila.querySelector('.participantes_nombre')
     let apellido = fila.querySelector('.participantes_apellido')
-
+    let codigo_discipulo = fila.querySelector('.participantes_codigo')
+    codigo_discipulo = codigo_discipulo.textContent.split("-")
     const cedulaInput = document.querySelector('#EditarNivelForm .cedula_participante')
+    const codigoInput = document.getElementById('codigo_discipulo')
     const nombre_participante = document.getElementById('nivel_discipulo_nombre')
     const apellido_participante = document.getElementById('nivel_discipulo_apellido')
 
     cedulaInput.value = cedula_participante.textContent
+    codigoInput.value = codigo_discipulo[1]
     nombre_participante.textContent = nombre.textContent
     apellido_participante.textContent = apellido.textContent
   }))
