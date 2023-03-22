@@ -184,9 +184,10 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Clave</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="50" id="clave" type="password" placeholder="******" name="clave" class="form-control">
+                                            <input maxlength="18" id="clave" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
-                                        <p class="text-danger d-none">La clave debe contener una Mayuscula, una minuscula, un caracter especial y un numero </p>
+                                        <p class="text-danger d-none">La clave debe contener una Mayuscula, una minuscula, un caracter especial y un numero
+                                        Minimo 6 caracteres maximo 18 </p>
 
                                     </div>
                                 </div>

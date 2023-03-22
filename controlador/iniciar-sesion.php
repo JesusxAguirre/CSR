@@ -14,17 +14,17 @@ $objRoles = new Roles();
 $error = false;
 if (isset($_POST['registrar'])) {
 
-	$nombre = $_POST['nombre'];
-	$apellido = $_POST['apellido'];
-	$cedula = $_POST['cedula'];
-	$edad = $_POST['edad'];
-	$sexo = $_POST['sexo'];
-	$civil = $_POST['civil'];
-	$nacionalidad = $_POST['nacionalidad'];
-	$estado = $_POST['estado'];
-	$telefono = $_POST['telefono'];
-	$correo = $_POST['correo'];
-	$clave = $_POST['clave'];
+	$nombre = trim($_POST['nombre']);
+	$apellido = trim($_POST['apellido']);
+	$cedula = trim($_POST['cedula']);
+	$edad = trim($_POST['edad']);
+	$sexo = trim($_POST['sexo']);
+	$civil = trim($_POST['civil']);
+	$nacionalidad = trim($_POST['nacionalidad']);
+	$estado = trim($_POST['estado']);
+	$telefono = trim($_POST['telefono']);
+	$correo = trim($_POST['correo']);
+	$clave = trim($_POST['clave']);
 
 	$objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 

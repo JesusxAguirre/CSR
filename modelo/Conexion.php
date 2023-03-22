@@ -12,7 +12,7 @@ class Conexion
 
     private $expresion_numero = "/^[0-9]$/";
 
-    private $expresion_nombre = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/";
+    private $expresion_nombre = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
     protected static function conexion()
     {
 
@@ -61,8 +61,10 @@ class Conexion
     }
 
 
-    protected function validar_letras($string)
+    protected function validar_cedula($string)
     {
         return preg_match($this->expresion_cedula, $string);
     }
+
+    //protected function validar_caracteres()
 }
