@@ -67,22 +67,29 @@ class Conexion
                 //guardar en base de datos hacker
 
 
-                die("sapo perro");
+                die("inyeccion sql");
             }
 
             if($array[$i] == ""){
                 //guardar en base de datos de hacker
 
 
-                die("datos vacio sapo hacker");
+                die("datos vacio");
             }
         }
     }
 
 
-    protected function validar_cedula($string)
+    protected function validar_cedula($cedula)
     {
-        return preg_match_all($this->expresion_cedula, $string);
+        $response = preg_match_all($this->expresion_cedula,$cedula);
+    
+        if($response == 0 ){
+            //guardar ataque de hacker
+
+
+            die("datos invalido de cedula");
+        }
     }
 
     protected function validar_caracteres($string)

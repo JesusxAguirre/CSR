@@ -803,11 +803,18 @@ class Usuarios extends Conexion
     {
         $this->cedula = $cedula;
     }
+    ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
-
-
+    //VALIDAR INYECCION SQL Y DATOS VACIOS
     public function security_validation_sql($array){
 
      parent::validar_inyeccion($array);
+    }
+
+    //VALIDAR CEDULA
+
+    public function security_validation_cedula($cedula){
+    
+        parent::validar_cedula($cedula);
     }
 }
