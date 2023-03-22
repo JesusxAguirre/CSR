@@ -187,7 +187,7 @@
                                             <input maxlength="18" id="clave" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">La clave debe contener una Mayuscula, una minuscula, un caracter especial y un numero
-                                        Minimo 6 caracteres maximo 18 </p>
+                                        Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
 
                                     </div>
                                 </div>

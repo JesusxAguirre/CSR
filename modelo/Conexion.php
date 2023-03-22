@@ -1,12 +1,14 @@
 <?php
+
 namespace Csr\Modelo;
 
 use PDO;
 use Exception;
+
 class Conexion
 {
     private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
-    private $expresion_especial = "/[[:punct:]]/";
+    private $expresion_especial = "/^[^a-zA-Z0-9!@#$%^&*]$/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
@@ -57,7 +59,24 @@ class Conexion
 
     protected function validar_inyeccion($array)
     {
-        return preg_match_all($this->expresion_especial, $array);
+    
+        for ($i = 0; $i < count($array); $i++) {
+            $response = preg_match_all($this->expresion_especial, $array[$i]);
+
+            if ($response > 0) {
+                //guardar en base de datos hacker
+
+
+                die("sapo perro");
+            }
+
+            if($array[$i] == ""){
+                //guardar en base de datos de hacker
+
+
+                die("datos vacio sapo hacker");
+            }
+        }
     }
 
 
@@ -66,8 +85,9 @@ class Conexion
         return preg_match_all($this->expresion_cedula, $string);
     }
 
-    protected function validar_caracteres($string){
-        return preg_match_all($this->expresion_nombre,$string);
+    protected function validar_caracteres($string)
+    {
+        return preg_match_all($this->expresion_nombre, $string);
     }
 
     //protected function validar_caracteres()
