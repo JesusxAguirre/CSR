@@ -68,20 +68,23 @@ if ($_SESSION['verdadero'] > 0) {
             $objeto->registrar_asistencias();
             $registrar_asistencia = false;
         }
-      
+
         if (isset($_POST['cedula_discipulo'])) {
-            
+
             $cedula_discipulo = trim($_POST['cedula_discipulo']);
             $nivel = trim($_POST['nivel']);
             $nivel_actual = trim($_POST['codigo_discipulo']);
-            if(ctype_digit($cedula_discipulo) && ($nivel == "N1" OR $nivel=="N2") && ($nivel_actual == "N1" OR $nivel_actual=="N2") ){
+            
+            if (ctype_digit($cedula_discipulo) && ($nivel == "N1" or $nivel == "N2") && ($nivel_actual == "N1" or $nivel_actual == "N2")) {
 
-            $response = $objeto->editar_discipulo_nivel($cedula_discipulo,$nivel_actual,$nivel);      
-            echo json_encode(array("response" => $response));
-            }else{
-                echo json_encode(array("response"=>0));
+                $response = $objeto->editar_discipulo_nivel($cedula_discipulo, $nivel_actual, $nivel);
+                echo json_encode(array("response" => $response));
+                return true;
+            } else {
+                echo json_encode(array("response" => 0));
+
+                return false;
             }
-            return true;   
         }
         require_once 'vista/' . $pagina . '.php';
     }
