@@ -63,7 +63,11 @@ class Conexion
 
     protected function validar_cedula($string)
     {
-        return preg_match($this->expresion_cedula, $string);
+        return preg_match_all($this->expresion_cedula, $string);
+    }
+
+    protected function validar_caracteres($string){
+        return preg_match_all($this->expresion_nombre,$string);
     }
 
     //protected function validar_caracteres()

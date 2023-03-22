@@ -541,6 +541,23 @@ class Usuarios extends Conexion
             $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
         , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
 
+            //cambiando datos ingresados con mayusculas o minisculas
+            $this->nombre = strtolower($this->nombre);
+
+            $this->nombre = ucfirst($this->nombre);
+            //lo mismo con el apellido
+            $this->apellido = strtolower($this->apellido);
+
+            $this->apellido = ucfirst($this->apellido);
+            //Lo mismo con la nacionalidad
+            $this->nacionalidad = strtolower($this->nacionalidad);
+
+            $this->nacionalidad = ucfirst($this->nacionalidad);
+            //Lo mismo con la estado
+            $this->estado = strtolower($this->estado);
+
+            $this->estado = ucfirst($this->estado);
+
             $stmt = $this->conexion()->prepare($sql);
 
             $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
@@ -733,9 +750,19 @@ class Usuarios extends Conexion
 
 
     //METODO SETTER PARA REGISTRAR USUARIO
-    public function setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave)
+    public function setUsuarios($registrar_usuarios)
     {
-        $this->nombre = $nombre;
+
+        foreach($registrar_usuarios as $key => $value){
+
+            echo $key. ": " . $value;
+
+            exit;
+        }
+
+
+
+       /*  $this->nombre = $nombre;
         $this->apellido = $apellido;
         $this->cedula = $cedula;
         $this->edad = $edad;
@@ -745,7 +772,7 @@ class Usuarios extends Conexion
         $this->estado = $estado;
         $this->telefono = $telefono;
         $this->correo = $correo;
-        $this->clave = $clave;
+        $this->clave = $clave; */
     }
     //METODO SETTER PARA ACTUALIZAR USUARIO
     public function setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol)

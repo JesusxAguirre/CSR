@@ -167,9 +167,9 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Telefono</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="10" id="telefono" placeholder=" XXXXXXXX" name="telefono" class="form-control">
+                                            <input maxlength="11" id="telefono" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                                         </div>
-                                        <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (10 números) </p>
+                                        <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (11 números) </p>
                                     </div>
                                     <div id="grupo__correo" class="col-sm col-md-3 ">
                                         <div class="relative">

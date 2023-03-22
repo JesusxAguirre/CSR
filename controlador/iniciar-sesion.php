@@ -14,19 +14,19 @@ $objRoles = new Roles();
 $error = false;
 if (isset($_POST['registrar'])) {
 
-	$nombre = trim($_POST['nombre']);
-	$apellido = trim($_POST['apellido']);
-	$cedula = trim($_POST['cedula']);
-	$edad = trim($_POST['edad']);
-	$sexo = trim($_POST['sexo']);
-	$civil = trim($_POST['civil']);
-	$nacionalidad = trim($_POST['nacionalidad']);
-	$estado = trim($_POST['estado']);
-	$telefono = trim($_POST['telefono']);
-	$correo = trim($_POST['correo']);
-	$clave = trim($_POST['clave']);
+	$registar_usuarios['nombre'] = trim($_POST['nombre']);
+	$registar_usuarios['apellido'] = trim($_POST['apellido']);
+	$registar_usuarios['cedula'] = trim($_POST['cedula']);
+	$registar_usuarios['edad'] = trim($_POST['edad']);
+	$registar_usuarios['sexo']= trim($_POST['sexo']);
+	$registar_usuarios['civil'] = trim($_POST['civil']);
+	$registar_usuarios['nacionalidad'] = trim($_POST['nacionalidad']);
+	$registar_usuarios['estado'] = trim($_POST['estado']);
+	$registar_usuarios['telefono'] = trim($_POST['telefono']);
+	$registar_usuarios['correo'] = trim($_POST['correo']);
+	$registar_usuarios['clave'] = trim($_POST['clave']);
 
-	$objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
+	$objeto->setUsuarios($registar_usuarios);
 
 	$error = $objeto->registrar_usuarios();
 	
