@@ -234,15 +234,16 @@ $("#EditarNivelForm").submit(function (e) {
         console.log(response)
         var data = JSON.parse(response);
         console.log(data)
-        if (data.response == "1") {
+        if (data.response != 0) {
           Swal.fire({
             icon: 'success',
             title: 'Se actualizo la informacion correctamente'
           })
           let busqueda = busquedaEl.value
 
-          buscarDiscipulado(busqueda);
+          buscarDiscipulado(busqueda)
           
+          buscarParticipantes(data.response)
      
           addEvents()
         } else {

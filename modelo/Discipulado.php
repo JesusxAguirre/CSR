@@ -11,10 +11,10 @@ class Discipulado extends Conexion
 {
     private $conexion;
     private $id_modulo;
-   
+
     private $direccion;
     private $participantes;
-    private $asistentes; 
+    private $asistentes;
     private $dia;
     private $hora;
     private $id;
@@ -24,7 +24,7 @@ class Discipulado extends Conexion
     private $cedula_asistente;
     private $busqueda;
 
- 
+
 
     public function __construct()
     {
@@ -223,12 +223,12 @@ class Discipulado extends Conexion
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":id1"=>$id,
-            ":fecha_inicio1"=>$fecha_inicio,
-            ":fecha_final1"=>$fecha_final,
-            ":id2"=>$id,
-            ":fecha_inicio2"=>$fecha_inicio,
-            ":fecha_final2"=>$fecha_final
+            ":id1" => $id,
+            ":fecha_inicio1" => $fecha_inicio,
+            ":fecha_final1" => $fecha_final,
+            ":id2" => $id,
+            ":fecha_inicio2" => $fecha_inicio,
+            ":fecha_final2" => $fecha_final
         ));
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $resultado[] = $filas;
@@ -692,7 +692,7 @@ class Discipulado extends Conexion
 
     }
 
-    public function editar_discipulo_nivel($cedula_discipulo,$nivel_actual,$nivel_actualizar)
+    public function editar_discipulo_nivel($cedula_discipulo, $nivel_actual, $nivel_actualizar)
     {
         try {
 
@@ -702,8 +702,8 @@ class Discipulado extends Conexion
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":nivel_actual"=>$nivel_actual,
-                ":nivel_actualizar"=>$nivel_actualizar,
+                ":nivel_actual" => $nivel_actual,
+                ":nivel_actualizar" => $nivel_actualizar,
                 ":cedula_discipulo" => $cedula_discipulo
             ));
 
@@ -711,10 +711,11 @@ class Discipulado extends Conexion
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(":cedula_discipulo"=>$cedula_discipulo));
+            $stmt->execute(array(":cedula_discipulo" => $cedula_discipulo));
 
             $id_discipulado =  $stmt->fetch(PDO::FETCH_ASSOC);
-            return $id_discipulado[['id_discipulado']];
+
+            return $id_discipulado['id_discipulado'];
         } catch (Exception $e) {
             echo $e->getMessage();
 
@@ -804,7 +805,7 @@ class Discipulado extends Conexion
         $this->participantes = $participantes;
         $this->id = $id;
     }
-     //METODO SETTER PARA REGISTRAR ASISTENCIAS
+    //METODO SETTER PARA REGISTRAR ASISTENCIAS
     public function setAsistencias($asistentes, $id, $fecha)
     {
         $this->asistentes = $asistentes;
@@ -812,7 +813,7 @@ class Discipulado extends Conexion
         $this->fecha = $fecha;
     }
 
-     
+
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//
 
