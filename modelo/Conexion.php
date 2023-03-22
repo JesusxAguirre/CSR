@@ -14,7 +14,7 @@ class Conexion
 
     private $expresion_numero = "/^[0-9]$/";
 
-    private $expresion_nombre = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
+    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
     protected static function conexion()
     {
 
@@ -87,14 +87,23 @@ class Conexion
         if($response == 0 ){
             //guardar ataque de hacker
 
-
             die("datos invalido de cedula");
+            
         }
     }
 
-    protected function validar_caracteres($string)
+    protected function validar_caracteres($array)
     {
-        return preg_match_all($this->expresion_nombre, $string);
+
+        for ($i=0; $i < count($array); $i++) { 
+            $response = preg_match_all($this->expresion_caracteres,$array[$i]);
+
+            if($response == 0){
+                //guardar datos de hacker
+
+                die("datos invalidos en caracteres");
+            }
+        }
     }
 
     //protected function validar_caracteres()

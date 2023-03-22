@@ -28,7 +28,13 @@ if (isset($_POST['registrar'])) {
 
 	$objeto->security_validation_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
+
+	$objeto->security_validation_caracteres([$nombre,$apellido]);
+
+	$objeto->security_validation_cedula($cedula);
 	
+	
+
 	$objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
 	$error = $objeto->registrar_usuarios();

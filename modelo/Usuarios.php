@@ -817,4 +817,11 @@ class Usuarios extends Conexion
     
         parent::validar_cedula($cedula);
     }
+
+    //VALIDACION DE CARACTERES
+
+    public function security_validation_caracteres($array){
+
+        parent::validar_caracteres($array);
+    }
 }
