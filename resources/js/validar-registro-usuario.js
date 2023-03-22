@@ -37,9 +37,9 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
 	switch (e.target.name) {
-		 case "cedula":
+		case "cedula":
 			ValidarCampo(expresiones.cedula, e.target, 'cedula');
-			break; 
+			break;
 		case "nombre":
 			ValidarCampo(expresiones.nombre, e.target, 'nombre');
 			break;
@@ -47,7 +47,7 @@ const ValidarFormulario = (e) => {
 			ValidarCampo(expresiones.nombre, e.target, 'apellido');
 			break;
 		case "edad":
-			ValidarCampo(expresiones.edad, e.target, 'edad');
+			ValidarFecha(e.target, 'edad');
 			break;
 		case "sexo":
 			ValidarSelect(e.target, 'sexo');
@@ -77,16 +77,35 @@ const ValidarFormulario = (e) => {
 	}
 }
 
+
+const ValidarFecha = (select, campo) => {
+	if (select.value == '') {
+
+	
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+		
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		campos[campo] = false;
+	} else {
+
+
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	}
+}
+
 const ValidarSelect = (select, campo) => {
 	if (select.value == '') {
-		console.log('Debes seleccionar un tipo de usuario.')
+
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
 	} else {
-		console.log('Has seleccionado: ');
+
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
@@ -103,28 +122,28 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 		//comprobando si la cedula existe en la bd
-		 if (campos.cedula == true) {
-		 	let id = document.getElementById("cedula")
-		 	let cedula = id.value
-			console.log(cedula)
-		 	$.ajax({
-		 		data: 'cedula=' + cedula,
-		 		url: "controlador/ajax/buscar-cedula.php",
-		 		type: "post",
-		 	}).done(data => {
-		 		if (data == '1') {
-		 			fireAlert('error', 'Esta cedula ya existe')
-		 			document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-		 			document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		 			document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-		 			document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-		 			campos.cedula = false;
-		 			let mensaje = document.getElementById("mensaje_cedula")
-		 			mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
-		 		}
-				console.log(data)
-		 	})
-		 }
+		if (campos.cedula == true) {
+			let id = document.getElementById("cedula")
+			let cedula = id.value
+	
+			$.ajax({
+				data: 'cedula=' + cedula,
+				url: "controlador/ajax/buscar-cedula.php",
+				type: "post",
+			}).done(data => {
+				if (data == '1') {
+					fireAlert('error', 'Esta cedula ya existe')
+					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					campos.cedula = false;
+					let mensaje = document.getElementById("mensaje_cedula")
+					mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
+				}
+
+			})
+		}
 		if (campos.correo == true) {
 			let id = document.getElementById("correo")
 			let correo = id.value
@@ -220,7 +239,7 @@ if (error == true) {
 	fireAlert('success', 'Se registro el usuario correctamente')
 
 	setTimeout(recarga, 2000);
-} 
+}
 
 
 

@@ -102,11 +102,11 @@
                                     </div>
                                     <div id="grupo__edad" class="col-sm col-md-3 ">
                                         <div class="relative">
-                                            <label class="form-label fw-bold">Edad</label>
-                                            <i class="input-icon fs-5"></i>
-                                            <input maxlength="2" placeholder="21" id="edad" name="edad" type="text" class="form-control">
+                                            <label class="form-label fw-bold" for="">Fecha de nacimiento</label>
+                                           
+                                            <input id="edad" name="edad" class="form-control" type="date" />
                                         </div>
-                                        <p class="text-danger d-none">La edad deben de ser de 1 a 2 dígitos y solo puede contener numeros </p>
+                                        <p class="text-danger d-none">Este campo no puede estar vacio</p>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -126,7 +126,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Estado civil</label>
                                             <i class="input-icon fs-5"></i>
-                                            <select  name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
+                                            <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
                                                 <option value="">Escoge tu estado civil</option>
                                                 <option value="soltero">Soltero</option>
                                                 <option value="soltera">Soltera</option>
@@ -187,7 +187,7 @@
                                             <input maxlength="18" id="clave" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">La clave debe contener una Mayuscula, una minuscula, un caracter especial y un numero
-                                        Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
+                                            Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
 
                                     </div>
                                 </div>
@@ -223,7 +223,7 @@
                                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                                 </div>
                             </div>
-                         
+
                         </div>
                 </div>
                 <div class="modal-footer">
@@ -242,4 +242,5 @@
     </script>
     <script src="resources/js/validar-registro-usuario.js"></script>
 </body>
+
 </html>
