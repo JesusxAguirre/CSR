@@ -80,7 +80,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Nombre</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
+                                            <input maxlength="12" placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede contener letras </p>
                                     </div>
@@ -88,7 +88,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Apellido</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
+                                            <input maxlength="12" placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo puede contener letras </p>
                                     </div>
@@ -96,7 +96,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold" ">Cedula</label>    
                                         <i class=" input-icon fs-5"></i>
-                                                <input placeholder=" 22222222" id="cedula" name="cedula" class="form-control">
+                                                <input maxlength="8" placeholder=" 22222222" id="cedula" name="cedula" class="form-control">
                                         </div>
                                         <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
                                     </div>
@@ -104,7 +104,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Edad</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input placeholder="21" id="edad" name="edad" type="text" class="form-control">
+                                            <input maxlength="2" placeholder="21" id="edad" name="edad" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">La edad deben de ser de 1 a 2 dígitos y solo puede contener numeros </p>
                                     </div>
@@ -126,7 +126,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Estado civil</label>
                                             <i class="input-icon fs-5"></i>
-                                            <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
+                                            <select  name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
                                                 <option value="">Escoge tu estado civil</option>
                                                 <option value="soltero">Soltero</option>
                                                 <option value="soltera">Soltera</option>
@@ -167,7 +167,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Telefono</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input id="telefono" placeholder=" XXXXXXXX" name="telefono" class="form-control">
+                                            <input maxlength="10" id="telefono" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (10 números) </p>
                                     </div>
@@ -184,9 +184,9 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Clave</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input id="clave" type="password" placeholder="******" name="clave" class="form-control">
+                                            <input maxlength="50" id="clave" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
-                                        <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
+                                        <p class="text-danger d-none">La clave debe contener una Mayuscula, una minuscula, un caracter especial y un numero </p>
 
                                     </div>
                                 </div>
@@ -222,16 +222,7 @@
                                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div id="grupo__clave2" class="col-sm  ">
-                                    <div class="relative">
-                                        <label class="form-label fw-bold">Clave</label>
-                                        <i class="input-icon fs-5"></i>
-                                        <input id="clave2" type="password" placeholder="******" name="clave2" class="form-control">
-                                    </div>
-                                    <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
-                                </div>
-                            </div>
+                         
                         </div>
                 </div>
                 <div class="modal-footer">

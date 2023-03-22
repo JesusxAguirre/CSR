@@ -28,8 +28,8 @@ const campos = {
 const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
 	edad: /^[0-9]{2}$/,
-	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/, // Letras y espacios, pueden llevar acentos.
-	password: /^.{7,12}$/, // 4 a 12 digitos.
+	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/, // Letras y espacios, pueden llevar acentos.
+	password: /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/, // 4 a 12 digitos.
 	correo: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/
