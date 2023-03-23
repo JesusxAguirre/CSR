@@ -31,7 +31,7 @@ if (isset($_POST['registrar'])) {
 
 	$objeto->security_validation_cedula($cedula);
 	
-	
+	$objeto->security_validation_clave($clave);
 
 	$objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 

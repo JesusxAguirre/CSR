@@ -8,11 +8,10 @@ use Exception;
 
 class Usuarios extends Conexion
 {
-    //atributos de herencia
+    //ATRIBUTOS PARA HERENCIA
     private $conexion;
 
-
-    //id de modulo
+    ///PROPIEDADES DE LA MISMA CLASE/////
 
     private $id_modulo;
 
@@ -39,15 +38,16 @@ class Usuarios extends Conexion
     private $civil;
 
     private $cedula_antigua;
-    //variables para imagenes
+    
+    //PROPIEDAS PARA GUARDAR IMAGEN
 
     private $nombre_imagen;
     private $tipo_imagen;
     private $tamaño_imagen;
     private $carpeta_destino;
-
-
-
+    
+    //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
+    private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
 
     public function __construct()
     {
@@ -118,7 +118,7 @@ class Usuarios extends Conexion
             return false;
         }
     }
-    //==============mi perfil funcion=======// 
+    //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL
     public function mi_perfil()
     {
         $usuario = $_SESSION["usuario"];
@@ -129,7 +129,8 @@ class Usuarios extends Conexion
         $stmt->execute(array(":usuario" => $usuario));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    //==============Listar usuarios sin condicionales=======// 
+
+    //LISTAR USUARIOS 
     public function listar()
     {
 
@@ -838,6 +839,16 @@ class Usuarios extends Conexion
 
     public function security_validation_clave($clave)
     {
-        parent::validar_clave($clave);
+        $response = preg_match_all($this->expresion_clave,$clave);
+
+        if($response == 0){
+
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos clave");
+        }
     }
+
+    
 }

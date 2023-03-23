@@ -44,7 +44,6 @@ const campos = {
 	estado: false,
 	//segundo formulario
 	correo2: false,
-	clave2: false
 }
 
 const expresiones = { //objeto con varias expresiones regulares

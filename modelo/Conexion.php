@@ -14,9 +14,11 @@ class Conexion
 
     private $expresion_numero = "/^[0-9]$/";
 
-    private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
+   
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
+
+    //CONEXION CON BASE DE DATOS
     protected static function conexion()
     {
 
@@ -45,6 +47,7 @@ class Conexion
         return $conexion;
     }
 
+     //REGISTRAR ACCIONES DE USUARIOS EN LA BITACORA 
     protected function registrar_bitacora($cedula, $accion, $id_modulo)
     {
         $sql = "INSERT INTO bitacora_usuario (cedula_usuario, id_modulo, fecha_registro, hora_registro, accion_realizada) 
@@ -59,6 +62,8 @@ class Conexion
         ));
     }
 
+
+    //VALIDACION INYECCION SQL
     protected function validar_inyeccion($array)
     {
     
@@ -82,6 +87,7 @@ class Conexion
     }
 
 
+    //VALIDACION CEDULA
     protected function validar_cedula($cedula)
     {
         $response = preg_match_all($this->expresion_cedula,$cedula);
@@ -108,18 +114,7 @@ class Conexion
         }
     }
 
-    protected function validar_clave($clave)
-    {
-        $response = preg_match_all($this->expresion_clave,$clave);
+   
 
-        if($response == 0){
-
-            //registrar ataque informatico de hacker
-
-
-            die("datos invalidos clave");
-        }
-    }
-
-    //protected function validar_caracteres()
+    
 }
