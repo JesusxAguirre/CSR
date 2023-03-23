@@ -255,7 +255,6 @@
     </div>
     </div>
     <script type="text/javascript">
-        error = <?php echo ($error) ? 'true' : 'false'; ?>;
 
         recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
     </script>

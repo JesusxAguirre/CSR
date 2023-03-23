@@ -23,15 +23,15 @@ if (isset($_POST['registrar'])) {
 	$telefono = trim($_POST['telefono']);
 	$correo = trim($_POST['correo']);
 	$clave = trim($_POST['clave']);
-	
+
 	$objeto_usuario->security_validation_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
-	$objeto_usuario->security_validation_caracteres([$nombre,$apellido]);
+	$objeto_usuario->security_validation_caracteres([$nombre, $apellido]);
 
 	$objeto_usuario->security_validation_cedula($cedula);
-	
+
 	$objeto_usuario->security_validation_fecha_nacimiento($edad);
-	
+
 	$objeto_usuario->security_validation_sexo($sexo);
 
 	$objeto_usuario->security_validation_estado_civil($civil);
@@ -44,18 +44,25 @@ if (isset($_POST['registrar'])) {
 
 	$objeto_usuario->security_validation_clave($clave);
 
-	
+
 	$nombre = $objeto_usuario->sanitizar_cadenas($nombre);
 	$apellido = $objeto_usuario->sanitizar_cadenas($apellido);
 	$nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
 	$estado = $objeto_usuario->sanitizar_cadenas($estado);
-	
+
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
 	$response = $objeto_usuario->registrar_usuarios();
 
-	echo json_encode(array("response"=>$response));
+	
+	if ($response) {
+		echo json_encode(array("response" => $response));
+		return true;
+	} else {
+		echo json_encode(array("response" => $response));
+		return false;
+	}
 }
 
 $recuperacion = false;
@@ -67,8 +74,6 @@ if (isset($_POST['recuperar'])) {
 	$objeto_usuario->setRecuperar($correo, $clave);
 
 	$recuperacion = $objeto_usuario->recuperar_password();
-
-	
 }
 
 //validando datos de usuario para entrar al sistema
@@ -101,7 +106,7 @@ if (isset($_POST['enviar'])) {
 
 
 	if ($_SESSION['verdadero'] > 0) {
-	
+
 		//primero se busca la id del rol del usuario con el correo del usuario
 		$idRol = $objeto_usuario->getIdRol($_SESSION['usuario']);
 		$_SESSION['rol'] = $idRol;
@@ -124,4 +129,3 @@ if (is_file("vista/" . $pagina . ".php")) {
 } else {
 	echo "pagina en construccion";
 }
-?>
