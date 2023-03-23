@@ -838,23 +838,102 @@ class Usuarios extends Conexion
         parent::validar_cedula($cedula);
     }
 
-
-
-
-
-    public function security_validation_clave($clave)
+    //VALIDAR FECHA DE NACIMIENTO
+    public function security_validation_fecha_nacimiento($fecha_nacimiento)
     {
-        $response = preg_match_all($this->expresion_clave, $clave);
-
-        if ($response == 0) {
-
-            //registrar ataque informatico de hacker
 
 
-            die("datos invalidos clave");
+        $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
+        $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
+
+        $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
+
+        if ($fecha_nacimiento_ts < $mayoria_edad && $fecha_nacimiento_ts > $maxima_edad) {
+            //dguardar datos de hacker
+
+            die("fecha invalida por back end");
         }
     }
 
+    //VALIDACION DE SEXO
+
+    public function security_validation_sexo($sexo)
+    {
+        $sexos = ["hombre", "mujer"];
+
+
+        if (!in_array($sexo, $sexos)) {
+            //guardar datos de hacker
+
+            die("sexo invalido");
+        }
+    }
+
+    //VALIDACION DE ESTADO CIVIL
+
+    public function security_validation_estado_civil($civil)
+    {
+        $estados_civiles = ["soltero", "soltera", "matrimonio"];
+
+        if (!in_array($civil, $estados_civiles)) {
+            //guardar datos de hacker
+
+            die("estado civil invalido");
+        }
+    }
+
+    //VALIDACION NACIONALIDAD
+
+    public function security_validation_nacionalidad($nacionalidad)
+    {
+        $nacionalidades = ["venezolana", "colombiana", "española"];
+
+        if (!in_array($nacionalidad, $nacionalidades)) {
+            //guardar datos de hacker
+
+            die("datos invalidos nacionalidad");
+        }
+    }
+
+    //VALIDACION ESTADO EN EL QUE VIVE SOLO VENEZUELA
+
+    public function security_validation_estado($estado)
+    {
+        $estados_venezuela = [
+            'amazonas',
+            'anzoategui',
+            'apure',
+            'aragua',
+            'barinas',
+            'bolivar',
+            'carabobo',
+            'cojedes',
+            'delta amacuro',
+            'distrito capital',
+            'falcon',
+            'guarico',
+            'lara',
+            'merida',
+            'miranda',
+            'monagas',
+            'nueva esparta',
+            'portuguesa',
+            'sucre',
+            'tachira',
+            'trujillo',
+            'vargas',
+            'yaracuy',
+            'zulia'
+        ];
+
+        if (!in_array($estado, $estados_venezuela)) {
+            //guardar datos de hacker
+
+            die("estado invalido");
+        }
+    }
+
+    //VALIDACION DE CORREO
     public function security_validation_correo($correo)
     {
 
@@ -869,20 +948,18 @@ class Usuarios extends Conexion
         }
     }
 
-    public function security_validation_fecha_nacimiento($fecha_nacimiento)
+    //VALIDACION DE SEGURIDAD DE CLAVE
+    public function security_validation_clave($clave)
     {
-       
+        $response = preg_match_all($this->expresion_clave, $clave);
 
-        $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
-        $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
+        if ($response == 0) {
 
-        $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
+            //registrar ataque informatico de hacker
 
-        if ($fecha_nacimiento_ts < $mayoria_edad && $fecha_nacimiento_ts > $maxima_edad) {
-           //dguardar datos de hacker
 
-           die("fecha invalida por back end");
-        } 
+            die("datos invalidos clave");
+        }
     }
 }
 ?>

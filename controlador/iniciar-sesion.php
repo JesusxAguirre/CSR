@@ -32,6 +32,13 @@ if (isset($_POST['registrar'])) {
 	
 	$objeto_usuario->security_validation_fecha_nacimiento($edad);
 	
+	$objeto_usuario->security_validation_sexo($sexo);
+
+	$objeto_usuario->security_validation_estado_civil($civil);
+
+	$objeto_usuario->security_validation_nacionalidad($nacionalidad);
+
+	$objeto_usuario->security_validation_estado($estado);
 
 	$objeto_usuario->security_validation_correo($correo);
 
