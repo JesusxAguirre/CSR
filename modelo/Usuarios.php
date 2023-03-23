@@ -306,9 +306,9 @@ class Usuarios extends Conexion
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(
-            ":busqueda1"=>$busqueda,
-            ":busqueda2"=>$busqueda,
-            ":busqueda3"=>$busqueda,
+            ":busqueda1" => $busqueda,
+            ":busqueda2" => $busqueda,
+            ":busqueda3" => $busqueda,
         ));
 
         if ($stmt->rowCount() > 0) {
@@ -519,10 +519,10 @@ class Usuarios extends Conexion
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
             //buscando codigo viejo para suplantarlo por el nuevo
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula= :cedula_antigua");
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(":cedula_antigua" => $this->cedula_antigua));
             $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
@@ -543,45 +543,45 @@ class Usuarios extends Conexion
 
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
-                ":cedula_antigua"=>$this->cedula_antigua,
-                ":cedula"=>$this->cedula,
-                ":cedula_antigua_condicion"=>$this->cedula_antigua,
+                ":cedula_antigua" => $this->cedula_antigua,
+                ":cedula" => $this->cedula,
+                ":cedula_antigua_condicion" => $this->cedula_antigua,
             ));
 
             //actualizando nacionalidad del codigo
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:nacionalidad_antigua,:nacionalidad) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
-                ":nacionalidad_antigua"=>$nacionalidad_antigua,
-                ":nacionalidad"=>$nacionalidad,
-                ":cedula_antigua"=>$this->cedula_antigua,
+                ":nacionalidad_antigua" => $nacionalidad_antigua,
+                ":nacionalidad" => $nacionalidad,
+                ":cedula_antigua" => $this->cedula_antigua,
             ));
 
             //actualizando estado del codigo
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:estado_antigua,:estado) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
-                ":estado_antigua"=>$estado_antigua,
-                ":estado"=>$estado,
-                ":cedula_antigua"=>$this->cedula_antigua,
+                ":estado_antigua" => $estado_antigua,
+                ":estado" => $estado,
+                ":cedula_antigua" => $this->cedula_antigua,
             ));
 
             //actualizando sexo del codigo
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:sexo_antigua,:sexo) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
-                ":sexo_antigua"=>$sexo_antigua,
-                ":sexo"=>$sexo,
-                ":cedula_antigua"=>$this->cedula_antigua,
+                ":sexo_antigua" => $sexo_antigua,
+                ":sexo" => $sexo,
+                ":cedula_antigua" => $this->cedula_antigua,
             ));
 
             //actualizando estado_civil del codigo
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:estadoCivil_antigua,:estadoc) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(
-                ":estadoCivil_antigua"=>$estadoCivil_antigua,
-                ":estadoc"=>$estadoc,
-                ":cedula_antigua"=>$this->cedula_antigua,
+                ":estadoCivil_antigua" => $estadoCivil_antigua,
+                ":estadoc" => $estadoc,
+                ":cedula_antigua" => $this->cedula_antigua,
             ));
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba

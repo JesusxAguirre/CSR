@@ -150,20 +150,22 @@ const ValidarCampo = (expresion, input, campo) => {
 
 			$.ajax({
 				data: 'cedula=' + cedula,
-				url: "controlador/ajax/buscar-cedula.php",
-				type: "post",
-			}).done(data => {
-				if (data == '1') {
-					fireAlert('error', 'Esta cedula ya existe')
-					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-					campos.cedula = false;
-					let mensaje = document.getElementById("mensaje_cedula")
-					mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
+				url: "?pagina=iniciar-sesion",
+				type: "POST",
+				success: function (response) {
+					console.log(response)
+					var data = JSON.parse(response)
+					if (data.response == '1') {
+						fireAlert('error', 'Esta cedula ya existe')
+						document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+						document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+						document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+						document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+						campos.cedula = false;
+						let mensaje = document.getElementById("mensaje_cedula")
+						mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
+					}
 				}
-
 			})
 		}
 		if (campos.correo == true) {
@@ -235,7 +237,7 @@ inputs2.forEach((input) => {
 
 
 $("#formulario").submit(function (e) {
-  e.preventDefault()
+	e.preventDefault()
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.correo
 		&& campos.clave && campos.estado && campos.nacionalidad && campos.sexo && campos.civil)) {
 		Swal.fire({
@@ -243,8 +245,8 @@ $("#formulario").submit(function (e) {
 			title: 'Lo siento ',
 			text: 'Registra el formulario correctamente '
 		})
-	}else{
-		
+	} else {
+
 		$.ajax({
 			type: "POST",
 			url: "?pagina=iniciar-sesion",
@@ -253,9 +255,9 @@ $("#formulario").submit(function (e) {
 				console.log(response)
 				var data = JSON.parse(response)
 				console.log(data)
-				if(data.response){
+				if (data.response) {
 					fireAlert('success', 'Se registro el usuario correctamente')
-				}else{	
+				} else {
 					console.log("algo sucedio con la base de datos")
 				}
 			}

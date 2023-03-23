@@ -11,7 +11,7 @@ $objRoles = new Roles();
 
 //REGISTRAR USUARIO
 
-if (isset($_POST['cedula'])) {
+if (isset($_POST['cedula']) && isset($_POST['correo'])){
 	$nombre = trim($_POST['nombre']);
 	$apellido = trim($_POST['apellido']);
 	$cedula = trim($_POST['cedula']);
@@ -66,6 +66,21 @@ if (isset($_POST['cedula'])) {
 		return false;
 	}
 }
+
+if (isset($_POST['cedula'])) {
+	$cedula = $_POST['cedula'];
+
+	$objeto_usuario->security_validation_sql([$cedula]);
+
+	$objeto_usuario->security_validation_cedula($cedula);
+
+	$response = $objeto_usuario->buscar_cedula($cedula);
+
+	echo json_encode(array("response" => $response));
+	return true;
+}
+
+
 
 $recuperacion = false;
 //recuperando password
