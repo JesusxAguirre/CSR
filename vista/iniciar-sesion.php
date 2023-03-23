@@ -216,7 +216,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="registrar" name="registrar" form="formulario" class="btn btn-primary">Enviar</button>
+                    <button type="submit" name="formulario" form="formulario" class="btn btn-primary">Enviar</button>
                 </div>
 
             </div>

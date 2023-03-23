@@ -9,8 +9,8 @@ $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
 
-
-if (isset($_POST['registrar'])) {
+//REGISTRAR USUARIO
+if (isset($_POST['formulario'])) {
 
 	$nombre = trim($_POST['nombre']);
 	$apellido = trim($_POST['apellido']);
@@ -55,7 +55,7 @@ if (isset($_POST['registrar'])) {
 
 	$response = $objeto_usuario->registrar_usuarios();
 
-	die("<script>alert('ha ocurrido un error ')</script>");
+
 	if ($response) {
 
 		echo json_encode(array("response" => $response));
