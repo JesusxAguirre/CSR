@@ -51,6 +51,8 @@ class Usuarios extends Conexion
 
     private $expresion_correo = "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i";
 
+    private $expresion_telefono = "/^[0-9]{11}$/";
+
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -932,6 +934,21 @@ class Usuarios extends Conexion
             die("estado invalido");
         }
     }
+
+    //VALIDACION DE TELEFONO
+
+    public function security_validation_telefono($telefono)
+    {
+
+        $response = preg_match_all($this->expresion_telefono, $telefono);
+
+        if ($response == 0) {
+            //guardar datos de hacker
+
+            die("telefono invalido");
+        }
+    }
+
 
     //VALIDACION DE CORREO
     public function security_validation_correo($correo)
