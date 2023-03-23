@@ -549,24 +549,40 @@ class Usuarios extends Conexion
             ));
 
             //actualizando nacionalidad del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:nacionalidad_antigua,:nacionalidad) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":nacionalidad_antigua"=>$nacionalidad_antigua,
+                ":nacionalidad"=>$nacionalidad,
+                ":cedula_antigua"=>$this->cedula_antigua,
+            ));
 
             //actualizando estado del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estado_antigua','$estado') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:estado_antigua,:estado) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":estado_antigua"=>$estado_antigua,
+                ":estado"=>$estado,
+                ":cedula_antigua"=>$this->cedula_antigua,
+            ));
 
             //actualizando sexo del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:sexo_antigua,:sexo) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":sexo_antigua"=>$sexo_antigua,
+                ":sexo"=>$sexo,
+                ":cedula_antigua"=>$this->cedula_antigua,
+            ));
 
             //actualizando estado_civil del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:estadoCivil_antigua,:estadoc) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":estadoCivil_antigua"=>$estadoCivil_antigua,
+                ":estadoc"=>$estadoc,
+                ":cedula_antigua"=>$this->cedula_antigua,
+            ));
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
@@ -611,7 +627,7 @@ class Usuarios extends Conexion
 
             //consulta update
             $sql = ("UPDATE usuarios SET ruta_imagen = :ruta
-         WHERE cedula = :ced");
+                    WHERE cedula = :ced");
 
             $stmt = $this->conexion()->prepare($sql);
 
