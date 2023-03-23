@@ -9,7 +9,7 @@ $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
 
-$error = false;
+
 if (isset($_POST['registrar'])) {
 
 	$nombre = trim($_POST['nombre']);
@@ -45,13 +45,17 @@ if (isset($_POST['registrar'])) {
 	$objeto_usuario->security_validation_clave($clave);
 
 	
-
+	$nombre = $objeto_usuario->sanitizar_cadenas($nombre);
+	$apellido = $objeto_usuario->sanitizar_cadenas($apellido);
+	$nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
+	$estado = $objeto_usuario->sanitizar_cadenas($estado);
 	
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
-	$error = $objeto_usuario->registrar_usuarios();
-	
+	$response = $objeto_usuario->registrar_usuarios();
+
+	echo json_encode(array("response"=>$response));
 }
 
 $recuperacion = false;

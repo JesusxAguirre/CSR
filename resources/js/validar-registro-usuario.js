@@ -1,6 +1,5 @@
 
 
-const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
 const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
 
@@ -237,17 +236,34 @@ inputs2.forEach((input) => {
 });
 
 
-formulario.addEventListener('submit', (e) => {
+$("#formulario").submit(function (e) {
+  e.preventDefault()
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.correo
 		&& campos.clave && campos.estado && campos.nacionalidad && campos.sexo && campos.civil)) {
-		e.preventDefault();
 		Swal.fire({
 			icon: 'error',
 			title: 'Lo siento ',
 			text: 'Registra el formulario correctamente '
 		})
+	}else{
+		console.log("entra en el submit")
+
+		$.ajax({
+			type: "POST",
+			url: "?pagina=iniciar-sesion",
+			data: $(this).serialize(),
+			success: function (response) {
+				var data = JSON.parse(response)
+				if(data.response){
+					fireAlert('success', 'Se registro el usuario correctamente')
+				}else{	
+					console.log("algo sucedio con la base de datos")
+				}
+			}
+		});
 	}
 })
+
 
 formulario2.addEventListener('submit', (e) => {
 	if (!(campos.correo2 && campos.clave2)) {
@@ -259,12 +275,6 @@ formulario2.addEventListener('submit', (e) => {
 		})
 	}
 })
-
-if (error == true) {
-	fireAlert('success', 'Se registro el usuario correctamente')
-
-	setTimeout(recarga, 2000);
-}
 
 
 

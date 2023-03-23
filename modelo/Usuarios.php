@@ -295,7 +295,7 @@ class Usuarios extends Conexion
         return $resultado;
     }
 
-    //============== Registrar usuarios en el inicio de sesion=======// 
+    //REGISTRO DE USUARIOS
     public  function registrar_usuarios()
     {
         try {
@@ -308,24 +308,6 @@ class Usuarios extends Conexion
             $estado = strtoupper($estado2);
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
-
-            //cambiando datos ingresados con mayusculas o minisculas
-            $this->nombre = strtolower($this->nombre);
-
-            $this->nombre = ucfirst($this->nombre);
-            //lo mismo con el apellido
-            $this->apellido = strtolower($this->apellido);
-
-            $this->apellido = ucfirst($this->apellido);
-            //Lo mismo con la nacionalidad
-            $this->nacionalidad = strtolower($this->nacionalidad);
-
-            $this->nacionalidad = ucfirst($this->nacionalidad);
-            //Lo mismo con la estado
-            $this->estado = strtolower($this->estado);
-
-            $this->estado = ucfirst($this->estado);
-
 
 
             $sql = "INSERT INTO usuarios (cedula,id_rol,
@@ -816,6 +798,17 @@ class Usuarios extends Conexion
     {
         $this->cedula = $cedula;
     }
+
+
+    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
+
+    public function sanitizar_cadenas($cadena) {
+        $cadena_minusculas = strtolower($cadena);
+        $cadena_capitalizada = ucfirst($cadena_minusculas);
+        return $cadena_capitalizada;
+      }
+
+
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
     //VALIDAR INYECCION SQL Y DATOS VACIOS

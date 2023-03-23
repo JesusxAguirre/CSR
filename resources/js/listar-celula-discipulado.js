@@ -231,9 +231,9 @@ $("#EditarNivelForm").submit(function (e) {
       url: "?pagina=listar-celula-discipulado",
       data: $(this).serialize(),
       success: function (response) {
-        console.log(response)
+  
         var data = JSON.parse(response);
-        console.log(data)
+       
         if (data.response != 0) {
           Swal.fire({
             icon: 'success',
