@@ -38,14 +38,14 @@ class Usuarios extends Conexion
     private $civil;
 
     private $cedula_antigua;
-    
+
     //PROPIEDAS PARA GUARDAR IMAGEN
 
     private $nombre_imagen;
     private $tipo_imagen;
     private $tamaño_imagen;
     private $carpeta_destino;
-    
+
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
     private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
 
@@ -823,6 +823,13 @@ class Usuarios extends Conexion
         parent::validar_inyeccion($array);
     }
 
+    //VALIDACION DE CARACTERES
+    public function security_validation_caracteres($array)
+    {
+
+        parent::validar_caracteres($array);
+    }
+
     //VALIDAR CEDULA
 
     public function security_validation_cedula($cedula)
@@ -831,19 +838,15 @@ class Usuarios extends Conexion
         parent::validar_cedula($cedula);
     }
 
-    //VALIDACION DE CARACTERES
 
-    public function security_validation_caracteres($array)
-    {
 
-        parent::validar_caracteres($array);
-    }
+
 
     public function security_validation_clave($clave)
     {
-        $response = preg_match_all($this->expresion_clave,$clave);
+        $response = preg_match_all($this->expresion_clave, $clave);
 
-        if($response == 0){
+        if ($response == 0) {
 
             //registrar ataque informatico de hacker
 
@@ -852,12 +855,13 @@ class Usuarios extends Conexion
         }
     }
 
-    public function security_validation_correo($correo){
+    public function security_validation_correo($correo)
+    {
 
-        $response = preg_match_all($this->expresion_correo,$correo);
+        $response = preg_match_all($this->expresion_correo, $correo);
 
 
-        if($response == 0 ){
+        if ($response == 0) {
             //registrar ataque informatico de hacker
 
 
@@ -865,5 +869,28 @@ class Usuarios extends Conexion
         }
     }
 
-    
+    public function security_validation_fecha_nacimiento($fecha_nacimiento)
+    {
+       
+
+        $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
+        $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
+
+        $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
+
+        if ($fecha_nacimiento_ts < $mayoria_edad && $fecha_nacimiento_ts > $maxima_edad) {
+           //dguardar datos de hacker
+
+           die("fecha invalida por back end");
+        } 
+    }
+}
+?>
+
+
+
+
+}
+
+
 }

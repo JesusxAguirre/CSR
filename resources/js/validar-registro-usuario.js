@@ -12,22 +12,22 @@ const selects = document.querySelectorAll('#formulario select'); //declarando un
 var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
 
 var sexos_array = Array.prototype.map.call(lista_sexos.options, function (option) { //retornando array con id de lideres
-  return option.value;
+	return option.value;
 });
 var lista_civil = document.getElementById('civil') //buscando id de lista de civil para retorar array de lidere
 
 var civil_array = Array.prototype.map.call(lista_civil.options, function (option) { //retornando array con id de lideres
-  return option.value;
+	return option.value;
 });
 var lista_nacionalidad = document.getElementById('nacionalidad') //buscando id de lista de nacionalidad para retorar array de lidere
 
 var nacionalidad_array = Array.prototype.map.call(lista_nacionalidad.options, function (option) { //retornando array con id de lideres
-  return option.value;
+	return option.value;
 });
 var lista_estado = document.getElementById('estado') //buscando id de lista de estado para retorar array de lidere
 
 var estado_array = Array.prototype.map.call(lista_estado.options, function (option) { //retornando array con id de lideres
-  return option.value;
+	return option.value;
 });
 
 const campos = {
@@ -68,19 +68,19 @@ const ValidarFormulario = (e) => {
 			ValidarCampo(expresiones.nombre, e.target, 'apellido');
 			break;
 		case "edad":
-			ValidarFecha(e.target, 'edad');
+			ValidarFecha_nacimiento(e.target, 'edad');
 			break;
 		case "sexo":
-			ValidarSelect(sexos_array,e.target, 'sexo');
+			ValidarSelect(sexos_array, e.target, 'sexo');
 			break;
 		case "civil":
-			ValidarSelect(civil_array,e.target, 'civil');
+			ValidarSelect(civil_array, e.target, 'civil');
 			break;
 		case "nacionalidad":
-			ValidarSelect(nacionalidad_array,e.target, 'nacionalidad');
+			ValidarSelect(nacionalidad_array, e.target, 'nacionalidad');
 			break;
 		case "estado":
-			ValidarSelect(estado_array,e.target, 'estado');
+			ValidarSelect(estado_array, e.target, 'estado');
 			break;
 		case "correo":
 			ValidarCampo(expresiones.correo, e.target, 'correo');
@@ -99,38 +99,43 @@ const ValidarFormulario = (e) => {
 }
 
 
-const ValidarFecha = (select, campo) => {
-	if (select.value == '') {
-
+const ValidarFecha_nacimiento = (input, campo) => {
+	const mayoriaEdad = new Date();
+	mayoriaEdad.setFullYear(mayoriaEdad.getFullYear() - 18);
 	
-		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-		campos[campo] = false;
-	} else {
+	
+	const maximaEdad = new Date();
+	maximaEdad.setFullYear(maximaEdad.getFullYear() - 99);
 
+	const fechaNacimientoTS = new Date(input.value).getTime();
 
+	if (fechaNacimientoTS < mayoriaEdad.getTime() && fechaNacimientoTS > maximaEdad.getTime()) {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
 
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		campos[campo] = false;
 	}
 }
 
 const ValidarSelect = (codigo_array, input, campo) => {
-  if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = true;
-  } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  }
+	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
+		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		campos[campo] = false;
+	}
 }
 
 
@@ -145,7 +150,7 @@ const ValidarCampo = (expresion, input, campo) => {
 		if (campos.cedula == true) {
 			let id = document.getElementById("cedula")
 			let cedula = id.value
-	
+
 			$.ajax({
 				data: 'cedula=' + cedula,
 				url: "controlador/ajax/buscar-cedula.php",
