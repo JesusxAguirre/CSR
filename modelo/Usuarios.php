@@ -169,7 +169,7 @@ class Usuarios extends Conexion
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(":cedula"=>$cedula));
+            $stmt->execute(array(":cedula" => $cedula));
 
             $resultado = $stmt->rowCount();
 
@@ -182,57 +182,75 @@ class Usuarios extends Conexion
     //BUSCAR SI CEDULA YA EXISTE EN MENU PERFIL
     public function buscar_cedula_perfil($cedula)
     {
-        $matriz_usuario = $this->mi_perfil();
+        try {
+            $matriz_usuario = $this->mi_perfil();
 
-        foreach ($matriz_usuario as $usuario) {
-            $cedula_antigua = $usuario['cedula'];
+            foreach ($matriz_usuario as $usuario) {
+                $cedula_antigua = $usuario['cedula'];
+            }
+            $sql = ("SELECT cedula FROM usuarios WHERE cedula != :cedula_antigua AND cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula_antigua" => $cedula_antigua,
+                ":cedula" => $cedula
+            ));
+
+            $resultado = $stmt->rowCount();
+
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
         }
-        $sql = ("SELECT cedula FROM usuarios WHERE cedula != :cedula_antigua AND cedula = :cedula");
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array(
-            ":cedula_antigua"=>$cedula_antigua,
-            ":cedula"=>$cedula
-        ));
-
-        $resultado = $stmt->rowCount();
-
-        return $resultado;
     }
     //BUSCAR CORREO EN REGISTRAR USUARIOS
     public function buscar_correo($correo)
     {
+        try {
 
-        $sql = ("SELECT usuario FROM usuarios WHERE usuario = '$correo'");
+            $sql = ("SELECT usuario FROM usuarios WHERE usuario = :correo");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array(":correo" => $correo));
 
-        $resultado = $stmt->rowCount();
+            $resultado = $stmt->rowCount();
 
-        return $resultado;
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
+        }
     }
 
     //BUSCAR CORREO EN MI PERFIL
     public function buscar_correo_perfil($correo)
     {
-        $matriz_usuario = $this->mi_perfil();
+        try {
+            $matriz_usuario = $this->mi_perfil();
 
-        foreach ($matriz_usuario as $usuario) {
-            $correo_antiguo = $usuario['usuario'];
+            foreach ($matriz_usuario as $usuario) {
+                $correo_antiguo = $usuario['usuario'];
+            }
+
+            $sql = ("SELECT usuario FROM usuarios WHERE usuario != :correo_antiguo AND usuario = :correo");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":correo_antiguo" => $correo_antiguo,
+                ":correo" => $correo
+            ));
+
+            $resultado = $stmt->rowCount();
+
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
         }
-
-        $sql = ("SELECT usuario FROM usuarios WHERE usuario != '$correo_antiguo' AND usuario = '$correo'");
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        $resultado = $stmt->rowCount();
-
-        return $resultado;
     }
 
     //============== Listar usuarios DE NIVEL 2 Y 3=======// 
@@ -276,7 +294,7 @@ class Usuarios extends Conexion
     public function buscar_usuario($busqueda)
     {
         $resultado = [];
-
+        $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT usuarios.cedula,usuarios.codigo,usuarios.nombre,usuarios.apellido,usuarios.telefono,usuarios.sexo,usuarios.estado_civil,
         usuarios.nacionalidad,usuarios.estado,usuarios.edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
@@ -287,7 +305,11 @@ class Usuarios extends Conexion
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":busqueda1"=>$busqueda,
+            ":busqueda2"=>$busqueda,
+            ":busqueda3"=>$busqueda,
+        ));
 
         if ($stmt->rowCount() > 0) {
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -517,10 +539,14 @@ class Usuarios extends Conexion
                 $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
             }
             //actualizando cedula en codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:cedula_antigua,:cedula) WHERE cedula = :cedula_antigua_condicion");
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":cedula_antigua"=>$this->cedula_antigua,
+                ":cedula"=>$this->cedula,
+                ":cedula_antigua_condicion"=>$this->cedula_antigua,
+            ));
 
             //actualizando nacionalidad del codigo
             $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
