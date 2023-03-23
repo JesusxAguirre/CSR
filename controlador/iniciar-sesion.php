@@ -71,7 +71,7 @@ $recuperacion = false;
 //recuperando password
 if (isset($_POST['recuperar'])) {
 	$correo = $_POST['correo2'];
-	$clave = $_POST['clave2'];
+
 
 	$objeto_usuario->setRecuperar($correo, $clave);
 
@@ -90,24 +90,22 @@ if (isset($_POST['enviar'])) {
 
 	//$permisos = $objeto_usuario->get_permisos();
 
-	$buscarNombre = $objeto_datos_usuario->nombre();
-	$nombre;
-	foreach ($buscarNombre as $key) {
-		$nombre = $key['nombre'] . ' ' . $key['apellido'];
-	}
-	$_SESSION['nombre'] = $nombre;
-
-	$buscarCedula = $objeto_datos_usuario->cedula();
-	$_SESSION['cedula'] = $buscarCedula[0]['cedula'];
-
-	$buscarIdSeccion = $objeto_datos_usuario->idSeccion();
-	$_SESSION['id_seccion'] = $buscarIdSeccion[0]['idSeccion'];
-
-	$buscarStatusProf = $objeto_datos_usuario->statusProfesor();
-	$_SESSION['status_profesor'] = $buscarStatusProf[0]['status_profesor'];
-
-
 	if ($_SESSION['verdadero'] > 0) {
+		$buscarNombre = $objeto_datos_usuario->nombre();
+		$nombre;
+		foreach ($buscarNombre as $key) {
+			$nombre = $key['nombre'] . ' ' . $key['apellido'];
+		}
+		$_SESSION['nombre'] = $nombre;
+
+		$buscarCedula = $objeto_datos_usuario->cedula();
+		$_SESSION['cedula'] = $buscarCedula[0]['cedula'];
+
+		$buscarIdSeccion = $objeto_datos_usuario->idSeccion();
+		$_SESSION['id_seccion'] = $buscarIdSeccion[0]['idSeccion'];
+
+		$buscarStatusProf = $objeto_datos_usuario->statusProfesor();
+		$_SESSION['status_profesor'] = $buscarStatusProf[0]['status_profesor'];
 
 		//primero se busca la id del rol del usuario con el correo del usuario
 		$idRol = $objeto_usuario->getIdRol($_SESSION['usuario']);
