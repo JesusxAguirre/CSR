@@ -25,7 +25,7 @@ if (isset($_POST['registrar'])) {
 	$telefono = trim($_POST['telefono']);
 	$correo = trim($_POST['correo']);
 	$clave = trim($_POST['clave']);
-
+	
 	$objeto->security_validation_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
 

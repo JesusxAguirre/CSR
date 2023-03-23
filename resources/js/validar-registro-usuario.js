@@ -8,6 +8,28 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
+
+var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
+
+var sexos_array = Array.prototype.map.call(lista_sexos.options, function (option) { //retornando array con id de lideres
+  return option.value;
+});
+var lista_civil = document.getElementById('civil') //buscando id de lista de civil para retorar array de lidere
+
+var civil_array = Array.prototype.map.call(lista_civil.options, function (option) { //retornando array con id de lideres
+  return option.value;
+});
+var lista_nacionalidad = document.getElementById('nacionalidad') //buscando id de lista de nacionalidad para retorar array de lidere
+
+var nacionalidad_array = Array.prototype.map.call(lista_nacionalidad.options, function (option) { //retornando array con id de lideres
+  return option.value;
+});
+var lista_estado = document.getElementById('estado') //buscando id de lista de estado para retorar array de lidere
+
+var estado_array = Array.prototype.map.call(lista_estado.options, function (option) { //retornando array con id de lideres
+  return option.value;
+});
+
 const campos = {
 	nombre: false,
 	apellido: false,
@@ -50,16 +72,16 @@ const ValidarFormulario = (e) => {
 			ValidarFecha(e.target, 'edad');
 			break;
 		case "sexo":
-			ValidarSelect(e.target, 'sexo');
+			ValidarSelect(sexos_array,e.target, 'sexo');
 			break;
 		case "civil":
-			ValidarSelect(e.target, 'civil');
+			ValidarSelect(civil_array,e.target, 'civil');
 			break;
 		case "nacionalidad":
-			ValidarSelect(e.target, 'nacionalidad');
+			ValidarSelect(nacionalidad_array,e.target, 'nacionalidad');
 			break;
 		case "estado":
-			ValidarSelect(e.target, 'estado');
+			ValidarSelect(estado_array,e.target, 'estado');
 			break;
 		case "correo":
 			ValidarCampo(expresiones.correo, e.target, 'correo');
@@ -96,23 +118,22 @@ const ValidarFecha = (select, campo) => {
 	}
 }
 
-const ValidarSelect = (select, campo) => {
-	if (select.value == '') {
-
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-		campos[campo] = false;
-	} else {
-
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-		campos[campo] = true;
-	}
+const ValidarSelect = (codigo_array, input, campo) => {
+  if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    campos[campo] = true;
+  } else {
+    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    campos[campo] = false;
+  }
 }
+
 
 const ValidarCampo = (expresion, input, campo) => {
 	if (expresion.test(input.value)) {
