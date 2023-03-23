@@ -154,9 +154,28 @@
                                             <i class="input-icon fs-5"></i>
                                             <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
                                                 <option value="">Escoge tu estado</option>
+                                                <option value="amazonas">Amazonas</option>
+                                                <option value="anzoátegui">Anzoátegui</option>
+                                                <option value="apure">Apure</option>
+                                                <option value="aragua">Aragua</option>
+                                                <option value="barinas">Barinas</option>
+                                                <option value="bolivar">Bolívar</option>
+                                                <option value="carabobo">Carabobo</option>
+                                                <option value="cojedes">Cojedes</option>
+                                                <option value="delta amacuro">Delta Amacuro</option>
+                                                <option value="falcon">Falcón</option>
+                                                <option value="guarico">Guárico</option>
                                                 <option value="css">Distritio Capital</option>
                                                 <option value="lara">Lara</option>
+                                                <option value="merida">Mérida</option>
+                                                <option value="miranda">Miranda</option>
+                                                <option value="monagas">Monagas</option>
+                                                <option value="sucre">Sucre</option>
+                                                <option value="tachira">Tachira</option>
+                                                <option value="trujillo">Trujillo</option>
+                                                <option value="vargas">Vargas</option>
                                                 <option value="yaracuy">Yaracuy</option>
+                                                <option value="zulia">Zulia</option>
                                             </select>
                                         </div>
                                         <p class="text-danger d-none">No puede dejar este campo vacio </p>

@@ -5,8 +5,8 @@ use Csr\Modelo\Usuarios;
 use Csr\Modelo\datosUsuario;
 use Csr\Modelo\Roles;
 
-$objeto = new Usuarios();
-$objeto2 = new datosUsuario();
+$objeto_usuario = new Usuarios();
+$objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
 
 $error = false;
@@ -24,18 +24,21 @@ if (isset($_POST['registrar'])) {
 	$correo = trim($_POST['correo']);
 	$clave = trim($_POST['clave']);
 	
-	$objeto->security_validation_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
+	$objeto_usuario->security_validation_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
+	$objeto_usuario->security_validation_caracteres([$nombre,$apellido]);
 
-	$objeto->security_validation_caracteres([$nombre,$apellido]);
-
-	$objeto->security_validation_cedula($cedula);
+	$objeto_usuario->security_validation_cedula($cedula);
 	
-	$objeto->security_validation_clave($clave);
+	$objeto_usuario->security_validation_clave($clave);
 
-	$objeto->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
+	$objeto_usuario->security_validation_correo($correo);
 
-	$error = $objeto->registrar_usuarios();
+	
+
+	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
+
+	$error = $objeto_usuario->registrar_usuarios();
 	
 }
 
@@ -45,9 +48,9 @@ if (isset($_POST['recuperar'])) {
 	$correo = $_POST['correo2'];
 	$clave = $_POST['clave2'];
 
-	$objeto->setRecuperar($correo, $clave);
+	$objeto_usuario->setRecuperar($correo, $clave);
 
-	$recuperacion = $objeto->recuperar_password();
+	$recuperacion = $objeto_usuario->recuperar_password();
 
 	
 }
@@ -59,32 +62,32 @@ if (isset($_POST['enviar'])) {
 
 	$_SESSION['clave'] = $_POST['password'];
 
-	$_SESSION['verdadero'] = $objeto->validar();
+	$_SESSION['verdadero'] = $objeto_usuario->validar();
 
 
-	//$permisos = $objeto->get_permisos();
+	//$permisos = $objeto_usuario->get_permisos();
 
-	$buscarNombre = $objeto2->nombre();
+	$buscarNombre = $objeto_datos_usuario->nombre();
 	$nombre;
 	foreach ($buscarNombre as $key) {
 		$nombre = $key['nombre'] . ' ' . $key['apellido'];
 	}
 	$_SESSION['nombre'] = $nombre;
 
-	$buscarCedula = $objeto2->cedula();
+	$buscarCedula = $objeto_datos_usuario->cedula();
 	$_SESSION['cedula'] = $buscarCedula[0]['cedula'];
 
-	$buscarIdSeccion = $objeto2->idSeccion();
+	$buscarIdSeccion = $objeto_datos_usuario->idSeccion();
 	$_SESSION['id_seccion'] = $buscarIdSeccion[0]['idSeccion'];
 
-	$buscarStatusProf = $objeto2->statusProfesor();
+	$buscarStatusProf = $objeto_datos_usuario->statusProfesor();
 	$_SESSION['status_profesor'] = $buscarStatusProf[0]['status_profesor'];
 
 
 	if ($_SESSION['verdadero'] > 0) {
 	
 		//primero se busca la id del rol del usuario con el correo del usuario
-		$idRol = $objeto->getIdRol($_SESSION['usuario']);
+		$idRol = $objeto_usuario->getIdRol($_SESSION['usuario']);
 		$_SESSION['rol'] = $idRol;
 
 		//luego se buscan los permisos con el id de rol

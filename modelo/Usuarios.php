@@ -49,6 +49,8 @@ class Usuarios extends Conexion
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
     private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
 
+    private $expresion_correo = "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i";
+
     public function __construct()
     {
         $this->conexion = parent::conexion();
@@ -847,6 +849,19 @@ class Usuarios extends Conexion
 
 
             die("datos invalidos clave");
+        }
+    }
+
+    public function security_validation_correo($correo){
+
+        $response = preg_match_all($this->expresion_correo,$correo);
+
+
+        if($response == 0 ){
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos de correo");
         }
     }
 
