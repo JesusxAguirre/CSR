@@ -82,7 +82,7 @@ class Correo extends Conexion
         return $resultado;
   }
 
-  private function enviar_nueva_password($destinatario,$nueva_password){
+  public function enviar_nueva_password($destinatario,$nueva_password){
     $mail = new PHPMailer(true);
     try {
       //Server settings

@@ -5,6 +5,7 @@ namespace Csr\Modelo;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
+use React\Dns\Query\ExecutorInterface;
 
 class Usuarios extends Conexion
 {
@@ -163,16 +164,20 @@ class Usuarios extends Conexion
     //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
     public function buscar_cedula($cedula)
     {
+        try {
+            $sql = ("SELECT cedula FROM usuarios WHERE cedula = :cedula");
 
-        $sql = ("SELECT cedula FROM usuarios WHERE cedula = '$cedula'");
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":cedula"=>$cedula));
 
-        $stmt->execute(array());
+            $resultado = $stmt->rowCount();
 
-        $resultado = $stmt->rowCount();
+            return $resultado;
+        } catch (Exception $e) {
 
-        return $resultado;
+            return false;
+        }
     }
     //BUSCAR SI CEDULA YA EXISTE EN MENU PERFIL
     public function buscar_cedula_perfil($cedula)
@@ -182,11 +187,14 @@ class Usuarios extends Conexion
         foreach ($matriz_usuario as $usuario) {
             $cedula_antigua = $usuario['cedula'];
         }
-        $sql = ("SELECT cedula FROM usuarios WHERE cedula != '$cedula_antigua' AND cedula = '$cedula'");
+        $sql = ("SELECT cedula FROM usuarios WHERE cedula != :cedula_antigua AND cedula = :cedula");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":cedula_antigua"=>$cedula_antigua,
+            ":cedula"=>$cedula
+        ));
 
         $resultado = $stmt->rowCount();
 
@@ -803,11 +811,12 @@ class Usuarios extends Conexion
 
     ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
 
-    public function sanitizar_cadenas($cadena) {
+    public function sanitizar_cadenas($cadena)
+    {
         $cadena_minusculas = strtolower($cadena);
         $cadena_capitalizada = ucfirst($cadena_minusculas);
         return $cadena_capitalizada;
-      }
+    }
 
 
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
@@ -973,4 +982,3 @@ class Usuarios extends Conexion
         }
     }
 }
-?>
