@@ -106,7 +106,7 @@
                                            
                                             <input id="edad" name="edad" class="form-control" type="date" />
                                         </div>
-                                        <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                                        <p class="text-danger d-none">Este campo no puede estar vacio. debes ser mayor de edad</p>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">

@@ -30,9 +30,14 @@ if (isset($_POST['registrar'])) {
 
 	$objeto_usuario->security_validation_cedula($cedula);
 	
-	$objeto_usuario->security_validation_clave($clave);
+	$objeto_usuario->security_validation_fecha_nacimiento($edad);
+	
 
 	$objeto_usuario->security_validation_correo($correo);
+
+	$objeto_usuario->security_validation_clave($clave);
+
+	
 
 	
 

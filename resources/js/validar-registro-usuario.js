@@ -102,8 +102,8 @@ const ValidarFormulario = (e) => {
 const ValidarFecha_nacimiento = (input, campo) => {
 	const mayoriaEdad = new Date();
 	mayoriaEdad.setFullYear(mayoriaEdad.getFullYear() - 18);
-	
-	
+
+
 	const maximaEdad = new Date();
 	maximaEdad.setFullYear(maximaEdad.getFullYear() - 99);
 
