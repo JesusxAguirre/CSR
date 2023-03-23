@@ -844,10 +844,10 @@ class Usuarios extends Conexion
 
         $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
 
-        if ($fecha_nacimiento_ts < $mayoria_edad && $fecha_nacimiento_ts > $maxima_edad) {
+        if ($fecha_nacimiento_ts > $mayoria_edad && $fecha_nacimiento_ts < $maxima_edad) {
             //dguardar datos de hacker
 
-            die("fecha invalida por back end");
+            die("fecha invalida por back end ");
         }
     }
 

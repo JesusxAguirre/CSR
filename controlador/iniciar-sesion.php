@@ -10,8 +10,8 @@ $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
 
 //REGISTRAR USUARIO
-if (isset($_POST['formulario'])) {
 
+if (isset($_POST['cedula'])) {
 	$nombre = trim($_POST['nombre']);
 	$apellido = trim($_POST['apellido']);
 	$cedula = trim($_POST['cedula']);

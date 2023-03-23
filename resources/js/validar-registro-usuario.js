@@ -244,7 +244,7 @@ $("#formulario").submit(function (e) {
 			text: 'Registra el formulario correctamente '
 		})
 	}else{
-	
+		
 		$.ajax({
 			type: "POST",
 			url: "?pagina=iniciar-sesion",
@@ -259,13 +259,13 @@ $("#formulario").submit(function (e) {
 					console.log("algo sucedio con la base de datos")
 				}
 			}
-		});
+		})
 	}
 })
 
 
 formulario2.addEventListener('submit', (e) => {
-	if (!(campos.correo2 && campos.clave2)) {
+	if (!(campos.correo2)) {
 		e.preventDefault();
 		Swal.fire({
 			icon: 'error',
