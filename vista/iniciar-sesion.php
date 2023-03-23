@@ -103,7 +103,7 @@
                                     <div id="grupo__edad" class="col-sm col-md-3 ">
                                         <div class="relative">
                                             <label class="form-label fw-bold" for="">Fecha de nacimiento</label>
-                                           
+
                                             <input id="edad" name="edad" class="form-control" type="date" />
                                         </div>
                                         <p class="text-danger d-none">Este campo no puede estar vacio. debes ser mayor de edad</p>
@@ -212,12 +212,13 @@
                                 </div>
                             </div>
                         </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="registrar" name="registrar" class="btn btn-primary">Enviar</button>
+                    <button type="submit" id="registrar" name="registrar" form="formulario" class="btn btn-primary">Enviar</button>
                 </div>
-                </form>
+
             </div>
         </div>
     </div>
@@ -255,7 +256,6 @@
     </div>
     </div>
     <script type="text/javascript">
-
         recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
     </script>
     <script src="resources/js/validar-registro-usuario.js"></script>

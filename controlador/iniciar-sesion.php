@@ -55,11 +55,13 @@ if (isset($_POST['registrar'])) {
 
 	$response = $objeto_usuario->registrar_usuarios();
 
-	
+	die("<script>alert('ha ocurrido un error ')</script>");
 	if ($response) {
+
 		echo json_encode(array("response" => $response));
 		return true;
 	} else {
+
 		echo json_encode(array("response" => $response));
 		return false;
 	}

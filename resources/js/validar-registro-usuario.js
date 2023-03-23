@@ -1,6 +1,4 @@
 
-
-
 const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
@@ -246,14 +244,15 @@ $("#formulario").submit(function (e) {
 			text: 'Registra el formulario correctamente '
 		})
 	}else{
-		console.log("entra en el submit")
-
+	
 		$.ajax({
 			type: "POST",
 			url: "?pagina=iniciar-sesion",
 			data: $(this).serialize(),
 			success: function (response) {
+				console.log(response)
 				var data = JSON.parse(response)
+				console.log(data)
 				if(data.response){
 					fireAlert('success', 'Se registro el usuario correctamente')
 				}else{	

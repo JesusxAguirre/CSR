@@ -328,6 +328,7 @@ class Usuarios extends Conexion
                 ":telefono" => $this->telefono,
                 ":pass" => $this->clave
             ));
+
             return true;
         } catch (Exception $e) {
 
@@ -335,7 +336,7 @@ class Usuarios extends Conexion
 
             echo "Linea del error: " . $e->getLine();
 
-            return false;
+            return $e;
         }
     }
 
