@@ -91,23 +91,32 @@ class Usuarios extends Conexion
     //VALIDACION DE ENTRADA PARA USUARIOS
     public function validar()
     {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $ok = 0;
-        $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
+        try {
+            $usuario = $_SESSION['usuario'];
+            $clave = $_SESSION['clave'];
+            $ok = 0;
+            $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(":usuario" => $usuario));
+            $stmt->execute(array(":usuario" => $usuario));
 
-        while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            if (password_verify($clave, $resultado['password'])) {
-                $ok++;
+                if (password_verify($clave, $resultado['password'])) {
+                    $ok++;
+                }
             }
-        }
 
-        return $ok;
+            return $ok;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
     //==============mi perfil funcion=======// 
     public function mi_perfil()
@@ -796,7 +805,6 @@ class Usuarios extends Conexion
     {
         $this->cedula = $cedula;
         $this->clave = $clave;
-
     }
 
     public function setEliminar($cedula)
@@ -806,22 +814,30 @@ class Usuarios extends Conexion
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
     //VALIDAR INYECCION SQL Y DATOS VACIOS
-    public function security_validation_sql($array){
+    public function security_validation_sql($array)
+    {
 
-     parent::validar_inyeccion($array);
+        parent::validar_inyeccion($array);
     }
 
     //VALIDAR CEDULA
 
-    public function security_validation_cedula($cedula){
-    
+    public function security_validation_cedula($cedula)
+    {
+
         parent::validar_cedula($cedula);
     }
 
     //VALIDACION DE CARACTERES
 
-    public function security_validation_caracteres($array){
+    public function security_validation_caracteres($array)
+    {
 
         parent::validar_caracteres($array);
+    }
+
+    public function security_validation_clave($clave)
+    {
+        parent::validar_clave($clave);
     }
 }

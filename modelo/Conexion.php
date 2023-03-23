@@ -14,6 +14,8 @@ class Conexion
 
     private $expresion_numero = "/^[0-9]$/";
 
+    private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
+
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
     protected static function conexion()
     {
@@ -103,6 +105,19 @@ class Conexion
 
                 die("datos invalidos en caracteres");
             }
+        }
+    }
+
+    protected function validar_clave($clave)
+    {
+        $response = preg_match_all($this->expresion_clave,$clave);
+
+        if($response == 0){
+
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos clave");
         }
     }
 
