@@ -273,6 +273,7 @@ $("#formulario").submit(function (e) {
 					campos.telefono = false
 					campos.correo = false
 					campos.clave = false
+					
 					fireAlert('success', 'Se registro el usuario correctamente')
 				} else {
 					console.log("algo sucedio con la base de datos")
