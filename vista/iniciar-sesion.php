@@ -155,7 +155,7 @@
                                             <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
                                                 <option value="">Escoge tu estado</option>
                                                 <option value="amazonas">Amazonas</option>
-                                                <option value="anzoátegui">Anzoátegui</option>
+                                                <option value="anzoategui">Anzoátegui</option>
                                                 <option value="apure">Apure</option>
                                                 <option value="aragua">Aragua</option>
                                                 <option value="barinas">Barinas</option>
@@ -205,7 +205,7 @@
                                             <i class="input-icon fs-5"></i>
                                             <input maxlength="18" id="clave" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
-                                        <p class="text-danger d-none">La clave debe contener una Mayuscula, una minuscula, un caracter especial y un numero
+                                        <p class="text-danger d-none">La clave debe contener un caracter especial y un numero.
                                             Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
 
                                     </div>

@@ -5,7 +5,6 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
-
 var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
 
 var sexos_array = Array.prototype.map.call(lista_sexos.options, function (option) { //retornando array con id de lideres
@@ -47,7 +46,7 @@ const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
 	edad: /^[0-9]{2}$/,
 	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/, // Letras y espacios, pueden llevar acentos.
-	password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 4 a 12 digitos.
+	password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 6 a 16 digitos.
 	correo: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/
@@ -258,6 +257,22 @@ $("#formulario").submit(function (e) {
 				var data = JSON.parse(response)
 				console.log(data)
 				if (data.response) {
+					document.getElementById("formulario").reset()
+					const iconos = document.querySelectorAll("#formulario i")
+					iconos.forEach((icono) => {
+						icono.classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					})
+					campos.nombre = false
+					campos.apellido = false
+					campos.cedula = false
+					campos.edad = false
+					campos.sexo = false
+					campos.civil = false
+					campos.nacionalidad = false
+					campos.estado = false
+					campos.telefono = false
+					campos.correo = false
+					campos.clave = false
 					fireAlert('success', 'Se registro el usuario correctamente')
 				} else {
 					console.log("algo sucedio con la base de datos")
