@@ -3,6 +3,8 @@ const formulario = document.getElementById('editForm'); //declarando una constan
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
 const formulario4 = document.getElementById('eliminar_participante')
+const selects = document.querySelectorAll('#EditarNivelForm select');
+
 
 var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
@@ -52,6 +54,8 @@ const campos = {
   participantes: false,
   fecha: false,
   asistentes: false,
+  cedula_discipulo: false,
+  nivel: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -99,6 +103,10 @@ const ValidarFormulario = (e) => {
       break;
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
+      break;
+    case "nivel":
+
+      ValidarSelect(e.target, 'nivel');
       break;
   }
 }
@@ -206,9 +214,50 @@ formulario3.addEventListener('submit', (e) => {
   }
 })
 
+$("#EditarNivelForm").submit(function (e) {
+  e.preventDefault()
+  if (!(campos.nivel)) {
+    e.preventDefault();
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente '
+    })
+  } else {
+    console.log("entra en el submit")
 
+    $.ajax({
+      type: "POST",
+      url: "?pagina=listar-celula-discipulado",
+      data: $(this).serialize(),
+      success: function (response) {
+  
+        var data = JSON.parse(response);
+       
+        if (data.response != 0) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Se actualizo la informacion correctamente'
+          })
+          let busqueda = busquedaEl.value
 
+          buscarDiscipulado(busqueda)
+          
+          buscarParticipantes(data.response)
+     
+          addEvents()
+        } else {
+          console.log("Envio malicioso de datos")
+        }
+      }
+    })
+  }
+})
 
+selects.forEach((select) => {
+  select.addEventListener('click', ValidarFormulario);
+
+});
 
 inputs.forEach((input) => {
   input.addEventListener('keyup', ValidarFormulario);
@@ -376,7 +425,7 @@ function addEvents() {
     const liderInput = document.getElementById('codigoLider')
     const anfitrionInput = document.getElementById('codigoAnfitrion')
     const asistenteInput = document.getElementById('codigoAsistente')
-   
+
     const anfitrion_lista = document.getElementById("anfitrion")
     const asistente_lista = document.getElementById("asistente")
 
@@ -393,13 +442,13 @@ function addEvents() {
     //cedulas de usuarios
 
 
-  
+
     //agregar a datalist datos de anfitrion y asistente
-    
-/*     anfitrion_lista.value = cedula_anfitrion.textContent
-    anfitrion_lista.label = cedula_anfitrion.textContent
-    asistente_lista.value = cedula_anfitrion.textContent   */
-  
+
+    /*     anfitrion_lista.value = cedula_anfitrion.textContent
+        anfitrion_lista.label = cedula_anfitrion.textContent
+        asistente_lista.value = cedula_anfitrion.textContent   */
+
   }))
 
   const participanteModal = document.querySelectorAll('table td .modal-btn')
@@ -414,7 +463,7 @@ function addEvents() {
     buscarParticipantes(busqueda);
   }))
 
-  // Actualizar contenido del modal Eliminar
+  //ELIMINAR DISCIPULOS COLOCAR CAMPOS OCULTOS
   const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
   deleteButtons.forEach(boton => boton.addEventListener('click', () => {
@@ -428,6 +477,28 @@ function addEvents() {
     const apellido_participante = document.getElementById('deleteParticipanteApellido')
 
     cedulaInput.value = cedula_participante.textContent
+    nombre_participante.textContent = nombre.textContent
+    apellido_participante.textContent = apellido.textContent
+  }))
+
+  //EDITAR NIVEL DE COLOCAR CAMPOS OCULTOS
+  const editar_nivel_buttons = document.querySelectorAll('table td .edit-nivel-btn')
+
+  editar_nivel_buttons.forEach(boton => boton.addEventListener('click', () => {
+    let fila = boton.parentElement.parentElement
+    let cedula_participante = fila.querySelector('.participantes_cedula')
+    var id_discipulado_nivel = fila.querySelector('.id')
+    let nombre = fila.querySelector('.participantes_nombre')
+    let apellido = fila.querySelector('.participantes_apellido')
+    let codigo_discipulo = fila.querySelector('.participantes_codigo')
+    codigo_discipulo = codigo_discipulo.textContent.split("-")
+    const cedulaInput = document.querySelector('#EditarNivelForm .cedula_participante')
+    const codigoInput = document.getElementById('codigo_discipulo')
+    const nombre_participante = document.getElementById('nivel_discipulo_nombre')
+    const apellido_participante = document.getElementById('nivel_discipulo_apellido')
+
+    cedulaInput.value = cedula_participante.textContent
+    codigoInput.value = codigo_discipulo[1]
     nombre_participante.textContent = nombre.textContent
     apellido_participante.textContent = apellido.textContent
   }))

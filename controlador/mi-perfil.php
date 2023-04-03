@@ -32,7 +32,7 @@ if ($_SESSION['verdadero'] > 0) {
         $actualizar = true;
         if (isset($_POST['actualizar'])) {
             $cedula = $_POST['cedula'];
-            $cedula_antigua = $_POST['cedula_antigua'];
+            $cedula_antigua = $_SESSION['cedula'];
             $nombre = $_POST['nombre'];
             $apellido = $_POST['apellido'];
             $edad = $_POST['edad'];

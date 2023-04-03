@@ -5,14 +5,14 @@ namespace Csr\Modelo;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
+use React\Dns\Query\ExecutorInterface;
 
 class Usuarios extends Conexion
 {
-    //atributos de herencia
+    //ATRIBUTOS PARA HERENCIA
     private $conexion;
 
-
-    //id de modulo
+    ///PROPIEDADES DE LA MISMA CLASE/////
 
     private $id_modulo;
 
@@ -39,15 +39,20 @@ class Usuarios extends Conexion
     private $civil;
 
     private $cedula_antigua;
-    //variables para imagenes
+
+    //PROPIEDAS PARA GUARDAR IMAGEN
 
     private $nombre_imagen;
     private $tipo_imagen;
     private $tamaño_imagen;
     private $carpeta_destino;
 
+    //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
+    private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
 
+    private $expresion_correo = "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i";
 
+    private $expresion_telefono = "/^[0-9]{11}$/";
 
     public function __construct()
     {
@@ -91,25 +96,34 @@ class Usuarios extends Conexion
     //VALIDACION DE ENTRADA PARA USUARIOS
     public function validar()
     {
-        $usuario = $_SESSION['usuario'];
-        $clave = $_SESSION['clave'];
-        $ok = 0;
-        $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
+        try {
+            $usuario = $_SESSION['usuario'];
+            $clave = $_SESSION['clave'];
+            $ok = 0;
+            $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(":usuario" => $usuario));
+            $stmt->execute(array(":usuario" => $usuario));
 
-        while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-            if (password_verify($clave, $resultado['password'])) {
-                $ok++;
+                if (password_verify($clave, $resultado['password'])) {
+                    $ok++;
+                }
             }
-        }
 
-        return $ok;
+            return $ok;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
+        }
     }
-    //==============mi perfil funcion=======// 
+    //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL
     public function mi_perfil()
     {
         $usuario = $_SESSION["usuario"];
@@ -120,7 +134,8 @@ class Usuarios extends Conexion
         $stmt->execute(array(":usuario" => $usuario));
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    //==============Listar usuarios sin condicionales=======// 
+
+    //LISTAR USUARIOS 
     public function listar()
     {
 
@@ -149,68 +164,93 @@ class Usuarios extends Conexion
     //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
     public function buscar_cedula($cedula)
     {
+        try {
+            $sql = ("SELECT cedula FROM usuarios WHERE cedula = :cedula");
 
-        $sql = ("SELECT cedula FROM usuarios WHERE cedula = '$cedula'");
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":cedula" => $cedula));
 
-        $stmt->execute(array());
+            $resultado = $stmt->rowCount();
 
-        $resultado = $stmt->rowCount();
+            return $resultado;
+        } catch (Exception $e) {
 
-        return $resultado;
+            return false;
+        }
     }
     //BUSCAR SI CEDULA YA EXISTE EN MENU PERFIL
     public function buscar_cedula_perfil($cedula)
     {
-        $matriz_usuario = $this->mi_perfil();
+        try {
+            $matriz_usuario = $this->mi_perfil();
 
-        foreach ($matriz_usuario as $usuario) {
-            $cedula_antigua = $usuario['cedula'];
+            foreach ($matriz_usuario as $usuario) {
+                $cedula_antigua = $usuario['cedula'];
+            }
+            $sql = ("SELECT cedula FROM usuarios WHERE cedula != :cedula_antigua AND cedula = :cedula");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula_antigua" => $cedula_antigua,
+                ":cedula" => $cedula
+            ));
+
+            $resultado = $stmt->rowCount();
+
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
         }
-        $sql = ("SELECT cedula FROM usuarios WHERE cedula != '$cedula_antigua' AND cedula = '$cedula'");
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        $resultado = $stmt->rowCount();
-
-        return $resultado;
     }
     //BUSCAR CORREO EN REGISTRAR USUARIOS
     public function buscar_correo($correo)
     {
+        try {
 
-        $sql = ("SELECT usuario FROM usuarios WHERE usuario = '$correo'");
+            $sql = ("SELECT usuario FROM usuarios WHERE usuario = :correo");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array(":correo" => $correo));
 
-        $resultado = $stmt->rowCount();
+            $resultado = $stmt->rowCount();
 
-        return $resultado;
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
+        }
     }
 
     //BUSCAR CORREO EN MI PERFIL
     public function buscar_correo_perfil($correo)
     {
-        $matriz_usuario = $this->mi_perfil();
+        try {
+            $matriz_usuario = $this->mi_perfil();
 
-        foreach ($matriz_usuario as $usuario) {
-            $correo_antiguo = $usuario['usuario'];
+            foreach ($matriz_usuario as $usuario) {
+                $correo_antiguo = $usuario['usuario'];
+            }
+
+            $sql = ("SELECT usuario FROM usuarios WHERE usuario != :correo_antiguo AND usuario = :correo");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":correo_antiguo" => $correo_antiguo,
+                ":correo" => $correo
+            ));
+
+            $resultado = $stmt->rowCount();
+
+            return $resultado;
+        } catch (Exception $e) {
+
+            return false;
         }
-
-        $sql = ("SELECT usuario FROM usuarios WHERE usuario != '$correo_antiguo' AND usuario = '$correo'");
-
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-
-        $resultado = $stmt->rowCount();
-
-        return $resultado;
     }
 
     //============== Listar usuarios DE NIVEL 2 Y 3=======// 
@@ -254,7 +294,7 @@ class Usuarios extends Conexion
     public function buscar_usuario($busqueda)
     {
         $resultado = [];
-
+        $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT usuarios.cedula,usuarios.codigo,usuarios.nombre,usuarios.apellido,usuarios.telefono,usuarios.sexo,usuarios.estado_civil,
         usuarios.nacionalidad,usuarios.estado,usuarios.edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
@@ -265,7 +305,11 @@ class Usuarios extends Conexion
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":busqueda1" => $busqueda,
+            ":busqueda2" => $busqueda,
+            ":busqueda3" => $busqueda,
+        ));
 
         if ($stmt->rowCount() > 0) {
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -281,7 +325,7 @@ class Usuarios extends Conexion
         return $resultado;
     }
 
-    //============== Registrar usuarios en el inicio de sesion=======// 
+    //REGISTRO DE USUARIOS
     public  function registrar_usuarios()
     {
         try {
@@ -294,24 +338,6 @@ class Usuarios extends Conexion
             $estado = strtoupper($estado2);
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
-
-            //cambiando datos ingresados con mayusculas o minisculas
-            $this->nombre = strtolower($this->nombre);
-
-            $this->nombre = ucfirst($this->nombre);
-            //lo mismo con el apellido
-            $this->apellido = strtolower($this->apellido);
-
-            $this->apellido = ucfirst($this->apellido);
-            //Lo mismo con la nacionalidad
-            $this->nacionalidad = strtolower($this->nacionalidad);
-
-            $this->nacionalidad = ucfirst($this->nacionalidad);
-            //Lo mismo con la estado
-            $this->estado = strtolower($this->estado);
-
-            $this->estado = ucfirst($this->estado);
-
 
 
             $sql = "INSERT INTO usuarios (cedula,id_rol,
@@ -332,6 +358,7 @@ class Usuarios extends Conexion
                 ":telefono" => $this->telefono,
                 ":pass" => $this->clave
             ));
+
             return true;
         } catch (Exception $e) {
 
@@ -339,7 +366,7 @@ class Usuarios extends Conexion
 
             echo "Linea del error: " . $e->getLine();
 
-            return false;
+            return $e;
         }
     }
 
@@ -492,10 +519,10 @@ class Usuarios extends Conexion
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
             //buscando codigo viejo para suplantarlo por el nuevo
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula= '$this->cedula_antigua'");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula= :cedula_antigua");
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(":cedula_antigua" => $this->cedula_antigua));
             $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
@@ -512,30 +539,50 @@ class Usuarios extends Conexion
                 $estadoCivil_antigua = substr($codigo_usuario['codigo'], 19, 1);
             }
             //actualizando cedula en codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$this->cedula_antigua','$this->cedula') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:cedula_antigua,:cedula) WHERE cedula = :cedula_antigua_condicion");
 
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":cedula_antigua" => $this->cedula_antigua,
+                ":cedula" => $this->cedula,
+                ":cedula_antigua_condicion" => $this->cedula_antigua,
+            ));
 
             //actualizando nacionalidad del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$nacionalidad_antigua','$nacionalidad') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:nacionalidad_antigua,:nacionalidad) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":nacionalidad_antigua" => $nacionalidad_antigua,
+                ":nacionalidad" => $nacionalidad,
+                ":cedula_antigua" => $this->cedula_antigua,
+            ));
 
             //actualizando estado del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estado_antigua','$estado') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:estado_antigua,:estado) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":estado_antigua" => $estado_antigua,
+                ":estado" => $estado,
+                ":cedula_antigua" => $this->cedula_antigua,
+            ));
 
             //actualizando sexo del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$sexo_antigua','$sexo') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:sexo_antigua,:sexo) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":sexo_antigua" => $sexo_antigua,
+                ":sexo" => $sexo,
+                ":cedula_antigua" => $this->cedula_antigua,
+            ));
 
             //actualizando estado_civil del codigo
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$estadoCivil_antigua','$estadoc') WHERE cedula = '$this->cedula_antigua'");
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:estadoCivil_antigua,:estadoc) WHERE cedula = :cedula_antigua");
             $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
+            $stmt->execute(array(
+                ":estadoCivil_antigua" => $estadoCivil_antigua,
+                ":estadoc" => $estadoc,
+                ":cedula_antigua" => $this->cedula_antigua,
+            ));
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
@@ -580,7 +627,7 @@ class Usuarios extends Conexion
 
             //consulta update
             $sql = ("UPDATE usuarios SET ruta_imagen = :ruta
-         WHERE cedula = :ced");
+                    WHERE cedula = :ced");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -796,11 +843,184 @@ class Usuarios extends Conexion
     {
         $this->cedula = $cedula;
         $this->clave = $clave;
-
     }
 
     public function setEliminar($cedula)
     {
         $this->cedula = $cedula;
+    }
+
+
+    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
+
+    public function sanitizar_cadenas($cadena)
+    {
+        $cadena_minusculas = strtolower($cadena);
+        $cadena_capitalizada = ucfirst($cadena_minusculas);
+        return $cadena_capitalizada;
+    }
+
+
+    ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
+
+    //VALIDAR INYECCION SQL Y DATOS VACIOS
+    public function security_validation_sql($array)
+    {
+
+        parent::validar_inyeccion($array);
+    }
+
+    //VALIDACION DE CARACTERES
+    public function security_validation_caracteres($array)
+    {
+
+        parent::validar_caracteres($array);
+    }
+
+    //VALIDAR CEDULA
+
+    public function security_validation_cedula($cedula)
+    {
+
+        parent::validar_cedula($cedula);
+    }
+
+    //VALIDAR FECHA DE NACIMIENTO
+    public function security_validation_fecha_nacimiento($fecha_nacimiento)
+    {
+
+
+        $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
+        $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
+
+        $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
+
+        if ($fecha_nacimiento_ts > $mayoria_edad && $fecha_nacimiento_ts < $maxima_edad) {
+            //dguardar datos de hacker
+
+            die("fecha invalida por back end ");
+        }
+    }
+
+    //VALIDACION DE SEXO
+
+    public function security_validation_sexo($sexo)
+    {
+        $sexos = ["hombre", "mujer"];
+
+
+        if (!in_array($sexo, $sexos)) {
+            //guardar datos de hacker
+
+            die("sexo invalido");
+        }
+    }
+
+    //VALIDACION DE ESTADO CIVIL
+
+    public function security_validation_estado_civil($civil)
+    {
+        $estados_civiles = ["soltero", "soltera", "matrimonio"];
+
+        if (!in_array($civil, $estados_civiles)) {
+            //guardar datos de hacker
+
+            die("estado civil invalido");
+        }
+    }
+
+    //VALIDACION NACIONALIDAD
+
+    public function security_validation_nacionalidad($nacionalidad)
+    {
+        $nacionalidades = ["venezolana", "colombiana", "española"];
+
+        if (!in_array($nacionalidad, $nacionalidades)) {
+            //guardar datos de hacker
+
+            die("datos invalidos nacionalidad");
+        }
+    }
+
+    //VALIDACION ESTADO EN EL QUE VIVE SOLO VENEZUELA
+
+    public function security_validation_estado($estado)
+    {
+        $estados_venezuela = [
+            'amazonas',
+            'anzoategui',
+            'apure',
+            'aragua',
+            'barinas',
+            'bolivar',
+            'carabobo',
+            'cojedes',
+            'delta amacuro',
+            'distrito capital',
+            'falcon',
+            'guarico',
+            'lara',
+            'merida',
+            'miranda',
+            'monagas',
+            'nueva esparta',
+            'portuguesa',
+            'sucre',
+            'tachira',
+            'trujillo',
+            'vargas',
+            'yaracuy',
+            'zulia'
+        ];
+
+        if (!in_array($estado, $estados_venezuela)) {
+            //guardar datos de hacker
+
+            die("estado invalido");
+        }
+    }
+
+    //VALIDACION DE TELEFONO
+
+    public function security_validation_telefono($telefono)
+    {
+
+        $response = preg_match_all($this->expresion_telefono, $telefono);
+
+        if ($response == 0) {
+            //guardar datos de hacker
+
+            die("telefono invalido");
+        }
+    }
+
+
+    //VALIDACION DE CORREO
+    public function security_validation_correo($correo)
+    {
+
+        $response = preg_match_all($this->expresion_correo, $correo);
+
+
+        if ($response == 0) {
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos de correo");
+        }
+    }
+
+    //VALIDACION DE SEGURIDAD DE CLAVE
+    public function security_validation_clave($clave)
+    {
+        $response = preg_match_all($this->expresion_clave, $clave);
+
+        if ($response == 0) {
+
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos clave");
+        }
     }
 }

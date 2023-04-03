@@ -1,12 +1,30 @@
 
-
-const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
-
 const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
+
+var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
+
+var sexos_array = Array.prototype.map.call(lista_sexos.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
+var lista_civil = document.getElementById('civil') //buscando id de lista de civil para retorar array de lidere
+
+var civil_array = Array.prototype.map.call(lista_civil.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
+var lista_nacionalidad = document.getElementById('nacionalidad') //buscando id de lista de nacionalidad para retorar array de lidere
+
+var nacionalidad_array = Array.prototype.map.call(lista_nacionalidad.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
+var lista_estado = document.getElementById('estado') //buscando id de lista de estado para retorar array de lidere
+
+var estado_array = Array.prototype.map.call(lista_estado.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
 
 const campos = {
 	nombre: false,
@@ -22,14 +40,13 @@ const campos = {
 	estado: false,
 	//segundo formulario
 	correo2: false,
-	clave2: false
 }
 
 const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
 	edad: /^[0-9]{2}$/,
-	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$/, // Letras y espacios, pueden llevar acentos.
-	password: /^.{7,12}$/, // 4 a 12 digitos.
+	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/, // Letras y espacios, pueden llevar acentos.
+	password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 6 a 16 digitos.
 	correo: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/
@@ -37,9 +54,9 @@ const expresiones = { //objeto con varias expresiones regulares
 
 const ValidarFormulario = (e) => {
 	switch (e.target.name) {
-		 case "cedula":
+		case "cedula":
 			ValidarCampo(expresiones.cedula, e.target, 'cedula');
-			break; 
+			break;
 		case "nombre":
 			ValidarCampo(expresiones.nombre, e.target, 'nombre');
 			break;
@@ -47,19 +64,19 @@ const ValidarFormulario = (e) => {
 			ValidarCampo(expresiones.nombre, e.target, 'apellido');
 			break;
 		case "edad":
-			ValidarCampo(expresiones.edad, e.target, 'edad');
+			ValidarFecha_nacimiento(e.target, 'edad');
 			break;
 		case "sexo":
-			ValidarSelect(e.target, 'sexo');
+			ValidarSelect(sexos_array, e.target, 'sexo');
 			break;
 		case "civil":
-			ValidarSelect(e.target, 'civil');
+			ValidarSelect(civil_array, e.target, 'civil');
 			break;
 		case "nacionalidad":
-			ValidarSelect(e.target, 'nacionalidad');
+			ValidarSelect(nacionalidad_array, e.target, 'nacionalidad');
 			break;
 		case "estado":
-			ValidarSelect(e.target, 'estado');
+			ValidarSelect(estado_array, e.target, 'estado');
 			break;
 		case "correo":
 			ValidarCampo(expresiones.correo, e.target, 'correo');
@@ -77,23 +94,46 @@ const ValidarFormulario = (e) => {
 	}
 }
 
-const ValidarSelect = (select, campo) => {
-	if (select.value == '') {
-		console.log('Debes seleccionar un tipo de usuario.')
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+
+const ValidarFecha_nacimiento = (input, campo) => {
+	const mayoriaEdad = new Date();
+	mayoriaEdad.setFullYear(mayoriaEdad.getFullYear() - 18);
+
+
+	const maximaEdad = new Date();
+	maximaEdad.setFullYear(maximaEdad.getFullYear() - 99);
+
+	const fechaNacimientoTS = new Date(input.value).getTime();
+
+	if (fechaNacimientoTS < mayoriaEdad.getTime() && fechaNacimientoTS > maximaEdad.getTime()) {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
-	} else {
-		console.log('Has seleccionado: ');
+	}
+}
+
+const ValidarSelect = (codigo_array, input, campo) => {
+	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		campos[campo] = false;
 	}
 }
+
 
 const ValidarCampo = (expresion, input, campo) => {
 	if (expresion.test(input.value)) {
@@ -103,45 +143,49 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 		//comprobando si la cedula existe en la bd
-		 if (campos.cedula == true) {
-		 	let id = document.getElementById("cedula")
-		 	let cedula = id.value
-			console.log(cedula)
-		 	$.ajax({
-		 		data: 'cedula=' + cedula,
-		 		url: "controlador/ajax/buscar-cedula.php",
-		 		type: "post",
-		 	}).done(data => {
-		 		if (data == '1') {
-		 			fireAlert('error', 'Esta cedula ya existe')
-		 			document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-		 			document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		 			document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-		 			document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-		 			campos.cedula = false;
-		 			let mensaje = document.getElementById("mensaje_cedula")
-		 			mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
-		 		}
-				console.log(data)
-		 	})
-		 }
+		if (campos.cedula == true) {
+			let id = document.getElementById("cedula")
+			let cedula = id.value
+
+			$.ajax({
+				data: 'cedula_existente=' + cedula,
+				url: "?pagina=iniciar-sesion",
+				type: "POST",
+				success: function (response) {
+					console.log(response)
+					var data = JSON.parse(response)
+					if (data.response == '1') {
+						fireAlert('error', 'Esta cedula ya existe')
+						document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+						document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+						document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+						document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+						campos.cedula = false;
+						let mensaje = document.getElementById("mensaje_cedula")
+						mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
+					}
+				}
+			})
+		}
 		if (campos.correo == true) {
 			let id = document.getElementById("correo")
 			let correo = id.value
 			$.ajax({
-				data: 'correo=' + correo,
-				url: "controlador/ajax/buscar-correo.php",
+				data: 'correo_existente=' + correo,
+				url: " ?pagina=iniciar-sesion",
 				type: "post",
-			}).done(data => {
-				if (data == '1') {
-					fireAlert('error', 'Este corrreo ya existe')
-					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-					campos.correo = false;
-					let mensaje = document.getElementById("mensaje_correo")
-					mensaje.textContent = "Esta correo ya existe en la base de datos, ingrese otro por favor"
+				success: function (response) {
+					var data = JSON.parse(response)
+					if (data.response == '1') {
+						fireAlert('error', 'Este correo ya existe')
+						document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+						document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+						document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+						document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+						campos.correo = false;
+						let mensaje = document.getElementById("mensaje_correo")
+						mensaje.textContent = "Esta correo ya existe en la base de datos, ingrese otro por favor"
+					}
 				}
 			})
 		}
@@ -193,20 +237,55 @@ inputs2.forEach((input) => {
 });
 
 
-formulario.addEventListener('submit', (e) => {
+$("#formulario").submit(function (e) {
+	e.preventDefault()
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.correo
 		&& campos.clave && campos.estado && campos.nacionalidad && campos.sexo && campos.civil)) {
-		e.preventDefault();
 		Swal.fire({
 			icon: 'error',
 			title: 'Lo siento ',
 			text: 'Registra el formulario correctamente '
 		})
+	} else {
+
+		$.ajax({
+			type: "POST",
+			url: "?pagina=iniciar-sesion",
+			data: $(this).serialize(),
+			success: function (response) {
+				console.log(response)
+				var data = JSON.parse(response)
+				console.log(data)
+				if (data.response) {
+					document.getElementById("formulario").reset()
+					const iconos = document.querySelectorAll("#formulario i")
+					iconos.forEach((icono) => {
+						icono.classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+					})
+					campos.nombre = false
+					campos.apellido = false
+					campos.cedula = false
+					campos.edad = false
+					campos.sexo = false
+					campos.civil = false
+					campos.nacionalidad = false
+					campos.estado = false
+					campos.telefono = false
+					campos.correo = false
+					campos.clave = false
+					
+					fireAlert('success', 'Se registro el usuario correctamente')
+				} else {
+					console.log("algo sucedio con la base de datos")
+				}
+			}
+		})
 	}
 })
+
 
 formulario2.addEventListener('submit', (e) => {
-	if (!(campos.correo2 && campos.clave2)) {
+	if (!(campos.correo2)) {
 		e.preventDefault();
 		Swal.fire({
 			icon: 'error',
@@ -215,12 +294,6 @@ formulario2.addEventListener('submit', (e) => {
 		})
 	}
 })
-
-if (error == true) {
-	fireAlert('success', 'Se registro el usuario correctamente')
-
-	setTimeout(recarga, 2000);
-} 
 
 
 

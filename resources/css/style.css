@@ -6,6 +6,10 @@
   background-color: rgba(201, 200, 200, 0.919);
 }
 
+body{
+  color: #6c757d;
+}
+
 .widget-icon {
   color: #727cf5;
   font-size: 20px;

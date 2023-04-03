@@ -75,7 +75,7 @@
                     <?php foreach ($matriz_celula as $celula) : ?>
                       <tr role='row'>
                         <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
-                        <td hidden class="direccion" role='cell'><?php echo $celula['direccion'] ?></td>   
+                        <td hidden class="direccion" role='cell'><?php echo $celula['direccion'] ?></td>
                         <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
                         <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
                         <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
@@ -86,8 +86,8 @@
                         <td hidden class="cedula_anfitrion" role='cell'><?php echo  $celula['cedula_anfitrion'] ?></td>
                         <td hidden class="cedula_asistente" role='cell'><?php echo  $celula['cedula_asistente'] ?></td>
                         <td class="" role="cell">
-                        <?php   if ($_SESSION['permisos']['celula_discipulado']['actualizar'] > 0) :?>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
+                          <?php if ($_SESSION['permisos']['celula_discipulado']['actualizar'] > 0) : ?>
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
                           <?php endif; ?>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
                           <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
@@ -289,6 +289,7 @@
     </div>
   </div>
   <!-- Modal eliminar usuario -->
+
   <!-- Modal Eliminar  Participante -->
   <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
     <div class="modal-dialog">
@@ -301,7 +302,7 @@
           <p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b> permanetemente.</p>
           <form method="post" id="deleteForm">
             <input type="hidden" name="cedula_participante" class="cedula_participante">
-            <input type="hidden" name="delete">
+
           </form>
         </div>
         <div class="modal-footer">
@@ -311,7 +312,43 @@
       </div>
     </div>
   </div>
-  <!-- Modal Eliminar Participante -->
+  <!-- Modal Editar nivel de  discipulo -->
+  <div class="modal fade" id="editar_nivel" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-warning text-dark">
+          <h5 class="modal-title  fw-bold" id="Modaleliminar">Editar nivel de discipulo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body fs-5">
+          <p style="color: black;">Estas cambiando el nivel de <b id="nivel_discipulo_nombre"></b> <b id="nivel_discipulo_apellido"></b> </p>
+          <form id="EditarNivelForm" action="?pagina=listar-celula-discipulado" method="POST">
+            <input type="hidden" name="cedula_discipulo" class="cedula_participante">
+            <input type="hidden" name="codigo_discipulo" id="codigo_discipulo">
+            <div id="grupo__nivel" class="col-sm ">
+              <div class="relative">
+                <label class="form-label fw-bold">Cambiar Nivel</label>
+                <i class="input-icon fs-5"></i>
+                <select name="nivel" id="nivel" class="form-select form-select" aria-label=".form-select-sm example">
+                  <option value="">....</option>
+                  <option value="N1">Cambiar discipulo a nivel 1</option>
+                  <option value="N2">Cambiar discipulo a nivel 2</option>
+
+                </select>
+              </div>
+              <p class="text-danger d-none">No puede dejar este campo vacio </p>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary" name="EditarNivelForm" form="EditarNivelForm"">Guardar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Editar nivel de discipulo -->
 
   <!-- Modal agregar_asistencia -->
   <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
@@ -328,7 +365,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
                   <i class="input-icon fs-5"></i>
-                  <div id="asistencias4" ></div>
+                  <div id="asistencias4"></div>
 
                   </select>
                 </div>
