@@ -215,7 +215,7 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
-	}
+	} 
 }
 
 
