@@ -36,9 +36,14 @@
                 <hr>
                 <!-- INICIO FORMULARIO -->
                 <form id="formulario3" action="?pagina=iniciar-sesion" method="post">
-                    <div class="mb-4">
-                        <label for="email">Correo electronico</label>
-                        <input type="text" name="usuario" class="form-control inputF" placeholder="casasobrelaroca@gmail.com">
+                    <div id="grupo__email" class="mb-4">
+                        <div class="relative">
+                            <label for="email">Correo electronico</label>
+                            <i class="input-icon fs-5"></i>
+                            <input type="text" name="email" class="form-control inputF" placeholder="casasobrelaroca@gmail.com">
+                        </div>
+                        <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+
                     </div>
                     <div class="mb-4">
                         <label for="password">Contraseña</label>

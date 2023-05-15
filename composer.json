@@ -12,7 +12,7 @@
     	"psr-4": {
             "Csr\\Modelo\\": "modelo/",
             "Csr\\Helpers\\": "helpers/",
-            "Csr\\Exception\\": "exception/",
+            "Csr\\Exception\\Usuarios": "exception/usuarios/",
             "MyApp\\": "src"
     	}
     },

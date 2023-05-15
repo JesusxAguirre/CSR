@@ -3,6 +3,7 @@ const formulario2 = document.getElementById('formulario2'); //declarando una con
 
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
+const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
@@ -40,6 +41,9 @@ const campos = {
 	estado: false,
 	//segundo formulario
 	correo2: false,
+
+	//formulario inicio de sesion
+	email : false
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -91,6 +95,13 @@ const ValidarFormulario = (e) => {
 		case "clave":
 			ValidarCampo(expresiones.password, e.target, 'clave');
 			break;
+
+
+		//CASE DE INICIO DE SESION
+
+		case "email":
+			
+			ValidarCampo(expresiones.correo, e.target, "email")
 	}
 }
 
@@ -235,6 +246,12 @@ inputs2.forEach((input) => {
 
 	// input.addEventListener('click', ValidarFormulario);
 });
+inputs3.forEach((input) => {
+	input.addEventListener('keyup', ValidarFormulario);
+	input.addEventListener('blur', ValidarFormulario);
+
+	// input.addEventListener('click', ValidarFormulario);
+});
 
 
 $("#formulario").submit(function (e) {
@@ -315,3 +332,59 @@ function fireAlert(icon, msg) {
 function recarga() {
 	window.location = "index.php?pagina=iniciar-sesion";
 }
+
+
+//POST DE INICIO DE SESION
+
+$(document).on('submit', '#formulario3', function (event) {
+    event.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+	
+    if (!(campos.email) ) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Lo siento ',
+            text: 'registre el formulario correctamente ',
+            position: 'center'
+        })
+    } else {
+
+
+        $.ajax({
+            type: 'POST',
+            url: window.location.href,
+            data: $(this).serialize(),// Obtiene los datos del formulario
+            success: function (response) {
+                document.getElementById("formulario").reset()
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Has iniciado session correctamente',
+                    text: response.msj
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        window.location.replace("index.php?pagina=dashboard");
+                    }
+                })
+
+                setTimeout(function () {
+                    window.location.replace("index.php?pagina=dashboard");
+                }, 4000);
+            },
+            error: function (xhr, status, error) {
+                // Código a ejecutar si se produjo un error al realizar la solicitud
+
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: xhr.responseJSON.ErrorType,
+                    text: xhr.responseJSON.Message
+                })
+
+
+
+            }
+        });
+    }
+});

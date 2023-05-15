@@ -26,4 +26,6 @@ return array(
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Csr\\Modelo\\' => array($baseDir . '/modelo'),
+    'Csr\\Helpers\\' => array($baseDir . '/helpers'),
+    'Csr\\Exception\\Usuarios' => array($baseDir . '/exception/usuarios'),
 );

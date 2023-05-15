@@ -2,10 +2,17 @@
 
 namespace Csr\Modelo;
 
+use Csr\Exception\Usuarios\InvalidData;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
+
+
+
+
+
 use React\Dns\Query\ExecutorInterface;
+use Throwable;
 
 class Usuarios extends Conexion
 {
@@ -63,10 +70,12 @@ class Usuarios extends Conexion
     //BUSCAR ID DE ROL DE USUARIO
     public function getIdRol($usuario)
     {
-        $sql = "SELECT usuarios.id_rol FROM usuarios WHERE usuarios.usuario = '$usuario'";
+        $sql = "SELECT usuarios.id_rol FROM usuarios WHERE usuarios.usuario = :usuario";
+
+
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute();
+        $stmt->execute(array(":usuario" => $usuario));
 
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -99,7 +108,7 @@ class Usuarios extends Conexion
         try {
             $usuario = $_SESSION['usuario'];
             $clave = $_SESSION['clave'];
-            $ok = 0;
+
             $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -109,18 +118,20 @@ class Usuarios extends Conexion
             while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                 if (password_verify($clave, $resultado['password'])) {
-                    $ok++;
+                    return array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200);
+                } else {
+                    throw new InvalidData("Algo esta equivocado en la clave o el usuario");
                 }
             }
+        } catch (Throwable $ex) {
 
-            return $ok;
-        } catch (Exception $e) {
+            echo $ex->getMessage();
 
-            echo $e->getMessage();
+            echo "Linea del error: " . $ex->getLine();
 
-            echo "Linea del error: " . $e->getLine();
-
-            return false;
+            echo get_class($ex);
+            exit;
+            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType"=> "sda");
         }
     }
     //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL

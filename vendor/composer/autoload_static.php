@@ -57,6 +57,8 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'C' => 
         array (
             'Csr\\Modelo\\' => 11,
+            'Csr\\Helpers\\' => 12,
+            'Csr\\Exception\\' => 14,
         ),
     );
 
@@ -141,6 +143,14 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'Csr\\Modelo\\' => 
         array (
             0 => __DIR__ . '/../..' . '/modelo',
+        ),
+        'Csr\\Helpers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/helpers',
+        ),
+        'Csr\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/exception',
         ),
     );
 
