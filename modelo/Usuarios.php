@@ -2,7 +2,7 @@
 
 namespace Csr\Modelo;
 
-use Csr\Exception\Usuarios\InvalidData;
+use Csr\Exception\Usuarios\InvalidData as InvalidData;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
@@ -125,13 +125,11 @@ class Usuarios extends Conexion
             }
         } catch (Throwable $ex) {
 
-            echo $ex->getMessage();
+            
+            
+            $errorType = basename(get_class($ex));
 
-            echo "Linea del error: " . $ex->getLine();
-
-            echo get_class($ex);
-            exit;
-            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType"=> "sda");
+            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType"=> $errorType);
         }
     }
     //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL

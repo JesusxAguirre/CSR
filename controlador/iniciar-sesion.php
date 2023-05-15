@@ -109,13 +109,25 @@ if (isset($_POST['recuperar'])) {
 }
 
 //validando datos de usuario para entrar al sistema
-if (isset($_POST['enviar'])) {
+if (isset($_POST['email'])) {
 
-	$_SESSION['usuario'] = $_POST['usuario'];
+	$_SESSION['usuario'] = trim($_POST['email']);
 
-	$_SESSION['clave'] = $_POST['password'];
+	$_SESSION['clave'] = trim($_POST['password']);
 
-	$_SESSION['verdadero'] = $objeto_usuario->validar();
+	$response = $objeto_usuario->validar();
+
+	
+	if ($response['status_code'] != 200) {
+		http_response_code($response['status_code']);
+		echo json_encode($response);
+
+		return false;
+	}
+
+
+
+	$_SESSION['verdadero'] = 1;
 
 
 	//$permisos = $objeto_usuario->get_permisos();
@@ -144,7 +156,10 @@ if (isset($_POST['enviar'])) {
 		//luego se buscan los permisos con el id de rol
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 
-		echo "<script>window.location= 'index.php?pagina=dashboard'</script>";
+		http_response_code($response['status_code']);
+		echo json_encode($response);
+
+		return true;
 	} else {
 		echo "<script>
 		alert('Clave o usuario incorrecto');
@@ -158,4 +173,20 @@ if (is_file("vista/" . $pagina . ".php")) {
 	require_once 'vista/' . $pagina . '.php';
 } else {
 	echo "pagina en construccion";
+}
+
+
+
+
+
+function verified_status_code($response)
+{
+	if ($response['status_code'] != 200) {
+		http_response_code($response['status_code']);
+		echo json_encode($response);
+
+		return false;
+	}
+
+	return false;
 }

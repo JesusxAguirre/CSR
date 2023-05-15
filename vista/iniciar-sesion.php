@@ -42,7 +42,7 @@
                             <i class="input-icon fs-5"></i>
                             <input type="text" name="email" class="form-control inputF" placeholder="casasobrelaroca@gmail.com">
                         </div>
-                        <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                        <p id="mensaje_correo" style="color: yellow" class=" d-none">El formato de correo es ejemplo@gmail.com </p>
 
                     </div>
                     <div class="mb-4">

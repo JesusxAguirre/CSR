@@ -43,7 +43,7 @@ const campos = {
 	correo2: false,
 
 	//formulario inicio de sesion
-	email : false
+	email: false
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -100,7 +100,7 @@ const ValidarFormulario = (e) => {
 		//CASE DE INICIO DE SESION
 
 		case "email":
-			
+
 			ValidarCampo(expresiones.correo, e.target, "email")
 	}
 }
@@ -226,7 +226,7 @@ const ValidarCampo = (expresion, input, campo) => {
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
-	} 
+	}
 }
 
 
@@ -290,7 +290,7 @@ $("#formulario").submit(function (e) {
 					campos.telefono = false
 					campos.correo = false
 					campos.clave = false
-					
+
 					fireAlert('success', 'Se registro el usuario correctamente')
 				} else {
 					console.log("algo sucedio con la base de datos")
@@ -337,54 +337,66 @@ function recarga() {
 //POST DE INICIO DE SESION
 
 $(document).on('submit', '#formulario3', function (event) {
-    event.preventDefault(); // Evita que el formulario se envíe automáticamente
-
-	
-    if (!(campos.email) ) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Lo siento ',
-            text: 'registre el formulario correctamente ',
-            position: 'center'
-        })
-    } else {
+	event.preventDefault(); // Evita que el formulario se envíe automáticamente
 
 
-        $.ajax({
-            type: 'POST',
-            url: window.location.href,
-            data: $(this).serialize(),// Obtiene los datos del formulario
-            success: function (response) {
-                document.getElementById("formulario").reset()
-
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Has iniciado session correctamente',
-                    text: response.msj
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        window.location.replace("index.php?pagina=dashboard");
-                    }
-                })
-
-                setTimeout(function () {
-                    window.location.replace("index.php?pagina=dashboard");
-                }, 4000);
-            },
-            error: function (xhr, status, error) {
-                // Código a ejecutar si se produjo un error al realizar la solicitud
-
-                
-                Swal.fire({
-                    icon: 'error',
-                    title: xhr.responseJSON.ErrorType,
-                    text: xhr.responseJSON.Message
-                })
+	if (!(campos.email)) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Lo siento ',
+			text: 'registre el formulario correctamente ',
+			position: 'center'
+		})
+	} else {
 
 
+		$.ajax({
+			type: 'POST',
+			url: window.location.href,
+			data: $(this).serialize(),// Obtiene los datos del formulario
+			success: function (response) {
+				console.log(response)
+				document.getElementById("formulario").reset()
 
-            }
-        });
-    }
+				Swal.fire({
+					icon: 'success',
+					title: 'Has iniciado session correctamente',
+					text: response.msj
+				}).then((result) => {
+
+					if (result.isConfirmed) {
+						window.location.replace("index.php?pagina=dashboard");
+					}
+				})
+
+				setTimeout(function () {
+					window.location.replace("index.php?pagina=dashboard");
+				}, 4000);
+
+
+			},
+			error: function (xhr, status, error) {
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+
+
+
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+
+
+
+			}
+		});
+	}
 });
