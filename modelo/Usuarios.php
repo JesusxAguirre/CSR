@@ -3,12 +3,10 @@
 namespace Csr\Modelo;
 
 use Csr\Exception\Usuarios\InvalidData as InvalidData;
+use Csr\Exception\Usuarios\UserNotExist as UserNotExist;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
-
-
-
 
 
 use React\Dns\Query\ExecutorInterface;
@@ -115,21 +113,26 @@ class Usuarios extends Conexion
 
             $stmt->execute(array(":usuario" => $usuario));
 
-            while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                if (password_verify($clave, $resultado['password'])) {
-                    return array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200);
-                } else {
-                    throw new InvalidData("Algo esta equivocado en la clave o el usuario");
+            if ($stmt->rowCount() > 0) {
+                while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                    if (password_verify($clave, $resultado['password'])) {
+                        return array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200);
+                    } else {
+                        throw new InvalidData("Algo esta equivocado en la clave o el usuario");
+                    }
                 }
+            } else {
+                throw new UserNotExist();
             }
         } catch (Throwable $ex) {
 
-            
-            
+
+
             $errorType = basename(get_class($ex));
 
-            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType"=> $errorType);
+            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType);
         }
     }
     //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL
