@@ -33,18 +33,20 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$objeto_helper->security_validation_caracteres([$nombre, $apellido]);
 
 	$objeto_helper->security_validation_cedula($cedula);
-	
+
 
 
 	$objeto_helper->security_validation_fecha_nacimiento($edad);
 
-	$objeto_usuario->security_validation_sexo($sexo);
+	$objeto_helper->security_validation_sexo($sexo);
 
-	$objeto_usuario->security_validation_estado_civil($civil);
+
+
+	$objeto_helper->security_validation_estado_civil($civil);
 
 	$objeto_usuario->security_validation_nacionalidad($nacionalidad);
 
-	$objeto_usuario->security_validation_estado($estado);
+	$objeto_helper->security_validation_estado($estado);
 
 	$objeto_usuario->security_validation_correo($correo);
 
@@ -77,9 +79,9 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 if (isset($_POST['cedula_existente'])) {
 	$cedula = $_POST['cedula_existente'];
 
-	$objeto_usuario->security_validation_sql([$cedula]);
+	$objeto_helper->security_validation_inyeccion_sql([$cedula]);
 
-	$objeto_usuario->security_validation_cedula($cedula);
+	$objeto_helper->security_validation_cedula($cedula);
 
 	$response = $objeto_usuario->buscar_cedula($cedula);
 
@@ -92,9 +94,9 @@ if (isset($_POST['cedula_existente'])) {
 if (isset($_POST['correo_existente'])) {
 	$correo = $_POST['correo_existente'];
 
-	$objeto_usuario->security_validation_sql([$correo]);
+	$objeto_helper->security_validation_inyeccion_sql([$correo]);
 
-	$objeto_usuario->security_validation_correo($correo);
+	$objeto_helper->security_validation_correo($correo);
 
 	$response = $objeto_usuario->buscar_correo($correo);
 

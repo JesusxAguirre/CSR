@@ -240,7 +240,7 @@ class Helpers
     }
 
     //VALIDACION DE TELEFONO
-    
+
     /**
      * security_validation_telefono
      *
@@ -289,40 +289,93 @@ class Helpers
         }
     }
 
-    //VALIDACION DE SEGURIDAD DE CLAVE
+    //VALIDACION DE SEGURIDAD DE CLAVE    
+    /**
+     * security_validation_clave
+     *
+     * Metodo que valida que la clave cumpla con los parametros de seguridad. Si no los cumple se arroja una excepcion
+     * @param  mixed $clave
+     * @return void
+     */
     public function security_validation_clave($clave)
     {
-        $response = preg_match_all($this->expresion_clave, $clave);
 
-        if ($response == 0) {
+        try {
+            $response = preg_match_all($this->expresion_clave, $clave);
 
-            //registrar ataque informatico de hacker
+            if ($response == 0) {
+
+                //registrar ataque informatico de hacker
 
 
-            die("datos invalidos clave");
+                throw new InvalidData(sprintf("La clave que estas enviado no cumple con los requisitos de seguridad. clave-> '%s' ", $clave));
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
 
 
 
-      //VALIDACION DE SEXO
+    //VALIDACION DE SEXO
 
-      public function security_validation_sexo($sexo)
-      {
-          $sexos = ["hombre", "mujer"];
-  
-  
-          if (!in_array($sexo, $sexos)) {
-              //guardar datos de hacker
-  
-              die("sexo invalido");
-          }
-      }
-  
+    /**
+     * security_validation_sexo
+     *
+     * Este Metodo valida que el sexo enviado sea hombre o mujer de lo contrario se arroja una excepcion.
+     * @param  mixed $sexo
+     * @return void
+     */
+    public function security_validation_sexo($sexo)
+    {
+
+        try {
+
+            if (!in_array($sexo, $this->sexos)) {
+                //guardar datos de hacker
+
+                throw new InvalidData(sprintf("El sexo que estas enviando es invalido. sexo-> '%s'", $sexo));
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
 
 
 
 
+    //VALIDACION DE ESTADO CIVIL
+
+    /**
+     * security_validation_estado_civil
+     *
+     * Este metodo valida que el estado civil enviado este dentro de los admitidos en el sistema. De lo contrario arroja una excepcion
+     * @param  mixed $civil
+     * @return void
+     */
+    public function security_validation_estado_civil($civil)
+    {
+        try {
+
+
+            if (!in_array($civil, $this->estados_civiles)) {
+                //guardar datos de hacker
+
+                throw new InvalidData(sprintf("El estado civil que estas enviado es invalido. estado_civil-> '%s'", $civil));
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
 
 
 

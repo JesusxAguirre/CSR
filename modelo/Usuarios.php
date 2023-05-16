@@ -880,59 +880,7 @@ class Usuarios extends Conexion
 
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
-    //VALIDAR INYECCION SQL Y DATOS VACIOS
-    public function security_validation_sql($array)
-    {
-
-        parent::validar_inyeccion($array);
-    }
-
-    //VALIDACION DE CARACTERES
-    public function security_validation_caracteres($array)
-    {
-
-        parent::validar_caracteres($array);
-    }
-
-    //VALIDAR CEDULA
-
-    public function security_validation_cedula($cedula)
-    {
-
-        parent::validar_cedula($cedula);
-    }
-
-    //VALIDAR FECHA DE NACIMIENTO
-    public function security_validation_fecha_nacimiento($fecha_nacimiento)
-    {
-
-
-        $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
-        $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
-
-        $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
-
-        if ($fecha_nacimiento_ts > $mayoria_edad && $fecha_nacimiento_ts < $maxima_edad) {
-            //dguardar datos de hacker
-
-            die("fecha invalida por back end ");
-        }
-    }
-
-    //VALIDACION DE SEXO
-
-    public function security_validation_sexo($sexo)
-    {
-        $sexos = ["hombre", "mujer"];
-
-
-        if (!in_array($sexo, $sexos)) {
-            //guardar datos de hacker
-
-            die("sexo invalido");
-        }
-    }
-
+  
     //VALIDACION DE ESTADO CIVIL
 
     public function security_validation_estado_civil($civil)
