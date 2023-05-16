@@ -4,7 +4,9 @@ session_start();
 use Csr\Modelo\Usuarios;
 use Csr\Modelo\datosUsuario;
 use Csr\Modelo\Roles;
+use Csr\Helpers\Helpers;
 
+$objeto_helper = new Helpers();
 $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
@@ -24,13 +26,17 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$correo = trim($_POST['correo']);
 	$clave = trim($_POST['clave']);
 
-	$objeto_usuario->security_validation_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
-	$objeto_usuario->security_validation_caracteres([$nombre, $apellido]);
+	$objeto_helper->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
-	$objeto_usuario->security_validation_cedula($cedula);
 
-	$objeto_usuario->security_validation_fecha_nacimiento($edad);
+	$objeto_helper->security_validation_caracteres([$nombre, $apellido]);
+
+	$objeto_helper->security_validation_cedula($cedula);
+	
+
+
+	$objeto_helper->security_validation_fecha_nacimiento($edad);
 
 	$objeto_usuario->security_validation_sexo($sexo);
 

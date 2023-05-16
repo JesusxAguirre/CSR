@@ -959,44 +959,7 @@ class Usuarios extends Conexion
         }
     }
 
-    //VALIDACION ESTADO EN EL QUE VIVE SOLO VENEZUELA
-
-    public function security_validation_estado($estado)
-    {
-        $estados_venezuela = [
-            'amazonas',
-            'anzoategui',
-            'apure',
-            'aragua',
-            'barinas',
-            'bolivar',
-            'carabobo',
-            'cojedes',
-            'delta amacuro',
-            'distrito capital',
-            'falcon',
-            'guarico',
-            'lara',
-            'merida',
-            'miranda',
-            'monagas',
-            'nueva esparta',
-            'portuguesa',
-            'sucre',
-            'tachira',
-            'trujillo',
-            'vargas',
-            'yaracuy',
-            'zulia'
-        ];
-
-        if (!in_array($estado, $estados_venezuela)) {
-            //guardar datos de hacker
-
-            die("estado invalido");
-        }
-    }
-
+  
     //VALIDACION DE TELEFONO
 
     public function security_validation_telefono($telefono)

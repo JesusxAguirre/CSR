@@ -4,8 +4,7 @@ namespace Csr\Helpers;
 
 use Csr\Exception\Usuarios\InvalidData as InvalidData;
 use Exception;
-
-
+use InvalidArgumentException;
 use Throwable;
 
 
@@ -111,15 +110,16 @@ class Helpers
 
     //VALIDACION INYECCION SQL    
     /**
-     * validar_inyeccion
+     * security_validation_sql
      * 
-     * Funcion que valida caracter por caracter que no sea un caracter especial y luego valida si es vacio
+     * Funcion que valida un array donde cada indice contiene una cadeba de texto
+     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
      * Si alguno de estos casos se cumple arroja una excepcion.
      *
      * @param  mixed $array
      * @return void
      */
-    public function validar_inyeccion($array)
+    public function security_validation_inyeccion_sql($array)
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
@@ -129,7 +129,7 @@ class Helpers
                     //guardar en base de datos hacker
 
 
-                    throw new InvalidData("Estas intentando enviar caracteres invalidos");
+                    throw new InvalidData(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' "), $array[$i]);
                 }
 
                 if ($array[$i] == "") {
@@ -156,7 +156,7 @@ class Helpers
      * @param  mixed $cedula
      * @return void
      */
-    public function validar_cedula($cedula)
+    public function security_validation_cedula($cedula)
     {
         try {
             $response = preg_match_all($this->expresion_cedula, $cedula);
@@ -164,7 +164,7 @@ class Helpers
             if ($response == 0) {
                 //guardar ataque de hacker
 
-                throw new InvalidData("Estas enviando una cedula invalida");
+                throw new InvalidData(sprintf("Estas enviando una cedula invalida. cedula-> '%s' "), $cedula);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -177,15 +177,16 @@ class Helpers
     }
 
     /**
-     * validar_caracteres
+     * security_validation_caracteres
      *
-     * funcion que recorre una cadena de texto letra por letra validando con la expresion regular de 
-     * caracteres.  Si no coicide captura un error
+     * Metodo que recibe un array donde cada indice es una cadena de texto este metodo verifica
+     * que cada indice del array sea un caracter, es decir sin numeros o caracteres especiales.
+     * si no es una cadena de texto, arroja una excepcion
      * 
      * @param  mixed $array
      * @return void
      */
-    public function validar_caracteres($array)
+    public function security_validation_caracteres($array)
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
@@ -194,7 +195,7 @@ class Helpers
                 if ($response == 0) {
                     //guardar datos de hacker
 
-                    die("datos invalidos en caracteres");
+                    throw new InvalidData(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]));
                 }
             }
         } catch (Throwable $ex) {
@@ -212,9 +213,112 @@ class Helpers
 
 
 
+    /**
+     * security_validation_estado
+     *
+     * Metodo que valida que el estado exista en el atributo ya definido al principio del archivo, es decir
+     * comprueba que la variable estado exista en el array estados de venezuela. Si no existe en el array 
+     * arroja una excepcion
+     * @param  mixed $estado
+     * @return void
+     */
+    public function security_validation_estado($estado)
+    {
+
+        try {
+            if (!in_array($estado, $this->estados_venezuela)) {
+                //guardar datos de hacker
+
+                throw new InvalidData(sprintf("El estado que enviaste no existe en los estados de venezuela. estado-> '%s' "), $estado);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    //VALIDACION DE TELEFONO
+    
+    /**
+     * security_validation_telefono
+     *
+     * Metodo que valida una cadena de texto con una expresion regular de telefono.si no cumple con la expresion regular
+     * Se arroja una excepcion.
+     * @param  mixed $telefono
+     * @return void
+     */
+    public function security_validation_telefono($telefono)
+    {
+        try {
+            $response = preg_match_all($this->expresion_telefono, $telefono);
+
+            if ($response == 0) {
+                //guardar datos de hacker
+
+                throw new InvalidData(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' "), $telefono);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+    //VALIDACION DE CORREO
+    public function security_validation_correo($correo)
+    {
+        try {
+            $response = preg_match_all($this->expresion_correo, $correo);
+
+
+            if ($response == 0) {
+                //registrar ataque informatico de hacker
+
+
+                throw new InvalidData(sprintf("El correo que enviaste  no cumple el formato de correo. Correo-> '%s' ", $correo));
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    //VALIDACION DE SEGURIDAD DE CLAVE
+    public function security_validation_clave($clave)
+    {
+        $response = preg_match_all($this->expresion_clave, $clave);
+
+        if ($response == 0) {
+
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos clave");
+        }
+    }
 
 
 
+      //VALIDACION DE SEXO
+
+      public function security_validation_sexo($sexo)
+      {
+          $sexos = ["hombre", "mujer"];
+  
+  
+          if (!in_array($sexo, $sexos)) {
+              //guardar datos de hacker
+  
+              die("sexo invalido");
+          }
+      }
+  
 
 
 

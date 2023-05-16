@@ -27,5 +27,5 @@ return array(
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Csr\\Modelo\\' => array($baseDir . '/modelo'),
     'Csr\\Helpers\\' => array($baseDir . '/helpers'),
-    'Csr\\Exception\\Usuarios' => array($baseDir . '/exception/usuarios'),
+    'Csr\\Exception\\Usuarios\\' => array($baseDir . '/exception/usuarios'),
 );
