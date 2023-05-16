@@ -165,7 +165,7 @@ const ValidarCampo = (expresion, input, campo) => {
 				error: function (xhr, status, error) {
 					// Código a ejecutar si se produjo un error al realizar la solicitud
 
-					
+
 					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
@@ -173,9 +173,9 @@ const ValidarCampo = (expresion, input, campo) => {
 					campos.cedula = false;
 
 					let mensaje = document.getElementById("mensaje_cedula")
-					
+
 					mensaje.textContent = "Esta cedula ya existe en la base de datos, ingrese otra por favor"
-					
+
 					var response;
 					try {
 						response = JSON.parse(xhr.responseText);
@@ -359,6 +359,28 @@ $("#formulario").submit(function (e) {
 				} else {
 					console.log("algo sucedio con la base de datos")
 				}
+			},
+			error: function (xhr, status, error) {
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+
+
+
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+
+
+
 			}
 		})
 	}

@@ -83,9 +83,7 @@ if (isset($_POST['cedula_existente'])) {
 
 	$objeto_helper->security_validation_cedula($cedula);
 
-	 $objeto_usuario->buscar_cedula($cedula);
-
-	
+	$objeto_usuario->buscar_cedula($cedula);
 }
 
 //VALIDACION SI CORREO YA EXISTE EN LA BD
