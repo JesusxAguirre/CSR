@@ -3,6 +3,7 @@
 namespace Csr\Modelo;
 
 use Csr\Exception\Usuarios\InvalidData as InvalidData;
+use Csr\Exception\Usuarios\UserAlreadyExist;
 use Csr\Exception\Usuarios\UserNotExist as UserNotExist;
 use Csr\Modelo\Conexion;
 use PDO;
@@ -190,10 +191,17 @@ class Usuarios extends Conexion
 
             $resultado = $stmt->rowCount();
 
-            return $resultado;
-        } catch (Exception $e) {
+            if($resultado > 0 ){
+                throw new UserAlreadyExist();
+            }
+         
+        } catch (Throwable $ex) {
 
-            return false;
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
         }
     }
     //BUSCAR SI CEDULA YA EXISTE EN MENU PERFIL
