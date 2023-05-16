@@ -5,7 +5,10 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
+
+//CONSTANTES PARA TEMPORIZADOR
 const countdownToast = new bootstrap.Toast(document.getElementById("countdown-toast"));
+const duration = 300;
 
 var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
 
@@ -150,10 +153,10 @@ const ValidarSelect = (codigo_array, input, campo) => {
 
 const ValidarCampo = (expresion, input, campo) => {
 	if (expresion.test(input.value)) {
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+        document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
+        document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 		//comprobando si la cedula existe en la bd
 		if (campos.cedula == true) {
@@ -237,10 +240,10 @@ const ValidarCampo = (expresion, input, campo) => {
 		}
 
 	} else {
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+
+        document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+        document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
 		campos[campo] = false;
 	}
 }
@@ -457,11 +460,12 @@ $(document).on('submit', '#formulario2', function (event) {
 			url: window.location.href,
 			data: $(this).serialize(),// Obtiene los datos del formulario
 			success: function (response) {
+				
 				// Crear un elemento div
-                var div = document.createElement('div');
-                div.id = 'grupo__tokenCorreo'
-                div.innerHTML = `
-                    <div class="input-group mb-3">
+				var div = document.createElement('div');
+				div.id = 'grupo__tokenCorreo'
+				div.innerHTML = `
+                    <div class="input-group mb-3 mt-4">
                         <input maxlength="6" id="tokenCorreo" name="tokenCorreo" type="text" class="form-control" placeholder="Codigo">
                         <div class="input-group-append">
                             <div class="input-group-text">
@@ -471,33 +475,34 @@ $(document).on('submit', '#formulario2', function (event) {
                     </div>
                     <p class="text-danger d-none">Escriba un token valido</p>`;
 
-                // Obtener el nodo padre del botón_submit
-                var nodo = formulario2.lastElementChild;
+		
+				var appends = document.getElementById('appends');
 
-                // Insertar el elemento div antes del nodo padre del botón_submit
-                formulario2.insertBefore(div, nodo);
+				// Insertar el elemento div antes del nodo padre del botón_submit
+				appends.appendChild(div);
 
-                // Deshabilitar el elemento con el id "email"
-                document.getElementById("correo2").setAttribute('readonly', true);
+				// Deshabilitar el elemento con el id "email"
+				document.getElementById("correo2").setAttribute('readonly', true);
 
-                formulario2.id = "formulario4"
+				formulario2.id = "formulario4"
+				
 
-               
 
-               	document.getElementById("recuperar").textContent = "Enviar codigo"
+				document.getElementById("boton_submit_recuperar").textContent = "Enviar codigo"
 
-                //creando un nodeList con todos los inputs denfro de el id formulario2
-                const inputs = document.querySelectorAll("#formulario4 input")
+				//creando un nodeList con todos los inputs denfro de el id formulario2
+				const inputs = document.querySelectorAll("#formulario4 input")
 
-                inputs.forEach((input) => {
-                    input.addEventListener('keyup', validar_formulario);
-                    input.addEventListener('blur', validar_formulario);
+				inputs.forEach((input) => {
+					input.addEventListener('keyup', validar_formulario);
+					input.addEventListener('blur', validar_formulario);
 
-                });
+				});
 
-                //Agregando evento submit a formulario2
-                addEvent_formulario2()
-                countdown_toast()
+				//Agregando evento submit a formulario2
+				addEvent_formulario2()
+				countdown_toast()
+				
 
 
 
@@ -507,6 +512,13 @@ $(document).on('submit', '#formulario2', function (event) {
 			error: function (xhr, status, error) {
 				// Código a ejecutar si se produjo un error al realizar la solicitud
 
+				document.querySelector(`#grupo__correo2 i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+				document.querySelector(`#grupo__correo2 p`).classList.remove('d-none');
+				document.querySelector(`#grupo__correo2 i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+				document.querySelector(`#grupo__correo2 p`).classList.add('d-block');
+				campos.correo2 = false;
+				let mensaje = document.getElementById("mensaje_correo_recuperar")
+				mensaje.textContent = "Esta correo no existe en la base de datos, ingrese otro por favor"
 
 				var response;
 				try {
@@ -535,61 +547,61 @@ $(document).on('submit', '#formulario2', function (event) {
 
 function addEvent_formulario2() {
 
-    $(document).on('submit', '#formulario4', function (event) {
-        console.log("entra en el cuarto formulario")
-        event.preventDefault(); // Evita que el formulario se envíe automáticamente
-        if (!(campos.correo2 && campos.tokenCorreo)) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Lo siento ',
-                text: 'Registra el formulario correctamente ',
-                position: 'center'
-            })
-        } else {
-            
-            $.ajax({
-                type: 'POST',
-                url: window.location.href,
-                data: $(this).serialize(),// Obtiene los datos del formulario
-                success: function (response) {
+	$(document).on('submit', '#formulario4', function (event) {
+		console.log("entra en el cuarto formulario")
+		event.preventDefault(); // Evita que el formulario se envíe automáticamente
+		if (!(campos.correo2 && campos.tokenCorreo)) {
+			Swal.fire({
+				icon: 'error',
+				title: 'Lo siento ',
+				text: 'Registra el formulario correctamente ',
+				position: 'center'
+			})
+		} else {
 
-                    console.log(response)
+			$.ajax({
+				type: 'POST',
+				url: window.location.href,
+				data: $(this).serialize(),// Obtiene los datos del formulario
+				success: function (response) {
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Se ha restaurado tu contraseña correctamente, revisa tu correo'
-                    }).then((result) => {
-                        /* Read more about isConfirmed, isDenied below */
-                        if (result.isConfirmed) {
-                            window.location.replace(url);
-                        }
-                    })
+					console.log(response)
 
-
-
-                    setTimeout(function () {
-                        window.location.replace(window.location.href);
-                    }, 4000);
+					Swal.fire({
+						icon: 'success',
+						title: 'Se ha restaurado tu contraseña correctamente, revisa tu correo'
+					}).then((result) => {
+						/* Read more about isConfirmed, isDenied below */
+						if (result.isConfirmed) {
+							window.location.replace(url);
+						}
+					})
 
 
 
-                },
-                error: function (xhr, status, error) {
-                    // Código a ejecutar si se produjo un error al realizar la solicitud
+					setTimeout(function () {
+						window.location.replace(window.location.href);
+					}, 4000);
 
 
-                    Swal.fire({
-                        icon: 'error',
-                        title: xhr.responseJSON.ErrorType,
-                        text: xhr.responseJSON.Message
-                    })
 
-                    
+				},
+				error: function (xhr, status, error) {
+					// Código a ejecutar si se produjo un error al realizar la solicitud
 
-                }
-            });
-        }
-    });
+
+					Swal.fire({
+						icon: 'error',
+						title: xhr.responseJSON.ErrorType,
+						text: xhr.responseJSON.Message
+					})
+
+
+
+				}
+			});
+		}
+	});
 
 
 
@@ -598,36 +610,36 @@ function addEvent_formulario2() {
 
 // CREANDO FUNCION DEL TOAST
 function countdown_toast() {
-    // Muestra el toast
-    
-    countdownToast.show();
-    
-    // Establece la fecha límite para el countdown
-    var countDownDate = new Date(new Date().getTime() + duration * 1000).getTime();
-  
-    // Actualiza el countdown cada segundo
-    var x = setInterval(function() {
-  
-      // Obtiene la fecha y hora actual
-      var now = new Date().getTime();
-  
-      // Calcula la distancia entre la fecha límite y la fecha actual
-      var distance = countDownDate - now;
-  
-      // Calcula los minutos y segundos restantes
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-      // Muestra el countdown en el elemento con ID "countdown"
-      document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
-  
-      // Si la fecha límite ha pasado, muestra un mensaje de finalizado y cierra el toast
-      if (distance < 0) {
-        clearInterval(x);
-        document.getElementById("countdown").innerHTML = "CODIGO EXPIRADO";
-        setTimeout(function() {
-          countdownToast.hide();
-        }, 2000);
-      }
-    }, 1000);
-  }
+	// Muestra el toast
+
+	countdownToast.show();
+
+	// Establece la fecha límite para el countdown
+	var countDownDate = new Date(new Date().getTime() + duration * 1000).getTime();
+
+	// Actualiza el countdown cada segundo
+	var x = setInterval(function () {
+
+		// Obtiene la fecha y hora actual
+		var now = new Date().getTime();
+
+		// Calcula la distancia entre la fecha límite y la fecha actual
+		var distance = countDownDate - now;
+
+		// Calcula los minutos y segundos restantes
+		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+		// Muestra el countdown en el elemento con ID "countdown"
+		document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+
+		// Si la fecha límite ha pasado, muestra un mensaje de finalizado y cierra el toast
+		if (distance < 0) {
+			clearInterval(x);
+			document.getElementById("countdown").innerHTML = "CODIGO EXPIRADO";
+			setTimeout(function () {
+				countdownToast.hide();
+			}, 2000);
+		}
+	}, 1000);
+}

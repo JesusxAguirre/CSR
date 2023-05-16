@@ -235,26 +235,32 @@
                     <h5 class="modal-title" id="">Recuperar contraseña</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form id="formulario2" action="?pagina=iniciar-sesion" method="POST">
+                <form id="formulario2" action="?pagina=iniciar-sesion" method="POST">
+                    <div class="modal-body">
+
                         <div class="container-fluid">
-                            <div class="row mt-2">
+                            <div id="appends" class="row mt-2">
                                 <div id="grupo__correo2" class="col-sm  ">
-                                    <div class="relative">
-                                        <label class="form-label fw-bold">Correo</label>
+                                    <div class="input-group mb-3 relative">
+                                      
                                         <i class="input-icon fs-5"></i>
-                                        <input id="correo2" placeholder=" example@gmail.com" name="correo2" class="form-control">
+                                        <input id="correo2"  placeholder="Email" name="correo2" class="form-control">
+                                        <div class="input-group-append">
+                                            <div class="input-group-text">
+                                                <span class="bi bi-envelope-at-fill"></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                                    <p id="mensaje_correo_recuperar" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                                 </div>
                             </div>
 
                         </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="recuperar" name="recuperar" class="btn btn-primary">Enviar correo</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" id="boton_submit_recuperar" name="recuperar" class="btn btn-primary">Enviar correo</button>
+                    </div>
                 </form>
             </div>
         </div>
