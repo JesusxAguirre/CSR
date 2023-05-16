@@ -381,6 +381,24 @@ class Helpers
 
 
 
+    //VALIDACION NACIONALIDAD
+
+    public function security_validation_nacionalidad($nacionalidad)
+    {
+        try {
+
+            if (!in_array($nacionalidad, $this->nacionalidades)) {
+                //guardar datos de hacker
+
+                throw new InvalidData(sprintf("La nacioliadad que estas enviando no esta permitida en el sistema. nacionalidad-> '%s'", $nacionalidad));
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
 
 
 

@@ -44,19 +44,19 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 
 	$objeto_helper->security_validation_estado_civil($civil);
 
-	$objeto_usuario->security_validation_nacionalidad($nacionalidad);
+	$objeto_helper->security_validation_nacionalidad($nacionalidad);
 
 	$objeto_helper->security_validation_estado($estado);
 
-	$objeto_usuario->security_validation_correo($correo);
+	$objeto_helper->security_validation_correo($correo);
 
-	$objeto_usuario->security_validation_clave($clave);
+	$objeto_helper->security_validation_clave($clave);
 
 
-	$nombre = $objeto_usuario->sanitizar_cadenas($nombre);
-	$apellido = $objeto_usuario->sanitizar_cadenas($apellido);
-	$nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
-	$estado = $objeto_usuario->sanitizar_cadenas($estado);
+	$nombre = $objeto_helper->sanitizar_cadenas($nombre);
+	$apellido = $objeto_helper->sanitizar_cadenas($apellido);
+	$nacionalidad = $objeto_helper->sanitizar_cadenas($nacionalidad);
+	$estado = $objeto_helper->sanitizar_cadenas($estado);
 
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);

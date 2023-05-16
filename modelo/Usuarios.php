@@ -117,8 +117,8 @@ class Usuarios extends Conexion
                 while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                     if (password_verify($clave, $resultado['password'])) {
-                     http_response_code(200);
-                     echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200));
+                        http_response_code(200);
+                        echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200));
                     } else {
                         throw new InvalidData("Algo esta equivocado en la clave o el usuario");
                     }
@@ -132,7 +132,7 @@ class Usuarios extends Conexion
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
-            echo json_encode( array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
 
             die();
         }
@@ -870,85 +870,9 @@ class Usuarios extends Conexion
 
     ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
 
-    public function sanitizar_cadenas($cadena)
-    {
-        $cadena_minusculas = strtolower($cadena);
-        $cadena_capitalizada = ucfirst($cadena_minusculas);
-        return $cadena_capitalizada;
-    }
-
 
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
-  
-    //VALIDACION DE ESTADO CIVIL
-
-    public function security_validation_estado_civil($civil)
-    {
-        $estados_civiles = ["soltero", "soltera", "matrimonio"];
-
-        if (!in_array($civil, $estados_civiles)) {
-            //guardar datos de hacker
-
-            die("estado civil invalido");
-        }
-    }
-
-    //VALIDACION NACIONALIDAD
-
-    public function security_validation_nacionalidad($nacionalidad)
-    {
-        $nacionalidades = ["venezolana", "colombiana", "española"];
-
-        if (!in_array($nacionalidad, $nacionalidades)) {
-            //guardar datos de hacker
-
-            die("datos invalidos nacionalidad");
-        }
-    }
-
-  
-    //VALIDACION DE TELEFONO
-
-    public function security_validation_telefono($telefono)
-    {
-
-        $response = preg_match_all($this->expresion_telefono, $telefono);
-
-        if ($response == 0) {
-            //guardar datos de hacker
-
-            die("telefono invalido");
-        }
-    }
 
 
-    //VALIDACION DE CORREO
-    public function security_validation_correo($correo)
-    {
-
-        $response = preg_match_all($this->expresion_correo, $correo);
-
-
-        if ($response == 0) {
-            //registrar ataque informatico de hacker
-
-
-            die("datos invalidos de correo");
-        }
-    }
-
-    //VALIDACION DE SEGURIDAD DE CLAVE
-    public function security_validation_clave($clave)
-    {
-        $response = preg_match_all($this->expresion_clave, $clave);
-
-        if ($response == 0) {
-
-            //registrar ataque informatico de hacker
-
-
-            die("datos invalidos clave");
-        }
-    }
 }
