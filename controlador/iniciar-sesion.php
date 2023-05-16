@@ -115,16 +115,7 @@ if (isset($_POST['email'])) {
 
 	$_SESSION['clave'] = trim($_POST['password']);
 
-	$response = $objeto_usuario->validar();
-
-	
-	if ($response['status_code'] != 200) {
-		http_response_code($response['status_code']);
-		echo json_encode($response);
-
-		return false;
-	}
-
+	$objeto_usuario->validar();
 
 
 	$_SESSION['verdadero'] = 1;
@@ -156,15 +147,9 @@ if (isset($_POST['email'])) {
 		//luego se buscan los permisos con el id de rol
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 
-		http_response_code($response['status_code']);
-		echo json_encode($response);
+
 
 		return true;
-	} else {
-		echo "<script>
-		alert('Clave o usuario incorrecto');
-		window.location= 'index.php?pagina=iniciar-sesion'
-		</script>";
 	}
 }
 if (is_file("vista/" . $pagina . ".php")) {

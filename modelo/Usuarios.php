@@ -9,7 +9,6 @@ use PDO;
 use Exception;
 
 
-use React\Dns\Query\ExecutorInterface;
 use Throwable;
 
 class Usuarios extends Conexion
@@ -118,7 +117,8 @@ class Usuarios extends Conexion
                 while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                     if (password_verify($clave, $resultado['password'])) {
-                        return array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200);
+                     http_response_code(200);
+                     echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200));
                     } else {
                         throw new InvalidData("Algo esta equivocado en la clave o el usuario");
                     }
@@ -131,8 +131,10 @@ class Usuarios extends Conexion
 
 
             $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode( array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
 
-            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType);
+            die();
         }
     }
     //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL
@@ -151,28 +153,31 @@ class Usuarios extends Conexion
     public function listar()
     {
 
-        $consulta = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
+        $resultado = [];
+        $sql = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
          usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.edad,
          roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
         INNER JOIN roles ON usuarios.id_rol = roles.id");
 
-        $sql = $this->conexion()->prepare($consulta);
+        $stmt = $this->conexion()->prepare($sql);
 
-        $sql->execute(array());
+        $stmt->execute(array());
 
-        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->usuario[] = $filas;
+            $resultado[] = $filas;
         }
 
         $accion = "Listar todos los usuarios";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
-        return $this->usuario;
+        return $resultado;
     }
+
+
     //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
     public function buscar_cedula($cedula)
     {
