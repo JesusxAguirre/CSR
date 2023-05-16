@@ -75,7 +75,15 @@ class Helpers
     //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
 
 
-    //VALIDAR FECHA DE NACIMIENTO
+    //VALIDAR FECHA DE NACIMIENTO    
+    /**
+     * security_validation_fecha_nacimiento
+     *
+     * Metodo que valida la fecha de nacimiento , los casos aceptados son mayor a 18 años y menor a 99 años en el caso de que esto no se cumpla
+     * se arroja una excepcion
+     * @param  mixed $fecha_nacimiento
+     * @return void
+     */
     public function security_validation_fecha_nacimiento($fecha_nacimiento)
     {
         try {
@@ -93,14 +101,24 @@ class Helpers
         } catch (Throwable $ex) {
 
             $errorType = basename(get_class($ex));
-
-            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType);
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
 
 
 
-    //VALIDACION INYECCION SQL
+    //VALIDACION INYECCION SQL    
+    /**
+     * validar_inyeccion
+     * 
+     * Funcion que valida caracter por caracter que no sea un caracter especial y luego valida si es vacio
+     * Si alguno de estos casos se cumple arroja una excepcion.
+     *
+     * @param  mixed $array
+     * @return void
+     */
     public function validar_inyeccion($array)
     {
         try {
@@ -123,13 +141,21 @@ class Helpers
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
-
-            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType);
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
 
 
-    //VALIDACION CEDULA
+    //VALIDACION CEDULA    
+    /**
+     * validar_cedula
+     *
+     * Funcion que valida la cedula con una expresion regular, si no coicide captura un error
+     * @param  mixed $cedula
+     * @return void
+     */
     public function validar_cedula($cedula)
     {
         try {
@@ -143,21 +169,39 @@ class Helpers
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
 
-            return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType);
+            http_response_code($ex->getCode());
+
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
 
+    /**
+     * validar_caracteres
+     *
+     * funcion que recorre una cadena de texto letra por letra validando con la expresion regular de 
+     * caracteres.  Si no coicide captura un error
+     * 
+     * @param  mixed $array
+     * @return void
+     */
     public function validar_caracteres($array)
     {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match_all($this->expresion_caracteres, $array[$i]);
 
-        for ($i = 0; $i < count($array); $i++) {
-            $response = preg_match_all($this->expresion_caracteres, $array[$i]);
+                if ($response == 0) {
+                    //guardar datos de hacker
 
-            if ($response == 0) {
-                //guardar datos de hacker
-
-                die("datos invalidos en caracteres");
+                    die("datos invalidos en caracteres");
+                }
             }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
 
