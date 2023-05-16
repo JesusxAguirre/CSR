@@ -95,9 +95,7 @@ if (isset($_POST['correo_existente'])) {
 
 	$objeto_helper->security_validation_correo($correo);
 
-	$response = $objeto_usuario->buscar_correo($correo);
-
-	echo json_encode(array("response" => $response));
+	$objeto_usuario->buscar_correo($correo);
 
 	return true;
 }

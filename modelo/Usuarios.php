@@ -179,7 +179,15 @@ class Usuarios extends Conexion
     }
 
 
-    //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
+    //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO    
+    /**
+     * buscar_cedula
+     *
+     * Metodo de la clase usuarios que sirve para verificar si la cedula que se envia por parametro
+     * existe en la base de datos. Si existe envia una excepcion.
+     * @param  mixed $cedula
+     * @return void
+     */
     public function buscar_cedula($cedula)
     {
         try {
@@ -191,10 +199,9 @@ class Usuarios extends Conexion
 
             $resultado = $stmt->rowCount();
 
-            if($resultado > 0 ){
+            if ($resultado > 0) {
                 throw new UserAlreadyExist();
             }
-         
         } catch (Throwable $ex) {
 
             $errorType = basename(get_class($ex));
@@ -243,10 +250,16 @@ class Usuarios extends Conexion
 
             $resultado = $stmt->rowCount();
 
-            return $resultado;
-        } catch (Exception $e) {
+            if ($resultado > 0) {
+                throw new UserAlreadyExist($mensaje="Este correo ya existe en la base de datos");
+            }
+        } catch (Throwable $ex) {
 
-            return false;
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
         }
     }
 
