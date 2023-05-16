@@ -23,7 +23,7 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$nacionalidad = trim($_POST['nacionalidad']);
 	$estado = trim($_POST['estado']);
 	$telefono = trim($_POST['telefono']);
-	$correo = trim($_POST['correo']);
+	$correo = strtolower(trim($_POST['correo']));
 	$clave = trim($_POST['clave']);
 
 
@@ -57,7 +57,7 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$apellido = $objeto_helper->sanitizar_cadenas($apellido);
 	$nacionalidad = $objeto_helper->sanitizar_cadenas($nacionalidad);
 	$estado = $objeto_helper->sanitizar_cadenas($estado);
-
+	
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
@@ -102,21 +102,25 @@ if (isset($_POST['correo_existente'])) {
 
 $recuperacion = false;
 //recuperando password
-if (isset($_POST['recuperar'])) {
-	$correo = $_POST['correo2'];
+if (isset($_POST['correo2'])) {
+	$correo = strtolower(trim($_POST['correo2']));
 
+	$objeto_helper->security_validation_inyeccion_sql([$correo]);
+	
+	$objeto_helper->security_validation_correo($correo);
 
-	$objeto_usuario->setRecuperar($correo, $clave);
-
-	$recuperacion = $objeto_usuario->recuperar_password();
+	$objeto_usuario->validar_correo_existe($correo);
 }
 
 //validando datos de usuario para entrar al sistema
 if (isset($_POST['email'])) {
 
-	$_SESSION['usuario'] = trim($_POST['email']);
+	$_SESSION['usuario'] = strtolower(trim($_POST['email']));
 
 	$_SESSION['clave'] = trim($_POST['password']);
+
+
+
 
 	$objeto_usuario->validar();
 

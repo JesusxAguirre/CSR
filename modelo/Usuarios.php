@@ -251,7 +251,40 @@ class Usuarios extends Conexion
             $resultado = $stmt->rowCount();
 
             if ($resultado > 0) {
-                throw new UserAlreadyExist($mensaje="Este correo ya existe en la base de datos");
+                throw new UserAlreadyExist($mensaje = "Este correo ya existe en la base de datos");
+            }
+        } catch (Throwable $ex) {
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
+        }
+    }
+    
+    /**
+     * validar_correo_existe
+     *
+     * Este Metodo se usa para validar si el correo realmente existe en la base de datos 
+     * este metodo es muy parecido al anterior pero la validacion es a la inversa. si no existe se arroja una excepcion
+     * @param  mixed $correo
+     * @return void
+     */
+    public function validar_correo_existe($correo)
+    {
+        try {
+
+            $sql = ("SELECT usuario FROM usuarios WHERE usuario = :correo");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":correo" => $correo));
+
+            $resultado = $stmt->rowCount();
+
+            if ($resultado != 1) {
+                throw new UserNotExist($mensaje = "Este correo no existe en la base de datos");
             }
         } catch (Throwable $ex) {
 

@@ -253,12 +253,25 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" id="recuperar" name="recuperar" class="btn btn-primary">Enviar</button>
+                    <button type="submit" id="recuperar" name="recuperar" class="btn btn-primary">Enviar correo</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- CONTANDOR PARA ENVIO DE TOKEN 5 MINUTOS -->
+    <div class="fixed-top top-2 end-0 mt-3 p-3">
+        <div id="countdown-toast" class="toast hide " role="alert" data-bs-delay="300000" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Countdown Toast</strong>
+
+            </div>
+            <div class="toast-body">
+                <p>El codigo enviado al correo expirara en.</p>
+                <div id="countdown"></div>
+            </div>
+        </div>
     </div>
     <script type="text/javascript">
         recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>

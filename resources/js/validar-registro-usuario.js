@@ -5,6 +5,7 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
+const countdownToast = new bootstrap.Toast(document.getElementById("countdown-toast"));
 
 var lista_sexos = document.getElementById('sexo') //buscando id de lista de sexos para retorar array de lidere
 
@@ -41,6 +42,7 @@ const campos = {
 	estado: false,
 	//segundo formulario
 	correo2: false,
+	tokenCorreo: false,
 
 	//formulario inicio de sesion
 	email: false
@@ -233,50 +235,7 @@ const ValidarCampo = (expresion, input, campo) => {
 				}
 			})
 		}
-		if (campos.correo2 == true) {
-			let id = document.getElementById("correo")
-			let correo = id.value
-			$.ajax({
-				data: 'correo=' + correo,
-				url: "controlador/ajax/buscar-correo.php",
-				type: "post",
-				success: function (data) {
-					if (data == '1') {
-						fireAlert('error', 'Este corrreo ya existe')
-						document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-						document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-						document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-						document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-						campos.correo = false;
-						let mensaje = document.getElementById("mensaje_correo")
-						mensaje.textContent = "Esta correo ya existe en la base de datos, ingrese otro por favor"
-					}
-				},
-				error: function (xhr, status, error) {
-					// Código a ejecutar si se produjo un error al realizar la solicitud
 
-
-					var response;
-					try {
-						response = JSON.parse(xhr.responseText);
-					} catch (e) {
-						response = {};
-					}
-
-
-
-					Swal.fire({
-						icon: 'error',
-						title: response.ErrorType,
-						text: response.msj
-					})
-
-
-
-				}
-
-			})
-		}
 	} else {
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
@@ -479,3 +438,196 @@ $(document).on('submit', '#formulario3', function (event) {
 		});
 	}
 });
+$(document).on('submit', '#formulario2', function (event) {
+	event.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+
+	if (!(campos.correo2)) {
+		Swal.fire({
+			icon: 'error',
+			title: 'Lo siento ',
+			text: 'registre el formulario correctamente ',
+			position: 'center'
+		})
+	} else {
+
+
+		$.ajax({
+			type: 'POST',
+			url: window.location.href,
+			data: $(this).serialize(),// Obtiene los datos del formulario
+			success: function (response) {
+				// Crear un elemento div
+                var div = document.createElement('div');
+                div.id = 'grupo__tokenCorreo'
+                div.innerHTML = `
+                    <div class="input-group mb-3">
+                        <input maxlength="6" id="tokenCorreo" name="tokenCorreo" type="text" class="form-control" placeholder="Codigo">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="bi bi-key"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-danger d-none">Escriba un token valido</p>`;
+
+                // Obtener el nodo padre del botón_submit
+                var nodo = formulario2.lastElementChild;
+
+                // Insertar el elemento div antes del nodo padre del botón_submit
+                formulario2.insertBefore(div, nodo);
+
+                // Deshabilitar el elemento con el id "email"
+                document.getElementById("correo2").setAttribute('readonly', true);
+
+                formulario2.id = "formulario4"
+
+               
+
+               	document.getElementById("recuperar").textContent = "Enviar codigo"
+
+                //creando un nodeList con todos los inputs denfro de el id formulario2
+                const inputs = document.querySelectorAll("#formulario4 input")
+
+                inputs.forEach((input) => {
+                    input.addEventListener('keyup', validar_formulario);
+                    input.addEventListener('blur', validar_formulario);
+
+                });
+
+                //Agregando evento submit a formulario2
+                addEvent_formulario2()
+                countdown_toast()
+
+
+
+
+
+			},
+			error: function (xhr, status, error) {
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+
+
+
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+
+
+
+			}
+		});
+	}
+});
+
+
+
+
+function addEvent_formulario2() {
+
+    $(document).on('submit', '#formulario4', function (event) {
+        console.log("entra en el cuarto formulario")
+        event.preventDefault(); // Evita que el formulario se envíe automáticamente
+        if (!(campos.correo2 && campos.tokenCorreo)) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lo siento ',
+                text: 'Registra el formulario correctamente ',
+                position: 'center'
+            })
+        } else {
+            
+            $.ajax({
+                type: 'POST',
+                url: window.location.href,
+                data: $(this).serialize(),// Obtiene los datos del formulario
+                success: function (response) {
+
+                    console.log(response)
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Se ha restaurado tu contraseña correctamente, revisa tu correo'
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            window.location.replace(url);
+                        }
+                    })
+
+
+
+                    setTimeout(function () {
+                        window.location.replace(window.location.href);
+                    }, 4000);
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    // Código a ejecutar si se produjo un error al realizar la solicitud
+
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: xhr.responseJSON.ErrorType,
+                        text: xhr.responseJSON.Message
+                    })
+
+                    
+
+                }
+            });
+        }
+    });
+
+
+
+}
+
+
+// CREANDO FUNCION DEL TOAST
+function countdown_toast() {
+    // Muestra el toast
+    
+    countdownToast.show();
+    
+    // Establece la fecha límite para el countdown
+    var countDownDate = new Date(new Date().getTime() + duration * 1000).getTime();
+  
+    // Actualiza el countdown cada segundo
+    var x = setInterval(function() {
+  
+      // Obtiene la fecha y hora actual
+      var now = new Date().getTime();
+  
+      // Calcula la distancia entre la fecha límite y la fecha actual
+      var distance = countDownDate - now;
+  
+      // Calcula los minutos y segundos restantes
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+      // Muestra el countdown en el elemento con ID "countdown"
+      document.getElementById("countdown").innerHTML = minutes + "m " + seconds + "s ";
+  
+      // Si la fecha límite ha pasado, muestra un mensaje de finalizado y cierra el toast
+      if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("countdown").innerHTML = "CODIGO EXPIRADO";
+        setTimeout(function() {
+          countdownToast.hide();
+        }, 2000);
+      }
+    }, 1000);
+  }
