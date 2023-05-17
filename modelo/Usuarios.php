@@ -2,9 +2,7 @@
 
 namespace Csr\Modelo;
 
-use Csr\Exception\Usuarios\InvalidData as InvalidData;
-use Csr\Exception\Usuarios\UserAlreadyExist;
-use Csr\Exception\Usuarios\UserNotExist as UserNotExist;
+use Csr\Exception\Usuarios\UserNotExist;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
@@ -121,11 +119,11 @@ class Usuarios extends Conexion
                         http_response_code(200);
                         echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200));
                     } else {
-                        throw new InvalidData("Algo esta equivocado en la clave o el usuario");
+                        throw new InvalidData("Algo esta equivocado en la clave o el usuario",422);
                     }
                 }
             } else {
-                throw new UserNotExist();
+                throw new UserNotExist("Este correo no existe en la base de datos",409);
             }
         } catch (Throwable $ex) {
 
@@ -262,7 +260,7 @@ class Usuarios extends Conexion
             die();
         }
     }
-    
+
     /**
      * validar_correo_existe
      *
@@ -430,17 +428,16 @@ class Usuarios extends Conexion
                 ":pass" => $this->clave
             ));
 
-            return true;
-        } catch (Exception $e) {
-
-            echo $e->getMessage();
-
-            echo "Linea del error: " . $e->getLine();
-
-            return $e;
+            http_response_code(200);
+            echo json_encode(array("msj"=>"Se registro exitosamente"));
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code(500);
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
-
+    
     //ACTUALIZAR USUARIOS
     public function update_usuarios()
     {
@@ -930,3 +927,6 @@ class Usuarios extends Conexion
 
 
 }
+class InvalidData extends Exception { }
+class UsertNotExist extends Exception { }
+class UserAlreadyExist extends Exception { }

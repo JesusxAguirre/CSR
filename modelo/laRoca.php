@@ -35,9 +35,15 @@ class LaRoca extends Conexion
         $this->id_modulo = 2;
         //LLAMADA DE FUNCION PARA VERIFICAR SI CASA SOBRE LA ROCA DEBERIA ESTAR DESINCORPORADA
         $this->actualizar_status_CSR();
-       
     }
-    //BUSCAR CSR CON FILTROS
+    //BUSCAR CSR CON FILTROS    
+    /**
+     * buscar_CSR
+     *Metodo que se usa para una funcion de search en el back end
+     * 
+     * @param  mixed $busqueda
+     * @return void
+     */
     public function buscar_CSR($busqueda)
     {
         try {
@@ -74,7 +80,13 @@ class LaRoca extends Conexion
             return false;
         }
     }
-    //LISTAR USUARIOS DE NIVEL 2 Y 3
+    //LISTAR USUARIOS DE NIVEL 2 Y 3    
+    /**
+     * listar_usuarios_N2
+     *
+     * Metodo que devuelve una lista de usuarios de nivel 2
+     * @return void
+     */
     public function listar_usuarios_N2()
     {
         $resultado = [];
@@ -92,7 +104,13 @@ class LaRoca extends Conexion
         return $resultado;
     }
 
-    //LISTAR LIDERES SIN CSR
+    //LISTAR LIDERES SIN CSR    
+    /**
+     * Metodo que devuelve los lideres uqe no tienen casa sobre la roca es usado en el dashboard
+     * listar_lideres_sin_CSR
+     *
+     * @return void
+     */
     public function listar_lideres_sin_CSR()
     {
 
@@ -115,7 +133,15 @@ class LaRoca extends Conexion
 
         return $this->lideres;
     }
-    //LISTAR CSR
+
+    //LISTAR CSR    
+    /**
+     * listar_casas_la_roca
+     * 
+     * Metodo que se usa para listar todas las casas soobre la roca actuales
+     *
+     * @return void
+     */
     public function listar_casas_la_roca()
     {
         try {
@@ -333,10 +359,10 @@ class LaRoca extends Conexion
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:codigo_csr,'') WHERE cedula = :cedula_lider");
 
                 $stmt = $this->conexion()->prepare($sql);
-                
+
                 $stmt->execute(array(
-                    ":codigo_csr"=>$codigo_csr,
-                    ":cedula_lider"=>$filas['cedula_lider'],
+                    ":codigo_csr" => $codigo_csr,
+                    ":cedula_lider" => $filas['cedula_lider'],
                 ));
 
                 $sql = ("UPDATE casas_la_roca 

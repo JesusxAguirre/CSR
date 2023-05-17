@@ -32,17 +32,17 @@ var estado_array = Array.prototype.map.call(lista_estado.options, function (opti
 });
 
 const campos = {
-	nombre: false,
-	apellido: false,
+	nombre: true,
+	apellido: true,
 	cedula: false,
-	edad: false,
+	edad: true,
 	correo: false,
-	telefono: false,
-	clave: false,
-	sexo: false,
-	civil: false,
-	nacionalidad: false,
-	estado: false,
+	telefono: true,
+	clave: true,
+	sexo: true,
+	civil: true,
+	nacionalidad: true,
+	estado: true,
 	//segundo formulario
 	correo2: false,
 	tokenCorreo: false,
@@ -66,9 +66,9 @@ const ValidarFormulario = (e) => {
 		case "cedula":
 			ValidarCampo(expresiones.cedula, e.target, 'cedula');
 			break;
-		case "nombre":
+		/* case "nombre":
 			ValidarCampo(expresiones.nombre, e.target, 'nombre');
-			break;
+			break; */
 		case "apellido":
 			ValidarCampo(expresiones.nombre, e.target, 'apellido');
 			break;
@@ -136,16 +136,16 @@ const ValidarFecha_nacimiento = (input, campo) => {
 
 const ValidarSelect = (codigo_array, input, campo) => {
 	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 	} else {
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
 		campos[campo] = false;
 	}
 }
@@ -154,9 +154,9 @@ const ValidarSelect = (codigo_array, input, campo) => {
 const ValidarCampo = (expresion, input, campo) => {
 	if (expresion.test(input.value)) {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-        document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+		document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
 
-        document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 		//comprobando si la cedula existe en la bd
 		if (campos.cedula == true) {
@@ -170,11 +170,10 @@ const ValidarCampo = (expresion, input, campo) => {
 				error: function (xhr, status, error) {
 					// Código a ejecutar si se produjo un error al realizar la solicitud
 
-
-					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
 					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
 					campos.cedula = false;
 
 					let mensaje = document.getElementById("mensaje_cedula")
@@ -210,10 +209,10 @@ const ValidarCampo = (expresion, input, campo) => {
 				type: "post",
 				error: function (xhr, status, error) {
 					// Código a ejecutar si se produjo un error al realizar la solicitud
-					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 					document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-					document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
 					document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+					document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
 					campos.correo = false;
 					let mensaje = document.getElementById("mensaje_correo")
 					mensaje.textContent = "Esta correo ya existe en la base de datos, ingrese otro por favor"
@@ -242,8 +241,8 @@ const ValidarCampo = (expresion, input, campo) => {
 	} else {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 
-        document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-        document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
 		campos[campo] = false;
 	}
 }
@@ -283,13 +282,13 @@ $("#formulario").submit(function (e) {
 			text: 'Registra el formulario correctamente '
 		})
 	} else {
-
+		
 		$.ajax({
 			type: "POST",
 			url: "?pagina=iniciar-sesion",
 			data: $(this).serialize(),
 			success: function (response) {
-
+				
 				var data = JSON.parse(response)
 
 				if (data.response) {
@@ -312,13 +311,14 @@ $("#formulario").submit(function (e) {
 
 					fireAlert('success', 'Se registro el usuario correctamente')
 				} else {
+					console.log(data)
 					console.log("algo sucedio con la base de datos")
 				}
 			},
 			error: function (xhr, status, error) {
 				// Código a ejecutar si se produjo un error al realizar la solicitud
 
-
+				
 				var response;
 				try {
 					response = JSON.parse(xhr.responseText);
@@ -460,7 +460,7 @@ $(document).on('submit', '#formulario2', function (event) {
 			url: window.location.href,
 			data: $(this).serialize(),// Obtiene los datos del formulario
 			success: function (response) {
-				
+
 				// Crear un elemento div
 				var div = document.createElement('div');
 				div.id = 'grupo__tokenCorreo'
@@ -475,7 +475,7 @@ $(document).on('submit', '#formulario2', function (event) {
                     </div>
                     <p class="text-danger d-none">Escriba un token valido</p>`;
 
-		
+
 				var appends = document.getElementById('appends');
 
 				// Insertar el elemento div antes del nodo padre del botón_submit
@@ -485,7 +485,7 @@ $(document).on('submit', '#formulario2', function (event) {
 				document.getElementById("correo2").setAttribute('readonly', true);
 
 				formulario2.id = "formulario4"
-				
+
 
 
 				document.getElementById("boton_submit_recuperar").textContent = "Enviar codigo"
@@ -502,7 +502,7 @@ $(document).on('submit', '#formulario2', function (event) {
 				//Agregando evento submit a formulario2
 				addEvent_formulario2()
 				countdown_toast()
-				
+
 
 
 

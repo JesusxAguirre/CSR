@@ -14,6 +14,7 @@ $objRoles = new Roles();
 //REGISTRAR USUARIO
 
 if (isset($_POST['cedula']) && isset($_POST['correo'])) {
+	
 	$nombre = trim($_POST['nombre']);
 	$apellido = trim($_POST['apellido']);
 	$cedula = trim($_POST['cedula']);
@@ -61,18 +62,9 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
-	$response = $objeto_usuario->registrar_usuarios();
+	$objeto_usuario->registrar_usuarios();
 
 
-	if ($response) {
-
-		echo json_encode(array("response" => $response));
-		return true;
-	} else {
-
-		echo json_encode(array("response" => $response));
-		return false;
-	}
 }
 
 //VALIDACION SI CEDULA YA EXISTE EN  LA BD

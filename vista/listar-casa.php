@@ -65,44 +65,10 @@
                 <table role='table' class='table table-centered' id="mi_tabla">
                   <thead>
 
-                    <tr role='row'>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Dia de reunion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora</th>
-                      <th colspan='1' role='columnheader' class='sortable' style='cursor: pointer;' class=''>Codigo de lider</th>
-
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre anfitrion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono anfitrion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cantidad de personas en el hogar</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Direccion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
-                    </tr>
                   </thead>
 
                   <tbody id="datos" role='rowgroup'>
-                    <?php if (!empty($matriz_csr)) {
-                      foreach ($matriz_csr as $csr) : ?>
-                      <tr role='row'>
-                        <td hidden class="id" role='cell'><?php echo $csr['id'] ?></td>
-                        <td class="codigo" role='cell'><?php echo $csr['codigo'] ?></td>
-                        <td class="dia" role='cell'><?php echo  $csr['dia_visita'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($csr['hora_pautada'], 0, -3);
-                                                      echo $hora; ?></td>
-                        <td class="lider" role='cell'><?php echo  $csr['codigo_lider'] ?></td>
-                        <td class="nombre_anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
-                        <td class="telefono_anfitrion" role='cell'><?php echo  $csr['telefono_anfitrion'] ?></td>
-                        <td class="cantidad" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
-                        <td class="direccion" role='cell'><?php echo  $csr['direccion'] ?></td>
-                        <td class="" role="cell">
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-                        </td>
-                      </tr>
-                    <?php endforeach;
-                    }else{ ?>
-                      <tr role="row">
-                        <td><h5><em>Aun no hay CSR registradas</em></h5></td>
-                      </tr>
-                    <?php } ?>
+                   
                   </tbody>
                 </table>
               </div>
