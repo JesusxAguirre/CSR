@@ -7,7 +7,7 @@ require_once("vendor/autoload.php");
 		$pagina = $_GET['pagina'];
 	}
 
-	if (is_file("controlador/" . $pagina . ".php")) {
+	if (is_file("controlador/" . $pagina . ".php") ) {
 		require_once("controlador/" . $pagina . ".php");
 	} else {
 		echo "Pagina en construcion";

@@ -28,15 +28,18 @@
   <!-- DATATABLES CSS -->
   <link rel="stylesheet" href="resources/library/dataTables/css/jquery.dataTables.min.css">
 
-  <!-- JS de DataTables --> 
+  <!-- JS de DataTables -->
   <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
+
+  <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
+
 </head>
 
 <body>
 
   <!-- Menu.php -->
   <?php
-  require_once ("resources/View_Components/Menu.php")
+  require_once("resources/View_Components/Menu.php")
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -59,29 +62,30 @@
             <div class="card-body">
               <h4 class="header-title mb-3 fw-bold">Casas sobre la roca</h4>
 
-              <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
-              <div class="table-responsive mt-4">
+              <div style="visibility: hidden;" class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
+              <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-                <table role='table' class='table table-centered' id="mi_tabla">
-                  <thead>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="mi_tabla">
+                      <thead>
 
-                  </thead>
+                      </thead>
 
-                  <tbody id="datos" role='rowgroup'>
-                   
-                  </tbody>
-                </table>
+                      <tbody id="datos" role='rowgroup'>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
               </div>
-
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    </div>
+        </div>
   </main>
-  </div>
+
   <!-- Modal editar -->
   <div class="modal fade edit-modal" id="editar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -139,7 +143,7 @@
                   <label class="form-label fw-bold" for="">Nombre de Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
                   <input class="form-control" name="anfitrion" id="anfitrion" placeholder="Luis Jimenez...">
-                 
+
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
@@ -148,12 +152,12 @@
                   <label class="form-label fw-bold" for="">Telefono Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
                   <input class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
-                 
+
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
             </div>
-            <div class="mb-3 row">  
+            <div class="mb-3 row">
               <div id="grupo__cantidad" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Cantidad de personas en hogar</label>
@@ -161,7 +165,7 @@
                   <input class="form-control" name="cantidad" id="cantidad" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>              
+              </div>
               <div id="grupo__direccion" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Direccion</label>
@@ -169,8 +173,8 @@
                   <input class="form-control" name="direccion" id="direccion" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>              
-            <input type="hidden" name="id" id="idInput">
+              </div>
+              <input type="hidden" name="id" id="idInput">
           </form>
         </div>
         <div class="modal-footer">
@@ -181,12 +185,15 @@
       </div>
     </div>
   </div>
- 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.js"></script>
+
+
 
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-
   </script>
   <script src="resources/js/listar-casa.js"></script>
-  
+
 </body>

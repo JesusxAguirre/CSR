@@ -18,7 +18,7 @@ const campos = {
   anfitrion: true,
   telefono_anfitrion: true,
   cantidad: true,
-  lider : true
+  lider: true
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -114,7 +114,7 @@ const ValidarCampo = (expresion, input, campo) => {
 
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.lider && campos.dia && campos.hora && campos.direccion && campos.cantidad && campos.telefono_anfitrion && campos.anfitrion )) {
+  if (!(campos.lider && campos.dia && campos.hora && campos.direccion && campos.cantidad && campos.telefono_anfitrion && campos.anfitrion)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
@@ -157,7 +157,7 @@ busquedaEl.addEventListener('keyup', () => {
 //FUCNIONES QUE SE LLAMAN MAS ARRIBA
 function buscarCSR(busqueda) {
   $.ajax({
-    data: 'busqueda='+busqueda,
+    data: 'busqueda=' + busqueda,
     url: "controlador/ajax/buscar-CSR.php",
     type: "get",
   }).done(data => {
@@ -212,7 +212,7 @@ function addEvents() {
     diaInput.value = dia.textContent
     horaInput.value = hora.textContent
     cantidadInput.value = cantidad.textContent
-    direccionInput.value =  direccion.textContent
+    direccionInput.value = direccion.textContent
     //cedulas de usuarios
 
 
@@ -225,38 +225,39 @@ function addEvents() {
 
 
 $.ajax({
-  url: window.location.href,
+  url: "controlador/ajax/listar-casa-ajax.php",
   type: 'GET',
   dataType: 'json',
   success: function (data) {
-      
-				
-      $('#mi_tabla').DataTable({
-          data: response,
-          columns: [
-              { data: 'id', title: 'ID' },
-              { data: 'codigo', title: 'codigo' },
-              { data: 'dia_visita', className: "text-capitalize", title: 'Dia de visita' },
-              { data: 'hora_pautada', className: "text-capitalize", title: 'Hora de reunion' },
-              { data: 'codigo_lider', className: "lider" ,title: 'Codigo de lider' },
-              {
-                  data: null,
-                  title: "Acciones",
-                  className: "project-actions text-center",
-                  defaultContent: '<a class="btn btn-primary btn-sm btn-view" href="#"><i class="fas fa-folder"/>Ver </i></a> <a class="btn btn-info btn-sm btn-edit" href="#"><i class="fas fa-pencil-alt"></i> Editar</a> <a class="btn btn-danger btn-sm btn-delete" href="#"><i class="fas fa-trash"></i>Eliminar </a>',
-                  orderable: false
-              },
+    $('#mi_tabla').DataTable({
+      language: {
+        url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
+      },
+      data: data,
+      columns: [
+        { data: 'id', title: 'ID' },
+        { data: 'codigo', title: 'codigo' },
+        { data: 'dia_visita', className: "text-capitalize", title: 'Dia de visita' },
+        { data: 'hora_pautada', className: "text-capitalize", title: 'Hora de reunion' },
+        { data: 'codigo_lider', className: "lider", title: 'Codigo de lider' },
+        {
+          data: null,
+          title: "Acciones",
+          className: "project-actions text-center",
+          defaultContent: '<a class="btn btn-primary btn-sm btn-view" href="#"><i class="fas fa-folder"/>Ver </i></a> <a class="btn btn-info btn-sm btn-edit" href="#"><i class="fas fa-pencil-alt"></i> Editar</a> <a class="btn btn-danger btn-sm btn-delete" href="#"><i class="fas fa-trash"></i>Eliminar </a>',
+          orderable: false
+        },
 
-          ],
-          "responsive": true, "lengthChange": false, "autoWidth": false,
-          buttons: [
-              'csv', 'excel', 'pdf', 'print'
-          ],
+      ],
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      buttons: [
+        'csv', 'excel', 'pdf', 'print'
+      ],
 
-      }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
+    }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
 
   },
   error: function (xhr, status, error) {
-      console.log(xhr)
+    console.log(xhr)
   }
 });

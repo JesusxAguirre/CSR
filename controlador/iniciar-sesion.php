@@ -4,9 +4,7 @@ session_start();
 use Csr\Modelo\Usuarios;
 use Csr\Modelo\datosUsuario;
 use Csr\Modelo\Roles;
-use Csr\Helpers\Helpers;
 
-$objeto_helper = new Helpers();
 $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
@@ -28,36 +26,36 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$clave = trim($_POST['clave']);
 
 
-	$objeto_helper->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
+	$objeto_usuario->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave]);
 
 
-	$objeto_helper->security_validation_caracteres([$nombre, $apellido]);
+	$objeto_usuario->security_validation_caracteres([$nombre, $apellido]);
 
-	$objeto_helper->security_validation_cedula($cedula);
-
-
-
-	$objeto_helper->security_validation_fecha_nacimiento($edad);
-
-	$objeto_helper->security_validation_sexo($sexo);
+	$objeto_usuario->security_validation_cedula($cedula);
 
 
 
-	$objeto_helper->security_validation_estado_civil($civil);
+	$objeto_usuario->security_validation_fecha_nacimiento($edad);
 
-	$objeto_helper->security_validation_nacionalidad($nacionalidad);
-
-	$objeto_helper->security_validation_estado($estado);
-
-	$objeto_helper->security_validation_correo($correo);
-
-	$objeto_helper->security_validation_clave($clave);
+	$objeto_usuario->security_validation_sexo($sexo);
 
 
-	$nombre = $objeto_helper->sanitizar_cadenas($nombre);
-	$apellido = $objeto_helper->sanitizar_cadenas($apellido);
-	$nacionalidad = $objeto_helper->sanitizar_cadenas($nacionalidad);
-	$estado = $objeto_helper->sanitizar_cadenas($estado);
+
+	$objeto_usuario->security_validation_estado_civil($civil);
+
+	$objeto_usuario->security_validation_nacionalidad($nacionalidad);
+
+	$objeto_usuario->security_validation_estado($estado);
+
+	$objeto_usuario->security_validation_correo($correo);
+
+	$objeto_usuario->security_validation_clave($clave);
+
+
+	$nombre = $objeto_usuario->sanitizar_cadenas($nombre);
+	$apellido = $objeto_usuario->sanitizar_cadenas($apellido);
+	$nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
+	$estado = $objeto_usuario->sanitizar_cadenas($estado);
 	
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
@@ -71,9 +69,9 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 if (isset($_POST['cedula_existente'])) {
 	$cedula = $_POST['cedula_existente'];
 
-	$objeto_helper->security_validation_inyeccion_sql([$cedula]);
+	$objeto_usuario->security_validation_inyeccion_sql([$cedula]);
 
-	$objeto_helper->security_validation_cedula($cedula);
+	$objeto_usuario->security_validation_cedula($cedula);
 
 	$objeto_usuario->buscar_cedula($cedula);
 }
@@ -83,9 +81,9 @@ if (isset($_POST['cedula_existente'])) {
 if (isset($_POST['correo_existente'])) {
 	$correo = $_POST['correo_existente'];
 
-	$objeto_helper->security_validation_inyeccion_sql([$correo]);
+	$objeto_usuario->security_validation_inyeccion_sql([$correo]);
 
-	$objeto_helper->security_validation_correo($correo);
+	$objeto_usuario->security_validation_correo($correo);
 
 	$objeto_usuario->buscar_correo($correo);
 
@@ -97,9 +95,9 @@ $recuperacion = false;
 if (isset($_POST['correo2'])) {
 	$correo = strtolower(trim($_POST['correo2']));
 
-	$objeto_helper->security_validation_inyeccion_sql([$correo]);
+	$objeto_usuario->security_validation_inyeccion_sql([$correo]);
 	
-	$objeto_helper->security_validation_correo($correo);
+	$objeto_usuario->security_validation_correo($correo);
 
 	$objeto_usuario->validar_correo_existe($correo);
 }
