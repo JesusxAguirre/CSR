@@ -439,7 +439,19 @@ $(document).on('submit', '#formulario3', function (event) {
 					response = {};
 				}
 
-
+				switch (response.status_code) {
+					case 409:
+						response.ErrorType = "User Already Exist"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "User Not Exist"
+						break;
+					default:
+						break;
+				}
 
 				Swal.fire({
 					icon: 'error',

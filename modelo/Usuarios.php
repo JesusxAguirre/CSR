@@ -177,7 +177,7 @@ class Usuarios extends Conexion
                     }
                 }
             } else {
-                throw new Exception("Este correo no existe en la base de datos", 409);
+                throw new Exception("Este correo no existe en la base de datos", 404);
             }
         } catch (Throwable $ex) {
 
