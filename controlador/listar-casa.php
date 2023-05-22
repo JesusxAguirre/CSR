@@ -15,11 +15,11 @@ if (is_file('vista/'.$pagina.'.php')) {
     
     $objeto = new LaRoca();
    
-    $matriz_csr = $objeto->listar_casas_la_roca();
+ 
     $matriz_lideres = $objeto->listar_usuarios_N2();
 
 
-    
+
     $actualizar = true;
     if(isset($_POST['update'])){
         $id = $_POST['id'];
@@ -38,9 +38,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     }
     require_once 'vista/'.$pagina.'.php';
     
-    header('Content-Type: application/json');
-    
-    echo json_encode($matriz_csr);
+  
 }
 } else{ 
     echo "<script>
