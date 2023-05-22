@@ -282,13 +282,13 @@ $("#formulario").submit(function (e) {
 			text: 'Registra el formulario correctamente '
 		})
 	} else {
-		
+
 		$.ajax({
 			type: "POST",
 			url: "?pagina=iniciar-sesion",
 			data: $(this).serialize(),
 			success: function (response) {
-				
+
 				var data = JSON.parse(response)
 
 				if (data.response) {
@@ -318,7 +318,7 @@ $("#formulario").submit(function (e) {
 			error: function (xhr, status, error) {
 				// Código a ejecutar si se produjo un error al realizar la solicitud
 
-				
+
 				var response;
 				try {
 					response = JSON.parse(xhr.responseText);
@@ -326,7 +326,19 @@ $("#formulario").submit(function (e) {
 					response = {};
 				}
 
-
+				switch (resonpse.status_code) {
+					case 409:
+						response.ErrorType = "User Already Exist"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "User Not Exist"
+						break;
+					default:
+						break;
+				}
 
 				Swal.fire({
 					icon: 'error',

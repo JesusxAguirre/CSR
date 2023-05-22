@@ -54,7 +54,7 @@ class Helpers
 
     private $expresion_telefono = "/^[0-9]{11}$/";
 
-    private $expresion_especial = "/^[^a-zA-Z0-9!@#$%^&*]$/";
+    private $expresion_especial = "/^([^a-zA-Z0-9!@#$%^&*])$/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
