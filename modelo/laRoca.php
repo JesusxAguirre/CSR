@@ -32,7 +32,7 @@ class LaRoca extends Conexion
     private $lideres;
     private $busqueda;
 
-    
+
 
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
 
@@ -45,7 +45,8 @@ class LaRoca extends Conexion
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
-    private $expresion_numero = "/^[0-9]$/";
+    private $expresion_numero = "/^[0-9]{1,200}$/";
+    private $expresion_cantidad = "/^[0-9]{1,20}$/";
 
 
 
@@ -579,8 +580,8 @@ class LaRoca extends Conexion
         return $resultado;
     }
 
-       ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
-    
+    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
+
     //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
 
 
@@ -606,14 +607,52 @@ class LaRoca extends Conexion
                     //guardar en base de datos hacker
 
 
-                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ",$array[$i]),422);
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
                 }
 
                 if ($array[$i] == "") {
                     //guardar en base de datos de hacker
 
 
-                    throw new Exception("Estas enviando datos vacios",422);
+                    throw new Exception("Estas enviando datos vacios", 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+    //VALIDACION INYECCION SQL    
+    /**
+     * security_validation_sql
+     * 
+     * Funcion que valida un array donde cada indice contiene una cadeba de texto
+     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
+     * Si alguno de estos casos se cumple arroja una Exception.
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_codigo($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match_all($this->expresion_codigo, $array[$i]);
+
+                if ($response > 0) {
+                    //guardar en base de datos hacker
+
+
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
+                }
+
+                if ($array[$i] == "") {
+                    //guardar en base de datos de hacker
+
+
+                    throw new Exception("Estas enviando datos vacios", 422);
                 }
             }
         } catch (Throwable $ex) {
@@ -641,7 +680,7 @@ class LaRoca extends Conexion
             if ($response == 0) {
                 //guardar ataque de hacker
 
-                throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ",$cedula),422);
+                throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ", $cedula), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -672,7 +711,7 @@ class LaRoca extends Conexion
                 if ($response == 0) {
                     //guardar datos de hacker
 
-                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]),422);
+                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]), 422);
                 }
             }
         } catch (Throwable $ex) {
@@ -702,7 +741,59 @@ class LaRoca extends Conexion
             if ($response == 0) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ",$telefono), 422);
+                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ", $telefono), 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    
+    /**
+     * security_validation_numero
+     * 
+     * Esta funcion generalmente valida un ID verificando con una expresion regular, si no cumple el patron devuelve una excepcion
+     * 
+     * @param  mixed $numero este parametro suele ser un ID
+     * @return void
+     */
+    public function security_validation_numero($numero)
+    {
+        try {
+            $response = preg_match_all($this->expresion_numero, $numero);
+            if ($response == 0) {
+                //guardar datos de hacker
+
+                throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $numero), 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+    
+    /**
+     * security_validation_cantidad
+     *  
+     * Esta funcion valida que no sean mas de 20 personas como poner como muchos en una casa
+     * De no cumplir el patron devuelve una excepcion
+     * 
+     * @param  mixed $cantidad Este parametro es la cantidad de personas que viven en un hogar
+     * @return void
+     */
+    public function security_validation_cantidad($cantidad)
+    {
+        try {
+            $response = preg_match_all($this->expresion_cantidad, $cantidad);
+            if ($response == 0) {
+                //guardar datos de hacker
+
+                throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $cantidad), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -713,8 +804,6 @@ class LaRoca extends Conexion
     }
 
 
-    
- 
 
 
 
