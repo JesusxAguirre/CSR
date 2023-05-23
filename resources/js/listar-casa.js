@@ -216,15 +216,6 @@ inputs.forEach((input) => {
 
 
 
-//alerta registrar participante
-
-if (actualizar == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se actualizo la informacion correctamente'
-  })
-  setTimeout(recarga, 2000);
-}
 
 
 

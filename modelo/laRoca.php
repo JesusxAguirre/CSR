@@ -52,7 +52,7 @@ class LaRoca extends Conexion
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
 
-
+    private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/";
 
 
     public function __construct()
@@ -827,7 +827,46 @@ class LaRoca extends Conexion
 
 
 
+    /**
+     * security_validation_hora
+     * 
+     * Función que valida un array donde cada índice contiene una cadena de texto en formato de hora.
+     * Verifica si cada cadena cumple con el formato de hora deseado (HH:MM:SS).
+     * Si alguna cadena no cumple con el formato o está vacía, arroja una excepción.
+     *
+     * @param array $array
+     * @return void
+     */
+    public function security_validation_hora($hora)
+    {
+        try {
+            
 
+            for ($i = 0; $i < count($hora); $i++) {
+                $response = preg_match($this->expresion_hora, $hora);
+
+                if ($response === false) {
+                    // Error en la expresión regular
+                    throw new Exception("Error en la expresión regular de hora", 500);
+                }
+
+                if ($response === 0) {
+                    // La cadena no cumple con el formato de hora
+                    throw new Exception(sprintf("El formato de hora es inválido: '%s'", $hora), 422);
+                }
+
+                if ($hora === "") {
+                    // La cadena está vacía
+                    throw new Exception("La hora no puede estar vacía", 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
 
 
 

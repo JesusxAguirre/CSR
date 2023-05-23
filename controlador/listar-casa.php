@@ -20,7 +20,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
 
 
-    $actualizar = true;
+
     if(isset($_POST['id'])){
         $id = trim($_POST['id']); 
         $cedula_lider = trim($_POST['lider']); 
@@ -32,11 +32,12 @@ if (is_file('vista/'.$pagina.'.php')) {
         $direccion = strtolower(trim($_POST['direccion'])); 
         
 
-        $objeto->security_validation_inyeccion_sql([$id,$dia,$hora,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion]);
+        $objeto->security_validation_inyeccion_sql([$id,$dia,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion]);
         $objeto->security_validation_codigo([$cedula_lider]);
 
         $objeto->security_validation_numero($id);
         $objeto->security_validation_caracteres([$dia,$nombre_anfitrion,$direccion]);
+        $objeto->security_validation_hora($hora);
       
         $objeto->security_validation_telefono($telefono_anfitrion);
         
@@ -45,7 +46,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setActualizar($cedula_lider,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$dia,$hora,$id);
 
         $objeto->actualizar_CSR();
-        $actualizar = false;
+        
     }
     require_once 'vista/'.$pagina.'.php';
     

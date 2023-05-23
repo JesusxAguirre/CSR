@@ -193,9 +193,7 @@
 
 
 
-  <script type="text/javascript">
-    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-  </script>
+
   <script src="resources/js/listar-casa.js"></script>
 
 </body>
