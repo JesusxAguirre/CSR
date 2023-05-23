@@ -32,10 +32,10 @@ if (is_file('vista/'.$pagina.'.php')) {
         $direccion = strtolower(trim($_POST['direccion'])); 
         
 
-        $objeto->security_validation_inyeccion_sql([$id,$dia,$hora,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$cedula_lider]);
-        
+        $objeto->security_validation_inyeccion_sql([$id,$dia,$hora,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion]);
+        $objeto->security_validation_codigo([$cedula_lider]);
+
         $objeto->security_validation_numero($id);
-        $objeto->security_validation_cedula($cedula_lider);
         $objeto->security_validation_caracteres([$dia,$nombre_anfitrion,$direccion]);
       
         $objeto->security_validation_telefono($telefono_anfitrion);

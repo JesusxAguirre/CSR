@@ -39,7 +39,7 @@ class LaRoca extends Conexion
 
     private $expresion_telefono = "/^[0-9]{11}$/";
 
-    private $expresion_especial = "/^([^a-zA-Z0-9!@#$%^&*])$/";
+    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
 
     private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
 
@@ -623,7 +623,7 @@ class LaRoca extends Conexion
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match_all($this->expresion_especial, $array[$i]);
+                $response = preg_match($this->expresion_especial, $array[$i]);
 
                 if ($response > 0) {
                     //guardar en base de datos hacker
@@ -661,7 +661,7 @@ class LaRoca extends Conexion
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match_all($this->expresion_codigo, $array[$i]);
+                $response = preg_match($this->expresion_codigo, $array[$i]);
 
                 if ($response > 0) {
                     //guardar en base de datos hacker
@@ -697,7 +697,7 @@ class LaRoca extends Conexion
     public function security_validation_cedula($cedula)
     {
         try {
-            $response = preg_match_all($this->expresion_cedula, $cedula);
+            $response = preg_match($this->expresion_cedula, $cedula);
 
             if ($response == 0) {
                 //guardar ataque de hacker
@@ -728,7 +728,7 @@ class LaRoca extends Conexion
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match_all($this->expresion_caracteres, $array[$i]);
+                $response = preg_match($this->expresion_caracteres, $array[$i]);
 
                 if ($response == 0) {
                     //guardar datos de hacker
@@ -758,7 +758,7 @@ class LaRoca extends Conexion
     public function security_validation_telefono($telefono)
     {
         try {
-            $response = preg_match_all($this->expresion_telefono, $telefono);
+            $response = preg_match($this->expresion_telefono, $telefono);
 
             if ($response == 0) {
                 //guardar datos de hacker
@@ -785,7 +785,7 @@ class LaRoca extends Conexion
     public function security_validation_numero($numero)
     {
         try {
-            $response = preg_match_all($this->expresion_numero, $numero);
+            $response = preg_match($this->expresion_numero, $numero);
             if ($response == 0) {
                 //guardar datos de hacker
 
@@ -811,7 +811,7 @@ class LaRoca extends Conexion
     public function security_validation_cantidad($cantidad)
     {
         try {
-            $response = preg_match_all($this->expresion_cantidad, $cantidad);
+            $response = preg_match($this->expresion_cantidad, $cantidad);
             if ($response == 0) {
                 //guardar datos de hacker
 

@@ -95,7 +95,7 @@ class Usuarios extends Conexion
 
     private $expresion_telefono = "/^[0-9]{11}$/";
 
-    private $expresion_especial = "/^([^a-zA-Z0-9!@#$%^&*])$/";
+    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
@@ -1027,7 +1027,7 @@ class Usuarios extends Conexion
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match_all($this->expresion_especial, $array[$i]);
+                $response = preg_match($this->expresion_especial, $array[$i]);
 
                 if ($response > 0) {
                     //guardar en base de datos hacker
@@ -1063,7 +1063,7 @@ class Usuarios extends Conexion
     public function security_validation_cedula($cedula)
     {
         try {
-            $response = preg_match_all($this->expresion_cedula, $cedula);
+            $response = preg_match($this->expresion_cedula, $cedula);
 
             if ($response == 0) {
                 //guardar ataque de hacker
@@ -1094,7 +1094,7 @@ class Usuarios extends Conexion
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match_all($this->expresion_caracteres, $array[$i]);
+                $response = preg_match($this->expresion_caracteres, $array[$i]);
 
                 if ($response == 0) {
                     //guardar datos de hacker
@@ -1156,7 +1156,7 @@ class Usuarios extends Conexion
     public function security_validation_telefono($telefono)
     {
         try {
-            $response = preg_match_all($this->expresion_telefono, $telefono);
+            $response = preg_match($this->expresion_telefono, $telefono);
 
             if ($response == 0) {
                 //guardar datos de hacker
@@ -1176,7 +1176,7 @@ class Usuarios extends Conexion
     public function security_validation_correo($correo)
     {
         try {
-            $response = preg_match_all($this->expresion_correo, $correo);
+            $response = preg_match($this->expresion_correo, $correo);
 
 
             if ($response == 0) {
@@ -1205,7 +1205,7 @@ class Usuarios extends Conexion
     {
 
         try {
-            $response = preg_match_all($this->expresion_clave, $clave);
+            $response = preg_match($this->expresion_clave, $clave);
 
             if ($response == 0) {
 
