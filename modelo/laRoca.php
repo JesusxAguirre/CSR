@@ -303,68 +303,90 @@ class LaRoca extends Conexion
 
     public function actualizar_CSR()
     {
-        //buscando las cedulas de los usuarios por id de celula
-        $sql = ("SELECT  casas_la_roca.codigo AS codigo_celula,  
+        try {
+            //buscando las cedulas de los usuarios por id de celula
+            $sql = ("SELECT  casas_la_roca.codigo AS codigo_celula,  
         lider.codigo AS codigo_lider, lider.cedula AS cedula_lider
         FROM casas_la_roca 
         INNER JOIN usuarios AS lider  ON   casas_la_roca.cedula_lider = lider.cedula
-        WHERE casas_la_roca.id = '$this->id'");
-        $stmt = $this->conexion()->prepare($sql);
-
-        $stmt->execute(array());
-        //guardando en un array asociativo la CSR
-        $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        $codigo = $cedulas['codigo_celula'];
-        $codigo1 = $cedulas['codigo_celula'];
-        $codigo_lider_antiguo = $cedulas['codigo_lider'];
-        $cedula_lider_antiguo = $cedulas['cedula_lider'];
-
-        //VERIFICANDO QUE EL LIDER DE LA CASA SOBRE LA ROCA SEA EL MISMO QUE ANTES SI ES DISTINTO QUE EL ANTIGUO SE MODIFICA EL CODIGO DE AMBOS USUARIOS
-        if ($codigo_lider_antiguo != $this->cedula_lider) {
-
-            $codigo1 = '-' . $codigo;
-            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = '$cedula_lider_antiguo'");
-
+        WHERE casas_la_roca.id = :id");
             $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array());
-            //agregando el codigo a el usuario nuevo
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$this->cedula_lider'");
+            $stmt->execute(array(":id" => $this->id));
 
-            $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
-            $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($stmt->rowCount() < 1) {
+                throw new Exception("Esta casa sobre la roca no existe en la base de datos", 404);
+            }
+            //guardando en un array asociativo la CSR
+            $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $codigo = $cedulas['codigo_celula'];
+            $codigo1 = $cedulas['codigo_celula'];
+            $codigo_lider_antiguo = $cedulas['codigo_lider'];
+            $cedula_lider_antiguo = $cedulas['cedula_lider'];
+
+            //VERIFICANDO QUE EL LIDER DE LA CASA SOBRE LA ROCA SEA EL MISMO QUE ANTES SI ES DISTINTO QUE EL ANTIGUO SE MODIFICA EL CODIGO DE AMBOS USUARIOS
+            if ($codigo_lider_antiguo != $this->cedula_lider) {
+
+                $codigo1 = '-' . $codigo;
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,':codigo1','') WHERE cedula = :cedula_lider_antiguo");
+
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":codigo" => $codigo1,
+                    ":cedula_lider_antiguo" => $cedula_lider_antiguo
+                ));
+                //agregando el codigo a el usuario nuevo
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
+
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
+                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
-            $stmt = $this->conexion()->prepare($sql);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(
-                ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
-                ":cedula" => $this->cedula_lider
-            ));
-        }
+                $stmt->execute(array(
+                    ":codigo" => $codigo_lider['codigo'] . '-' . $codigo,
+                    ":cedula" => $this->cedula_lider
+                ));
+            }
 
-        $sql = ("UPDATE casas_la_roca SET cedula_lider = :cedula_lider , 
+            $sql = ("UPDATE casas_la_roca SET cedula_lider = :cedula_lider , 
             nombre_anfitrion = :nombre_anfitrion, 
             telefono_anfitrion = :telefono, cantidad_personas_hogar = :cantidad, 
             dia_visita = :dia, hora_pautada = :hora ,direccion = :direc
             WHERE id= :id");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(
-            ":cedula_lider" => $this->cedula_lider, ":nombre_anfitrion" => $this->nombre_anfitrion,
-            ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
-            ":dia" => $this->dia, ":hora" => $this->hora,
-            ":direc" => $this->direccion, ":id" => $this->id
-        ));
+            $stmt->execute(array(
+                ":cedula_lider" => $this->cedula_lider, ":nombre_anfitrion" => $this->nombre_anfitrion,
+                ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
+                ":dia" => $this->dia, ":hora" => $this->hora,
+                ":direc" => $this->direccion, ":id" => $this->id
+            ));
 
-        $accion = "Editar casa sobre la roca";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            $accion = "Editar casa sobre la roca";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+            http_response_code(200);
+            echo json_encode(array("msj" => "Se han actualizado correctamente los datos", "status_code" => 200));
+            die();
+        } catch (Throwable $ex) {
+
+
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
+        }
     }
 
     //---------Actualizar status cada 3 meses CSR------------------------//
@@ -751,7 +773,7 @@ class LaRoca extends Conexion
         }
     }
 
-    
+
     /**
      * security_validation_numero
      * 
@@ -776,7 +798,7 @@ class LaRoca extends Conexion
             die();
         }
     }
-    
+
     /**
      * security_validation_cantidad
      *  

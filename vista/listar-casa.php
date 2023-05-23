@@ -105,7 +105,7 @@
                     Dia de reunion
                   </label>
                   <i class="input-icon fs-5"></i>
-                  <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
+                  <input maxlength="7" type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
                 <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes </p>
               </div>
@@ -153,7 +153,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Telefono Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
+                  <input maxlength="11" class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
 
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
@@ -164,7 +164,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Cantidad de personas en hogar</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" name="cantidad" id="cantidad" />
+                  <input maxlength="2" class="form-control" name="cantidad" id="cantidad" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
@@ -172,7 +172,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Direccion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" name="direccion" id="direccion" />
+                  <input maxlength="20" class="form-control" name="direccion" id="direccion" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>

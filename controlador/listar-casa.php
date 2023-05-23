@@ -21,7 +21,7 @@ if (is_file('vista/'.$pagina.'.php')) {
 
 
     $actualizar = true;
-    if(isset($_POST['update'])){
+    if(isset($_POST['id'])){
         $id = trim($_POST['id']); 
         $cedula_lider = trim($_POST['lider']); 
         $dia = strtolower(trim($_POST['dia'])); 
@@ -41,7 +41,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->security_validation_telefono($telefono_anfitrion);
         
         $objeto->security_validation_cantidad($cantidad);
-        
+
         $objeto->setActualizar($cedula_lider,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$dia,$hora,$id);
 
         $objeto->actualizar_CSR();
