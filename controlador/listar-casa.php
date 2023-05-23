@@ -24,6 +24,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     if(isset($_POST['id'])){
         $id = trim($_POST['id']); 
         $cedula_lider = trim($_POST['lider']); 
+  
         $dia = strtolower(trim($_POST['dia'])); 
         $hora = trim($_POST['hora']); 
         $nombre_anfitrion = strtolower(trim($_POST['anfitrion'])); 
@@ -32,9 +33,15 @@ if (is_file('vista/'.$pagina.'.php')) {
         $direccion = strtolower(trim($_POST['direccion'])); 
         
 
-        $objeto->security_validation_inyeccion_sql([$id,$dia,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion]);
+        $objeto->security_validation_inyeccion_sql([$id,$dia,str_replace(" ","",$nombre_anfitrion) ,$telefono_anfitrion,$cantidad,str_replace(" ","",$direccion)]);
+        
+        //validando estructura de codigo ademas sepaprando sola la cedula del codigo, para luego validar la cedula
         $objeto->security_validation_codigo([$cedula_lider]);
-
+        $cedula_lider = explode('-',$cedula_lider);
+        $cedula_lider = $cedula_lider[0];
+        
+        
+        $objeto->security_validation_cedula($cedula_lider);
         $objeto->security_validation_numero($id);
         $objeto->security_validation_caracteres([$dia,$nombre_anfitrion,$direccion]);
         $objeto->security_validation_hora($hora);

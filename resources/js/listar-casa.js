@@ -39,8 +39,8 @@ const expresiones = { //objeto con varias expresiones regulares
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "dia":
-      console.log("desactivada la validacion de dia")
-      //ValidarDia(e.target, 'dia');
+  
+      ValidarDia(e.target, 'dia');
       break;
     case "hora":
       ValidarCampo(expresiones.hora, e.target, 'hora');
@@ -146,11 +146,9 @@ $('#editForm').submit(function (event) {
       url: "?pagina=listar-casa",
       data: $(this).serialize(),
       success: function (response) {
-        console.log(response)
-        var data = JSON.parse(response)
+      
 
-        if (data.response) {
-          document.getElementById("formulario").reset()
+          document.getElementById("editForm").reset()
 
           campos.anfitrion = false
           campos.cantidad = false
@@ -161,11 +159,14 @@ $('#editForm').submit(function (event) {
           campos.lider = false
           campos.telefono_anfitrion = false
 
+          $("#editar").removeClass('fade').modal('hide');
+          $('#mi_tabla').DataTable().destroy();
+
+          $("#editar").addClass('fade')
           solicitar_tabla()
-        } else {
-          console.log(data)
-          console.log("algo sucedio con la base de datos")
-        }
+
+          fireAlert('success', 'Se actualizo correctamente los datos')
+        
       },
       error: function (xhr, status, error) {
         // Código a ejecutar si se produjo un error al realizar la solicitud
@@ -191,6 +192,8 @@ $('#editForm').submit(function (event) {
           default:
             break;
         }
+
+        console.log(response)
 
         Swal.fire({
           icon: 'error',

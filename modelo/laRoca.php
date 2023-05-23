@@ -50,7 +50,7 @@ class LaRoca extends Conexion
 
 
 
-    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
+    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
 
     private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/";
 
@@ -306,10 +306,10 @@ class LaRoca extends Conexion
         try {
             //buscando las cedulas de los usuarios por id de celula
             $sql = ("SELECT  casas_la_roca.codigo AS codigo_celula,  
-        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider
-        FROM casas_la_roca 
-        INNER JOIN usuarios AS lider  ON   casas_la_roca.cedula_lider = lider.cedula
-        WHERE casas_la_roca.id = :id");
+            lider.codigo AS codigo_lider, lider.cedula AS cedula_lider
+            FROM casas_la_roca 
+            INNER JOIN usuarios AS lider  ON   casas_la_roca.cedula_lider = lider.cedula
+            WHERE casas_la_roca.id = :id");
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":id" => $this->id));
@@ -322,11 +322,11 @@ class LaRoca extends Conexion
 
             $codigo = $cedulas['codigo_celula'];
             $codigo1 = $cedulas['codigo_celula'];
-            $codigo_lider_antiguo = $cedulas['codigo_lider'];
+            
             $cedula_lider_antiguo = $cedulas['cedula_lider'];
 
             //VERIFICANDO QUE EL LIDER DE LA CASA SOBRE LA ROCA SEA EL MISMO QUE ANTES SI ES DISTINTO QUE EL ANTIGUO SE MODIFICA EL CODIGO DE AMBOS USUARIOS
-            if ($codigo_lider_antiguo != $this->cedula_lider) {
+            if ($cedula_lider_antiguo != $this->cedula_lider) {
 
                 $codigo1 = '-' . $codigo;
                 $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,':codigo1','') WHERE cedula = :cedula_lider_antiguo");
@@ -334,8 +334,8 @@ class LaRoca extends Conexion
                 $stmt = $this->conexion()->prepare($sql);
 
                 $stmt->execute(array(
-                    ":codigo" => $codigo1,
-                    ":cedula_lider_antiguo" => $cedula_lider_antiguo
+                    ":codigo1" => $codigo1,
+                    ":cedula_lider_antiguo" => $cedula_lider_antiguo,
                 ));
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
@@ -383,7 +383,7 @@ class LaRoca extends Conexion
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
 
             die();
         }
@@ -733,7 +733,7 @@ class LaRoca extends Conexion
                 if ($response == 0) {
                     //guardar datos de hacker
 
-                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]), 422);
+                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto. no mayor a 19 caracteres-> '%s", $array[$i]), 422);
                 }
             }
         } catch (Throwable $ex) {
@@ -840,25 +840,23 @@ class LaRoca extends Conexion
     public function security_validation_hora($hora)
     {
         try {
-            
 
-            for ($i = 0; $i < count($hora); $i++) {
-                $response = preg_match($this->expresion_hora, $hora);
 
-                if ($response === false) {
-                    // Error en la expresión regular
-                    throw new Exception("Error en la expresión regular de hora", 500);
-                }
+            $response = preg_match($this->expresion_hora, $hora);
 
-                if ($response === 0) {
-                    // La cadena no cumple con el formato de hora
-                    throw new Exception(sprintf("El formato de hora es inválido: '%s'", $hora), 422);
-                }
+            if ($response === false) {
+                // Error en la expresión regular
+                throw new Exception("Error en la expresión regular de hora", 500);
+            }
 
-                if ($hora === "") {
-                    // La cadena está vacía
-                    throw new Exception("La hora no puede estar vacía", 422);
-                }
+            if ($response === 0) {
+                // La cadena no cumple con el formato de hora
+                throw new Exception(sprintf("El formato de hora es inválido: '%s'", $hora), 422);
+            }
+
+            if ($hora === "") {
+                // La cadena está vacía
+                throw new Exception("La hora no puede estar vacía", 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
