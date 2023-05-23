@@ -2,9 +2,12 @@
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const inputs = document.querySelectorAll('#editForm input'); //declarando una constante con todos los inputs dentro de la id formulario
 
+var lista_lideres = document.getElementById('codigoLider') //buscando id de lista de lideres para retorar array de lidere
 
-const busquedaEl = document.getElementById('caja_busqueda')
-const datosEl = document.getElementById('datos')
+var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
+  return option.value;
+});
+
 
 
 
@@ -23,7 +26,7 @@ const expresiones = { //objeto con varias expresiones regulares
 
   direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
-  codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
+ 
   nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/,
   telefono: /^[0-9]{11}$/,
   direccion: /^[A-Za-z0-9\s]{10,200}$/,
@@ -50,7 +53,7 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.cantidad, e.target, 'cantidad');
       break;
     case "lider":
-      ValidarSelect(e.target, 'lider');
+      ValidarCodigo(lideres_array, e.target, 'lider');
       break;
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
@@ -60,16 +63,16 @@ const ValidarFormulario = (e) => {
 
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = false;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
     campos[campo] = true;
   }
 }
@@ -77,35 +80,50 @@ const ValidarSelect = (select, campo) => {
 const ValidarDia = (input, campo) => {
   if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
     console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
     console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 
 }
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-    console.log("entra en la funcion");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
+    campos[campo] = false;
+  }
+}
+
+const ValidarCodigo = (codigo_array, input, campo) => {
+  if (codigo_array.indexOf(input.value) >= 0) {
+  	document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+	
+    campos[campo] = true;
+  } else {
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -143,26 +161,7 @@ if (actualizar == false) {
   setTimeout(recarga, 2000);
 }
 
-//funciones ajax
 
-//busqueda CSR
-busquedaEl.addEventListener('keyup', () => {
-  let busqueda = busquedaEl.value
-
-  buscarCSR(busqueda);
-})
-
-//FUCNIONES QUE SE LLAMAN MAS ARRIBA
-function buscarCSR(busqueda) {
-  $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-CSR.php",
-    type: "get",
-  }).done(data => {
-    datosEl.innerHTML = data
-    addEvents()
-  })
-}
 
 function fireAlert(icon, msg) {
   Swal.fire({
