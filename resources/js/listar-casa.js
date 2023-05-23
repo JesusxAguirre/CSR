@@ -7,8 +7,6 @@ const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
 
 
-// Agrega los eventos para actualizar y eliminar 
-addEvents()
 
 
 const campos = {
@@ -177,25 +175,17 @@ function recarga() {
 }
 
 
-function addEvents() {
+$('#mi_tabla tbody').on('click', '.btn-edit', function () {
   // Actualizar contenido del modal Editar
-  const editButtons = document.querySelectorAll('table td .edit-btn')
+  const editButtons = document.querySelectorAll('table td .btn-edit')
+ 
+    let row = $(this).closest('tr');
+  
 
-  editButtons.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let id = fila.querySelector('.id')
-
-    let dia = fila.querySelector('.dia')
-    let hora = fila.querySelector('.hora')
-    let lider = fila.querySelector('.lider')
-    let nombre_anfitrion = fila.querySelector('.nombre_anfitrion')
-    let telefono_anfitrion = fila.querySelector('.telefono_anfitrion')
-    let cantidad = fila.querySelector('.cantidad')
-    let direccion = fila.querySelector('.direccion')
+  
 
 
     const idInput = document.getElementById('idInput')
-
     const diaInput = document.getElementById('diaInput')
     const horaInput = document.getElementById('horaInput')
     const liderInput = document.getElementById('lider')
@@ -204,24 +194,30 @@ function addEvents() {
     const cantidadInput = document.getElementById('cantidad')
     const direccionInput = document.getElementById('direccion')
 
-    liderInput.value = lider.textContent
-    nombre_anfitrionInput.value = nombre_anfitrion.textContent
-    telefono_anfitrionInput.value = telefono_anfitrion.textContent
-    idInput.value = id.textContent
 
-    diaInput.value = dia.textContent
-    horaInput.value = hora.textContent
-    cantidadInput.value = cantidad.textContent
-    direccionInput.value = direccion.textContent
+    idInput.value = row.find('td:eq(0)').text()
+    diaInput.value = row.find('td:eq(2)').text()
+    horaInput.value = row.find('td:eq(3)').text()
+    liderInput.value = row.find('td:eq(4)').text()
+    nombre_anfitrionInput.value = row.find('td:eq(5)').text()
+    telefono_anfitrionInput.value = row.find('td:eq(6)').text()
+    cantidadInput.value = row.find('td:eq(7)').text()
+    direccionInput.value = row.find('td:eq(8)').text()
     //cedulas de usuarios
 
 
-  }))
 
+});
 
+$('#mi_tabla tbody').on('click', '.btn-edit', function () {
+  
 
-}
+  var row = $(this).closest('tr');
+  var id = row.find('td:eq(0)').text();
+  // Aquí puedes realizar las acciones correspondientes con el id recuperado
+  console.log("Id de la fila seleccionada: " + id);
 
+});
 
 
 $.ajax({
@@ -235,21 +231,25 @@ $.ajax({
       },
       data: data,
       columns: [
-        { data: 'id', title: 'ID' },
+        { data: 'id', title: 'ID', className: "d-none" },
         { data: 'codigo', title: 'codigo' },
-        { data: 'dia_visita', className: "text-capitalize", title: 'Dia de visita' },
-        { data: 'hora_pautada', className: "text-capitalize", title: 'Hora de reunion' },
-        { data: 'codigo_lider', className: "lider", title: 'Codigo de lider' },
+        { data: 'dia_visita', className: "text-capitalize dia", title: 'Dia de visita' },
+        { data: 'hora_pautada', className: "text-capitalize hora", title: 'Hora de reunion' },
+        { data: 'codigo_lider',   title: 'Codigo de lider' },
+        { data: 'nombre_anfitrion', title: 'Nombre de anfitrion' , className: "d-none"},
+        { data: 'telefono_anfitrion', title: 'Telefono de anfitrion' , className: "d-none"},
+        { data: 'cantidad_personas_hogar', title: 'Cantidad de personas por hogar' , className: "d-none"},
+        { data: 'direccion', title: 'Direccion' , className: "d-none"},
         {
           data: null,
           title: "Acciones",
-          className: "project-actions text-center",
-          defaultContent: '<a class="btn btn-primary btn-sm btn-view" href="#"><i class="fas fa-folder"/>Ver </i></a> <a class="btn btn-info btn-sm btn-edit" href="#"><i class="fas fa-pencil-alt"></i> Editar</a> <a class="btn btn-danger btn-sm btn-delete" href="#"><i class="fas fa-trash"></i>Eliminar </a>',
+          className: "text-center",
+          defaultContent: '<button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary btn-edit"><i class="fs-5 bi bi-pencil-fill"></i></button>',
           orderable: false
         },
 
       ],
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "lengthChange": false, "autoWidth": false,
       buttons: [
         'csv', 'excel', 'pdf', 'print'
       ],
@@ -261,3 +261,4 @@ $.ajax({
     console.log(xhr)
   }
 });
+

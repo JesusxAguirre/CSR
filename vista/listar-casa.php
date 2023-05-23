@@ -63,22 +63,24 @@
               <h4 class="header-title mb-3 fw-bold">Casas sobre la roca</h4>
 
               <div style="visibility: hidden;" class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
-              <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
+              <div class="table-responsive mt-4">
+                <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-                <div class="row">
-                  <div class="col-sm-12">
-                    <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="mi_tabla">
-                      <thead>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="mi_tabla">
+                        <thead>
 
-                      </thead>
+                        </thead>
 
-                      <tbody id="datos" role='rowgroup'>
+                        <tbody id="datos" role='rowgroup'>
 
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                </div>
 
+                </div>
               </div>
             </div>
           </div>
