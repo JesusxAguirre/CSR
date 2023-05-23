@@ -178,7 +178,7 @@ $('#editForm').submit(function (event) {
           response = {};
         }
 
-        switch (resonpse.status_code) {
+        switch (response.status_code) {
           case 409:
             response.ErrorType = "Casa sobre la roca Already Exist"
             break;

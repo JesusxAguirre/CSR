@@ -326,7 +326,7 @@ $("#formulario").submit(function (e) {
 					response = {};
 				}
 
-				switch (resonpse.status_code) {
+				switch (response.status_code) {
 					case 409:
 						response.ErrorType = "User Already Exist"
 						break;
