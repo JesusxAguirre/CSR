@@ -22,14 +22,14 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     $actualizar = true;
     if(isset($_POST['update'])){
-        $id = $_POST['id'];
-        $cedula_lider = $_POST['lider'];
-        $dia = $_POST['dia'];
-        $hora = $_POST['hora'];
-        $nombre_anfitrion = $_POST['anfitrion'];
-        $telefono_anfitrion = $_POST['telefono_anfitrion'];
-        $cantidad = $_POST['cantidad'];
-        $direccion = $_POST['direccion'];
+        $id = trim($_POST['id']); 
+        $cedula_lider = trim($_POST['lider']); 
+        $dia = strtolower(trim($_POST['dia'])); 
+        $hora = trim($_POST['hora']); 
+        $nombre_anfitrion = strtolower(trim($_POST['anfitrion'])); 
+        $telefono_anfitrion = trim($_POST['telefono_anfitrion']); 
+        $cantidad = trim($_POST['cantidad']); 
+        $direccion = strtolower(trim($_POST['direccion'])); 
         
         $objeto->setActualizar($cedula_lider,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$dia,$hora,$id);
 

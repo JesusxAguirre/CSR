@@ -7,6 +7,9 @@ use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
 
+
+use Throwable;
+
 class LaRoca extends Conexion
 {
     private $conexion;
@@ -28,6 +31,28 @@ class LaRoca extends Conexion
     private $confesiones;
     private $lideres;
     private $busqueda;
+
+    
+
+    //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
+
+
+    private $expresion_telefono = "/^[0-9]{11}$/";
+
+    private $expresion_especial = "/^([^a-zA-Z0-9!@#$%^&*])$/";
+
+    private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
+
+    private $expresion_cedula = "/^[0-9]{7,8}$/";
+
+    private $expresion_numero = "/^[0-9]$/";
+
+
+
+    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
+
+
+
 
     public function __construct()
     {
@@ -553,4 +578,195 @@ class LaRoca extends Conexion
 
         return $resultado;
     }
+
+       ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
+    
+    //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
+
+
+
+    //VALIDACION INYECCION SQL    
+    /**
+     * security_validation_sql
+     * 
+     * Funcion que valida un array donde cada indice contiene una cadeba de texto
+     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
+     * Si alguno de estos casos se cumple arroja una Exception.
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_inyeccion_sql($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match_all($this->expresion_especial, $array[$i]);
+
+                if ($response > 0) {
+                    //guardar en base de datos hacker
+
+
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ",$array[$i]),422);
+                }
+
+                if ($array[$i] == "") {
+                    //guardar en base de datos de hacker
+
+
+                    throw new Exception("Estas enviando datos vacios",422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+    //VALIDACION CEDULA    
+    /**
+     * validar_cedula
+     *
+     * Funcion que valida la cedula con una expresion regular, si no coicide captura un error
+     * @param  mixed $cedula
+     * @return void
+     */
+    public function security_validation_cedula($cedula)
+    {
+        try {
+            $response = preg_match_all($this->expresion_cedula, $cedula);
+
+            if ($response == 0) {
+                //guardar ataque de hacker
+
+                throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ",$cedula),422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+
+            http_response_code($ex->getCode());
+
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    /**
+     * security_validation_caracteres
+     *
+     * Metodo que recibe un array donde cada indice es una cadena de texto este metodo verifica
+     * que cada indice del array sea un caracter, es decir sin numeros o caracteres especiales.
+     * si no es una cadena de texto, arroja una Exception
+     * 
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_caracteres($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match_all($this->expresion_caracteres, $array[$i]);
+
+                if ($response == 0) {
+                    //guardar datos de hacker
+
+                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]),422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+    //VALIDACION DE TELEFONO
+
+    /**
+     * security_validation_telefono
+     *
+     * Metodo que valida una cadena de texto con una expresion regular de telefono.si no cumple con la expresion regular
+     * Se arroja una Exception.
+     * @param  mixed $telefono
+     * @return void
+     */
+    public function security_validation_telefono($telefono)
+    {
+        try {
+            $response = preg_match_all($this->expresion_telefono, $telefono);
+
+            if ($response == 0) {
+                //guardar datos de hacker
+
+                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ",$telefono), 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+    
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
+
+    public function sanitizar_cadenas($cadena)
+    {
+        $cadena_minusculas = strtolower($cadena);
+        $cadena_capitalizada = ucfirst($cadena_minusculas);
+        return $cadena_capitalizada;
+    }
+
+
+
+    ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
+
+
+
+
 }
