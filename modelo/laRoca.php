@@ -305,7 +305,10 @@ class LaRoca extends Conexion
     {
         try {
             //buscando las cedulas de los usuarios por id de celula
-            $sql = ("SELECT  casas_la_roca.codigo AS codigo_celula,  
+            $sql = ("SELECT  casas_la_roca.codigo AS codigo_celula, 
+            casas_la_roca.nombre_anfitrion AS anfitrion, 
+            casas_la_roca.telefono_anfitrion,
+            casas_la_roca.cantidad_personas_hogar, casas_la_roca.dia_visita,casas_la_roca.hora_pautada,casas_la_roca.direccion,  
             lider.codigo AS codigo_lider, lider.cedula AS cedula_lider
             FROM casas_la_roca 
             INNER JOIN usuarios AS lider  ON   casas_la_roca.cedula_lider = lider.cedula
@@ -317,8 +320,19 @@ class LaRoca extends Conexion
             if ($stmt->rowCount() < 1) {
                 throw new Exception("Esta casa sobre la roca no existe en la base de datos", 404);
             }
+
+            
+
             //guardando en un array asociativo la CSR
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
+            if($cedulas['cedula_lider'] == $this->cedula_lider AND $cedulas['anfitrion']==$this->nombre_anfitrion AND 
+            $cedulas['telefono_anfitrion'] == $this->telefono AND $cedulas['cantidad_personas_hogar']==$this->cantidad_integrantes AND
+            $cedulas['dia_visita'] == $this->dia )
+            {
+                throw new Exception("Estas enviando la solicitud sin modificar los datos",422);
+            }
 
             $codigo = $cedulas['codigo_celula'];
             $codigo1 = $cedulas['codigo_celula'];
@@ -369,13 +383,13 @@ class LaRoca extends Conexion
                 ":dia" => $this->dia, ":hora" => $this->hora,
                 ":direc" => $this->direccion, ":id" => $this->id
             ));
-
+            
             $accion = "Editar casa sobre la roca";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
             http_response_code(200);
-            echo json_encode(array("msj" => "Se han actualizado correctamente los datos", "status_code" => 200));
+            echo json_encode(array("msj" => "Se han actualizado correctamente los datos", "status_code" => 200, "filas afecadas"=>$stmt->rowCount()));
             die();
         } catch (Throwable $ex) {
 

@@ -33,6 +33,23 @@
 
   <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
 
+  <style>
+    .btn-success {
+      background-color: darkgrey;
+    }
+
+    .btn-success:hover {
+      color: #fff;
+      background-color: grey;
+      border-color: #146c43;
+    }
+    .text-title {
+        color: #747579;
+
+    }
+  </style>
+
+
 </head>
 
 <body>
@@ -88,6 +105,94 @@
         </div>
   </main>
 
+  <!-- Modal ver -->
+  
+<!-- HTML del modal -->
+<div class="modal" id="view" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="modalUsuarioLabel">Informacion de la CSR</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                   
+
+                    <!-- Information START -->
+                    <div class="row">
+
+                        <!-- Information item -->
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-borderless">
+                                <li class="list-group-item">
+                                    <span class="text-title">Codigo de CSR:</span>
+                                    <span id="codigo_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <span class="text-title">Dia de visita :</span>
+                                    <span class="text-capitalize h6 mb-0 font-weight-bold" id="dia_ver"></span>
+                                </li>
+
+
+
+                                <li class="list-group-item">
+                                    <span class="text-title">Hora:</span>
+                                    <span id="hora_ver" class="h6 mb-0 font-weight-bold"></span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Information item -->
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-borderless">
+                                <li class="list-group-item">
+                                    <span class="text-title">Codigo de lider de CSR </span>
+                                    <span id="codigo_lider_ver" class="h6 mb-0 font-weight-bold"></span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <span class="text-title">Nombre de anfitrion:</span>
+                                    <span id="anfitrion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <span class="text-title">Telefono de anfitrion:</span>
+                                    <span id="telefono_ver" class="h6 mb-0 font-weight-bold"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Information item -->
+                        <div class="col-md-6">
+                            <ul class="list-group list-group-borderless">
+                                <li class="list-group-item">
+                                    <span class="text-title">Cantidad de personas en el hogar</span>
+                                    <span id="hogar_Ver" class="h6 mb-0 font-weight-bold"></span>
+                                </li>
+
+                                <li class="list-group-item">
+                                    <span class="text-title">Direccion:</span>
+                                    <span id="direccion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
+                                </li>
+
+                             
+                                
+                            </ul>
+                        </div>
+                    </div>
+                    <ul>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
   <!-- Modal editar -->
   <div class="modal fade edit-modal" id="editar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -105,9 +210,9 @@
                     Dia de reunion
                   </label>
                   <i class="input-icon fs-5"></i>
-                  <input maxlength="7" type="text" name="dia" id="diaInput" class="form-control" placeholder="">
+                  <input maxlength="7" type="text" name="dia" id="diaInput" class="form-control text-capitalize" placeholder="">
                 </div>
-                <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes </p>
+                <p class="text-danger d-none">Escriba un dia de la semana, todo en minuscula </p>
               </div>
             </div>
             <div class="mb-3">
@@ -144,7 +249,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Nombre de Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control" name="anfitrion" id="anfitrion" placeholder="Luis Jimenez...">
+                  <input class="form-control text-capitalize" name="anfitrion" id="anfitrion" placeholder="Luis Jimenez...">
 
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
@@ -172,7 +277,7 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Direccion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input maxlength="20" class="form-control" name="direccion" id="direccion" />
+                  <input maxlength="20" class="form-control text-capitalize" name="direccion" id="direccion" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
