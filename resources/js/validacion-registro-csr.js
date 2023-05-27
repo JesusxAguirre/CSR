@@ -65,18 +65,18 @@ const ValidarFormulario = (e) => {
 
 const ValidarDia = (input, campo) => {
   if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
-    console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -84,32 +84,32 @@ const ValidarDia = (input, campo) => {
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
 
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = false;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = true;
   }
 }
 
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -137,7 +137,7 @@ formulario.addEventListener('submit', (e) => {
 
 
 
-if (error == false) { 
+if (error == false) {
   Swal.fire({
     icon: 'success',
     title: 'Se registro la casa sobre la roca correctamente'
