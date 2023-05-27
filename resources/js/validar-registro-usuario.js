@@ -292,22 +292,13 @@ $("#formulario").submit(function (e) {
 				var data = JSON.parse(response)
 
 				if (data.response) {
+					for(let campo in campos){
+						campos[campo] = false
+					}
+					
 					document.getElementById("formulario").reset()
-					const iconos = document.querySelectorAll("#formulario i")
-					iconos.forEach((icono) => {
-						icono.classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-					})
-					campos.nombre = false
-					campos.apellido = false
-					campos.cedula = false
-					campos.edad = false
-					campos.sexo = false
-					campos.civil = false
-					campos.nacionalidad = false
-					campos.estado = false
-					campos.telefono = false
-					campos.correo = false
-					campos.clave = false
+					
+					
 
 					fireAlert('success', 'Se registro el usuario correctamente')
 				} else {

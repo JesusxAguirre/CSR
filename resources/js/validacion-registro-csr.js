@@ -1,4 +1,5 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
+ 
 
 var lideres = document.getElementById('lider');
 
@@ -18,6 +19,7 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
+  lider: false,
   dia: false,
   hora: false,
   direccion: false,
@@ -25,6 +27,7 @@ const campos = {
   telefono: false,
   integrantes: false,
 }
+
 
 const expresiones = { //objeto con varias expresiones regulares
 
@@ -129,13 +132,68 @@ lideres.addEventListener('hideDropdown', ValidarFormulario);
 
 
 formulario.addEventListener('submit', (e) => {
-  if (!(campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
-    e.preventDefault();
+  e.preventDefault();
+  if (!(campos.lider && campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
+   
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
+  }else{
+    $.ajax({
+			type: 'POST',
+			url: window.location.href,
+			data: $(this).serialize(),// Obtiene los datos del formulario
+			success: function (response) {
+				console.log(response)
+				
+        document.getElementById("formulario").reset()
+        
+        for(let campo in campos){
+          campos[campo] = false
+        }
+				Swal.fire({
+					icon: 'success',
+					title: 'Se ha registrado correctamente la CSR',
+					text: response.msj
+				})
+			},
+			error: function (xhr, status, error) {
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+
+				switch (response.status_code) {
+					case 409:
+						response.ErrorType = "Hay conflicto con los horarios de visitas de casa sobre la roca"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "Hubo algun error en la base de datos intente de nuevo"
+						break;
+					default:
+						break;
+				}
+
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+
+
+
+			}
+		});
   }
 })
 
