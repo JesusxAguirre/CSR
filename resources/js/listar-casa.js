@@ -25,7 +25,7 @@ const campos = {
 
 const expresiones = { //objeto con varias expresiones regulares
 
-  direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
+  direccion: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,30}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
 
 	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,12}$/, // Letras y espacios, pueden llevar acentos.

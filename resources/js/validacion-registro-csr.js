@@ -1,6 +1,10 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
 var lideres = document.getElementById('lider');
+
+var lideres_array = Array.prototype.map.call(lideres.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
 var choices1 = new Choices(lideres, {
   allowHTML: true,
   removeItems: true,
@@ -24,12 +28,12 @@ const campos = {
 
 const expresiones = { //objeto con varias expresiones regulares
 
-  direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
+  direccion: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,30}$/, // Letras y espacios, pueden llevar acentos.
+  // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
-  codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
-  nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/,
+  nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,12}$/, // Letras y espacios, pueden llevar acentos.
   telefono: /^[0-9]{11}$/,
-  direccion: /^[A-Za-z0-9\s]{10,200}$/,
+  
   integrantes: /^[0-9]{1,2}$/,
   //expresion regular de codigo de usuario
 }
@@ -53,7 +57,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "lider[]":
-      ValidarSelect(e.target, 'lider');
+      ValidarSelect(lideres_array,e.target, 'lider');
       break;
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
@@ -81,22 +85,22 @@ const ValidarDia = (input, campo) => {
   }
 }
 
-const ValidarSelect = (select, campo) => {
-  if (select.value == '') {
+const ValidarSelect = (codigo_array, input, campo) => {
+	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
 
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = false;
-  } else {
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
-    campos[campo] = true;
-  }
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+		campos[campo] = false;
+	}
 }
+
 
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
