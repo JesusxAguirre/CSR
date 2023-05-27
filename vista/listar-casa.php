@@ -126,20 +126,24 @@
                         <div class="col-md-6">
                             <ul class="list-group list-group-borderless">
                                 <li class="list-group-item">
-                                    <span class="text-title">Codigo de CSR:</span>
+                                    <span class="text-title">Codigo de CSR: </span>
                                     <span id="codigo_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <span class="text-title">Dia de visita :</span>
+                                    <span class="text-title">Dia de visita: </span>
                                     <span class="text-capitalize h6 mb-0 font-weight-bold" id="dia_ver"></span>
                                 </li>
 
 
 
                                 <li class="list-group-item">
-                                    <span class="text-title">Hora:</span>
+                                    <span class="text-title">Hora: </span>
                                     <span id="hora_ver" class="h6 mb-0 font-weight-bold"></span>
+                                </li>
+                                <li class="list-group-item">
+                                    <span class="text-title">Direccion: </span>
+                                    <span id="direccion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
                                 </li>
                             </ul>
                         </div>
@@ -148,38 +152,26 @@
                         <div class="col-md-6">
                             <ul class="list-group list-group-borderless">
                                 <li class="list-group-item">
-                                    <span class="text-title">Codigo de lider de CSR </span>
+                                    <span class="text-title">Codigo de lider de CSR: </span>
                                     <span id="codigo_lider_ver" class="h6 mb-0 font-weight-bold"></span>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <span class="text-title">Nombre de anfitrion:</span>
+                                    <span class="text-title">Nombre de anfitrion: </span>
                                     <span id="anfitrion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
                                 </li>
 
                                 <li class="list-group-item">
-                                    <span class="text-title">Telefono de anfitrion:</span>
+                                    <span class="text-title">Telefono de anfitrion: </span>
                                     <span id="telefono_ver" class="h6 mb-0 font-weight-bold"></span>
                                 </li>
+                                <li class="list-group-item">
+                                    <span class="text-title">Cantidad de personas en el hogar: </span>
+                                    <span id="cantidad_ver" class="h6 mb-0 font-weight-bold"></span>
+                                </li>
                             </ul>
                         </div>
-                        <!-- Information item -->
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-borderless">
-                                <li class="list-group-item">
-                                    <span class="text-title">Cantidad de personas en el hogar</span>
-                                    <span id="hogar_Ver" class="h6 mb-0 font-weight-bold"></span>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <span class="text-title">Direccion:</span>
-                                    <span id="direccion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                                </li>
-
-                             
-                                
-                            </ul>
-                        </div>
+                     
                     </div>
                     <ul>
 

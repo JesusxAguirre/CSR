@@ -267,13 +267,19 @@ $('#mi_tabla tbody').on('click', '.btn-edit', function () {
 
 });
 
-$('#mi_tabla tbody').on('click', '.btn-edit', function () {
+$('#mi_tabla tbody').on('click', '.btn-view', function () {
 
+  let row = $(this).closest('tr');
 
-  var row = $(this).closest('tr');
-  var id = row.find('td:eq(0)').text();
-  // Aquí puedes realizar las acciones correspondientes con el id recuperado
-  console.log("Id de la fila seleccionada: " + id);
+  $("#codigo_ver").text(row.find('td:eq(1)').text())
+  $("#dia_ver").text(row.find('td:eq(2)').text()) 
+  $("#hora_ver").text(row.find('td:eq(3)').text())
+
+  $("#codigo_lider_ver").text(row.find('td:eq(4)').text())
+  $("#anfitrion_ver").text(row.find('td:eq(5)').text())
+  $("#telefono_ver").text(row.find('td:eq(6)').text())
+  $("#cantidad_ver").text(row.find('td:eq(7)').text())
+  $("#direccion_ver").text(row.find('td:eq(8)').text())
 
 });
 
