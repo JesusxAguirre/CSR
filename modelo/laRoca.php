@@ -329,7 +329,7 @@ class LaRoca extends Conexion
             //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
             if($cedulas['cedula_lider'] == $this->cedula_lider AND $cedulas['anfitrion']==$this->nombre_anfitrion AND 
             $cedulas['telefono_anfitrion'] == $this->telefono AND $cedulas['cantidad_personas_hogar']==$this->cantidad_integrantes AND
-            $cedulas['dia_visita'] == $this->dia )
+            $cedulas['dia_visita'] == $this->dia AND $cedulas['hora_pautada'] == $this->hora AND $cedulas['direccion'] == $this->direccion)
             {
                 throw new Exception("Estas enviando la solicitud sin modificar los datos",422);
             }
