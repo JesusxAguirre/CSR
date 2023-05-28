@@ -36,10 +36,10 @@ if (is_file('vista/'.$pagina.'.php')) {
        
          $objeto->security_validation_telefono($telefono_anfitrion);
          
-         $objeto->security_validation_cantidad($cantidad);
+         $objeto->security_validation_cantidad($cantidad_integrantes);
  
 
-        $objeto->setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes);
+        $objeto->setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono_anfitrion,$dia,$hora,$cantidad_integrantes);
 
         $objeto->registrar_CSR();
        

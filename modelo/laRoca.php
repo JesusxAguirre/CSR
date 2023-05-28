@@ -250,7 +250,7 @@ class LaRoca extends Conexion
     public function registrar_CSR()
     {
         try {
-            $sql = ("SELECT hora_pautada AS hora FROM casas_la_roca 
+            $sql = ("SELECT hora_pautada AS hora, dia_visita FROM casas_la_roca 
             WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -262,18 +262,23 @@ class LaRoca extends Conexion
             $hora = DateTime::createFromFormat('H:i', $this->hora);
 
 
-            while($filas = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $horas_base_de_datos = DateTime::createFromFormat('H:i',$filas['hora']);
-                
-                //calculando la diferencia entre horarios
-                $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if ($filas['dia_visita'] == $this->dia) {
 
-                if($diferenciaMinutos < 15){
-                    throw new Exception("Estas intentando registrar un horario de CSR que choca con otro horario, la diferencia debe ser minimo 15 minutos",422);
+                    $hora_filas_formateada = substr($filas['hora'], 0,5);
+
+                    $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
+
+                    //calculando la diferencia entre horarios
+                    $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+
+                    if ($diferenciaMinutos < 15) {
+                        throw new Exception("Estás intentando registrar un horario de CSR que choca con otro horario. La diferencia debe ser de al menos 15 minutos.", 422);
+                    }
                 }
             }
 
-           //buscando ultimo id agregando
+            //buscando ultimo id agregando
             $sql = ("SELECT MAX(id) AS id FROM casas_la_roca");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -287,8 +292,8 @@ class LaRoca extends Conexion
             $id++;
 
             $sql = "INSERT INTO casas_la_roca (codigo,cedula_lider,
-        nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion,status) 
-        VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc,1)";
+            nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion,status) 
+            VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc,1)";
 
             $stmt = $this->conexion->prepare($sql);
             foreach ($this->cedula_lider as $cedula_lider) {
@@ -330,7 +335,7 @@ class LaRoca extends Conexion
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
+            echo json_encode(array("hora" => $this->hora, "msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
 
             die();
         }
@@ -339,7 +344,7 @@ class LaRoca extends Conexion
 
 
     //---------Actualizar CSR------------------------//
-    
+
     /**
      * actualizar_CSR
      * Funcion que actualiza los datos de una casa sore la roca 
@@ -374,7 +379,7 @@ class LaRoca extends Conexion
                 $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['anfitrion'] == $this->nombre_anfitrion and
                 $cedulas['telefono_anfitrion'] == $this->telefono and $cedulas['cantidad_personas_hogar'] == $this->cantidad_integrantes and
                 $cedulas['dia_visita'] == $this->dia and $cedulas['hora_pautada'] == $this->hora and $cedulas['direccion'] == $this->direccion
-            ){
+            ) {
                 throw new Exception("Estas enviando la solicitud sin modificar los datos", 422);
             }
 
@@ -384,7 +389,7 @@ class LaRoca extends Conexion
             $cedula_lider_antiguo = $cedulas['cedula_lider'];
 
 
-            $sql = ("SELECT hora_pautada AS hora FROM casas_la_roca 
+            $sql = ("SELECT hora_pautada AS hora, dia_visita FROM casas_la_roca 
             WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -396,14 +401,19 @@ class LaRoca extends Conexion
             $hora = DateTime::createFromFormat('H:i', $this->hora);
 
 
-            while($filas = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $horas_base_de_datos = DateTime::createFromFormat('H:i',$filas['hora']);
-                
-                //calculando la diferencia entre horarios
-                $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if ($filas['dia_visita'] == $this->dia) {
+                    
+                    $hora_filas_formateada = substr($filas['hora'], 0,5);
 
-                if($diferenciaMinutos < 15){
-                    throw new Exception("Estas intentando registrar un horario de CSR que choca con otro horario, la diferencia debe ser minimo 15 minutos",422);
+                    $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
+
+                    //calculando la diferencia entre horarios
+                    $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+
+                    if ($diferenciaMinutos < 15) {
+                        throw new Exception("Estás intentando registrar un horario de CSR que choca con otro horario. La diferencia debe ser de al menos 15 minutos.", 422);
+                    }
                 }
             }
 
@@ -466,7 +476,7 @@ class LaRoca extends Conexion
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
+            echo json_encode(array("hora" => $this->hora, "msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
 
             die();
         }
