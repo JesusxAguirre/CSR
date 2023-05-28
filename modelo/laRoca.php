@@ -52,7 +52,7 @@ class LaRoca extends Conexion
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
 
-    private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/";
+    private $expresion_hora = "/^([1-9]|1[0-2]):[0-5][0-9]$/";
 
 
     public function __construct()
