@@ -9,7 +9,7 @@ if($_SESSION['verdadero'] > 0){
 if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new LaRoca();
     $matriz_csr = $objeto->listar_casas_la_roca_por_usuario();
-    $error = true;
+    
     if(isset($_POST['registrar'])){
 
         $CSR = $_POST['CSR'][0];
@@ -21,16 +21,16 @@ if (is_file('vista/'.$pagina.'.php')) {
     
         $objeto->security_validation_inyeccion_sql([$CSR,$hombres,$mujeres,$niños,$confesiones]);
 
-        $objeto->security_validation_numero($CSR)
+        $objeto->security_validation_numero($CSR);
 
-        $objeto->security_validation_cantidad()
+        $objeto->security_validation_cantidad([$hombres,$mujeres,$niños,$confesiones]);
 
 
         
         $objeto->setReporte($CSR,$hombres,$mujeres,$niños,$confesiones);
         
         $objeto->registrar_reporte_CSR();
-        $error = false;
+        
     }
     require_once 'vista/'.$pagina.'.php';
 }

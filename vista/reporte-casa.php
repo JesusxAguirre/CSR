@@ -74,7 +74,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold" for="formGridEmail">Número de Hombres que asistieron</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="1" type="text" id="hombres" name="hombres" class="form-control">
+                      <input maxlength="2" placeholder="1" type="text" id="hombres" name="hombres" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -82,7 +82,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Número de Mujeres que asistieron</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="2" type="text" name="mujeres" id="mujeres" class="form-control">
+                      <input maxlength="2" placeholder="2" type="text" name="mujeres" id="mujeres" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -91,7 +91,7 @@
                       <label class="form-label fw-bold">
                         Número de Niños que asistieron</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="1" type="text" id="niños" name="niños" class="form-control">
+                      <input maxlength="2" placeholder="1" type="text" id="niños" name="niños" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -102,7 +102,7 @@
                       <label class="form-label fw-bold">
                         Confensiones de fe en la ultima visita </label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="1" type="text" id="confesiones" name="confesiones" class="form-control">
+                      <input maxlength="2" placeholder="1" type="text" id="confesiones" name="confesiones" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>

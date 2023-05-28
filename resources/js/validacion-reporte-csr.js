@@ -1,6 +1,11 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 
 var csr = document.getElementById('CSR');
+
+var csr_array = Array.prototype.map.call(csr.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
+
 var choices1 = new Choices(csr, {
   allowHTML: true,
   removeItems: true,
@@ -40,45 +45,45 @@ const ValidarFormulario = (e) => {
       ValidarCampo(expresiones.cantidad, e.target, 'confesiones');
       break;
     case "CSR[]":
-      ValidarSelect(e.target, 'CSR');
+      ValidarSelect(csr_array,e.target, 'CSR');
       break;
   }
 }
 
 
 
-const ValidarSelect = (select, campo) => {
-  if (select.value == '') {
+const ValidarSelect = (codigo_array, input, campo) => {
+	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
 
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = true;
-  }
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+		campos[campo] = false;
+	}
 }
 
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
+
 
 
 
@@ -104,15 +109,3 @@ formulario.addEventListener('submit', (e) => {
 })
 
 
-
-if (error == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro el reporte satisfactoriamentete'
-  })
-  const myTimeout = setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=reporte-casa";
-  }
-}
