@@ -252,10 +252,12 @@ $('#mi_tabla tbody').on('click', '.btn-edit', function () {
   const cantidadInput = document.getElementById('cantidad')
   const direccionInput = document.getElementById('direccion')
 
+  hora_completa = row.find('td:eq(3)').text()
 
   idInput.value = row.find('td:eq(0)').text()
   diaInput.value = row.find('td:eq(2)').text()
-  horaInput.value = row.find('td:eq(3)').text()
+  
+  horaInput.value = hora_completa.slice(0,5)
   liderInput.value = row.find('td:eq(4)').text()
   nombre_anfitrionInput.value = row.find('td:eq(5)').text()
   telefono_anfitrionInput.value = row.find('td:eq(6)').text()
@@ -263,8 +265,7 @@ $('#mi_tabla tbody').on('click', '.btn-edit', function () {
   direccionInput.value = row.find('td:eq(8)').text()
   //cedulas de usuarios
 
-
-
+  console.log(hora_completa.slice(0,5))
 });
 
 $('#mi_tabla tbody').on('click', '.btn-view', function () {
