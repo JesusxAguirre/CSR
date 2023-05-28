@@ -221,26 +221,43 @@ class LaRoca extends Conexion
         }
         return $listar;
     }
-    //ESTO ES PARA QUE NADIE QUE NO SEA EL USUARIO QUE CREO LA CSR NO PUEDA REPORTARLA ES UN TIPO VALIDACION POR BACKEND
+    //ESTO ES PARA QUE NADIE QUE NO SEA EL USUARIO QUE CREO LA CSR NO PUEDA REPORTARLA ES UN TIPO VALIDACION POR BACKEND    
+    /**
+     * listar_casas_la_roca_por_usuario
+     * funciona como una validacion por back end, para que otros usuarios manejen casas sobre la roca que no sean las suyas
+     *
+     * @return void
+     */
     public function listar_casas_la_roca_por_usuario()
     {
-        $resultado = [];
-        $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
+        try {
+            $resultado = [];
+            $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
         FROM casas_la_roca 
         WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = :usuario) AND casas_la_roca.status = 1 ");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array(
-            ":usuario"=> $_SESSION['usuario']
-        ));
+            $stmt->execute(array(
+                ":usuario" => $_SESSION['usuario']
+            ));
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $resultado[] = $filas;
+                $resultado[] = $filas;
+            }
+            return $resultado;
+        } catch (Throwable $ex) {
+
+
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
+
+            die();
         }
-        return $resultado;
     }
 
     //REGISTRAR CASAS SOBRE LA ROCA    
@@ -267,7 +284,7 @@ class LaRoca extends Conexion
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($filas['dia_visita'] == $this->dia) {
 
-                    $hora_filas_formateada = substr($filas['hora'], 0,5);
+                    $hora_filas_formateada = substr($filas['hora'], 0, 5);
 
                     $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
 
@@ -314,7 +331,7 @@ class LaRoca extends Conexion
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
                 $stmt = $this->conexion()->prepare($sql);
-                $stmt->execute(array(":cedula_lider"=>$cedula_lider));
+                $stmt->execute(array(":cedula_lider" => $cedula_lider));
                 $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -334,7 +351,7 @@ class LaRoca extends Conexion
 
 
             http_response_code(200);
-            echo json_encode(array("msj"=>"Se ha registrado correctamente la casa sobre la roca"));
+            echo json_encode(array("msj" => "Se ha registrado correctamente la casa sobre la roca"));
 
             die();
         } catch (Throwable $ex) {
@@ -411,8 +428,8 @@ class LaRoca extends Conexion
 
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
                 if ($filas['dia_visita'] == $this->dia) {
-                    
-                    $hora_filas_formateada = substr($filas['hora'], 0,5);
+
+                    $hora_filas_formateada = substr($filas['hora'], 0, 5);
 
                     $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
 
