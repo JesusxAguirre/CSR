@@ -208,7 +208,7 @@ class LaRoca extends Conexion
      */
     public function listar_casas_la_roca_sin_status()
     {
-        $resultado= [];
+        $resultado = [];
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
         casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
@@ -562,25 +562,38 @@ class LaRoca extends Conexion
 
     public function registrar_reporte_CSR()
     {
+        try {
 
-        $sql = "INSERT INTO reportes_casas (id_casa,cantidad_h,
+            $sql = "INSERT INTO reportes_casas (id_casa,cantidad_h,
         cantidad_m,cantidad_n,confesiones,fecha) 
         VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha)";
 
-        $stmt = $this->conexion->prepare($sql);
+            $stmt = $this->conexion->prepare($sql);
 
-        $stmt->execute(array(
-            ":id_casa" => $this->CSR,
-            ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
-            ":n" => $this->niños, ":confesiones" => $this->confesiones,
-            ":fecha" => $this->fecha
-        ));
+            $stmt->execute(array(
+                ":id_casa" => $this->CSR,
+                ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
+                ":n" => $this->niños, ":confesiones" => $this->confesiones,
+                ":fecha" => $this->fecha
+            ));
 
-        $accion = "Registar reporte casa sobre la roca";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            $accion = "Registar reporte casa sobre la roca";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
-        return true;
+            http_response_code(200);
+            echo json_encode(array("msj"=>"Registro de reporte exitoso"));
+            die();
+        } catch (Throwable $ex) {
+
+
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("hora" => $this->hora, "msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
+
+            die();
+        }
     }
     //SET PARA ACTUALIZAR CSR
     public function setActualizar($cedula_lider, $nombre_anfitrion, $telefono_anfitrion, $cantidad, $direccion, $dia, $hora, $id)
@@ -935,16 +948,16 @@ class LaRoca extends Conexion
     public function security_validation_cantidad($array)
     {
         try {
-        
+
             for ($i = 0; $i < count($array); $i++) {
                 $response = preg_match($this->expresion_cantidad, $array[$i]);
 
-            if ($response == 0) {
-                //guardar datos de hacker
+                if ($response == 0) {
+                    //guardar datos de hacker
 
-                throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $array[$i]), 422);
+                    throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $array[$i]), 422);
+                }
             }
-        }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());

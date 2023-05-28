@@ -21,7 +21,7 @@ const campos = {
   mujeres: false,
   niños: false,
   confesiones: false,
-  CSR: false,
+  csr: false,
 }
 
 const expresiones = { //objeto con varias expresiones regulares
@@ -96,15 +96,70 @@ inputs.forEach((input) => {
 csr.addEventListener('hideDropdown', ValidarFormulario);
 
 
-formulario.addEventListener('submit', (e) => {
-  if (!(campos.mujeres && campos.niños && campos.confesiones && campos.CSR && campos.hombres)) {
+$(document).on('submit', '#formulario', function (e) {
+  e.preventDefault();
+  if (!(campos.mujeres && campos.niños && campos.confesiones && campos.csr && campos.hombres)) {
     e.preventDefault();
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
+  }else{
+    $.ajax({
+			type: 'POST',
+			url: window.location.href,
+			data: $(this).serialize(),// Obtiene los datos del formulario
+			success: function (response) {
+				
+        document.getElementById("formulario").reset()
+        
+        for(let campo in campos){
+          campos[campo] = false
+        }
+				Swal.fire({
+					icon: 'success',
+					title: 'Se ha registrado el reporte correctamente',
+					text: response.msj
+				})
+			},
+			error: function (xhr, status, error) {
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+        console.log(xhr)
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+        console.log(response)
+				switch (response.status_code) {
+					case 409:
+						response.ErrorType = "Hay conflicto con los horarios de visitas de casa sobre la roca"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "Hubo algun error en la base de datos intente de nuevo"
+						break;
+					default:
+						break;
+				}
+
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+
+
+
+			}
+		});
   }
+
 
 })
 
