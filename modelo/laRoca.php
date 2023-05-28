@@ -199,10 +199,16 @@ class LaRoca extends Conexion
             return false;
         }
     }
-    //LISTAR CASAS SOBRE LA ROCA DESINCORPORADAS ESTO ES PARA LOS REPORTES ESTADISITCOS
+    //LISTAR CASAS SOBRE LA ROCA DESINCORPORADAS ESTO ES PARA LOS REPORTES ESTADISITCOS    
+    /**
+     * listar_casas_la_roca_sin_status
+     * Lista en el dashbaord las casas sobre la rocas que no tienen status de activo
+     *
+     * @return void
+     */
     public function listar_casas_la_roca_sin_status()
     {
-
+        $resultado= [];
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
         casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
         casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider
@@ -217,9 +223,9 @@ class LaRoca extends Conexion
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $listar[] = $filas;
+            $resultado[] = $filas;
         }
-        return $listar;
+        return $resultado;
     }
     //ESTO ES PARA QUE NADIE QUE NO SEA EL USUARIO QUE CREO LA CSR NO PUEDA REPORTARLA ES UN TIPO VALIDACION POR BACKEND    
     /**
