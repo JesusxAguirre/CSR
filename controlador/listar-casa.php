@@ -48,7 +48,7 @@ if (is_file('vista/'.$pagina.'.php')) {
       
         $objeto->security_validation_telefono($telefono_anfitrion);
         
-        $objeto->security_validation_cantidad($cantidad);
+        $objeto->security_validation_cantidad([$cantidad]);
 
         $objeto->setActualizar($cedula_lider,$nombre_anfitrion,$telefono_anfitrion,$cantidad,$direccion,$dia,$hora,$id);
 

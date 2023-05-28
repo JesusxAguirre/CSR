@@ -1,5 +1,7 @@
 <?php
 use Csr\Modelo\LaRoca;
+use PhpParser\Node\Expr\Print_;
+
 //destruye la sesion si se tenia una abierta
 session_start();
 
@@ -10,16 +12,21 @@ if (is_file('vista/'.$pagina.'.php')) {
     $error = true;
     if(isset($_POST['registrar'])){
 
-        $CSR1 = $_POST['CSR'];
-        $hombres = $_POST['hombres'];
-        $mujeres = $_POST['mujeres'];
-        $niños = $_POST['niños'];
-        $confesiones = $_POST['confesiones'];
+        $CSR = $_POST['CSR'][0];
+        $hombres = trim($_POST['hombres']);
+        $mujeres = trim($_POST['mujeres']);
+        $niños = trim($_POST['niños']);
+        $confesiones = trim($_POST['confesiones']);
         //colocando en una variable la id de casa sobre la roca fuera de un arreglo
-        for($i =0; $i < count($CSR1); $i++){
-            $id_casa = $CSR1[$i];
-            }
-        $CSR = $id_casa;
+    
+        $objeto->security_validation_inyeccion_sql([$CSR,$hombres,$mujeres,$niños,$confesiones]);
+
+        $objeto->security_validation_numero($CSR)
+
+        $objeto->security_validation_cantidad()
+
+
+        
         $objeto->setReporte($CSR,$hombres,$mujeres,$niños,$confesiones);
         
         $objeto->registrar_reporte_CSR();
@@ -40,5 +47,4 @@ if(isset( $_POST['cerrar'])){
     alert('Sesion Cerrada');
     window.location= 'index.php'
 </script>";
-}     
-?>
+}

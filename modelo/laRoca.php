@@ -932,15 +932,19 @@ class LaRoca extends Conexion
      * @param  mixed $cantidad Este parametro es la cantidad de personas que viven en un hogar
      * @return void
      */
-    public function security_validation_cantidad($cantidad)
+    public function security_validation_cantidad($array)
     {
         try {
-            $response = preg_match($this->expresion_cantidad, $cantidad);
+        
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_cantidad, $array[$i]);
+
             if ($response == 0) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $cantidad), 422);
+                throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $array[$i]), 422);
             }
+        }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
