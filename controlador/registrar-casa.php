@@ -12,21 +12,36 @@ if (is_file('vista/'.$pagina.'.php')) {
 
     //registrando casa sobre la roca
 
-    $error = true;
-    if(isset($_POST['registrar'])){
+    
+    if(isset($_POST['lider'])){
 
-        $cedula_lider = $_POST['lider'];
-        $direccion = $_POST['direccion'];
-        $nombre_anfitrion = $_POST['nombre'];
-        $telefono = $_POST['telefono'];
-        $dia = $_POST['dia'];
-        $hora = $_POST['hora'];
-        $cantidad_integrantes = $_POST['integrantes'];
+        $cedula_lider = trim($_POST['lider']);
+        
+        $direccion = strtolower(trim($_POST['direccion'])); 
+        $nombre_anfitrion = strtolower(trim($_POST['anfitrion'])); 
+        $telefono_anfitrion = trim($_POST['telefono']); 
+        
+        $dia = strtolower(trim($_POST['dia'])); 
+        $hora = trim($_POST['hora']); 
+        $cantidad_integrantes = trim($_POST['integrantes']);
+
+        $objeto->security_validation_inyeccion_sql([$cedula_lider,$dia,str_replace(" ","",$nombre_anfitrion) ,$telefono_anfitrion,$cantidad,str_replace(" ","",$direccion)]);
+        
+         
+         $objeto->security_validation_cedula($cedula_lider);
+         
+         $objeto->security_validation_caracteres([$dia,$nombre_anfitrion,$direccion]);
+         $objeto->security_validation_hora($hora);
+       
+         $objeto->security_validation_telefono($telefono_anfitrion);
+         
+         $objeto->security_validation_cantidad($cantidad);
+ 
 
         $objeto->setCSR($cedula_lider,$direccion,$nombre_anfitrion,$telefono,$dia,$hora,$cantidad_integrantes);
 
         $objeto->registrar_CSR();
-        $error = false;
+       
     }
 
 

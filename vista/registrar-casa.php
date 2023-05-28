@@ -129,9 +129,7 @@
       </div>
     </div>
   </main>
-  <script type="text/javascript">
-    error = <?php echo ($error) ? 'true' : 'false'; ?>
-  </script>
+  
   <script src="resources/js/validacion-registro-csr.js"></script>
 </body>
 </html>

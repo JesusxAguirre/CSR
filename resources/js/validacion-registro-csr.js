@@ -131,8 +131,9 @@ inputs.forEach((input) => {
 lideres.addEventListener('hideDropdown', ValidarFormulario);
 
 
-formulario.addEventListener('submit', (e) => {
+$(document).on('submit', '#formulario', function (e) {
   e.preventDefault();
+  console.log($(this).serialize())
   if (!(campos.lider && campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
    
     Swal.fire({
@@ -199,14 +200,3 @@ formulario.addEventListener('submit', (e) => {
 
 
 
-if (error == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro la casa sobre la roca correctamente'
-  })
-  const myTimeout = setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=registrar-casa";
-  }
-}
