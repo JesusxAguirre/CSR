@@ -224,21 +224,23 @@ class LaRoca extends Conexion
     //ESTO ES PARA QUE NADIE QUE NO SEA EL USUARIO QUE CREO LA CSR NO PUEDA REPORTARLA ES UN TIPO VALIDACION POR BACKEND
     public function listar_casas_la_roca_por_usuario()
     {
-        $usuario = $_SESSION['usuario'];
+        $resultado = [];
         $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
         FROM casas_la_roca 
-        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = '$usuario') AND casas_la_roca.status = 1 ");
+        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = :usuario) AND casas_la_roca.status = 1 ");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(
+            ":usuario"=> $_SESSION['usuario']
+        ));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-            $this->listar[] = $filas;
+            $resultado[] = $filas;
         }
-        return $this->listar;
+        return $resultado;
     }
 
     //REGISTRAR CASAS SOBRE LA ROCA    
@@ -309,10 +311,10 @@ class LaRoca extends Conexion
                 ));
                 //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
 
-                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$cedula_lider'");
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
                 $stmt = $this->conexion()->prepare($sql);
-                $stmt->execute(array());
+                $stmt->execute(array(":cedula_lider"=>$cedula_lider));
                 $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -329,13 +331,19 @@ class LaRoca extends Conexion
             $accion = "Registrar casas sobre la roca";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+
+
+            http_response_code(200);
+            echo json_encode(array("msj"=>"Se ha registrado correctamente la casa sobre la roca"));
+
+            die();
         } catch (Throwable $ex) {
 
 
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
-            echo json_encode(array("hora" => $this->hora, "msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
 
             die();
         }
