@@ -15,17 +15,18 @@ if (is_file('vista/'.$pagina.'.php')) {
     
     if(isset($_POST['lider'])){
 
-        $cedula_lider = trim($_POST['lider']);
+       
+        $cedula_lider = trim($_POST['lider'][0]);
         
         $direccion = strtolower(trim($_POST['direccion'])); 
-        $nombre_anfitrion = strtolower(trim($_POST['anfitrion'])); 
+        $nombre_anfitrion = strtolower(trim($_POST['nombre'])); 
         $telefono_anfitrion = trim($_POST['telefono']); 
         
         $dia = strtolower(trim($_POST['dia'])); 
         $hora = trim($_POST['hora']); 
         $cantidad_integrantes = trim($_POST['integrantes']);
 
-        $objeto->security_validation_inyeccion_sql([$cedula_lider,$dia,str_replace(" ","",$nombre_anfitrion) ,$telefono_anfitrion,$cantidad,str_replace(" ","",$direccion)]);
+        $objeto->security_validation_inyeccion_sql([$cedula_lider,$dia,str_replace(" ","",$nombre_anfitrion) ,$telefono_anfitrion,$cantidad_integrantes,str_replace(" ","",$direccion)]);
         
          
          $objeto->security_validation_cedula($cedula_lider);

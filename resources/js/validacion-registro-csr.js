@@ -163,14 +163,14 @@ $(document).on('submit', '#formulario', function (e) {
 			error: function (xhr, status, error) {
 				// Código a ejecutar si se produjo un error al realizar la solicitud
 
-
+        console.log(xhr)
 				var response;
 				try {
 					response = JSON.parse(xhr.responseText);
 				} catch (e) {
 					response = {};
 				}
-
+        console.log(response)
 				switch (response.status_code) {
 					case 409:
 						response.ErrorType = "Hay conflicto con los horarios de visitas de casa sobre la roca"

@@ -243,58 +243,86 @@ class LaRoca extends Conexion
     //REGISTRAR CASAS SOBRE LA ROCA
     public function registrar_CSR()
     {
-        //buscando ultimo id agregando
-        $sql = ("SELECT MAX(id) AS id FROM casas_la_roca");
+        try {
+            $sql = ("SELECT hora_pautada AS hora FROM casas_la_roca 
+        WHERE cedula_lider = :cedula_lider");
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array(
+                ":cedula_lider" => $this->cedula_lider
+            ));
 
-        $contador = $stmt->fetch(PDO::FETCH_ASSOC);
+            $record_set = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $id = $contador['id'];
-        //sumandole un numero para que sea dinamico 
-        $id++;
+            print($record_set['hora']);
+            print($this->hora);
+            if ($this->hora == $record_set['hora']) {
+                throw new Exception("La hora que estas seleccionando ya esta ocupada por otra CSR", 422);
+            }
+            exit();
 
-        $sql = "INSERT INTO casas_la_roca (codigo,cedula_lider,
+            //buscando ultimo id agregando
+            $sql = ("SELECT MAX(id) AS id FROM casas_la_roca");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array());
+
+            $contador = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $id = $contador['id'];
+            //sumandole un numero para que sea dinamico 
+            $id++;
+
+            $sql = "INSERT INTO casas_la_roca (codigo,cedula_lider,
         nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion,status) 
         VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc,1)";
 
-        $stmt = $this->conexion->prepare($sql);
-        foreach ($this->cedula_lider as $cedula_lider) {
+            $stmt = $this->conexion->prepare($sql);
+            foreach ($this->cedula_lider as $cedula_lider) {
 
 
-            $stmt->execute(array(
-                ":codigo" => 'CSR' . $id,
-                ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
-                ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
-                ":dia" => $this->dia,
-                ":fecha" => $this->fecha, ":hora" => $this->hora,
-                ":direc" => $this->direccion
-            ));
-            //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
+                $stmt->execute(array(
+                    ":codigo" => 'CSR' . $id,
+                    ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
+                    ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
+                    ":dia" => $this->dia,
+                    ":fecha" => $this->fecha, ":hora" => $this->hora,
+                    ":direc" => $this->direccion
+                ));
+                //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
 
-            $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$cedula_lider'");
+                $sql = ("SELECT codigo FROM usuarios WHERE cedula = '$cedula_lider'");
 
-            $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array());
-            $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $stmt = $this->conexion()->prepare($sql);
+                $stmt->execute(array());
+                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
-            $stmt = $this->conexion()->prepare($sql);
+                $stmt = $this->conexion()->prepare($sql);
 
-            $stmt->execute(array(
-                ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
-                ":cedula" => $cedula_lider
-            ));
-        } //fin del foreach
+                $stmt->execute(array(
+                    ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
+                    ":cedula" => $cedula_lider
+                ));
+            } //fin del foreach
 
-        $accion = "Registrar casas sobre la roca";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-        return true;
+            $accion = "Registrar casas sobre la roca";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        } catch (Throwable $ex) {
+
+
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType, "linea del error" => $ex->getLine()));
+
+            die();
+        }
     }
 
 
@@ -321,22 +349,23 @@ class LaRoca extends Conexion
                 throw new Exception("Esta casa sobre la roca no existe en la base de datos", 404);
             }
 
-            
+
 
             //guardando en un array asociativo la CSR
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
-            
+
             //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
-            if($cedulas['cedula_lider'] == $this->cedula_lider AND $cedulas['anfitrion']==$this->nombre_anfitrion AND 
-            $cedulas['telefono_anfitrion'] == $this->telefono AND $cedulas['cantidad_personas_hogar']==$this->cantidad_integrantes AND
-            $cedulas['dia_visita'] == $this->dia AND $cedulas['hora_pautada'] == $this->hora AND $cedulas['direccion'] == $this->direccion)
-            {
-                throw new Exception("Estas enviando la solicitud sin modificar los datos",422);
+            if (
+                $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['anfitrion'] == $this->nombre_anfitrion and
+                $cedulas['telefono_anfitrion'] == $this->telefono and $cedulas['cantidad_personas_hogar'] == $this->cantidad_integrantes and
+                $cedulas['dia_visita'] == $this->dia and $cedulas['hora_pautada'] == $this->hora and $cedulas['direccion'] == $this->direccion
+            ) {
+                throw new Exception("Estas enviando la solicitud sin modificar los datos", 422);
             }
 
             $codigo = $cedulas['codigo_celula'];
             $codigo1 = $cedulas['codigo_celula'];
-            
+
             $cedula_lider_antiguo = $cedulas['cedula_lider'];
 
             //VERIFICANDO QUE EL LIDER DE LA CASA SOBRE LA ROCA SEA EL MISMO QUE ANTES SI ES DISTINTO QUE EL ANTIGUO SE MODIFICA EL CODIGO DE AMBOS USUARIOS
@@ -383,13 +412,13 @@ class LaRoca extends Conexion
                 ":dia" => $this->dia, ":hora" => $this->hora,
                 ":direc" => $this->direccion, ":id" => $this->id
             ));
-            
+
             $accion = "Editar casa sobre la roca";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
             http_response_code(200);
-            echo json_encode(array("msj" => "Se han actualizado correctamente los datos", "status_code" => 200, "filas afecadas"=>$stmt->rowCount()));
+            echo json_encode(array("msj" => "Se han actualizado correctamente los datos", "status_code" => 200, "filas afecadas" => $stmt->rowCount()));
             die();
         } catch (Throwable $ex) {
 
