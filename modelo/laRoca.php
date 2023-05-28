@@ -6,7 +6,7 @@ use Csr\Modelo\Conexion;
 
 use PDO;
 use Exception;
-
+use DateTime;
 
 use Throwable;
 
@@ -52,7 +52,7 @@ class LaRoca extends Conexion
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
 
-    private $expresion_hora = "/^([1-9]|1[0-2]):[0-5][0-9]$/";
+    private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/";
 
 
     public function __construct()
@@ -240,12 +240,18 @@ class LaRoca extends Conexion
         }
         return $this->listar;
     }
-    //REGISTRAR CASAS SOBRE LA ROCA
+
+    //REGISTRAR CASAS SOBRE LA ROCA    
+    /**
+     * registrar_CSR
+     * FUNCION QUE REGISTRA CASAS SOBRE LA ROCA
+     * @return void
+     */
     public function registrar_CSR()
     {
         try {
             $sql = ("SELECT hora_pautada AS hora FROM casas_la_roca 
-        WHERE cedula_lider = :cedula_lider");
+            WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -253,16 +259,21 @@ class LaRoca extends Conexion
                 ":cedula_lider" => $this->cedula_lider
             ));
 
-            $record_set = $stmt->fetch(PDO::FETCH_ASSOC);
+            $hora = DateTime::createFromFormat('H:i', $this->hora);
 
-            print($record_set['hora']);
-            print($this->hora);
-            if ($this->hora == $record_set['hora']) {
-                throw new Exception("La hora que estas seleccionando ya esta ocupada por otra CSR", 422);
+
+            while($filas = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $horas_base_de_datos = DateTime::createFromFormat('H:i',$filas['hora']);
+                
+                //calculando la diferencia entre horarios
+                $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+
+                if($diferenciaMinutos < 15){
+                    throw new Exception("Estas intentando registrar un horario de CSR que choca con otro horario, la diferencia debe ser minimo 15 minutos",422);
+                }
             }
-            exit();
 
-            //buscando ultimo id agregando
+           //buscando ultimo id agregando
             $sql = ("SELECT MAX(id) AS id FROM casas_la_roca");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -328,7 +339,13 @@ class LaRoca extends Conexion
 
 
     //---------Actualizar CSR------------------------//
-
+    
+    /**
+     * actualizar_CSR
+     * Funcion que actualiza los datos de una casa sore la roca 
+     *
+     * @return array
+     */
     public function actualizar_CSR()
     {
         try {
@@ -349,8 +366,6 @@ class LaRoca extends Conexion
                 throw new Exception("Esta casa sobre la roca no existe en la base de datos", 404);
             }
 
-
-
             //guardando en un array asociativo la CSR
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -359,7 +374,7 @@ class LaRoca extends Conexion
                 $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['anfitrion'] == $this->nombre_anfitrion and
                 $cedulas['telefono_anfitrion'] == $this->telefono and $cedulas['cantidad_personas_hogar'] == $this->cantidad_integrantes and
                 $cedulas['dia_visita'] == $this->dia and $cedulas['hora_pautada'] == $this->hora and $cedulas['direccion'] == $this->direccion
-            ) {
+            ){
                 throw new Exception("Estas enviando la solicitud sin modificar los datos", 422);
             }
 
@@ -367,6 +382,31 @@ class LaRoca extends Conexion
             $codigo1 = $cedulas['codigo_celula'];
 
             $cedula_lider_antiguo = $cedulas['cedula_lider'];
+
+
+            $sql = ("SELECT hora_pautada AS hora FROM casas_la_roca 
+            WHERE cedula_lider = :cedula_lider");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":cedula_lider" => $this->cedula_lider
+            ));
+
+            $hora = DateTime::createFromFormat('H:i', $this->hora);
+
+
+            while($filas = $stmt->fetch(PDO::FETCH_ASSOC)){
+                $horas_base_de_datos = DateTime::createFromFormat('H:i',$filas['hora']);
+                
+                //calculando la diferencia entre horarios
+                $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+
+                if($diferenciaMinutos < 15){
+                    throw new Exception("Estas intentando registrar un horario de CSR que choca con otro horario, la diferencia debe ser minimo 15 minutos",422);
+                }
+            }
+
 
             //VERIFICANDO QUE EL LIDER DE LA CASA SOBRE LA ROCA SEA EL MISMO QUE ANTES SI ES DISTINTO QUE EL ANTIGUO SE MODIFICA EL CODIGO DE AMBOS USUARIOS
             if ($cedula_lider_antiguo != $this->cedula_lider) {
