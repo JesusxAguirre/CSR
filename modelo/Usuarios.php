@@ -5,7 +5,7 @@ namespace Csr\Modelo;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
-
+use Csr\Modelo\Correo;
 
 use Throwable;
 
@@ -336,7 +336,7 @@ class Usuarios extends Conexion
             $resultado = $stmt->rowCount();
 
             if ($resultado != 1) {
-                throw new Exception($mensaje = "Este correo no existe en la base de datos",404);
+                throw new Exception($mensaje = "Este correo no existe en la base de datos", 404);
             }
         } catch (Throwable $ex) {
 
@@ -783,26 +783,33 @@ class Usuarios extends Conexion
     public function recuperar_password()
     {
         try {
+            
+            $this->conexion()->beginTransaction();
             //consulta update
             $sql = ("UPDATE usuarios SET password = :password
          WHERE cedula = :usuario");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            $this->clave = password_hash($this->generateRandomPassword(), PASSWORD_DEFAULT);
 
             $stmt->execute(array(
                 ":password" => $this->clave,
                 ":usuario" => $this->cedula
             ));
-            return true;
-        } catch (Exception $e) {
 
-            echo $e->getMessage();
+            $this->conexion()->commit();
 
-            echo "Linea del error: " . $e->getLine();
+            http_response_code(202);
 
-            return false;
+            echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
+
+            die();
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code(500);
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
         }
     }
 
@@ -974,7 +981,7 @@ class Usuarios extends Conexion
 
 
     ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
-    
+
     //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
 
 
@@ -999,7 +1006,7 @@ class Usuarios extends Conexion
             if ($fecha_nacimiento_ts > $mayoria_edad && $fecha_nacimiento_ts < $maxima_edad) {
                 //dguardar datos de hacker
 
-                throw new Exception("La fecha de nacimiento no cumple con los requerimientos",422);
+                throw new Exception("La fecha de nacimiento no cumple con los requerimientos", 422);
             }
         } catch (Throwable $ex) {
 
@@ -1033,14 +1040,14 @@ class Usuarios extends Conexion
                     //guardar en base de datos hacker
 
 
-                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ",$array[$i]),422);
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
                 }
 
                 if ($array[$i] == "") {
                     //guardar en base de datos de hacker
 
 
-                    throw new Exception("Estas enviando datos vacios",422);
+                    throw new Exception("Estas enviando datos vacios", 422);
                 }
             }
         } catch (Throwable $ex) {
@@ -1068,7 +1075,7 @@ class Usuarios extends Conexion
             if ($response == 0) {
                 //guardar ataque de hacker
 
-                throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ",$cedula),422);
+                throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ", $cedula), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1099,7 +1106,7 @@ class Usuarios extends Conexion
                 if ($response == 0) {
                     //guardar datos de hacker
 
-                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]),422);
+                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]), 422);
                 }
             }
         } catch (Throwable $ex) {
@@ -1133,7 +1140,7 @@ class Usuarios extends Conexion
             if (!in_array($estado, $this->estados_venezuela)) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("El estado que enviaste no existe en los estados de venezuela. estado-> '%s' ",$estado), 422);
+                throw new Exception(sprintf("El estado que enviaste no existe en los estados de venezuela. estado-> '%s' ", $estado), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1161,7 +1168,7 @@ class Usuarios extends Conexion
             if ($response == 0) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ",$telefono), 422);
+                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ", $telefono), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1183,7 +1190,7 @@ class Usuarios extends Conexion
                 //registrar ataque informatico de hacker
 
 
-                throw new Exception(sprintf("El correo que enviaste  no cumple el formato de correo. Correo-> '%s' ", $correo),422);
+                throw new Exception(sprintf("El correo que enviaste  no cumple el formato de correo. Correo-> '%s' ", $correo), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1212,7 +1219,7 @@ class Usuarios extends Conexion
                 //registrar ataque informatico de hacker
 
 
-                throw new Exception(sprintf("La clave que estas enviado no cumple con los requisitos de seguridad. clave-> '%s' ", $clave),422);
+                throw new Exception(sprintf("La clave que estas enviado no cumple con los requisitos de seguridad. clave-> '%s' ", $clave), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1241,7 +1248,7 @@ class Usuarios extends Conexion
             if (!in_array($sexo, $this->sexos)) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("El sexo que estas enviando es invalido. sexo-> '%s'", $sexo),422);
+                throw new Exception(sprintf("El sexo que estas enviando es invalido. sexo-> '%s'", $sexo), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1271,7 +1278,7 @@ class Usuarios extends Conexion
             if (!in_array($civil, $this->estados_civiles)) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("El estado civil que estas enviado es invalido. estado_civil-> '%s'", $civil),422);
+                throw new Exception(sprintf("El estado civil que estas enviado es invalido. estado_civil-> '%s'", $civil), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1294,7 +1301,7 @@ class Usuarios extends Conexion
             if (!in_array($nacionalidad, $this->nacionalidades)) {
                 //guardar datos de hacker
 
-                throw new Exception(sprintf("La nacioliadad que estas enviando no esta permitida en el sistema. nacionalidad-> '%s'", $nacionalidad),422);
+                throw new Exception(sprintf("La nacioliadad que estas enviando no esta permitida en el sistema. nacionalidad-> '%s'", $nacionalidad), 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
@@ -1303,6 +1310,8 @@ class Usuarios extends Conexion
             die();
         }
     }
+
+
 
 
 
@@ -1357,4 +1366,84 @@ class Usuarios extends Conexion
 
 
 
+
+    //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
+
+    public function generate_token_message_password($correo){
+        $token = $this->generateRecoveryToken();
+
+        $objeto_correo = new Correo();
+
+        $objeto_correo->enviar_token($correo,$token);
+    }
+
+    // Generar un token único
+    private function generateToken($length = 32)
+    {
+        $token = bin2hex(random_bytes($length));
+        return $token;
+    }
+
+    // Generar un token de recuperación y guardar la marca de tiempo en variables de sesión
+    private function generateRecoveryToken()
+    {
+        $token = $this->generateToken();
+        $timestamp = time();
+
+        // Guardar el token y la marca de tiempo en variables de sesión
+        $_SESSION['recovery_token'] = $token;
+        $_SESSION['recovery_token_timestamp'] = $timestamp;
+
+        return $token;
+    }
+
+    // Verificar si un token de recuperación es válido
+    public function verifyRecoveryToken($token)
+    {   
+    
+        if (isset($_SESSION['recovery_token']) && isset($_SESSION['recovery_token_timestamp'])) {
+            $savedToken = $_SESSION['recovery_token'];
+            $savedTimestamp = $_SESSION['recovery_token_timestamp'];
+
+            if ($savedToken === $token) {
+                $expirationTime = 5 * 60; // 5 minutos en segundos
+                $currentTime = time();
+
+                // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
+                if (($currentTime - $savedTimestamp) <= $expirationTime) {
+                    $this->deleteRecoveryToken();
+                    return true; // El token es válido
+                    http_response_code(200);
+                    echo json_encode(array("msj" => "Se ha reiniciado tu contraseña revisa tu correo", "status_code" => 200));
+
+                }
+            }
+        }
+        $this->deleteRecoveryToken();
+
+        return false; // El token no es válido o ha expirado
+    }
+
+    // Eliminar el token de recuperación de las variables de sesión
+    private function deleteRecoveryToken()
+    {
+        unset($_SESSION['recovery_token']);
+        unset($_SESSION['recovery_token_timestamp']);
+    }
+
+    private function generateRandomPassword() {
+      
+        do {
+            $password = '';
+            $length = mt_rand(6, 16); // Generar una longitud aleatoria entre 6 y 16 caracteres
+    
+            // Generar caracteres aleatorios hasta alcanzar la longitud deseada
+            while (strlen($password) < $length) {
+                $character = chr(mt_rand(33, 126)); // Generar un caracter ASCII aleatorio
+                $password .= $character;
+            }
+        } while (!preg_match($this->expresion_clave, $password));
+    
+        return $password;
+    }
 }

@@ -99,6 +99,8 @@ if (isset($_POST['correo2'])) {
 	$objeto_usuario->security_validation_correo($correo);
 
 	$objeto_usuario->validar_correo_existe($correo);
+
+	//$objeto_usuario->
 }
 
 //validando datos de usuario para entrar al sistema

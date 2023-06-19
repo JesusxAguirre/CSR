@@ -82,7 +82,7 @@ class Correo extends Conexion
         return $resultado;
   }
 
-  public function enviar_nueva_password($destinatario,$nueva_password){
+  public function enviar_token($destinatario,$token){
     $mail = new PHPMailer(true);
     try {
       //Server settings
@@ -103,8 +103,8 @@ class Correo extends Conexion
 
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject =  "Se ha reseteado tu contraseña";
-      $mail->Body  = "<img src=\"cid:csr\" /> <p> tu nueva contraseña es:  <b>" .$nueva_password ."</b></p>";
+      $mail->Subject =  "Este es el token de verificacion para recueperar tu contraseña";
+      $mail->Body  = "<img src=\"cid:csr\" /> <p> El token es:  <b>" .$token ."</b></p>";
      
 
       $mail->send();
