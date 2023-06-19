@@ -456,6 +456,9 @@ $(document).on('submit', '#formulario3', function (event) {
 		});
 	}
 });
+
+
+//FUNCION QUE DE ENVIAR FORMULARIO DE RECUPERAR PASSWORD
 $(document).on('submit', '#formulario2', function (event) {
 	event.preventDefault(); // Evita que el formulario se envíe automáticamente
 
@@ -475,7 +478,7 @@ $(document).on('submit', '#formulario2', function (event) {
 			url: window.location.href,
 			data: $(this).serialize(),// Obtiene los datos del formulario
 			success: function (response) {
-
+				
 				// Crear un elemento div
 				var div = document.createElement('div');
 				div.id = 'grupo__tokenCorreo'
@@ -484,7 +487,7 @@ $(document).on('submit', '#formulario2', function (event) {
                         <input maxlength="6" id="tokenCorreo" name="tokenCorreo" type="text" class="form-control" placeholder="Codigo">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="bi bi-key"></span>
+                                <span class="bi bi-key-fill"></span>
                             </div>
                         </div>
                     </div>
@@ -509,8 +512,8 @@ $(document).on('submit', '#formulario2', function (event) {
 				const inputs = document.querySelectorAll("#formulario4 input")
 
 				inputs.forEach((input) => {
-					input.addEventListener('keyup', validar_formulario);
-					input.addEventListener('blur', validar_formulario);
+					input.addEventListener('keyup', ValidarFormulario);
+					input.addEventListener('blur', ValidarFormulario);
 
 				});
 
@@ -527,14 +530,13 @@ $(document).on('submit', '#formulario2', function (event) {
 			error: function (xhr, status, error) {
 				// Código a ejecutar si se produjo un error al realizar la solicitud
 
-				document.querySelector(`#grupo__correo2 i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+			
 				document.querySelector(`#grupo__correo2 p`).classList.remove('d-none');
-				document.querySelector(`#grupo__correo2 i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-				document.querySelector(`#grupo__correo2 p`).classList.add('d-block');
-				campos.correo2 = false;
-				let mensaje = document.getElementById("mensaje_correo_recuperar")
-				mensaje.textContent = "Esta correo no existe en la base de datos, ingrese otro por favor"
 
+				document.querySelector(`#grupo__correo2 p`).classList.add('d-block');
+				document.querySelector(`#grupo__correo2 input`).classList.add('is-invalid')
+				campos.correo2 = false;
+			
 				var response;
 				try {
 					response = JSON.parse(xhr.responseText);
@@ -542,6 +544,23 @@ $(document).on('submit', '#formulario2', function (event) {
 					response = {};
 				}
 
+				let mensaje = document.getElementById("mensaje_correo_recuperar")
+				mensaje.textContent = response.msj
+
+
+				switch (response.status_code) {
+					case 409:
+						response.ErrorType = "User Already Exist"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "User Not Exist"
+						break;
+					default:
+						break;
+				}
 
 
 				Swal.fire({

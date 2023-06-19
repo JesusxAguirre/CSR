@@ -228,12 +228,12 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade " id="recuperar" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade " id="recuperar"  data-bs-backdrop="false" tabindex="-1" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content ">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="">Recuperar contraseña</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close"   data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formulario2" action="?pagina=iniciar-sesion" method="POST">
                     <div class="modal-body">

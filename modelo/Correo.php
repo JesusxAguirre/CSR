@@ -98,11 +98,7 @@ class Correo extends Conexion
       //Recipients
       $mail->setFrom('quijess6@gmail.com', '');
       $mail->addAddress($destinatario, '');     //Add a recipient
-      //$mail->addAddress('ellen@example.com');               //Name is optional
-      //$mail->addReplyTo('info@example.com', 'Information');
-     // $mail->addCC('cc@example.com');
-      //$mail->addBCC('bcc@example.com');
-
+    
       $mail->AddEmbeddedImage('./resources/img/casawhite.jpg', 'csr');
 
       //Content
