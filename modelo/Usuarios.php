@@ -780,22 +780,24 @@ class Usuarios extends Conexion
 
 
     //RECUPERAR CONTRASEÑA
-    public function recuperar_password()
+    private function recuperar_password()
     {
         try {
             
             $this->conexion()->beginTransaction();
             //consulta update
             $sql = ("UPDATE usuarios SET password = :password
-         WHERE cedula = :usuario");
+         WHERE usuario = :usuario");
 
             $stmt = $this->conexion()->prepare($sql);
+            
+            $new_clave = $this->generateRandomPassword();
 
-            $this->clave = password_hash($this->generateRandomPassword(), PASSWORD_DEFAULT);
+            $this->clave = password_hash($new_clave, PASSWORD_DEFAULT);
 
             $stmt->execute(array(
                 ":password" => $this->clave,
-                ":usuario" => $this->cedula
+                ":usuario" => $_SESSION['recovery_email']
             ));
 
             $this->conexion()->commit();
@@ -804,11 +806,17 @@ class Usuarios extends Conexion
 
             echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
 
+            $objeto_correo = new Correo();
+
+            $objeto_correo->enviar_nueva_password($_SESSION['recovery_email'],$new_clave);
+
+            $this->deleteRecoveryToken();
             die();
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
             http_response_code(500);
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            $this->deleteRecoveryToken();
             die();
         }
     }
@@ -1370,7 +1378,7 @@ class Usuarios extends Conexion
     //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
 
     public function generate_token_message_password($correo){
-        $token = $this->generateRecoveryToken();
+        $token = $this->generateRecoveryToken($correo);
 
         $objeto_correo = new Correo();
 
@@ -1385,7 +1393,7 @@ class Usuarios extends Conexion
     }
 
     // Generar un token de recuperación y guardar la marca de tiempo en variables de sesión
-    private function generateRecoveryToken()
+    private function generateRecoveryToken($correo)
     {
         $token = $this->generateToken();
         $timestamp = time();
@@ -1393,7 +1401,7 @@ class Usuarios extends Conexion
         // Guardar el token y la marca de tiempo en variables de sesión
         $_SESSION['recovery_token'] = $token;
         $_SESSION['recovery_token_timestamp'] = $timestamp;
-
+        $_SESSION['recovery_email'] = $correo;
         return $token;
     }
 
@@ -1411,10 +1419,8 @@ class Usuarios extends Conexion
 
                 // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
                 if (($currentTime - $savedTimestamp) <= $expirationTime) {
-                    $this->deleteRecoveryToken();
-                    return true; // El token es válido
-                    http_response_code(200);
-                    echo json_encode(array("msj" => "Se ha reiniciado tu contraseña revisa tu correo", "status_code" => 200));
+                    $this->recuperar_password();
+                    
 
                 }
             }
@@ -1429,6 +1435,7 @@ class Usuarios extends Conexion
     {
         unset($_SESSION['recovery_token']);
         unset($_SESSION['recovery_token_timestamp']);
+        unset($_SESSION['recivery_email']);
     }
 
     private function generateRandomPassword() {

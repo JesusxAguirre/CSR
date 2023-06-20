@@ -113,5 +113,36 @@ class Correo extends Conexion
       echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
   }
+  public function enviar_nueva_password($destinatario,$password){
+    $mail = new PHPMailer(true);
+    try {
+      //Server settings
+      $mail->SMTPDebug = 0;                      //Enable verbose debug output
+      $mail->isSMTP();                                            //Send using SMTP
+      $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
+      $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
+      $mail->Username   = 'quijess6@gmail.com';                     //SMTP username
+      $mail->Password   = 'dgjdhloqzaxxfqyf';                               //SMTP password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+
+      //Recipients
+      $mail->setFrom('quijess6@gmail.com', '');
+      $mail->addAddress($destinatario, '');     //Add a recipient
+    
+      $mail->AddEmbeddedImage('./resources/img/casawhite.jpg', 'csr');
+
+      //Content
+      $mail->isHTML(true);                                  //Set email format to HTML
+      $mail->Subject =  "Password reset";
+      $mail->Body  = "<img src=\"cid:csr\" /> <p> tu nueva password es:  <b>" . $password ."</b></p>";
+     
+
+      $mail->send();
+
+    } catch (Exception $e) {
+      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+  }
 
 }
