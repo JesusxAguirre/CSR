@@ -1406,7 +1406,7 @@ class Usuarios extends Conexion
         $_SESSION['recovery_token'] = $token;
         $_SESSION['recovery_token_timestamp'] = $timestamp;
         $_SESSION['recovery_email'] = $correo;
-        return $token;
+        return $_SESSION['recovery_token'];
     }
 
     // Verificar si un token de recuperación es válido    
@@ -1435,7 +1435,7 @@ class Usuarios extends Conexion
 
             if ($savedToken !== $token ) {
 
-                throw new Exception("El token que estas enviando no es valido", 422);
+                throw new Exception("El token que estas enviando no es valido ", 422);
             }
 
             $expirationTime = 5 * 60; // 5 minutos en segundos

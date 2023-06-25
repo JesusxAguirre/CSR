@@ -595,11 +595,15 @@ function addEvent_formulario2() {
 				position: 'center'
 			})
 		} else {
+			
+			var datos = $(this).serialize()
 
+			datos = datos.split('&')[1]
+			
 			$.ajax({
 				type: 'POST',
 				url: window.location.href,
-				data: $(this).serialize(),// Obtiene los datos del formulario
+				data: datos,// Obtiene los datos del formulario
 				success: function (response) {
 
 					console.log(response)
