@@ -606,12 +606,20 @@ function addEvent_formulario2() {
 				data: datos,// Obtiene los datos del formulario
 				success: function (response) {
 
-					console.log(response)
 
 					Swal.fire({
 						icon: 'success',
 						title: 'Se ha restaurado tu contraseña correctamente, revisa tu correo'
+					}).then((result) => {
+
+						if (result.isConfirmed) {
+							window.location.replace(window.location);
+						}
 					})
+	
+					setTimeout(function () {
+						window.location.replace(window.location);
+					}, 4000);
 
 
 

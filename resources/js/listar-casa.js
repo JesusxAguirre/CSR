@@ -193,7 +193,7 @@ $('#editForm').submit(function (event) {
             break;
         }
 
-        console.log(response)
+        
 
         Swal.fire({
           icon: 'error',
