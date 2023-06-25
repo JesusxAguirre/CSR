@@ -784,12 +784,14 @@ class Usuarios extends Conexion
     {
         try {
 
-            $this->conexion()->beginTransaction();
             //consulta update
             $sql = ("UPDATE usuarios SET password = :password
             WHERE usuario = :usuario");
 
+            
             $stmt = $this->conexion()->prepare($sql);
+
+        
 
             $new_clave = $this->generateRandomPassword();
 
@@ -800,7 +802,6 @@ class Usuarios extends Conexion
                 ":usuario" => $_SESSION['recovery_email']
             ));
 
-            $this->conexion()->commit();
 
             $objeto_correo = new Correo();
 
@@ -815,7 +816,7 @@ class Usuarios extends Conexion
 
             die();
         } catch (Throwable $ex) {
-            $this->conexion()->rollBack();
+            
             $errorType = basename(get_class($ex));
             http_response_code(500);
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
