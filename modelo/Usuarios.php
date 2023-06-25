@@ -783,14 +783,14 @@ class Usuarios extends Conexion
     private function recuperar_password()
     {
         try {
-            
+
             $this->conexion()->beginTransaction();
             //consulta update
             $sql = ("UPDATE usuarios SET password = :password
-         WHERE usuario = :usuario");
+            WHERE usuario = :usuario");
 
             $stmt = $this->conexion()->prepare($sql);
-            
+
             $new_clave = $this->generateRandomPassword();
 
             $this->clave = password_hash($new_clave, PASSWORD_DEFAULT);
@@ -808,11 +808,12 @@ class Usuarios extends Conexion
 
             $objeto_correo = new Correo();
 
-            $objeto_correo->enviar_nueva_password($_SESSION['recovery_email'],$new_clave);
+            $objeto_correo->enviar_nueva_password($_SESSION['recovery_email'], $new_clave);
 
             $this->deleteRecoveryToken();
             die();
         } catch (Throwable $ex) {
+            $this->conexion()->rollBack();
             $errorType = basename(get_class($ex));
             http_response_code(500);
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
@@ -1377,12 +1378,13 @@ class Usuarios extends Conexion
 
     //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
 
-    public function generate_token_message_password($correo){
+    public function generate_token_message_password($correo)
+    {
         $token = $this->generateRecoveryToken($correo);
 
         $objeto_correo = new Correo();
 
-        $objeto_correo->enviar_token($correo,$token);
+        $objeto_correo->enviar_token($correo, $token);
     }
 
     // Generar un token único
@@ -1407,27 +1409,42 @@ class Usuarios extends Conexion
 
     // Verificar si un token de recuperación es válido
     public function verifyRecoveryToken($token)
-    {   
+    {
+        try {
+            //code...
+
+
+            if (isset($_SESSION['recovery_token']) && isset($_SESSION['recovery_token_timestamp'])) {
+                $savedToken = $_SESSION['recovery_token'];
+                $savedTimestamp = $_SESSION['recovery_token_timestamp'];
+
+                if ($savedToken === $token) {
+                    $expirationTime = 5 * 60; // 5 minutos en segundos
+                    $currentTime = time();
+
+                    // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
+                    if (($currentTime - $savedTimestamp) <= $expirationTime) {
+                        
+                        $this->recuperar_password();
+                        
     
-        if (isset($_SESSION['recovery_token']) && isset($_SESSION['recovery_token_timestamp'])) {
-            $savedToken = $_SESSION['recovery_token'];
-            $savedTimestamp = $_SESSION['recovery_token_timestamp'];
-
-            if ($savedToken === $token) {
-                $expirationTime = 5 * 60; // 5 minutos en segundos
-                $currentTime = time();
-
-                // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
-                if (($currentTime - $savedTimestamp) <= $expirationTime) {
-                    $this->recuperar_password();
-                    
-
+                    }else{
+                        $this->deleteRecoveryToken();
+                        throw new Exception("Se expiro el token de recuperar contraseña", 408);
+ 
+                    }
                 }
             }
-        }
-        $this->deleteRecoveryToken();
+        } catch (Throwable $ex) {
 
-        return false; // El token no es válido o ha expirado
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
+        }
+
+
     }
 
     // Eliminar el token de recuperación de las variables de sesión
@@ -1438,19 +1455,20 @@ class Usuarios extends Conexion
         unset($_SESSION['recivery_email']);
     }
 
-    private function generateRandomPassword() {
-      
+    private function generateRandomPassword()
+    {
+
         do {
             $password = '';
             $length = mt_rand(6, 16); // Generar una longitud aleatoria entre 6 y 16 caracteres
-    
+
             // Generar caracteres aleatorios hasta alcanzar la longitud deseada
             while (strlen($password) < $length) {
                 $character = chr(mt_rand(33, 126)); // Generar un caracter ASCII aleatorio
                 $password .= $character;
             }
         } while (!preg_match($this->expresion_clave, $password));
-    
+
         return $password;
     }
 }

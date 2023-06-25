@@ -292,13 +292,13 @@ $("#formulario").submit(function (e) {
 				var data = JSON.parse(response)
 
 				if (data.response) {
-					for(let campo in campos){
+					for (let campo in campos) {
 						campos[campo] = false
 					}
-					
+
 					document.getElementById("formulario").reset()
-					
-					
+
+
 
 					fireAlert('success', 'Se registro el usuario correctamente')
 				} else {
@@ -478,7 +478,7 @@ $(document).on('submit', '#formulario2', function (event) {
 			url: window.location.href,
 			data: $(this).serialize(),// Obtiene los datos del formulario
 			success: function (response) {
-				
+
 				// Crear un elemento div
 				var div = document.createElement('div');
 				div.id = 'grupo__tokenCorreo'
@@ -530,13 +530,13 @@ $(document).on('submit', '#formulario2', function (event) {
 			error: function (xhr, status, error) {
 				// Código a ejecutar si se produjo un error al realizar la solicitud
 
-			
+
 				document.querySelector(`#grupo__correo2 p`).classList.remove('d-none');
 
 				document.querySelector(`#grupo__correo2 p`).classList.add('d-block');
 				document.querySelector(`#grupo__correo2 input`).classList.add('is-invalid')
 				campos.correo2 = false;
-			
+
 				var response;
 				try {
 					response = JSON.parse(xhr.responseText);
@@ -623,11 +623,39 @@ function addEvent_formulario2() {
 				error: function (xhr, status, error) {
 					// Código a ejecutar si se produjo un error al realizar la solicitud
 
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+					} catch (e) {
+						response = {};
+					}
+
+					switch (response.status_code) {
+
+						case 408:
+						
+							response.ErrorType = "Time Out"
+
+							break;
+							
+						case 409:
+							response.ErrorType = "User Already Exist"
+							break;
+						case 422:
+							response.ErrorType = "Invalid Data"
+							break;
+						case 404:
+							response.ErrorType = "User Not Exist"
+							break;
+						default:
+							break;
+					}
+
 
 					Swal.fire({
 						icon: 'error',
-						title: xhr.responseJSON.ErrorType,
-						text: xhr.responseJSON.Message
+						title: response.ErrorType,
+						text: response.msj
 					})
 
 
