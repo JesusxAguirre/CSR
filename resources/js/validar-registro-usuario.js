@@ -607,18 +607,7 @@ function addEvent_formulario2() {
 					Swal.fire({
 						icon: 'success',
 						title: 'Se ha restaurado tu contraseña correctamente, revisa tu correo'
-					}).then((result) => {
-						/* Read more about isConfirmed, isDenied below */
-						if (result.isConfirmed) {
-							window.location.replace(url);
-						}
 					})
-
-
-
-					setTimeout(function () {
-						window.location.replace(window.location.href);
-					}, 4000);
 
 
 

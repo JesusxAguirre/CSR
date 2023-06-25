@@ -112,9 +112,6 @@ class Correo extends Conexion
 
       $mail->send();
 
-      $accion = "Inteno de recuperar contraseña";
-      $usuario = $destinatario;
-      parent::registrar_bitacora($usuario, $accion,$this->id_modulo);
     } catch (Exception $e) {
       http_response_code(404);
 

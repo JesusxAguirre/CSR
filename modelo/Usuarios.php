@@ -802,15 +802,17 @@ class Usuarios extends Conexion
 
             $this->conexion()->commit();
 
-            http_response_code(202);
-
-            echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
-
             $objeto_correo = new Correo();
 
             $objeto_correo->enviar_nueva_password($_SESSION['recovery_email'], $new_clave);
 
             $this->deleteRecoveryToken();
+
+            http_response_code(202);
+
+            echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
+
+
             die();
         } catch (Throwable $ex) {
             $this->conexion()->rollBack();
@@ -1407,14 +1409,22 @@ class Usuarios extends Conexion
         return $token;
     }
 
-    // Verificar si un token de recuperación es válido
+    // Verificar si un token de recuperación es válido    
+    /**
+     * verifyRecoveryToken
+     *realiza varias verificaciones entre esas que las variables de session existan y los tokens coicindan 
+     * en caso contrario lanza una excepcion
+     * 
+     * @param  mixed $token se supone que es el token enviado al correo
+     * @return void
+     */
     public function verifyRecoveryToken($token)
     {
         try {
-            //code...
 
 
-            if (isset($_SESSION['recovery_token']) != true or isset($_SESSION['recovery_token_timestamp']) != true) {
+
+            if (isset($_SESSION['recovery_token']) != true || isset($_SESSION['recovery_token_timestamp']) != true) {
 
                 throw new Exception("Ha ocurrido un error con el sistema notifique a los administradores", 404);
             }
@@ -1423,23 +1433,22 @@ class Usuarios extends Conexion
             $savedToken = $_SESSION['recovery_token'];
             $savedTimestamp = $_SESSION['recovery_token_timestamp'];
 
-            if ($savedToken != $token) {
+            if ($savedToken !== $token ) {
 
                 throw new Exception("El token que estas enviando no es valido", 422);
             }
-            
+
             $expirationTime = 5 * 60; // 5 minutos en segundos
             $currentTime = time();
 
             // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
             if (($currentTime - $savedTimestamp) >= $expirationTime) {
 
-    
-                    throw new Exception("Se expiro el token de recuperar contraseña", 408);
+
+                throw new Exception("Se expiro el token de recuperar contraseña", 408);
             }
 
             $this->recuperar_password();
-            
         } catch (Throwable $ex) {
 
             $this->deleteRecoveryToken();
