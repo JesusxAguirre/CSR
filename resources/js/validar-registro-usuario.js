@@ -56,6 +56,7 @@ const expresiones = { //objeto con varias expresiones regulares
 	edad: /^[0-9]{2}$/,
 	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/, // Letras y espacios, pueden llevar acentos.
 	password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 6 a 16 digitos.
+	token: /^[a-zA-Z0-9]{60,70}$/, // 6 a 16 digitos.
 	correo: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/
@@ -100,7 +101,9 @@ const ValidarFormulario = (e) => {
 		case "clave":
 			ValidarCampo(expresiones.password, e.target, 'clave');
 			break;
-
+		
+		case "tokenCorreo":
+			ValidarCampo(expresiones.token, e.target, 'tokenCorreo')
 
 		//CASE DE INICIO DE SESION
 
@@ -484,7 +487,7 @@ $(document).on('submit', '#formulario2', function (event) {
 				div.id = 'grupo__tokenCorreo'
 				div.innerHTML = `
                     <div class="input-group mb-3 mt-4">
-                        <input maxlength="6" id="tokenCorreo" name="tokenCorreo" type="text" class="form-control" placeholder="Codigo">
+                        <input maxlength="70" id="tokenCorreo" name="tokenCorreo" type="text" class="form-control" placeholder="Codigo">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="bi bi-key-fill"></span>
@@ -637,7 +640,7 @@ function addEvent_formulario2() {
 							response.ErrorType = "Time Out"
 
 							break;
-							
+
 						case 409:
 							response.ErrorType = "User Already Exist"
 							break;

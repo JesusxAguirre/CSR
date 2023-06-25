@@ -1414,28 +1414,35 @@ class Usuarios extends Conexion
             //code...
 
 
-            if (isset($_SESSION['recovery_token']) && isset($_SESSION['recovery_token_timestamp'])) {
-                $savedToken = $_SESSION['recovery_token'];
-                $savedTimestamp = $_SESSION['recovery_token_timestamp'];
+            if (isset($_SESSION['recovery_token']) != true or isset($_SESSION['recovery_token_timestamp']) != true) {
 
-                if ($savedToken === $token) {
-                    $expirationTime = 5 * 60; // 5 minutos en segundos
-                    $currentTime = time();
-
-                    // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
-                    if (($currentTime - $savedTimestamp) <= $expirationTime) {
-                        
-                        $this->recuperar_password();
-                        
-    
-                    }else{
-                        $this->deleteRecoveryToken();
-                        throw new Exception("Se expiro el token de recuperar contraseña", 408);
- 
-                    }
-                }
+                throw new Exception("Ha ocurrido un error con el sistema notifique a los administradores", 404);
             }
+
+
+            $savedToken = $_SESSION['recovery_token'];
+            $savedTimestamp = $_SESSION['recovery_token_timestamp'];
+
+            if ($savedToken != $token) {
+
+                throw new Exception("El token que estas enviando no es valido", 422);
+            }
+            
+            $expirationTime = 5 * 60; // 5 minutos en segundos
+            $currentTime = time();
+
+            // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
+            if (($currentTime - $savedTimestamp) >= $expirationTime) {
+
+    
+                    throw new Exception("Se expiro el token de recuperar contraseña", 408);
+            }
+
+            $this->recuperar_password();
+            
         } catch (Throwable $ex) {
+
+            $this->deleteRecoveryToken();
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
@@ -1443,8 +1450,6 @@ class Usuarios extends Conexion
 
             die();
         }
-
-
     }
 
     // Eliminar el token de recuperación de las variables de sesión

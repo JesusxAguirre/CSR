@@ -208,7 +208,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Clave</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="18" id="clave" type="password" placeholder="******" name="clave" class="form-control">
+                                            <input maxlength="18"  type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">La clave debe contener un caracter especial y un numero.
                                             Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
@@ -270,7 +270,7 @@
     <div class="fixed-top top-2 end-0 mt-3 p-3">
         <div id="countdown-toast" class="toast hide " role="alert" data-bs-delay="300000" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
-                <strong class="me-auto">Countdown Toast</strong>
+                <strong class="me-auto">El token de recuperacion fue enviado a tu correo</strong>
 
             </div>
             <div class="toast-body">

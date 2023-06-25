@@ -100,7 +100,15 @@ if (isset($_POST['correo2'])) {
 
 	$objeto_usuario->validar_correo_existe($correo);
 
-	//$objeto_usuario->
+	$objeto_usuario->generate_token_message_password($correo);
+}
+
+if( isset($_POST['tokenCorreo'])){
+
+	$token = $_POST['tokenCorreo'];
+
+	$objeto_usuario->verifyRecoveryToken($token);
+
 }
 
 //validando datos de usuario para entrar al sistema
