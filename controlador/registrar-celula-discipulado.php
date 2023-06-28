@@ -8,14 +8,14 @@ if (is_file('vista/'.$pagina.'.php')) {
    
     $matriz_lideres = $objeto->listar_usuarios_N2();
     $matriz_usuarios = $objeto->listar_no_participantes();
-    $error = true;
+  
     if(isset($_POST['registrar'])){
-        $cedula_lider = $_POST['codigoLider'];
-        $cedula_anfitrion= $_POST['codigoAnfitrion'];
-        $cedula_asistente = $_POST['codigoAsistente'];
-        $dia = $_POST['dia'];
-        $hora = $_POST['hora'];
-        $direccion = $_POST['direccion'];
+        $cedula_lider = trim( $_POST['codigoLider']);
+        $cedula_anfitrion= trim($_POST['codigoAnfitrion']);
+        $cedula_asistente = trim($_POST['codigoAsistente']);
+        $dia = trim($_POST['dia']);
+        $hora = trim($_POST['hora']);
+        $direccion = trim($_POST['direccion']);
         $participantes = $_POST['participantes'];
         
        //borrando del array participantes las coicidencias en los valores con las cedulas de lider, anfitrion y asistente
@@ -35,7 +35,7 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
        
         $objeto->registrar_discipulado();
-        $error = false;
+   
 
     }
     require_once 'vista/'.$pagina.'.php';

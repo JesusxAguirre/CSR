@@ -133,7 +133,6 @@ lideres.addEventListener('hideDropdown', ValidarFormulario);
 
 $(document).on('submit', '#formulario', function (e) {
   e.preventDefault();
-  console.log($(this).serialize())
   if (!(campos.lider && campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
    
     Swal.fire({

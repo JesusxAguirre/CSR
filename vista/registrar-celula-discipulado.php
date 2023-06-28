@@ -61,8 +61,8 @@
                     <div id="grupo__codigoLider" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
-                        <i class="input-icon2 fs-5"></i>
-                        <input name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
+                       
+                        <input maxlength="45" name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
                         <datalist id="lider">
                           <?php
                           foreach ($matriz_lideres as $lider) :
@@ -79,8 +79,8 @@
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de Anfitrion</label>
-                        <i class="input-icon2 fs-5"></i>
-                        <input class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
+                       
+                        <input maxlength="45" class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
                         <datalist id="anfitrion">
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
@@ -96,8 +96,8 @@
                     <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de Asistente</label>
-                        <i class="input-icon2 fs-5"></i>
-                        <input class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
+                       
+                        <input maxlength="45" class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
                         <datalist id="asistente">
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
@@ -116,7 +116,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridCity">Dia de reunion</label>
                         <i class="input-icon fs-5"></i>
-                        <input name="dia" placeholder="Jueves" id="dia" class="form-control">
+                        <input maxlength="7" name="dia" placeholder="Jueves" id="dia" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo debe contener 5 digitos como minimo, no acepta espacios ni numeros</p>
                     </div>
@@ -150,7 +150,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridZip">Dirección de la celula</label>
                         <i class="input-icon2  fs-5"></i>
-                        <input name="direccion" type="text" name="direccion" placeholder="" id="" class="form-control">
+                        <input maxlength="15" name="direccion" type="text" name="direccion" placeholder="" id="" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede quedar vacio</p>
                     </div>
