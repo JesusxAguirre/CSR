@@ -62,7 +62,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
                        
-                        <input maxlength="45" name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
+                        <input maxlength="345" name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
                         <datalist id="lider">
                           <?php
                           foreach ($matriz_lideres as $lider) :
@@ -80,7 +80,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de Anfitrion</label>
                        
-                        <input maxlength="45" class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
+                        <input maxlength="345" class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
                         <datalist id="anfitrion">
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
@@ -97,7 +97,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de Asistente</label>
                        
-                        <input maxlength="45" class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
+                        <input maxlength="345" class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
                         <datalist id="asistente">
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
@@ -167,9 +167,7 @@
 
     </div>
   </main>
-  <script type="text/javascript">
-        error = <?php echo ($error) ? 'true' : 'false' ; ?>
-    </script>
+
   <script src="resources/js/validacion-registro-discipulado.js"></script>
 </body>
 </html>

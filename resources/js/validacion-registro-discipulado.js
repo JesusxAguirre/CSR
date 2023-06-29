@@ -81,7 +81,7 @@ const ValidarFormulario = (e) => {
 }
 
 const ValidarCodigo = (codigo_array, input, campo) => {
-  if (codigo_array.indexOf(input.value) >= 0) {
+  if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
 
@@ -133,11 +133,10 @@ const ValidarHora = (expresion, input, campo) => {
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
 
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
 
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = false;
   } else {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
@@ -179,7 +178,6 @@ $(document).on('submit', '#formulario', function (event) {
 
   event.preventDefault()
 
-  console.log($(this).serialize())
 
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora)) {
     Swal.fire({
@@ -197,7 +195,8 @@ $(document).on('submit', '#formulario', function (event) {
     url: window.location.href,
     data: $(this).serialize(),// Obtiene los datos del formulario
     success: function (response) {
-      
+
+      console.log(response)
 
       document.getElementById("formulario").reset()
 
@@ -213,7 +212,7 @@ $(document).on('submit', '#formulario', function (event) {
     error: function (xhr, status, error) {
       // Código a ejecutar si se produjo un error al realizar la solicitud
 
-    
+
       var response;
       try {
         response = JSON.parse(xhr.responseText);
@@ -262,13 +261,13 @@ $("#codigoLider").on('change', function () {
 
 
   $('#anfitrion option').each(function () {
-    console.log('entra a la funcion')
+
     if ($(this).val() == codigo) {
       $(this).remove();
     }
   });
   $('#asistente option').each(function () {
-    console.log('entra a la funcion')
+
     if ($(this).val() == codigo) {
       $(this).remove();
     }
@@ -276,16 +275,41 @@ $("#codigoLider").on('change', function () {
 
 
 });
+$("#codigoAnfitrion").on('change', function () {
+  var val = $('#codigoAnfitrion').val();
+  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
 
 
-if (error == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro la celula correctamente'
-  })
-  const myTimeout = setTimeout(recarga, 2000);
 
-  function recarga() {
-    window.location = "index.php?pagina=registrar-celula-discipulado";
-  }
-}
+  let codigo = $('#codigoAnfitrion').val();
+
+
+  $('#lider option').each(function () {
+
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  });
+
+
+});
+$("#codigoAsistente").on('change', function () {
+  var val = $('#codigoAsistente').val();
+  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
+
+
+
+  let codigo = $('#codigoAsistente').val();
+
+
+  $('#lider option').each(function () {
+
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  });
+
+
+});
+
+

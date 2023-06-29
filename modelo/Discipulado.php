@@ -7,6 +7,9 @@ use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
 
+use DateTime;
+
+use Throwable;
 class Discipulado extends Conexion
 {
     private $conexion;
@@ -24,6 +27,26 @@ class Discipulado extends Conexion
     private $cedula_asistente;
     private $busqueda;
 
+    
+    //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
+
+
+    private $expresion_telefono = "/^[0-9]{11}$/";
+
+    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
+
+    private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
+
+    private $expresion_cedula = "/^[0-9]{7,8}$/";
+
+    private $expresion_numero = "/^[0-9]{1,200}$/";
+    private $expresion_cantidad = "/^[0-9]{1,20}$/";
+
+
+
+    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
+
+    private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/";
 
 
     public function __construct()
@@ -33,6 +56,7 @@ class Discipulado extends Conexion
     }
     public function buscar_discipulado($busqueda)
     {
+        $resultado = [];
         $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
         FROM celula_discipulado 
@@ -64,11 +88,11 @@ class Discipulado extends Conexion
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-                $this->busqueda[] = $filas;
+                $resultado[] = $filas;
             }
         }
 
-        return $this->busqueda;
+        return $resultado;
     }
 
     public function listar_usuarios_N2()
@@ -289,6 +313,12 @@ class Discipulado extends Conexion
     public function registrar_discipulado()
     {
         try {
+
+            if($this->cedula_lider == $this->cedula_anfitrion or $this->cedula_lider == $this->cedula_asistente){
+                throw new Exception("La cedula del lider no puede ser igual a la del anfitrion o el asistente ",422);
+            }
+
+            $this->conexion()->beginTransaction();
             //buscando ultimo id agregando
             $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
 
@@ -303,8 +333,8 @@ class Discipulado extends Conexion
             $id++;
 
             $sql = "INSERT INTO celula_discipulado (codigo_celula_discipulado,cedula_lider,
-        cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
-        VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direc)";
+            cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
+            VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direc)";
 
             $stmt = $this->conexion->prepare($sql);
 
@@ -320,9 +350,9 @@ class Discipulado extends Conexion
             //primero vamos a buscar el id que queremos pasar como clave foranea
 
             $sql = ("SELECT id FROM celula_discipulado 
-        WHERE cedula_lider= :cedula_lider
-        AND cedula_anfitrion = :cedula_anfitrion
-        AND cedula_asistente = :cedula_asistente");
+            WHERE cedula_lider= :cedula_lider
+            AND cedula_anfitrion = :cedula_anfitrion
+            AND cedula_asistente = :cedula_asistente");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -455,12 +485,21 @@ class Discipulado extends Conexion
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
-            return true;
-        } catch (Exception $e) {
-            echo $e->getMessage();
 
-            echo "Linea del error: " . $e->getLine();
-            return false;
+
+            $this->conexion()->commit();
+
+            http_response_code(200);
+            echo json_encode(array("msj"=>"Se ha registrado correctamente la cedula de discipulado",'status_code'=>200));
+            die();
+        }catch (Throwable $ex) {
+            $this->conexion()->rollBack();
+            
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
         }
     }
 
@@ -470,14 +509,14 @@ class Discipulado extends Conexion
         try {
             //buscando las cedulas de los usuarios por id de celula
             $sql = ("SELECT  celula_discipulado.codigo_celula_discipulado AS codigo_celula,  
-        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
-        anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
-        asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente
-        FROM celula_discipulado 
-        INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
-        INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
-        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
-        WHERE celula_discipulado.id = :id");
+            lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
+            anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
+            asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente
+            FROM celula_discipulado 
+            INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
+            INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
+            INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
+            WHERE celula_discipulado.id = :id");
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":id" => $this->id));
@@ -1004,5 +1043,223 @@ class Discipulado extends Conexion
 
             return false;
         }
+    }
+
+
+
+    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
+
+    //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
+
+
+
+    //VALIDACION INYECCION SQL    
+    /**
+     * security_validation_sql
+     * 
+     * Funcion que valida un array donde cada indice contiene una cadeba de texto
+     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
+     * Si alguno de estos casos se cumple arroja una Exception.
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_inyeccion_sql($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_especial, $array[$i]);
+
+                if ($response > 0) {
+                    //guardar en base de datos hacker
+
+
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
+                }
+
+                if ($array[$i] == "") {
+                    //guardar en base de datos de hacker
+
+
+                    throw new Exception("Estas enviando datos vacios", 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+    //VALIDACION INYECCION SQL    
+    /**
+     * security_validation_sql
+     * 
+     * Funcion que valida un array donde cada indice contiene una cadeba de texto
+     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
+     * Si alguno de estos casos se cumple arroja una Exception.
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_codigo($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_codigo, $array[$i]);
+
+                if ($response > 0) {
+                    //guardar en base de datos hacker
+
+
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
+                }
+
+                if ($array[$i] == "") {
+                    //guardar en base de datos de hacker
+
+
+                    throw new Exception("Estas enviando datos vacios", 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+    //VALIDACION CEDULA    
+    /**
+     * validar_cedula
+     *
+     * Funcion que valida la cedula con una expresion regular, si no coicide captura un error
+     * @param  mixed $cedula
+     * @return void
+     */
+    public function security_validation_cedula($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_cedula, $array[$i]);
+
+                if ($response == 0) {
+                    //guardar ataque de hacker
+
+                    throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ", $array[$i]), 422);
+                }
+
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+
+            http_response_code($ex->getCode());
+
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    /**
+     * security_validation_caracteres
+     *
+     * Metodo que recibe un array donde cada indice es una cadena de texto este metodo verifica
+     * que cada indice del array sea un caracter, es decir sin numeros o caracteres especiales.
+     * si no es una cadena de texto, arroja una Exception
+     * 
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_caracteres($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_caracteres, $array[$i]);
+
+                if ($response == 0) {
+                    //guardar datos de hacker
+
+                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto. no mayor a 19 caracteres-> '%s", $array[$i]), 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+    //VALIDACION DE TELEFONO
+
+    /**
+     * security_validation_telefono
+     *
+     * Metodo que valida una cadena de texto con una expresion regular de telefono.si no cumple con la expresion regular
+     * Se arroja una Exception.
+     * @param  mixed $telefono
+     * @return void
+     */
+    public function security_validation_telefono($telefono)
+    {
+        try {
+            $response = preg_match($this->expresion_telefono, $telefono);
+
+            if ($response == 0) {
+                //guardar datos de hacker
+
+                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ", $telefono), 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+
+    /**
+     * security_validation_hora
+     * 
+     * Función que valida un array donde cada índice contiene una cadena de texto en formato de hora.
+     * Verifica si cada cadena cumple con el formato de hora deseado (HH:MM:SS).
+     * Si alguna cadena no cumple con el formato o está vacía, arroja una excepción.
+     *
+     * @param array $array
+     * @return void
+     */
+    public function security_validation_hora($hora)
+    {
+        try {
+
+
+            $response = preg_match($this->expresion_hora, $hora);
+
+            if ($response === false) {
+                // Error en la expresión regular
+                throw new Exception("Error en la expresión regular de hora", 500);
+            }
+
+            if ($response === 0) {
+                // La cadena no cumple con el formato de hora
+                throw new Exception(sprintf("El formato de hora es inválido: '%s'", $hora), 422);
+            }
+
+            if ($hora === "") {
+                // La cadena está vacía
+                throw new Exception("La hora no puede estar vacía", 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+
     }
 }

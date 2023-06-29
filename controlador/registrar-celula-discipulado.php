@@ -13,10 +13,11 @@ if (is_file('vista/'.$pagina.'.php')) {
         $cedula_lider = trim( $_POST['codigoLider']);
         $cedula_anfitrion= trim($_POST['codigoAnfitrion']);
         $cedula_asistente = trim($_POST['codigoAsistente']);
-        $dia = trim($_POST['dia']);
+        $dia = strtolower( trim($_POST['dia']));
         $hora = trim($_POST['hora']);
-        $direccion = trim($_POST['direccion']);
+        $direccion = strtolower( trim($_POST['direccion']));
         $participantes = $_POST['participantes'];
+      
         
        //borrando del array participantes las coicidencias en los valores con las cedulas de lider, anfitrion y asistente
         if (($clave = array_search($cedula_lider, $participantes)) !== false) {
@@ -32,6 +33,23 @@ if (is_file('vista/'.$pagina.'.php')) {
             
         }
 
+        $objeto->security_validation_inyeccion_sql([$dia,str_replace(" ","",$direccion)]);
+
+         
+        $objeto->security_validation_codigo($participantes);
+        $objeto->security_validation_codigo([$cedula_lider,$cedula_anfitrion,$cedula_asistente]);
+
+
+        $cedula_lider = explode('-',$cedula_lider)[0];
+        $cedula_anfitrion = explode('-',$cedula_anfitrion)[0];
+        $cedula_asistente = explode('-',$cedula_asistente)[0];
+
+        $objeto->security_validation_cedula([$cedula_lider,$cedula_anfitrion,$cedula_asistente]);
+         
+        $objeto->security_validation_caracteres([$dia,$direccion]);
+        $objeto->security_validation_hora($hora);
+      
+    
         $objeto->setDiscipulado($cedula_lider,$cedula_anfitrion,$cedula_asistente,$dia,$hora,$direccion,$participantes);
        
         $objeto->registrar_discipulado();
