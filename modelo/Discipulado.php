@@ -318,7 +318,36 @@ class Discipulado extends Conexion
                 throw new Exception("La cedula del lider no puede ser igual a la del anfitrion o el asistente ",422);
             }
 
+
+
             $this->conexion()->beginTransaction();
+
+            //VALIDANDO QUE LAS FECHAS SEAN CON MEDIA HORA DE DIFERENCIA
+            $sql = ("SELECT hora,dia AS id FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
+
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":cedula_lider"=>$this->cedula_lider));
+
+            $hora = DateTime::createFromFormat('H:i', $this->hora);
+
+
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                if ($filas['dia'] == $this->dia) {
+
+                    $hora_filas_formateada = substr($filas['hora'], 0, 5);
+
+                    $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
+
+                    //calculando la diferencia entre horarios
+                    $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
+
+                    if ($diferenciaMinutos < 15) {
+                        throw new Exception("Estás intentando registrar un horario de celula de discipulado que choca con otro horario. La diferencia debe ser de al menos 15 minutos.", 422);
+                    }
+                }
+            }
+            
             //buscando ultimo id agregando
             $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
 
@@ -329,8 +358,13 @@ class Discipulado extends Conexion
             $contador = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $id = $contador['id'];
+
+
             //sumandole un numero para que sea dinamico 
             $id++;
+
+         
+
 
             $sql = "INSERT INTO celula_discipulado (codigo_celula_discipulado,cedula_lider,
             cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
