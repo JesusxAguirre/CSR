@@ -152,6 +152,8 @@ class Usuarios extends Conexion
 
         return $bitacora;
     }
+
+    
     //VALIDACION DE ENTRADA PARA USUARIOS
     public function validar()
     {
@@ -164,7 +166,6 @@ class Usuarios extends Conexion
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":usuario" => $usuario));
-
 
             if ($stmt->rowCount() > 0) {
                 while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -181,8 +182,6 @@ class Usuarios extends Conexion
             }
         } catch (Throwable $ex) {
 
-
-
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
@@ -190,6 +189,8 @@ class Usuarios extends Conexion
             die();
         }
     }
+
+
     //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL
     public function mi_perfil()
     {
