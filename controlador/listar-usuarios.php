@@ -23,18 +23,18 @@ if ($_SESSION['verdadero'] > 0) {
         
         $actualizar=false;
         if(isset($_POST['update'])){
-            $cedula= $_POST['cedula'];
-            $cedula_antigua= $_POST['cedula_antigua'];
-            $nombre= $_POST['nombre'];
-            $apellido= $_POST['apellido'];
-            $edad= $_POST['edad'];
-            $sexo= $_POST['sexo'];
-            $civil= $_POST['civil'];
-            $nacionalidad= $_POST['nacionalidad'];
-            $estado= $_POST['estado'];
-            $telefono= $_POST['telefono'];
-            $rol = $_POST['rol'];
-           $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol);    
+            $cedula= trim($_POST['cedula']);
+            $cedula_antigua= trim($_POST['cedula_antigua']);
+            $nombre= trim($_POST['nombre']);
+            $apellido= trim($_POST['apellido']);
+            $edad= trim($_POST['edad']);
+            $sexo= trim($_POST['sexo']);
+            $civil= trim($_POST['civil']);
+            $nacionalidad= trim($_POST['nacionalidad']);
+            $estado= trim($_POST['estado']);
+            $telefono= trim($_POST['telefono']);
+            $rol = trim($_POST['rol']);
+            $objeto->setUpdate($nombre,$apellido,$cedula,$cedula_antigua,$edad,$sexo,$civil,$nacionalidad,$estado,$telefono,$rol);    
 
            $actualizar=$objeto->update_usuarios();
         }

@@ -1100,6 +1100,7 @@ class Usuarios extends Conexion
         }
     }
 
+    
     /**
      * security_validation_caracteres
      *
@@ -1129,11 +1130,6 @@ class Usuarios extends Conexion
             die();
         }
     }
-
-
-
-
-
 
 
 
