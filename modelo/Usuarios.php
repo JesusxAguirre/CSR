@@ -1349,58 +1349,12 @@ class Usuarios extends Conexion
         //Creo que el error esta aqui
          // Obtener la IP del cliente
 
-         $ip = $_SERVER['REMOTE_ADDR'];
-         // Obtener la marca de tiempo actual
-         $timestamp = time();
-         // Eliminar registros antiguos en la tabla 'requests'
-         $limiteTiempo = $timestamp - $this->umbralTiempo;
-         $eliminarRegistrosAntiguos = $this->conexion()->prepare("DELETE FROM requests WHERE timestamp < :limiteTiempo");
-         $eliminarRegistrosAntiguos->bindParam(':limiteTiempo', $limiteTiempo);
-         $eliminarRegistrosAntiguos->execute();
-         // Contar las solicitudes realizadas por la IP en el último segundo
- 
-         //Creo que esta llamando mal la columna. Las tablas que me pasaste tiene id en vez de ip
-         $consulta = $this->conexion()->prepare("SELECT COUNT(*) AS conteo FROM requests WHERE ip = :ip");
-         $consulta->bindParam(':ip', $ip);
-         $consulta->execute();
-         $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-         // Verificar el contador y bloquear el acceso si se supera el umbral
-         if ($resultado['conteo'] >= $this->umbralSolicitudes) {
-             // Registrar la IP en la tabla de blacklist
-             $insertarBlacklist = $this->conexion()->prepare("INSERT INTO blacklist (ip) VALUES (:ip)");
-             $insertarBlacklist->bindParam(':ip', $ip);
-             $insertarBlacklist->execute();
-             // Bloquear el acceso al servidor
-             http_response_code(403);
-             echo "Acceso denegado. Has superado el límite de solicitudes por segundo.";
-             die();
-         }
-         // Registrar la solicitud en la base de datos
-         $registrarSolicitud = $this->conexion()->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, NOW())");
-         $registrarSolicitud->bindParam(':ip', $ip);
-         
-         $registrarSolicitud->execute();
+         parent::check_requests_danger();
     }
 
     public function check_blacklist(){
-        //Y aqui
-       // Obtener la IP del cliente
- 
-       $ip = $_SERVER['REMOTE_ADDR'];
-   
-       // Consultar la tabla de blacklist para verificar si la IP está en la lista negra
-       $consulta = $this->conexion()->prepare("SELECT COUNT(*) AS conteo FROM blacklist WHERE ip = :ip");
-       $consulta->bindParam(':ip', $ip);
-       $consulta->execute();
-       $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-   
-       // Verificar el resultado y bloquear el acceso si la IP está en la lista negra
-       if ($resultado['conteo'] > 0) {
-           // Bloquear el acceso al servidor
-           http_response_code(403);
-           echo "Acceso denegado. Tu IP está en la lista negra.";
-           die();
-       }
+      
+        parent::check_blacklist();
     }
 
     //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
