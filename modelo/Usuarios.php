@@ -1333,37 +1333,6 @@ class Usuarios extends Conexion
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
 
     public function sanitizar_cadenas($cadena)
@@ -1379,10 +1348,12 @@ class Usuarios extends Conexion
 
 
     public function check_requests_danger(){
+        //Creo que el error esta aqui
         $this->check_requests_danger();
     }
 
     public function check_blacklist(){
+        //Y aqui
         $this->check_blacklist();
     }
 

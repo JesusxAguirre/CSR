@@ -130,6 +130,8 @@ class Conexion
         $eliminarRegistrosAntiguos->bindParam(':limiteTiempo', $limiteTiempo);
         $eliminarRegistrosAntiguos->execute();
         // Contar las solicitudes realizadas por la IP en el último segundo
+
+        //Creo que esta llamando mal la columna. Las tablas que me pasaste tiene id en vez de ip
         $consulta = $conexion->prepare("SELECT COUNT(*) AS conteo FROM requests WHERE ip = :ip");
         $consulta->bindParam(':ip', $ip);
         $consulta->execute();

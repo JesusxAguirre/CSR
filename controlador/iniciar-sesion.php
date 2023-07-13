@@ -61,8 +61,6 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
 	$objeto_usuario->registrar_usuarios();
-
-
 }
 
 //VALIDACION SI CEDULA YA EXISTE EN  LA BD
