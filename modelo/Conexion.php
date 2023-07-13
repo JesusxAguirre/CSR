@@ -8,13 +8,16 @@ use Exception;
 class Conexion
 {
     private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
+
+    // Definir el umbral de solicitud
+    private $umbralSolicitudes = 5; // 5 solicitudes en 1 segundo
+    private $umbralTiempo = 1; // 1 segundo
+
     private $expresion_especial = "/^[^a-zA-Z0-9!@#$%^&*]$/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
     private $expresion_numero = "/^[0-9]$/";
-
-   
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
 
@@ -47,7 +50,7 @@ class Conexion
         return $conexion;
     }
 
-     //REGISTRAR ACCIONES DE USUARIOS EN LA BITACORA 
+    //REGISTRAR ACCIONES DE USUARIOS EN LA BITACORA 
     protected function registrar_bitacora($cedula, $accion, $id_modulo)
     {
         $sql = "INSERT INTO bitacora_usuario (cedula_usuario, id_modulo, fecha_registro, hora_registro, accion_realizada) 
@@ -66,7 +69,7 @@ class Conexion
     //VALIDACION INYECCION SQL
     protected function validar_inyeccion($array)
     {
-    
+
         for ($i = 0; $i < count($array); $i++) {
             $response = preg_match_all($this->expresion_especial, $array[$i]);
 
@@ -77,7 +80,7 @@ class Conexion
                 die("inyeccion sql");
             }
 
-            if($array[$i] == ""){
+            if ($array[$i] == "") {
                 //guardar en base de datos de hacker
 
 
@@ -90,23 +93,22 @@ class Conexion
     //VALIDACION CEDULA
     protected function validar_cedula($cedula)
     {
-        $response = preg_match_all($this->expresion_cedula,$cedula);
-    
-        if($response == 0 ){
+        $response = preg_match_all($this->expresion_cedula, $cedula);
+
+        if ($response == 0) {
             //guardar ataque de hacker
 
             die("datos invalido de cedula");
-            
         }
     }
 
     protected function validar_caracteres($array)
     {
 
-        for ($i=0; $i < count($array); $i++) { 
-            $response = preg_match_all($this->expresion_caracteres,$array[$i]);
+        for ($i = 0; $i < count($array); $i++) {
+            $response = preg_match_all($this->expresion_caracteres, $array[$i]);
 
-            if($response == 0){
+            if ($response == 0) {
                 //guardar datos de hacker
 
                 die("datos invalidos en caracteres");
@@ -114,7 +116,60 @@ class Conexion
         }
     }
 
-   
 
+    protected function check_requests_danger()
+    {
+        // Obtener la IP del cliente
+        $conexion = $this->conexion();
+        $ip = $_SERVER['REMOTE_ADDR'];
+        // Obtener la marca de tiempo actual
+        $timestamp = time();
+        // Eliminar registros antiguos en la tabla 'requests'
+        $limiteTiempo = $timestamp - $this->umbralTiempo;
+        $eliminarRegistrosAntiguos = $conexion->prepare("DELETE FROM requests WHERE timestamp < :limiteTiempo");
+        $eliminarRegistrosAntiguos->bindParam(':limiteTiempo', $limiteTiempo);
+        $eliminarRegistrosAntiguos->execute();
+        // Contar las solicitudes realizadas por la IP en el último segundo
+        $consulta = $conexion->prepare("SELECT COUNT(*) AS conteo FROM requests WHERE ip = :ip");
+        $consulta->bindParam(':ip', $ip);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+        // Verificar el contador y bloquear el acceso si se supera el umbral
+        if ($resultado['conteo'] >= $this->umbralSolicitudes) {
+            // Registrar la IP en la tabla de blacklist
+            $insertarBlacklist = $conexion->prepare("INSERT INTO blacklist (ip) VALUES (:ip)");
+            $insertarBlacklist->bindParam(':ip', $ip);
+            $insertarBlacklist->execute();
+            // Bloquear el acceso al servidor
+            header("HTTP/1.1 429 Too Many Requests");
+            echo "Acceso denegado. Has superado el límite de solicitudes por segundo.";
+            exit();
+        }
+        // Registrar la solicitud en la base de datos
+        $registrarSolicitud = $conexion->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, :timestamp)");
+        $registrarSolicitud->bindParam(':ip', $ip);
+        $registrarSolicitud->bindParam(':timestamp', $timestamp);
+        $registrarSolicitud->execute();
+    }
+
+    protected function check_blacklist()
+    {
+        // Obtener la IP del cliente
+        $conexion = $this->conexion();
+        $ip = $_SERVER['REMOTE_ADDR'];
     
+        // Consultar la tabla de blacklist para verificar si la IP está en la lista negra
+        $consulta = $conexion->prepare("SELECT COUNT(*) AS conteo FROM blacklist WHERE ip = :ip");
+        $consulta->bindParam(':ip', $ip);
+        $consulta->execute();
+        $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+    
+        // Verificar el resultado y bloquear el acceso si la IP está en la lista negra
+        if ($resultado['conteo'] > 0) {
+            // Bloquear el acceso al servidor
+            header("HTTP/1.1 403 Forbidden");
+            echo "Acceso denegado. Tu IP está en la lista negra.";
+            exit();
+        }
+    }
 }
