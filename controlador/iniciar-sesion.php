@@ -93,6 +93,12 @@ if (isset($_POST['correo_existente'])) {
 $recuperacion = false;
 //recuperando password
 if (isset($_POST['correo2'])) {
+
+	$objeto_usuario->check_blacklist();
+
+	$objeto_usuario->check_requests_danger();
+
+
 	$correo = strtolower(trim($_POST['correo2']));
 
 	
@@ -104,6 +110,11 @@ if (isset($_POST['correo2'])) {
 }
 
 if( isset($_POST['tokenCorreo'])){
+
+	$objeto_usuario->check_blacklist();
+
+	$objeto_usuario->check_requests_danger();
+
 
 	$token = $_POST['tokenCorreo'];
 
@@ -118,7 +129,9 @@ if (isset($_POST['email'])) {
 
 	$_SESSION['clave'] = trim($_POST['password']);
 
+	$objeto_usuario->check_blacklist();
 
+	$objeto_usuario->check_requests_danger();
 
 
 	$objeto_usuario->validar();
