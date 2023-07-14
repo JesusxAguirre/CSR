@@ -321,6 +321,8 @@ $("#formulario").submit(function (e) {
 				}
 
 				switch (response.status_code) {
+					case 403:
+						response.ErrorType = "DENIED"
 					case 409:
 						response.ErrorType = "User Already Exist"
 						break;
@@ -434,6 +436,8 @@ $(document).on('submit', '#formulario3', function (event) {
 				}
 
 				switch (response.status_code) {
+					case 403:
+						response.ErrorType = "DENIED"
 					case 409:
 						response.ErrorType = "User Already Exist"
 						break;
@@ -552,6 +556,8 @@ $(document).on('submit', '#formulario2', function (event) {
 
 
 				switch (response.status_code) {
+					case 403:
+						response.ErrorType = "DENIED"
 					case 409:
 						response.ErrorType = "User Already Exist"
 						break;

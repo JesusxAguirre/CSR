@@ -13,7 +13,6 @@ class Conexion
 
     // Definir el umbral de solicitud
     private $umbralSolicitudes = 5; // 5 solicitudes en 1 segundo
-    private $umbralTiempo = 1; // 1 segundo
 
     private $expresion_especial = "/^[^a-zA-Z0-9!@#$%^&*]$/";
 
@@ -127,11 +126,9 @@ class Conexion
 
         $ip = $_SERVER['REMOTE_ADDR'];
         // Obtener la marca de tiempo actual
-        $timestamp = time();
+        
         // Eliminar registros antiguos en la tabla 'requests'
-        $limiteTiempo = $timestamp - $this->umbralTiempo;
-        $eliminarRegistrosAntiguos = $this->conexion()->prepare("DELETE FROM requests WHERE timestamp < :limiteTiempo");
-        $eliminarRegistrosAntiguos->bindParam(':limiteTiempo', $limiteTiempo);
+        $eliminarRegistrosAntiguos = $this->conexion()->prepare("DELETE FROM requests WHERE timestamp <> (SELECT MAX(timestamp) FROM requests)");
         $eliminarRegistrosAntiguos->execute();
         // Contar las solicitudes realizadas por la IP en el último segundo
 
@@ -152,9 +149,8 @@ class Conexion
             die();
         }
         // Registrar la solicitud en la base de datos
-        $registrarSolicitud = $this->conexion()->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, )");
+        $registrarSolicitud = $this->conexion()->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, NOW())");
         $registrarSolicitud->bindParam(':ip', $ip);
-        $registrarSolicitud->bindParam(':timestamp', $timestamp);
         $registrarSolicitud->execute();
     }
 
