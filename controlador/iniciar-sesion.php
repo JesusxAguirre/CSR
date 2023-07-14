@@ -26,7 +26,7 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$clave = trim($_POST['clave']);
 
 
-	$objeto_usuario->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $clave]);
+	$objeto_usuario->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $sexo, $civil, $nacionalidad, $telefono, $clave]);
 
 
 	$objeto_usuario->security_validation_caracteres([$nombre, $apellido]);
@@ -78,8 +78,6 @@ if (isset($_POST['cedula_existente'])) {
 
 if (isset($_POST['correo_existente'])) {
 	$correo = $_POST['correo_existente'];
-
-	$objeto_usuario->security_validation_inyeccion_sql([$correo]);
 
 	$objeto_usuario->security_validation_correo($correo);
 

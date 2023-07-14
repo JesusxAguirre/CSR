@@ -126,12 +126,10 @@ const ValidarFecha_nacimiento = (input, campo) => {
 
 	if (fechaNacimientoTS < mayoriaEdad.getTime() && fechaNacimientoTS > maximaEdad.getTime()) {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 	} else {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
 	}
@@ -190,16 +188,11 @@ const ValidarCampo = (expresion, input, campo) => {
 						response = {};
 					}
 
-
-
 					Swal.fire({
 						icon: 'error',
 						title: response.ErrorType,
 						text: response.msj
 					})
-
-
-
 				}
 			})
 		}
@@ -234,9 +227,6 @@ const ValidarCampo = (expresion, input, campo) => {
 						title: response.ErrorType,
 						text: response.msj
 					})
-
-
-
 				}
 			})
 		}
@@ -292,9 +282,10 @@ $("#formulario").submit(function (e) {
 			data: $(this).serialize(),
 			success: function (response) {
 
-				var data = JSON.parse(response)
-
-				if (data.response) {
+				var data = JSON.parse(response);
+				
+				console.log(data.status_code);
+				if (data.status_code === 200) {
 					for (let campo in campos) {
 						campos[campo] = false
 					}
@@ -341,9 +332,6 @@ $("#formulario").submit(function (e) {
 					title: response.ErrorType,
 					text: response.msj
 				})
-
-
-
 			}
 		})
 	}

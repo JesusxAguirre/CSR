@@ -211,7 +211,7 @@ class Usuarios extends Conexion
 
         $resultado = [];
         $sql = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
-         usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.edad,
+         usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.fecha_nacimiento,
          roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
         INNER JOIN roles ON usuarios.id_rol = roles.id");
@@ -221,8 +221,6 @@ class Usuarios extends Conexion
         $stmt->execute(array());
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
             $resultado[] = $filas;
         }
 
@@ -486,7 +484,8 @@ class Usuarios extends Conexion
             ));
 
             http_response_code(200);
-            echo json_encode(array("msj" => "Se registro exitosamente"));
+            echo json_encode(array("msj" => "Se registro exitosamente", "status_code" => 200));
+            die();
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
             http_response_code(500);
@@ -815,8 +814,6 @@ class Usuarios extends Conexion
             http_response_code(202);
 
             echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
-
-
             die();
         } catch (Throwable $ex) {
             
@@ -974,9 +971,7 @@ class Usuarios extends Conexion
     //METODO SETTER PARA ACTUALIZAR FOTO DE USUARIO
     public function setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen)
     {
-
         $this->cedula = $cedula;
-
         $this->carpeta_destino = $carpeta_destino;
         $this->nombre_imagen = $nombre_imagen;
         $this->tipo_imagen = $tipo_imagen;

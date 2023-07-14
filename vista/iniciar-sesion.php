@@ -158,7 +158,7 @@
                                             <label class="form-label fw-bold">Estado en el que vive</label>
                                             <i class="input-icon fs-5"></i>
                                             <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
-                                                <option value="">Escoge tu estado</option>
+                                                <option selected value="">Escoge tu estado</option>
                                                 <option value="amazonas">Amazonas</option>
                                                 <option value="anzoategui">Anzoátegui</option>
                                                 <option value="apure">Apure</option>
@@ -167,16 +167,18 @@
                                                 <option value="bolivar">Bolívar</option>
                                                 <option value="carabobo">Carabobo</option>
                                                 <option value="cojedes">Cojedes</option>
-                                                <option value="delta amacuro">Delta Amacuro</option>
+                                                <option value="delta_amacuro">Delta Amacuro</option>
+                                                <option value="css">Distrito Capital</option>
                                                 <option value="falcon">Falcón</option>
                                                 <option value="guarico">Guárico</option>
-                                                <option value="css">Distritio Capital</option>
                                                 <option value="lara">Lara</option>
                                                 <option value="merida">Mérida</option>
                                                 <option value="miranda">Miranda</option>
                                                 <option value="monagas">Monagas</option>
+                                                <option value="nueva_esparta">Nueva Esparta</option>
+                                                <option value="portuguesa">Portuguesa</option>
                                                 <option value="sucre">Sucre</option>
-                                                <option value="tachira">Tachira</option>
+                                                <option value="tachira">Táchira</option>
                                                 <option value="trujillo">Trujillo</option>
                                                 <option value="vargas">Vargas</option>
                                                 <option value="yaracuy">Yaracuy</option>
@@ -208,7 +210,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Clave</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="18"  type="password" placeholder="******" name="clave" class="form-control">
+                                            <input maxlength="18" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">La clave debe contener un caracter especial y un numero.
                                             Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
@@ -228,12 +230,12 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade " id="recuperar"  data-bs-backdrop="false" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade " id="recuperar" data-bs-backdrop="false" tabindex="-1" aria-labelledby="" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content ">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="">Recuperar contraseña</h5>
-                    <button type="button" class="btn-close"   data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="formulario2" action="?pagina=iniciar-sesion" method="POST">
                     <div class="modal-body">
@@ -242,9 +244,9 @@
                             <div id="appends" class="row mt-2">
                                 <div id="grupo__correo2" class="col-sm  ">
                                     <div class="input-group mb-3 relative">
-                                      
+
                                         <i class="input-icon fs-5"></i>
-                                        <input id="correo2"  placeholder="Email" name="correo2" class="form-control">
+                                        <input id="correo2" placeholder="Email" name="correo2" class="form-control">
                                         <div class="input-group-append">
                                             <div class="input-group-text">
                                                 <span class="bi bi-envelope-at-fill"></span>
