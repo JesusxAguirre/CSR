@@ -15,10 +15,7 @@ if (is_file('vista/'.$pagina.'.php')) {
     
     $objeto = new LaRoca();
    
- 
     $matriz_lideres = $objeto->listar_usuarios_N2();
-
-
 
 
     if(isset($_POST['id'])){
@@ -55,9 +52,9 @@ if (is_file('vista/'.$pagina.'.php')) {
         $objeto->actualizar_CSR();
         
     }
-    require_once 'vista/'.$pagina.'.php';
+
     
-  
+    require_once 'vista/'.$pagina.'.php';
 }
 } else{ 
     echo "<script>

@@ -28,7 +28,7 @@ const expresiones = { //objeto con varias expresiones regulares
   direccion: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,30}$/, // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
 
-	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,12}$/, // Letras y espacios, pueden llevar acentos.
+  nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,12}$/, // Letras y espacios, pueden llevar acentos.
   telefono: /^[0-9]{11}$/,
   direccion: /^[A-Za-z0-9\s]{10,200}$/,
   cantidad: /^[0-9]{1,2}$/,
@@ -39,7 +39,7 @@ const expresiones = { //objeto con varias expresiones regulares
 const ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "dia":
-  
+
       ValidarDia(e.target, 'dia');
       break;
     case "hora":
@@ -131,7 +131,7 @@ const ValidarCodigo = (codigo_array, input, campo) => {
 }
 
 $('#editForm').submit(function (event) {
-  
+
   event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
   console.log($(this).serialize())
   if (!(campos.lider && campos.dia && campos.hora && campos.direccion && campos.cantidad && campos.telefono_anfitrion && campos.anfitrion)) {
@@ -140,38 +140,37 @@ $('#editForm').submit(function (event) {
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
-  }else {
+  } else {
     $.ajax({
       type: "POST",
       url: "?pagina=listar-casa",
       data: $(this).serialize(),
       success: function (response) {
-      
-          console.log(response)
-          document.getElementById("editForm").reset()
 
-          campos.anfitrion = false
-          campos.cantidad = false
-          campos.dia = false
-          campos.hora = false
-          campos.direccion = false
-          campos.hora = false
-          campos.lider = false
-          campos.telefono_anfitrion = false
+        console.log(response)
+        document.getElementById("editForm").reset()
 
-          $("#editar").removeClass('fade').modal('hide');
-          $('#mi_tabla').DataTable().destroy();
+        campos.anfitrion = false
+        campos.cantidad = false
+        campos.dia = false
+        campos.hora = false
+        campos.direccion = false
+        campos.hora = false
+        campos.lider = false
+        campos.telefono_anfitrion = false
 
-          $("#editar").addClass('fade')
-          solicitar_tabla()
+        $("#editar").removeClass('fade').modal('hide');
+        $('#mi_tabla').DataTable().destroy();
 
-          fireAlert('success', 'Se actualizo correctamente los datos')
-        
+        $("#editar").addClass('fade')
+        solicitar_tabla()
+
+        fireAlert('success', 'Se actualizo correctamente los datos')
+
       },
       error: function (xhr, status, error) {
+        
         // Código a ejecutar si se produjo un error al realizar la solicitud
-
-
         var response;
         try {
           response = JSON.parse(xhr.responseText);
@@ -192,17 +191,11 @@ $('#editForm').submit(function (event) {
           default:
             break;
         }
-
-        
-
         Swal.fire({
           icon: 'error',
           title: response.ErrorType,
           text: response.msj
         })
-
-
-
       }
     })
   }
@@ -256,8 +249,8 @@ $('#mi_tabla tbody').on('click', '.btn-edit', function () {
 
   idInput.value = row.find('td:eq(0)').text()
   diaInput.value = row.find('td:eq(2)').text()
-  
-  horaInput.value = hora_completa.slice(0,5)
+
+  horaInput.value = hora_completa.slice(0, 5)
   liderInput.value = row.find('td:eq(4)').text()
   nombre_anfitrionInput.value = row.find('td:eq(5)').text()
   telefono_anfitrionInput.value = row.find('td:eq(6)').text()
@@ -265,7 +258,7 @@ $('#mi_tabla tbody').on('click', '.btn-edit', function () {
   direccionInput.value = row.find('td:eq(8)').text()
   //cedulas de usuarios
 
-  console.log(hora_completa.slice(0,5))
+  console.log(hora_completa.slice(0, 5))
 });
 
 $('#mi_tabla tbody').on('click', '.btn-view', function () {
@@ -273,7 +266,7 @@ $('#mi_tabla tbody').on('click', '.btn-view', function () {
   let row = $(this).closest('tr');
 
   $("#codigo_ver").text(row.find('td:eq(1)').text())
-  $("#dia_ver").text(row.find('td:eq(2)').text()) 
+  $("#dia_ver").text(row.find('td:eq(2)').text())
   $("#hora_ver").text(row.find('td:eq(3)').text())
 
   $("#codigo_lider_ver").text(row.find('td:eq(4)').text())

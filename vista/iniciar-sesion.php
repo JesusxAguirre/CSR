@@ -85,7 +85,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Nombre</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="12" placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
+                                            <input maxlength="20" placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede contener letras </p>
                                     </div>
@@ -93,7 +93,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Apellido</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="12" placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
+                                            <input maxlength="20" placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo puede contener letras </p>
                                     </div>
@@ -101,7 +101,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold" ">Cedula</label>    
                                         <i class=" input-icon fs-5"></i>
-                                                <input maxlength="8" placeholder=" 22222222" id="cedula" name="cedula" class="form-control">
+                                                <input maxlength="8" placeholder="22222222" id="cedula" name="cedula" class="form-control">
                                         </div>
                                         <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
                                     </div>
@@ -201,7 +201,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Correo</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
+                                            <input maxlength="60" id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
                                         </div>
                                         <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
 
@@ -210,10 +210,10 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Clave</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="18" type="password" placeholder="******" name="clave" class="form-control">
+                                            <input maxlength="20" type="password" placeholder="******" name="clave" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">La clave debe contener un caracter especial y un numero.
-                                            Minimo 6 caracteres maximo 18. los caracteres permitidos son [!@#$%^&*] </p>
+                                            Minimo 6 caracteres y maximo 16. los caracteres permitidos son [!@#$%^&*] </p>
 
                                     </div>
                                 </div>

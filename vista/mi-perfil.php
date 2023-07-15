@@ -52,8 +52,9 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-8">
-              <h4 class="mb-1"><?php echo $nombre . " " . $apellido ?></span></h4>
-              <h5 class="fs-0 fw-normal"><?php echo $codigo ?></h5>
+              <h4 id="nombre_perfil" class="mb-1"></span></h4>
+              <h5 id="codigo_perfil" class="fs-0 fw-normal"></h5>
+              <h5 id="prueba"></h5>
               <div class="border-dashed border-bottom my-4 d-lg-none"></div>
             </div>
 
@@ -70,7 +71,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Primer Nombre</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="Juan" value="<?php echo $nombre ?>" id="nombreInput" name="nombre" type="text" class="form-control">
+                      <input placeholder="Juan" value="" id="nombreInput" name="nombre" type="text" class="form-control">
                     </div>
                     <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede contener letras </p>
                   </div>
@@ -78,7 +79,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Primer Apellido</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="Jimenez" id="apellidoInput" value="<?php echo $apellido ?>" name="apellido" type="text" class="form-control">
+                      <input placeholder="Jimenez" id="apellidoInput" value="" name="apellido" type="text" class="form-control">
                     </div>
                     <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo puede contener letras </p>
                   </div>
@@ -86,18 +87,18 @@
                     <div class="relative">
                       <label class="form-label fw-bold" ">Cedula</label>    
                   <i class=" input-icon fs-5"></i>
-                        <input placeholder="22222222" id="cedula" name="cedula" value="<?php echo $cedula ?>" class="form-control">
+                        <input placeholder="22222222" id="cedula" name="cedula" value="" class="form-control">
                     </div>
-                    <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
+                    <input value="" hidden name="cedula_antigua" id="cedulaInput2" type="text">
                     <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
                   </div>
                   <div id="grupo__edad" class="col-sm col-md-3 ">
                     <div class="relative">
                       <label class="form-label fw-bold">Edad</label>
                       <i class="input-icon fs-5"></i>
-                      <input placeholder="21" id="edadInput" value="<?php echo $edad ?>" name="edad" type="text" class="form-control">
+                      <input placeholder="21" id="edadInput" value="" name="edad" type="date" class="form-control">
                     </div>
-                    <p class="text-danger d-none">La edad deben de ser de 1 a 2 dígitos y solo puede contener numeros </p>
+                    <p class="text-danger d-none">Ingrese una fecha de nacimiento valida. Recuerde que debe ser mayor de edad</p>
                   </div>
                 </div>
                 <div class="mb-3 row">
@@ -106,19 +107,17 @@
                       <label class="form-label fw-bold">Sexo</label>
                       <i class="input-icon fs-5"></i>
                       <select name="sexo" id="sexo" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="sexoInput" value='<?php echo $sexo ?>'><?php echo $sexo ?></option>
                         <option value="hombre">Hombre</option>
                         <option value="mujer">Mujer</option>
                       </select>
                     </div>
-                    <p class="text-danger d-none">No puede dejar este campo vacio </p>
+                    <p class="text-danger d-none">No puede dejar este campo vacio</p>
                   </div>
                   <div id="grupo__civil" class="col-sm col-md-3 ">
                     <div class="relative">
                       <label class="form-label fw-bold">Estado civil</label>
                       <i class="input-icon fs-5"></i>
                       <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="estado_civilInput" value="<?php echo strtolower($estado_civil) ?>"><?php echo $estado_civil ?></option>
                         <option value="soltero">Soltero</option>
                         <option value="soltera">Soltera</option>
                         <option value="matrimonio">Casada/o</option>
@@ -131,7 +130,6 @@
                       <label class="form-label fw-bold">Nacionalidad</label>
                       <i class="input-icon fs-5"></i>
                       <select id="nacionalidad" name="nacionalidad" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="nacionalidadInput" value="<?php echo strtolower($nacionalidad) ?>"><?php echo $nacionalidad ?></option>
                         <option value="venezolana">Venezolana</option>
                         <option value="colombiana">Colombiana</option>
                         <option value="española">Española</option>
@@ -144,10 +142,31 @@
                       <label class="form-label fw-bold">Estado en el que vive</label>
                       <i class="input-icon fs-5"></i>
                       <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
-                        <option id="estadoInput" value="<?php echo strtolower($estado) ?>"><?php echo $estado ?></option>
-                        <option value="css">Distritio Capital</option>
+                        <option value="">Escoge tu estado</option>
+                        <option value="amazonas">Amazonas</option>
+                        <option value="anzoategui">Anzoátegui</option>
+                        <option value="apure">Apure</option>
+                        <option value="aragua">Aragua</option>
+                        <option value="barinas">Barinas</option>
+                        <option value="bolivar">Bolívar</option>
+                        <option value="carabobo">Carabobo</option>
+                        <option value="cojedes">Cojedes</option>
+                        <option value="delta_amacuro">Delta Amacuro</option>
+                        <option value="css">Distrito Capital</option>
+                        <option value="falcon">Falcón</option>
+                        <option value="guarico">Guárico</option>
                         <option value="lara">Lara</option>
+                        <option value="merida">Mérida</option>
+                        <option value="miranda">Miranda</option>
+                        <option value="monagas">Monagas</option>
+                        <option value="nueva_esparta">Nueva Esparta</option>
+                        <option value="portuguesa">Portuguesa</option>
+                        <option value="sucre">Sucre</option>
+                        <option value="tachira">Táchira</option>
+                        <option value="trujillo">Trujillo</option>
+                        <option value="vargas">Vargas</option>
                         <option value="yaracuy">Yaracuy</option>
+                        <option value="zulia">Zulia</option>
                       </select>
                     </div>
                     <p class="text-danger d-none">No puede dejar este campo vacio </p>
@@ -158,7 +177,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Telefono</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="telefonoInput" value="<?php echo $telefono  ?>" placeholder=" XXXXXXXX" name="telefono" class="form-control">
+                      <input id="telefonoInput" value="" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                     </div>
                     <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                   </div>
@@ -167,9 +186,9 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Correo</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="correo" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo" class="form-control">
+                      <input id="correo" placeholder="example@gmail.com" value="" name="correo" class="form-control">
                     </div>
-                    <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                    <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com</p>
                   </div>
                 </div>
                 <div class="mb-3" id="">
@@ -184,26 +203,25 @@
         <div class="mt-2 col">
           <div class="card">
             <div class="card-body">
-              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil" >
-               
-              <div id="grupo__correo2" class="col-sm col-md-3 ">
-                    <div class="relative">
-                      <label class="form-label fw-bold">Correo</label>
-                      <i class="input-icon fs-5"></i>
-                      <input disabled id="correo2" placeholder="example@gmail.com" value="<?php echo $correo; ?>" name="correo2" class="form-control">
-                    </div>
-                    <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
-                  </div>
-                  <div id="grupo__clave" class="col-sm col-md-3 ">
-                    <div class="relative">
-                      <label class="form-label fw-bold">Clave</label>
-                      <i class="input-icon fs-5"></i>
-                      <input id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-4">
-                    </div>
-                    <p class="text-danger d-none">La clave debe contener de 7 a 12 digitos </p>
-                </div>
-                <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
+              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil">
 
+                <div id="grupo__correo2" class="col-sm col-md-3 ">
+                  <div class="relative">
+                    <label class="form-label fw-bold">Correo</label>
+                    <i class="input-icon fs-5"></i>
+                    <input disabled id="correo2" placeholder="example@gmail.com" value="" name="correo2" class="form-control">
+                  </div>
+                  <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                </div>
+                <div id="grupo__clave" class="col-sm col-md-3 ">
+                  <div class="relative">
+                    <label class="form-label fw-bold">Clave</label>
+                    <i class="input-icon fs-5"></i>
+                    <input id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-4">
+                  </div>
+                  <p class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo un caracter especial y un numero</p>
+                </div>
+                <input value="" hidden name="cedula_antigua" id="cedulaInput3" type="text">
                 <button name="recuperar_password" type="submit" class="btn btn-primary">Enviar</button>
               </form>
             </div>
@@ -225,7 +243,7 @@
                 </div>
                 <div class="mb-3" id="">
                 </div>
-                <input value="<?php echo $cedula ?>" hidden name="cedula_antigua" id="cedulaInput2" type="text">
+                <input value="" hidden name="cedula_antigua" id="cedulaInput4" type="text">
 
                 <button name="actualizar_imagen" type="submit" class="btn btn-primary">Enviar</button>
               </form>

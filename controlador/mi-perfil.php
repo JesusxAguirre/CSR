@@ -1,11 +1,12 @@
 <?php
+
 use Csr\Modelo\Usuarios;
 //destruye la sesion si se tenia una abierta
 session_start();
 
 if ($_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
-    
+
         $objeto = new Usuarios();
         $matriz_usuario = $objeto->mi_perfil();
 
@@ -14,41 +15,53 @@ if ($_SESSION['verdadero'] > 0) {
         $accion = 'El usuario ha entrado a "Mi Perfil"';
         $objeto->bitacora($cedula, $accion, $id_modulo);
 
-        foreach ($matriz_usuario as $usuario) {
-            $nombre = $usuario['nombre'];
-            $apellido = $usuario['apellido'];
-            $cedula = $usuario['cedula'];
-            $edad = $usuario['edad'];
-            $sexo = $usuario['sexo'];
-            $estado_civil = $usuario['estado_civil'];
-            $nacionalidad = $usuario['nacionalidad'];
-            $estado = $usuario['estado'];
-            $telefono = $usuario['telefono'];
-            $codigo = $usuario['codigo'];
-            $ruta_imagen = $usuario['ruta_imagen'];
-            $correo = $usuario['usuario'];
-            $clave = $usuario['password'];
+
+        //Cargar todos los datos del usuario en el perfil
+        if (isset($_POST['data_load'])) {
+            $data = $objeto->mi_perfil();
+            echo json_encode($data);
+            die();
         }
+
+
+        //Actualizar datos del perfil del usuario
         $actualizar = true;
         if (isset($_POST['actualizar'])) {
-            $cedula = $_POST['cedula'];
-            $cedula_antigua = $_SESSION['cedula'];
-            $nombre = $_POST['nombre'];
-            $apellido = $_POST['apellido'];
-            $edad = $_POST['edad'];
-            $sexo = $_POST['sexo'];
-            $civil = $_POST['civil'];
-            $nacionalidad = $_POST['nacionalidad'];
-            $estado = $_POST['estado'];
-            $telefono = $_POST['telefono'];
-            $correo = $_POST['correo'];
+            $nombre = trim($_POST['nombre']);
+            $apellido = trim($_POST['apellido']);
+            $cedula = trim($_POST['cedula']);
+            $cedula_antigua = trim($_SESSION['cedula']);
+            $fecha_nacimiento = $_POST['fecha_nacimiento'];
+            $sexo = trim($_POST['sexo']);
+            $estado_civil = trim($_POST['estado_civil']);
+            $nacionalidad = trim($_POST['nacionalidad']);
+            $estado = trim($_POST['estado']);
+            $telefono = trim($_POST['telefono']);
+            $correo = strtolower(trim($_POST['correo']));
 
+            //Validaciones
+            $objeto_usuario->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $sexo, $estado_civil, $nacionalidad, $telefono]);
+            $objeto_usuario->security_validation_caracteres([$nombre, $apellido]);
+            $objeto_usuario->security_validation_cedula($cedula);
+            $objeto_usuario->security_validation_fecha_nacimiento($fecha_nacimiento);
+            $objeto_usuario->security_validation_sexo($sexo);
+            $objeto_usuario->security_validation_estado_civil($estado_civil);
+            $objeto_usuario->security_validation_nacionalidad($nacionalidad);
+            $objeto_usuario->security_validation_estado($estado);
+            $objeto_usuario->security_validation_correo($correo);
 
-            $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula,$cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo);
+            //Sanitizacion
+            $nombre = $objeto_usuario->sanitizar_cadenas($nombre);
+            $apellido = $objeto_usuario->sanitizar_cadenas($apellido);
+            $nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
+            $estado = $objeto_usuario->sanitizar_cadenas($estado);
+
+            $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo);
             $objeto->update_usuarios_sin_rol();
-
-            $actualizar = false;
+            //$actualizar = false;
         }
+
+        //Actualizar imagen de perfil de usuario
         if (isset($_POST["actualizar_imagen"])) {
             $nombre_imagen = $_FILES['imagen']['name'];
             $tipo_imagen = $_FILES['imagen']['type'];
@@ -63,9 +76,9 @@ if ($_SESSION['verdadero'] > 0) {
             $actualizar = false;
         }
 
-        if (isset($_POST['recuperar_password'])){
-            
-            $objeto->setRecuperar($cedula,$_POST['clave']);
+        if (isset($_POST['recuperar_password'])) {
+
+            $objeto->setRecuperar($cedula, $_POST['clave']);
         }
         require_once 'vista/' . $pagina . '.php';
     }

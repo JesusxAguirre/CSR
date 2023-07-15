@@ -89,7 +89,7 @@ class Usuarios extends Conexion
 
 
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
-    private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
+    private $expresion_clave = "/^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
 
     private $expresion_correo = "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i";
 
@@ -202,6 +202,7 @@ class Usuarios extends Conexion
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(":usuario" => $usuario));
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
