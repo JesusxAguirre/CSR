@@ -11,6 +11,9 @@ class Conexion
 {
     private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
 
+
+    private $secret_key_recaptcha = '6Lf5JignAAAAAFQb29kN1lP5eCD_QB2CUWkhznB6';
+
     // Definir el umbral de solicitud
     private $umbralSolicitudes = 5; // 5 solicitudes en 1 segundo
 

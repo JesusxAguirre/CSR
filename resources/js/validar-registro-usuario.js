@@ -715,3 +715,59 @@ function countdown_toast() {
 		}
 	}, 1000);
 }
+
+
+$(document).ready(function() {
+
+	$.ajax({
+		url: window.location,
+		type: 'GET',
+		
+		success: function (data) {
+
+		},
+		error: function (xhr, status, error) {
+			showRecaptchaPopup()
+		}
+	})
+
+	// Función para mostrar el popup con el reCAPTCHA
+	function showRecaptchaPopup() {
+	  $('#recaptcha-popup').modal('show');
+	  // Inicializa el reCAPTCHA
+	  grecaptcha.render($('.g-recaptcha')[0], {
+		'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
+	  });
+	  // Espera 30 segundos antes de enviar la respuesta
+	  setTimeout(function() {
+		if (!grecaptcha.getResponse()) {
+		  // Si no se ha completado el reCAPTCHA en 30 segundos, envía la respuesta a una URL
+		  $.ajax({
+			type: 'POST',
+			url: 'respuesta-url.php',
+			data: { respuesta: 'no completado' },
+			success: function() {
+			  console.log('Respuesta enviada');
+			}
+		  });
+		  $('#recaptcha-popup').modal('hide');
+		}
+	  }, 30000);
+	}
+  
+	// Abre el popup cuando se hace clic en el botón
+	$('#btn-recaptcha').click(function() {
+	  showRecaptchaPopup();
+	});
+  
+	// Cierra el popup cuando se hace clic fuera de él
+	$(document).mouseup(function(e) {
+	  var popup = $('.modal-content');
+	  if (!popup.is(e.target) && popup.has(e.target).length === 0) {
+		$('#recaptcha-popup').modal('hide');
+	  }
+	});
+
+
+	
+  });

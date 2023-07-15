@@ -11,13 +11,8 @@
     <link rel="stylesheet" href="./resources/css/login.css">
 
     <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-    <script src="resources/js/sweetalert2.js"></script>
 
-    <!-- Jquery-->
-    <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-    <!-- Sweet alert 2-->
-    <script src="resources/js/sweetalert2.js"></script>
+    
 
 </head>
 
@@ -49,7 +44,9 @@
                         <label for="password">Contraseña</label>
                         <input type="password" name="password" id="clave" class="form-control inputF" placeholder="********">
                     </div>
+                   
                     <div class="d-grid">
+                             
                         <button name="enviar" value="enviar" type="submit" class="btn btn-outline-primary botonLogin">INCIAR SESION</button>
                     </div>
 
@@ -63,7 +60,23 @@
         </div>
     </div>
 
-
+        <!-- Popup con el reCAPTCHA -->
+    <div class="modal fade" tabindex="-1" role="dialog" id="recaptcha-popup">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header bg-primary">
+            <h5 class="modal-title text-white">Verificación de robot</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body  d-flex justify-content-center">
+            <div class="g-recaptcha" data-sitekey="6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z"></div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+        </div>
+    </div>
+    </div>
 
 
 
@@ -282,7 +295,16 @@
     <script type="text/javascript">
         recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
     </script>
+    
+    <!-- Jquery-->
+    <script src="resources/js/jquery-3.6.0.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Sweet alert 2-->
+    <script src="resources/js/sweetalert2.js"></script>
+ 
     <script src="resources/js/validar-registro-usuario.js"></script>
+        
+
 </body>
 
 </html>
