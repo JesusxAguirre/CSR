@@ -20,9 +20,48 @@ function comprobarBoletin() {
 	);
 }
 
+function data_load() {
+	$.ajax({
+		data: { data_load: 'data_load' },
+		type: "POST",
+		url: "index.php?pagina=mi-perfil",
+	}).done((data) => {
+		const dato = JSON.parse(data);
+		let objeto = [];
+
+		//Guardando objeto en otra variable
+		for (const datos of dato) {
+			objeto = datos;
+		}
+
+		//Actualizando datos del apartado perfil con JS
+		document.getElementById('nombre_perfil').textContent = objeto.nombre + ' ' + objeto.apellido;
+		document.getElementById('codigo_perfil').textContent = objeto.codigo;
+		document.getElementById('nombreInput').value = objeto.nombre;
+		document.getElementById('apellidoInput').value = objeto.apellido;
+		document.getElementById('cedula').value = objeto.cedula;
+		document.getElementById('cedulaInput2').value = objeto.cedula;
+		document.getElementById('cedulaInput3').value = objeto.cedula;
+		document.getElementById('cedulaInput4').value = objeto.cedula;
+		document.getElementById('edadInput').value = objeto.fecha_nacimiento;
+		document.getElementById('sexo').value = objeto.sexo;
+		document.getElementById('civil').value = objeto.estado_civil;
+		document.getElementById('nacionalidad').value = objeto.nacionalidad;
+		document.getElementById('estado').value = objeto.estado;
+		document.getElementById('telefonoInput').value = objeto.telefono;
+		document.getElementById('correo').value = objeto.usuario;
+		document.getElementById('correo2').value = objeto.usuario;
+	});
+}
+data_load();
+
+
+//Constantes para capturar los datos del formulario y poder ser enviados
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
 const formulario3 = document.getElementById('formulario3'); //declarando una constante con la id formulario
+
+
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
@@ -49,8 +88,8 @@ const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
 	edad: /^[0-9]{2}$/,
 	nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/, // Letras y espacios, pueden llevar acentos.
-	password: /^.{7,12}$/, // 4 a 12 digitos.
-	correo: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+	password: /^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 6 a 16 digitos.
+	correo: /^[a-zA-Z0-9._%+-]{1,60}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/,
 	imagen: /^.*\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$/
@@ -70,7 +109,7 @@ const ValidarFormulario = (e) => {
 			ValidarCampo(expresiones.nombre, e.target, 'apellido');
 			break;
 		case "edad":
-			ValidarCampo(expresiones.edad, e.target, 'edad');
+			validarFecha_nacimiento(e.target, 'edad');
 			break;
 		case "sexo":
 			ValidarSelect(e.target, 'sexo');
@@ -101,6 +140,34 @@ const ValidarFormulario = (e) => {
 			break;
 	}
 }
+
+
+/////Validando fecha de nacimiento
+const validarFecha_nacimiento = (input, campo) => {
+	const mayoriaEdad = new Date();
+	mayoriaEdad.setFullYear(mayoriaEdad.getFullYear() - 18);
+
+
+	const maximaEdad = new Date();
+	maximaEdad.setFullYear(maximaEdad.getFullYear() - 99);
+
+	const fechaNacimientoTS = new Date(input.value).getTime();
+
+	if (fechaNacimientoTS < mayoriaEdad.getTime() && fechaNacimientoTS > maximaEdad.getTime()) {
+		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		campos[campo] = false;
+	}
+}
+
 
 const ValidarSelect = (select, campo) => {
 	if (select.value == '') {
@@ -199,9 +266,83 @@ selects.forEach((select) => {
 	select.addEventListener('blur', ValidarFormulario);
 });
 
+
+//ACTUALIZANDO DATOS DE MI PERFIL
 formulario.addEventListener('submit', (e) => {
-	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo)) {
-		e.preventDefault();
+	e.preventDefault();
+	if (campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo) {
+		const datos = {
+			nombre: document.getElementById('nombreInput').value,
+			apellido: document. getElementById('apellidoInput').value,
+			cedula: document.getElementById('cedula').value,
+			fecha_nacimiento: document.getElementById('edadInput').value,
+			sexo: document.getElementById('sexo').value,
+			estado_civil: document.getElementById('civil').value,
+			nacionalidad: document.getElementById('nacionalidad').value,
+			estado: document.getElementById('estado').value,
+			telefono: document.getElementById('telefonoInput').value,
+			correo: document.getElementById('correo').value
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "?pagina=mi-perfil",
+			data: $(this).serialize(),
+			success: function (response) {
+
+				console.log(response)
+				document.getElementById("editForm").reset()
+
+				campos.anfitrion = false
+				campos.cantidad = false
+				campos.dia = false
+				campos.hora = false
+				campos.direccion = false
+				campos.hora = false
+				campos.lider = false
+				campos.telefono_anfitrion = false
+
+				$("#editar").removeClass('fade').modal('hide');
+				$('#mi_tabla').DataTable().destroy();
+
+				$("#editar").addClass('fade')
+				solicitar_tabla()
+
+				fireAlert('success', 'Se actualizo correctamente los datos')
+
+			},
+			error: function (xhr, status, error) {
+
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+
+				switch (response.status_code) {
+					case 409:
+						response.ErrorType = "Casa sobre la roca Already Exist"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "Casa sobre la roca Not Exist"
+						break;
+					default:
+						break;
+				}
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+			}
+		})
+
+	} else {
 		Swal.fire({
 			icon: 'error',
 			title: 'Lo siento ',
@@ -209,6 +350,17 @@ formulario.addEventListener('submit', (e) => {
 		})
 	}
 })
+/*formulario.addEventListener('submit', (e) => {
+	e.preventDefault();
+	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo)) {
+
+		Swal.fire({
+			icon: 'error',
+			title: 'Lo siento ',
+			text: 'Registra el formulario correctamente '
+		})
+	}
+})*/
 
 if (actualizar == false) {
 	Swal.fire({
@@ -218,6 +370,9 @@ if (actualizar == false) {
 	setTimeout(recarga, 2000);
 }
 
+
+
+//ACTUALIZANDO IMAGEN DE PERFIL
 formulario2.addEventListener('submit', (e) => {
 	if (!(campos.imagen)) {
 		e.preventDefault();
@@ -229,6 +384,9 @@ formulario2.addEventListener('submit', (e) => {
 	}
 })
 
+
+
+//ACTUALIZANDO PASSWORD
 formulario3.addEventListener('submit', (e) => {
 	if (!(campos.correo && campos.clave)) {
 		e.preventDefault();
@@ -248,6 +406,9 @@ if (actualizar == false) {
 	})
 	setTimeout(recarga, 2000);
 }
+
+
+
 //------------------------------------------------Funciones ajax --------------------------//
 
 function addEvents() {

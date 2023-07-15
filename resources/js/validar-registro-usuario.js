@@ -55,9 +55,9 @@ const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
 	edad: /^[0-9]{2}$/,
 	nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/, // Letras y espacios, pueden llevar acentos.
-	password: /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 6 a 16 digitos.
+	password: /^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
 	token: /^[a-zA-Z0-9]{60,70}$/, // 6 a 16 digitos.
-	correo: /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i,
+	correo: /^[a-zA-Z0-9._%+-]{1,60}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/
 }
@@ -126,12 +126,10 @@ const ValidarFecha_nacimiento = (input, campo) => {
 
 	if (fechaNacimientoTS < mayoriaEdad.getTime() && fechaNacimientoTS > maximaEdad.getTime()) {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 	} else {
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
 	}
@@ -161,6 +159,7 @@ const ValidarCampo = (expresion, input, campo) => {
 
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
+
 		//comprobando si la cedula existe en la bd
 		if (campos.cedula == true) {
 			let id = document.getElementById("cedula")
@@ -190,16 +189,11 @@ const ValidarCampo = (expresion, input, campo) => {
 						response = {};
 					}
 
-
-
 					Swal.fire({
 						icon: 'error',
 						title: response.ErrorType,
 						text: response.msj
 					})
-
-
-
 				}
 			})
 		}
@@ -227,16 +221,11 @@ const ValidarCampo = (expresion, input, campo) => {
 						response = {};
 					}
 
-
-
 					Swal.fire({
 						icon: 'error',
 						title: response.ErrorType,
 						text: response.msj
 					})
-
-
-
 				}
 			})
 		}
@@ -252,23 +241,23 @@ const ValidarCampo = (expresion, input, campo) => {
 
 
 inputs.forEach((input) => {
-	input.addEventListener('keyup', ValidarFormulario);
+	input.addEventListener('input', ValidarFormulario);
 	input.addEventListener('blur', ValidarFormulario);
 	// input.addEventListener('click', ValidarFormulario);
 });
 selects.forEach((select) => {
-	select.addEventListener('keyup', ValidarFormulario);
+	select.addEventListener('change', ValidarFormulario);
 	select.addEventListener('blur', ValidarFormulario);
 });
 
 inputs2.forEach((input) => {
-	input.addEventListener('keyup', ValidarFormulario);
+	input.addEventListener('input', ValidarFormulario);
 	input.addEventListener('blur', ValidarFormulario);
 
 	// input.addEventListener('click', ValidarFormulario);
 });
 inputs3.forEach((input) => {
-	input.addEventListener('keyup', ValidarFormulario);
+	input.addEventListener('input', ValidarFormulario);
 	input.addEventListener('blur', ValidarFormulario);
 
 	// input.addEventListener('click', ValidarFormulario);
@@ -292,9 +281,10 @@ $("#formulario").submit(function (e) {
 			data: $(this).serialize(),
 			success: function (response) {
 
-				var data = JSON.parse(response)
-
-				if (data.response) {
+				var data = JSON.parse(response);
+				
+				console.log(data.status_code);
+				if (data.status_code === 200) {
 					for (let campo in campos) {
 						campos[campo] = false
 					}
@@ -341,9 +331,6 @@ $("#formulario").submit(function (e) {
 					title: response.ErrorType,
 					text: response.msj
 				})
-
-
-
 			}
 		})
 	}
