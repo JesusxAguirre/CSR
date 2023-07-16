@@ -71,15 +71,20 @@ if ($_SESSION['verdadero'] > 0) {
             $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . '/CSR/resources/imagenes-usuarios/';
 
             $objeto->setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen);
-
             $objeto->actualizar_foto();
             $actualizar = false;
         }
 
-        if (isset($_POST['recuperar_password'])) {
-
-            $objeto->setRecuperar($cedula, $_POST['clave']);
+        if (isset($_POST['actualizar_clave'])) {
+            $clave_actual = trim($_POST['clave_actual']);
+            $clave_nueva = trim($_POST['clave_nueva']);
+            $objeto->validar_contraseña_actual($clave_actual);
+            $objeto->security_validation_clave($clave_nueva);
+            $objeto->actualizar_password($clave_nueva);
+            die();
         }
+
+
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

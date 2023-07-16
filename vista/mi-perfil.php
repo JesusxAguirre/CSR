@@ -41,7 +41,7 @@
   <!-- sidebar.php -->
   <main style="height: 100vh" class="pt-3">
     <div class="container-fluid">
-      <div class="mb-3 card">
+      <div class="card mb-2">
         <div class="mb-8 position-relative min-vh-25 mb-7 card-header">
           <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image: url(resources/img/paisaje.jpg);"></div>
           <div class="avatar avatar-5xl avatar-profile">
@@ -57,12 +57,12 @@
               <h5 id="prueba"></h5>
               <div class="border-dashed border-bottom my-4 d-lg-none"></div>
             </div>
-
           </div>
         </div>
       </div>
-      <div class="row mt-3">
-        <div class="mt-2 col">
+
+      <div class="row">
+        <div class="col my-2">
           <div class="card">
             <div class="card-body">
               <form class="form" method="post" id="formulario" action="?pagina=mi-perfil" enctype="multipart/form-data">
@@ -193,7 +193,7 @@
                 </div>
                 <div class="mb-3" id="">
                 </div>
-                <button name="actualizar" type="submit" class="btn btn-primary">Enviar</button>
+                <button name="actualizar" type="submit" class="btn btn-primary">Actualizar</button>
               </form>
             </div>
           </div>
@@ -201,41 +201,64 @@
       </div>
 
       <!-- FORMULARIO 2 RECUPERAR CONTRASENA -->
-      <div class="row mt-3">
-        <div class="mt-2 col">
+      <div class="row">
+        <div class="col my-2">
           <div class="card">
             <div class="card-body">
-              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil">
+              <div class="mb-3">
+                <h5>Actualizar contraseña</h5>
+              </div>
 
-                <div id="grupo__correo2" class="col-sm col-md-3 ">
-                  <div class="relative">
-                    <label class="form-label fw-bold">Correo</label>
-                    <i class="input-icon fs-5"></i>
-                    <input maxlength="60" disabled id="correo2" placeholder="example@gmail.com" value="" name="correo2" class="form-control">
+              <form class="form" method="post" id="formulario3" action="?pagina=mi-perfil">
+                <div class="row">
+                  <div id="grupo__correo2" class="col-lg-4 col-md-6 col-sm-6">
+                    <div>
+                      <label for="correo2" class="form-label fw-bold">Correo</label>
+                      <i class="input-icon fs-5"></i>
+                      <input maxlength="60" disabled id="correo2" placeholder="example@gmail.com" value="" name="correo2" class="form-control mb-2">
+                      <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                    </div>
+
+                    <div>
+                      <label class="form-label fw-bold">Ingrese su contraseña actual</label>
+                      <i class="input-icon fs-5"></i>
+                      <input maxlength="20" id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-2">
+                      <p id="error_password1" class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
+                    </div>
+                    <!-- <input value="" hidden name="cedula_antigua" id="cedulaInput3" type="text"> -->
                   </div>
-                  <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
-                </div>
-                <div id="grupo__clave" class="col-sm col-md-3 ">
-                  <div class="relative">
-                    <label class="form-label fw-bold">Clave</label>
-                    <i class="input-icon fs-5"></i>
-                    <input maxlength="16" id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-4">
+
+                  <div id="grupo__clave" class="col-lg-4 col-md-6 col-sm-6">
+                    <div>
+                      <label for="new_password1" class="form-label fw-bold">Ingrese su nueva contraseña</label>
+                      <i class="input-icon fs-5"></i>
+                      <input maxlength="20" id="new_password1" name="new_password1" value="" type="password" placeholder="******" class="form-control mb-2">
+                      <p id="error_password2" class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
+                    </div>
+
+                    <div>
+                      <label for="new_password2" class="form-label fw-bold">Ingrese su contraseña nuevamente</label>
+                      <i class="input-icon fs-5"></i>
+                      <input maxlength="20" id="new_password2" name="new_password2" value="" type="password" placeholder="******" class="form-control mb-2">
+                      <p id="error_password3" class="text-danger d-none">La contraseña que ha ingresado no coincide</p>
+                    </div>
                   </div>
-                  <p class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo un caracter especial y un numero</p>
                 </div>
-                <input value="" hidden name="cedula_antigua" id="cedulaInput3" type="text">
-                <button name="recuperar_password" type="submit" class="btn btn-primary">Enviar</button>
+                <button name="recuperar_password" type="submit" class="btn btn-primary mt-3">Actualizar</button>
               </form>
+
             </div>
           </div>
         </div>
       </div>
 
+
       <!-- FORMULARIO 3 CAMBIAR FOTO DE PERFIL -->
-      <div class="row mt-3">
-        <div class="mt-2 col">
+      <div class="row">
+        <div class="col my-2">
           <div class="card">
             <div class="card-body">
+
               <form class="form" method="post" id="formulario2" action="?pagina=mi-perfil" enctype="multipart/form-data">
                 <div id="grupo__imagen" class="col-sm col-md-3 ">
                   <div class="relative">
@@ -249,12 +272,14 @@
                 </div>
                 <input value="" hidden name="cedula_antigua" id="cedulaInput4" type="text">
 
-                <button name="actualizar_imagen" type="submit" class="btn btn-primary">Enviar</button>
+                <button name="actualizar_imagen" type="submit" class="btn btn-primary">Actualizar</button>
               </form>
+
             </div>
           </div>
         </div>
       </div>
+
     </div>
   </main>
   <script type="text/javascript">

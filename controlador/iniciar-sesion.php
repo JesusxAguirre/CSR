@@ -33,18 +33,13 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 
 	$objeto_usuario->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $sexo, $civil, $nacionalidad, $telefono, $clave]);
 
-
 	$objeto_usuario->security_validation_caracteres([$nombre, $apellido]);
 
 	$objeto_usuario->security_validation_cedula($cedula);
 
-
-
 	$objeto_usuario->security_validation_fecha_nacimiento($edad);
 
 	$objeto_usuario->security_validation_sexo($sexo);
-
-
 
 	$objeto_usuario->security_validation_estado_civil($civil);
 
@@ -56,12 +51,10 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 
 	$objeto_usuario->security_validation_clave($clave);
 
-
 	$nombre = $objeto_usuario->sanitizar_cadenas($nombre);
 	$apellido = $objeto_usuario->sanitizar_cadenas($apellido);
 	$nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
 	$estado = $objeto_usuario->sanitizar_cadenas($estado);
-
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 

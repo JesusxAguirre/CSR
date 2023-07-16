@@ -41,7 +41,7 @@ function data_load() {
 		document.getElementById('apellidoInput').value = objeto.apellido;
 		document.getElementById('cedula').value = objeto.cedula;
 		document.getElementById('cedulaInput2').value = objeto.cedula;
-		document.getElementById('cedulaInput3').value = objeto.cedula;
+		//document.getElementById('cedulaInput3').value = objeto.cedula;
 		document.getElementById('cedulaInput4').value = objeto.cedula;
 		document.getElementById('edadInput').value = objeto.fecha_nacimiento;
 		document.getElementById('sexo').value = objeto.sexo;
@@ -67,6 +67,8 @@ const inputs2 = document.querySelectorAll('#formulario2 input'); //declarando un
 const inputs3 = document.querySelectorAll('#formulario3 input'); //declarando una constante con todos los inputs dentro de la id formulario
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 addEvents();
+
+
 const campos = {
 	nombre: true,
 	apellido: true,
@@ -81,6 +83,8 @@ const campos = {
 	correo: true,
 	correo2: true,
 	clave: false,
+	clave2: false,
+	comparacion: false
 }
 
 
@@ -88,12 +92,11 @@ const expresiones = { //objeto con varias expresiones regulares
 	cedula: /^[0-9]{7,8}$/,
 	edad: /^[0-9]{2}$/,
 	nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/, // Letras y espacios, pueden llevar acentos.
-	password: /^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$/, // 6 a 16 digitos.
+	password: /^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,20}$/, // 6 a 20 digitos.
 	correo: /^[a-zA-Z0-9._%+-]{1,60}@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
 	telefono: /^[0-9]{11}$/, // solo 11 numeros.
 	vacio: /^\s*$/,
 	imagen: /^.*\.(jpg|JPG|gif|GIF|doc|DOC|pdf|PDF)$/
-
 }
 
 
@@ -135,11 +138,41 @@ const ValidarFormulario = (e) => {
 		case "correo2":
 			ValidarCampo(expresiones.correo, e.target, "correo2")
 			break;
-		case "clave":
-			ValidarCampo(expresiones.password, e.target, 'clave');
+		case 'clave':
+			validar_password(expresiones.password, e.target, 'error_password1', 'clave');
 			break;
+		case "new_password1":
+			validar_password(expresiones.password, e.target, 'error_password2', 'clave2');
+			break;
+		case "new_password2":
+			validarSimilitud_clave(e.target, document.getElementById('new_password1').value, 'error_password3')
 	}
 }
+
+
+//Validando nueva password
+const validar_password = (expresions, target, id, campo) => {
+	if (expresions.test(target.value)) {
+		document.querySelector(`#${id}`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
+		document.querySelector(`#${id}`).classList.remove('d-none');
+		campos[campo] = false;
+	}
+}
+
+//Validando similitud entre las dos claves
+const validarSimilitud_clave = (target, clave, id) => {
+	if (target.value === clave) {
+		document.querySelector(`#${id}`).classList.add('d-none');
+		campos['comparacion'] = true;
+	} else {
+		document.querySelector(`#${id}`).classList.remove('d-none');
+		campos['comparacion'] = false;
+	}
+}
+
+
 
 
 /////Validando fecha de nacimiento
@@ -273,7 +306,7 @@ formulario.addEventListener('submit', (e) => {
 	if (campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo) {
 		const datos = {
 			nombre: document.getElementById('nombreInput').value,
-			apellido: document. getElementById('apellidoInput').value,
+			apellido: document.getElementById('apellidoInput').value,
 			cedula: document.getElementById('cedula').value,
 			fecha_nacimiento: document.getElementById('edadInput').value,
 			sexo: document.getElementById('sexo').value,
@@ -333,10 +366,19 @@ formulario.addEventListener('submit', (e) => {
 	}
 })
 
-function fire_success(titulo, icono) {
+function fire_alerta(titulo, icono) {
 	Swal.fire({
 		icon: icono,
 		title: titulo,
+		showConfirmButton: false,
+		timer: 2000,
+	})
+}
+function fire_alerta_problem(titulo, texto, icono) {
+	Swal.fire({
+		icon: icono,
+		title: titulo,
+		text: texto,
 		showConfirmButton: false,
 		timer: 2000,
 	})
@@ -379,13 +421,55 @@ formulario2.addEventListener('submit', (e) => {
 
 //ACTUALIZANDO PASSWORD
 formulario3.addEventListener('submit', (e) => {
-	if (!(campos.correo && campos.clave)) {
-		e.preventDefault();
-		Swal.fire({
-			icon: 'error',
-			title: 'Lo siento ',
-			text: 'Registra el formulario correctamente '
-		})
+	e.preventDefault();
+	if (campos['clave'] && campos['clave2'] && campos['correo'] && campos['comparacion']) {
+		if (campos['comparacion']) {
+			const datos = {
+				clave_actual: document.getElementById('clave').value,
+				clave_nueva: document.getElementById('new_password2').value,
+				actualizar_clave: 'actualizar_clave'
+			}
+			console.log(datos['clave_actual']);
+			$.ajax({
+				type: "POST",
+				url: "?pagina=mi-perfil",
+				data: datos,
+				success: function (response) {
+
+					let data = JSON.parse(response);
+
+					if (data.status_code === 200) {
+						campos['clave'] = false;
+						campos['clave2'] = false;
+						campos['comparacion'] = false;
+						document.getElementById("clave").value = '';
+						document.getElementById("new_password1").value = '';
+						document.getElementById("new_password2").value = '';
+
+						fire_alerta(data.msj, 'success')
+					} else {
+						fire_alerta('Algo ocurrio en la BD', 'error')
+					}
+				},
+				error: function (xhr, status, error) {
+					// Código a ejecutar si se produjo un error al realizar la solicitud
+					
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+					} catch (e) {
+						response = {};
+					}
+					console.log(response);
+
+					fire_alerta_problem(response.status_code, response.msj, 'error')
+				}
+			})
+		}else{
+			fire_alerta('Comprueba que contraseñas sean iguales', 'error')
+		}
+	} else {
+		fire_alerta('Ingresa los datos correctamente', 'error')
 	}
 })
 

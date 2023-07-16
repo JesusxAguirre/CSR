@@ -89,7 +89,7 @@ class Usuarios extends Conexion
 
 
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
-    private $expresion_clave = "/^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
+    private $expresion_clave = "/^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,20}$/";
 
     private $expresion_correo = "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i";
 
@@ -291,6 +291,8 @@ class Usuarios extends Conexion
             return false;
         }
     }
+
+
     //BUSCAR CORREO EN REGISTRAR USUARIOS
     public function buscar_correo($correo)
     {
@@ -711,11 +713,11 @@ class Usuarios extends Conexion
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
-        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
+        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario WHERE cedula = :ced");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            //$this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
@@ -736,13 +738,13 @@ class Usuarios extends Conexion
         } catch (Exception $e) {
 
             echo $e->getMessage();
-
             echo "Linea del error: " . $e->getLine();
-
             return false;
         }
     }
 
+
+    //Actualizar foto de perfil
     public function actualizar_foto()
     {
         try {
@@ -978,11 +980,63 @@ class Usuarios extends Conexion
         $this->tipo_imagen = $tipo_imagen;
         $this->tamaño_imagen = $tamaño_imagen;
     }
-    //METODO SETTER PARA RECUPERAR CONTRASENIA
-    public function setRecuperar($cedula, $clave)
+
+
+
+    //METODO PARA ACUTALIZAR CONTRASENIA
+    public function actualizar_password($clave_nueva)
     {
-        $this->cedula = $cedula;
-        $this->clave = $clave;
+        try {
+            $cedula = $_SESSION['cedula'];
+            $sql = "UPDATE `usuarios` SET `password` = :pass WHERE `usuarios`.`cedula` = :cedula";
+            $stmt = $this->conexion()->prepare($sql);
+            $clave_encriptada = password_hash($clave_nueva, PASSWORD_DEFAULT);
+
+            $stmt->execute(array(":pass" => $clave_encriptada, ":cedula" => $cedula));
+
+            http_response_code(200);
+            echo json_encode(array("msj" => "La contraseña se actualizo exitosamente", "status_code" => 200));
+            die();
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    //Validacion de contrasena al actualizar
+    public function validar_contraseña_actual($clave_antigua)
+    {
+        try {
+            $cedula = $_SESSION['cedula'];
+
+            $sql = "SELECT `password` FROM `usuarios` WHERE `cedula` = :cedula";
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":cedula" => $cedula));
+
+            //Encriptamos la clave
+            $clave_encriptada = password_hash($clave_antigua, PASSWORD_DEFAULT);
+
+            if ($stmt->rowCount() > 0) {
+                while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                    if (password_verify($clave_antigua, $resultado['password'])) {
+
+                    } else {
+                        throw new Exception("La clave que has ingresado no coincide con la actual", 422);
+                    }
+                }
+            } else {
+                throw new Exception("Este usuario no existe en la BD", 404);
+            }
+        } catch (Throwable $ex) {
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
     }
 
     public function setEliminar($cedula)
@@ -1217,14 +1271,11 @@ class Usuarios extends Conexion
      */
     public function security_validation_clave($clave)
     {
-
         try {
             $response = preg_match($this->expresion_clave, $clave);
 
             if ($response == 0) {
-
                 //registrar ataque informatico de hacker
-
 
                 throw new Exception(sprintf("La clave que estas enviado no cumple con los requisitos de seguridad. clave-> '%s' ", $clave), 422);
             }
