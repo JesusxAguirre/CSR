@@ -712,7 +712,7 @@ function countdown_toast() {
 				$.ajax({
 					type: 'POST',
 					url: window.location,
-					data: { respuesta: 'no completado' },
+					data: { 'respuesta': 'no completado' },
 					success: function () {
 						console.log('Respuesta enviada');
 					}

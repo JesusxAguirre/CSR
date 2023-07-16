@@ -23,9 +23,6 @@
       
         };
         
-        setTimeout(() => {
-            console.log(grecaptcha.getResponse())
-        }, 5000);
        
 
     </script>

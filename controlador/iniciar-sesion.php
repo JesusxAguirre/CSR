@@ -124,6 +124,10 @@ if (isset($_POST['tokenCorreo'])) {
 	$objeto_usuario->verifyRecoveryToken($token);
 }
 
+if(isset($_POST['respuesta'])){
+	$objeto_usuario->insert_ip_blacklist();
+}
+
 //validando datos de usuario para entrar al sistema
 if (isset($_POST['email'])) {
 
