@@ -1,4 +1,5 @@
 
+$(document).ready(function () {
 const formulario2 = document.getElementById('formulario2'); //declarando una constante con la id formulario
 
 const inputs = document.querySelectorAll('#formulario input'); //declarando una constante con todos los inputs dentro de la id formulario
@@ -101,7 +102,7 @@ const ValidarFormulario = (e) => {
 		case "clave":
 			ValidarCampo(expresiones.password, e.target, 'clave');
 			break;
-		
+
 		case "tokenCorreo":
 			ValidarCampo(expresiones.token, e.target, 'tokenCorreo')
 
@@ -282,7 +283,7 @@ $("#formulario").submit(function (e) {
 			success: function (response) {
 
 				var data = JSON.parse(response);
-				
+
 				console.log(data.status_code);
 				if (data.status_code === 200) {
 					for (let campo in campos) {
@@ -582,11 +583,11 @@ function addEvent_formulario2() {
 				position: 'center'
 			})
 		} else {
-			
+
 			var datos = $(this).serialize()
 
 			datos = datos.split('&')[1]
-			
+
 			$.ajax({
 				type: 'POST',
 				url: window.location.href,
@@ -603,7 +604,7 @@ function addEvent_formulario2() {
 							window.location.replace(window.location);
 						}
 					})
-	
+
 					setTimeout(function () {
 						window.location.replace(window.location);
 					}, 4000);
@@ -624,7 +625,7 @@ function addEvent_formulario2() {
 					switch (response.status_code) {
 
 						case 408:
-						
+
 							response.ErrorType = "Time Out"
 
 							break;
@@ -697,47 +698,53 @@ function countdown_toast() {
 	}, 1000);
 }
 
-$(document).ready(function() {
+function onloadCallback() {
+    $('.g-recaptcha').each(function(index, el) {
+        widgetId = grecaptcha.render(el, {'sitekey' : 'My-SITE-KEY'});
+    });
+}
 
+	if (requests == false) {
+		showRecaptchaPopup()
+	}
 	
-
 	// Función para mostrar el popup con el reCAPTCHA
 	function showRecaptchaPopup() {
-	  $('#recaptcha-popup').modal('show');
-	  // Inicializa el reCAPTCHA
-	  grecaptcha.render($('.g-recaptcha')[0], {
-		'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
-	  });
-	  // Espera 30 segundos antes de enviar la respuesta
-	  setTimeout(function() {
-		if (!grecaptcha.getResponse()) {
-		  // Si no se ha completado el reCAPTCHA en 30 segundos, envía la respuesta a una URL
-		  $.ajax({
-			type: 'POST',
-			url: 'respuesta-url.php',
-			data: { respuesta: 'no completado' },
-			success: function() {
-			  console.log('Respuesta enviada');
+		$('#recaptcha-popup').modal('show');
+		// Inicializa el reCAPTCHA
+		grecaptcha.render($('.g-recaptcha'), {
+			'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
+		});
+		// Espera 30 segundos antes de enviar la respuesta
+		setTimeout(function () {
+			if (!grecaptcha.getResponse()) {
+				// Si no se ha completado el reCAPTCHA en 30 segundos, envía la respuesta a una URL
+				$.ajax({
+					type: 'POST',
+					url: 'respuesta-url.php',
+					data: { respuesta: 'no completado' },
+					success: function () {
+						console.log('Respuesta enviada');
+					}
+				});
+				$('#recaptcha-popup').modal('hide');
 			}
-		  });
-		  $('#recaptcha-popup').modal('hide');
-		}
-	  }, 30000);
+		}, 30000);
 	}
-  
+
 	// Abre el popup cuando se hace clic en el botón
-	$('#btn-recaptcha').click(function() {
-	  showRecaptchaPopup();
+	$('#btn-recaptcha').click(function () {
+		showRecaptchaPopup();
 	});
-  
+
 	// Cierra el popup cuando se hace clic fuera de él
-	$(document).mouseup(function(e) {
-	  var popup = $('.modal-content');
-	  if (!popup.is(e.target) && popup.has(e.target).length === 0) {
-		$('#recaptcha-popup').modal('hide');
-	  }
+	$(document).mouseup(function (e) {
+		var popup = $('.modal-content');
+		if (!popup.is(e.target) && popup.has(e.target).length === 0) {
+			$('#recaptcha-popup').modal('hide');
+		}
 	});
 
 
-	
-  });
+
+});

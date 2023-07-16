@@ -131,7 +131,9 @@ class Conexion
         // Obtener la marca de tiempo actual
         
         // Eliminar registros antiguos en la tabla 'requests'
-        $eliminarRegistrosAntiguos = $this->conexion()->prepare("DELETE FROM requests WHERE timestamp <> (SELECT MAX(timestamp) FROM requests)");
+        $eliminarRegistrosAntiguos = $this->conexion()->prepare("DELETE FROM requests WHERE timestamp <> (SELECT MAX(timestamp) FROM requests ) AND ip = :ip");
+        
+        $eliminarRegistrosAntiguos->bindParam(':ip', $ip);
         $eliminarRegistrosAntiguos->execute();
         // Contar las solicitudes realizadas por la IP en el último segundo
 
@@ -144,14 +146,14 @@ class Conexion
         if ($resultado['conteo'] >= $this->umbralSolicitudes) {
         //AQUI FALTA UNA BUENA LOGICA PARA PODER PONER LA VERIFICACION DE NO SOY UN ROBOT
 
-          http_response_code(500);
-          echo json_encode(array("msj"=>"Verifica que no eres un robot"));
-          exit;
+         return false;
         }
         // Registrar la solicitud en la base de datos
         $registrarSolicitud = $this->conexion()->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, NOW())");
         $registrarSolicitud->bindParam(':ip', $ip);
         $registrarSolicitud->execute();
+
+        return true;
     }
 
     protected function check_blacklist()
