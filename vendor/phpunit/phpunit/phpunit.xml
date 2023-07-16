@@ -34,7 +34,8 @@
     </testsuites>
 
     <coverage cacheDirectory=".phpunit.cache/code-coverage"
-              processUncoveredFiles="true">
+              processUncoveredFiles="true"
+              ignoreDeprecatedCodeUnits="true">
         <include>
             <directory suffix=".php">src</directory>
         </include>

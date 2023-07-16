@@ -2,66 +2,67 @@
 
 namespace React\Promise\PromiseTest;
 
-use React\Promise\PromiseAdapter\PromiseAdapterInterface;
-use React\Promise\PromiseInterface;
-
 trait PromisePendingTestTrait
 {
-    abstract public function getPromiseTestAdapter(callable $canceller = null): PromiseAdapterInterface;
-
-    /** @test */
-    public function thenShouldReturnAPromiseForPendingPromise(): void
-    {
-        $adapter = $this->getPromiseTestAdapter();
-
-        self::assertInstanceOf(PromiseInterface::class, $adapter->promise()->then());
-    }
-
-    /** @test */
-    public function thenShouldReturnAllowNullForPendingPromise(): void
-    {
-        $adapter = $this->getPromiseTestAdapter();
-
-        self::assertInstanceOf(PromiseInterface::class, $adapter->promise()->then(null, null));
-    }
-
-    /** @test */
-    public function catchShouldNotInvokeRejectionHandlerForPendingPromise(): void
-    {
-        $adapter = $this->getPromiseTestAdapter();
-
-        $adapter->settle(null);
-        $adapter->promise()->catch($this->expectCallableNever());
-    }
-
-    /** @test */
-    public function finallyShouldReturnAPromiseForPendingPromise(): void
-    {
-        $adapter = $this->getPromiseTestAdapter();
-
-        self::assertInstanceOf(PromiseInterface::class, $adapter->promise()->finally(function () {}));
-    }
-
     /**
-     * @test
-     * @deprecated
+     * @return \React\Promise\PromiseAdapter\PromiseAdapterInterface
      */
-    public function otherwiseShouldNotInvokeRejectionHandlerForPendingPromise(): void
+    abstract public function getPromiseTestAdapter(callable $canceller = null);
+
+    /** @test */
+    public function thenShouldReturnAPromiseForPendingPromise()
     {
         $adapter = $this->getPromiseTestAdapter();
 
-        $adapter->settle(null);
+        $this->assertInstanceOf('React\\Promise\\PromiseInterface', $adapter->promise()->then());
+    }
+
+    /** @test */
+    public function thenShouldReturnAllowNullForPendingPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $this->assertInstanceOf('React\\Promise\\PromiseInterface', $adapter->promise()->then(null, null, null));
+    }
+
+    /** @test */
+    public function cancelShouldReturnNullForPendingPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $this->assertNull($adapter->promise()->cancel());
+    }
+
+    /** @test */
+    public function doneShouldReturnNullForPendingPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $this->assertNull($adapter->promise()->done());
+    }
+
+    /** @test */
+    public function doneShouldReturnAllowNullForPendingPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $this->assertNull($adapter->promise()->done(null, null, null));
+    }
+
+    /** @test */
+    public function otherwiseShouldNotInvokeRejectionHandlerForPendingPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $adapter->settle();
         $adapter->promise()->otherwise($this->expectCallableNever());
     }
 
-    /**
-     * @test
-     * @deprecated
-     */
-    public function alwaysShouldReturnAPromiseForPendingPromise(): void
+    /** @test */
+    public function alwaysShouldReturnAPromiseForPendingPromise()
     {
         $adapter = $this->getPromiseTestAdapter();
 
-        self::assertInstanceOf(PromiseInterface::class, $adapter->promise()->always(function () {}));
+        $this->assertInstanceOf('React\\Promise\\PromiseInterface', $adapter->promise()->always(function () {}));
     }
 }

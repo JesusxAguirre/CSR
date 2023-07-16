@@ -2,76 +2,85 @@
 
 namespace React\Promise\PromiseTest;
 
-use React\Promise\Internal\RejectedPromise;
-use React\Promise\PromiseAdapter\PromiseAdapterInterface;
-use React\Promise\PromiseInterface;
-
 trait PromiseSettledTestTrait
 {
-    abstract public function getPromiseTestAdapter(callable $canceller = null): PromiseAdapterInterface;
+    /**
+     * @return \React\Promise\PromiseAdapter\PromiseAdapterInterface
+     */
+    abstract public function getPromiseTestAdapter(callable $canceller = null);
 
     /** @test */
-    public function thenShouldReturnAPromiseForSettledPromise(): void
+    public function thenShouldReturnAPromiseForSettledPromise()
     {
         $adapter = $this->getPromiseTestAdapter();
 
-        $adapter->settle(null);
-        self::assertInstanceOf(PromiseInterface::class, $adapter->promise()->then());
-
-        if ($adapter->promise() instanceof RejectedPromise) {
-            $adapter->promise()->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
-        }
+        $adapter->settle();
+        $this->assertInstanceOf('React\\Promise\\PromiseInterface', $adapter->promise()->then());
     }
 
     /** @test */
-    public function thenShouldReturnAllowNullForSettledPromise(): void
+    public function thenShouldReturnAllowNullForSettledPromise()
     {
         $adapter = $this->getPromiseTestAdapter();
 
-        $adapter->settle(null);
-        self::assertInstanceOf(PromiseInterface::class, $adapter->promise()->then(null, null));
-
-        if ($adapter->promise() instanceof RejectedPromise) {
-            $adapter->promise()->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
-        }
+        $adapter->settle();
+        $this->assertInstanceOf('React\\Promise\\PromiseInterface', $adapter->promise()->then(null, null, null));
     }
 
     /** @test */
-    public function cancelShouldHaveNoEffectForSettledPromise(): void
+    public function cancelShouldReturnNullForSettledPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $adapter->settle();
+
+        $this->assertNull($adapter->promise()->cancel());
+    }
+
+    /** @test */
+    public function cancelShouldHaveNoEffectForSettledPromise()
     {
         $adapter = $this->getPromiseTestAdapter($this->expectCallableNever());
 
-        $adapter->settle(null);
+        $adapter->settle();
 
         $adapter->promise()->cancel();
     }
 
     /** @test */
-    public function finallyShouldReturnAPromiseForSettledPromise(): void
+    public function doneShouldReturnNullForSettledPromise()
     {
         $adapter = $this->getPromiseTestAdapter();
 
-        $adapter->settle(null);
-        self::assertInstanceOf(PromiseInterface::class, $promise = $adapter->promise()->finally(function () {}));
-
-        if ($promise instanceof RejectedPromise) {
-            $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
-        }
+        $adapter->settle();
+        $this->assertNull($adapter->promise()->done(null, function () {}));
     }
 
-    /**
-     * @test
-     * @deprecated
-     */
-    public function alwaysShouldReturnAPromiseForSettledPromise(): void
+    /** @test */
+    public function doneShouldReturnAllowNullForSettledPromise()
     {
         $adapter = $this->getPromiseTestAdapter();
 
-        $adapter->settle(null);
-        self::assertInstanceOf(PromiseInterface::class, $promise = $adapter->promise()->always(function () {}));
+        $adapter->settle();
+        $this->assertNull($adapter->promise()->done(null, function () {}, null));
+    }
 
-        if ($promise instanceof RejectedPromise) {
-            $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
-        }
+    /** @test */
+    public function progressShouldNotInvokeProgressHandlerForSettledPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $adapter->settle();
+        $adapter->promise()->progress($this->expectCallableNever());
+        $adapter->notify();
+    }
+
+    /** @test */
+    public function alwaysShouldReturnAPromiseForSettledPromise()
+    {
+        $adapter = $this->getPromiseTestAdapter();
+
+        $adapter->settle();
+        $this->assertInstanceOf('React\\Promise\\PromiseInterface', $adapter->promise()->always(function () {}));
     }
 }

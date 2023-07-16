@@ -5,5 +5,5 @@ labels: type/enhancement
 ---
 
 <!--
-- Please target the main branch of PHPUnit.
+- Please target the master branch of PHPUnit.
 -->

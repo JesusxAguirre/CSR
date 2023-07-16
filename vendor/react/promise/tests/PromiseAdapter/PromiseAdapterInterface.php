@@ -2,22 +2,13 @@
 
 namespace React\Promise\PromiseAdapter;
 
-use React\Promise\PromiseInterface;
+use React\Promise;
 
-/**
- * @template T
- */
 interface PromiseAdapterInterface
 {
-    /**
-     * @return PromiseInterface<T>
-     */
-    public function promise(): PromiseInterface;
-
-    /**
-     * @param mixed $value
-     */
-    public function resolve($value): void;
-    public function reject(): void;
-    public function settle(): void;
+    public function promise();
+    public function resolve();
+    public function reject();
+    public function notify();
+    public function settle();
 }

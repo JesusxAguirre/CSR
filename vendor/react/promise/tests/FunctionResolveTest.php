@@ -2,22 +2,18 @@
 
 namespace React\Promise;
 
-use React\Promise\Internal\FulfilledPromise;
-use React\Promise\Internal\RejectedPromise;
-use Exception;
-
 class FunctionResolveTest extends TestCase
 {
     /** @test */
-    public function shouldResolveAnImmediateValue(): void
+    public function shouldResolveAnImmediateValue()
     {
         $expected = 123;
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__invoke')
-            ->with(self::identicalTo($expected));
+            ->with($this->identicalTo($expected));
 
         resolve($expected)
             ->then(
@@ -27,7 +23,7 @@ class FunctionResolveTest extends TestCase
     }
 
     /** @test */
-    public function shouldResolveAFulfilledPromise(): void
+    public function shouldResolveAFulfilledPromise()
     {
         $expected = 123;
 
@@ -35,9 +31,9 @@ class FunctionResolveTest extends TestCase
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__invoke')
-            ->with(self::identicalTo($expected));
+            ->with($this->identicalTo($expected));
 
         resolve($resolved)
             ->then(
@@ -47,15 +43,15 @@ class FunctionResolveTest extends TestCase
     }
 
     /** @test */
-    public function shouldResolveAThenable(): void
+    public function shouldResolveAThenable()
     {
         $thenable = new SimpleFulfilledTestThenable();
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__invoke')
-            ->with(self::identicalTo('foo'));
+            ->with($this->identicalTo('foo'));
 
         resolve($thenable)
             ->then(
@@ -65,28 +61,28 @@ class FunctionResolveTest extends TestCase
     }
 
     /** @test */
-    public function shouldResolveACancellableThenable(): void
+    public function shouldResolveACancellableThenable()
     {
         $thenable = new SimpleTestCancellableThenable();
 
         $promise = resolve($thenable);
         $promise->cancel();
 
-        self::assertTrue($thenable->cancelCalled);
+        $this->assertTrue($thenable->cancelCalled);
     }
 
     /** @test */
-    public function shouldRejectARejectedPromise(): void
+    public function shouldRejectARejectedPromise()
     {
-        $exception = new Exception();
+        $expected = 123;
 
-        $resolved = new RejectedPromise($exception);
+        $resolved = new RejectedPromise($expected);
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__invoke')
-            ->with(self::identicalTo($exception));
+            ->with($this->identicalTo($expected));
 
         resolve($resolved)
             ->then(
@@ -96,7 +92,7 @@ class FunctionResolveTest extends TestCase
     }
 
     /** @test */
-    public function shouldSupportDeepNestingInPromiseChains(): void
+    public function shouldSupportDeepNestingInPromiseChains()
     {
         $d = new Deferred();
         $d->resolve(false);
@@ -118,29 +114,26 @@ class FunctionResolveTest extends TestCase
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__invoke')
-            ->with(self::identicalTo(true));
+            ->with($this->identicalTo(true));
 
         $result->then($mock);
     }
 
     /** @test */
-    public function shouldSupportVeryDeepNestedPromises(): void
+    public function shouldSupportVeryDeepNestedPromises()
     {
-        if (PHP_VERSION_ID < 70200 && ini_get('xdebug.max_nesting_level') !== false) {
-            $this->markTestSkipped('Skip unhandled rejection on legacy PHP 7.1');
-        }
-
         $deferreds = [];
 
-        for ($i = 0; $i < 150; $i++) {
+        // @TODO Increase count once global-queue is merged
+        for ($i = 0; $i < 10; $i++) {
             $deferreds[] = $d = new Deferred();
             $p = $d->promise();
 
             $last = $p;
-            for ($j = 0; $j < 150; $j++) {
-                $last = $last->then(function ($result) {
+            for ($j = 0; $j < 10; $j++) {
+                $last = $last->then(function($result) {
                     return $result;
                 });
             }
@@ -159,10 +152,20 @@ class FunctionResolveTest extends TestCase
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('__invoke')
-            ->with(self::identicalTo(true));
+            ->with($this->identicalTo(true));
 
         $deferreds[0]->promise()->then($mock);
+    }
+
+    /** @test */
+    public function returnsExtendePromiseForSimplePromise()
+    {
+        $promise = $this
+            ->getMockBuilder('React\Promise\PromiseInterface')
+            ->getMock();
+
+        $this->assertInstanceOf('React\Promise\ExtendedPromiseInterface', resolve($promise));
     }
 }

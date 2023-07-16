@@ -4,15 +4,15 @@ namespace React\Promise;
 
 class CallbackWithoutTypehintClass
 {
-    public function __invoke(): void
+    public function __invoke()
     {
     }
 
-    public function testCallback(): void
+    public function testCallback()
     {
     }
 
-    public static function testCallbackStatic(): void
+    public static function testCallbackStatic()
     {
     }
 }

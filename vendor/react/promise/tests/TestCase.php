@@ -2,52 +2,63 @@
 
 namespace React\Promise;
 
-use PHPUnit\Framework\MockObject\MockBuilder;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase as BaseTestCase;
-
-class TestCase extends BaseTestCase
+class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public function expectCallableExactly(int $amount): callable
+    public function expectCallableExactly($amount)
     {
         $mock = $this->createCallableMock();
-        $mock->expects(self::exactly($amount))->method('__invoke');
-        assert(is_callable($mock));
+        $mock
+            ->expects($this->exactly($amount))
+            ->method('__invoke');
 
         return $mock;
     }
 
-    public function expectCallableOnce(): callable
+    public function expectCallableOnce()
     {
         $mock = $this->createCallableMock();
-        $mock->expects(self::once())->method('__invoke');
-        assert(is_callable($mock));
+        $mock
+            ->expects($this->once())
+            ->method('__invoke');
 
         return $mock;
     }
 
-    public function expectCallableNever(): callable
+    public function expectCallableNever()
     {
         $mock = $this->createCallableMock();
-        $mock->expects(self::never())->method('__invoke');
-        assert(is_callable($mock));
+        $mock
+            ->expects($this->never())
+            ->method('__invoke');
 
         return $mock;
     }
 
-    /** @return MockObject&callable */
-    protected function createCallableMock(): MockObject
+    public function createCallableMock()
     {
-        $builder = $this->getMockBuilder(\stdClass::class);
-        if (method_exists($builder, 'addMethods')) {
-            // PHPUnit 9+
-            $mock = $builder->addMethods(['__invoke'])->getMock();
+        if (method_exists('PHPUnit\Framework\MockObject\MockBuilder', 'addMethods')) {
+            // PHPUnit 10+
+            return $this->getMockBuilder('stdClass')->addMethods(array('__invoke'))->getMock();
         } else {
             // legacy PHPUnit 4 - PHPUnit 9
-            $mock = $builder->setMethods(['__invoke'])->getMock();
+            return $this->getMockBuilder('stdClass')->setMethods(array('__invoke'))->getMock();
         }
-        assert($mock instanceof MockObject && is_callable($mock));
+    }
 
-        return $mock;
+    public function setExpectedException($exception, $exceptionMessage = '', $exceptionCode = null)
+    {
+        if (method_exists($this, 'expectException')) {
+            // PHPUnit 5+
+            $this->expectException($exception);
+            if ($exceptionMessage !== '') {
+                $this->expectExceptionMessage($exceptionMessage);
+            }
+            if ($exceptionCode !== null) {
+                $this->expectExceptionCode($exceptionCode);
+            }
+        } else {
+            // legacy PHPUnit 4
+            parent::setExpectedException($exception, $exceptionMessage, $exceptionCode);
+        }
     }
 }

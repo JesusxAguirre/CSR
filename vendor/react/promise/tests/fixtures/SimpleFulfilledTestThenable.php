@@ -4,12 +4,18 @@ namespace React\Promise;
 
 class SimpleFulfilledTestThenable
 {
-    public function then(callable $onFulfilled = null, callable $onRejected = null): self
+    public function then(callable $onFulfilled = null, callable $onRejected = null, callable $onProgress = null)
     {
-        if ($onFulfilled) {
-            $onFulfilled('foo');
-        }
+        try {
+            if ($onFulfilled) {
+                $onFulfilled('foo');
+            }
 
-        return new self();
+            return new self();
+        } catch (\Throwable $exception) {
+            return new RejectedPromise($exception);
+        } catch (\Exception $exception) {
+            return new RejectedPromise($exception);
+        }
     }
 }
