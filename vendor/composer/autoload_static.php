@@ -8,10 +8,11 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
 {
     public static $files = array (
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
     );
@@ -19,6 +20,8 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
+            'Symfony\\Polyfill\\Php83\\' => 23,
+            'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Routing\\' => 26,
             'Symfony\\Component\\HttpFoundation\\' => 33,
@@ -27,7 +30,6 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         array (
             'React\\Stream\\' => 13,
             'React\\Socket\\' => 13,
-            'React\\Promise\\Timer\\' => 20,
             'React\\Promise\\' => 14,
             'React\\EventLoop\\' => 16,
             'React\\Dns\\' => 10,
@@ -48,6 +50,12 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
+            'Gt\\TypeSafeGetter\\' => 18,
+            'Gt\\Session\\' => 11,
+            'Gt\\PropFunc\\' => 12,
+            'Gt\\Dom\\' => 7,
+            'Gt\\CssXPath\\' => 12,
+            'Gt\\Csrf\\' => 8,
         ),
         'D' => 
         array (
@@ -63,6 +71,14 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Php83\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
+        ),
+        'Symfony\\Polyfill\\Php80\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
+        ),
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
@@ -82,10 +98,6 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'React\\Socket\\' => 
         array (
             0 => __DIR__ . '/..' . '/react/socket/src',
-        ),
-        'React\\Promise\\Timer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/react/promise-timer/src',
         ),
         'React\\Promise\\' => 
         array (
@@ -132,6 +144,30 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
         ),
+        'Gt\\TypeSafeGetter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpgt/typesafegetter/src',
+        ),
+        'Gt\\Session\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpgt/session/src',
+        ),
+        'Gt\\PropFunc\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpgt/propfunc/src',
+        ),
+        'Gt\\Dom\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpgt/dom/src',
+        ),
+        'Gt\\CssXPath\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpgt/cssxpath/src',
+        ),
+        'Gt\\Csrf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpgt/csrf/src',
+        ),
         'Doctrine\\Instantiator\\' => 
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
@@ -165,6 +201,7 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
     );
 
     public static $classMap = array (
+        'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
@@ -447,8 +484,8 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'PHPUnit\\TextUI\\XmlConfiguration\\Migrator' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrator.php',
         'PHPUnit\\TextUI\\XmlConfiguration\\MoveAttributesFromFilterWhitelistToCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveAttributesFromFilterWhitelistToCoverage.php',
         'PHPUnit\\TextUI\\XmlConfiguration\\MoveAttributesFromRootToCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveAttributesFromRootToCoverage.php',
-        'PHPUnit\\TextUI\\XmlConfiguration\\MoveWhitelistDirectoriesToCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveWhitelistDirectoriesToCoverage.php',
         'PHPUnit\\TextUI\\XmlConfiguration\\MoveWhitelistExcludesToCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveWhitelistExcludesToCoverage.php',
+        'PHPUnit\\TextUI\\XmlConfiguration\\MoveWhitelistIncludesToCoverage' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveWhitelistIncludesToCoverage.php',
         'PHPUnit\\TextUI\\XmlConfiguration\\PHPUnit' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/PHPUnit/PHPUnit.php',
         'PHPUnit\\TextUI\\XmlConfiguration\\Php' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/PHP/Php.php',
         'PHPUnit\\TextUI\\XmlConfiguration\\PhpHandler' => __DIR__ . '/..' . '/phpunit/phpunit/src/TextUI/XmlConfiguration/PHP/PhpHandler.php',
@@ -585,6 +622,7 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'PharIo\\Version\\VersionConstraintParser' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintParser.php',
         'PharIo\\Version\\VersionConstraintValue' => __DIR__ . '/..' . '/phar-io/version/src/VersionConstraintValue.php',
         'PharIo\\Version\\VersionNumber' => __DIR__ . '/..' . '/phar-io/version/src/VersionNumber.php',
+        'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
         'SebastianBergmann\\CliParser\\AmbiguousOptionException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
         'SebastianBergmann\\CliParser\\Exception' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/Exception.php',
         'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => __DIR__ . '/..' . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -785,6 +823,7 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'Stringable' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
         'TheSeer\\Tokenizer\\Exception' => __DIR__ . '/..' . '/theseer/tokenizer/src/Exception.php',
         'TheSeer\\Tokenizer\\NamespaceUri' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUri.php',
         'TheSeer\\Tokenizer\\NamespaceUriException' => __DIR__ . '/..' . '/theseer/tokenizer/src/NamespaceUriException.php',
@@ -793,6 +832,8 @@ class ComposerStaticInit17a1cae4fbe774c9f218de36be87f399
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+        'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'ValueError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

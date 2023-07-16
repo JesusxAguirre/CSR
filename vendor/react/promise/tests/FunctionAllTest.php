@@ -2,107 +2,140 @@
 
 namespace React\Promise;
 
+use Exception;
+
 class FunctionAllTest extends TestCase
 {
     /** @test */
-    public function shouldResolveEmptyInput()
+    public function shouldResolveEmptyInput(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([]));
+            ->with(self::identicalTo([]));
 
         all([])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldResolveValuesArray()
+    public function shouldResolveValuesArray(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([1, 2, 3]));
+            ->with(self::identicalTo([1, 2, 3]));
 
         all([1, 2, 3])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldResolvePromisesArray()
+    public function shouldResolvePromisesArray(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([1, 2, 3]));
+            ->with(self::identicalTo([1, 2, 3]));
 
         all([resolve(1), resolve(2), resolve(3)])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldResolveSparseArrayInput()
+    public function shouldResolveSparseArrayInput(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([null, 1, null, 1, 1]));
+            ->with(self::identicalTo([null, 1, null, 1, 1]));
 
         all([null, 1, null, 1, 1])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldRejectIfAnyInputPromiseRejects()
+    public function shouldResolveValuesGenerator(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo(2));
+            ->with(self::identicalTo([1, 2, 3]));
 
-        all([resolve(1), reject(2), resolve(3)])
+        $gen = (function () {
+            for ($i = 1; $i <= 3; ++$i) {
+                yield $i;
+            }
+        })();
+
+        all($gen)->then($mock);
+    }
+
+    /** @test */
+    public function shouldResolveValuesGeneratorEmpty(): void
+    {
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects(self::once())
+            ->method('__invoke')
+            ->with(self::identicalTo([]));
+
+        $gen = (function () {
+            if (false) { // @phpstan-ignore-line
+                yield;
+            }
+        })();
+
+        all($gen)->then($mock);
+    }
+
+    /** @test */
+    public function shouldRejectIfAnyInputPromiseRejects(): void
+    {
+        $exception2 = new Exception();
+        $exception3 = new Exception();
+
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects(self::once())
+            ->method('__invoke')
+            ->with(self::identicalTo($exception2));
+
+        all([resolve(1), reject($exception2), reject($exception3)])
             ->then($this->expectCallableNever(), $mock);
     }
 
     /** @test */
-    public function shouldAcceptAPromiseForAnArray()
+    public function shouldRejectInfiteGeneratorOrRejectedPromises(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([1, 2, 3]));
+            ->with(new \RuntimeException('Iteration 1'));
 
-        all(resolve([1, 2, 3]))
-            ->then($mock);
+        $gen = (function () {
+            for ($i = 1; ; ++$i) {
+                yield reject(new \RuntimeException('Iteration ' . $i));
+            }
+        })();
+
+        all($gen)->then(null, $mock);
     }
 
     /** @test */
-    public function shouldResolveToEmptyArrayWhenInputPromiseDoesNotResolveToArray()
+    public function shouldPreserveTheOrderOfArrayWhenResolvingAsyncPromises(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([]));
-
-        all(resolve(1))
-            ->then($mock);
-    }
-
-    /** @test */
-    public function shouldPreserveTheOrderOfArrayWhenResolvingAsyncPromises()
-    {
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($this->identicalTo([1, 2, 3]));
+            ->with(self::identicalTo([1, 2, 3]));
 
         $deferred = new Deferred();
 
