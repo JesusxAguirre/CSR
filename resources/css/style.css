@@ -9,7 +9,17 @@
 body{
   color: #6c757d;
 }
+#g-recaptcha {
+  margin: 0 auto;
+}
 
+.modal-body {
+  text-align: center;
+}
+
+.modal-footer {
+  text-align: center;
+}
 .widget-icon {
   color: #727cf5;
   font-size: 20px;

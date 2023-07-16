@@ -7,7 +7,7 @@ use Csr\Modelo\Usuarios;
 
 	$objeto_usuarios->check_blacklist();
 
-	$objeto_usuarios->check_requests_danger();
+	$requests = $objeto_usuarios->check_requests_danger();
 
 	if (empty($_GET['pagina'])) {
 		

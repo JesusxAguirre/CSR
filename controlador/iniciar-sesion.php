@@ -5,14 +5,19 @@ use Csr\Modelo\Usuarios;
 use Csr\Modelo\datosUsuario;
 use Csr\Modelo\Roles;
 
+
+
+// Crear el tokenStore
+
+
 $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
 
-//REGISTRAR USUARIO
 
+//REGISTRAR USUARIO
 if (isset($_POST['cedula']) && isset($_POST['correo'])) {
-	
+
 	$nombre = trim($_POST['nombre']);
 	$apellido = trim($_POST['apellido']);
 	$cedula = trim($_POST['cedula']);
@@ -56,7 +61,7 @@ if (isset($_POST['cedula']) && isset($_POST['correo'])) {
 	$apellido = $objeto_usuario->sanitizar_cadenas($apellido);
 	$nacionalidad = $objeto_usuario->sanitizar_cadenas($nacionalidad);
 	$estado = $objeto_usuario->sanitizar_cadenas($estado);
-	
+
 
 	$objeto_usuario->setUsuarios($nombre, $apellido, $cedula, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo, $clave);
 
@@ -86,9 +91,10 @@ if (isset($_POST['correo_existente'])) {
 	return true;
 }
 
-$recuperacion = false;
-//recuperando password
+
 if (isset($_POST['correo2'])) {
+
+	
 
 	$objeto_usuario->check_blacklist();
 
@@ -97,16 +103,17 @@ if (isset($_POST['correo2'])) {
 
 	$correo = strtolower(trim($_POST['correo2']));
 
-	
-	$objeto_usuario->security_validation_correo($correo);
 
-	$objeto_usuario->validar_correo_existe($correo);
+	//$objeto_usuario->security_validation_correo($correo);
 
-	$objeto_usuario->generate_token_message_password($correo);
+	//$objeto_usuario->validar_correo_existe($correo);
+
+	//$objeto_usuario->generate_token_message_password($correo);
 }
 
-if( isset($_POST['tokenCorreo'])){
+if (isset($_POST['tokenCorreo'])) {
 
+	
 	$objeto_usuario->check_blacklist();
 
 	$objeto_usuario->check_requests_danger();
@@ -115,11 +122,15 @@ if( isset($_POST['tokenCorreo'])){
 	$token = $_POST['tokenCorreo'];
 
 	$objeto_usuario->verifyRecoveryToken($token);
-
 }
 
 //validando datos de usuario para entrar al sistema
 if (isset($_POST['email'])) {
+
+	if(!verified_token_csrf()){
+		$objeto_usuario->insert_ip_blacklist();
+	}
+	
 
 	$_SESSION['usuario'] = strtolower(trim($_POST['email']));
 
@@ -168,8 +179,17 @@ if (isset($_POST['email'])) {
 	}
 }
 if (is_file("vista/" . $pagina . ".php")) {
-	//si existe se la trae, ahora ve a la carpeta vista
 
+	
+	//OBTENER TOKEN
+
+	$token = $objeto_usuario->generate_csrf_token();
+
+
+
+
+	//si existe se la trae, ahora ve a la carpeta vista
+	http_response_code(200);
 	require_once 'vista/' . $pagina . '.php';
 } else {
 	echo "pagina en construccion";
@@ -190,3 +210,18 @@ function verified_status_code($response)
 
 	return false;
 }
+
+function verified_token_csrf(){
+	if (!isset($_REQUEST['token'])) {
+
+		return false;
+	} else {
+		 if ($_REQUEST['token'] !== $_SESSION['csrf_token']) {
+		 	return false;
+		 }
+
+		 return true;
+	}
+}
+
+?>
