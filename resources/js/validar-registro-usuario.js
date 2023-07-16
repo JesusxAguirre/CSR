@@ -698,30 +698,20 @@ function countdown_toast() {
 	}, 1000);
 }
 
-function onloadCallback() {
-    $('.g-recaptcha').each(function(index, el) {
-        widgetId = grecaptcha.render(el, {'sitekey' : 'My-SITE-KEY'});
-    });
-}
 
 	if (requests == false) {
 		showRecaptchaPopup()
+		verified_rectcha()
 	}
 	
-	// Función para mostrar el popup con el reCAPTCHA
-	function showRecaptchaPopup() {
-		$('#recaptcha-popup').modal('show');
-		// Inicializa el reCAPTCHA
-		grecaptcha.render($('.g-recaptcha'), {
-			'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
-		});
+	function verified_rectcha(){
 		// Espera 30 segundos antes de enviar la respuesta
 		setTimeout(function () {
 			if (!grecaptcha.getResponse()) {
 				// Si no se ha completado el reCAPTCHA en 30 segundos, envía la respuesta a una URL
 				$.ajax({
 					type: 'POST',
-					url: 'respuesta-url.php',
+					url: window.location,
 					data: { respuesta: 'no completado' },
 					success: function () {
 						console.log('Respuesta enviada');
@@ -729,22 +719,14 @@ function onloadCallback() {
 				});
 				$('#recaptcha-popup').modal('hide');
 			}
-		}, 30000);
+		}, 10000);
 	}
 
-	// Abre el popup cuando se hace clic en el botón
-	$('#btn-recaptcha').click(function () {
-		showRecaptchaPopup();
-	});
-
-	// Cierra el popup cuando se hace clic fuera de él
-	$(document).mouseup(function (e) {
-		var popup = $('.modal-content');
-		if (!popup.is(e.target) && popup.has(e.target).length === 0) {
-			$('#recaptcha-popup').modal('hide');
-		}
-	});
-
-
-
+	// Función para mostrar el popup con el reCAPTCHA
+	function showRecaptchaPopup() {
+		$('#recaptcha-popup').modal('show');
+		// Inicializa el reCAPTCHA
+	
+		
+	}
 });

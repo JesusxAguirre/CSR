@@ -14,15 +14,27 @@
 
 
     <script src="resources/js/jquery-3.6.0.min.js"></script>
-    <script src="resources/js/validar-registro-usuario.js"></script>
-    <!-- Jquery-->
+    <script type="text/javascript">
+        var onloadCallback = function() {
+            grecaptcha.render('recaptcha', {
+          'sitekey' : '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
+        });
 
-    <!-- Sweet alert 2-->
-    <script src="resources/js/sweetalert2.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      
+        };
+        
+        setTimeout(() => {
+            console.log(grecaptcha.getResponse())
+        }, 5000);
+       
+
+    </script>
+
+  
 </head>
 
 <body>
+
     <div class="container image">
         <div class="row">
             <div class="col-5 d-none d-md-block">
@@ -78,7 +90,7 @@
                 <div class="modal-body  d-flex justify-content-center">
                     <form id="recatpha" action="?pagina=iniciar-sesion" method="POST">
 
-                        <div class="g-recaptcha" data-sitekey="6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z"></div>
+                        <div id="recaptcha" ></div>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -308,7 +320,12 @@
         requests = <?php echo ($requests) ? 'true' : 'false'; ?>
     </script>
 
-
+    <script src="resources/js/validar-registro-usuario.js"></script>
+    <!-- Jquery-->
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer>
+    </script>
+    <!-- Sweet alert 2-->
+    <script src="resources/js/sweetalert2.js"></script>
 
 
 </body>
