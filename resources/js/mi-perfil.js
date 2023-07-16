@@ -138,9 +138,9 @@ const ValidarFormulario = (e) => {
 		case "correo2":
 			ValidarCampo(expresiones.correo, e.target, "correo2")
 			break;
-		case 'clave':
-			validar_password(expresiones.password, e.target, 'error_password1', 'clave');
-			break;
+		// case 'clave':
+		// 	validar_password(expresiones.password, e.target, 'error_password1', 'clave');
+		// 	break;
 		case "new_password1":
 			validar_password(expresiones.password, e.target, 'error_password2', 'clave2');
 			break;
@@ -153,8 +153,15 @@ const ValidarFormulario = (e) => {
 //Validando nueva password
 const validar_password = (expresions, target, id, campo) => {
 	if (expresions.test(target.value)) {
-		document.querySelector(`#${id}`).classList.add('d-none');
-		campos[campo] = true;
+		if (target.value == document.getElementById('clave').value) {
+			document.querySelector(`#error_claveIgual`).classList.remove('d-none');
+			campos[campo] = false;
+		}else{
+			document.querySelector(`#${id}`).classList.add('d-none');
+			document.querySelector(`#error_claveIgual`).classList.add('d-none');
+			campos[campo] = true;
+		}
+		
 	} else {
 		document.querySelector(`#${id}`).classList.remove('d-none');
 		campos[campo] = false;
@@ -422,6 +429,9 @@ formulario2.addEventListener('submit', (e) => {
 //ACTUALIZANDO PASSWORD
 formulario3.addEventListener('submit', (e) => {
 	e.preventDefault();
+	if (document.getElementById('clave').value === '') {
+		campos['clave'] = true;
+	}
 	if (campos['clave'] && campos['clave2'] && campos['correo'] && campos['comparacion']) {
 		if (campos['comparacion']) {
 			const datos = {
@@ -442,31 +452,31 @@ formulario3.addEventListener('submit', (e) => {
 						campos['clave'] = false;
 						campos['clave2'] = false;
 						campos['comparacion'] = false;
-						document.getElementById("clave").value = '';
-						document.getElementById("new_password1").value = '';
-						document.getElementById("new_password2").value = '';
+						document.getElementById("formulario3").reset()
 
-						fire_alerta(data.msj, 'success')
+						fire_alerta(data.msj, 'success');
+						document.getElementById('clave').value = '';
+						document.getElementById('new_password1').value = '';
+						document.getElementById('new_password2').value = '';
 					} else {
 						fire_alerta('Algo ocurrio en la BD', 'error')
 					}
 				},
 				error: function (xhr, status, error) {
 					// Código a ejecutar si se produjo un error al realizar la solicitud
-					
+
 					var response;
 					try {
 						response = JSON.parse(xhr.responseText);
 					} catch (e) {
 						response = {};
 					}
-					console.log(response);
-
+					
 					fire_alerta_problem(response.status_code, response.msj, 'error')
 				}
 			})
 		}else{
-			fire_alerta('Comprueba que contraseñas sean iguales', 'error')
+			fire_alerta('Comprueba que contraseñas sean iguales', 'error');
 		}
 	} else {
 		fire_alerta('Ingresa los datos correctamente', 'error')

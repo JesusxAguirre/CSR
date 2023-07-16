@@ -223,7 +223,7 @@
                       <label class="form-label fw-bold">Ingrese su contraseña actual</label>
                       <i class="input-icon fs-5"></i>
                       <input maxlength="20" id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-2">
-                      <p id="error_password1" class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
+                      <p id="error_password1" class="text-danger d-none">La contraseña debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
                     </div>
                     <!-- <input value="" hidden name="cedula_antigua" id="cedulaInput3" type="text"> -->
                   </div>
@@ -233,7 +233,8 @@
                       <label for="new_password1" class="form-label fw-bold">Ingrese su nueva contraseña</label>
                       <i class="input-icon fs-5"></i>
                       <input maxlength="20" id="new_password1" name="new_password1" value="" type="password" placeholder="******" class="form-control mb-2">
-                      <p id="error_password2" class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
+                      <p id="error_password2" class="text-danger d-none">La contraseña debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
+                      <p id="error_claveIgual" class="text-danger d-none">La contraseña no puede ser igual a la actual</p>
                     </div>
 
                     <div>
