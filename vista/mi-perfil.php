@@ -177,7 +177,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Telefono</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="telefonoInput" value="" placeholder=" XXXXXXXX" name="telefono" class="form-control">
+                      <input maxlength="16" id="telefonoInput" value="" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                     </div>
                     <p class="text-danger d-none">el formato de telefono debe ser 0412XXXXXX (10 números) </p>
                   </div>
@@ -186,7 +186,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Correo</label>
                       <i class="input-icon fs-5"></i>
-                      <input id="correo" placeholder="example@gmail.com" value="" name="correo" class="form-control">
+                      <input maxlength="60" id="correo" placeholder="example@gmail.com" value="" name="correo" class="form-control">
                     </div>
                     <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com</p>
                   </div>
@@ -199,6 +199,8 @@
           </div>
         </div>
       </div>
+
+      <!-- FORMULARIO 2 RECUPERAR CONTRASENA -->
       <div class="row mt-3">
         <div class="mt-2 col">
           <div class="card">
@@ -209,7 +211,7 @@
                   <div class="relative">
                     <label class="form-label fw-bold">Correo</label>
                     <i class="input-icon fs-5"></i>
-                    <input disabled id="correo2" placeholder="example@gmail.com" value="" name="correo2" class="form-control">
+                    <input maxlength="60" disabled id="correo2" placeholder="example@gmail.com" value="" name="correo2" class="form-control">
                   </div>
                   <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                 </div>
@@ -217,7 +219,7 @@
                   <div class="relative">
                     <label class="form-label fw-bold">Clave</label>
                     <i class="input-icon fs-5"></i>
-                    <input id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-4">
+                    <input maxlength="16" id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-4">
                   </div>
                   <p class="text-danger d-none">La clave debe contener de 6 a 16 digitos. Incluyendo un caracter especial y un numero</p>
                 </div>
@@ -228,6 +230,8 @@
           </div>
         </div>
       </div>
+
+      <!-- FORMULARIO 3 CAMBIAR FOTO DE PERFIL -->
       <div class="row mt-3">
         <div class="mt-2 col">
           <div class="card">
