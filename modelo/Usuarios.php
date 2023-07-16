@@ -1353,6 +1353,15 @@ class Usuarios extends Conexion
         parent::check_blacklist();
     }
 
+    public function insert_ip_blacklist(){
+        parent::insert_ip_blacklist();
+    }
+
+    public function generate_csrf_token()
+    {
+        //esto devuelve un token
+        return parent::generate_csrf_token();
+    }
     //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
 
     public function generate_token_message_password($correo)

@@ -350,13 +350,6 @@ formulario2.addEventListener('submit', (e) => {
 
 
 
-if (recuperacion == true) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se cambio la contraseña correctamente'
-	})
-	setTimeout(recarga, 2000);
-}
 
 function fireAlert(icon, msg) {
 	Swal.fire({
@@ -385,6 +378,7 @@ $(document).on('submit', '#formulario3', function (event) {
 		})
 	} else {
 
+		console.log($(this).serialize())
 
 		$.ajax({
 			type: 'POST',
@@ -703,20 +697,9 @@ function countdown_toast() {
 	}, 1000);
 }
 
-
 $(document).ready(function() {
 
-	$.ajax({
-		url: window.location,
-		type: 'GET',
-		
-		success: function (data) {
-
-		},
-		error: function (xhr, status, error) {
-			showRecaptchaPopup()
-		}
-	})
+	
 
 	// Función para mostrar el popup con el reCAPTCHA
 	function showRecaptchaPopup() {

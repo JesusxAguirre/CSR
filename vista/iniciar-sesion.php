@@ -31,6 +31,7 @@
                 <hr>
                 <!-- INICIO FORMULARIO -->
                 <form id="formulario3" action="?pagina=iniciar-sesion" method="post">
+                    <input type="hidden" name="token" value="<?php echo $token; ?>" >
                     <div id="grupo__email" class="mb-4">
                         <div class="relative">
                             <label for="email">Correo electronico</label>
@@ -294,9 +295,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
-    </script>
+    
     
     <!-- Jquery-->
     <script src="resources/js/jquery-3.6.0.min.js"></script>
