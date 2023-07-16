@@ -20,7 +20,7 @@ final class ValueObjectWithEqualsMethodThatHasUnionParameterType
         $this->value = $value;
     }
 
-    public function equals(self|stdClass $other): bool
+    public function equals(stdClass|self $other): bool
     {
         return false;
     }
