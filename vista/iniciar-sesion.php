@@ -12,7 +12,11 @@
 
     <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
 
-    
+        <!-- Jquery-->
+        <script src="resources/js/jquery-3.6.0.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <!-- Sweet alert 2-->
+    <script src="resources/js/sweetalert2.js"></script>
 
 </head>
 
@@ -298,11 +302,7 @@
         recuperacion = <?php echo ($recuperacion) ? 'true' : 'false'; ?>
     </script>
     
-    <!-- Jquery-->
-    <script src="resources/js/jquery-3.6.0.min.js"></script>
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <!-- Sweet alert 2-->
-    <script src="resources/js/sweetalert2.js"></script>
+
  
     <script src="resources/js/validar-registro-usuario.js"></script>
         

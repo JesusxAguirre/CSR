@@ -142,19 +142,29 @@ class Conexion
         $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
         // Verificar el contador y bloquear el acceso si se supera el umbral
         if ($resultado['conteo'] >= $this->umbralSolicitudes) {
-            // Registrar la IP en la tabla de blacklist
-            $insertarBlacklist = $this->conexion()->prepare("INSERT INTO blacklist (ip) VALUES (:ip)");
-            $insertarBlacklist->bindParam(':ip', $ip);
-            $insertarBlacklist->execute();
-            // Bloquear el acceso al servidor
-            http_response_code(403);
-            echo "Acceso denegado. Has superado el límite de solicitudes por segundo.";
-            die();
+           
         }
         // Registrar la solicitud en la base de datos
         $registrarSolicitud = $this->conexion()->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, NOW())");
         $registrarSolicitud->bindParam(':ip', $ip);
         $registrarSolicitud->execute();
+    }
+
+    protected function insert_blacklist()
+    {
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+
+        // Registrar la IP en la tabla de blacklist
+        $insertarBlacklist = $this->conexion()->prepare("INSERT INTO blacklist (ip) VALUES (:ip)");
+        $insertarBlacklist->bindParam(':ip', $ip);
+        $insertarBlacklist->execute();
+        // Bloquear el acceso al servidor
+        http_response_code(403);
+        echo "Acceso denegado. Has superado el límite de solicitudes por segundo.";
+        die();
+
     }
 
     protected function check_blacklist()
@@ -176,5 +186,10 @@ class Conexion
             echo "Acceso denegado. Tu IP está en la lista negra.";
             die();
         }
+    }
+
+    protected function create_csrf_token()
+    {
+        
     }
 }

@@ -2,21 +2,23 @@
 
 namespace React\Promise;
 
+use Exception;
+use React\Promise\Exception\CompositeException;
 use React\Promise\Exception\LengthException;
 
 class FunctionAnyTest extends TestCase
 {
     /** @test */
-    public function shouldRejectWithLengthExceptionWithEmptyInputArray()
+    public function shouldRejectWithLengthExceptionWithEmptyInputArray(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
             ->with(
-                $this->callback(function($exception){
+                self::callback(function ($exception) {
                     return $exception instanceof LengthException &&
-                           'Input array must contain at least 1 item but contains only 0 items.' === $exception->getMessage();
+                           'Must contain at least 1 item but contains only 0 items.' === $exception->getMessage();
                 })
             );
 
@@ -25,104 +27,170 @@ class FunctionAnyTest extends TestCase
     }
 
     /** @test */
-    public function shouldResolveToNullWithNonArrayInput()
+    public function shouldRejectWithLengthExceptionWithEmptyInputGenerator(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo(null));
+            ->with(new LengthException('Must contain at least 1 item but contains only 0 items.'));
 
-        any(null)
-            ->then($mock);
+        $gen = (function () {
+            if (false) { // @phpstan-ignore-line
+                yield;
+            }
+        })();
+
+        any($gen)->then($this->expectCallableNever(), $mock);
     }
 
     /** @test */
-    public function shouldResolveWithAnInputValue()
+    public function shouldResolveWithAnInputValue(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo(1));
+            ->with(self::identicalTo(1));
 
         any([1, 2, 3])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldResolveWithAPromisedInputValue()
+    public function shouldResolveWithAPromisedInputValue(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo(1));
+            ->with(self::identicalTo(1));
 
         any([resolve(1), resolve(2), resolve(3)])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldRejectWithAllRejectedInputValuesIfAllInputsAreRejected()
+    public function shouldResolveWithAnInputValueFromDeferred(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo([0 => 1, 1 => 2, 2 => 3]));
+            ->with(self::identicalTo(1));
 
-        any([reject(1), reject(2), reject(3)])
+        $deferred = new Deferred();
+
+        any([$deferred->promise()])->then($mock);
+
+        $deferred->resolve(1);
+    }
+
+    /** @test */
+    public function shouldResolveValuesGenerator(): void
+    {
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects(self::once())
+            ->method('__invoke')
+            ->with(self::identicalTo(1));
+
+        $gen = (function () {
+            for ($i = 1; $i <= 3; ++$i) {
+                yield $i;
+            }
+        })();
+
+        any($gen)->then($mock);
+    }
+
+    /** @test */
+    public function shouldResolveValuesInfiniteGenerator(): void
+    {
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects(self::once())
+            ->method('__invoke')
+            ->with(self::identicalTo(1));
+
+        $gen = (function () {
+            for ($i = 1; ; ++$i) {
+                yield $i;
+            }
+        })();
+
+        any($gen)->then($mock);
+    }
+
+    /** @test */
+    public function shouldRejectWithAllRejectedInputValuesIfAllInputsAreRejected(): void
+    {
+        $exception1 = new Exception();
+        $exception2 = new Exception();
+        $exception3 = new Exception();
+
+        $compositeException = new CompositeException(
+            [0 => $exception1, 1 => $exception2, 2 => $exception3],
+            'All promises rejected.'
+        );
+
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects(self::once())
+            ->method('__invoke')
+            ->with($compositeException);
+
+        any([reject($exception1), reject($exception2), reject($exception3)])
             ->then($this->expectCallableNever(), $mock);
     }
 
     /** @test */
-    public function shouldResolveWhenFirstInputPromiseResolves()
+    public function shouldRejectWithAllRejectedInputValuesIfInputIsRejectedFromDeferred(): void
     {
+        $exception = new Exception();
+
+        $compositeException = new CompositeException(
+            [2 => $exception],
+            'All promises rejected.'
+        );
+
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo(1));
+            ->with($compositeException);
 
-        any([resolve(1), reject(2), reject(3)])
+        $deferred = new Deferred();
+
+        any([2 => $deferred->promise()])->then($this->expectCallableNever(), $mock);
+
+        $deferred->reject($exception);
+    }
+
+    /** @test */
+    public function shouldResolveWhenFirstInputPromiseResolves(): void
+    {
+        $exception2 = new Exception();
+        $exception3 = new Exception();
+
+        $mock = $this->createCallableMock();
+        $mock
+            ->expects(self::once())
+            ->method('__invoke')
+            ->with(self::identicalTo(1));
+
+        any([resolve(1), reject($exception2), reject($exception3)])
             ->then($mock);
     }
 
     /** @test */
-    public function shouldAcceptAPromiseForAnArray()
+    public function shouldNotRelyOnArryIndexesWhenUnwrappingToASingleResolutionValue(): void
     {
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo(1));
-
-        any(resolve([1, 2, 3]))
-            ->then($mock);
-    }
-
-    /** @test */
-    public function shouldResolveToNullArrayWhenInputPromiseDoesNotResolveToArray()
-    {
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($this->identicalTo(null));
-
-        any(resolve(1))
-            ->then($mock);
-    }
-
-    /** @test */
-    public function shouldNotRelyOnArryIndexesWhenUnwrappingToASingleResolutionValue()
-    {
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($this->identicalTo(2));
+            ->with(self::identicalTo(2));
 
         $d1 = new Deferred();
         $d2 = new Deferred();
@@ -135,70 +203,22 @@ class FunctionAnyTest extends TestCase
     }
 
     /** @test */
-    public function shouldRejectWhenInputPromiseRejects()
+    public function shouldCancelInputArrayPromises(): void
     {
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($this->identicalTo(null));
+        $promise1 = new Promise(function () {}, $this->expectCallableOnce());
+        $promise2 = new Promise(function () {}, $this->expectCallableOnce());
 
-        any(reject())
-            ->then($this->expectCallableNever(), $mock);
+        any([$promise1, $promise2])->cancel();
     }
 
     /** @test */
-    public function shouldCancelInputPromise()
+    public function shouldNotCancelOtherPendingInputArrayPromisesIfOnePromiseFulfills(): void
     {
-        $mock = $this
-            ->getMockBuilder('React\Promise\CancellablePromiseInterface')
-            ->getMock();
-        $mock
-            ->expects($this->once())
-            ->method('cancel');
+        $deferred = new Deferred($this->expectCallableNever());
+        $deferred->resolve(null);
 
-        any($mock)->cancel();
-    }
+        $promise2 = new Promise(function () {}, $this->expectCallableNever());
 
-    /** @test */
-    public function shouldCancelInputArrayPromises()
-    {
-        $mock1 = $this
-            ->getMockBuilder('React\Promise\CancellablePromiseInterface')
-            ->getMock();
-        $mock1
-            ->expects($this->once())
-            ->method('cancel');
-
-        $mock2 = $this
-            ->getMockBuilder('React\Promise\CancellablePromiseInterface')
-            ->getMock();
-        $mock2
-            ->expects($this->once())
-            ->method('cancel');
-
-        any([$mock1, $mock2])->cancel();
-    }
-
-    /** @test */
-    public function shouldNotCancelOtherPendingInputArrayPromisesIfOnePromiseFulfills()
-    {
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->never())
-            ->method('__invoke');
-
-
-        $deferred = New Deferred($mock);
-        $deferred->resolve();
-
-        $mock2 = $this
-            ->getMockBuilder('React\Promise\CancellablePromiseInterface')
-            ->getMock();
-        $mock2
-            ->expects($this->never())
-            ->method('cancel');
-
-        some([$deferred->promise(), $mock2], 1)->cancel();
+        any([$deferred->promise(), $promise2])->cancel();
     }
 }
