@@ -281,35 +281,17 @@ formulario.addEventListener('submit', (e) => {
 			nacionalidad: document.getElementById('nacionalidad').value,
 			estado: document.getElementById('estado').value,
 			telefono: document.getElementById('telefonoInput').value,
-			correo: document.getElementById('correo').value
+			correo: document.getElementById('correo').value,
+			actualizar: 'actualizar'
 		}
 
 		$.ajax({
 			type: "POST",
 			url: "?pagina=mi-perfil",
-			data: $(this).serialize(),
+			data: datos,
 			success: function (response) {
 
 				console.log(response)
-				document.getElementById("editForm").reset()
-
-				campos.anfitrion = false
-				campos.cantidad = false
-				campos.dia = false
-				campos.hora = false
-				campos.direccion = false
-				campos.hora = false
-				campos.lider = false
-				campos.telefono_anfitrion = false
-
-				$("#editar").removeClass('fade').modal('hide');
-				$('#mi_tabla').DataTable().destroy();
-
-				$("#editar").addClass('fade')
-				solicitar_tabla()
-
-				fireAlert('success', 'Se actualizo correctamente los datos')
-
 			},
 			error: function (xhr, status, error) {
 
@@ -350,6 +332,15 @@ formulario.addEventListener('submit', (e) => {
 		})
 	}
 })
+
+function fire_success(titulo, icono) {
+	Swal.fire({
+		icon: icono,
+		title: titulo,
+		showConfirmButton: false,
+		timer: 2000,
+	})
+}
 /*formulario.addEventListener('submit', (e) => {
 	e.preventDefault();
 	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo)) {
