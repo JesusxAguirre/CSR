@@ -423,7 +423,7 @@ class Usuarios extends Conexion
         $resultado = [];
         $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT usuarios.cedula,usuarios.codigo,usuarios.nombre,usuarios.apellido,usuarios.telefono,usuarios.sexo,usuarios.estado_civil,
-        usuarios.nacionalidad,usuarios.estado,usuarios.edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
+        usuarios.nacionalidad,usuarios.estado,usuarios.fecha_nacimiento, roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
         INNER JOIN roles ON usuarios.id_rol = roles.id
         WHERE usuarios.codigo LIKE '%" . $busqueda . "%' 
@@ -468,7 +468,7 @@ class Usuarios extends Conexion
 
 
             $sql = "INSERT INTO usuarios (cedula,id_rol,
-            codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
+            codigo,nombre,apellido,fecha_nacimiento,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
             VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
 
             //ENCRIPTANDO CLAVE
@@ -510,6 +510,7 @@ class Usuarios extends Conexion
             $estado = strtoupper($estado2);
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
+
             //buscando codigo viejo para suplantarlo por el nuevo
             $sql = ("SELECT codigo FROM usuarios WHERE cedula= :cedula_antigua");
 
@@ -578,33 +579,12 @@ class Usuarios extends Conexion
             ));
 
 
-            //cambiando datos ingresados con mayusculas o minisculas
-            $this->nombre = strtolower($this->nombre);
-
-            $this->nombre = ucfirst($this->nombre);
-            //lo mismo con el apellido
-            $this->apellido = strtolower($this->apellido);
-
-            $this->apellido = ucfirst($this->apellido);
-            //Lo mismo con la nacionalidad
-            $this->nacionalidad = strtolower($this->nacionalidad);
-
-            $this->nacionalidad = ucfirst($this->nacionalidad);
-            //Lo mismo con la estado
-            $this->estado = strtolower($this->estado);
-
-            $this->estado = ucfirst($this->estado);
-
-            //actualizando todos los datos menos el codigo que se hizo mas arriba
+            //Actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, 
-            edad = :edad, sexo = :sexo, estado_civil = :estadoc ,nacionalidad = :nacionalidad , estado = :estado,
+            fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc, nacionalidad = :nacionalidad , estado = :estado,
             telefono = :telf WHERE cedula = :ced");
 
-
-
             $stmt = $this->conexion()->prepare($sql);
-
-
 
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
@@ -617,18 +597,21 @@ class Usuarios extends Conexion
             ));
 
 
-
             $accion = "Editar datos de usuario";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-            return true;
-        } catch (Exception $e) {
 
-            echo $e->getMessage();
-
-            echo "Linea del error: " . $e->getLine();
-
-            return $e;
+            //Respuesta para el manejo de respuesta HTTP
+            http_response_code(202);
+            echo json_encode(array("msj" => "Se han actualizado los datos correctamente", "status_code" => 202));
+            die();
+        } catch (Throwable $ex) {
+            
+            $errorType = basename(get_class($ex));
+            http_response_code(500);
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            //$this->deleteRecoveryToken();
+            die();
         }
     }
 
@@ -712,8 +695,8 @@ class Usuarios extends Conexion
             ));
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
-            $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
-        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario WHERE cedula = :ced");
+            $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc 
+            , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario WHERE cedula = :ced");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -730,16 +713,23 @@ class Usuarios extends Conexion
             ));
 
             session_destroy();
-            echo "<script>
+            http_response_code(202);
+            echo json_encode(array("msj" => "Se han actualizado tus datos correctamente", "status_code" => 202));
+            die();
+
+            //Respaldo por si sale mal jeje
+            /*echo "<script>
             alert('Sesion Cerrada');
             window.location= 'index.php'
         </script>";
-            return true;
-        } catch (Exception $e) {
-
-            echo $e->getMessage();
-            echo "Linea del error: " . $e->getLine();
-            return false;
+            return true;*/
+        } catch (Throwable $ex) {
+            
+            $errorType = basename(get_class($ex));
+            http_response_code(500);
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            $this->deleteRecoveryToken();
+            die();
         }
     }
 
@@ -879,7 +869,7 @@ class Usuarios extends Conexion
     {
 
         try {
-            $sql = ("SELECT nombre,apellido,cedula,edad,sexo,estado_civil,nacionalidad,estado,telefono,id_rol 
+            $sql = ("SELECT nombre,apellido,cedula,fecha_nacimiento,sexo,estado_civil,nacionalidad,estado,telefono,id_rol 
             FROM usuarios WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -952,9 +942,6 @@ class Usuarios extends Conexion
         $this->estado = $estado;
         $this->telefono = $telefono;
         $this->rol = $rol;
-
-        $this->cedula = trim($this->cedula);
-        $this->cedula_antigua = trim($this->cedula_antigua);
     }
     //METODO SETTER PARA ACTUALIZAR USUARIO PERO SIN ID DE ROL
     public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo)

@@ -87,8 +87,6 @@ if (isset($_POST['correo_existente'])) {
 
 if (isset($_POST['correo2'])) {
 
-	
-
 	$objeto_usuario->check_blacklist();
 
 	$objeto_usuario->check_requests_danger();
@@ -106,11 +104,9 @@ if (isset($_POST['correo2'])) {
 
 if (isset($_POST['tokenCorreo'])) {
 
-	
 	$objeto_usuario->check_blacklist();
 
 	$objeto_usuario->check_requests_danger();
-
 
 	$token = $_POST['tokenCorreo'];
 
@@ -128,7 +124,6 @@ if (isset($_POST['email'])) {
 		$objeto_usuario->insert_ip_blacklist();
 	}
 	
-
 	$_SESSION['usuario'] = strtolower(trim($_POST['email']));
 
 	$_SESSION['clave'] = trim($_POST['password']);
@@ -137,15 +132,12 @@ if (isset($_POST['email'])) {
 
 	$objeto_usuario->check_requests_danger();
 
-
 	$objeto_usuario->validar();
-
 
 	$_SESSION['verdadero'] = 1;
 
 
 	//$permisos = $objeto_usuario->get_permisos();
-
 	if ($_SESSION['verdadero'] > 0) {
 		$buscarNombre = $objeto_datos_usuario->nombre();
 		$nombre;
@@ -170,20 +162,15 @@ if (isset($_POST['email'])) {
 		//luego se buscan los permisos con el id de rol
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 
-
-
 		return true;
 	}
 }
+
 if (is_file("vista/" . $pagina . ".php")) {
 
-	
 	//OBTENER TOKEN
-
 	$token = $objeto_usuario->generate_csrf_token();
-
-
-
+	
 
 	//si existe se la trae, ahora ve a la carpeta vista
 	http_response_code(200);
@@ -191,9 +178,6 @@ if (is_file("vista/" . $pagina . ".php")) {
 } else {
 	echo "pagina en construccion";
 }
-
-
-
 
 
 function verified_status_code($response)
@@ -220,5 +204,3 @@ function verified_token_csrf(){
 		 return true;
 	}
 }
-
-?>

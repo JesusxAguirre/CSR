@@ -6,8 +6,14 @@
   background-color: rgba(201, 200, 200, 0.919);
 }
 
+@font-face {
+  font-family: 'Roboto300';
+  src: url('../fonts/Roboto-Light.ttf') format('truetype');
+}
+
 body{
-  color: #6c757d;
+  color: #353535;
+  font-family: 'Roboto300', sans-serif;
 }
 #g-recaptcha {
   margin: 0 auto;

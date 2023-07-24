@@ -54,26 +54,30 @@
       <div class="row">
         <div class="mt-2 col-lg-12 col-md-12 col-sm-12 m-auto">
 
-          <!-- Datatables JS -->
-          <div class="table-responsive">
-            <table id="tableUsers" class="table table-hover">
-              <thead>
-                <tr>
-                  <!-- <th>data</th>
+          <div class="card">
+            <div class="card-body">
+              <!-- Datatables JS -->
+              <div class="table-responsive">
+                <table id="tableUsers" class="table table-hover">
+                  <thead>
+                    <tr>
+                      <!-- <th>data</th>
                       <th>cedula</th> -->
-                  <th>Codigo</th>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Sexo</th>
-                  <!-- <th>Telefono</th> -->
-                  <th>Fecha de nacimiento</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
+                      <th>Codigo</th>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>Sexo</th>
+                      <!-- <th>Telefono</th> -->
+                      <th>Fecha de nacimiento</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-              </tbody>
-            </table>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -95,7 +99,7 @@
             <div class="mb-3 row">
               <div id="grupo__nombre" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Primer Nombre</label>
+                  <label class="form-label fw-bold d-flex">Primer Nombre</label>
                   <i class="input-icon fs-5"></i>
                   <input placeholder="Juan" id="nombreInput" name="nombre" type="text" class="form-control">
                 </div>
@@ -103,7 +107,7 @@
               </div>
               <div id="grupo__apellido" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Primer Apellido</label>
+                  <label class="form-label fw-bold d-flex">Primer Apellido</label>
                   <i class="input-icon fs-5"></i>
                   <input placeholder="Jimenez" id="apellidoInput" name="apellido" type="text" class="form-control">
                 </div>
@@ -111,7 +115,7 @@
               </div>
               <div id="grupo__cedula" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold" ">Cedula</label>    
+                  <label class="form-label fw-bold d-flex">Cedula</label>    
                   <i class=" input-icon fs-5"></i>
                     <input placeholder=" 22222222" id="cedulaInput" name="cedula" class="form-control">
                 </div>
@@ -120,7 +124,7 @@
               </div>
               <div id="grupo__edad" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Fecha de nacimiento</label>
+                  <label class="form-label fw-bold d-flex">Fecha de nacimiento</label>
                   <i class="input-icon fs-5"></i>
                   <input id="edadInput" name="edad" type="date" class="form-control">
                 </div>
@@ -130,7 +134,7 @@
             <div class="mb-3 row">
               <div id="grupo__sexo" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Sexo</label>
+                  <label class="form-label fw-bold d-flex">Sexo</label>
                   <i class="input-icon fs-5"></i>
                   <select name="sexo" id="sexo" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="sexoInput" value=''>Escoge</option>
@@ -142,7 +146,7 @@
               </div>
               <div id="grupo__civil" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Estado civil</label>
+                  <label class="form-label fw-bold d-flex">Estado civil</label>
                   <i class="input-icon fs-5"></i>
                   <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="estado_civilInput" value="">Escoge tu estado civil</option>
@@ -155,7 +159,7 @@
               </div>
               <div id="grupo__nacionalidad" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Nacionalidad</label>
+                  <label class="form-label fw-bold d-flex">Nacionalidad</label>
                   <i class="input-icon fs-5"></i>
                   <select id="nacionalidad" name="nacionalidad" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="nacionalidadInput" value="">Escoge tu nacionalidad</option>
@@ -168,7 +172,7 @@
               </div>
               <div id="grupo__estado" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Estado en el que vive</label>
+                  <label class="form-label fw-bold d-flex">Estado en el que vive</label>
                   <i class="input-icon fs-5"></i>
                   <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="estadoInput" value="">Escoge tu estado</option>
@@ -204,7 +208,7 @@
             <div class="mb-3 row">
               <div id="grupo__telefono" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Telefono</label>
+                  <label class="form-label fw-bold d-flex">Telefono</label>
                   <i class="input-icon fs-5"></i>
                   <input id="telefonoInput" placeholder=" XXXXXXXX" name="telefono" class="form-control">
                 </div>
@@ -212,7 +216,7 @@
               </div>
               <div id="grupo__rol" class="col-sm col-md-3 ">
                 <div class="relative">
-                  <label class="form-label fw-bold">Rol</label>
+                  <label class="form-label fw-bold d-flex">Rol</label>
                   <i class="input-icon fs-5"></i>
                   <select id="rol" name="rol" class="form-select form-select" aria-label=".form-select-sm example">
                     <option id="rolInput" value="">Escoge tu Rol</option>

@@ -35,28 +35,42 @@ if ($_SESSION['verdadero'] > 0) {
             die();
         }
 
-        //funcion de actualizar
-        //variable que manda mensaje de firealert
 
-        $actualizar = false;
+        //ACTUALIZAR DATOS DEL USUARIO
         if (isset($_POST['update'])) {
             $cedula = trim($_POST['cedula']);
             $cedula_antigua = trim($_POST['cedula_antigua']);
             $nombre = trim($_POST['nombre']);
             $apellido = trim($_POST['apellido']);
-            $edad = trim($_POST['edad']);
-            $sexo = trim($_POST['sexo']);
-            $civil = trim($_POST['civil']);
-            $nacionalidad = trim($_POST['nacionalidad']);
-            $estado = trim($_POST['estado']);
+            $fecha_nacimiento = trim($_POST['fecha_nacimiento']);
+            $sexo = strtolower(trim($_POST['sexo']));
+            $estado_civil = strtolower(trim($_POST['estado_civil']));
+            $nacionalidad = strtolower(trim($_POST['nacionalidad']));
+            $estado = strtolower(trim($_POST['estado']));
             $telefono = trim($_POST['telefono']);
             $rol = trim($_POST['rol']);
-            $objeto->setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $rol);
 
-            $actualizar = $objeto->update_usuarios();
+            //Validaciones
+            $objeto->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $sexo, $estado_civil, $nacionalidad, $telefono]);
+            $objeto->security_validation_caracteres([$nombre, $apellido]);
+            $objeto->security_validation_cedula($cedula);
+            $objeto->security_validation_cedula($cedula_antigua);
+            $objeto->security_validation_fecha_nacimiento($fecha_nacimiento);
+            $objeto->security_validation_sexo($sexo);
+            $objeto->security_validation_estado_civil($estado_civil);
+            $objeto->security_validation_nacionalidad($nacionalidad);
+            $objeto->security_validation_estado($estado);
+
+            //Sanitizacion
+            $nombre = $objeto->sanitizar_cadenas($nombre);
+            $apellido = $objeto->sanitizar_cadenas($apellido);
+
+            $objeto->setUpdate($nombre, $apellido, $cedula, $cedula_antigua, $fecha_nacimiento, $sexo, $estado_civil, $nacionalidad, $estado, $telefono, $rol);
+            $objeto->update_usuarios();
+            die();
         }
 
-        $eliminar = false;
+        //DESACTIVANDO USUARIO (EN MANTENIMIENTO)
         if (isset($_POST['eliminar'])) {
             $cedula = $_POST['cedula'];
 
@@ -64,6 +78,8 @@ if ($_SESSION['verdadero'] > 0) {
 
             $eliminar = $objeto->delete_usuarios();
         }
+
+
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

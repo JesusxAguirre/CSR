@@ -193,7 +193,7 @@
                 </div>
                 <div class="mb-3" id="">
                 </div>
-                <button name="actualizar" type="submit" class="btn btn-primary">Actualizar</button>
+                <button name="actualizar" type="submit" class="btn btn-primary fw-bold">Actualizar</button>
               </form>
             </div>
           </div>
@@ -245,7 +245,7 @@
                     </div>
                   </div>
                 </div>
-                <button name="recuperar_password" type="submit" class="btn btn-primary mt-3">Actualizar</button>
+                <button name="recuperar_password" type="submit" class="btn btn-primary mt-3 fw-bold">Actualizar</button>
               </form>
 
             </div>
@@ -273,18 +273,15 @@
                 </div>
                 <input value="" hidden name="cedula_antigua" id="cedulaInput4" type="text">
 
-                <button name="actualizar_imagen" type="submit" class="btn btn-primary">Actualizar</button>
+                <button name="actualizar_imagen" type="submit" class="btn btn-primary fw-bold">Actualizar</button>
               </form>
 
             </div>
           </div>
         </div>
       </div>
-
+      <input id="token" type="hidden" name="token" value="<?php echo $token; ?>">
     </div>
   </main>
-  <script type="text/javascript">
-    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-  </script>
   <script src="resources/js/mi-perfil.js"></script>
 </body>

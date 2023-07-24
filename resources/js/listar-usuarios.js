@@ -1,13 +1,13 @@
 //import { spanish } from "../js/constantes-globales";
 
 //APARTADO DE INICIALIZACION DATATABLES JS
-$(document).ready( function () {
-    const dataTable_users = $('#tableUsers').DataTable({
+$(document).ready(function () {
+	const dataTable_users = $('#tableUsers').DataTable({
 		responsive: true,
-		ajax:{
+		ajax: {
 			method: "POST",
 			url: 'index.php?pagina=listar-usuarios',
-			data: {cargar: 'cargar'}
+			data: { cargar: 'cargar' }
 		},
 		columns: [
 			/*{
@@ -17,15 +17,16 @@ $(document).ready( function () {
 				}
 			},
 			{data: 'cedula'},*/
-			{data: 'codigo'},
-			{data: 'nombre'},
-			{data: 'apellido'},
-			{data: 'sexo'},
+			{ data: 'codigo' },
+			{ data: 'nombre' },
+			{ data: 'apellido' },
+			{ data: 'sexo' },
 			//{data: 'telefono'},
-			{data: 'fecha_nacimiento'},
-			{defaultContent: `
+			{ data: 'fecha_nacimiento' },
+			{
+				defaultContent: `
 			<button type="button" id="editar_user" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-			<button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuarios" class="btn btn-outline-danger delete-btn"><i class="fs-5 bi bi-trash-fill"></i></button>
+			<button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuarios" class="btn btn-outline-danger delete-btn"><i class="bi bi-person-dash-fill fs-5"></i></button>
 			`}
 		],
 		/*columnDefs: [
@@ -35,8 +36,8 @@ $(document).ready( function () {
 	});
 
 
-	$('#tableUsers tbody').on('click', '#editar_user', function() {
-		const datos= dataTable_users.row($(this).parents()).data();
+	$('#tableUsers tbody').on('click', '#editar_user', function () {
+		const datos = dataTable_users.row($(this).parents()).data();
 		document.getElementById('nombreInput').value = datos.nombre;
 		document.getElementById('apellidoInput').value = datos.apellido;
 		document.getElementById('cedulaInput').value = datos.cedula;
@@ -50,8 +51,64 @@ $(document).ready( function () {
 		document.getElementById('rol').value = datos.id_rol;
 	})
 
-	//dataTable_users.ajax.reload(); para mas tarde
-} );
+
+	//ACTUALIZAR DATOS DE LOS USUARIOS
+	formulario.addEventListener('submit', (e) => {
+		e.preventDefault();
+		if (campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil) {
+			const datos = {
+				nombre: document.getElementById('nombreInput').value,
+				apellido: document.getElementById('apellidoInput').value,
+				cedula: document.getElementById('cedulaInput').value,
+				cedula_antigua: document.getElementById('cedulaInput2').value,
+				fecha_nacimiento: document.getElementById('edadInput').value,
+				sexo: document.getElementById('sexo').value,
+				estado_civil: document.getElementById('civil').value,
+				nacionalidad: document.getElementById('nacionalidad').value,
+				estado: document.getElementById('estado').value,
+				telefono: document.getElementById('telefonoInput').value,
+				rol: document.getElementById('rol').value,
+				update: 'update'
+			}
+
+			$.ajax({
+				type: "POST",
+				url: "?pagina=listar-usuarios",
+				data: datos,
+				success: function (response) {
+					console.log(response);
+					let data = JSON.parse(response);
+					console.log(data);
+
+					if (data.status_code === 202) {
+						fire_alerta(data.msj, 'success');
+						dataTable_users.ajax.reload();
+					} else {
+						fire_alerta('Algo ocurrio en la BD', 'error')
+					}
+				},
+				error: function (xhr, status, error) {
+					console.log(xhr);
+					console.log(status);
+					console.log(error);
+					// Código a ejecutar si se produjo un error al realizar la solicitud
+					var response;
+					try {
+						response = JSON.parse(xhr.responseText);
+					} catch (e) {
+						response = {};
+					}
+
+					fire_alerta_problem(response.status_code, response.msg, 'error')
+				}
+			})
+
+		} else {
+			fire_alerta_problem('Lo siento', 'Registra el formulario correctamente', 'error')
+		}
+	})
+
+});
 
 
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
@@ -83,33 +140,33 @@ const expresiones = { //objeto con varias expresiones regulares
 const ValidarFormulario = (e) => {
 	switch (e.target.name) {
 		case "cedula":
-		ValidarCampo(expresiones.cedula, e.target, 'cedula');
-		break;
+			ValidarCampo(expresiones.cedula, e.target, 'cedula');
+			break;
 		case "nombre":
-		ValidarCampo(expresiones.nombre, e.target, 'nombre');
-		break;
+			ValidarCampo(expresiones.nombre, e.target, 'nombre');
+			break;
 		case "apellido":
-		ValidarCampo(expresiones.nombre, e.target, 'apellido');
-		break;
+			ValidarCampo(expresiones.nombre, e.target, 'apellido');
+			break;
 		case "edad":
-		ValidarFecha_nacimiento(e.target, 'edad');
-		//ValidarCampo(expresiones.edad, e.target, 'edad');
-		break;
+			ValidarFecha_nacimiento(e.target, 'edad');
+			//ValidarCampo(expresiones.edad, e.target, 'edad');
+			break;
 		case "sexo":
-		ValidarSelect(e.target, 'sexo');
-		break;
+			ValidarSelect(e.target, 'sexo');
+			break;
 		case "civil":
-		ValidarSelect(e.target, 'civil');
-		break;
+			ValidarSelect(e.target, 'civil');
+			break;
 		case "nacionalidad":
-		ValidarSelect(e.target, 'nacionalidad');
-		break;
+			ValidarSelect(e.target, 'nacionalidad');
+			break;
 		case "estado":
-		ValidarSelect(e.target, 'estado');
-		break;
+			ValidarSelect(e.target, 'estado');
+			break;
 		case "telefono":
-		ValidarCampo(expresiones.telefono, e.target, 'telefono');
-		break;	
+			ValidarCampo(expresiones.telefono, e.target, 'telefono');
+			break;
 	}
 }
 
@@ -150,7 +207,7 @@ const ValidarSelect = (select, campo) => {
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
 		campos[campo] = false;
 	} else {
-		console.log('Has seleccionado: ' );
+		console.log('Has seleccionado: ');
 		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
 		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
@@ -186,64 +243,56 @@ selects.forEach((select) => {
 	select.addEventListener('blur', ValidarFormulario);
 });
 
-formulario.addEventListener('submit', (e) => {
-	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado  && campos.nacionalidad  && campos.sexo  && campos.civil)) {
-		e.preventDefault();
-		Swal.fire({
-			icon: 'error',
-			title: 'Lo siento ',
-			text: 'Registra el formulario correctamente '
-		})	
-	}
-})
 
-if (actualizar == true) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se actualizo la informacion correctamente'
-  })
-  setTimeout(recarga, 2000);
+
+//Alerta de SweetAlert para alertas generales
+function fire_alerta(titulo, icono) {
+	Swal.fire({
+		icon: icono,
+		title: titulo,
+		showConfirmButton: false,
+		timer: 2000,
+	})
 }
-if (eliminar == true) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se elimino la usuario'
-  })
-  setTimeout(recarga, 2000);
+
+//Alerta de SweetAlert para alertar de errores
+function fire_alerta_problem(titulo, texto, icono) {
+	Swal.fire({
+		icon: icono,
+		title: titulo,
+		text: texto,
+		showConfirmButton: false,
+		timer: 2000,
+	})
 }
 
 
 
-function addEvents(){
-	
+function addEvents() {
+
 
 	// Actualizar contenido del modal Eliminar
-  const deleteButtons = document.querySelectorAll('table td .delete-btn')
+	const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
-  deleteButtons.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let cedula_participante = fila.querySelector('.cedula')
-    let nombre = fila.querySelector('.nombre')
-    let apellido = fila.querySelector('.apellido')
+	deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+		let fila = boton.parentElement.parentElement
+		let cedula_participante = fila.querySelector('.cedula')
+		let nombre = fila.querySelector('.nombre')
+		let apellido = fila.querySelector('.apellido')
 		console.log(fila)
 		console.log(cedula_participante)
 		console.log(nombre)
 		console.log(apellido)
 
-    const cedulaInput = document.querySelector('#deleteForm .delete_usuario_cedula')
-    const nombre_participante = document.getElementById('delete_usuario_name')
-    const apellido_participante = document.getElementById('delete_usuario_apellido')
+		const cedulaInput = document.querySelector('#deleteForm .delete_usuario_cedula')
+		const nombre_participante = document.getElementById('delete_usuario_name')
+		const apellido_participante = document.getElementById('delete_usuario_apellido')
 
-    cedulaInput.value = cedula_participante.textContent
-    nombre_participante.textContent = nombre.textContent
-    apellido_participante.textContent = apellido.textContent
+		cedulaInput.value = cedula_participante.textContent
+		nombre_participante.textContent = nombre.textContent
+		apellido_participante.textContent = apellido.textContent
 
-		
-  }))
+
+	}))
 }
-
-function recarga() {
-  window.location = "index.php?pagina=listar-usuarios";
-}
-
 

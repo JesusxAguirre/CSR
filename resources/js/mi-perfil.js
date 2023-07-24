@@ -322,7 +322,8 @@ formulario.addEventListener('submit', (e) => {
 			estado: document.getElementById('estado').value,
 			telefono: document.getElementById('telefonoInput').value,
 			correo: document.getElementById('correo').value,
-			actualizar: 'actualizar'
+			token: document.getElementById('token').value,
+			update: 'update'
 		}
 
 		$.ajax({
@@ -330,8 +331,16 @@ formulario.addEventListener('submit', (e) => {
 			url: "?pagina=mi-perfil",
 			data: datos,
 			success: function (response) {
+				console.log(response);
+				let data = JSON.parse(response);
+				console.log(data);
 
-				console.log(response)
+				if (data.status_code === 202) {
+					fire_alerta(data.msj, 'success');
+					setTimeout(() => {window.location = 'index.php';}, 2500);
+				}else{
+					fire_alerta('Algo ocurrio en la BD', 'error')
+				}
 			},
 			error: function (xhr, status, error) {
 
@@ -343,33 +352,12 @@ formulario.addEventListener('submit', (e) => {
 					response = {};
 				}
 
-				switch (response.status_code) {
-					case 409:
-						response.ErrorType = "Casa sobre la roca Already Exist"
-						break;
-					case 422:
-						response.ErrorType = "Invalid Data"
-						break;
-					case 404:
-						response.ErrorType = "Casa sobre la roca Not Exist"
-						break;
-					default:
-						break;
-				}
-				Swal.fire({
-					icon: 'error',
-					title: response.ErrorType,
-					text: response.msj
-				})
+				fire_alerta_problem(response.status_code, response.msg, 'error')
 			}
 		})
 
 	} else {
-		Swal.fire({
-			icon: 'error',
-			title: 'Lo siento ',
-			text: 'Registra el formulario correctamente '
-		})
+		fire_alerta_problem('Lo siento', 'Registra el formulario correctamente', 'error')
 	}
 })
 
@@ -390,17 +378,7 @@ function fire_alerta_problem(titulo, texto, icono) {
 		timer: 2000,
 	})
 }
-/*formulario.addEventListener('submit', (e) => {
-	e.preventDefault();
-	if (!(campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo)) {
 
-		Swal.fire({
-			icon: 'error',
-			title: 'Lo siento ',
-			text: 'Registra el formulario correctamente '
-		})
-	}
-})*/
 
 if (actualizar == false) {
 	Swal.fire({
@@ -437,6 +415,7 @@ formulario3.addEventListener('submit', (e) => {
 			const datos = {
 				clave_actual: document.getElementById('clave').value,
 				clave_nueva: document.getElementById('new_password2').value,
+				token: document.getElementById('token').value,
 				actualizar_clave: 'actualizar_clave'
 			}
 			console.log(datos['clave_actual']);

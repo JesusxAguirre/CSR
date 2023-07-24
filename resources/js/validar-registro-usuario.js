@@ -293,8 +293,6 @@ $(document).ready(function () {
 
 						document.getElementById("formulario").reset()
 
-
-
 						fireAlert('success', 'Se registro el usuario correctamente')
 					} else {
 						console.log(data)
