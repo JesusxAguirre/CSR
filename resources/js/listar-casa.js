@@ -282,6 +282,7 @@ function solicitar_tabla() {
     url: "controlador/ajax/listar-casa-ajax.php",
     type: 'GET',
     dataType: 'json',
+    
     success: function (data) {
       $('#mi_tabla').DataTable({
         language: {

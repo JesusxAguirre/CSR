@@ -1,7 +1,28 @@
 <?php
 use Csr\Modelo\LaRoca;
+use PhpParser\Node\Stmt\Echo_;
+
 //destruye la sesion si se tenia una abierta
 session_start();
+
+$headers = apache_request_headers();
+
+if(isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4'){
+
+    $objeto_casa = new LaRoca();
+
+
+    $matriz_csr = $objeto_casa->listar_casas_la_roca();
+
+
+    header('Content-Type: application/json');
+            
+    echo json_encode($matriz_csr);
+    
+    die();
+
+
+}
 
 if($_SESSION['verdadero'] > 0){
     if (!$_SESSION['permisos']['casa_sobre_la_roca']['listar']) {

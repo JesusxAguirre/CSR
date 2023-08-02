@@ -189,10 +189,13 @@ class LaRoca extends Conexion
                 $listar[] = $filas;
             }
 
+            if(isset($_SESSION['cedula'])){
+
             $accion = "Listar casas sobre la roca";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-
+            }
+            
             return $listar;
         } catch (Exception $e) {
 
