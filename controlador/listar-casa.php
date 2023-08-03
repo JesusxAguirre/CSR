@@ -6,24 +6,32 @@ use PhpParser\Node\Stmt\Echo_;
 //destruye la sesion si se tenia una abierta
 session_start();
 
+//APARTADO APLICACION MOVIL
 $headers = apache_request_headers();
-
+//If para aplicacion movil
 if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4') {
+    if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
+        if (!$_SESSION['permisos']['casa_sobre_la_roca']['listar']) {
+            http_response_code(403);
+            echo json_encode(array('msj' => 'No tienes los permisos', 'status_code' => 403));
+            die();
+        }
 
-    $objeto_casa = new LaRoca();
+        $objeto_casa = new LaRoca();
 
+        $matriz_csr = $objeto_casa->listar_casas_la_roca();
 
-    $matriz_csr = $objeto_casa->listar_casas_la_roca();
+        header('Content-Type: application/json');
 
+        echo json_encode($matriz_csr);
 
-    header('Content-Type: application/json');
-
-    echo json_encode($matriz_csr);
-
-    die();
+        die();
+    }
 }
+/////////////////////////////////
 
-if(isset( $_SESSION['verdadero'])  && $_SESSION['verdadero'] > 0){
+
+if (isset($_SESSION['verdadero'])  && $_SESSION['verdadero'] > 0) {
     if (!$_SESSION['permisos']['casa_sobre_la_roca']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');

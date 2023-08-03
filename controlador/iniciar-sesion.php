@@ -9,10 +9,26 @@ use Csr\Modelo\Roles;
 
 // Crear el tokenStore
 
-
 $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();
+
+
+//APLICACION MOVIL
+$headers = apache_request_headers();
+//If para aplicacion movil
+if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4') {
+
+	//OBTENER TOKEN
+	$token = $objeto_usuario->generate_csrf_token();
+
+	//si existe se la trae, ahora ve a la carpeta vista
+	http_response_code(200);
+
+    header('Content-Type: application/json');
+    echo json_encode(array('token' => $token));
+    die();
+}
 
 
 //REGISTRAR USUARIO
@@ -95,11 +111,11 @@ if (isset($_POST['correo2'])) {
 	$correo = strtolower(trim($_POST['correo2']));
 
 
-	//$objeto_usuario->security_validation_correo($correo);
+	$objeto_usuario->security_validation_correo($correo);
 
-	//$objeto_usuario->validar_correo_existe($correo);
+	$objeto_usuario->validar_correo_existe($correo);
 
-	//$objeto_usuario->generate_token_message_password($correo);
+	$objeto_usuario->generate_token_message_password($correo);
 }
 
 if (isset($_POST['tokenCorreo'])) {

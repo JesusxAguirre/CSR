@@ -71,7 +71,7 @@ if ($_SESSION['verdadero'] > 0) {
         
 
         //Cargar todos los datos del usuario en el perfil
-        if (isset($_POST['data_load'])) {
+        if (isset($_REQUEST['data_load'])) {
             $data = $objeto->mi_perfil();
             echo json_encode($data);
             die();

@@ -23,7 +23,7 @@ function comprobarBoletin() {
 function data_load() {
 	$.ajax({
 		data: { data_load: 'data_load' },
-		type: "POST",
+		type: "GET",
 		url: "index.php?pagina=mi-perfil",
 	}).done((data) => {
 		const dato = JSON.parse(data);
@@ -311,6 +311,7 @@ selects.forEach((select) => {
 formulario.addEventListener('submit', (e) => {
 	e.preventDefault();
 	if (campos.nombre && campos.apellido && campos.cedula && campos.edad && campos.telefono && campos.estado && campos.nacionalidad && campos.sexo && campos.civil && campos.correo) {
+		
 		const datos = {
 			nombre: document.getElementById('nombreInput').value,
 			apellido: document.getElementById('apellidoInput').value,
@@ -330,6 +331,7 @@ formulario.addEventListener('submit', (e) => {
 			type: "POST",
 			url: "?pagina=mi-perfil",
 			data: datos,
+			//data: $(this).serialize(),
 			success: function (response) {
 				console.log(response);
 				let data = JSON.parse(response);

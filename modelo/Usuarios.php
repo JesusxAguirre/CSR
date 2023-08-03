@@ -174,6 +174,7 @@ class Usuarios extends Conexion
 
                     if (password_verify($clave, $resultado['password'])) {
                         http_response_code(200);
+                        header('Content-Type: application/json');
                         echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200));
                     } else {
                         throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
