@@ -6,6 +6,12 @@ use Csr\Modelo\LaRoca;
 
 
 if(isset( $_SESSION['verdadero'])  && $_SESSION['verdadero'] > 0){
+    if (!$_SESSION['permisos']['casa_sobre_la_roca']['listar']) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=mi-perfil'
+		</script>";
+    }
 $objeto_casa = new LaRoca();
 
 
@@ -20,4 +26,3 @@ echo json_encode($matriz_csr);
            window.location= 'error.php'
 </script>";
 }
-?>
