@@ -7,15 +7,19 @@ use PDO;
 use Exception;
 use DateTime;
 
+
 class Conexion
 {
     private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
 
-
+    private $config = array(
+        "private_key_bits" => 2048,
+        "private_key_type" => OPENSSL_KEYTYPE_RSA,
+    );
     private $secret_key_recaptcha = '6Lf5JignAAAAAFQb29kN1lP5eCD_QB2CUWkhznB6';
 
     // Definir el umbral de solicitud
-    private $umbralSolicitudes = 5; // 5 solicitudes en 1 segundo
+    private $umbralSolicitudes = 20; // 5 solicitudes en 1 segundo
 
     private $expresion_especial = "/^[^a-zA-Z0-9!@#$%^&*]$/";
 
@@ -124,15 +128,15 @@ class Conexion
     protected function check_requests_danger()
     {
         // Obtener la IP del cliente
-       
-        
+
+
 
         $ip = $_SERVER['REMOTE_ADDR'];
         // Obtener la marca de tiempo actual
-        
+
         // Eliminar registros antiguos en la tabla 'requests'
         $eliminarRegistrosAntiguos = $this->conexion()->prepare("DELETE FROM requests WHERE timestamp <> (SELECT MAX(timestamp) FROM requests ) AND ip = :ip");
-        
+
         $eliminarRegistrosAntiguos->bindParam(':ip', $ip);
         $eliminarRegistrosAntiguos->execute();
         // Contar las solicitudes realizadas por la IP en el último segundo
@@ -144,9 +148,9 @@ class Conexion
         $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
         // Verificar el contador y bloquear el acceso si se supera el umbral
         if ($resultado['conteo'] >= $this->umbralSolicitudes) {
-        //AQUI FALTA UNA BUENA LOGICA PARA PODER PONER LA VERIFICACION DE NO SOY UN ROBOT
+            //AQUI FALTA UNA BUENA LOGICA PARA PODER PONER LA VERIFICACION DE NO SOY UN ROBOT
 
-         return false;
+            return false;
         }
         // Registrar la solicitud en la base de datos
         $registrarSolicitud = $this->conexion()->prepare("INSERT INTO requests (ip, timestamp) VALUES (:ip, NOW())");
@@ -159,15 +163,15 @@ class Conexion
     protected function check_blacklist()
     {
         // Obtener la IP del cliente
-        
+
         $ip = $_SERVER['REMOTE_ADDR'];
-    
+
         // Consultar la tabla de blacklist para verificar si la IP está en la lista negra
         $consulta = $this->conexion()->prepare("SELECT COUNT(*) AS conteo FROM blacklist WHERE ip = :ip");
         $consulta->bindParam(':ip', $ip);
         $consulta->execute();
         $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-    
+
         // Verificar el resultado y bloquear el acceso si la IP está en la lista negra
         if ($resultado['conteo'] > 0) {
             // Bloquear el acceso al servidor
@@ -177,7 +181,8 @@ class Conexion
         }
     }
 
-    protected function insert_ip_blacklist(){
+    protected function insert_ip_blacklist()
+    {
         $ip = $_SERVER['REMOTE_ADDR'];
 
         // Registrar la IP en la tabla de blacklist
@@ -191,11 +196,45 @@ class Conexion
     }
 
 
-    protected function generate_csrf_token(){
+    protected function generate_csrf_token()
+    {
         $token = bin2hex(random_bytes(16));
 
         $_SESSION['csrf_token'] = $token;
 
         return $token;
+    }
+
+    // Método para generar un par de claves pública y privada
+    protected function generateAsymmetricKeys()
+    {   
+
+        $privateKey = openssl_pkey_new($this->config);
+
+       
+
+        openssl_pkey_export($privateKey, $privateKeyStr);
+        $privateKeyDetails = openssl_pkey_get_details($privateKey);
+        $publicKey = $privateKeyDetails['key'];
+
+        return array('private_key' => $privateKeyStr, 'public_key' => $publicKey);
+    }
+
+
+
+    // Método para encriptar el mensaje con la llave publica
+    protected function encryptMessage($message, $publicKey)
+    {
+        $encrypted = '';
+        openssl_public_encrypt($message, $encrypted, $publicKey);
+        return base64_encode($encrypted);
+    }
+
+    // Método para descriptar utilizanado la llave privada
+    protected function decryptMessage($encryptedMessage, $privateKey)
+    {
+        $decrypted = '';
+        openssl_private_decrypt(base64_decode($encryptedMessage), $decrypted, $privateKey);
+        return $decrypted;
     }
 }

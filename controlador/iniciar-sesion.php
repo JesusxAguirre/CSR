@@ -22,12 +22,23 @@ if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b70
 	//OBTENER TOKEN
 	$token = $objeto_usuario->generate_csrf_token();
 
+
+	// Generar el par de claves
+	$parClaves = $objeto_usuario->mutatedGenerateAsymmetricKeys();
+
+	$_SESSION['private_key'] = $parClaves['private_key'];
+	$_SESSION['public_key'] = $parClaves['public_key'];
+
+
+	$token = $objeto_usuario->mutatedEncryptMessage($token, $_SESSION['public_key']);
+
+
 	//si existe se la trae, ahora ve a la carpeta vista
 	http_response_code(200);
 
-    header('Content-Type: application/json');
-    echo json_encode(array('token' => $token));
-    die();
+	header('Content-Type: application/json');
+	echo json_encode(array('token' => $token));
+	die();
 }
 
 
@@ -129,17 +140,17 @@ if (isset($_POST['tokenCorreo'])) {
 	$objeto_usuario->verifyRecoveryToken($token);
 }
 
-if(isset($_POST['respuesta'])){
+if (isset($_POST['respuesta'])) {
 	$objeto_usuario->insert_ip_blacklist();
 }
 
 //validando datos de usuario para entrar al sistema
 if (isset($_POST['email'])) {
 
-	if(!verified_token_csrf()){
+	if (!verified_token_csrf()) {
 		$objeto_usuario->insert_ip_blacklist();
 	}
-	
+
 	$_SESSION['usuario'] = strtolower(trim($_POST['email']));
 
 	$_SESSION['clave'] = trim($_POST['password']);
@@ -186,7 +197,17 @@ if (is_file("vista/" . $pagina . ".php")) {
 
 	//OBTENER TOKEN
 	$token = $objeto_usuario->generate_csrf_token();
-	
+
+	// Generar el par de claves
+	$parClaves = $objeto_usuario->mutatedGenerateAsymmetricKeys();
+
+	$_SESSION['private_key'] = $parClaves['private_key'];
+	$_SESSION['public_key'] = $parClaves['public_key'];
+
+
+	$token = $objeto_usuario->mutatedEncryptMessage($token, $_SESSION['public_key']);
+
+
 
 	//si existe se la trae, ahora ve a la carpeta vista
 	http_response_code(200);
@@ -208,15 +229,28 @@ function verified_status_code($response)
 	return false;
 }
 
-function verified_token_csrf(){
-	if (!isset($_REQUEST['token'])) {
+function verified_token_csrf()
+{
+	try {
+		//code...
 
-		return false;
-	} else {
-		 if ($_REQUEST['token'] !== $_SESSION['csrf_token']) {
-		 	return false;
-		 }
 
-		 return true;
+		if (!isset($_REQUEST['token'])) {
+
+			return false;
+		} else {
+			$objeto_usuario = new Usuarios();
+
+			$decryptedToken = $objeto_usuario->mutatedDecryptMessage($_REQUEST['token'], $_SESSION['private_key']);
+
+
+			if ($decryptedToken  !== $_SESSION['csrf_token']) {
+				return false;
+			}
+
+			return true;
+		}
+	} catch (Exception $e) {
+		return false; // Error de descifrado o intento de manipulación
 	}
 }

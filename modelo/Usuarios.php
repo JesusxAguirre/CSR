@@ -1401,6 +1401,50 @@ class Usuarios extends Conexion
         //esto devuelve un token
         return parent::generate_csrf_token();
     }
+
+    
+    ////////////////////////////////////////////////////// CIFRADO ASIMETRICO ////////////////////////////////////////////
+
+
+    
+    /**
+     * mutatedGenerateAsymmetricKeys
+     *
+     * Metodo mutador que llama a la generacion de las llaves publica y privada de forma dinamica con openssl
+     * 
+     * @return array
+     */
+    public function mutatedGenerateAsymmetricKeys(){
+        return parent::generateAsymmetricKeys();
+    }
+    
+    /**
+     * mutatedEncryptMessage
+     *
+     * Metodo mutador que llama la encriiptacion del mensaje con llave publica
+     * 
+     * @param  string $message
+     * @param  string $publicKey
+     * @return string
+     */
+    public function  mutatedEncryptMessage($message, $publicKey){
+        return parent::encryptMessage($message,$publicKey);
+    }   
+    
+    /**
+     * mutatedDecryptMessage
+     *
+     * Metodo mutador que llama a la funcion que desencripta el mensaje con la llave privada
+     * 
+     * @param  string $encryptedMessage
+     * @param  string $privateKey
+     * @return string
+     */
+    public function mutatedDecryptMessage($encryptedMessage, $privateKey){
+        return parent::decryptMessage($encryptedMessage, $privateKey);
+    }
+
+
     //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
 
     public function generate_token_message_password($correo)
@@ -1508,4 +1552,21 @@ class Usuarios extends Conexion
 
         return $password;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
