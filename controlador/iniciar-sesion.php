@@ -22,7 +22,6 @@ if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b70
 	//OBTENER TOKEN
 	$token = $objeto_usuario->generate_csrf_token();
 
-
 	// Generar el par de claves
 	$parClaves = $objeto_usuario->mutatedGenerateAsymmetricKeys();
 
