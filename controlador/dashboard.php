@@ -13,6 +13,7 @@ if(isset($_POST['cerrar'])){
     alert('Sesion Cerrada');
     window.location= 'index.php'
 </script>";
+    die();
 }
 
 if(isset($_SESSION['verdadero'])){

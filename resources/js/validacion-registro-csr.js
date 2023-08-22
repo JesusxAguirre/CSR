@@ -31,12 +31,11 @@ const campos = {
 
 const expresiones = { //objeto con varias expresiones regulares
 
-  direccion: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,30}$/, // Letras y espacios, pueden llevar acentos.
+  direccion: /^(?=[a-zA-Z0-9 .]{5,150}$)[a-zA-Z0-9 .]+$/, // Letras y espacios, pueden llevar acentos.
   // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
   nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,12}$/, // Letras y espacios, pueden llevar acentos.
   telefono: /^[0-9]{11}$/,
-  
   integrantes: /^[0-9]{1,2}$/,
   //expresion regular de codigo de usuario
 }
@@ -144,7 +143,15 @@ $(document).on('submit', '#formulario', function (e) {
     $.ajax({
 			type: 'POST',
 			url: window.location.href,
-			data: $(this).serialize(),// Obtiene los datos del formulario
+			data: {
+        lider: document.getElementById('lider').value,
+        direccion: document.getElementById('direccion').value,
+        nombre: document.getElementById('nombreAnfitrion').value,
+        telefono: document.getElementById('telefonoAnfitrion').value,
+        dia: document.getElementById('diaVisita').value,
+        hora: document.getElementById('horaVisita').value,
+        integrantes: document.getElementById('nroPersonas').value,
+      },// Obtiene los datos del formulario
 			success: function (response) {
 				console.log(response)
 				
@@ -189,9 +196,6 @@ $(document).on('submit', '#formulario', function (e) {
 					title: response.ErrorType,
 					text: response.msj
 				})
-
-
-
 			}
 		});
   }

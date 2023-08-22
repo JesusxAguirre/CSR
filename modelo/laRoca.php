@@ -36,7 +36,6 @@ class LaRoca extends Conexion
 
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
 
-
     private $expresion_telefono = "/^[0-9]{11}$/";
 
     private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
@@ -46,9 +45,8 @@ class LaRoca extends Conexion
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
     private $expresion_numero = "/^[0-9]{1,200}$/";
+    
     private $expresion_cantidad = "/^[0-9]{1,20}$/";
-
-
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
 
@@ -321,26 +319,27 @@ class LaRoca extends Conexion
 
             $sql = "INSERT INTO casas_la_roca (codigo,cedula_lider,
             nombre_anfitrion,telefono_anfitrion,cantidad_personas_hogar,dia_visita,fecha,hora_pautada,direccion,status) 
-            VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc,1)";
+            VALUES(:codigo,:cedula_lider,:nombre,:telefono,:cantidad,:dia,:fecha,:hora,:direc, :status)";
 
             $stmt = $this->conexion->prepare($sql);
-            foreach ($this->cedula_lider as $cedula_lider) {
+            //foreach ($this->cedula_lider as $cedula_lider) {
 
 
                 $stmt->execute(array(
                     ":codigo" => 'CSR' . $id,
-                    ":cedula_lider" => $cedula_lider, ":nombre" => $this->nombre_anfitrion,
+                    ":cedula_lider" => $this->cedula_lider, ":nombre" => $this->nombre_anfitrion,
                     ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
                     ":dia" => $this->dia,
                     ":fecha" => $this->fecha, ":hora" => $this->hora,
-                    ":direc" => $this->direccion
+                    ":direc" => $this->direccion,
+                    ":status" => '1'
                 ));
                 //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
 
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
                 $stmt = $this->conexion()->prepare($sql);
-                $stmt->execute(array(":cedula_lider" => $cedula_lider));
+                $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
                 $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
@@ -350,9 +349,9 @@ class LaRoca extends Conexion
 
                 $stmt->execute(array(
                     ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
-                    ":cedula" => $cedula_lider
+                    ":cedula" => $this->cedula_lider
                 ));
-            } //fin del foreach
+            //} //fin del foreach
 
             $accion = "Registrar casas sobre la roca";
             $usuario = $_SESSION['cedula'];
@@ -360,12 +359,10 @@ class LaRoca extends Conexion
 
 
             http_response_code(200);
-            echo json_encode(array("msj" => "Se ha registrado correctamente la casa sobre la roca"));
+            echo json_encode(array("msj" => "Se ha registrado correctamente la casa sobre la roca", "status_code" => 200));
 
             die();
         } catch (Throwable $ex) {
-
-
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());

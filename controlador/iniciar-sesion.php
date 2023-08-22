@@ -147,7 +147,7 @@ if (isset($_POST['respuesta'])) {
 if (isset($_POST['email'])) {
 
 	if (!verified_token_csrf()) {
-		$objeto_usuario->insert_ip_blacklist();
+	  $objeto_usuario->insert_ip_blacklist();
 	}
 
 	$_SESSION['usuario'] = strtolower(trim($_POST['email']));

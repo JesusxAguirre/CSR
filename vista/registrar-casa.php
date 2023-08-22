@@ -70,25 +70,21 @@
                   <div id="grupo__direccion" class="col-sm ">
                     <div class="relative">
                       <label class="form-label fw-bold" for="formGridEmail">Direccion</label>
-                      
-                      <input maxlength="30" placeholder="Calle 19 con calle 40" type="text" name="direccion" class="form-control">
+                      <input id="direccion" maxlength="30" placeholder="Calle 19 con calle 40" type="text" name="direccion" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo no puede estar vacio</p>
                   </div>
                   <div id="grupo__nombre" class="col-sm ">
                     <div class="relative">
                       <label class="form-label fw-bold" for="formGridEmail">Nombre de Anfitrion</label>
-                      
-                      <input maxlength="12" placeholder="Juan Jimenez" type="text" id="" name="nombre" class="form-control">
+                      <input id="nombreAnfitrion" maxlength="12" placeholder="Juan Jimenez" type="text" id="" name="nombre" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo lleva minimo 3 letras</p>
                   </div>
                   <div id="grupo__telefono" class="col-sm ">
                     <div class="relative">
                       <label class="form-label fw-bold" for="formGridEmail">Telefono de Anfitrion</label>
-                      
-                  
-                      <input maxlength="11" placeholder="0414-XXXXXXXX" type="text" id="" name="telefono" class="form-control">
+                      <input id="telefonoAnfitrion" maxlength="11" placeholder="0414-XXXXXXXX" type="text" id="" name="telefono" class="form-control">
                     </div>
                     <p class="text-danger d-none">Escriba un numero de telefono valido</p>
                   </div>
@@ -96,24 +92,21 @@
                     <div id="grupo__dia" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridEmail">Dia de visita</label>
-                        
-                        <input maxlength="7" placeholder="Jueves" id="dia" name="dia" class="form-control">
+                        <input id="diaVisita" maxlength="7" placeholder="Jueves" id="dia" name="dia" class="form-control">
                       </div>
                       <p class="text-danger d-none">Escriba un dia de la semana con la primera letra mayuscula</p>
                     </div>
                     <div id="grupo__hora" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold">Hora pautada</label>
-                        
-                        <input type="time" placeholder="8:30" id="197" name="hora" class="form-control">
+                        <input id="horaVisita" type="time" placeholder="8:30" id="197" name="hora" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>
                     <div id="grupo__integrantes" class="col-sm ">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Número de personas que integran el hogar</label>
-                        
-                        <input placeholder="1" name="integrantes" class="form-control">
+                        <input id="nroPersonas" placeholder="1" name="integrantes" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede estar vacio</p>
                     </div>

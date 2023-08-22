@@ -9,29 +9,21 @@
     <script src="./resources/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
     <link rel="stylesheet" href="./resources/css/login.css">
-
     <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
 
     <script src="resources/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         var onloadCallback = function() {
             grecaptcha.render('recaptcha', {
-          'sitekey' : '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
-        });
+                'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
+            });
 
-      
+
         };
-        
-       
-
     </script>
-
-  
 </head>
 
 <body>
-
     <div class="container image">
         <div class="row">
             <div class="col-5 d-none d-md-block">
@@ -87,7 +79,7 @@
                 <div class="modal-body  d-flex justify-content-center">
                     <form id="recatpha" action="?pagina=iniciar-sesion" method="POST">
 
-                        <div id="recaptcha" ></div>
+                        <div id="recaptcha"></div>
                     </form>
                 </div>
                 <div class="modal-footer">
