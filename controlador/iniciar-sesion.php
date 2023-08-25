@@ -16,8 +16,9 @@ $objRoles = new Roles();
 
 //APLICACION MOVIL
 $headers = apache_request_headers();
-//If para aplicacion movil
-if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4') {
+//if para aplicacion movil
+//if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4') {
+if (isset($headers['get-token'])) {
 
 	//OBTENER TOKEN
 	$token = $objeto_usuario->generate_csrf_token();
@@ -28,9 +29,7 @@ if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b70
 	$_SESSION['private_key'] = $parClaves['private_key'];
 	$_SESSION['public_key'] = $parClaves['public_key'];
 
-
 	$token = $objeto_usuario->mutatedEncryptMessage($token, $_SESSION['public_key']);
-
 
 	//si existe se la trae, ahora ve a la carpeta vista
 	http_response_code(200);
@@ -147,7 +146,7 @@ if (isset($_POST['respuesta'])) {
 if (isset($_POST['email'])) {
 
 	if (!verified_token_csrf()) {
-	  $objeto_usuario->insert_ip_blacklist();
+		$objeto_usuario->insert_ip_blacklist();
 	}
 
 	$_SESSION['usuario'] = strtolower(trim($_POST['email']));
@@ -203,10 +202,7 @@ if (is_file("vista/" . $pagina . ".php")) {
 	$_SESSION['private_key'] = $parClaves['private_key'];
 	$_SESSION['public_key'] = $parClaves['public_key'];
 
-
 	$token = $objeto_usuario->mutatedEncryptMessage($token, $_SESSION['public_key']);
-
-
 
 	//si existe se la trae, ahora ve a la carpeta vista
 	http_response_code(200);
@@ -231,9 +227,6 @@ function verified_status_code($response)
 function verified_token_csrf()
 {
 	try {
-		//code...
-
-
 		if (!isset($_REQUEST['token'])) {
 
 			return false;
@@ -241,7 +234,6 @@ function verified_token_csrf()
 			$objeto_usuario = new Usuarios();
 
 			$decryptedToken = $objeto_usuario->mutatedDecryptMessage($_REQUEST['token'], $_SESSION['private_key']);
-
 
 			if ($decryptedToken  !== $_SESSION['csrf_token']) {
 				return false;

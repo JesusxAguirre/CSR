@@ -205,13 +205,27 @@ class Conexion
         return $token;
     }
 
+    //Metodo para genear API-KEY para APP movil
+    protected function generateAPIKey($ci) {
+        // Se genera un valor aleatorio
+        $randomBytes = random_bytes(16);
+        
+        // Se codifica ese valor aleatorio en formato hexadecimal
+        $randomHex = bin2hex($randomBytes);
+        
+        // Se combina el ID del usuario con el valor aleatorio
+        $key = $ci . $randomHex;
+        
+        // Se utiliza hash SHA-256 para codificar el resultado y proporcionar una longitud fija
+        $apiKey = hash('sha256', $key);
+        
+        return $apiKey;
+    }
+
     // Método para generar un par de claves pública y privada
     protected function generateAsymmetricKeys()
     {   
-
         $privateKey = openssl_pkey_new($this->config);
-
-       
 
         openssl_pkey_export($privateKey, $privateKeyStr);
         $privateKeyDetails = openssl_pkey_get_details($privateKey);

@@ -173,9 +173,19 @@ class Usuarios extends Conexion
                 while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                     if (password_verify($clave, $resultado['password'])) {
+
+                        //Generacion de API-KEY una vez confirmao los datos
+                        $sentence = "SELECT `cedula` FROM `usuarios` WHERE `usuario` = :usuario";
+                        $execute = $this->conexion()->prepare($sentence);
+                        $execute->execute(array(":usuario" => $usuario));
+                        $result = $execute->fetch(PDO::FETCH_ASSOC);
+                        $ci = $result['cedula'];
+                        $apiKey = $this->mutatedGenerateAPIKey($ci);
+                        $_SESSION['api-key'] = $apiKey;
+
                         http_response_code(200);
                         header('Content-Type: application/json');
-                        echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "status_code" => 200));
+                        echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "api_key" => $apiKey, "status_code" => 200));
                     } else {
                         throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
                     }
@@ -1442,6 +1452,19 @@ class Usuarios extends Conexion
      */
     public function mutatedDecryptMessage($encryptedMessage, $privateKey){
         return parent::decryptMessage($encryptedMessage, $privateKey);
+    }
+
+
+    ///////////// SECCION PARA GENERAR API-KEY
+    /**
+     * mutatedGenerateAPIKey($ci)
+     *
+     * Metodo mutador que llama a la generacion de las llaves publica y privada de forma dinamica con openssl
+     * 
+     * @return array
+     */
+    public function mutatedGenerateAPIKey($ci){
+        return parent::generateAPIKey($ci);
     }
 
 

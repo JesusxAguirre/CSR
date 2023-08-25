@@ -717,14 +717,12 @@ $(document).ready(function () {
 				});
 				$('#recaptcha-popup').modal('hide');
 			}
-		}, 10000);
+		}, 20000);
 	}
 
 	// Función para mostrar el popup con el reCAPTCHA
 	function showRecaptchaPopup() {
 		$('#recaptcha-popup').modal('show');
 		// Inicializa el reCAPTCHA
-
-
 	}
 });

@@ -17,8 +17,6 @@
             grecaptcha.render('recaptcha', {
                 'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
             });
-
-
         };
     </script>
 </head>
@@ -78,7 +76,6 @@
                 </div>
                 <div class="modal-body  d-flex justify-content-center">
                     <form id="recatpha" action="?pagina=iniciar-sesion" method="POST">
-
                         <div id="recaptcha"></div>
                     </form>
                 </div>
@@ -297,7 +294,6 @@
         <div id="countdown-toast" class="toast hide " role="alert" data-bs-delay="300000" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto">El token de recuperacion fue enviado a tu correo</strong>
-
             </div>
             <div class="toast-body">
                 <p>El codigo enviado al correo expirara en.</p>
@@ -305,6 +301,7 @@
             </div>
         </div>
     </div>
+
     <script type="text/javascript">
         requests = <?php echo ($requests) ? 'true' : 'false'; ?>
     </script>

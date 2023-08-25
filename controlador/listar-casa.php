@@ -9,7 +9,7 @@ session_start();
 //APARTADO APLICACION MOVIL
 $headers = apache_request_headers();
 //If para aplicacion movil
-if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4') {
+if (isset($headers['api-key']) && $headers['api-key'] == $_SESSION['api-key']) {
     if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         if (!$_SESSION['permisos']['casa_sobre_la_roca']['listar']) {
             http_response_code(403);
