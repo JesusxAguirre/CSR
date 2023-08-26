@@ -48,7 +48,6 @@
     <div class="container-fluid">
       <div class="row justify-content-center bg-white">
         <div class="col-6">
-          <img src="./resources/img/user.png" class="rounded mx-auto d-block" width="150" height="140">
           <h5 class="text-center"><em>¡Hola <?php echo $_SESSION['nombre'] ?>!</em></h5>
           <h2 class="text-center fw-bold">ESTA LA BITACORA DE USUARIOS</h2>
         </div>

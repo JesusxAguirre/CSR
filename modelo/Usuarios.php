@@ -140,7 +140,7 @@ class Usuarios extends Conexion
     {
 
         $consulta = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
-         usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.edad,
+         usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.fecha_nacimiento,
          roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
         INNER JOIN roles ON usuarios.id_rol = roles.id");
@@ -155,9 +155,9 @@ class Usuarios extends Conexion
             $this->usuario[] = $filas;
         }
 
-        $accion = "Listar todos los usuarios";
+        /*$accion = "Listar todos los usuarios";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);*/
 
         return $this->usuario;
     }
@@ -470,7 +470,7 @@ class Usuarios extends Conexion
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, 
-            edad = :edad, sexo = :sexo, estado_civil = :estadoc ,nacionalidad = :nacionalidad , estado = :estado,
+            fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc ,nacionalidad = :nacionalidad , estado = :estado,
             telefono = :telf WHERE cedula = :ced");
 
 
@@ -491,10 +491,10 @@ class Usuarios extends Conexion
 
 
 
-            $accion = "Editar datos de usuario";
+            /*$accion = "Editar datos de usuario";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-            return true;
+            return true;*/
         } catch (Exception $e) {
 
             echo $e->getMessage();
@@ -735,7 +735,7 @@ class Usuarios extends Conexion
     {
 
         try {
-            $sql = ("SELECT nombre,apellido,cedula,edad,sexo,estado_civil,nacionalidad,estado,telefono,id_rol 
+            $sql = ("SELECT nombre,apellido,cedula,fecha_nacimiento,sexo,estado_civil,nacionalidad,estado,telefono,id_rol 
             FROM usuarios WHERE cedula = :cedula");
 
             $stmt = $this->conexion()->prepare($sql);

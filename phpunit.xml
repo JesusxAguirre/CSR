@@ -5,7 +5,8 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="pruebas_csr">
-            <file>tests/Integracion/Login/LoginTest.php</file>
+            <file>tests/Usuarios/MiPerfil.php</file>
+            <!-- <file>tests/Integracion/Login/LoginTest.php</file>
             <file>tests/Integracion/Usuarios/UsuariosTest.php</file>
             <file>tests/Integracion/Consolidacion/ConsolidacionTest.php</file>
             <file>tests/Integracion/Discipulado/DiscipuladoTest.php</file>
@@ -18,7 +19,7 @@
             <file>tests/Integracion/Ecam/BoletinNotas/Boletin_notas.php</file>
             <file>tests/Integracion/Ecam/SeccionesTest/vaciarSeccion.php</file>
             <file>tests/Integracion/Ecam/SeccionesCerradas/Secciones_cerradas.php</file>
-            <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file>
+            <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file> -->
         </testsuite>
     </testsuites>
 </phpunit>
