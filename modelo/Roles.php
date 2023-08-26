@@ -4,11 +4,17 @@ use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
 use PDOException;
+use Throwable;
+
 class Roles extends Conexion {
 
 	private $conexion;
 	private $nombre;
 	private $descripcion;
+
+	//Variables para validaciones
+	private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
+	private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,100}$/";
 
 	public function __construct() {
 		$this->conexion = parent::conexion();
@@ -213,5 +219,70 @@ class Roles extends Conexion {
 		$this->nombre      = $nombre;
 		$this->descripcion = $descripcion;
 	}
+
+
+	//VALIDACION INYECCION SQL    
+    /**
+     * security_validation_sql
+     * 
+     * Funcion que valida un array donde cada indice contiene una cadeba de texto
+     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
+     * Si alguno de estos casos se cumple arroja una Exception.
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_inyeccion_sql($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_especial, $array[$i]);
+
+                if ($response > 0) {
+                    //guardar en base de datos hacker
+                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
+                }
+
+                if ($array[$i] == "") {
+                    //guardar en base de datos de hacker
+                    throw new Exception("Estas enviando datos vacios", 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+
+	/**
+     * security_validation_caracteres
+     *
+     * Metodo que recibe un array donde cada indice es una cadena de texto este metodo verifica
+     * que cada indice del array sea un caracter, es decir sin numeros o caracteres especiales.
+     * si no es una cadena de texto, arroja una Exception
+     * 
+     * @param  mixed $array
+     * @return void
+     */
+    public function security_validation_caracteres($array)
+    {
+        try {
+            for ($i = 0; $i < count($array); $i++) {
+                $response = preg_match($this->expresion_caracteres, $array[$i]);
+
+                if ($response == 0) {
+                    //guardar datos de hacker
+                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]), 422);
+                }
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
 }
-?>

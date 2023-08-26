@@ -62,7 +62,7 @@
 								</button>
 							</div>
 							<div class="table-responsive mt-4">
-								<table role="table" class="table align-middle table-dark ">
+								<table role="table" class="table table-striped align-middle">
 									<thead class="">
 										<tr role="row">
 											<th colspan="1" role="columnheader" title="Toggle SortBy" class="sortable" style="cursor: pointer;">#</th>
@@ -74,7 +74,7 @@
 									<tbody role="rowgroup" id="roles">
 
 										<?php foreach ($roles as $rol): ?>
-											<tr class="table-secondary" role="row">
+											<tr role="row">
 												<td role="cell" class="fs-5 id"><?php echo $rol['id'] ?></td>
 												<td role="cell" class="fs-5 nombre"><?php echo $rol['nombre'] ?></td>
 												<td role="cell" class="fs-5 descripcion"><?php echo ($rol['descripcion'] != '') ? $rol['descripcion'] : '<em>Sin descripción</em>' ; ?></td>

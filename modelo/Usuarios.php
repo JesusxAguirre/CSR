@@ -174,7 +174,7 @@ class Usuarios extends Conexion
 
                     if (password_verify($clave, $resultado['password'])) {
 
-                        //Generacion de API-KEY una vez confirmao los datos
+                        //Generacion de API-KEY una vez confirmado los datos
                         $sentence = "SELECT `cedula` FROM `usuarios` WHERE `usuario` = :usuario";
                         $execute = $this->conexion()->prepare($sentence);
                         $execute->execute(array(":usuario" => $usuario));

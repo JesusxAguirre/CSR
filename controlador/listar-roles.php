@@ -1,16 +1,17 @@
 <?php
 session_start();
+
 use Csr\Modelo\Roles;
-if($_SESSION['verdadero'] > 0){
+
+if ($_SESSION['verdadero'] > 0) {
     if (!$_SESSION['permisos']['gestionar_roles']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
-
     }
-    if (is_file('vista/'.$pagina.'.php')) {
-        
+    if (is_file('vista/' . $pagina . '.php')) {
+
         $objeto = new Roles();
 
         // Actualizar permisos
@@ -27,8 +28,8 @@ if($_SESSION['verdadero'] > 0){
             }
 
             //si el rol que se esta modificando es el mismo que el que esta iniciado session se consultan los permisos de nuevo
-            if($_SESSION['rol'] == $idRol){
-            $_SESSION['permisos'] = $objeto->get_permisos($idRol);
+            if ($_SESSION['rol'] == $idRol) {
+                $_SESSION['permisos'] = $objeto->get_permisos($idRol);
             }
         }
 
@@ -52,11 +53,12 @@ if($_SESSION['verdadero'] > 0){
 
         // Editar rol
         if (isset($_POST['edit'])) {
-            $idRol          = $_POST['id'];
-            $nombreRol      = $_POST['nombre'];
-            $descripcionRol = $_POST['descripcion'];
+            $idRol = trim($_POST['id']);
+            $nombreRol = strtolower(trim($_POST['nombre']));
+            $descripcionRol = strtolower(trim($_POST['descripcion']));
 
-
+            $objeto->security_validation_caracteres([$nombreRol, $descripcionRol]);
+            $objeto->security_validation_inyeccion_sql([$nombreRol, $descripcionRol]);
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
@@ -70,6 +72,20 @@ if($_SESSION['verdadero'] > 0){
             }
         }
 
+        if (isset($_POST['delete'])) {
+            $id = $_POST['id'];
+
+            $validacion = $objeto->validar_eliminar_rol($id);
+
+            if ($validacion > 0) {
+                echo json_encode('denegado');
+            } else {
+                $mensaje = $objeto->delete_rol($id);
+                echo json_encode('eliminado');
+            }
+            die();
+        }
+
         $roles   = $objeto->get_roles();
         $modulos = $objeto->get_modulos();
 
@@ -77,18 +93,17 @@ if($_SESSION['verdadero'] > 0){
             $permisos[$rol['nombre']] = $objeto->get_permisos($rol['id']);
         }
 
-        require_once 'vista/'.$pagina.'.php';
+        require_once 'vista/' . $pagina . '.php';
     }
-} else { 
+} else {
     echo "<script>
     window.location= 'error.php'
     </script>";
 }
-if(isset( $_POST['cerrar'])){
+if (isset($_POST['cerrar'])) {
     session_destroy();
     echo "<script>
     alert('Sesion Cerrada');
     window.location= 'index.php'
     </script>";
-}     
-?>
+}

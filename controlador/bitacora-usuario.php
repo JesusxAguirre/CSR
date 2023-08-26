@@ -11,7 +11,23 @@ if ($_SESSION['verdadero'] > 0) {
 		</script>";
     }
     if (is_file('vista/' . $pagina . '.php')) {
-      
+
+        $objeto = new Usuarios();
+        
+        if (isset($_POST['cargar'])) {
+            $listar_bitacora = $objeto->listar_bitacora();
+            $json = array();
+
+            if (!empty($listar_bitacora)) {
+                foreach ($listar_bitacora as $key) {
+                    $json['data'][] = $key;
+                }
+            } else {
+                $json['data']['accion_realizada'] = null;
+            }
+            echo json_encode($json);
+            die();
+        }
        
         require_once 'vista/' . $pagina . '.php';
     }
