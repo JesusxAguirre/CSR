@@ -21,7 +21,6 @@ $(document).ready(function () {
 			{ data: 'nombre' },
 			{ data: 'apellido' },
 			{ data: 'sexo' },
-			//{data: 'telefono'},
 			{ data: 'fecha_nacimiento' },
 			{
 				defaultContent: `
@@ -29,9 +28,6 @@ $(document).ready(function () {
 			<button type="button" data-bs-toggle="modal" data-bs-target="#eliminar_usuarios" class="btn btn-outline-danger delete-btn"><i class="bi bi-person-dash-fill fs-5"></i></button>
 			`}
 		],
-		/*columnDefs: [
-			{ targets: [0, 1], visible: false }
-		  ],*/
 		//language: spanish,
 	});
 
@@ -76,7 +72,6 @@ $(document).ready(function () {
 				url: "?pagina=listar-usuarios",
 				data: datos,
 				success: function (response) {
-					console.log(response);
 					let data = JSON.parse(response);
 					console.log(data);
 
