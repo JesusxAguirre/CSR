@@ -207,8 +207,10 @@ const ValidarCampo = (expresion, input, campo) => {
   }
 }
 
+$('#formulario').submit(function (event) {
 
-formulario.addEventListener('submit', (e) => {
+  event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
+  console.log($(this).serialize())
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
     e.preventDefault();
     Swal.fire({
@@ -216,8 +218,64 @@ formulario.addEventListener('submit', (e) => {
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
+  }else {
+    $.ajax({
+      type: "POST",
+      url: "?pagina=listar-celula-discipulado",
+      data: $(this).serialize(),
+      success: function (response) {
+
+        console.log(response)
+        document.getElementById("formulario").reset()
+
+        for (let campo in campos) {
+          campos[campo] = false
+        }
+
+        $("#editar").removeClass('fade').modal('hide');
+        $('#mi_tabla').DataTable().destroy();
+
+        $("#editar").addClass('fade')
+        solicitar_tabla()
+
+        fireAlert('success', 'Se actualizo correctamente los datos')
+
+      },
+      error: function (xhr, status, error) {
+        
+        // Código a ejecutar si se produjo un error al realizar la solicitud
+        var response;
+        try {
+          response = JSON.parse(xhr.responseText);
+        } catch (e) {
+          response = {};
+        }
+
+        switch (response.status_code) {
+          case 409:
+            response.ErrorType = "Casa sobre la roca ya existe"
+            break;
+          case 422:
+            response.ErrorType = "Datos invalidos"
+            break;
+          case 404:
+            response.ErrorType = "Casa sobre la roca no existe"
+            break;
+          default:
+            break;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: response.ErrorType,
+          text: response.msj
+        })
+      }
+    })
   }
 })
+
+
+
 
 formulario2.addEventListener('submit', (e) => {
   if (!(campos.participantes)) {
