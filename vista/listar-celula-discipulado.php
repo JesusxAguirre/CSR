@@ -124,7 +124,7 @@
                   <label class="form-label fw-bold" for="descripcionInput">
                     Dia de reunion
                   </label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
                 <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes </p>
@@ -136,7 +136,7 @@
                   <label class="form-label fw-bold" for="descripcionInput">
                     Hora
                   </label>
-                  <i class="input-icon2 fs-5"></i>
+                  
                   <input type="time" name="hora" id="horaInput" class="form-control" placeholder="">
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
@@ -146,7 +146,7 @@
               <div id="grupo__direccion" class="col-sm col-md-12">
                 <div class="relative">
                   <label class="form-label fw-bold" for="formGridZip">Dirección de la celula</label>
-                  <i class="input-icon2  fs-5"></i>
+                  
                   <input name="direccion" id="direccionInput" type="text" placeholder="" class="form-control">
                 </div>
                 <p class="text-danger d-none">Este campo no puede quedar vacio</p>
@@ -156,7 +156,7 @@
               <div id="grupo__codigoLider" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
                   <datalist id="lider">
                     <?php
@@ -173,7 +173,7 @@
               <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de Anfitrion</label>
-                  <i class="input-icon2 fs-5"></i>
+                  
                   <input class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
                   <datalist id="anfitrion">
                     <?php
@@ -190,7 +190,7 @@
               <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de Asistente</label>
-                  <i class="input-icon2 fs-5"></i>
+                  
                   <input class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
                   <datalist id="asistente">
                     <?php
@@ -231,7 +231,7 @@
               <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar Discipulo a celula</label>
-                  <i class="input-icon fs-5"></i>
+                  
 
                   <select multiple name="participantes[]" id="participantes" class="form-control">
                     <?php
@@ -328,7 +328,7 @@
             <div id="grupo__nivel" class="col-sm ">
               <div class="relative">
                 <label class="form-label fw-bold">Cambiar Nivel</label>
-                <i class="input-icon fs-5"></i>
+                
                 <select name="nivel" id="nivel" class="form-select form-select" aria-label=".form-select-sm example">
                   <option value="">....</option>
                   <option value="N1">Cambiar discipulo a nivel 1</option>
@@ -364,7 +364,7 @@
               <div id="grupo__asistentes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <div id="asistencias4"></div>
 
                   </select>
@@ -376,7 +376,7 @@
               <div id="grupo__fecha" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
-                  <i class="input-icon fs-5"></i>
+                  
                   <input id="fecha" name="fecha" class="form-control" type="date" />
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>

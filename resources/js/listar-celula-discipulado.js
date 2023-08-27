@@ -6,19 +6,19 @@ const formulario4 = document.getElementById('eliminar_participante')
 const selects = document.querySelectorAll('#EditarNivelForm select');
 
 
-var lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
+let lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
-var lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
+let lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
   return option.value;
 });
-var lista_anfitriones = document.getElementById('anfitrion')
+let lista_anfitriones = document.getElementById('anfitrion')
 
-var anfitriones_array = Array.prototype.map.call(lista_anfitriones.options, function (option) {
+let anfitriones_array = Array.prototype.map.call(lista_anfitriones.options, function (option) {
   return option.value;
 });
-var lista_asistentes = document.getElementById('asistente')
+let lista_asistentes = document.getElementById('asistente')
 
-var asistentes_array = Array.prototype.map.call(lista_asistentes.options, function (option) {
+let asistentes_array = Array.prototype.map.call(lista_asistentes.options, function (option) {
   return option.value;
 });
 
@@ -36,6 +36,12 @@ const expandir = document.getElementById('asistencias4')
 addEvents()
 
 var participantes = document.getElementById('participantes');
+
+let participantes_array = Array.prototype.map.call(participantes.options, function (option) {
+  return option.value;
+});
+
+
 var choices1 = new Choices(participantes, {
   allowHTML: true,
   removeItems: true,
@@ -93,13 +99,13 @@ const ValidarFormulario = (e) => {
       ValidarCodigo(asistentes_array, e.target, 'codigoAsistente');
       break;
     case "participantes[]":
-      ValidarSelect(e.target, 'participantes');
+      ValidarCodigo(participantes_array,e.target, 'participantes');
       break;
     case "asistentes[]":
-      ValidarSelect(e.target, 'asistentes');
+      ValidarCodigo(asistentes_array,e.target, 'asistentes');
       break;
     case "fecha":
-      ValidarSelect(e.target, 'fecha');
+      ValidarFecha(e.target, 'fecha');
       break;
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
@@ -114,31 +120,53 @@ const ValidarFormulario = (e) => {
 
 const ValidarCodigo = (codigo_array, input, campo) => {
   if (codigo_array.indexOf(input.value) >= 0) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+
     campos[campo] = true;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = false;
   }
 }
 
 const ValidarSelect = (select, campo) => {
   if (select.value == '') {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+
     campos[campo] = false;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+
+  
+    campos[campo] = true;
+  }
+}
+const ValidarFecha = (select, campo) => {
+  if (select.value == '') {
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
+    campos[campo] = false;
+  } else {
+
+
+
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   }
@@ -146,36 +174,35 @@ const ValidarSelect = (select, campo) => {
 
 const ValidarDia = (input, campo) => {
   if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
-    console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 
 }
+
+
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-    console.log("entra en la funcion");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -224,7 +251,6 @@ $("#EditarNivelForm").submit(function (e) {
       text: 'Registra el formulario correctamente '
     })
   } else {
-    console.log("entra en el submit")
 
     $.ajax({
       type: "POST",

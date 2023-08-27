@@ -79,16 +79,15 @@ const ValidarFormulario = (e) => {
 
   }
 }
-
 const ValidarCodigo = (codigo_array, input, campo) => {
-  if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
+  if (codigo_array.indexOf(input.value) >= 0) {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+
     campos[campo] = true;
   } else {
-
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
@@ -96,6 +95,8 @@ const ValidarCodigo = (codigo_array, input, campo) => {
     campos[campo] = false;
   }
 }
+
+
 const ValidarDia = (input, campo) => {
   if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
@@ -196,7 +197,6 @@ $(document).on('submit', '#formulario', function (event) {
     data: $(this).serialize(),// Obtiene los datos del formulario
     success: function (response) {
 
-      console.log(response)
 
       document.getElementById("formulario").reset()
 
