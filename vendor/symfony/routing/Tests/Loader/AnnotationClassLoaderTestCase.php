@@ -104,11 +104,13 @@ abstract class AnnotationClassLoaderTestCase extends TestCase
     public function testDefaultValuesForMethods()
     {
         $routes = $this->loader->load($this->getNamespace().'\DefaultValueController');
-        $this->assertCount(3, $routes);
+        $this->assertCount(5, $routes);
         $this->assertEquals('/{default}/path', $routes->get('action')->getPath());
         $this->assertEquals('value', $routes->get('action')->getDefault('default'));
         $this->assertEquals('Symfony', $routes->get('hello_with_default')->getDefault('name'));
         $this->assertEquals('World', $routes->get('hello_without_default')->getDefault('name'));
+        $this->assertEquals('diamonds', $routes->get('string_enum_action')->getDefault('default'));
+        $this->assertEquals(20, $routes->get('int_enum_action')->getDefault('default'));
     }
 
     public function testMethodActionControllers()
@@ -198,12 +200,14 @@ abstract class AnnotationClassLoaderTestCase extends TestCase
     public function testMissingPrefixLocale()
     {
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(sprintf('Route to "action" with locale "en" is missing a corresponding prefix in class "%s\LocalizedPrefixMissingLocaleActionController".', $this->getNamespace()));
         $this->loader->load($this->getNamespace().'\LocalizedPrefixMissingLocaleActionController');
     }
 
     public function testMissingRouteLocale()
     {
         $this->expectException(\LogicException::class);
+        $this->expectExceptionMessage(sprintf('Route to "%s\LocalizedPrefixMissingRouteLocaleActionController::action" is missing paths for locale(s) "en".', $this->getNamespace()));
         $this->loader->load($this->getNamespace().'\LocalizedPrefixMissingRouteLocaleActionController');
     }
 

@@ -2,39 +2,45 @@
 
 namespace React\Promise\PromiseAdapter;
 
-use React\Promise;
+use React\Promise\PromiseInterface;
 
+/**
+ * @template T
+ * @template-implements PromiseAdapterInterface<T>
+ */
 class CallbackPromiseAdapter implements PromiseAdapterInterface
 {
+    /** @var callable[] */
     private $callbacks;
 
+    /**
+     * @param callable[] $callbacks
+     */
     public function __construct(array $callbacks)
     {
         $this->callbacks = $callbacks;
     }
 
-    public function promise()
+    /**
+     * @return PromiseInterface<T>
+     */
+    public function promise(): PromiseInterface
     {
-        return call_user_func_array($this->callbacks['promise'], func_get_args());
+        return ($this->callbacks['promise'])(...func_get_args());
     }
 
-    public function resolve()
+    public function resolve($value): void
     {
-        return call_user_func_array($this->callbacks['resolve'], func_get_args());
+        ($this->callbacks['resolve'])(...func_get_args());
     }
 
-    public function reject()
+    public function reject(): void
     {
-        return call_user_func_array($this->callbacks['reject'], func_get_args());
+        ($this->callbacks['reject'])(...func_get_args());
     }
 
-    public function notify()
+    public function settle(): void
     {
-        return call_user_func_array($this->callbacks['notify'], func_get_args());
-    }
-
-    public function settle()
-    {
-        return call_user_func_array($this->callbacks['settle'], func_get_args());
+        ($this->callbacks['settle'])(...func_get_args());
     }
 }

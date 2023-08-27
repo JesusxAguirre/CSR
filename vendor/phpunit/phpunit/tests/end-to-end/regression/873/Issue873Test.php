@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /*
  * This file is part of PHPUnit.
  *
@@ -12,5 +13,5 @@ if (\extension_loaded('xdebug') && \version_compare(\phpversion('xdebug'), '3', 
 }
 
 throw new Exception(
-    'PHPUnit suppresses exceptions thrown outside of test case function'
+    'PHPUnit suppresses exceptions thrown outside of test case function',
 );

@@ -2,20 +2,26 @@
 
 namespace React\Promise;
 
+use Exception;
 use React\Promise\PromiseAdapter\CallbackPromiseAdapter;
 
+/**
+ * @template T
+ */
 class PromiseTest extends TestCase
 {
     use PromiseTest\FullTestTrait;
 
-    public function getPromiseTestAdapter(callable $canceller = null)
+    /**
+     * @return CallbackPromiseAdapter<T>
+     */
+    public function getPromiseTestAdapter(callable $canceller = null): CallbackPromiseAdapter
     {
-        $resolveCallback = $rejectCallback = $progressCallback = null;
+        $resolveCallback = $rejectCallback = null;
 
-        $promise = new Promise(function ($resolve, $reject, $progress) use (&$resolveCallback, &$rejectCallback, &$progressCallback) {
-            $resolveCallback  = $resolve;
-            $rejectCallback   = $reject;
-            $progressCallback = $progress;
+        $promise = new Promise(function ($resolve, $reject) use (&$resolveCallback, &$rejectCallback) {
+            $resolveCallback = $resolve;
+            $rejectCallback  = $reject;
         }, $canceller);
 
         return new CallbackPromiseAdapter([
@@ -24,15 +30,14 @@ class PromiseTest extends TestCase
             },
             'resolve' => $resolveCallback,
             'reject'  => $rejectCallback,
-            'notify'  => $progressCallback,
             'settle'  => $resolveCallback,
         ]);
     }
 
     /** @test */
-    public function shouldRejectIfResolverThrowsException()
+    public function shouldRejectIfResolverThrowsException(): void
     {
-        $exception = new \Exception('foo');
+        $exception = new Exception('foo');
 
         $promise = new Promise(function () use ($exception) {
             throw $exception;
@@ -40,20 +45,18 @@ class PromiseTest extends TestCase
 
         $mock = $this->createCallableMock();
         $mock
-            ->expects($this->once())
+            ->expects(self::once())
             ->method('__invoke')
-            ->with($this->identicalTo($exception));
+            ->with(self::identicalTo($exception));
 
         $promise
             ->then($this->expectCallableNever(), $mock);
     }
 
     /** @test */
-    public function shouldResolveWithoutCreatingGarbageCyclesIfResolverResolvesWithException()
+    public function shouldResolveWithoutCreatingGarbageCyclesIfResolverResolvesWithException(): void
     {
         gc_collect_cycles();
-        gc_collect_cycles(); // clear twice to avoid leftovers in PHP 7.4 with ext-xdebug and code coverage turned on
-
         $promise = new Promise(function ($resolve) {
             $resolve(new \Exception('foo'));
         });
@@ -63,31 +66,37 @@ class PromiseTest extends TestCase
     }
 
     /** @test */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverThrowsExceptionWithoutResolver()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverThrowsExceptionWithoutResolver(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function () {
             throw new \Exception('foo');
         });
+
+        $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
+
         unset($promise);
 
         $this->assertSame(0, gc_collect_cycles());
     }
 
     /** @test */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverRejectsWithException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverRejectsWithException(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function ($resolve, $reject) {
             $reject(new \Exception('foo'));
         });
+
+        $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
+
         unset($promise);
 
         $this->assertSame(0, gc_collect_cycles());
     }
 
     /** @test */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfCancellerRejectsWithException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfCancellerRejectsWithException(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function ($resolve, $reject) { }, function ($resolve, $reject) {
@@ -100,7 +109,7 @@ class PromiseTest extends TestCase
     }
 
     /** @test */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfParentCancellerRejectsWithException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfParentCancellerRejectsWithException(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function ($resolve, $reject) { }, function ($resolve, $reject) {
@@ -113,12 +122,15 @@ class PromiseTest extends TestCase
     }
 
     /** @test */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverThrowsException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverThrowsException(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function ($resolve, $reject) {
             throw new \Exception('foo');
         });
+
+        $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
+
         unset($promise);
 
         $this->assertSame(0, gc_collect_cycles());
@@ -137,10 +149,12 @@ class PromiseTest extends TestCase
      * @test
      * @requires PHP 7
      */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfCancellerWithReferenceThrowsException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfCancellerWithReferenceThrowsException(): void
     {
         gc_collect_cycles();
+        /** @var Promise<never> $promise */
         $promise = new Promise(function () {}, function () use (&$promise) {
+            assert($promise instanceof Promise);
             throw new \Exception('foo');
         });
         $promise->cancel();
@@ -154,12 +168,17 @@ class PromiseTest extends TestCase
      * @requires PHP 7
      * @see self::shouldRejectWithoutCreatingGarbageCyclesIfCancellerWithReferenceThrowsException
      */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverWithReferenceThrowsException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfResolverWithReferenceThrowsException(): void
     {
         gc_collect_cycles();
+        /** @var Promise<never> $promise */
         $promise = new Promise(function () use (&$promise) {
+            assert($promise instanceof Promise);
             throw new \Exception('foo');
         });
+
+        $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
+
         unset($promise);
 
         $this->assertSame(0, gc_collect_cycles());
@@ -170,32 +189,25 @@ class PromiseTest extends TestCase
      * @requires PHP 7
      * @see self::shouldRejectWithoutCreatingGarbageCyclesIfCancellerWithReferenceThrowsException
      */
-    public function shouldRejectWithoutCreatingGarbageCyclesIfCancellerHoldsReferenceAndResolverThrowsException()
+    public function shouldRejectWithoutCreatingGarbageCyclesIfCancellerHoldsReferenceAndResolverThrowsException(): void
     {
         gc_collect_cycles();
+        /** @var Promise<never> $promise */
         $promise = new Promise(function () {
             throw new \Exception('foo');
-        }, function () use (&$promise) { });
+        }, function () use (&$promise) {
+            assert($promise instanceof Promise);
+        });
+
+        $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
+
         unset($promise);
 
         $this->assertSame(0, gc_collect_cycles());
     }
 
     /** @test */
-    public function shouldIgnoreNotifyAfterReject()
-    {
-        $promise = new Promise(function () { }, function ($resolve, $reject, $notify) {
-            $reject(new \Exception('foo'));
-            $notify(42);
-        });
-
-        $promise->then(null, null, $this->expectCallableNever());
-        $promise->cancel();
-    }
-
-
-    /** @test */
-    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromise()
+    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromise(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function () { });
@@ -205,7 +217,7 @@ class PromiseTest extends TestCase
     }
 
     /** @test */
-    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithThenFollowers()
+    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithThenFollowers(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function () { });
@@ -216,18 +228,32 @@ class PromiseTest extends TestCase
     }
 
     /** @test */
-    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithDoneFollowers()
+    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithCatchFollowers(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function () { });
-        $promise->done();
+        $promise->catch(function () { });
         unset($promise);
 
         $this->assertSame(0, gc_collect_cycles());
     }
 
     /** @test */
-    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithOtherwiseFollowers()
+    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithFinallyFollowers(): void
+    {
+        gc_collect_cycles();
+        $promise = new Promise(function () { });
+        $promise->finally(function () { });
+        unset($promise);
+
+        $this->assertSame(0, gc_collect_cycles());
+    }
+
+    /**
+     * @test
+     * @deprecated
+     */
+    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithOtherwiseFollowers(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function () { });
@@ -237,8 +263,11 @@ class PromiseTest extends TestCase
         $this->assertSame(0, gc_collect_cycles());
     }
 
-    /** @test */
-    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithAlwaysFollowers()
+    /**
+     * @test
+     * @deprecated
+     */
+    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithAlwaysFollowers(): void
     {
         gc_collect_cycles();
         $promise = new Promise(function () { });
@@ -249,47 +278,17 @@ class PromiseTest extends TestCase
     }
 
     /** @test */
-    public function shouldNotLeaveGarbageCyclesWhenRemovingLastReferenceToPendingPromiseWithProgressFollowers()
+    public function shouldFulfillIfFullfilledWithSimplePromise(): void
     {
         gc_collect_cycles();
-        $promise = new Promise(function () { });
-        $promise->then(null, null, function () { });
+        $promise = new Promise(function () {
+            throw new Exception('foo');
+        });
+
+        $promise->then(null, $this->expectCallableOnce()); // avoid reporting unhandled rejection
+
         unset($promise);
 
-        $this->assertSame(0, gc_collect_cycles());
-    }
-
-    /** @test */
-    public function shouldFulfillIfFullfilledWithSimplePromise()
-    {
-        $adapter = $this->getPromiseTestAdapter();
-
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($this->identicalTo('foo'));
-
-        $adapter->promise()
-            ->then($mock);
-
-        $adapter->resolve(new SimpleFulfilledTestPromise());
-    }
-
-    /** @test */
-    public function shouldRejectIfRejectedWithSimplePromise()
-    {
-        $adapter = $this->getPromiseTestAdapter();
-
-        $mock = $this->createCallableMock();
-        $mock
-            ->expects($this->once())
-            ->method('__invoke')
-            ->with($this->identicalTo('foo'));
-
-        $adapter->promise()
-            ->then($this->expectCallableNever(), $mock);
-
-        $adapter->resolve(new SimpleRejectedTestPromise());
+        self::assertSame(0, gc_collect_cycles());
     }
 }
