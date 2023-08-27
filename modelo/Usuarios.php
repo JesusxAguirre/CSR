@@ -183,8 +183,8 @@ class Usuarios extends Conexion
                         $apiKey = $this->mutatedGenerateAPIKey($ci);
                         $_SESSION['api-key'] = $apiKey;
 
-                        //http_response_code(200);
-                        //header('Content-Type: application/json');
+                        http_response_code(200);
+                        header('Content-Type: application/json');
                         return array("msj" => "Has Iniciado sesion correctamente", "api_key" => $apiKey, "status_code" => 200);
                     } else {
                         throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
@@ -196,7 +196,7 @@ class Usuarios extends Conexion
         } catch (Throwable $ex) {
 
             $errorType = basename(get_class($ex));
-           // http_response_code($ex->getCode());
+            http_response_code($ex->getCode());
             return array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType);
 
             die();

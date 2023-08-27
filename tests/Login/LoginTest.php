@@ -18,11 +18,16 @@ final class LoginTest extends TestCase
   public function test_login_admin()
   {
     //Init
-    $_SESSION['usuario'] = "";
-    $_SESSION['clave'] = "";
+    $correo = "";
+    $clave = "";
     $expected = 200;
     
     //Act  
+
+    $this->assertEquals('',$this->objeto_usuarios->security_validation_correo($correo));
+
+    $this->assertEquals('',$this->objeto_usuarios->security_validation_clave($clave));
+
     $response =  $this->objeto_usuarios->validar();
 
     //Asert
