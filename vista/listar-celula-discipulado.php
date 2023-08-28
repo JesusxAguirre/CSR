@@ -24,6 +24,33 @@
   <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
   <!-- Sweet alert 2-->
   <script src="resources/js/sweetalert2.js"></script>
+
+
+
+  <!-- DATATABLES CSS -->
+  <link rel="stylesheet" href="resources/library/dataTables/css/jquery.dataTables.min.css">
+
+  <!-- JS de DataTables -->
+  <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
+  
+
+  <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
+
+  <style>
+    .btn-success {
+      background-color: darkgrey;
+    }
+
+    .btn-success:hover {
+      color: #fff;
+      background-color: grey;
+      border-color: #146c43;
+    }
+    .text-title {
+        color: #747579;
+
+    }
+  </style>
 </head>
 
 <body>
@@ -53,51 +80,27 @@
             <div class="card-body">
               <h4 class="header-title mb-3 fw-bold">Celula discipulado</h4>
 
-              <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, estado_civil, nombre" class="form-control w-auto ms-1" value=""></span></div>
+              <div style="visibility: hidden;" class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
+                <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-                <table role='table' class='table table-centered'>
-                  <thead>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="mi_tabla">
+                        <thead>
 
-                    <tr role='row'>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>dia de reunion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>hora</th>
-                      <th colspan='1' role='columnheader' class=''>codigo de lider</th>
+                        </thead>
 
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>codigo anfitrion</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>codigo asistente</th>
-                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
-                    </tr>
-                  </thead>
+                        <tbody id="datos" role='rowgroup'>
 
-                  <tbody id="datos" role='rowgroup'>
-                    <?php foreach ($matriz_celula as $celula) : ?>
-                      <tr role='row'>
-                        <td hidden class="id" role='cell'><?php echo $celula['id'] ?></td>
-                        <td hidden class="direccion" role='cell'><?php echo $celula['direccion'] ?></td>
-                        <td class="codigo" role='cell'><?php echo $celula['codigo_celula_discipulado'] ?></td>
-                        <td class="dia" role='cell'><?php echo  $celula['dia_reunion'] ?></td>
-                        <td class="hora" role='cell'><?php $hora = substr($celula['hora'], 0, -3);
-                                                      echo $hora; ?></td>
-                        <td class="lider" role='cell'><?php echo  $celula['codigo_lider'] ?></td>
-                        <td class="anfitrion" role='cell'><?php echo  $celula['codigo_anfitrion']  ?></td>
-                        <td class="asistente" role='cell'><?php echo  $celula['codigo_asistente'] ?></td>
-                        <td hidden class="cedula_anfitrion" role='cell'><?php echo  $celula['cedula_anfitrion'] ?></td>
-                        <td hidden class="cedula_asistente" role='cell'><?php echo  $celula['cedula_asistente'] ?></td>
-                        <td class="" role="cell">
-                          <?php if ($_SESSION['permisos']['celula_discipulado']['actualizar'] > 0) : ?>
-                            <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
-                          <?php endif; ?>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary agregar-btn"> <i class=" fs-5 bi bi-person-plus-fill"></i> </button>
-                          <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary asistencias-btn"> <i class=" fs-5 bi bi-calendar-date-fill"></i> </button>
-                          <button type="button" class="btn btn-outline-danger modal-btn "><i class="fs-5 bi bi bi-person-dash-fill"></i></button>
-                        </td>
-                      </tr>
-                    <?php endforeach;       ?>
-                  </tbody>
-                </table>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
               </div>
+            </div>
 
             </div>
           </div>
@@ -395,6 +398,14 @@
       </div>
     </div>
   </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.js"></script>
+
+
+
 
   <script type="text/javascript">
     actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;

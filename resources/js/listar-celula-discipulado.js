@@ -1,4 +1,8 @@
 // Actualizar contenido del modal Editar
+
+solicitar_tabla()
+
+
 const formulario = document.getElementById('editForm'); //declarando una constante con la id formulario
 const formulario2 = document.getElementById('agregar_usuarios')
 const formulario3 = document.getElementById('agregar_asistencias')
@@ -207,7 +211,7 @@ const ValidarCampo = (expresion, input, campo) => {
   }
 }
 
-$('#formulario').submit(function (event) {
+$('#editForm').submit(function (event) {
 
   event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
   console.log($(this).serialize())
@@ -226,7 +230,7 @@ $('#formulario').submit(function (event) {
       success: function (response) {
 
         console.log(response)
-        document.getElementById("formulario").reset()
+        document.getElementById("editForm").reset()
 
         for (let campo in campos) {
           campos[campo] = false
@@ -607,4 +611,60 @@ function addEvents() {
     buscarParticipantesAsistencias(busqueda);
 
   }))
+
+
+
+
+
+}
+
+
+
+function solicitar_tabla() {
+  $.ajax({
+    url: window.location,
+    type: 'GET',
+    data: {
+      listar_casa :'listar_casa',
+    },  
+    dataType: 'json',
+    success: function (data) {
+
+      console.log(data)
+
+      $('#mi_tabla').DataTable({
+        language: {
+          url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
+        },
+        data: data,
+        columns: [
+          { data: 'id', title: 'ID', className: "d-none" },
+          { data: 'codigo_celula_discipulado', title: 'Codigo de celula' },
+          { data: 'dia_reunion', className: "text-capitalize dia", title: 'Dia de reunion' },
+          { data: 'hora', className: "text-capitalize hora", title: 'Hora de reunion' },
+          { data: 'codigo_lider', title: 'Codigo de lider' },
+          { data: 'codigo_anfitrion', title: 'Codigo de anfitrion', className: "d-none" },
+          { data: 'codigo_asistente', title: 'Codigo de asistente', className: "d-none" },
+          { data: 'direccion', title: 'Direccion', className: "d-none" },
+          {
+            data: null,
+            title: "Acciones",
+            className: "text-center",
+            defaultContent: '<button type="button" data-bs-toggle="modal" data-bs-target="#view" class="btn btn-success btn-view"><i class="fs-5 bi bi-eye-fill"></i></button><button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary btn-edit"><i class="fs-5 bi bi-pencil-fill"></i></button>',
+            orderable: false
+          },
+
+        ],
+        "lengthChange": false, "autoWidth": false,
+        buttons: [
+          'csv', 'excel', 'pdf', 'print'
+        ],
+
+      }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
+
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr)
+    }
+  });
 }

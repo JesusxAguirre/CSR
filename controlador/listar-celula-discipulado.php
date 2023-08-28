@@ -18,7 +18,6 @@ if ($_SESSION['verdadero'] > 0) {
 
         $objeto = new Discipulado();
 
-        $matriz_celula = $objeto->listar_celula_discipulado();
 
         $matriz_usuarios = $objeto->listar_no_participantes();
 
@@ -30,16 +29,27 @@ if ($_SESSION['verdadero'] > 0) {
             $cedula_lider = trim($_POST['codigoLider']);
             $cedula_anfitrion = trim($_POST['codigoAnfitrion']);
             $cedula_asistente = trim($_POST['codigoAsistente']);
-            $dia = trim($_POST['dia']);
+            $dia = strtolower(trim($_POST['dia']));
             $hora = trim($_POST['hora']);
-            $direccion = trim($_POST['direccion']);
+            $direccion = strtolower(trim($_POST['direccion']));
             $id = trim($_POST['id']);
+
+            $objeto->security_validation_inyeccion_sql([$id, $dia, str_replace(" ", "", $direccion)]);
+
 
 
             $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id);
 
             $objeto->actualizar_discipulado();
             $actualizar = false;
+        }
+
+        if (isset($_GET['listar_casa'])) {
+            $matriz_celula = $objeto->listar_celula_discipulado();
+
+            echo json_encode($matriz_celula);
+
+            die();
         }
 
         //agregar participantes
@@ -74,7 +84,7 @@ if ($_SESSION['verdadero'] > 0) {
             $cedula_discipulo = trim($_POST['cedula_discipulo']);
             $nivel = trim($_POST['nivel']);
             $nivel_actual = trim($_POST['codigo_discipulo']);
-            
+
             if (ctype_digit($cedula_discipulo) && ($nivel == "N1" or $nivel == "N2") && ($nivel_actual == "N1" or $nivel_actual == "N2")) {
 
                 $response = $objeto->editar_discipulo_nivel($cedula_discipulo, $nivel_actual, $nivel);
