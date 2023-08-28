@@ -44,11 +44,24 @@ if ($_SESSION['verdadero'] > 0) {
             $actualizar = false;
         }
 
-        if (isset($_GET['listar_casa'])) {
+        if (isset($_GET['listar_celula_disicpulado'])) {
             $matriz_celula = $objeto->listar_celula_discipulado();
 
             echo json_encode($matriz_celula);
 
+            die();
+        }
+
+
+        //BUSCAR PARTICIPANTES DE CELULCA
+
+        if(isset($_GET['buscar_participantes'])){
+            $matriz_usuarios = $objeto->listar_no_participantes();
+
+
+            http_response_code(200);
+
+            echo json_encode($matriz_usuarios);
             die();
         }
 
@@ -63,7 +76,7 @@ if ($_SESSION['verdadero'] > 0) {
             $objeto->agregar_participantes();
             $registrar_participante = false;
         }
-
+        
 
         //registrar asistencia
         if (isset($_POST['agregar_asistencia'])) {

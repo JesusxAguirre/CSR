@@ -9,6 +9,7 @@ const formulario3 = document.getElementById('agregar_asistencias')
 const formulario4 = document.getElementById('eliminar_participante')
 const selects = document.querySelectorAll('#EditarNivelForm select');
 
+let participantes_array = ''
 
 let lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
@@ -39,20 +40,7 @@ const expandir = document.getElementById('asistencias4')
 // Agrega los eventos para actualizar y eliminar 
 addEvents()
 
-var participantes = document.getElementById('participantes');
 
-let participantes_array = Array.prototype.map.call(participantes.options, function (option) {
-  return option.value;
-});
-
-
-var choices1 = new Choices(participantes, {
-  allowHTML: true,
-  removeItems: true,
-  removeItemButton: true,
-  noResultsText: 'No hay coicidencias',
-  noChoicesText: 'No hay participantes disponibles',
-});
 
 const campos = {
   codigoLider: true,
@@ -103,10 +91,10 @@ const ValidarFormulario = (e) => {
       ValidarCodigo(asistentes_array, e.target, 'codigoAsistente');
       break;
     case "participantes[]":
-      ValidarCodigo(participantes_array,e.target, 'participantes');
+      ValidarCodigo(participantes_array, e.target, 'participantes');
       break;
     case "asistentes[]":
-      ValidarCodigo(asistentes_array,e.target, 'asistentes');
+      ValidarCodigo(asistentes_array, e.target, 'asistentes');
       break;
     case "fecha":
       ValidarFecha(e.target, 'fecha');
@@ -155,7 +143,7 @@ const ValidarSelect = (select, campo) => {
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 
-  
+
     campos[campo] = true;
   }
 }
@@ -224,7 +212,7 @@ $('#editForm').submit(function (event) {
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
-  }else {
+  } else {
     $.ajax({
       type: "POST",
       url: "?pagina=listar-celula-discipulado",
@@ -238,7 +226,7 @@ $('#editForm').submit(function (event) {
         }
 
         $("#editar").removeClass('fade').modal('hide');
-        $('#mi_tabla').DataTable().destroy();
+        $('#tabla_discipulos').DataTable().destroy();
 
         $("#editar").addClass('fade')
         solicitar_tabla()
@@ -247,7 +235,7 @@ $('#editForm').submit(function (event) {
 
       },
       error: function (xhr, status, error) {
-        
+
         // Código a ejecutar si se produjo un error al realizar la solicitud
         var response;
         try {
@@ -279,7 +267,7 @@ $('#editForm').submit(function (event) {
   }
 })
 
-$('#agregar_usuarios').submit(function (event){
+$('#agregar_usuarios').submit(function (event) {
   event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
   console.log($(this).serialize())
   if (!(campos.participantes)) {
@@ -288,7 +276,7 @@ $('#agregar_usuarios').submit(function (event){
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
-  }else{
+  } else {
     $.ajax({
       type: "POST",
       url: "?pagina=listar-celula-discipulado",
@@ -301,17 +289,17 @@ $('#agregar_usuarios').submit(function (event){
           campos[campo] = false
         }
 
-        $("#editar").removeClass('fade').modal('hide');
-        $('#mi_tabla').DataTable().destroy();
+        $("#agregar_usuario").removeClass('fade').modal('hide');
+        $('#tabla_discipulos').DataTable().destroy();
 
-        $("#editar").addClass('fade')
+        $("#agregar_usuario").addClass('fade')
         solicitar_tabla()
 
         fireAlert('success', 'Se agregaron participantes correctamente ')
 
       },
       error: function (xhr, status, error) {
-        
+
         // Código a ejecutar si se produjo un error al realizar la solicitud
         var response;
         try {
@@ -373,9 +361,9 @@ $("#EditarNivelForm").submit(function (e) {
       url: "?pagina=listar-celula-discipulado",
       data: $(this).serialize(),
       success: function (response) {
-  
+
         var data = JSON.parse(response);
-       
+
         if (data.response != 0) {
           Swal.fire({
             icon: 'success',
@@ -384,9 +372,9 @@ $("#EditarNivelForm").submit(function (e) {
           let busqueda = busquedaEl.value
 
           buscarDiscipulado(busqueda)
-          
+
           buscarParticipantes(data.response)
-     
+
           addEvents()
         } else {
           console.log("Envio malicioso de datos")
@@ -417,8 +405,7 @@ inputs3.forEach((input) => {
 
 });
 
-//listando eventos selects libreria choice
-participantes.addEventListener('hideDropdown', ValidarFormulario);
+
 
 //alerta registrar participante
 
@@ -501,7 +488,7 @@ function buscarParticipantes(busqueda) {
 
 
 function addEvents() {
- 
+
   const participanteModal = document.querySelectorAll('table td .modal-btn')
 
   participanteModal.forEach(boton => boton.addEventListener('click', () => {
@@ -596,7 +583,7 @@ $('#tabla_discipulos tbody').on('click', '.btn-edit', function () {
   console.log(hora_completa.slice(0, 5))
 });
 
-$('#tabla_discipulos tbody').on('click', '.btn-add', function(){
+$('#tabla_discipulos tbody').on('click', '.btn-add', function () {
 
 
   let row = $(this).closest('tr');
@@ -604,10 +591,55 @@ $('#tabla_discipulos tbody').on('click', '.btn-add', function(){
   let idInput = document.getElementById('idInput2')
   idInput.value = row.find('td:eq(0)').text()
 
- 
+
+  $.ajax({
+    url: window.location,
+    type: 'GET',
+    data: {
+      buscar_participantes: 'buscar_participantes',
+    },
+    dataType: 'json',
+    success: function (data) {
+
+      console.log(data)
+
+      let participantes = document.getElementById('participantes');
+
+      participantes_array = Array.prototype.map.call(participantes.options, function (option) {
+        return option.value;
+      });
+
+      let choicesData = data.map(function (participante) {
+        return {
+          value: participante.cedula,
+          label: participante.nombre + ' ' + participante.apellido + ' ' + participante.codigo,
+        };
+      });
+  
+
+      var choices1 = new Choices(participantes, {
+        choices: choicesData,
+        allowHTML: true,
+        removeItems: true,
+        removeItemButton: true,
+        noResultsText: 'No hay coincidencias',
+        noChoicesText: 'No hay participantes disponibles',
+      });
+
+      choices1.setValue(data)
+
+      //listando eventos selects libreria choice
+      participantes.addEventListener('hideDropdown', ValidarFormulario);
+
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr)
+    }
+  });
+
 })
 
-$('#tabla_discipulos tbody').on('click', '.btn-add-date', function(){
+$('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
 
 
   let row = $(this).closest('tr');
@@ -641,8 +673,8 @@ function solicitar_tabla() {
     url: window.location,
     type: 'GET',
     data: {
-      listar_casa :'listar_casa',
-    },  
+      listar_celula_disicpulado: 'listar_celula_disicpulado',
+    },
     dataType: 'json',
     success: function (data) {
 

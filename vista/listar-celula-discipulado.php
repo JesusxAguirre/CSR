@@ -236,13 +236,7 @@
 
 
                   <select multiple name="participantes[]" id="participantes" class="form-control">
-                    <?php
-                    foreach ($matriz_usuarios as $usuario) :
-                    ?>
-                      <option value="<?php echo $usuario['cedula']; ?>"> <?php echo $usuario['codigo']; ?></option>
-                    <?php
-                    endforeach;
-                    ?>
+                  
                   </select>
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
