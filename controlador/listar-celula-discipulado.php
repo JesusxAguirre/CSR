@@ -6,7 +6,7 @@ use PhpParser\Node\Stmt\Else_;
 //destruye la sesion si se tenia una abierta
 session_start();
 
-if ($_SESSION['verdadero'] > 0) {
+if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
 
         if (!$_SESSION['permisos']['celula_discipulado']['listar']) {

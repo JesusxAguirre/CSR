@@ -2,14 +2,17 @@
 use Csr\Modelo\Discipulado;
 session_start();
 
-if($_SESSION['verdadero'] > 0){
-if (is_file('vista/'.$pagina.'.php')) {
+ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
+   if (is_file('vista/'.$pagina.'.php')) {
     $objeto = new Discipulado();
    
     $matriz_lideres = $objeto->listar_usuarios_N2();
     $matriz_usuarios = $objeto->listar_no_participantes();
   
     if(isset($_POST['registrar'])){
+
+
+
         $cedula_lider = trim( $_POST['codigoLider']);
         $cedula_anfitrion= trim($_POST['codigoAnfitrion']);
         $cedula_asistente = trim($_POST['codigoAsistente']);
@@ -58,13 +61,13 @@ if (is_file('vista/'.$pagina.'.php')) {
     }
     require_once 'vista/'.$pagina.'.php';
 }
-} else{ 
+ } else{ 
     echo "<script>
            window.location= 'error.php'
 </script>";
     
 
-    }
+    } 
 if(isset( $_POST['cerrar'])){
     session_destroy();
     echo "<script>
