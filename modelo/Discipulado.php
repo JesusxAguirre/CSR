@@ -293,22 +293,45 @@ class Discipulado extends Conexion
     //------------------------------------------------------Registrar Asitencias de discipulado ----------------------//
     public function registrar_asistencias()
     {
-        $sql = "INSERT INTO reporte_celula_discipulado (id_discipulado,cedula_participante,fecha) 
-        VALUES(:id_discipulado,:cedula_participante,:fecha)";
+        try {
+            
+            $sql = "INSERT INTO reporte_celula_discipulado (id_discipulado,cedula_participante,fecha) 
+            VALUES(:id_discipulado,:cedula_participante,:fecha)";
 
-        $stmt = $this->conexion->prepare($sql);
-        //recorriendo arreglo de asistentes
-        foreach ($this->asistentes as $asistente) {
-            $stmt->execute(array(
-                ":id_discipulado" => $this->id,
-                ":cedula_participante" => $asistente,
-                ":fecha" => $this->fecha
-            ));
-        } //fin del foeach
+            $stmt = $this->conexion->prepare($sql);
+            //recorriendo arreglo de asistentes
+            foreach ($this->asistentes as $asistente) {
+                $stmt->execute(array(
+                    ":id_discipulado" => $this->id,
+                    ":cedula_participante" => $asistente,
+                    ":fecha" => $this->fecha
+                ));
+            } //fin del foeach
 
-        $accion = "Registrar Asistencias de celula de discipulado";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            if (isset($_SESSION['cedula'])) {
+                $accion = "Registrar Asistencias de celula de discipulado";
+                $usuario = $_SESSION['cedula'];
+                parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            }
+
+
+
+            http_response_code(200);
+            echo json_encode(array("msj" => "Se han registrado correctamente las asistencias", 'status_code' => 200));
+            die();
+        } catch (Throwable $ex) {
+
+            if ($this->conexion()->inTransaction()) {
+                $this->conexion()->rollBack();
+            }
+
+
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
+        }
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
@@ -836,10 +859,9 @@ class Discipulado extends Conexion
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha registrado correctamente todos los nuevos participantes", 'status_code' => 200));
             die();
-
         } catch (Throwable $ex) {
 
-           
+
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
