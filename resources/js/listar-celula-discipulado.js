@@ -473,54 +473,13 @@ function recarga() {
   window.location = "index.php?pagina=listar-celula-discipulado";
 }
 
-function buscarParticipantes(busqueda) {
-  return $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-participante-discipulado.php",
-    type: "get"
-  }).done(data => {
-    modal_eliminar_participates.innerHTML = data
-    var v_modal = $('#eliminar_usuario').modal({ show: false });
-
-    v_modal.modal("show");
-    addEvents()
-  })
-}
-
 
 
 
 function addEvents() {
 
-  const participanteModal = document.querySelectorAll('table td .modal-btn')
-
-  participanteModal.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let id = fila.querySelector('.id')
-
-    const busqueda = id.textContent
 
 
-    buscarParticipantes(busqueda);
-  }))
-
-  //ELIMINAR DISCIPULOS COLOCAR CAMPOS OCULTOS
-  const deleteButtons = document.querySelectorAll('table td .delete-btn')
-
-  deleteButtons.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let cedula_participante = fila.querySelector('.participantes_cedula')
-    let nombre = fila.querySelector('.participantes_nombre')
-    let apellido = fila.querySelector('.participantes_apellido')
-
-    const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
-    const nombre_participante = document.getElementById('deleteParticipanteName')
-    const apellido_participante = document.getElementById('deleteParticipanteApellido')
-
-    cedulaInput.value = cedula_participante.textContent
-    nombre_participante.textContent = nombre.textContent
-    apellido_participante.textContent = apellido.textContent
-  }))
 
   //EDITAR NIVEL DE COLOCAR CAMPOS OCULTOS
   const editar_nivel_buttons = document.querySelectorAll('table td .edit-nivel-btn')
@@ -686,6 +645,19 @@ $('#tabla_discipulos tbody').on('click', '.modal-btn', function () {
 
 })
 
+
+$('#tabla_participantes tbody').on('click', '.delete-btn', function() {
+  let row = $(this).closest('tr');
+
+  const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
+    const nombre_participante = document.getElementById('deleteParticipanteName')
+    const apellido_participante = document.getElementById('deleteParticipanteApellido')
+
+    cedulaInput.value = row.find('td:eq(6)').text()
+    nombre_participante.textContent = row.find('td:eq(2)').text()
+    apellido_participante.textContent = row.find('td:eq(3)').text()
+
+})
 
   function solicitar_tabla() {
     $.ajax({

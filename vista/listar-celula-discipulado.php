@@ -265,7 +265,7 @@
         </div>
         <div class="modal-body">
           <div class="table-responsive mt-4">
-            <table role='table' class='table table-centered'>
+            <table role='table' class='table table-centered' id="tabla_participantes">
               <thead>
                 <tr role='row'>
                   <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
@@ -284,8 +284,8 @@
       </div>
     </div>
   </div>
-  <!-- Modal eliminar usuario -->
 
+  
   <!-- Modal Eliminar  Participante -->
   <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
     <div class="modal-dialog">
