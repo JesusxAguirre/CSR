@@ -530,10 +530,9 @@ class Discipulado extends Conexion
             echo json_encode(array("msj" => "Se ha registrado correctamente la cedula de discipulado", 'status_code' => 200));
             die();
         } catch (Throwable $ex) {
-            
-            if($this->conexion()->inTransaction()){
-                $this->conexion()->rollBack();
 
+            if ($this->conexion()->inTransaction()) {
+                $this->conexion()->rollBack();
             }
 
 
@@ -803,9 +802,8 @@ class Discipulado extends Conexion
             die();
         } catch (Throwable $ex) {
 
-            if($this->conexion()->inTransaction()){
+            if ($this->conexion()->inTransaction()) {
                 $this->conexion()->rollBack();
-
             }
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
@@ -818,17 +816,35 @@ class Discipulado extends Conexion
 
     public function agregar_participantes()
     {
-        $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+        try {
 
-        foreach ($this->participantes as $participantes) {
 
-            $stmt = $this->conexion()->prepare($sql);
+            $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
-            $stmt->execute(array(
-                ":cedula" => $participantes,
-                ":id" => $this->id
+            foreach ($this->participantes as $participantes) {
 
-            ));
+                $stmt = $this->conexion()->prepare($sql);
+
+                $stmt->execute(array(
+                    ":cedula" => $participantes,
+                    ":id" => $this->id
+
+                ));
+            }
+
+
+            http_response_code(200);
+            echo json_encode(array("msj" => "Se ha registrado correctamente todos los nuevos participantes", 'status_code' => 200));
+            die();
+
+        } catch (Throwable $ex) {
+
+           
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
         } //fin del foreach
 
     }

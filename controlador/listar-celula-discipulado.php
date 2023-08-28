@@ -19,11 +19,9 @@ if ($_SESSION['verdadero'] > 0) {
         $objeto = new Discipulado();
 
 
-        $matriz_usuarios = $objeto->listar_no_participantes();
 
         $matriz_lideres = $objeto->listar_usuarios_N2();
         //actualizar celula
-        $actualizar = true;
 
         if (isset($_POST['update'])) {
             $cedula_lider = trim($_POST['codigoLider']);
@@ -36,12 +34,13 @@ if ($_SESSION['verdadero'] > 0) {
 
             $objeto->security_validation_inyeccion_sql([$id, $dia, str_replace(" ", "", $direccion)]);
 
+            $objeto->security_validation_codigo([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
+  
 
 
             $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id);
 
             $objeto->actualizar_discipulado();
-            $actualizar = false;
         }
 
         if (isset($_GET['listar_celula_disicpulado'])) {
@@ -53,7 +52,7 @@ if ($_SESSION['verdadero'] > 0) {
         }
 
 
-        //BUSCAR PARTICIPANTES DE CELULCA
+        //BUSCAR PARTICIPANTES DE CELULA
 
         if(isset($_GET['buscar_participantes'])){
             $matriz_usuarios = $objeto->listar_no_participantes();
@@ -68,13 +67,18 @@ if ($_SESSION['verdadero'] > 0) {
         //agregar participantes
         if (isset($_POST['participantes'])) {
 
-            $participantes = trim($_POST['participantes']);
+            $participantes = $_POST['participantes'];
             $id = trim($_POST['id']);
+            
+            $objeto->security_validation_inyeccion_sql([$id]);
+            $objeto->security_validation_codigo($participantes);
+
 
             $objeto->setParticipantes($participantes, $id);
 
             $objeto->agregar_participantes();
-            $registrar_participante = false;
+            
+
         }
         
 

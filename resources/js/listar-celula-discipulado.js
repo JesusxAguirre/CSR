@@ -11,6 +11,8 @@ const selects = document.querySelectorAll('#EditarNivelForm select');
 
 let participantes_array = ''
 
+var choices1 = null
+
 let lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
 let lideres_array = Array.prototype.map.call(lista_lideres.options, function (option) { //retornando array con id de lideres
@@ -68,7 +70,7 @@ const expresiones = { //objeto con varias expresiones regulares
 
 
 
-const ValidarFormulario = (e) => {
+var ValidarFormulario = (e) => {
   switch (e.target.name) {
     case "dia":
       ValidarDia(e.target, 'dia');
@@ -111,6 +113,7 @@ const ValidarFormulario = (e) => {
 
 
 const ValidarCodigo = (codigo_array, input, campo) => {
+
   if (codigo_array.indexOf(input.value) >= 0) {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
@@ -282,7 +285,7 @@ $('#agregar_usuarios').submit(function (event) {
       url: "?pagina=listar-celula-discipulado",
       data: $(this).serialize(),
       success: function (response) {
-
+        console.log(response)
         document.getElementById("agregar_usuarios").reset()
 
         for (let campo in campos) {
@@ -601,24 +604,24 @@ $('#tabla_discipulos tbody').on('click', '.btn-add', function () {
     dataType: 'json',
     success: function (data) {
 
-      console.log(data)
+      if (choices1 !== null) {
+        choices1.destroy()
+      }
 
       let participantes = document.getElementById('participantes');
 
-      participantes_array = Array.prototype.map.call(participantes.options, function (option) {
-        return option.value;
-      });
 
-      let choicesData = data.map(function (participante) {
+
+      participantes_array = data.map(function (participante) {
         return {
           value: participante.cedula,
           label: participante.nombre + ' ' + participante.apellido + ' ' + participante.codigo,
         };
       });
-  
 
-      var choices1 = new Choices(participantes, {
-        choices: choicesData,
+
+      choices1 = new Choices(participantes, {
+        choices: participantes_array,
         allowHTML: true,
         removeItems: true,
         removeItemButton: true,
@@ -626,7 +629,9 @@ $('#tabla_discipulos tbody').on('click', '.btn-add', function () {
         noChoicesText: 'No hay participantes disponibles',
       });
 
-      choices1.setValue(data)
+      participantes_array = data.map(function (participante) {
+        return String(participante.cedula)
+      });
 
       //listando eventos selects libreria choice
       participantes.addEventListener('hideDropdown', ValidarFormulario);
@@ -665,40 +670,54 @@ $('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
   })
 })
 
+$('#tabla_discipulos tbody').on('click', '.modal-btn', function () {
+  let row = $(this).closest('tr');
 
-
-
-function solicitar_tabla() {
   $.ajax({
-    url: window.location,
-    type: 'GET',
-    data: {
-      listar_celula_disicpulado: 'listar_celula_disicpulado',
-    },
-    dataType: 'json',
-    success: function (data) {
+    data: 'busqueda=' + row.find('td:eq(0)').text(),
+    url: "controlador/ajax/buscar-participante-discipulado.php",
+    type: "get"
+  }).done(data => {
+    modal_eliminar_participates.innerHTML = data
+    var v_modal = $('#eliminar_usuario').modal({ show: false });
 
-      console.log(data)
+    v_modal.modal("show");
+  })
 
-      $('#tabla_discipulos').DataTable({
-        language: {
-          url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
-        },
-        data: data,
-        columns: [
-          { data: 'id', title: 'ID', className: "d-none" },
-          { data: 'codigo_celula_discipulado', title: 'Codigo de celula' },
-          { data: 'dia_reunion', className: "text-capitalize dia", title: 'Dia de reunion' },
-          { data: 'hora', className: "text-capitalize hora", title: 'Hora de reunion' },
-          { data: 'codigo_lider', title: 'Codigo de lider' },
-          { data: 'codigo_anfitrion', title: 'Codigo de anfitrion', className: "d-none" },
-          { data: 'codigo_asistente', title: 'Codigo de asistente', className: "d-none" },
-          { data: 'direccion', title: 'Direccion', className: "d-none" },
-          {
-            data: null,
-            title: "Acciones",
-            className: "text-center",
-            defaultContent: `
+})
+
+
+  function solicitar_tabla() {
+    $.ajax({
+      url: window.location,
+      type: 'GET',
+      data: {
+        listar_celula_disicpulado: 'listar_celula_disicpulado',
+      },
+      dataType: 'json',
+      success: function (data) {
+
+        console.log(data)
+
+        $('#tabla_discipulos').DataTable({
+          language: {
+            url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
+          },
+          data: data,
+          columns: [
+            { data: 'id', title: 'ID', className: "d-none" },
+            { data: 'codigo_celula_discipulado', title: 'Codigo de celula' },
+            { data: 'dia_reunion', className: "text-capitalize dia", title: 'Dia de reunion' },
+            { data: 'hora', className: "text-capitalize hora", title: 'Hora de reunion' },
+            { data: 'codigo_lider', title: 'Codigo de lider' },
+            { data: 'codigo_anfitrion', title: 'Codigo de anfitrion', className: "d-none" },
+            { data: 'codigo_asistente', title: 'Codigo de asistente', className: "d-none" },
+            { data: 'direccion', title: 'Direccion', className: "d-none" },
+            {
+              data: null,
+              title: "Acciones",
+              className: "text-center",
+              defaultContent: `
            
             <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary btn-edit">
               <i class="fs-5 bi bi-pencil-fill"></i>
@@ -713,20 +732,20 @@ function solicitar_tabla() {
                 <i class="fs-5 bi bi bi-person-dash-fill"></i>
               </button>
               `,
-            orderable: false
-          },
+              orderable: false
+            },
 
-        ],
-        "lengthChange": false, "autoWidth": false,
-        buttons: [
-          'csv', 'excel', 'pdf', 'print'
-        ],
+          ],
+          "lengthChange": false, "autoWidth": false,
+          buttons: [
+            'csv', 'excel', 'pdf', 'print'
+          ],
 
-      }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
+        }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
 
-    },
-    error: function (xhr, status, error) {
-      console.log(xhr)
-    }
-  });
-}
+      },
+      error: function (xhr, status, error) {
+        console.log(xhr)
+      }
+    });
+  }
