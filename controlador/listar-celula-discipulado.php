@@ -53,8 +53,7 @@ if ($_SESSION['verdadero'] > 0) {
         }
 
         //agregar participantes
-        $registrar_participante = true;
-        if (isset($_POST['agregar_participantes'])) {
+        if (isset($_POST['participantes'])) {
 
             $participantes = trim($_POST['participantes']);
             $id = trim($_POST['id']);
@@ -67,7 +66,6 @@ if ($_SESSION['verdadero'] > 0) {
 
 
         //registrar asistencia
-        $registrar_asistencia = true;
         if (isset($_POST['agregar_asistencia'])) {
             $fecha = trim($_POST['fecha']);
             $asistentes = trim($_POST['asistentes']);

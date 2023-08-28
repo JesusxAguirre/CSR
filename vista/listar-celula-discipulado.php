@@ -32,8 +32,6 @@
 
   <!-- JS de DataTables -->
   <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
-  
-
   <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
 
   <style>
@@ -46,8 +44,9 @@
       background-color: grey;
       border-color: #146c43;
     }
+
     .text-title {
-        color: #747579;
+      color: #747579;
 
     }
   </style>
@@ -86,7 +85,7 @@
 
                   <div class="row">
                     <div class="col-sm-12">
-                      <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="mi_tabla">
+                      <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="tabla_discipulos">
                         <thead>
 
                         </thead>
@@ -102,10 +101,10 @@
               </div>
             </div>
 
-            </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
 
     </div>
@@ -127,7 +126,7 @@
                   <label class="form-label fw-bold" for="descripcionInput">
                     Dia de reunion
                   </label>
-                  
+
                   <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
                 <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes </p>
@@ -139,7 +138,7 @@
                   <label class="form-label fw-bold" for="descripcionInput">
                     Hora
                   </label>
-                  
+
                   <input type="time" name="hora" id="horaInput" class="form-control" placeholder="">
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
@@ -149,7 +148,7 @@
               <div id="grupo__direccion" class="col-sm col-md-12">
                 <div class="relative">
                   <label class="form-label fw-bold" for="formGridZip">Dirección de la celula</label>
-                  
+
                   <input name="direccion" id="direccionInput" type="text" placeholder="" class="form-control">
                 </div>
                 <p class="text-danger d-none">Este campo no puede quedar vacio</p>
@@ -159,7 +158,7 @@
               <div id="grupo__codigoLider" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
-                  
+
                   <input name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
                   <datalist id="lider">
                     <?php
@@ -176,7 +175,7 @@
               <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de Anfitrion</label>
-                  
+
                   <input class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
                   <datalist id="anfitrion">
                     <?php
@@ -193,7 +192,7 @@
               <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Codigo de Asistente</label>
-                  
+
                   <input class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
                   <datalist id="asistente">
                     <?php
@@ -229,12 +228,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="agregar_usuarios" action="?pagina=listar-celula-discipulado">
+          <form class="form" method="post" id="agregar_usuarios" >
             <div class="mb-3 row">
               <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Agregar Discipulo a celula</label>
-                  
+
 
                   <select multiple name="participantes[]" id="participantes" class="form-control">
                     <?php
@@ -331,7 +330,7 @@
             <div id="grupo__nivel" class="col-sm ">
               <div class="relative">
                 <label class="form-label fw-bold">Cambiar Nivel</label>
-                
+
                 <select name="nivel" id="nivel" class="form-select form-select" aria-label=".form-select-sm example">
                   <option value="">....</option>
                   <option value="N1">Cambiar discipulo a nivel 1</option>
@@ -354,63 +353,58 @@
   <!-- Modal Editar nivel de discipulo -->
 
   <!-- Modal agregar_asistencia -->
-  <div class="modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-light">
-          <h5 class="modal-title">Agregar Asistencias</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
-            <div class="mb-3 row">
-              <div id="grupo__asistentes" class="col-sm ">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
-                  
-                  <div id="asistencias4"></div>
-
-                  </select>
+  <div class=" modal fade edit-modal" id="agregar_asistencia" tabindex="-1" aria-labelledby="Modalagregar_asistencia" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header bg-primary text-light">
+                  <h5 class="modal-title">Agregar Asistencias</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                <div class="modal-body">
+                  <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
+                    <div class="mb-3 row">
+                      <div id="grupo__asistentes" class="col-sm ">
+                        <div class="relative">
+                          <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
+
+                          <div id="asistencias4"></div>
+
+                          </select>
+                        </div>
+                        <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                      </div>
+                    </div>
+                    <div class="mt-4 mb-3 row">
+                      <div id="grupo__fecha" class="col-sm ">
+                        <div class="relative">
+                          <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
+
+                          <input id="fecha" name="fecha" class="form-control" type="date" />
+                        </div>
+                        <p class="text-danger d-none">Este campo no puede estar vacio</p>
+                      </div>
+                    </div>
+
+
+                    <input type="hidden" name="id" id="idInput3">
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                  <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
+
+                </div>
               </div>
             </div>
-            <div class="mt-4 mb-3 row">
-              <div id="grupo__fecha" class="col-sm ">
-                <div class="relative">
-                  <label class="form-label fw-bold" for="">Agregar fecha de Reunion</label>
-                  
-                  <input id="fecha" name="fecha" class="form-control" type="date" />
-                </div>
-                <p class="text-danger d-none">Este campo no puede estar vacio</p>
-              </div>
-            </div>
-
-
-            <input type="hidden" name="id" id="idInput3">
-          </form>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
-
-        </div>
-      </div>
-    </div>
-  </div>
 
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.js"></script>
 
 
 
 
-  <script type="text/javascript">
-    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-    registrar_participante = <?php echo ($registrar_participante) ? 'true' : 'false'; ?>;
-    registrar_asistencia = <?php echo ($registrar_asistencia) ? 'true' : 'false'; ?>;
-  </script>
-  <script src="resources/js/listar-celula-discipulado.js"></script>
+        <script src="resources/js/listar-celula-discipulado.js"></script>
 </body>

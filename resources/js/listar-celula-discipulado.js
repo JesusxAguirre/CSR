@@ -124,17 +124,19 @@ const ValidarFormulario = (e) => {
 
 const ValidarCodigo = (codigo_array, input, campo) => {
   if (codigo_array.indexOf(input.value) >= 0) {
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+
+    campos[campo] = true;
+  } else {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
     document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
 
-    campos[campo] = true;
-  } else {
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
 
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = false;
   }
 }
@@ -229,7 +231,6 @@ $('#editForm').submit(function (event) {
       data: $(this).serialize(),
       success: function (response) {
 
-        console.log(response)
         document.getElementById("editForm").reset()
 
         for (let campo in campos) {
@@ -257,13 +258,77 @@ $('#editForm').submit(function (event) {
 
         switch (response.status_code) {
           case 409:
-            response.ErrorType = "Casa sobre la roca ya existe"
+            response.ErrorType = "Celula de discipulado ya existe"
             break;
           case 422:
             response.ErrorType = "Datos invalidos"
             break;
           case 404:
-            response.ErrorType = "Casa sobre la roca no existe"
+            response.ErrorType = "Celula de discipulado no existe"
+            break;
+          default:
+            break;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: response.ErrorType,
+          text: response.msj
+        })
+      }
+    })
+  }
+})
+
+$('#agregar_usuarios').submit(function (event){
+  event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
+  console.log($(this).serialize())
+  if (!(campos.participantes)) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Lo siento ',
+      text: 'Registra el formulario correctamente'
+    })
+  }else{
+    $.ajax({
+      type: "POST",
+      url: "?pagina=listar-celula-discipulado",
+      data: $(this).serialize(),
+      success: function (response) {
+
+        document.getElementById("agregar_usuarios").reset()
+
+        for (let campo in campos) {
+          campos[campo] = false
+        }
+
+        $("#editar").removeClass('fade').modal('hide');
+        $('#mi_tabla').DataTable().destroy();
+
+        $("#editar").addClass('fade')
+        solicitar_tabla()
+
+        fireAlert('success', 'Se agregaron participantes correctamente ')
+
+      },
+      error: function (xhr, status, error) {
+        
+        // Código a ejecutar si se produjo un error al realizar la solicitud
+        var response;
+        try {
+          response = JSON.parse(xhr.responseText);
+        } catch (e) {
+          response = {};
+        }
+
+        switch (response.status_code) {
+          case 409:
+            response.ErrorType = "celula de discipulado ya existe"
+            break;
+          case 422:
+            response.ErrorType = "Datos invalidos"
+            break;
+          case 404:
+            response.ErrorType = "Celulua de discipulado no existe"
             break;
           default:
             break;
@@ -280,17 +345,6 @@ $('#editForm').submit(function (event) {
 
 
 
-
-formulario2.addEventListener('submit', (e) => {
-  if (!(campos.participantes)) {
-    e.preventDefault();
-    Swal.fire({
-      icon: 'error',
-      title: 'Lo siento ',
-      text: 'Registra el formulario correctamente'
-    })
-  }
-})
 
 formulario3.addEventListener('submit', (e) => {
   if (!(campos.asistentes && campos.fecha)) {
@@ -368,29 +422,7 @@ participantes.addEventListener('hideDropdown', ValidarFormulario);
 
 //alerta registrar participante
 
-if (actualizar == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se actualizo la informacion correctamente'
-  })
-  setTimeout(recarga, 2000);
-}
 
-if (registrar_participante == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro correctamente el(la) ó los(as) discipulos'
-  })
-  setTimeout(recarga, 2000);
-}
-//alerta registrar asistencia
-if (registrar_asistencia == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro correctamente la asistencia'
-  })
-  setTimeout(recarga, 2000);
-}
 
 
 
@@ -466,79 +498,10 @@ function buscarParticipantes(busqueda) {
 }
 
 
-function buscarParticipantesAsistencias(busqueda) {
-  return $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-participante-asistencias-discipulado.php",
-    type: "get"
-  }).done(data => {
-    expandir.innerHTML = data
-    const asistentes = document.getElementById('asistentes');
-    var choices2 = new Choices(asistentes, {
-      allowHTML: true,
-      removeItems: true,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay participantes disponibles',
-    });
-    asistentes.addEventListener('hideDropdown', ValidarFormulario);
-    addEvents()
-  })
-}
-
 
 
 function addEvents() {
-  // Actualizar contenido del modal Editar
-  const editButtons = document.querySelectorAll('table td .edit-btn')
-
-  editButtons.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let id = fila.querySelector('.id')
-    let direccion = fila.querySelector('.direccion')
-    let dia = fila.querySelector('.dia')
-    let hora = fila.querySelector('.hora')
-    let lider = fila.querySelector('.lider')
-    let anfitrion = fila.querySelector('.anfitrion')
-    let asistente = fila.querySelector('.asistente')
-
-    let cedula_anfitrion = fila.querySelector('.cedula_anfitrion')
-    let cedula_asistente = fila.querySelector('.cedula_asistente')
-
-    const idInput = document.getElementById('idInput')
-
-    const diaInput = document.getElementById('diaInput')
-    const horaInput = document.getElementById('horaInput')
-    const direccionInput = document.getElementById('direccionInput')
-    const liderInput = document.getElementById('codigoLider')
-    const anfitrionInput = document.getElementById('codigoAnfitrion')
-    const asistenteInput = document.getElementById('codigoAsistente')
-
-    const anfitrion_lista = document.getElementById("anfitrion")
-    const asistente_lista = document.getElementById("asistente")
-
-
-
-    liderInput.value = lider.textContent
-    anfitrionInput.value = anfitrion.textContent
-    asistenteInput.value = asistente.textContent
-    idInput.value = id.textContent
-
-    diaInput.value = dia.textContent
-    horaInput.value = hora.textContent
-    direccionInput.value = direccion.textContent
-    //cedulas de usuarios
-
-
-
-    //agregar a datalist datos de anfitrion y asistente
-
-    /*     anfitrion_lista.value = cedula_anfitrion.textContent
-        anfitrion_lista.label = cedula_anfitrion.textContent
-        asistente_lista.value = cedula_anfitrion.textContent   */
-
-  }))
-
+ 
   const participanteModal = document.querySelectorAll('table td .modal-btn')
 
   participanteModal.forEach(boton => boton.addEventListener('click', () => {
@@ -591,32 +554,85 @@ function addEvents() {
     apellido_participante.textContent = apellido.textContent
   }))
 
-  const agregar_participantes = document.querySelectorAll('table td .agregar-btn'); //declarando una constante con la id formulario
-
-  agregar_participantes.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let id = fila.querySelector('.id')
-    let idInput = document.getElementById('idInput2')
-    idInput.value = id.textContent
-  }))
-
-  const agregar_asistencias = document.querySelectorAll('table td .asistencias-btn'); //declarando una constante con la id formulario
-  agregar_asistencias.forEach(boton => boton.addEventListener('click', () => {
-    let fila = boton.parentElement.parentElement
-    let id = fila.querySelector('.id')
-    let idInput = document.getElementById('idInput3')
-    let busqueda = id.textContent
-    idInput.value = id.textContent
-
-    buscarParticipantesAsistencias(busqueda);
-
-  }))
-
-
-
 
 
 }
+
+
+
+$('#tabla_discipulos tbody').on('click', '.btn-edit', function () {
+  // Actualizar contenido del modal Editar
+
+  console.log("ENTRO EN EL BTN EDT")
+
+  const editButtons = document.querySelectorAll('table td .btn-edit')
+
+  let row = $(this).closest('tr');
+
+
+
+
+
+  const idInput = document.getElementById('idInput')
+  const diaInput = document.getElementById('diaInput')
+  const horaInput = document.getElementById('horaInput')
+  const liderInput = document.getElementById('codigoLider')
+  const nombre_anfitrionInput = document.getElementById('codigoAnfitrion')
+  const telefono_anfitrionInput = document.getElementById('codigoAsistente')
+  const direccionInput = document.getElementById('direccionInput')
+
+  hora_completa = row.find('td:eq(3)').text()
+
+  idInput.value = row.find('td:eq(0)').text()
+  diaInput.value = row.find('td:eq(2)').text()
+
+  horaInput.value = hora_completa.slice(0, 5)
+  liderInput.value = row.find('td:eq(4)').text()
+  nombre_anfitrionInput.value = row.find('td:eq(5)').text()
+  telefono_anfitrionInput.value = row.find('td:eq(6)').text()
+  direccionInput.value = row.find('td:eq(8)').text()
+  //cedulas de usuarios
+
+  console.log(hora_completa.slice(0, 5))
+});
+
+$('#tabla_discipulos tbody').on('click', '.btn-add', function(){
+
+
+  let row = $(this).closest('tr');
+
+  let idInput = document.getElementById('idInput2')
+  idInput.value = row.find('td:eq(0)').text()
+
+ 
+})
+
+$('#tabla_discipulos tbody').on('click', '.btn-add-date', function(){
+
+
+  let row = $(this).closest('tr');
+
+  let idInput = document.getElementById('idInput3')
+  idInput.value = row.find('td:eq(0)').text()
+
+  $.ajax({
+    data: 'busqueda=' + row.find('td:eq(0)').text(),
+    url: "controlador/ajax/buscar-participante-asistencias-discipulado.php",
+    type: "get"
+  }).done(data => {
+    expandir.innerHTML = data
+    const asistentes = document.getElementById('asistentes');
+    var choices2 = new Choices(asistentes, {
+      allowHTML: true,
+      removeItems: true,
+      removeItemButton: true,
+      noResultsText: 'No hay coicidencias',
+      noChoicesText: 'No hay participantes disponibles',
+    });
+    asistentes.addEventListener('hideDropdown', ValidarFormulario);
+  })
+})
+
 
 
 
@@ -632,7 +648,7 @@ function solicitar_tabla() {
 
       console.log(data)
 
-      $('#mi_tabla').DataTable({
+      $('#tabla_discipulos').DataTable({
         language: {
           url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
         },
@@ -650,7 +666,21 @@ function solicitar_tabla() {
             data: null,
             title: "Acciones",
             className: "text-center",
-            defaultContent: '<button type="button" data-bs-toggle="modal" data-bs-target="#view" class="btn btn-success btn-view"><i class="fs-5 bi bi-eye-fill"></i></button><button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary btn-edit"><i class="fs-5 bi bi-pencil-fill"></i></button>',
+            defaultContent: `
+           
+            <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary btn-edit">
+              <i class="fs-5 bi bi-pencil-fill"></i>
+              </button>
+              <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_usuario" class="btn btn-outline-primary btn-add"> 
+                <i class=" fs-5 bi bi-person-plus-fill"></i> 
+              </button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary btn-add-date"> 
+              <i class=" fs-5 bi bi-calendar-date-fill"></i> 
+              </button>
+              <button type="button" class="btn btn-outline-danger modal-btn ">
+                <i class="fs-5 bi bi bi-person-dash-fill"></i>
+              </button>
+              `,
             orderable: false
           },
 
