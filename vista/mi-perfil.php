@@ -94,7 +94,7 @@
                   </div>
                   <div id="grupo__edad" class="col-sm col-md-3 ">
                     <div class="relative">
-                      <label class="form-label fw-bold">Edad</label>
+                      <label class="form-label fw-bold">Fecha de nacimiento</label>
                       <i class="input-icon fs-5"></i>
                       <input placeholder="21" id="edadInput" value="" name="edad" type="date" class="form-control">
                     </div>
