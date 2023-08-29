@@ -5,7 +5,7 @@
          stopOnFailure="false">
     <testsuites>
         <testsuite name="pruebas_csr">
-            <file>tests/Usuarios/MiPerfil.php</file>
+            <file>tests/Usuarios/MiPerfilEditar.php</file>
             <!-- <file>tests/Integracion/Login/LoginTest.php</file>
             <file>tests/Integracion/Usuarios/UsuariosTest.php</file>
             <file>tests/Integracion/Consolidacion/ConsolidacionTest.php</file>

@@ -139,7 +139,7 @@ class Usuarios extends Conexion
     public function listar()
     {
 
-        $consulta = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
+        $consulta = ("SELECT usuarios.usuario,  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
          usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.fecha_nacimiento,
          roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
@@ -148,10 +148,8 @@ class Usuarios extends Conexion
         $sql = $this->conexion()->prepare($consulta);
 
         $sql->execute(array());
-
+        
         while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
-
-
             $this->usuario[] = $filas;
         }
 
@@ -160,6 +158,7 @@ class Usuarios extends Conexion
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);*/
 
         return $this->usuario;
+       
     }
     //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
     public function buscar_cedula($cedula)
@@ -585,8 +584,8 @@ class Usuarios extends Conexion
             ));
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
-            $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, edad = :edad, sexo = :sexo, estado_civil = :estadoc 
-        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario, password = :clave WHERE cedula = :ced");
+            $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc 
+        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario WHERE cedula = :ced");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -602,12 +601,12 @@ class Usuarios extends Conexion
                 ":usuario" => $this->correo,
             ));
 
-            session_destroy();
+            /*session_destroy();
             echo "<script>
             alert('Sesion Cerrada');
             window.location= 'index.php'
         </script>";
-            return true;
+            return true;*/
         } catch (Exception $e) {
 
             echo $e->getMessage();
