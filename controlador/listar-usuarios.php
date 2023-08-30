@@ -28,7 +28,7 @@ if ($_SESSION['verdadero'] > 0) {
                     $json['data'][] = $key;
                 }
             } else {
-                $json['data']['cedula'] = null;
+                $json['data'] = array();
                 //Faltaria agregar las demas, pero debes hacerlo descriptivo
             }
             echo json_encode($json);

@@ -2,13 +2,10 @@
 const busquedaEl = document.getElementById('search-input')
 const rolesEl = document.getElementById('roles')
 
-// Agrega los eventos para actualizar y eliminar cada rol
-addEvents()
-
 // Notificación SweetAlert
 if (alertMsg != "") {
 	let iconText
-	if (alertStatus) {iconText = 'success'} else {iconText = 'error'}
+	if (alertStatus) { iconText = 'success' } else { iconText = 'error' }
 	Swal.fire({
 		icon: iconText,
 		title: alertMsg
@@ -46,7 +43,7 @@ deleteButton.addEventListener('click', () => {
 	let rolId = document.querySelector('#deleteForm .id').value
 
 	$.ajax({
-		data: 'id='+rolId,
+		data: 'id=' + rolId,
 		url: "controlador/ajax/eliminar-rol.php",
 		type: "post",
 	}).done(data => {
@@ -58,9 +55,7 @@ deleteButton.addEventListener('click', () => {
 			fireAlert('error', 'No puedes eliminar este rol porque se encuentra en uso');
 		}
 	}).then(() => {
-		document.querySelector('#eliminar .btn-close').click()
-
-		buscarRoles('')
+		location.reload();
 	})
 })
 
@@ -74,47 +69,149 @@ function fireAlert(icon, msg) {
 // Buscar roles con Ajax
 function buscarRoles(busqueda) {
 	return $.ajax({
-		data: 'busqueda='+busqueda,
+		data: 'busqueda=' + busqueda,
 		url: "controlador/ajax/buscar-roles.php",
 		type: "get"
 	}).done(data => {
 		rolesEl.innerHTML = data
-		addEvents()
 	})
 }
 
-// Agrega los eventos para editar y eliminar cada rol
-function addEvents() {
-	// Actualizar contenido del modal Editar
-	const editButtons = document.querySelectorAll('table td .edit-btn')
 
-	editButtons.forEach(boton => boton.addEventListener('click', () => {
-		let fila = boton.parentElement.parentElement
-		let id = fila.querySelector('.id')
-		let nombre = fila.querySelector('.nombre')
-		let descripcion = fila.querySelector('.descripcion')
+// Actualizar contenido del modal Editar
+const editButtons = document.querySelectorAll('table td .edit-btn')
 
-		const idInput = document.getElementById('idInput')
-		const rolInput = document.getElementById('rolInput')
-		const descripcionInput = document.getElementById('descripcionInput')
+editButtons.forEach(boton => boton.addEventListener('click', () => {
+	let fila = boton.parentElement.parentElement
+	let id = fila.querySelector('.id')
+	let nombre = fila.querySelector('.nombre')
+	let descripcion = fila.querySelector('.descripcion')
 
-		idInput.value = id.textContent
-		rolInput.value = nombre.textContent
-		descripcionInput.value = descripcion.textContent
-	}))
+	const idInput = document.getElementById('idInput')
+	const rolInput = document.getElementById('input_nombreEditar')
+	const descripcionInput = document.getElementById('input_descripcionEditar')
 
-	// Actualizar contenido del modal Eliminar
-	const deleteButtons = document.querySelectorAll('table td .delete-btn')
+	idInput.value = id.textContent
+	rolInput.value = nombre.textContent
+	descripcionInput.value = descripcion.textContent
+}))
 
-	deleteButtons.forEach(boton => boton.addEventListener('click', () => {
-		let fila = boton.parentElement.parentElement
-		let id = fila.querySelector('.id')
-		let nombre = fila.querySelector('.nombre')
+// Actualizar contenido del modal Eliminar
+const deleteButtons = document.querySelectorAll('table td .delete-btn')
 
-		const idInput = document.querySelector('#deleteForm .id')
-		const rolText = document.getElementById('deleteRolName')
+deleteButtons.forEach(boton => boton.addEventListener('click', () => {
+	let fila = boton.parentElement.parentElement
+	let id = fila.querySelector('.id')
+	let nombre = fila.querySelector('.nombre')
 
-		idInput.value = id.textContent
-		rolText.textContent = nombre.textContent
-	}))
+	const idInput = document.querySelector('#deleteForm .id')
+	const rolText = document.getElementById('deleteRolName')
+
+	idInput.value = id.textContent
+	rolText.textContent = nombre.textContent
+}))
+
+
+//Validaciones para Crear Rol
+const initialValidation = {
+	name: false,
+	description: false,
+	name2: true,
+	description2: true
+}
+
+const expresionesCrear = {
+	name: /^[a-zA-Z-\s_]{1,20}$/,
+	description: /^[a-zA-Z0-9.,\s\u00C0-\u00FF]{1,70}$/
+}
+
+const form = document.getElementById("createForm");
+
+const inputCrearNombre = document.getElementById("input_nombreCrear");
+const inputCrearDescripcion = document.getElementById("input_descripcionCrear");
+const inputEditarNombre = document.getElementById("input_nombreEditar");
+const inputEditarDescripcion = document.getElementById("input_descripcionEditar");
+
+form.addEventListener("submit", (event) => {
+	event.preventDefault();
+
+	if (initialValidation.name && initialValidation.description) {
+		$.ajax({
+			type: "POST",
+			url: "?pagina=listar-roles",
+			data: {
+				create: 'create',
+				nombre: document.getElementById('crearInput').value,
+				descripcion: document.getElementById('crearDescription').value
+			},
+			success: function (response) {
+				let data = JSON.parse(response);
+
+				if (data.status == 'true') {
+					fireAlert('success', data.msj);
+					location.reload();
+				} else {
+					fireAlert('error', data.msj);
+				}
+			},
+			error: function (xhr, status, error) {
+				console.log(xhr);
+				console.log(status);
+				console.log(error);
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+
+				fire_alerta('Algo esta mal en la BD', response.msg, 'error')
+			}
+		})
+	}
+});
+
+inputCrearNombre.addEventListener('keyup', (event) => {
+	validarNombre(event.target.value, 'name', 'alertNombreCrear', 'nombreCrear');
+});
+inputCrearDescripcion.addEventListener('keyup', (event) => {
+	validarDescripcion(event.target.value, 'description', 'alertDescripcionCrear', 'descripcionCrear');
+});
+
+inputEditarNombre.addEventListener('keyup', (event) => {
+	validarNombre(event.target.value, 'name2', 'alertNombreEditar', 'nombreEditar');
+});
+inputEditarDescripcion.addEventListener('keyup', (event) => {
+	validarDescripcion(event.target.value, 'description2', 'alertDescripcionEditar', 'descripcionEditar');
+});
+
+function validarNombre(valor, indice, alerta, input) {
+	if (expresionesCrear.name.test(valor)) {
+		initialValidation[indice] = true;
+		document.getElementById(`msj_${alerta}`).classList.add('d-none')
+		document.getElementById(`input_${input}`).classList.remove('border-danger')
+		//initialValidation.name = true;
+		//msjAlertNombre.classList.add('d-none')
+		//inputCrearNombre.classList.remove('border-danger')
+	} else {
+		initialValidation[indice] = false;
+		document.getElementById(`msj_${alerta}`).classList.remove('d-none')
+		document.getElementById(`input_${input}`).classList.add('border-danger')
+		//initialValidation.name = false;
+		//msjAlertNombre.classList.remove('d-none')
+		//inputCrearNombre.classList.add('border-danger')
+	}
+}
+
+function validarDescripcion(valor, indice, alerta, input) {
+	if (expresionesCrear.description.test(valor)) {
+		initialValidation[indice] = true;
+		document.getElementById(`msj_${alerta}`).classList.add('d-none')
+		document.getElementById(`input_${input}`).classList.remove('border-danger')
+	} else {
+		initialValidation[indice] = false;
+		document.getElementById(`msj_${alerta}`).classList.remove('d-none')
+		document.getElementById(`input_${input}`).classList.add('border-danger')
+	}
 }

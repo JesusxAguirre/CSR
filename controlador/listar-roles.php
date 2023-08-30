@@ -35,20 +35,21 @@ if ($_SESSION['verdadero'] > 0) {
 
         // Crear rol
         if (isset($_POST['create'])) {
-            $nombreRol      = $_POST['nombre'];
-            $descripcionRol = $_POST['descripcion'];
+            $nombreRol = strtolower(trim($_POST['nombre']));
+            $descripcionRol = strtolower(trim($_POST['descripcion']));
 
+            $objeto->security_validation_caracteres([$nombreRol]);
+            $objeto->security_validation_inyeccion_sql([$nombreRol]);
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
-                $alert['status'] = 'false';
-                $alert['msg'] = "El rol ingresado ya existe";
+                echo json_encode(array('status' => 'false', 'msj' => 'El rol ingresado ya existe'));
             } else {
                 $objeto->setDatos($nombreRol, $descripcionRol);
                 $objeto->create_rol();
-                $alert['status'] = true;
-                $alert['msg'] = "Rol creado con éxito";
+                echo json_encode(array('status' => 'true', 'msj' => 'Rol creado exitosamente'));
             }
+            die();
         }
 
         // Editar rol
