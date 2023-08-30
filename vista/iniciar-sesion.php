@@ -302,9 +302,6 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        requests = <?php echo ($requests) ? 'true' : 'false'; ?>
-    </script>
 
     <script src="resources/js/validar-registro-usuario.js"></script>
     <!-- Jquery-->

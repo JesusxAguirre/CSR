@@ -146,15 +146,10 @@ $('#editForm').submit(function (event) {
 
         console.log(response)
         document.getElementById("editForm").reset()
-
-        campos.anfitrion = false
-        campos.cantidad = false
-        campos.dia = false
-        campos.hora = false
-        campos.direccion = false
-        campos.hora = false
-        campos.lider = false
-        campos.telefono_anfitrion = false
+        
+        for (let campo in campos) {
+          campos[campo] = false
+        }
 
         $("#editar").removeClass('fade').modal('hide');
         $('#mi_tabla').DataTable().destroy();

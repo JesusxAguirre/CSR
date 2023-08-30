@@ -148,10 +148,17 @@ if (isset($_POST['email'])) {
 	if (!verified_token_csrf()) {
 		$objeto_usuario->insert_ip_blacklist();
 	}
+	$correo = strtolower(trim($_POST['email']));
 
-	$_SESSION['usuario'] = strtolower(trim($_POST['email']));
+	$clave = trim($_POST['password']);
 
-	$_SESSION['clave'] = trim($_POST['password']);
+	$objeto_usuario->security_validation_correo($correo);
+
+	$objeto_usuario->security_validation_clave($clave);
+
+	$_SESSION['usuario'] = $correo;
+
+	$_SESSION['clave'] = $clave;
 
 	$objeto_usuario->check_blacklist();
 

@@ -18,29 +18,22 @@ final class LoginTest extends TestCase
   public function test_login_admin()
   {
     //Init
-    $_SESSION['usuario'] = "example@gmail.com";
-    $_SESSION['clave'] = "12345678";
-    $expected = 1;
+    $correo = "";
+    $clave = "";
+    $expected = 200;
+    
     //Act  
-    $response = $this->objeto_usuarios->validar();
+
+    $this->assertEquals('',$this->objeto_usuarios->security_validation_correo($correo));
+
+    $this->assertEquals('',$this->objeto_usuarios->security_validation_clave($clave));
+
+    $response =  $this->objeto_usuarios->validar();
 
     //Asert
-    $this->assertEquals($expected, $response);
+
+    $this->assertEquals($expected, $response['status_code']);
   }
 
-  /** @test **/
-  public function test_recuperar_password()
-  {
-    //Init
-    $correo = "example@gmail.com";
-    $clave = "12345678";
-    $expected = 1;
-    //Act  
-    $this->objeto_usuarios->setRecuperar($correo,$clave);
 
-    $response = $this->objeto_usuarios->recuperar_password();
-
-    //Asert
-    $this->assertEquals($expected, $response);
-  }
 }

@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'PHPUnit\\Exception' => $vendorDir . '/phpunit/phpunit/src/Exception.php',
     'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => $vendorDir . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
@@ -58,6 +59,7 @@ return array(
     'PHPUnit\\Framework\\Constraint\\LogicalXor' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/Operator/LogicalXor.php',
     'PHPUnit\\Framework\\Constraint\\ObjectEquals' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/Object/ObjectEquals.php',
     'PHPUnit\\Framework\\Constraint\\ObjectHasAttribute' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasAttribute.php',
+    'PHPUnit\\Framework\\Constraint\\ObjectHasProperty' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/Object/ObjectHasProperty.php',
     'PHPUnit\\Framework\\Constraint\\Operator' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/Operator/Operator.php',
     'PHPUnit\\Framework\\Constraint\\RegularExpression' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/String/RegularExpression.php',
     'PHPUnit\\Framework\\Constraint\\SameSize' => $vendorDir . '/phpunit/phpunit/src/Framework/Constraint/Cardinality/SameSize.php',
@@ -288,8 +290,8 @@ return array(
     'PHPUnit\\TextUI\\XmlConfiguration\\Migrator' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrator.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\MoveAttributesFromFilterWhitelistToCoverage' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveAttributesFromFilterWhitelistToCoverage.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\MoveAttributesFromRootToCoverage' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveAttributesFromRootToCoverage.php',
-    'PHPUnit\\TextUI\\XmlConfiguration\\MoveWhitelistDirectoriesToCoverage' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveWhitelistDirectoriesToCoverage.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\MoveWhitelistExcludesToCoverage' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveWhitelistExcludesToCoverage.php',
+    'PHPUnit\\TextUI\\XmlConfiguration\\MoveWhitelistIncludesToCoverage' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/MoveWhitelistIncludesToCoverage.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\PHPUnit' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/PHPUnit/PHPUnit.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\Php' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/PHP/Php.php',
     'PHPUnit\\TextUI\\XmlConfiguration\\PhpHandler' => $vendorDir . '/phpunit/phpunit/src/TextUI/XmlConfiguration/PHP/PhpHandler.php',
@@ -426,6 +428,7 @@ return array(
     'PharIo\\Version\\VersionConstraintParser' => $vendorDir . '/phar-io/version/src/VersionConstraintParser.php',
     'PharIo\\Version\\VersionConstraintValue' => $vendorDir . '/phar-io/version/src/VersionConstraintValue.php',
     'PharIo\\Version\\VersionNumber' => $vendorDir . '/phar-io/version/src/VersionNumber.php',
+    'PhpToken' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
     'SebastianBergmann\\CliParser\\AmbiguousOptionException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
     'SebastianBergmann\\CliParser\\Exception' => $vendorDir . '/sebastian/cli-parser/src/exceptions/Exception.php',
     'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -626,6 +629,7 @@ return array(
     'SebastianBergmann\\Type\\UnknownType' => $vendorDir . '/sebastian/type/src/type/UnknownType.php',
     'SebastianBergmann\\Type\\VoidType' => $vendorDir . '/sebastian/type/src/type/VoidType.php',
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
+    'Stringable' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Stringable.php',
     'TheSeer\\Tokenizer\\Exception' => $vendorDir . '/theseer/tokenizer/src/Exception.php',
     'TheSeer\\Tokenizer\\NamespaceUri' => $vendorDir . '/theseer/tokenizer/src/NamespaceUri.php',
     'TheSeer\\Tokenizer\\NamespaceUriException' => $vendorDir . '/theseer/tokenizer/src/NamespaceUriException.php',
@@ -634,4 +638,6 @@ return array(
     'TheSeer\\Tokenizer\\TokenCollectionException' => $vendorDir . '/theseer/tokenizer/src/TokenCollectionException.php',
     'TheSeer\\Tokenizer\\Tokenizer' => $vendorDir . '/theseer/tokenizer/src/Tokenizer.php',
     'TheSeer\\Tokenizer\\XMLSerializer' => $vendorDir . '/theseer/tokenizer/src/XMLSerializer.php',
+    'UnhandledMatchError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+    'ValueError' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/ValueError.php',
 );

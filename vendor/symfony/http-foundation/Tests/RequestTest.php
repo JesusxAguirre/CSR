@@ -1300,6 +1300,20 @@ class RequestTest extends TestCase
         $this->assertEquals(['foo' => 'bar'], $req->toArray());
     }
 
+    public function testGetPayload()
+    {
+        $req = new Request([], [], [], [], [], [], json_encode(['foo' => 'bar']));
+        $this->assertSame(['foo' => 'bar'], $req->getPayload()->all());
+        $req->getPayload()->set('new', 'key');
+        $this->assertSame(['foo' => 'bar'], $req->getPayload()->all());
+
+        $req = new Request([], ['foo' => 'bar'], [], [], [], [], json_encode(['baz' => 'qux']));
+        $this->assertSame(['foo' => 'bar'], $req->getPayload()->all());
+
+        $req = new Request([], [], [], [], [], [], '');
+        $this->assertSame([], $req->getPayload()->all());
+    }
+
     /**
      * @dataProvider provideOverloadedMethods
      */
@@ -1870,6 +1884,62 @@ class RequestTest extends TestCase
     }
 
     /**
+     * @dataProvider baseUriDetectionOnIisWithRewriteData
+     */
+    public function testBaseUriDetectionOnIisWithRewrite(array $server, string $expectedBaseUrl, string $expectedPathInfo)
+    {
+        $request = new Request([], [], [], [], [], $server);
+
+        self::assertSame($expectedBaseUrl, $request->getBaseUrl());
+        self::assertSame($expectedPathInfo, $request->getPathInfo());
+    }
+
+    public static function baseUriDetectionOnIisWithRewriteData(): \Generator
+    {
+        yield 'No rewrite' => [
+            [
+                'PATH_INFO' => '/foo/bar',
+                'PHP_SELF' => '/routingtest/index.php/foo/bar',
+                'REQUEST_URI' => '/routingtest/index.php/foo/bar',
+                'SCRIPT_FILENAME' => 'C:/Users/derrabus/Projects/routing-test/public/index.php',
+                'SCRIPT_NAME' => '/routingtest/index.php',
+            ],
+            '/routingtest/index.php',
+            '/foo/bar',
+        ];
+
+        yield 'Rewrite with correct case' => [
+            [
+                'IIS_WasUrlRewritten' => '1',
+                'PATH_INFO' => '/foo/bar',
+                'PHP_SELF' => '/routingtest/index.php/foo/bar',
+                'REQUEST_URI' => '/routingtest/foo/bar',
+                'SCRIPT_FILENAME' => 'C:/Users/derrabus/Projects/routing-test/public/index.php',
+                'SCRIPT_NAME' => '/routingtest/index.php',
+                'UNENCODED_URL' => '/routingtest/foo/bar',
+            ],
+            '/routingtest',
+            '/foo/bar',
+        ];
+
+        // ISS with UrlRewriteModule might report SCRIPT_NAME/PHP_SELF with wrong case
+        // see https://github.com/php/php-src/issues/11981
+        yield 'Rewrite with case mismatch' => [
+            [
+                'IIS_WasUrlRewritten' => '1',
+                'PATH_INFO' => '/foo/bar',
+                'PHP_SELF' => '/routingtest/index.php/foo/bar',
+                'REQUEST_URI' => '/RoutingTest/foo/bar',
+                'SCRIPT_FILENAME' => 'C:/Users/derrabus/Projects/routing-test/public/index.php',
+                'SCRIPT_NAME' => '/routingtest/index.php',
+                'UNENCODED_URL' => '/RoutingTest/foo/bar',
+            ],
+            '/RoutingTest',
+            '/foo/bar',
+        ];
+    }
+
+    /**
      * @dataProvider urlencodedStringPrefixData
      */
     public function testUrlencodedStringPrefix($string, $prefix, $expect)
@@ -1899,7 +1969,7 @@ class RequestTest extends TestCase
     {
         $class = new \ReflectionClass(Request::class);
         $property = $class->getProperty('httpMethodParameterOverride');
-        $property->setValue(false);
+        $property->setValue(null, false);
     }
 
     private function getRequestInstanceForClientIpTests(string $remoteAddr, ?string $httpForwardedFor, ?array $trustedProxies): Request
@@ -2136,9 +2206,7 @@ class RequestTest extends TestCase
 
     public function testFactory()
     {
-        Request::setFactory(function (array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) {
-            return new NewRequest();
-        });
+        Request::setFactory(fn (array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null) => new NewRequest());
 
         $this->assertEquals('foo', Request::create('/')->getFoo());
 
@@ -2555,6 +2623,15 @@ class RequestTest extends TestCase
         foreach ((new \ReflectionClass(Request::class))->getConstants() as $constant => $value) {
             $this->assertNotSame(0b10000000, $value, sprintf('The constant "%s" should not use the reserved value "0b10000000".', $constant));
         }
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testInvalidUriCreationDeprecated()
+    {
+        $this->expectDeprecation('Since symfony/http-foundation 6.3: Calling "Symfony\Component\HttpFoundation\Request::create()" with an invalid URI is deprecated.');
+        Request::create('/invalid-path:123');
     }
 }
 

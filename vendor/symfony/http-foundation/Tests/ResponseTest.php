@@ -42,6 +42,17 @@ class ResponseTest extends ResponseTestCase
         $this->assertSame($response, $headers);
     }
 
+    public function testSendInformationalResponse()
+    {
+        $response = new Response();
+        $response->sendHeaders(103);
+
+        // Informational responses must not override the main status code
+        $this->assertSame(200, $response->getStatusCode());
+
+        $response->sendHeaders();
+    }
+
     public function testSend()
     {
         $response = new Response();
@@ -535,6 +546,16 @@ class ResponseTest extends ResponseTestCase
         $response->prepare(new Request());
 
         $this->assertEquals('text/css; charset=UTF-8', $response->headers->get('Content-Type'));
+    }
+
+    public function testContentTypeIsNull()
+    {
+        $response = new Response('foo');
+        $response->headers->set('Content-Type', null);
+
+        $response->prepare(new Request());
+
+        $this->expectNotToPerformAssertions();
     }
 
     public function testPrepareDoesNothingIfContentTypeIsSet()
