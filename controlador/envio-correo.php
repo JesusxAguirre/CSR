@@ -1,45 +1,76 @@
 <?php
-use Csr\Modelo\Correo;
+
 //destruye la sesion si se tenia una abierta
 session_start();
 
-if($_SESSION['verdadero'] > 0){
+// Verificar la expiración del tiempo de la sesiónx
+$time_limit = 1800;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
+    // El tiempo de sesión ha expirado
+    
+    // Regenera el ID de sesión antes de destruirla
+    session_regenerate_id(true);
+
+    // Desestablece todas las variables de sesión
+    $_SESSION = array();
+
+    session_destroy();  // Destruye la sesión
+    echo "<script>
+    alert('La sesión ha expirado');
+    window.location= 'index.php'
+    </script>";
+
+    http_response_code(403);
+    echo json_encode(array("msj" => "Sesion expirada", "status_code" => 403));
+    die();
+}
+
+$_SESSION['LAST_ACTIVITY'] = time();  // Actualiza el último momento de actividad
+
+use Csr\Modelo\Correo;
+
+if (isset($_POST['cerrar'])) {
+
+    // Regenera el ID de sesión antes de destruirla
+    session_regenerate_id(true);
+
+    // Desestablece todas las variables de sesión
+    $_SESSION = array();
+
+    session_destroy();
+
+    http_response_code(200);
+    echo json_encode(array('msj' => 'Ha cerrado sesion con correctamente. Vuelva pronto', 'status' => 200));
+    die();
+}
+
+if ($_SESSION['verdadero'] > 0) {
     if (!$_SESSION['permisos']['envio_correo']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
-
     }
-      
-if (is_file('vista/'.$pagina.'.php')) {
-  $objeto = new Correo();
+
+    if (is_file('vista/' . $pagina . '.php')) {
+        $objeto = new Correo();
 
 
-    $matriz_correo = $objeto->listar_correos();
+        $matriz_correo = $objeto->listar_correos();
 
 
-    if(isset($_POST['enviar'])){
-        $asunto = $_POST['html'];
-        $destinatario = $_POST['usuario'];
-        $mensaje = $_POST['mensaje']; 
-        
-        $objeto->prueba($destinatario,$asunto,$mensaje);
+        if (isset($_POST['enviar'])) {
+            $asunto = $_POST['html'];
+            $destinatario = $_POST['usuario'];
+            $mensaje = $_POST['mensaje'];
+
+            $objeto->prueba($destinatario, $asunto, $mensaje);
+        }
+        require_once 'vista/' . $pagina . '.php';
     }
-    require_once 'vista/'.$pagina.'.php';
-}
-} else{ 
+} else {
     echo "<script>
            window.location= 'error.php'
 </script>";
-    
-
-    }
-if(isset( $_POST['cerrar'])){
-    session_destroy();
-    echo "<script>
-    alert('Sesion Cerrada');
-    window.location= 'index.php'
-</script>";
-}     
+}
 ?>

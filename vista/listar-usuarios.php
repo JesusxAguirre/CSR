@@ -5,29 +5,11 @@
   <title>Listar Usuarios</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-
-
-  <!-- Bostrap 5 -->
-  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/style.css">
-  <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
-  <!-- Jquery-->
-  <script src="./resources/js/jquery-3.6.0.min.js"></script>
-
-  <!-- Datatables JS -->
-  <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
-  <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" href="./resources/library/dataTables/css/dataTables.bootstrap5.min.css">
-
-  <!-- Js boostrap -->
-  <script src="./resources/js/bootstrap.min.js"></script>
-
-  <!-- Estilos de validacion-->
+  <!-- Espacio para CSS -->
+	<?php require_once './resources/View_Components/importCSS.php' ?>
   <link rel="stylesheet" href="resources/css/listar-usuario.css">
-
-  <!-- Sweet alert 2-->
-  <script src="resources/js/sweetalert2.js"></script>
+	<!-- Espacio para los JS -->
+	<?php require_once './resources/View_Components/importJS.php' ?>
 </head>
 
 <body>
@@ -264,10 +246,10 @@
 
 
 
-  <script type="text/javascript">
-    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
-    eliminar = <?php echo ($eliminar) ? 'true' : 'false'; ?>;
-  </script>
+  <!-- <script type="text/javascript">
+    actualizar = <?php //echo ($actualizar) ? 'true' : 'false'; ?>;
+    eliminar = <?php //echo ($eliminar) ? 'true' : 'false'; ?>;
+  </script> -->
 
   <script src="resources/js/listar-usuarios.js"></script>
 </body>

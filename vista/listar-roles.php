@@ -4,29 +4,16 @@
 <head>
 	<title>Listar Roles</title>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=0.6">
-
-
-	<!-- Bostrap 5 -->
-	<link rel="stylesheet" href="./resources/css/bootstrap.min.css">
-	<link rel="stylesheet" href="./resources/css/style.css">
-	<link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
-	<!-- Jquery -->
-	<script src="./resources/js/jquery-3.6.0.min.js"></script>
-
-	<!-- Js boostrap -->
-	<script src="./resources/js/bootstrap.min.js"></script>
-
-	<!-- SweetAlert2 -->
-	<script type="text/javascript" src="resources/js/sweetalert2.js"></script>
-
+	<meta name ="viewport" content="width=device-width, initial-scale=0.6">
+	<!-- Espacio para CSS -->
+	<?php require_once './resources/View_Components/importCSS.php' ?>
+	<!-- Espacio para los JS -->
+	<?php require_once './resources/View_Components/importJS.php' ?>
 	<style type="text/css">
 		.btn.btn-secondary {
 			padding: 0.375rem !important;
 		}
 	</style>
-
 </head>
 
 <body>

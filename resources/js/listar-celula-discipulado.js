@@ -35,7 +35,6 @@ const inputs3 = document.querySelectorAll('#agregar_asistencias input')
 
 const eliminar__participantes = document.getElementById('eliminar__participantes')
 const modal_eliminar_participates = document.getElementById('datos4')
-const busquedaEl = document.getElementById('caja_busqueda')
 const datosEl = document.getElementById('datos')
 const expandir = document.getElementById('asistencias4')
 
@@ -413,19 +412,7 @@ inputs3.forEach((input) => {
 //alerta registrar participante
 
 
-
-
-
 //funciones ajax
-
-//busqueda discipulado
-busquedaEl.addEventListener('keyup', () => {
-  let busqueda = busquedaEl.value
-
-  buscarDiscipulado(busqueda);
-})
-
-
 
 
 // Eliminación con Ajax
@@ -450,18 +437,6 @@ deleteButton.addEventListener('click', () => {
   })
 })
 
-
-//FUCNIONES QUE SE LLAMAN MAS ARRIBA
-function buscarDiscipulado(busqueda) {
-  $.ajax({
-    data: 'busqueda=' + busqueda,
-    url: "controlador/ajax/buscar-discipulado.php",
-    type: "get",
-  }).done(data => {
-    datosEl.innerHTML = data
-    addEvents()
-  })
-}
 
 function fireAlert(icon, msg) {
   Swal.fire({
@@ -614,8 +589,9 @@ $('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
   $.ajax({
     data: 'busqueda=' + row.find('td:eq(0)').text(),
     url: "controlador/ajax/buscar-participante-asistencias-discipulado.php",
-    type: "get"
+    type: "GET"
   }).done(data => {
+    console.log(data);
     expandir.innerHTML = data
     const asistentes = document.getElementById('asistentes');
     var choices2 = new Choices(asistentes, {

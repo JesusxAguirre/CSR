@@ -5,35 +5,12 @@
   <title>Listar celula discipulado</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-
-
-  <!-- Bostrap 5 -->
-  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/style.css">
-  <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
-  <!-- Jquery-->
-  <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-  <!-- Js boostrap -->
-  <script src="resources/js/bootstrap.min.js"></script>
-  <!-- CHOICE 2 -->
-  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
-  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
-  <!-- Estilos de validacion-->
+  <!-- Espacio para CSS -->
+  <?php require_once './resources/View_Components/importCSS.php' ?>
+  <!-- Espacio para los JS -->
+  <?php require_once './resources/View_Components/importJS.php' ?>
   <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
-  <!-- Sweet alert 2-->
-  <script src="resources/js/sweetalert2.js"></script>
-
-
-
-  <!-- DATATABLES CSS -->
-  <link rel="stylesheet" href="resources/library/dataTables/css/jquery.dataTables.min.css">
-
-  <!-- JS de DataTables -->
-  <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
   <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
-
   <style>
     .btn-success {
       background-color: darkgrey;
@@ -51,7 +28,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <!-- Menu.php -->
@@ -77,39 +53,29 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-              <h4 class="header-title mb-3 fw-bold">Celula discipulado</h4>
-
-              <div style="visibility: hidden;" class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
+            <h4 class="header-title mb-3 fw-bold">Celulas de Discipulados</h4>
               <div class="table-responsive mt-4">
                 <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
-
                   <div class="row">
                     <div class="col-sm-12">
                       <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="tabla_discipulos">
                         <thead>
 
                         </thead>
-
                         <tbody id="datos" role='rowgroup'>
 
                         </tbody>
                       </table>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
-
           </div>
         </div>
       </div>
     </div>
-    </div>
-
-    </div>
   </main>
-  </div>
   <!-- Modal editar -->
   <div class="modal fade edit-modal" id="editar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -228,7 +194,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form class="form" method="post" id="agregar_usuarios" >
+          <form class="form" method="post" id="agregar_usuarios">
             <div class="mb-3 row">
               <div id="grupo__participantes" class="col-sm ">
                 <div class="relative">
@@ -236,7 +202,7 @@
 
 
                   <select multiple name="participantes[]" id="participantes" class="form-control">
-                  
+
                   </select>
                 </div>
                 <p class="text-danger d-none">Este campo no puede estar vacio</p>
@@ -285,7 +251,7 @@
     </div>
   </div>
 
-  
+
   <!-- Modal Eliminar  Participante -->
   <div class="modal fade" id="eliminar" tabindex="-1" aria-labelledby="Modaleliminar" aria-hidden="true">
     <div class="modal-dialog">
@@ -363,7 +329,6 @@
 
                           <div id="asistencias4"></div>
 
-                          </select>
                         </div>
                         <p class="text-danger d-none">Este campo no puede estar vacio</p>
                       </div>
@@ -392,13 +357,8 @@
             </div>
         </div>
 
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.js"></script>
-
-
-
-
         <script src="resources/js/listar-celula-discipulado.js"></script>
 </body>

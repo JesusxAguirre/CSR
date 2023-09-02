@@ -194,6 +194,9 @@ if (isset($_POST['email'])) {
 		//luego se buscan los permisos con el id de rol
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 
+		// Regenera el ID de sesión para vaciar rastros de las anteriores
+		session_regenerate_id(true);
+
 		return true;
 	}
 }

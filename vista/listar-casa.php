@@ -5,34 +5,12 @@
   <title>Listar CSR</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-
-
-  <!-- Bostrap 5 -->
-  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/style.css">
-  <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
-  <!-- Jquery-->
-  <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-  <!-- Js boostrap -->
-  <script src="resources/js/bootstrap.min.js"></script>
-  <!-- CHOICE 2 -->
-  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
-  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
-  <!-- Estilos de validacion-->
+  <!-- Espacio para CSS -->
+  <?php require_once './resources/View_Components/importCSS.php' ?>
   <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
-  <!-- Sweet alert 2-->
-  <script src="resources/js/sweetalert2.js"></script>
-
-  <!-- DATATABLES CSS -->
-  <link rel="stylesheet" href="resources/library/dataTables/css/jquery.dataTables.min.css">
-
-  <!-- JS de DataTables -->
-  <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
-
   <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
-
+  <!-- Espacio para los JS -->
+  <?php require_once './resources/View_Components/importJS.php' ?>
   <style>
     .btn-success {
       background-color: darkgrey;
@@ -43,13 +21,12 @@
       background-color: grey;
       border-color: #146c43;
     }
+
     .text-title {
-        color: #747579;
+      color: #747579;
 
     }
   </style>
-
-
 </head>
 
 <body>
@@ -78,8 +55,6 @@
           <div class="card">
             <div class="card-body">
               <h4 class="header-title mb-3 fw-bold">Casas sobre la roca</h4>
-
-              <div style="visibility: hidden;" class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
                 <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
@@ -106,85 +81,85 @@
   </main>
 
   <!-- Modal ver -->
-  
-<!-- HTML del modal -->
-<div class="modal" id="view" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
+
+  <!-- HTML del modal -->
+  <div class="modal" id="view" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-light">
-                <h5 class="modal-title" id="modalUsuarioLabel">Informacion de la CSR</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                   
-
-                    <!-- Information START -->
-                    <div class="row">
-
-                        <!-- Information item -->
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-borderless">
-                                <li class="list-group-item">
-                                    <span class="text-title">Codigo de CSR: </span>
-                                    <span id="codigo_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <span class="text-title">Dia de visita: </span>
-                                    <span class="text-capitalize h6 mb-0 font-weight-bold" id="dia_ver"></span>
-                                </li>
-
-
-
-                                <li class="list-group-item">
-                                    <span class="text-title">Hora: </span>
-                                    <span id="hora_ver" class="h6 mb-0 font-weight-bold"></span>
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="text-title">Direccion: </span>
-                                    <span id="direccion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <!-- Information item -->
-                        <div class="col-md-6">
-                            <ul class="list-group list-group-borderless">
-                                <li class="list-group-item">
-                                    <span class="text-title">Codigo de lider de CSR: </span>
-                                    <span id="codigo_lider_ver" class="h6 mb-0 font-weight-bold"></span>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <span class="text-title">Nombre de anfitrion: </span>
-                                    <span id="anfitrion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                                </li>
-
-                                <li class="list-group-item">
-                                    <span class="text-title">Telefono de anfitrion: </span>
-                                    <span id="telefono_ver" class="h6 mb-0 font-weight-bold"></span>
-                                </li>
-                                <li class="list-group-item">
-                                    <span class="text-title">Cantidad de personas en el hogar: </span>
-                                    <span id="cantidad_ver" class="h6 mb-0 font-weight-bold"></span>
-                                </li>
-                            </ul>
-                        </div>
-                     
-                    </div>
-                    <ul>
-
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title" id="modalUsuarioLabel">Informacion de la CSR</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
+        <div class="modal-body">
+          <div class="card-body">
+
+
+            <!-- Information START -->
+            <div class="row">
+
+              <!-- Information item -->
+              <div class="col-md-6">
+                <ul class="list-group list-group-borderless">
+                  <li class="list-group-item">
+                    <span class="text-title">Codigo de CSR: </span>
+                    <span id="codigo_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
+                  </li>
+
+                  <li class="list-group-item">
+                    <span class="text-title">Dia de visita: </span>
+                    <span class="text-capitalize h6 mb-0 font-weight-bold" id="dia_ver"></span>
+                  </li>
+
+
+
+                  <li class="list-group-item">
+                    <span class="text-title">Hora: </span>
+                    <span id="hora_ver" class="h6 mb-0 font-weight-bold"></span>
+                  </li>
+                  <li class="list-group-item">
+                    <span class="text-title">Direccion: </span>
+                    <span id="direccion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- Information item -->
+              <div class="col-md-6">
+                <ul class="list-group list-group-borderless">
+                  <li class="list-group-item">
+                    <span class="text-title">Codigo de lider de CSR: </span>
+                    <span id="codigo_lider_ver" class="h6 mb-0 font-weight-bold"></span>
+                  </li>
+
+                  <li class="list-group-item">
+                    <span class="text-title">Nombre de anfitrion: </span>
+                    <span id="anfitrion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
+                  </li>
+
+                  <li class="list-group-item">
+                    <span class="text-title">Telefono de anfitrion: </span>
+                    <span id="telefono_ver" class="h6 mb-0 font-weight-bold"></span>
+                  </li>
+                  <li class="list-group-item">
+                    <span class="text-title">Cantidad de personas en el hogar: </span>
+                    <span id="cantidad_ver" class="h6 mb-0 font-weight-bold"></span>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+            <ul>
+
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
   <!-- Modal editar -->
   <div class="modal fade edit-modal" id="editar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
     <div class="modal-dialog modal-lg">

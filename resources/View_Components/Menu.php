@@ -21,11 +21,11 @@
       <form class="d-flex ms-auto ">
 
       </form>
-      
+
       <!-- Chat -->
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
-          <a  style="background-color: #313a46;" href="?pagina=chat" id="verChat" class="fs-3 nav-link btn-dark text-light ms-2" role="button" aria-expanded="false">
+          <a style="background-color: #313a46;" href="?pagina=chat" id="verChat" class="fs-3 nav-link btn-dark text-light ms-2" role="button" aria-expanded="false">
             <i class="bi bi-chat-fill"></i>
           </a>
         </li>
@@ -46,8 +46,8 @@
 
 
       <ul class="navbar-nav">
-        <input id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
-        <input id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
+        <input hidden id="status_profesorPOST" class="d-none" type="text" value="<?php echo $_SESSION['status_profesor'] ?>">
+        <input hidden id="id_seccionPOST" class="d-none" type="text" value="<?php echo $_SESSION['id_seccion'] ?>">
         <input class="d-none" type="text">
         <li class="nav-item dropdown">
           <a style="background-color: #313a46;" id="verNotificaciones" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -61,16 +61,14 @@
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
           <a style="background-color: #313a46;" class="fs-3 nav-link btn-dark text-light  ms-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <div id="fotoPerfil">
-            <!-- AQUI VA LA FOTO DE PERFIL -->
-            <!-- <img class="img-fluid" src="resources/img/nothingPhoto.png" alt="" width="50" height="10"> -->
-          </div>
+            <div id="fotoPerfil">
+              <!-- AQUI VA LA FOTO DE PERFIL -->
+              <!-- <img class="img-fluid" src="resources/img/nothingPhoto.png" alt="" width="50" height="10"> -->
+            </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a  class="dropdown-item" href="?pagina=mi-perfil">Mi perfil</a></li>
-            <form action="?pagina=dashboard" method="post">
-              <li><button name="cerrar" type="submit" class="dropdown-item">Cerrar sesion</button></li>
-            </form>
+            <li><a class="dropdown-item" href="?pagina=mi-perfil">Mi perfil</a></li>
+            <li><button id="logout" name="cerrar" type="submit" class="dropdown-item">Cerrar sesion</button></li>
           </ul>
         </li>
       </ul>
@@ -82,8 +80,7 @@
 
 <script src="resources/js/menu.js"></script>
 <?php if (strpos($_SERVER["REQUEST_URI"], '?pagina=chat')) {
-  ?> <script src="resources/js/webSocket_chat.js"></script> <?php
-}else{ ?>
+?> <script src="resources/js/webSocket_chat.js"></script> <?php
+                                                          } else { ?>
   <script src="resources/js/webSocket_header.js"></script> <?php
-}  ?>
-
+                                                          }  ?>
