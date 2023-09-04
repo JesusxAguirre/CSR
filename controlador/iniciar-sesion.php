@@ -5,10 +5,7 @@ use Csr\Modelo\Usuarios;
 use Csr\Modelo\datosUsuario;
 use Csr\Modelo\Roles;
 
-
-
 // Crear el tokenStore
-
 $objeto_usuario = new Usuarios();
 $objeto_datos_usuario = new datosUsuario();
 $objRoles = new Roles();

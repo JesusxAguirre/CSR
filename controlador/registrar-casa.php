@@ -4,7 +4,7 @@
 session_start();
 
 // Verificar la expiración del tiempo de la sesiónx
-$time_limit = 1800;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
+$time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
     
@@ -15,13 +15,11 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
     $_SESSION = array();
 
     session_destroy();  // Destruye la sesión
+    http_response_code(403);
     echo "<script>
     alert('La sesión ha expirado');
     window.location= 'index.php'
     </script>";
-
-    http_response_code(403);
-    echo json_encode(array("msj" => "Sesion expirada", "status_code" => 403));
     die();
 }
 

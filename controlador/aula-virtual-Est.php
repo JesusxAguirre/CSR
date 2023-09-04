@@ -2,7 +2,7 @@
 session_start();
 
 // Verificar la expiración del tiempo de la sesiónx
-$time_limit = 1800;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
+$time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
     

@@ -4,7 +4,7 @@
 session_start();
 
 // Verificar la expiración del tiempo de la sesiónx
-$time_limit = 1800;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
+$time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 3600 segundos = 1 hora
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
     
@@ -15,13 +15,26 @@ if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 
     $_SESSION = array();
 
     session_destroy();  // Destruye la sesión
-    echo "<script>
-    alert('La sesión ha expirado');
-    window.location= 'index.php'
-    </script>";
+
+    //Condicional para usarla cuando haya una mejor base. Esto es para la APP MOVIL
+    /*if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        // Es una solicitud AJAX
+        http_response_code(403);
+        echo json_encode(array("msj" => "Sesion expirada"));
+    } else {
+        // No es una solicitud AJAX
+        http_response_code(403);
+        echo "<script>
+        alert('La sesión ha expirado');
+        window.location= 'index.php'
+        </script>";
+    }*/
 
     http_response_code(403);
-    echo json_encode(array("msj" => "Sesion expirada", "status_code" => 403));
+    echo "<script>
+        alert('La sesión ha expirado');
+        window.location= 'index.php'
+        </script>";
     die();
 }
 
@@ -99,6 +112,7 @@ if ($_SESSION['verdadero'] > 0) {
         //Cargar todos los datos del usuario en el perfil
         if (isset($_REQUEST['data_load'])) {
             $data = $objeto->mi_perfil();
+            http_response_code(200);
             echo json_encode($data);
             die();
         }
