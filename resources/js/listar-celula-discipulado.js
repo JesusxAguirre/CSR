@@ -206,9 +206,7 @@ const ValidarCampo = (expresion, input, campo) => {
 $('#editForm').submit(function (event) {
 
   event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
-  console.log($(this).serialize())
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
-    e.preventDefault();
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
@@ -350,7 +348,6 @@ formulario3.addEventListener('submit', (e) => {
 $("#EditarNivelForm").submit(function (e) {
   e.preventDefault()
   if (!(campos.nivel)) {
-    e.preventDefault();
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
@@ -487,8 +484,6 @@ function addEvents() {
 $('#tabla_discipulos tbody').on('click', '.btn-edit', function () {
   // Actualizar contenido del modal Editar
 
-  console.log("ENTRO EN EL BTN EDT")
-
   const editButtons = document.querySelectorAll('table td .btn-edit')
 
   let row = $(this).closest('tr');
@@ -514,7 +509,7 @@ $('#tabla_discipulos tbody').on('click', '.btn-edit', function () {
   liderInput.value = row.find('td:eq(4)').text()
   nombre_anfitrionInput.value = row.find('td:eq(5)').text()
   telefono_anfitrionInput.value = row.find('td:eq(6)').text()
-  direccionInput.value = row.find('td:eq(8)').text()
+  direccionInput.value = row.find('td:eq(7)').text()
   //cedulas de usuarios
 
   console.log(hora_completa.slice(0, 5))

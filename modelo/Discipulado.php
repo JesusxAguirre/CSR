@@ -168,13 +168,12 @@ class Discipulado extends Conexion
     {
         try {
             $participantes = [];
-            $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
-        discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
-        AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
-        FROM celula_discipulado 
-        INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
-        INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
-        WHERE celula_discipulado.id = :id_discipulado");
+            $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
+                    AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
+                    FROM celula_discipulado 
+                    INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
+                    INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
+                    WHERE celula_discipulado.id = :id_discipulado");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -294,7 +293,7 @@ class Discipulado extends Conexion
     public function registrar_asistencias()
     {
         try {
-            
+
             $sql = "INSERT INTO reporte_celula_discipulado (id_discipulado,cedula_participante,fecha) 
             VALUES(:id_discipulado,:cedula_participante,:fecha)";
 
@@ -573,8 +572,6 @@ class Discipulado extends Conexion
         try {
 
 
-            $this->conexion()->beginTransaction();
-
             if ($this->cedula_lider == $this->cedula_anfitrion or $this->cedula_lider == $this->cedula_asistente) {
                 throw new Exception("La cedula del lider no puede ser igual a la del anfitrion o el asistente ", 422);
             }
@@ -818,16 +815,13 @@ class Discipulado extends Conexion
             }
 
 
-            $this->conexion()->commit();
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha registrado correctamente la cedula de discipulado", 'status_code' => 200));
             die();
         } catch (Throwable $ex) {
 
-            if ($this->conexion()->inTransaction()) {
-                $this->conexion()->rollBack();
-            }
+        
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));

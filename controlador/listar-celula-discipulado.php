@@ -68,7 +68,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $cedula_asistente = trim($_POST['codigoAsistente']);
             $dia = strtolower(trim($_POST['dia']));
             $hora = trim($_POST['hora']);
-            $direccion = strtolower(trim($_POST['direccion']));
+            $direccion = strtolower($_POST['direccion']);
             $id = trim($_POST['id']);
 
             $objeto->security_validation_inyeccion_sql([$id, $dia, str_replace(" ", "", $direccion)]);
