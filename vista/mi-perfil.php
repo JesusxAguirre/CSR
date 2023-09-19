@@ -257,8 +257,8 @@
                 </div>
                 <div class="mb-3" id="">
                 </div>
-                <input value="" hidden name="cedula_antigua" id="cedulaInput4" type="text">
-
+                <input type="hidden" name="cedula_antigua" id="cedulaInput4" type="text">
+                <input type="hidden" name="actualizar_imagen">
                 <button name="actualizar_imagen" type="submit" class="btn btn-primary fw-bold">Actualizar</button>
               </form>
 

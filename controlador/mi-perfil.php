@@ -127,7 +127,7 @@ if ($_SESSION['verdadero'] > 0) {
             $nombre_imagen = $_FILES['imagen']['name'];
             $tipo_imagen = $_FILES['imagen']['type'];
             $tamaño_imagen = $_FILES['imagen']['size'];
-
+            $cedula = $_POST['cedula_antigua'];
             //ruta de la carpeta destinoen servidor
             $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . '/CSR/resources/imagenes-usuarios/';
 
