@@ -374,7 +374,6 @@ class LaRoca extends Conexion
 
 
 
-    //---------Actualizar CSR------------------------//
 
     /**
      * actualizar_CSR
@@ -420,7 +419,7 @@ class LaRoca extends Conexion
             $cedula_lider_antiguo = $cedulas['cedula_lider'];
 
 
-            $sql = ("SELECT hora_pautada AS hora, dia_visita FROM casas_la_roca 
+            $sql = ("SELECT hora_pautada AS hora, dia_visita, id FROM casas_la_roca 
             WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -433,7 +432,7 @@ class LaRoca extends Conexion
 
 
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                if ($filas['dia_visita'] == $this->dia) {
+                if ($filas['dia_visita'] == $this->dia and $filas['id'] != $this->id) {
 
                     $hora_filas_formateada = substr($filas['hora'], 0, 5);
 

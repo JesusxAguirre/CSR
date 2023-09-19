@@ -210,6 +210,8 @@
               </div>
             </div>
             <input type="hidden" name="id" id="idInput2">
+            <input type="hidden" name="agregar_participantes" >
+
           </form>
         </div>
         <div class="modal-footer">
@@ -265,7 +267,7 @@
           <p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b> permanetemente.</p>
           <form method="post" id="deleteForm">
             <input type="hidden" name="cedula_participante" class="cedula_participante">
-
+            
           </form>
         </div>
         <div class="modal-footer">

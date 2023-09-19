@@ -6,7 +6,6 @@ use Csr\Modelo\Conexion;
 
 use PDO;
 use Exception;
-
 use DateTime;
 
 use Throwable;
@@ -342,15 +341,10 @@ class Discipulado extends Conexion
             }
 
 
-
-            $this->conexion()->beginTransaction();
-
             //VALIDANDO QUE LAS FECHAS SEAN CON MEDIA HORA DE DIFERENCIA
             $sql = ("SELECT hora,dia_reunion AS dia FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
-
-            $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
 
             $hora = DateTime::createFromFormat('H:i', $this->hora);
 
@@ -546,17 +540,13 @@ class Discipulado extends Conexion
             }
 
 
-            $this->conexion()->commit();
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha registrado correctamente la cedula de discipulado", 'status_code' => 200));
             die();
         } catch (Throwable $ex) {
 
-            if ($this->conexion()->inTransaction()) {
-                $this->conexion()->rollBack();
-            }
-
+            
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
@@ -577,7 +567,7 @@ class Discipulado extends Conexion
             }
 
             //VALIDANDO QUE LAS FECHAS SEAN CON 15 MINUTOS DE DIFERENCIA
-            $sql = ("SELECT hora,dia_reunion as dia FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
+            $sql = ("SELECT hora,dia_reunion as dia, id FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -587,7 +577,7 @@ class Discipulado extends Conexion
 
 
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                if ($filas['dia'] == $this->dia) {
+                if ($filas['dia'] == $this->dia and $filas['id'] != $this->id) {
 
                     $hora_filas_formateada = substr($filas['hora'], 0, 5);
 
@@ -616,8 +606,23 @@ class Discipulado extends Conexion
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":id" => $this->id));
+
+            if ($stmt->rowCount() < 1) {
+                throw new Exception("Esta celula de discipulado no existe en la base de datos", 404);
+            }
+
             //guardando en un array asociativo las cedulas
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+              //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
+              if (
+                $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['cedula_anfitrion'] == $this->cedula_anfitrion and
+                $cedulas['dia_reunion'] == $this->dia and $cedulas['cedula_asistente'] == $this->cedula_asistente and
+                $cedulas['dia_visita'] == $this->dia and $cedulas['hora'] == $this->hora and $cedulas['direccion'] == $this->direccion
+            ) {
+                throw new Exception("Estas enviando la solicitud sin modificar los datos", 422);
+            }
+
 
             $codigo = $cedulas['codigo_celula'];
             $codigo1 = $cedulas['codigo_celula'];
@@ -796,7 +801,7 @@ class Discipulado extends Conexion
             }
 
             $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
-            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora,
+            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, hora = :hora,
             direccion = :direc WHERE id= :id");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -804,7 +809,7 @@ class Discipulado extends Conexion
             $stmt->execute(array(
                 ":cedula_lider" => $this->cedula_lider,
                 ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-                ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc" => $this->direccion,
+                ":dia" => $this->dia, ":hora" => $this->hora, ":direc" => $this->direccion,
                 ":id" => $this->id
             ));
 
