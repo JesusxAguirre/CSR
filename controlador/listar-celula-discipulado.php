@@ -60,6 +60,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
 
         $matriz_lideres = $objeto->listar_usuarios_N2();
+        $matriz_usuarios = $objeto->listar_no_participantes();
+
         //actualizar celula
 
         if (isset($_POST['update'])) {

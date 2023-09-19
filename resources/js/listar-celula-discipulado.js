@@ -213,6 +213,7 @@ $('#editForm').submit(function (event) {
       text: 'Registra el formulario correctamente'
     })
   } else {
+
     $.ajax({
       type: "POST",
       url: "?pagina=listar-celula-discipulado",
@@ -221,9 +222,7 @@ $('#editForm').submit(function (event) {
 
         document.getElementById("editForm").reset()
 
-        for (let campo in campos) {
-          campos[campo] = false
-        }
+       
 
         $("#editar").removeClass('fade').modal('hide');
         $('#tabla_discipulos').DataTable().destroy();
@@ -282,12 +281,9 @@ $('#agregar_usuarios').submit(function (event) {
       url: "?pagina=listar-celula-discipulado",
       data: $(this).serialize(),
       success: function (response) {
-        console.log(response)
         document.getElementById("agregar_usuarios").reset()
 
-        for (let campo in campos) {
-          campos[campo] = false
-        }
+        campos.participantes = false
 
         $("#agregar_usuario").removeClass('fade').modal('hide');
         $('#tabla_discipulos').DataTable().destroy();
@@ -368,6 +364,9 @@ $("#EditarNivelForm").submit(function (e) {
             icon: 'success',
             title: 'Se actualizo la informacion correctamente'
           })
+          
+          campos.nivel = false
+
           let busqueda = busquedaEl.value
 
           buscarDiscipulado(busqueda)

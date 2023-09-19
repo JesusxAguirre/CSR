@@ -576,7 +576,7 @@ class Discipulado extends Conexion
                 throw new Exception("La cedula del lider no puede ser igual a la del anfitrion o el asistente ", 422);
             }
 
-            //VALIDANDO QUE LAS FECHAS SEAN CON MEDIA HORA DE DIFERENCIA
+            //VALIDANDO QUE LAS FECHAS SEAN CON 15 MINUTOS DE DIFERENCIA
             $sql = ("SELECT hora,dia_reunion as dia FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
 
             $stmt = $this->conexion()->prepare($sql);

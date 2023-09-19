@@ -130,7 +130,6 @@ const ValidarCodigo = (codigo_array, input, campo) => {
 $('#editForm').submit(function (event) {
 
   event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
-  console.log($(this).serialize())
   if (!(campos.lider && campos.dia && campos.hora && campos.direccion && campos.cantidad && campos.telefono_anfitrion && campos.anfitrion)) {
     Swal.fire({
       icon: 'error',
@@ -144,12 +143,9 @@ $('#editForm').submit(function (event) {
       data: $(this).serialize(),
       success: function (response) {
 
-        console.log(response)
         document.getElementById("editForm").reset()
         
-        for (let campo in campos) {
-          campos[campo] = false
-        }
+     
 
         $("#editar").removeClass('fade').modal('hide');
         $('#mi_tabla').DataTable().destroy();

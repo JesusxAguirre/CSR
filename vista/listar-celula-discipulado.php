@@ -175,6 +175,7 @@
             </div>
 
             <input type="hidden" name="id" id="idInput">
+            <input type="hidden" name="update" >
           </form>
         </div>
         <div class="modal-footer">
