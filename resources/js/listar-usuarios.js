@@ -5,7 +5,7 @@ $(document).ready(function () {
 	const dataTable_users = $('#tableUsers').DataTable({
 		responsive: true,
 		ajax: {
-			method: "POST",
+			method: "GET",
 			url: 'index.php?pagina=listar-usuarios',
 			data: { cargar: 'cargar' }
 		},

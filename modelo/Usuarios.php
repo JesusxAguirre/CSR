@@ -222,7 +222,7 @@ class Usuarios extends Conexion
     {
 
         $resultado = [];
-        $sql = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
+        $sql = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.ruta_imagen, usuarios.apellido, usuarios.telefono,
          usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.fecha_nacimiento,
          roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 

@@ -59,7 +59,7 @@ if ($_SESSION['verdadero'] > 0) {
         $matriz_roles = $objetoRol->get_roles();
 
         //Listar Usuarios
-        if (isset($_POST['cargar'])) {
+        if (isset($_GET['cargar'])) {
             $listar_usuarios = $objeto->listar();
             $json = array();
 
