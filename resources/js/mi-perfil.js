@@ -34,7 +34,6 @@ function data_load() {
 			objeto = datos;
 		}
 
-		console.log(objeto)
 
 		//Actualizando datos del apartado perfil con JS
 		document.getElementById('nombre_perfil').textContent = objeto.nombre + ' ' + objeto.apellido;

@@ -25,13 +25,25 @@ $('#verNotificaciones').click(function (e) {
 })
 
 function fotoPerfil() {
-    let div = document.getElementById('fotoPerfil');
+    $.ajax({
+        data: { data_load: 'data_load' },
+        type: "GET",
+        url: "index.php?pagina=mi-perfil",
+    }).done((data) => {
+        const dato = JSON.parse(data);
+        let objeto = [];
 
-    $.post("controlador/ajax/notificaciones.php", { verFotoPerfil: 'verFotoPerfil' },
-        function (data) {
-            div.innerHTML = data;
-        },
-    );
+        //Guardando objeto en otra variable
+        for (const datos of dato) {
+            objeto = datos;
+        }
+        document.getElementById('menu_nombre').textContent = objeto.nombre + ' ' + objeto.apellido;
+        document.getElementById('menu_email').textContent = objeto.usuario;
+
+        document.getElementById('menu_img_perfil').src = objeto.ruta_imagen === "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
+        document.getElementById('menu_img_perfil2').src = objeto.ruta_imagen === "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
+
+    	});
 }
 
 document.getElementById('logout').addEventListener('click', () => {
@@ -43,7 +55,7 @@ document.getElementById('logout').addEventListener('click', () => {
         },
         success: function (response) {
             const data = JSON.parse(response);
-            
+
             Swal.fire({
                 title: 'Ha cerrado sesion correctamente. Vuelva pronto',
                 timer: 2000,
@@ -51,7 +63,7 @@ document.getElementById('logout').addEventListener('click', () => {
                 willClose: () => {
                     window.location.replace('index.php')
                 }
-              });
+            });
         },
         error: function (xhr, status, error) {
             console.log(xhr);
