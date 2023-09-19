@@ -57,7 +57,7 @@ if (isset($_POST['cerrar'])) {
     die();
 }
 
-if ($_SESSION['verdadero'] > 0) {
+if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Usuarios();
         //Generando Token
