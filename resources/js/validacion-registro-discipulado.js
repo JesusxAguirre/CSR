@@ -132,19 +132,19 @@ const ValidarHora = (expresion, input, campo) => {
   }
 }
 const ValidarSelect = (select, campo) => {
-  if (select.value == '') {
+  if (select.value != '') {
 
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = false;
+    campos[campo] = true;
   } else {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
     document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
-    campos[campo] = true;
+    campos[campo] = false;
   }
 }
 

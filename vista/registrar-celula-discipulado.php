@@ -100,7 +100,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridCity">Dia de reunion</label>
                         <i class="input-icon fs-5"></i>
-                        <input maxlength="7" name="dia" placeholder="Jueves" id="dia" class="form-control">
+                        <input maxlength="9" name="dia" placeholder="Jueves" id="dia" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo debe contener 5 digitos como minimo, no acepta espacios ni numeros</p>
                     </div>
@@ -139,7 +139,7 @@
                       <p class="text-danger d-none">Este campo no puede quedar vacio</p>
                     </div>
                   </div>
-
+                            <input type="hidden" name="registrar">
                   <div class="mb-3" id="formGridCheckbox">
                   </div><button id="registrar" name="registrar" type="submit" class="btn btn-primary">Enviar</button>
                 </form>
