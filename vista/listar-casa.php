@@ -93,10 +93,12 @@
         <div class="modal-body">
           <div class="card-body">
 
-
+            <!-- Agregar la imagen aquí -->
+         
+        
             <!-- Information START -->
             <div class="row">
-
+            
               <!-- Information item -->
               <div class="col-md-6">
                 <ul class="list-group list-group-borderless">

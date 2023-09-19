@@ -479,8 +479,8 @@ class Usuarios extends Conexion
 
 
             $sql = "INSERT INTO usuarios (cedula,id_rol,
-            codigo,nombre,apellido,fecha_nacimiento,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
-            VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
+            codigo,nombre,apellido,fecha_nacimiento,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password, ruta_imagen) 
+            VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass, :img)";
 
             //ENCRIPTANDO CLAVE
             $stmt = $this->conexion->prepare($sql);
@@ -494,7 +494,8 @@ class Usuarios extends Conexion
                 ":estdc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
                 ":estado" => $this->estado, ":usuario" => $this->correo,
                 ":telefono" => $this->telefono,
-                ":pass" => $this->clave
+                ":pass" => $this->clave,
+                ":img"=> 'resources/img/nothingPhoto.png'
             ));
 
             http_response_code(200);

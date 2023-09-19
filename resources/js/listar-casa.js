@@ -12,7 +12,6 @@ var lideres_array = Array.prototype.map.call(lista_lideres.options, function (op
 
 
 
-
 const campos = {
   dia: true,
   hora: true,
@@ -258,12 +257,19 @@ $('#mi_tabla tbody').on('click', '.btn-view', function () {
   $("#hora_ver").text(row.find('td:eq(3)').text())
 
   $("#codigo_lider_ver").text(row.find('td:eq(4)').text())
+
   $("#anfitrion_ver").text(row.find('td:eq(5)').text())
   $("#telefono_ver").text(row.find('td:eq(6)').text())
   $("#cantidad_ver").text(row.find('td:eq(7)').text())
   $("#direccion_ver").text(row.find('td:eq(8)').text())
 
+
+  //NO ELIMINAR
+  //document.getElementById('imagen_ver').src = row.find('td:eq(9)').find('img').attr('src');
+
+
 });
+
 
 function solicitar_tabla() {
   $.ajax({
@@ -272,6 +278,7 @@ function solicitar_tabla() {
     dataType: 'json',
     
     success: function (data) {
+      console.log(data)
       $('#mi_tabla').DataTable({
         language: {
           url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
@@ -287,6 +294,15 @@ function solicitar_tabla() {
           { data: 'telefono_anfitrion', title: 'Telefono de anfitrion', className: "d-none" },
           { data: 'cantidad_personas_hogar', title: 'Cantidad de personas por hogar', className: "d-none" },
           { data: 'direccion', title: 'Direccion', className: "d-none" },
+          {
+            data: 'ruta_imagen', // Supongamos que el campo en tu JSON que contiene la ruta de la imagen se llama 'ruta_imagen'
+            title: 'Lider',
+            render: function (data, type, row) {
+              return '<img class="img-fluid" src="' + data + '" width="40" alt="Imagen">';
+            },
+            className: "text-center",
+            orderable: false
+          },
           {
             data: null,
             title: "Acciones",

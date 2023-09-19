@@ -126,3 +126,13 @@ padding-left: 20px;
   }
  
 }
+
+.avatar-m {
+  height: 2rem;
+  width: 2rem;
+}
+.avatar {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
