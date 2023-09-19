@@ -34,6 +34,8 @@ function data_load() {
 			objeto = datos;
 		}
 
+		console.log(objeto)
+
 		//Actualizando datos del apartado perfil con JS
 		document.getElementById('nombre_perfil').textContent = objeto.nombre + ' ' + objeto.apellido;
 		document.getElementById('codigo_perfil').textContent = objeto.codigo;
@@ -41,6 +43,8 @@ function data_load() {
 		document.getElementById('apellidoInput').value = objeto.apellido;
 		document.getElementById('cedula').value = objeto.cedula;
 		document.getElementById('cedulaInput2').value = objeto.cedula;
+		document.getElementById('ruta_imagen').src = objeto.ruta_imagen === "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
+		
 		//document.getElementById('cedulaInput3').value = objeto.cedula;
 		document.getElementById('cedulaInput4').value = objeto.cedula;
 		document.getElementById('edadInput').value = objeto.fecha_nacimiento;

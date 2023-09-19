@@ -31,7 +31,7 @@
         <div class="mb-8 position-relative min-vh-25 mb-7 card-header">
           <div class="bg-holder rounded-3 rounded-bottom-0" style="background-image: url(resources/img/paisaje.jpg);"></div>
           <div class="avatar avatar-5xl avatar-profile">
-            <img class="d-inline-block align-text-top rounded-circle shadow-sm" width="120" height="124" src="<?php echo !empty($ruta_imagen) ? $ruta_imagen : 'resources/img/nothingPhoto.png' ?>" alt="">
+            <img class="d-inline-block align-text-top rounded-circle shadow-sm" id='ruta_imagen'  width="120" height="124"  alt="">
           </div>
 
         </div>
