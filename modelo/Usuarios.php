@@ -724,7 +724,7 @@ class Usuarios extends Conexion
                 ":usuario" => $this->correo,
             ));
 
-            session_destroy();
+            
             http_response_code(202);
             echo json_encode(array("msj" => "Se han actualizado tus datos correctamente", "status_code" => 202));
             die();
@@ -993,6 +993,7 @@ class Usuarios extends Conexion
 
             $stmt->execute(array(":pass" => $clave_encriptada, ":cedula" => $cedula));
 
+            session_destroy();
             http_response_code(200);
             echo json_encode(array("msj" => "La contraseña se actualizo exitosamente", "status_code" => 200));
             die();

@@ -341,7 +341,7 @@ formulario.addEventListener('submit', (e) => {
 
 				if (data.status_code === 202) {
 					fire_alerta(data.msj, 'success');
-					setTimeout(() => {window.location = 'index.php';}, 2500);
+					
 				}else{
 					fire_alerta('Algo ocurrio en la BD', 'error')
 				}
@@ -349,6 +349,9 @@ formulario.addEventListener('submit', (e) => {
 			error: function (xhr, status, error) {
 
 				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+				console.log(xhr)
+
 				var response;
 				try {
 					response = JSON.parse(xhr.responseText);
@@ -441,6 +444,8 @@ formulario3.addEventListener('submit', (e) => {
 						document.getElementById('clave').value = '';
 						document.getElementById('new_password1').value = '';
 						document.getElementById('new_password2').value = '';
+
+						setTimeout(() => {window.location = 'index.php';}, 3500);
 					} else {
 						fire_alerta('Algo ocurrio en la BD', 'error')
 					}

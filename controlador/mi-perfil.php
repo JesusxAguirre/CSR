@@ -106,7 +106,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         
             $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $fecha_nacimiento, $sexo, $estado_civil, $nacionalidad, $estado, $telefono, $correo);
             $objeto->update_usuarios_sin_rol();
-            die();
+            
         }
 
         //Cargar todos los datos del usuario en el perfil
