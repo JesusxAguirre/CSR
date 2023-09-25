@@ -186,7 +186,7 @@
         </div>
       </div>
 
-      <!-- FORMULARIO 2 RECUPERAR CONTRASENA -->
+      <!-- FORMULARIO 3 RECUPERAR CONTRASENA -->
       <div class="row">
         <div class="col my-2">
           <div class="card">
@@ -231,6 +231,7 @@
                     </div>
                   </div>
                 </div>
+                <input type="hidden" name="actualizar_clave">
                 <button name="recuperar_password" type="submit" class="btn btn-primary mt-3 fw-bold">Actualizar</button>
               </form>
 
