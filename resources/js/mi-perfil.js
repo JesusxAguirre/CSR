@@ -409,7 +409,7 @@ formulario2.addEventListener('submit', (e) => {
 formulario3.addEventListener('submit', (e) => {
 	e.preventDefault();
 	
-	if (!(campos.clave && campos.clave2 && campos.correo && campos.comparacion && campos.actual_password)) {
+	if (!(campos.clave2 && campos.correo && campos.comparacion && campos.actual_password)) {
 		fire_alerta('Ingresa los datos correctamente', 'error')
 	}else{
 
