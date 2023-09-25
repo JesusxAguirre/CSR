@@ -169,7 +169,6 @@
                                                 <option value="">Escoge tu nacionalidad</option>
                                                 <option value="venezolana">Venezolana</option>
                                                 <option value="colombiana">Colombiana</option>
-                                                <option value="española">Española</option>
                                             </select>
                                         </div>
                                         <p class="text-danger d-none">No puede dejar este campo vacio </p>

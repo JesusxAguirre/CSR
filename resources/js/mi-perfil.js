@@ -87,6 +87,7 @@ const campos = {
 	correo2: true,
 	clave: false,
 	clave2: false,
+	actual_password: false,
 	comparacion: false
 }
 
@@ -143,6 +144,11 @@ const ValidarFormulario = (e) => {
 		// case 'clave':
 		// 	validar_password(expresiones.password, e.target, 'error_password1', 'clave');
 		// 	break;
+
+		case "actual_password":
+			ValidarCampo(expresiones.password, e.target, "actual_password");
+		break;
+
 		case "new_password1":
 			validar_password(expresiones.password, e.target, 'error_password2', 'clave2');
 			break;
@@ -213,17 +219,15 @@ const validarFecha_nacimiento = (input, campo) => {
 
 const ValidarSelect = (select, campo) => {
 	if (select.value == '') {
-		console.log('Debes seleccionar un tipo de usuario.')
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
 		campos[campo] = false;
 	} else {
-		console.log('Has seleccionado: ');
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 	}
@@ -231,16 +235,16 @@ const ValidarSelect = (select, campo) => {
 
 const ValidarCampo = (expresion, input, campo) => {
 	if (expresion.test(input.value)) {
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+		document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+	
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
 		campos[campo] = true;
 		//comprobando si la cedula existe en la bd
 		if (campos.cedula == true) {
 			let id = document.getElementById("cedula")
 			let cedula = id.value
-			console.log('entra en la funcin')
+			
 			$.ajax({
 				data: 'cedula=' + cedula,
 				url: "controlador/ajax/buscar-cedula-perfil.php",
@@ -267,7 +271,7 @@ const ValidarCampo = (expresion, input, campo) => {
 				url: "controlador/ajax/buscar-correo-perfil.php",
 				type: "post",
 			}).done(data => {
-				console.log(data)
+				
 				if (data == '1') {
 					fireAlert('error', 'Este corrreo ya existe')
 					document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
@@ -281,10 +285,10 @@ const ValidarCampo = (expresion, input, campo) => {
 			})
 		}
 	} else {
-		document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
 		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-		document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
 		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
 		campos[campo] = false;
 	}
 }
@@ -387,16 +391,6 @@ function fire_alerta_problem(titulo, texto, icono) {
 }
 
 
-if (actualizar == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se actualizo la informacion correctamente'
-	})
-	setTimeout(recarga, 2000);
-}
-
-
-
 //ACTUALIZANDO IMAGEN DE PERFIL
 formulario2.addEventListener('submit', (e) => {
 	if (!(campos.imagen)) {
@@ -414,18 +408,19 @@ formulario2.addEventListener('submit', (e) => {
 //ACTUALIZANDO PASSWORD
 formulario3.addEventListener('submit', (e) => {
 	e.preventDefault();
-	if (document.getElementById('clave').value === '') {
-		campos['clave'] = true;
-	}
-	if (campos['clave'] && campos['clave2'] && campos['correo'] && campos['comparacion']) {
-		if (campos['comparacion']) {
+	
+	if (!(campos.clave && campos.clave2 && campos.correo && campos.comparacion && campos.actual_password)) {
+		fire_alerta('Ingresa los datos correctamente', 'error')
+	}else{
+
+		if (campos.comparacion) {
 			const datos = {
 				clave_actual: document.getElementById('clave').value,
 				clave_nueva: document.getElementById('new_password2').value,
 				token: document.getElementById('token').value,
 				actualizar_clave: 'actualizar_clave'
 			}
-			console.log(datos['clave_actual']);
+			
 			$.ajax({
 				type: "POST",
 				url: "?pagina=mi-perfil",
@@ -466,20 +461,8 @@ formulario3.addEventListener('submit', (e) => {
 		}else{
 			fire_alerta('Comprueba que contraseñas sean iguales', 'error');
 		}
-	} else {
-		fire_alerta('Ingresa los datos correctamente', 'error')
-	}
+	} 
 })
-
-
-if (actualizar == false) {
-	Swal.fire({
-		icon: 'success',
-		title: 'Se actualizo la informacion correctamente'
-	})
-	setTimeout(recarga, 2000);
-}
-
 
 
 //------------------------------------------------Funciones ajax --------------------------//

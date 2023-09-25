@@ -118,7 +118,6 @@
                       <select id="nacionalidad" name="nacionalidad" class="form-select form-select" aria-label=".form-select-sm example">
                         <option value="venezolana">Venezolana</option>
                         <option value="colombiana">Colombiana</option>
-                        <option value="española">Española</option>
                       </select>
                     </div>
                     <p class="text-danger d-none">No puede dejar este campo vacio </p>
@@ -205,10 +204,10 @@
                       <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
                     </div>
 
-                    <div>
+                    <div id='grupo__actual_password'>
                       <label class="form-label fw-bold">Ingrese su contraseña actual</label>
                       <i class="input-icon fs-5"></i>
-                      <input maxlength="20" id="clave" value="" type="password" placeholder="******" name="clave" class="form-control mb-2">
+                      <input maxlength="20" id="clave" value="" type="password" placeholder="******" name="actual_password" class="form-control mb-2">
                       <p id="error_password1" class="text-danger d-none">La contraseña debe contener de 6 a 16 digitos. Incluyendo minimo un caracter especial [!@#$%^&*] y un numero</p>
                     </div>
                     <!-- <input value="" hidden name="cedula_antigua" id="cedulaInput3" type="text"> -->
