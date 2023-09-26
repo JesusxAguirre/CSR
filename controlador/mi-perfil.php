@@ -151,13 +151,6 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 } else {
     echo "<script>
            window.location= 'error.php'";
-
-    echo "<script>
-    alert('Sesion Cerrada');
-    window.location= 'index.php'
-</script>";
-    echo json_encode(array('msj' => 'Sesion cerrada', 'status_code' => 403));
-    die();
 }
 
 //Funcion para comprobar la integridad del token
