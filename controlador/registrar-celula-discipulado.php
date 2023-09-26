@@ -44,6 +44,14 @@ if (isset($_POST['cerrar'])) {
 }
 
 if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
+
+    if (!$_SESSION['permisos']['celula_discipulado']['crear']) {
+        echo "<script>
+    alert('No tienes los permisos para este modulo');
+    window.location= 'index.php?pagina=mi-perfil'
+    </script>";
+    }
+
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new Discipulado();
 

@@ -43,6 +43,14 @@ if (isset($_POST['cerrar'])) {
 }
 
 if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
+    if (!$_SESSION['permisos']['casa_sobre_la_roca']['crear']) {
+        echo "<script>
+		alert('No tienes los permisos para este modulo');
+		window.location= 'index.php?pagina=mi-perfil'
+		</script>";
+    }
+
+
     if (is_file('vista/' . $pagina . '.php')) {
         $objeto = new LaRoca();
 
