@@ -39,7 +39,7 @@ class Conexion
 
             $user = "root";
 
-            $password = "j3sus";
+            $password = "";
 
             $conexion = new PDO($dsn, $user, $password);
 
