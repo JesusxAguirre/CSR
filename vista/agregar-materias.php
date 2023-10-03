@@ -25,26 +25,23 @@
     ?>
     <!-- sidebar.php -->
 
+    <script>
+        const permisos = {
+            crear: <?php echo $_SESSION['permisos']['materias']['crear'] ? 1 : 0 ?>,
+            listar: <?php echo $_SESSION['permisos']['materias']['listar'] ? 1 : 0 ?>,
+            actualizar: <?php echo $_SESSION['permisos']['materias']['actualizar'] ? 1 : 0 ?>,
+            eliminar: <?php echo $_SESSION['permisos']['materias']['eliminar'] ? 1 : 0 ?>,
+        }
+    </script>
+
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row d-flex justify-content-center">
-                <div class="col-sm col-lg-8">
-                    <div class="titulo text-center mt-5">
-                        <h3><em>Agregar Materias</em></h3>
-                    </div><br>
-                </div>
-            </div>
-
             <div class="row d-flex justify-content-center">
                 <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
                 <div class="col-sm col-lg-8">
                     <div class="row">
                         <div class="col">
                             <div class="card sombra">
-                                <!-- <div class="card-header text-center">
-                                    <label class="form-label fw-bold">AGREGAR MATERIAS</label>
-                                </div> -->
-
                                 <div class="card-body">
                                     <form id="formularioMateria">
                                         <div class="row">

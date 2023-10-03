@@ -144,7 +144,7 @@
 														<tr role='row'>
 															<th colspan='1' role='columnheader'>#</th>
 															<th colspan='1' role='columnheader'>Modulo</th>
-															<th colspan='1' role='columnheader'>Ver</th>
+															<th colspan='1' role='columnheader'>Consultar</th>
 															<th colspan='1' role='columnheader'>Crear</th>
 															<th colspan='1' role='columnheader'>Actualizar</th>
 															<th colspan='1' role='columnheader'>Eliminar</th>

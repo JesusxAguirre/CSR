@@ -23,11 +23,17 @@
     ?>
     <!-- sidebar.php -->
 
+    <script>
+        const permisos = {
+            crear: <?php echo $_SESSION['permisos']['secciones']['crear'] ? 1 : 0 ?>,
+            listar: <?php echo $_SESSION['permisos']['secciones']['listar'] ? 1 : 0 ?>,
+            actualizar: <?php echo $_SESSION['permisos']['secciones']['actualizar'] ? 1 : 0 ?>,
+            eliminar: <?php echo $_SESSION['permisos']['secciones']['eliminar'] ? 1 : 0 ?>,
+        }
+    </script>
+
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
-            <div class="row text-center">
-                <h4><em>LISTAR SECCIONES</em></h4>
-            </div>
             <div class="row mt-3">
 
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
@@ -206,9 +212,6 @@
         </div>
     </div>
     <!-- FINAL DEL MODAL PARA EDITAR LOS ESTUDIANTES QUE ESTAN EN LA SECCION -->
-    <script>
-        const permisoListar = <?php echo $_SESSION['permisos']['ecam']['listar']; ?>
-    </script>
     <script src="./resources/js/listar-secciones.js"></script>
 </body>
 

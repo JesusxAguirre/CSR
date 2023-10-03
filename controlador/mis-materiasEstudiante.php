@@ -45,7 +45,7 @@ if (isset($_POST['cerrar'])) {
 
 if($_SESSION['verdadero'] > 0){
     
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] != 4) {
+    if (!$_SESSION['permisos']['aula_virtual_estudiantes']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
@@ -60,6 +60,9 @@ if($_SESSION['verdadero'] > 0){
         $accion = 'El usuario ha revisado sus materias en el "Aula Virtual Estudiantes"';
         $id_modulo = 3;
         $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
+
+        
+
         
         require_once 'vista/'.$pagina.'.php';
     }

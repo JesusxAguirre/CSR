@@ -25,6 +25,15 @@
     ?>
     <!-- sidebar.php -->
 
+    <script>
+        const permisos = {
+            crear: <?php echo $_SESSION['permisos']['aula_virtual_profesores']['crear'] ? 1 : 0 ?>,
+            listar: <?php echo $_SESSION['permisos']['aula_virtual_profesores']['listar'] ? 1 : 0 ?>,
+            actualizar: <?php echo $_SESSION['permisos']['aula_virtual_profesores']['actualizar'] ? 1 : 0 ?>,
+            eliminar: <?php echo $_SESSION['permisos']['aula_virtual_profesores']['eliminar'] ? 1 : 0 ?>,
+        }
+    </script>
+
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
             <!-- BIENVENIDA ECAM -->
@@ -42,7 +51,7 @@
                         <div class="card-body" id="cartita">
                         <div class="table-responsive">
                             <table id="tabla_misEstudiantes" class="table table-borderless table-hover w-100">
-                                <thead class="table-dark">
+                                <thead>
                                     <tr>
                                         <th hidden class="py-3 fs-6" scope="col">ID seccion</th>
                                         <th hidden class="py-3 fs-6" scope="col">ID materia</th>

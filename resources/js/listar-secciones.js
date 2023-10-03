@@ -1,8 +1,6 @@
 /////////////////////////////////
 /////APARTADO DE DATATABLES/////
 
-//prueba para usar validaciones para actualizar y elimnar
-console.log(permisoListar);
 //IDIOMA DEL DATATABLES
 let spanish = {
     "processing": "Procesando...",
@@ -252,7 +250,7 @@ let activarDatatableSeccion = 'activarsec';
 let dataTableSec = $('#listaSecciones').DataTable({
     ajax: {
         method: "POST",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
         data: { activarDatatableSeccion: activarDatatableSeccion },
     },
     columns: [
@@ -261,11 +259,24 @@ let dataTableSec = $('#listaSecciones').DataTable({
         { data: 'nivel_academico' },
         { data: 'fecha_cierre' },
         {
-            defaultContent:
-                `<button type="button" class="btn btn-outline-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-fill fs-5"></i></button>
-        <button type="button" class="btn btn-outline-primary editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill fs-5"></i></button>
-        <button type="button" class="btn btn-outline-primary editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill fs-5"></i></button>
-        <i type="button" class="eliminarSeccion mx-1 bi bi-x-lg btn btn-danger fs-5" title="Cerrar seccion"></i>`},
+            data: null,
+            render: function (data, type, row, meta) {
+    
+              let botonesEditar = permisos.actualizar ? `<button type="button" class="btn btn-outline-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-fill fs-5"></i></button>
+              <button type="button" class="btn btn-outline-primary editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill fs-5"></i></button>
+              <button type="button" class="btn btn-outline-primary editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill fs-5"></i></button>` : '';
+    
+              let botonEliminar = permisos.eliminar ? `<i type="button" class="eliminarSeccion mx-1 bi bi-x-lg btn btn-danger fs-5" title="Cerrar seccion"></i>` : '';
+    
+              let div = `
+              <div class="d-flex justify-content-center gap-1">
+                        ${botonesEditar}
+                        ${botonEliminar}
+              </div>
+              `
+              return div;
+            }
+          },
     ],
     language: spanish,
 });
@@ -290,7 +301,7 @@ function listarProfesoresSeccion() {
             idSMConsulta: idSMConsulta,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
     });
@@ -354,7 +365,7 @@ $('#listaSecciones tbody').on('click', '.editardatosProfesores', function () {
             idSMConsulta: idSeccionRef3,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
         selectMasMaterias();
@@ -406,7 +417,7 @@ $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVO
             idSeccionRef5: $("#idSeccionProfMatU").val(),
         };
 
-        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        $.post("index.php?pagina=listar-secciones", data, function (response) {
             listarProfesoresSeccion();
             $('#seleccionarProfesoresAdicionales').val('ninguno')
             selectMasMaterias();
@@ -454,7 +465,7 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
         denyButtonColor: 'grey',
     }).then((result) => {
         if (result.isConfirmed) {
-            $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+            $.post("index.php?pagina=listar-secciones", data, function (response) {
                 var resp = JSON.parse(response);
                 console.log(resp);
                 if (resp == 'true') {
@@ -490,7 +501,7 @@ function listarEstudiantesSeccion(idSeccionVer) { //Este parametro es para que l
             idSeccionConsulta: idSeccionVer,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
     });
@@ -533,7 +544,7 @@ $("#agregarEditado2").on("click", function (e) {
             estudiantesNuevos: $("#seleccionarEstudiantesAdicionales").val(),
         };
 
-        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        $.post("index.php?pagina=listar-secciones", data, function (response) {
             console.log(response);
             listarEstudiantesSeccion(data.idSeccionV);
             selectEstudiantesOFF();
@@ -572,7 +583,7 @@ $(document).on('click', '#eliminarEstON', function () {
         denyButtonColor: 'grey',
     }).then((result) => {
         if (result.isConfirmed) {
-            $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+            $.post("index.php?pagina=listar-secciones", data, function (response) {
                 var resp = JSON.parse(response);
 
                 if (resp == 'true') {
@@ -684,7 +695,7 @@ $('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function () {
             idSeccionConsulta: idSeccionRef,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
         selectEstudiantesOFF();
@@ -710,7 +721,7 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function () {
         denyButtonColor: 'grey',
     }).then((result) => {
         if (result.isConfirmed) {
-            $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+            $.post("index.php?pagina=listar-secciones", data, function (response) {
                 let resp = JSON.parse(response);
 
                 if (resp == 'true') {
@@ -827,7 +838,7 @@ $('#guardarEditado1').click(function (e) {
             denyButtonColor: 'grey',
         }).then((result) => {
             if (result.isConfirmed) {
-                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+                $.post("index.php?pagina=listar-secciones", data, function (response) {
                     let resp = JSON.parse(response);
 
                     //VALIDANDO que no exista otra seccion con los mismos datos

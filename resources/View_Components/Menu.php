@@ -16,7 +16,7 @@
       <span class="navbar-toggler-icon "></span>
 
     </button>
-    <div class="collapse navbar-collapse  justify-content-end" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse justify-content-end gap-2" id="navbarSupportedContent">
 
       <form class="d-flex ms-auto ">
 
@@ -59,11 +59,11 @@
         </li>
       </ul>
 
-    
-   
-      <div class="dropdown ms-1 ms-lg-0">
-        <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-          <img class="avatar-img " src="resources/img/nothingPhoto.png" id="menu_img_perfil" width="42" alt="avatar">
+
+
+      <div class="dropdown">
+        <a class="avatar avatar-sm p-0 contenedor-avatar" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+          <img class="avatar-img " src="resources/img/nothingPhoto.png" id="menu_img_perfil" alt="avatar">
         </a>
         <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
           <!-- Profile info -->
@@ -84,11 +84,11 @@
           </li>
           <!-- Links -->
           <li><a class="dropdown-item" href="?pagina=mi-perfil"><i class="bi bi-gear fa-fw me-2"></i>Mi perfil</a></li>
-          <li><button id="logout" name="cerrar" type="submit" class="dropdown-item bg-danger-soft-hover" href="#"><i class="bi bi-power fa-fw me-2"></i>Cerrar sesion</button></li>
+          <li><button id="logout" name="cerrar" type="submit" class="dropdown-item bg-danger-soft-hover text-danger" href="#"><i class="bi bi-power fa-fw me-2"></i>Cerrar sesion</button></li>
           <li>
             <hr class="dropdown-divider">
           </li>
-          
+
         </ul>
       </div>
     </div>

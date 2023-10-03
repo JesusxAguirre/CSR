@@ -5,7 +5,7 @@ session_start();
 $time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
-    
+
     // Regenera el ID de sesión antes de destruirla
     session_regenerate_id(true);
 
@@ -42,32 +42,58 @@ if (isset($_POST['cerrar'])) {
 
 use Csr\Modelo\Ecam;
 
-if($_SESSION['verdadero'] > 0){
-    
-    if (!$_SESSION['permisos']['ecam']['crear'] && $_SESSION['rol'] < 2) {
+if ($_SESSION['verdadero'] > 0) {
+
+    if (!$_SESSION['permisos']['secciones']['crear']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
-
     }
-    if (is_file('vista/'.$pagina.'.php')) {
-     
-        $objeto= new Ecam();
-        
+    if (is_file('vista/' . $pagina . '.php')) {
+
+        $objeto = new Ecam();
+
         $cedula = $_SESSION['cedula'];
         $accion = 'El usuario ha entrado al apartado de Crear Seccion';
         $id_modulo = 3;
         $objeto->set_registrar_bitacora($cedula, $accion, $id_modulo);
-        
-        require_once 'vista/'.$pagina.'.php';
 
+
+        if (isset($_POST['crear'])) {
+            $nombreSeccion = $_POST['nombreSeccion'];
+            $nivelSeccion = $_POST['nivelSeccion'];
+            $fechaCierre = $_POST['fechaCierre'];
+            $idMateriaSeccion = $_POST['idMateriaSeccion'];
+            $cedulaProfSeccion = $_POST['cedulaProfSeccion'];
+            $cedulaEstSeccion = $_POST['cedulaEstSeccion'];
+
+            $objeto->setSeccion($nombreSeccion, $nivelSeccion, $cedulaProfSeccion, $cedulaEstSeccion, $idMateriaSeccion, $fechaCierre);
+            $objeto->crearSeccion();
+
+            die();
+        }
+
+        //Verificar datos basicos de la seccion
+        if (isset($_POST['verificarSeccion'])) {
+            $nombre = $_POST['nombre'];
+            $nivel = $_POST['nivel'];
+
+            $respuesta = $objeto->validar_seccion($nombre, $nivel);
+            if ($respuesta > 0) {
+                echo json_encode('true');
+            } else {
+                echo json_encode('false');
+            }
+
+            die();
+        }
+
+        require_once 'vista/' . $pagina . '.php';
     }
-
-} else { 
+} else {
     echo "<script>
     alert('Inicia sesion ');
     window.location= 'error.php'
     </script>";
-}   
-?>  
+}

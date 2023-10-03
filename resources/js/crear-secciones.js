@@ -207,7 +207,7 @@ $('#siguiente1').click(function (e) {
         nombre: document.getElementById('nombreSeccion').value,
         nivel: document.getElementById('nivelSeccion').value,
     }
-    $.post("controlador/ajax/dinamica-seccion.php", dataSeccion, function (response) {
+    $.post("index.php?pagina=crear-secciones", dataSeccion, function (response) {
         var resp = JSON.parse(response);
         console.log(resp);
         if (resp == 'true') {
@@ -349,7 +349,7 @@ $("#crear").click(function () {
             cedulaProfSeccion: arregloProfesores,
             cedulaEstSeccion: $('#seleccionarEstudiantes').val(),
         };
-        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        $.post("index.php?pagina=crear-secciones", data, function (response) {
             Swal.fire({
                 icon: 'success',
                 title: '¡Seccion creada exitosamente!',

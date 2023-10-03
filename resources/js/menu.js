@@ -40,8 +40,8 @@ function fotoPerfil() {
         document.getElementById('menu_nombre').textContent = objeto.nombre + ' ' + objeto.apellido;
         document.getElementById('menu_email').textContent = objeto.usuario;
 
-        document.getElementById('menu_img_perfil').src = objeto.ruta_imagen === "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
-        document.getElementById('menu_img_perfil2').src = objeto.ruta_imagen === "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
+        document.getElementById('menu_img_perfil').src = objeto.ruta_imagen == "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
+        document.getElementById('menu_img_perfil2').src = objeto.ruta_imagen == "" ? "resources/img/nothingPhoto.png" : objeto.ruta_imagen;
 
     	});
 }

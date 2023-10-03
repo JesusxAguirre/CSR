@@ -43,7 +43,7 @@ if (isset($_POST['cerrar'])) {
 use Csr\Modelo\Ecam;
 if($_SESSION['verdadero'] > 0){
 
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] < 2 && !$_SESSION['status_profesor']) {
+    if (!$_SESSION['permisos']['aula_virtual_profesores']['listar'] && !$_SESSION['status_profesor']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'

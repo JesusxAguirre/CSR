@@ -35,7 +35,6 @@
                         <div class="col">
                             <div class="card sombra">
                                 <div class="card-body">
-                                    <!-- <label class="form-label text-center fst-italic fw-bold" for="">Agregar profesores a la ECAM</label> -->
                                     <div id="verProfesoresFuturos">
 
                                     </div>

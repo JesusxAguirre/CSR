@@ -44,7 +44,7 @@ use Csr\Modelo\Ecam;
 
 if($_SESSION['verdadero'] > 0){
     
-    if (!$_SESSION['permisos']['ecam']['listar']) {
+    if (!$_SESSION['permisos']['boletin_notas']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
