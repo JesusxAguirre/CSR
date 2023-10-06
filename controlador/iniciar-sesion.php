@@ -198,6 +198,68 @@ if (isset($_POST['email'])) {
 	}
 }
 
+//validando datos de usuario para entrar al sistema
+if (isset($_POST['encrypteLogin'])) {
+
+	if (!verified_token_csrf()) {
+		$objeto_usuario->insert_ip_blacklist();
+	}
+	$correo = strtolower(trim($_POST['email']));
+
+	$clave = trim($_POST['password']);
+
+	$objeto_usuario->security_validation_correo($correo);
+
+	$objeto_usuario->security_validation_clave($clave);
+
+	$_SESSION['usuario'] = $correo;
+
+	$_SESSION['clave'] = $clave;
+
+	$objeto_usuario->check_blacklist();
+
+	$objeto_usuario->check_requests_danger();
+
+	$objeto_usuario->validar();
+
+	$_SESSION['verdadero'] = 1;
+
+
+	//$permisos = $objeto_usuario->get_permisos();
+	if ($_SESSION['verdadero'] > 0) {
+		$buscarNombre = $objeto_datos_usuario->nombre();
+		$nombre;
+		foreach ($buscarNombre as $key) {
+			$nombre = $key['nombre'] . ' ' . $key['apellido'];
+		}
+		$_SESSION['nombre'] = $nombre;
+
+		$buscarCedula = $objeto_datos_usuario->cedula();
+		$_SESSION['cedula'] = $buscarCedula[0]['cedula'];
+
+		$buscarIdSeccion = $objeto_datos_usuario->idSeccion();
+		$_SESSION['id_seccion'] = $buscarIdSeccion[0]['idSeccion'];
+
+		$buscarStatusProf = $objeto_datos_usuario->statusProfesor();
+		$_SESSION['status_profesor'] = $buscarStatusProf[0]['status_profesor'];
+
+		//primero se busca la id del rol del usuario con el correo del usuario
+		$idRol = $objeto_usuario->getIdRol($_SESSION['usuario']);
+		$_SESSION['rol'] = $idRol;
+
+		//luego se buscan los permisos con el id de rol
+		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
+
+		// Regenera el ID de sesión para vaciar rastros de las anteriores
+		session_regenerate_id(true);
+
+		return true;
+	}
+}
+
+
+
+
 if (is_file("vista/" . $pagina . ".php")) {
 
 	//OBTENER TOKEN

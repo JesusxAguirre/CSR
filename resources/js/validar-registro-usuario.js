@@ -377,7 +377,6 @@ $(document).ready(function () {
 			})
 		} else {
 
-			console.log($(this).serialize())
 
 			$.ajax({
 				type: 'POST',
