@@ -45,28 +45,43 @@ if (isset($_POST['cerrar'])) {
 }
 
 if ($_SESSION['verdadero'] > 0) {
-    
+
     if (!$_SESSION['permisos']['reporte_estadistico_ecam']['listar']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
 		</script>";
-
     }
-    if (is_file('vista/'. $pagina .'.php')) {
-        
-        $objeto= new Ecam();
+    if (is_file('vista/' . $pagina . '.php')) {
+
+        $objeto = new Ecam();
 
         $cantidadProfesores = $objeto->cantidadProfesores();
         $cantidadEstudiantes = $objeto->cantidadEstudiantes();
 
+        //CANTIDAD DE ESTUDIANTES EN CADA SECCION DE LA ECAM
+        if (isset($_POST['grafico1'])) {
+
+            $json = $objeto->cantidadEstudiantes_seccion();
+
+            echo json_encode($json);
+
+            die();
+        }
+
+        //CANTIDAD DE ESTUDIANTES EN CADA SECCION DE LA ECAM
+        if (isset($_POST['grafico2'])) {
+
+            $json = $objeto->cantidadGraduandos_actual();
+
+            echo json_encode($json);
+            die();
+        }
+
         require_once 'vista/' . $pagina . '.php';
     }
-
-}else {
+} else {
     echo "<script>
            window.location= 'error.php'
 </script>";
 }
-
-?>
