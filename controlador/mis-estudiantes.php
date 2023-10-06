@@ -45,7 +45,7 @@ if (isset($_POST['cerrar'])) {
 
 if($_SESSION['verdadero'] > 0){
     
-    if (!$_SESSION['permisos']['ecam']['listar'] && $_SESSION['rol'] == 3 || $_SESSION['rol'] == 4) {
+    if (!$_SESSION['permisos']['aula_virtual_profesores']['listar'] && !$_SESSION['status_profesor']) {
         echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=mi-perfil'
