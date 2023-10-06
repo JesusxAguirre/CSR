@@ -204,9 +204,14 @@ if (isset($_POST['encrypteLogin'])) {
 	if (!verified_token_csrf()) {
 		$objeto_usuario->insert_ip_blacklist();
 	}
-	$correo = strtolower(trim($_POST['email']));
 
-	$clave = trim($_POST['password']);
+	//DESENCRIPTAR 
+
+	$array_desencripted = $objeto_usuario->mutatedDecryptMessageMobile($_POST['encryteLogin']);
+
+	$correo = strtolower(trim($array_desencripted['email']));
+
+	$clave = trim($array_desencripted['password']);
 
 	$objeto_usuario->security_validation_correo($correo);
 

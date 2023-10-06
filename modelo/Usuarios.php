@@ -1455,6 +1455,19 @@ class Usuarios extends Conexion
     public function mutatedDecryptMessage($encryptedMessage, $privateKey){
         return parent::decryptMessage($encryptedMessage, $privateKey);
     }
+    /**
+     * mutatedDecryptMessage2
+     *
+     * Metodo mutador que llama a la funcion que desencripta el mensaje con la llave privada
+     * 
+     * @param  string $encryptedMessage
+     * @param  string $privateKey
+     * @return string
+     */
+    public function mutatedDecryptMessageMobile($encryptedMessage){
+        return parent::decryptMessageMobile($encryptedMessage);
+    }
+
 
 
     ///////////// SECCION PARA GENERAR API-KEY

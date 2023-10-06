@@ -251,4 +251,25 @@ class Conexion
         openssl_private_decrypt(base64_decode($encryptedMessage), $decrypted, $privateKey);
         return $decrypted;
     }
+
+
+    protected function decryptMessageMobile($encryptedMessage)
+    {
+        $decrypted = '';
+
+        // Ruta al archivo .key
+        $archivoKey = 'private.key';
+
+        // Leer el contenido del archivo .key
+        $contenidoKey = file_get_contents($archivoKey);
+
+       // Obtener la clave privada
+        $privateKey = openssl_pkey_get_private($contenidoKey, null);
+
+
+        openssl_private_decrypt($encryptedMessage, $decrypted, $privateKey);
+
+        return $decrypted;
+    }
+
 }
