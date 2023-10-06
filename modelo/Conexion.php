@@ -255,10 +255,9 @@ class Conexion
 
     protected function decryptMessageMobile($encryptedMessage)
     {
-        $decrypted = '';
 
         // Ruta al archivo .key
-        $archivoKey = 'private.key';
+        $archivoKey = 'modelo/private.key';
 
         // Leer el contenido del archivo .key
         $contenidoKey = file_get_contents($archivoKey);
@@ -268,7 +267,7 @@ class Conexion
 
 
         openssl_private_decrypt($encryptedMessage, $decrypted, $privateKey);
-
+        
         return $decrypted;
     }
 

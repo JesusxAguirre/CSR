@@ -203,11 +203,13 @@ if (isset($_POST['encrypteLogin'])) {
 
 	if (!verified_token_csrf()) {
 		$objeto_usuario->insert_ip_blacklist();
-	}
+	} 
 
 	//DESENCRIPTAR 
 
 	$array_desencripted = $objeto_usuario->mutatedDecryptMessageMobile($_POST['encryteLogin']);
+
+	$array_desencripted = json_decode($array_desencripted);
 
 	$correo = strtolower(trim($array_desencripted['email']));
 
