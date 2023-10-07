@@ -10,7 +10,6 @@ use DateTime;
 
 class Conexion
 {
-    private $inyeccion = "SET FOREIGN_KEY_CHECKS = 0;";
 
     private $config = array(
         "private_key_bits" => 2048,
@@ -21,13 +20,6 @@ class Conexion
     // Definir el umbral de solicitud
     private $umbralSolicitudes = 20; // 5 solicitudes en 1 segundo
 
-    private $expresion_especial = "/^[^a-zA-Z0-9!@#$%^&*]$/";
-
-    private $expresion_cedula = "/^[0-9]{7,8}$/";
-
-    private $expresion_numero = "/^[0-9]$/";
-
-    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
 
     //CONEXION CON BASE DE DATOS
     protected static function conexion()
@@ -72,57 +64,7 @@ class Conexion
             ":accion" => $accion
         ));
     }
-
-
-    //VALIDACION INYECCION SQL
-    protected function validar_inyeccion($array)
-    {
-
-        for ($i = 0; $i < count($array); $i++) {
-            $response = preg_match_all($this->expresion_especial, $array[$i]);
-
-            if ($response > 0) {
-                //guardar en base de datos hacker
-
-
-                die("inyeccion sql");
-            }
-
-            if ($array[$i] == "") {
-                //guardar en base de datos de hacker
-
-
-                die("datos vacio");
-            }
-        }
-    }
-
-
-    //VALIDACION CEDULA
-    protected function validar_cedula($cedula)
-    {
-        $response = preg_match_all($this->expresion_cedula, $cedula);
-
-        if ($response == 0) {
-            //guardar ataque de hacker
-
-            die("datos invalido de cedula");
-        }
-    }
-
-    protected function validar_caracteres($array)
-    {
-
-        for ($i = 0; $i < count($array); $i++) {
-            $response = preg_match_all($this->expresion_caracteres, $array[$i]);
-
-            if ($response == 0) {
-                //guardar datos de hacker
-
-                die("datos invalidos en caracteres");
-            }
-        }
-    }
+    
 
 
     protected function check_requests_danger()
