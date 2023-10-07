@@ -18,7 +18,6 @@ class Usuarios extends Conexion
 
     private $id_modulo;
 
-    private $usuario;
     private $clave;
     private $cedula;
     private $nombre;
@@ -27,8 +26,7 @@ class Usuarios extends Conexion
     private $telefono;
     private $estado;
     private $nacionalidad;
-    private $permisos;
-    private $listar;
+    
     private $arreglo_n1;
     private $arreglo_n2;
 
@@ -105,11 +103,6 @@ class Usuarios extends Conexion
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
 
-
-
-    // Definir el umbral de solicitud
-    private $umbralSolicitudes = 5; // 5 solicitudes en 1 segundo
-    private $umbralTiempo = 1; // 1 segundo
 
 
 

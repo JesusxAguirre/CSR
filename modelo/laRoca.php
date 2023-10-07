@@ -14,7 +14,6 @@ class LaRoca extends Conexion
 {
     private $conexion;
     private $id_modulo;
-    private $listar;
     private $nombre_anfitrion;
     private $direccion;
     private $cantidad_integrantes;
@@ -30,7 +29,6 @@ class LaRoca extends Conexion
     private $niños;
     private $confesiones;
     private $lideres;
-    private $busqueda;
 
 
 
