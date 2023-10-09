@@ -15,6 +15,7 @@ class Conexion
         "private_key_bits" => 2048,
         "private_key_type" => OPENSSL_KEYTYPE_RSA,
     );
+    
     private $secret_key_recaptcha = '6Lf5JignAAAAAFQb29kN1lP5eCD_QB2CUWkhznB6';
 
     // Definir el umbral de solicitud
