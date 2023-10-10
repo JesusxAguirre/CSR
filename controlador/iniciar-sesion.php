@@ -201,7 +201,7 @@ if (isset($_POST['email'])) {
 //validando datos de usuario para entrar al sistema
 if (isset($_POST['encrypteLogin'])) {
 
-
+	//DESENCRIPTAR 
 	$array_desencripted = $objeto_usuario->mutatedDecryptMessageMobile($_POST['encryteLogin']);
 
 	$array_desencripted = json_decode($array_desencripted);
@@ -212,9 +212,7 @@ if (isset($_POST['encrypteLogin'])) {
 		$objeto_usuario->insert_ip_blacklist();
 	} 
 
-	//DESENCRIPTAR 
 
-	
 
 	$correo = strtolower(trim($array_desencripted['email']));
 
