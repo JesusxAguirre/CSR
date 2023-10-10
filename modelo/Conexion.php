@@ -32,7 +32,7 @@ class Conexion
 
             $user = "root";
 
-            $password = "";
+            $password = "j3sus";
 
             $conexion = new PDO($dsn, $user, $password);
 
@@ -209,7 +209,7 @@ class Conexion
         $privateKey = openssl_pkey_get_private($contenidoKey, null);
 
 
-        openssl_private_decrypt($encryptedMessage, $decrypted, $privateKey);
+        openssl_private_decrypt(base64_decode($encryptedMessage), $decrypted, $privateKey);
         
         return $decrypted;
     }
