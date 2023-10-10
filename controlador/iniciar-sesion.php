@@ -204,6 +204,8 @@ if (isset($_POST['encryptedLogin'])) {
 	//DESENCRIPTAR 
 	$array_desencripted = $objeto_usuario->mutatedDecryptMessageMobile($_POST['encryptedLogin']);
 
+	print_r($array_desencripted);
+
 	$array_desencripted = json_decode($array_desencripted);
 
 	$_POST['token'] = $array_desencripted['token'];
