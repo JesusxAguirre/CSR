@@ -178,7 +178,7 @@ class Usuarios extends Conexion
 
                         http_response_code(200);
                         header('Content-Type: application/json');
-                        echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "api_key" => $apiKey, "status_code" => 200));
+                        echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "apikey" => $apiKey, "status_code" => 200));
                     } else {
                         throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
                     }
