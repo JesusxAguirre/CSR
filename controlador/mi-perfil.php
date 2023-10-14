@@ -142,7 +142,6 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->validar_contraseña_actual($clave_actual);
             $objeto->security_validation_clave($clave_nueva);
             $objeto->actualizar_password($clave_nueva);
-            
         }
 
 

@@ -56,7 +56,8 @@ if (isset($headers['apikey']) && $headers['apikey'] == $_SESSION['api-key']) {
 
         $objeto_casa = new LaRoca();
 
-        $matriz_csr = $objeto_casa->listar_casas_la_roca();
+        //$matriz_csr = $objeto_casa->listar_casas_la_roca();
+        $matriz_csr = $objeto_casa->listar_casas_la_roca_por_usuario();
 
         header('Content-Type: application/json');
 
