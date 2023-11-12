@@ -7,7 +7,7 @@ session_start();
 $time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
-    
+
     // Regenera el ID de sesión antes de destruirla
     session_regenerate_id(true);
 
@@ -44,11 +44,11 @@ if (isset($_POST['cerrar'])) {
     die();
 }
 
-if ($_SESSION['verdadero'] > 0) {
+if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
 
         //Validacion de permisos
-        if (!$_SESSION['permisos']['celula_consolidacion']['listar']) {
+        if (isset($_SESSION['permisos']['celula_consolidacion']['listar']) && !$_SESSION['permisos']['celula_consolidacion']['listar']) {
             echo "<script>
 		alert('No tienes los permisos para este modulo');
 		window.location= 'index.php?pagina=dashboard'
@@ -113,4 +113,3 @@ if ($_SESSION['verdadero'] > 0) {
            window.location= 'error.php'
 </script>";
 }
-?>
