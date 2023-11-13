@@ -11,6 +11,7 @@ const selects = document.querySelectorAll('#EditarNivelForm select');
 
 let participantes_array = ''
 
+
 var choices1 = null
 
 let lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
@@ -222,7 +223,7 @@ $('#editForm').submit(function (event) {
 
         document.getElementById("editForm").reset()
 
-       
+
 
         $("#editar").removeClass('fade').modal('hide');
         $('#tabla_discipulos').DataTable().destroy();
@@ -364,7 +365,7 @@ $("#EditarNivelForm").submit(function (e) {
             icon: 'success',
             title: 'Se actualizo la informacion correctamente'
           })
-          
+
           campos.nivel = false
 
           let busqueda = busquedaEl.value
@@ -561,6 +562,7 @@ $('#tabla_discipulos tbody').on('click', '.btn-add', function () {
         return String(participante.cedula)
       });
 
+
       //listando eventos selects libreria choice
       participantes.addEventListener('hideDropdown', ValidarFormulario);
 
@@ -585,7 +587,6 @@ $('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
     url: "controlador/ajax/buscar-participante-asistencias-discipulado.php",
     type: "GET"
   }).done(data => {
-    console.log(data);
     expandir.innerHTML = data
     const asistentes = document.getElementById('asistentes');
     var choices2 = new Choices(asistentes, {
@@ -595,6 +596,11 @@ $('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
       noResultsText: 'No hay coicidencias',
       noChoicesText: 'No hay participantes disponibles',
     });
+
+    asistentes_array = data.map(function (asistente) {
+      return String(asistente.cedula)
+    });
+
     asistentes.addEventListener('hideDropdown', ValidarFormulario);
   })
 })
@@ -616,50 +622,50 @@ $('#tabla_discipulos tbody').on('click', '.modal-btn', function () {
 })
 
 
-$('#tabla_participantes tbody').on('click', '.delete-btn', function() {
+$('#tabla_participantes tbody').on('click', '.delete-btn', function () {
   let row = $(this).closest('tr');
 
   const cedulaInput = document.querySelector('#deleteForm .cedula_participante')
-    const nombre_participante = document.getElementById('deleteParticipanteName')
-    const apellido_participante = document.getElementById('deleteParticipanteApellido')
+  const nombre_participante = document.getElementById('deleteParticipanteName')
+  const apellido_participante = document.getElementById('deleteParticipanteApellido')
 
-    cedulaInput.value = row.find('td:eq(6)').text()
-    nombre_participante.textContent = row.find('td:eq(2)').text()
-    apellido_participante.textContent = row.find('td:eq(3)').text()
+  cedulaInput.value = row.find('td:eq(6)').text()
+  nombre_participante.textContent = row.find('td:eq(2)').text()
+  apellido_participante.textContent = row.find('td:eq(3)').text()
 
 })
 
-  function solicitar_tabla() {
-    $.ajax({
-      url: window.location,
-      type: 'GET',
-      data: {
-        listar_celula_disicpulado: 'listar_celula_disicpulado',
-      },
-      dataType: 'json',
-      success: function (data) {
+function solicitar_tabla() {
+  $.ajax({
+    url: window.location,
+    type: 'GET',
+    data: {
+      listar_celula_disicpulado: 'listar_celula_disicpulado',
+    },
+    dataType: 'json',
+    success: function (data) {
 
-        console.log(data)
+      console.log(data)
 
-        $('#tabla_discipulos').DataTable({
-          language: {
-            url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
-          },
-          data: data,
-          columns: [
-            { data: 'id', title: 'ID', className: "d-none" },
-            { data: 'codigo_celula_discipulado', title: 'Codigo de celula' },
-            { data: 'dia_reunion', className: "text-capitalize dia", title: 'Dia de reunion' },
-            { data: 'hora', className: "text-capitalize hora", title: 'Hora de reunion' },
-            { data: 'codigo_lider', title: 'Codigo de lider' },
-            { data: 'codigo_anfitrion', title: 'Codigo de anfitrion', className: "d-none" },
-            { data: 'codigo_asistente', title: 'Codigo de asistente', className: "d-none" },
-            { data: 'direccion', title: 'Direccion', className: "d-none" },
-            {
-              data: null,
-              title: "Acciones",
-              className: "text-center",
-              defaultContent: `
+      $('#tabla_discipulos').DataTable({
+        language: {
+          url: "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json" // Ruta del archivo de idioma en español
+        },
+        data: data,
+        columns: [
+          { data: 'id', title: 'ID', className: "d-none" },
+          { data: 'codigo_celula_discipulado', title: 'Codigo de celula' },
+          { data: 'dia_reunion', className: "text-capitalize dia", title: 'Dia de reunion' },
+          { data: 'hora', className: "text-capitalize hora", title: 'Hora de reunion' },
+          { data: 'codigo_lider', title: 'Codigo de lider' },
+          { data: 'codigo_anfitrion', title: 'Codigo de anfitrion', className: "d-none" },
+          { data: 'codigo_asistente', title: 'Codigo de asistente', className: "d-none" },
+          { data: 'direccion', title: 'Direccion', className: "d-none" },
+          {
+            data: null,
+            title: "Acciones",
+            className: "text-center",
+            defaultContent: `
            
             <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary btn-edit">
               <i class="fs-5 bi bi-pencil-fill"></i>
@@ -674,20 +680,20 @@ $('#tabla_participantes tbody').on('click', '.delete-btn', function() {
                 <i class="fs-5 bi bi bi-person-dash-fill"></i>
               </button>
               `,
-              orderable: false
-            },
+            orderable: false
+          },
 
-          ],
-          "lengthChange": false, "autoWidth": false,
-          buttons: [
-            'csv', 'excel', 'pdf', 'print'
-          ],
+        ],
+        "lengthChange": false, "autoWidth": false,
+        buttons: [
+          'csv', 'excel', 'pdf', 'print'
+        ],
 
-        }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
+      }).buttons().container().appendTo('#tabla_usuarios_wrapper .col-md-6:eq(0)');
 
-      },
-      error: function (xhr, status, error) {
-        console.log(xhr)
-      }
-    });
-  }
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr)
+    }
+  });
+}
