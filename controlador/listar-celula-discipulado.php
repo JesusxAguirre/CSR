@@ -139,8 +139,15 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         //registrar asistencia
         if (isset($_POST['agregar_asistencia'])) {
             $fecha = trim($_POST['fecha']);
-            $asistentes = trim($_POST['asistentes']);
+            $asistentes = $_POST['asistentes'];
             $id = trim($_POST['id']);
+
+
+            $objeto->security_validation_inyeccion_sql([$id]);
+
+            $objeto->security_validation_fecha($fecha);
+
+            $objeto->security_validation_codigo($asistentes);
 
             $objeto->setAsistencias($asistentes, $id, $fecha);
 

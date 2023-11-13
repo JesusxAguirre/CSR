@@ -332,18 +332,71 @@ $('#agregar_usuarios').submit(function (event) {
 })
 
 
+$('#agregar_asistencias').submit(function (event) {
+  event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
+  console.log($(this).serialize())
 
-
-formulario3.addEventListener('submit', (e) => {
   if (!(campos.asistentes && campos.fecha)) {
-    e.preventDefault();
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
+
+
+    })
+  } else {
+    $.ajax({
+      url: "?pagina=listar-celula-discipulado",
+      data: $(this).serialize(),
+      success: function (response) {
+        document.getElementById("agregar_asistencias").reset()
+
+        campos.asistentes = false
+        campos.fecha = false
+
+        $("#agregar_asistencia").removeClass('fade').modal('hide');
+        $('#tabla_discipulos').DataTable().destroy();
+
+        $("#agregar_asistencia").addClass('fade')
+        solicitar_tabla()
+
+        fireAlert('success', 'Se agregaron asistencias correctamente ')
+
+      },
+      error: function (xhr, status, error) {
+
+        // Código a ejecutar si se produjo un error al realizar la solicitud
+        var response;
+        try {
+          response = JSON.parse(xhr.responseText);
+        } catch (e) {
+          response = {};
+        }
+
+        switch (response.status_code) {
+          case 409:
+            response.ErrorType = "celula de discipulado ya existe"
+            break;
+          case 422:
+            response.ErrorType = "Datos invalidos"
+            break;
+          case 404:
+            response.ErrorType = "Celula de discipulado no existe"
+            break;
+          default:
+            break;
+        }
+        Swal.fire({
+          icon: 'error',
+          title: response.ErrorType,
+          text: response.msj
+        })
+      }
     })
   }
 })
+
+
 
 $("#EditarNivelForm").submit(function (e) {
   e.preventDefault()
