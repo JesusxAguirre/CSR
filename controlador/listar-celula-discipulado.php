@@ -7,7 +7,7 @@ session_start();
 $time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
-    
+
     // Regenera el ID de sesión antes de destruirla
     session_regenerate_id(true);
 
@@ -76,7 +76,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->security_validation_inyeccion_sql([$id, $dia, str_replace(" ", "", $direccion)]);
 
             $objeto->security_validation_codigo([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
-  
+
 
 
             $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id);
@@ -95,7 +95,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
         //BUSCAR PARTICIPANTES DE CELULA
 
-        if(isset($_GET['buscar_participantes'])){
+        if (isset($_GET['buscar_participantes'])) {
             $matriz_usuarios = $objeto->listar_no_participantes();
 
 
@@ -105,12 +105,27 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             die();
         }
 
+
+        //BUSCAR PARTICIPANTES PARA ASISTENCIAS DE CELULA
+
+        if (isset($_GET['buscar_participantes_asistencia'])) {
+
+            $busqueda = $_GET['busqueda'];
+            $matriz_posibles_asistentes = $objeto->listar_participantes($busqueda);
+
+            http_response_code(200);
+
+            echo json_encode($matriz_posibles_asistentes);
+
+            die();
+        }
+
         //agregar participantes
         if (isset($_POST['participantes'])) {
 
             $participantes = $_POST['participantes'];
             $id = trim($_POST['id']);
-            
+
             $objeto->security_validation_inyeccion_sql([$id]);
             $objeto->security_validation_codigo($participantes);
 
@@ -118,10 +133,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->setParticipantes($participantes, $id);
 
             $objeto->agregar_participantes();
-            
-
         }
-        
+
 
         //registrar asistencia
         if (isset($_POST['agregar_asistencia'])) {
@@ -155,8 +168,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         require_once 'vista/' . $pagina . '.php';
     }
 } else {
-    echo "<script>
-           window.location= 'error.php'
-</script>";
+
+    require_once 'error.php';
+
+    http_response_code(403);
 }
-?>

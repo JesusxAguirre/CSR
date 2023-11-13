@@ -15,7 +15,7 @@ class Conexion
         "private_key_bits" => 2048,
         "private_key_type" => OPENSSL_KEYTYPE_RSA,
     );
-    
+
     private $secret_key_recaptcha = '6Lf5JignAAAAAFQb29kN1lP5eCD_QB2CUWkhznB6';
 
     // Definir el umbral de solicitud
@@ -32,7 +32,7 @@ class Conexion
 
             $user = "root";
 
-            $password = "";
+            $password = "j3sus";
 
             $conexion = new PDO($dsn, $user, $password);
 
@@ -41,14 +41,14 @@ class Conexion
             $conexion->exec("SET CHARACTER SET UTF8");
 
             $conexion->query("SET lc_time_names = 'es_ES'");
+
+            return $conexion;
         } catch (Exception $e) {
 
-            echo $e->getMessage();
-
-            echo "Linea del error: " . $e->getLine();
+            http_response_code(500);
+            echo json_encode(array("msj" => "No se ha podido conectar con la base de datos", 'status_code' => 500));
+            die();
         }
-
-        return $conexion;
     }
 
     //REGISTRAR ACCIONES DE USUARIOS EN LA BITACORA 
@@ -65,7 +65,7 @@ class Conexion
             ":accion" => $accion
         ));
     }
-    
+
 
 
     protected function check_requests_danger()
@@ -149,25 +149,26 @@ class Conexion
     }
 
     //Metodo para genear API-KEY para APP movil
-    protected function generateAPIKey($ci) {
+    protected function generateAPIKey($ci)
+    {
         // Se genera un valor aleatorio
         $randomBytes = random_bytes(16);
-        
+
         // Se codifica ese valor aleatorio en formato hexadecimal
         $randomHex = bin2hex($randomBytes);
-        
+
         // Se combina el ID del usuario con el valor aleatorio
         $key = $ci . $randomHex;
-        
+
         // Se utiliza hash SHA-256 para codificar el resultado y proporcionar una longitud fija
         $apiKey = hash('sha256', $key);
-        
+
         return $apiKey;
     }
 
     // Método para generar un par de claves pública y privada
     protected function generateAsymmetricKeys()
-    {   
+    {
         $privateKey = openssl_pkey_new($this->config);
 
         openssl_pkey_export($privateKey, $privateKeyStr);
@@ -205,13 +206,12 @@ class Conexion
         // Leer el contenido del archivo .key
         $contenidoKey = file_get_contents($archivoKey);
 
-       // Obtener la clave privada
+        // Obtener la clave privada
         $privateKey = openssl_pkey_get_private($contenidoKey, null);
 
 
         openssl_private_decrypt(base64_decode($encryptedMessage), $decrypted, $privateKey);
-        
+
         return $decrypted;
     }
-
 }
