@@ -105,6 +105,21 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             die();
         }
 
+
+        //BUSCAR PARTICIPANTES PARA ASISTENCIAS DE CELULA
+
+        if (isset($_GET['buscar_participantes_asistencia'])) {
+
+            $busqueda = $_GET['busqueda'];
+            $matriz_posibles_asistentes = $objeto->listar_participantes($busqueda);
+
+            http_response_code(200);
+
+            echo json_encode($matriz_posibles_asistentes);
+
+            die();
+        }
+
         //agregar participantes
         if (isset($_POST['participantes'])) {
 

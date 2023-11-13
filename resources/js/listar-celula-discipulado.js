@@ -11,8 +11,11 @@ const selects = document.querySelectorAll('#EditarNivelForm select');
 
 let participantes_array = ''
 
+let asistencias_array = ''
 
 var choices1 = null
+
+var choices2 = null
 
 let lista_lideres = document.getElementById('lider') //buscando id de lista de lideres para retorar array de lidere
 
@@ -96,7 +99,7 @@ var ValidarFormulario = (e) => {
       ValidarCodigo(participantes_array, e.target, 'participantes');
       break;
     case "asistentes[]":
-      ValidarCodigo(asistentes_array, e.target, 'asistentes');
+      ValidarCodigo(asistencias_array, e.target, 'asistentes');
       break;
     case "fecha":
       ValidarFecha(e.target, 'fecha');
@@ -583,26 +586,58 @@ $('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
   idInput.value = row.find('td:eq(0)').text()
 
   $.ajax({
-    data: 'busqueda=' + row.find('td:eq(0)').text(),
-    url: "controlador/ajax/buscar-participante-asistencias-discipulado.php",
-    type: "GET"
-  }).done(data => {
-    expandir.innerHTML = data
-    const asistentes = document.getElementById('asistentes');
-    var choices2 = new Choices(asistentes, {
-      allowHTML: true,
-      removeItems: true,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay participantes disponibles',
-    });
+    url: window.location,
+    type: 'GET',
+    data: {
+      buscar_participantes_asistencia: 'buscar_participantes_asistencia',
+      busqueda: row.find('td:eq(0)').text(),
+    },
+    dataType: 'json',
+    success: function (data) {
+      if (choices2 !== null) {
+        choices2.destroy()
+      }
 
-    asistentes_array = data.map(function (asistente) {
-      return String(asistente.cedula)
-    });
+      console.log(data)
 
-    asistentes.addEventListener('hideDropdown', ValidarFormulario);
-  })
+      let asistentes = document.getElementById('asistentes');
+
+      asistencias_array = data.map(function (asistentes) {
+        return {
+          value: asistentes.participantes_cedula,
+          label: asistentes.participantes_nombre + ' ' + asistentes.participantes_apellido + ' ' + asistentes.participantes_codigo,
+        };
+      });
+
+
+      choices2 = new Choices(asistentes, {
+        choices: asistencias_array,
+        allowHTML: true,
+        removeItems: true,
+        removeItemButton: true,
+        noResultsText: 'No hay coicidencias',
+        noChoicesText: 'No hay participantes disponibles',
+      });
+
+      asistencias_array = data.map(function (asistente) {
+        return String(asistente.participantes_cedula)
+      });
+
+
+      //listando eventos selects libreria choice
+      asistentes.addEventListener('hideDropdown', ValidarFormulario);
+
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr)
+    }
+  });
+
+
+
+
+
+
 })
 
 $('#tabla_discipulos tbody').on('click', '.modal-btn', function () {

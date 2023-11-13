@@ -28,6 +28,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Menu.php -->
@@ -53,7 +54,7 @@
         <div class="col">
           <div class="card">
             <div class="card-body">
-            <h4 class="header-title mb-3 fw-bold">Celulas de Discipulados</h4>
+              <h4 class="header-title mb-3 fw-bold">Celulas de Discipulados</h4>
               <div class="table-responsive mt-4">
                 <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
                   <div class="row">
@@ -175,7 +176,7 @@
             </div>
 
             <input type="hidden" name="id" id="idInput">
-            <input type="hidden" name="update" >
+            <input type="hidden" name="update">
           </form>
         </div>
         <div class="modal-footer">
@@ -210,7 +211,7 @@
               </div>
             </div>
             <input type="hidden" name="id" id="idInput2">
-            <input type="hidden" name="agregar_participantes" >
+            <input type="hidden" name="agregar_participantes">
 
           </form>
         </div>
@@ -267,7 +268,7 @@
           <p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b> permanetemente.</p>
           <form method="post" id="deleteForm">
             <input type="hidden" name="cedula_participante" class="cedula_participante">
-            
+
           </form>
         </div>
         <div class="modal-footer">
@@ -330,8 +331,9 @@
                         <div class="relative">
                           <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
 
-                          <div id="asistencias4"></div>
+                          <select name="asistentes[]" id="asistentes" class="form-control" multiple>
 
+                          </select>
                         </div>
                         <p class="text-danger d-none">Este campo no puede estar vacio</p>
                       </div>
