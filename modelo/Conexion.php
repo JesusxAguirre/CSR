@@ -41,14 +41,14 @@ class Conexion
             $conexion->exec("SET CHARACTER SET UTF8");
 
             $conexion->query("SET lc_time_names = 'es_ES'");
+
+            return $conexion;
         } catch (Exception $e) {
 
-            echo $e->getMessage();
-
-            echo "Linea del error: " . $e->getLine();
+            http_response_code(500);
+            echo json_encode(array("msj" => "No se ha podido conectar con la base de datos", 'status_code' => 500));
+            die();
         }
-
-        return $conexion;
     }
 
     //REGISTRAR ACCIONES DE USUARIOS EN LA BITACORA 
