@@ -43,6 +43,8 @@ class Discipulado extends Conexion
 
     private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/";
 
+    private $expresion_fecha = "/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/";
+
 
     public function __construct()
     {
@@ -541,7 +543,7 @@ class Discipulado extends Conexion
             die();
         } catch (Throwable $ex) {
 
-            
+
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
@@ -608,9 +610,9 @@ class Discipulado extends Conexion
 
             //guardando en un array asociativo las cedulas
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-              //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
-              if (
+
+            //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
+            if (
                 $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['cedula_anfitrion'] == $this->cedula_anfitrion and
                 $cedulas['dia_reunion'] == $this->dia and $cedulas['cedula_asistente'] == $this->cedula_asistente and
                 $cedulas['dia_visita'] == $this->dia and $cedulas['hora'] == $this->hora and $cedulas['direccion'] == $this->direccion
@@ -821,7 +823,7 @@ class Discipulado extends Conexion
             die();
         } catch (Throwable $ex) {
 
-        
+
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
@@ -902,7 +904,7 @@ class Discipulado extends Conexion
     {
         try {
 
-            
+
             $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -1360,6 +1362,35 @@ class Discipulado extends Conexion
             if ($hora === "") {
                 // La cadena está vacía
                 throw new Exception("La hora no puede estar vacía", 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
+
+    public function security_validation_fecha($fecha)
+    {
+        try {
+
+
+            $response = preg_match($this->expresion_fecha, $fecha);
+
+            if ($response === false) {
+                // Error en la expresión regular
+                throw new Exception("Error en el envio de decha", 422);
+            }
+
+            if ($response === 0) {
+                // La cadena no cumple con el formato de hora
+                throw new Exception(sprintf("El formato de hora es inválido: '%s'", $fecha), 422);
+            }
+
+            if ($fecha === "") {
+                // La cadena está vacía
+                throw new Exception("La fecha no puede estar vacía", 422);
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
