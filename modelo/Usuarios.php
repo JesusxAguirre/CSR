@@ -26,7 +26,7 @@ class Usuarios extends Conexion
     private $telefono;
     private $estado;
     private $nacionalidad;
-    
+
     private $arreglo_n1;
     private $arreglo_n2;
 
@@ -99,6 +99,7 @@ class Usuarios extends Conexion
 
     private $expresion_numero = "/^[0-9]$/";
 
+    private $expresion_imagen = "/^image\/(pjpeg|jpeg|png|gif|bmp)$/";
 
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
@@ -148,7 +149,7 @@ class Usuarios extends Conexion
         return $bitacora;
     }
 
-    
+
     //VALIDACION DE ENTRADA PARA USUARIOS
     public function validar()
     {
@@ -488,7 +489,7 @@ class Usuarios extends Conexion
                 ":estado" => $this->estado, ":usuario" => $this->correo,
                 ":telefono" => $this->telefono,
                 ":pass" => $this->clave,
-                ":img"=> 'resources/img/nothingPhoto.png'
+                ":img" => 'resources/img/nothingPhoto.png'
             ));
 
             http_response_code(200);
@@ -611,7 +612,7 @@ class Usuarios extends Conexion
             echo json_encode(array("msj" => "Se han actualizado los datos correctamente", "status_code" => 202));
             die();
         } catch (Throwable $ex) {
-            
+
             $errorType = basename(get_class($ex));
             http_response_code(500);
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
@@ -717,7 +718,7 @@ class Usuarios extends Conexion
                 ":usuario" => $this->correo,
             ));
 
-            
+
             http_response_code(202);
             echo json_encode(array("msj" => "Se han actualizado tus datos correctamente", "status_code" => 202));
             die();
@@ -729,7 +730,7 @@ class Usuarios extends Conexion
         </script>";
             return true;*/
         } catch (Throwable $ex) {
-            
+
             $errorType = basename(get_class($ex));
             http_response_code(500);
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
@@ -761,14 +762,17 @@ class Usuarios extends Conexion
             $accion = "Editar foto de usuario";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-            return true;
-        } catch (Exception $e) {
 
-            echo $e->getMessage();
+            http_response_code(202);
+            echo json_encode(array("msj" => "Se ha actualizado la imagen", "status_code" => 202));
+            die();
+        } catch (Throwable $ex) {
 
-            echo "Linea del error: " . $e->getLine();
-
-            return false;
+            $errorType = basename(get_class($ex));
+            http_response_code(500);
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            $this->deleteRecoveryToken();
+            die();
         }
     }
 
@@ -788,10 +792,10 @@ class Usuarios extends Conexion
             $sql = ("UPDATE usuarios SET password = :password
             WHERE usuario = :usuario");
 
-            
+
             $stmt = $this->conexion()->prepare($sql);
 
-        
+
 
             $new_clave = $this->generateRandomPassword();
 
@@ -814,7 +818,7 @@ class Usuarios extends Conexion
             echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
             die();
         } catch (Throwable $ex) {
-            
+
             $errorType = basename(get_class($ex));
             http_response_code(500);
             echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
@@ -1015,7 +1019,6 @@ class Usuarios extends Conexion
                 while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                     if (password_verify($clave_antigua, $resultado['password'])) {
-
                     } else {
                         throw new Exception("La clave que has ingresado no coincide con la actual", 422);
                     }
@@ -1145,7 +1148,7 @@ class Usuarios extends Conexion
         }
     }
 
-    
+
     /**
      * security_validation_caracteres
      *
@@ -1364,7 +1367,25 @@ class Usuarios extends Conexion
 
 
 
+    //VALIDACION IMAGEN
 
+    public function security_validation_imagen($image_type)
+    {
+        try {
+            $response = preg_match($this->expresion_imagen, $image_type);
+
+            if ($response == 0) {
+                //registrar ataque informatico de hacker
+
+                throw new Exception(sprintf('La imagen que estas enviando no cumple con el formato de imagen'), 422);
+            }
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            die();
+        }
+    }
 
 
 
@@ -1385,19 +1406,22 @@ class Usuarios extends Conexion
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
 
-    public function check_requests_danger(){
+    public function check_requests_danger()
+    {
         //Creo que el error esta aqui
-         // Obtener la IP del cliente
+        // Obtener la IP del cliente
 
-         parent::check_requests_danger();
+        parent::check_requests_danger();
     }
 
-    public function check_blacklist(){
-      
+    public function check_blacklist()
+    {
+
         parent::check_blacklist();
     }
 
-    public function insert_ip_blacklist(){
+    public function insert_ip_blacklist()
+    {
         parent::insert_ip_blacklist();
     }
 
@@ -1407,11 +1431,11 @@ class Usuarios extends Conexion
         return parent::generate_csrf_token();
     }
 
-    
+
     ////////////////////////////////////////////////////// CIFRADO ASIMETRICO ////////////////////////////////////////////
 
 
-    
+
     /**
      * mutatedGenerateAsymmetricKeys
      *
@@ -1419,10 +1443,11 @@ class Usuarios extends Conexion
      * 
      * @return array
      */
-    public function mutatedGenerateAsymmetricKeys(){
+    public function mutatedGenerateAsymmetricKeys()
+    {
         return parent::generateAsymmetricKeys();
     }
-    
+
     /**
      * mutatedEncryptMessage
      *
@@ -1432,10 +1457,11 @@ class Usuarios extends Conexion
      * @param  string $publicKey
      * @return string
      */
-    public function  mutatedEncryptMessage($message, $publicKey){
-        return parent::encryptMessage($message,$publicKey);
-    }   
-    
+    public function  mutatedEncryptMessage($message, $publicKey)
+    {
+        return parent::encryptMessage($message, $publicKey);
+    }
+
     /**
      * mutatedDecryptMessage
      *
@@ -1445,7 +1471,8 @@ class Usuarios extends Conexion
      * @param  string $privateKey
      * @return string
      */
-    public function mutatedDecryptMessage($encryptedMessage, $privateKey){
+    public function mutatedDecryptMessage($encryptedMessage, $privateKey)
+    {
         return parent::decryptMessage($encryptedMessage, $privateKey);
     }
     /**
@@ -1457,7 +1484,8 @@ class Usuarios extends Conexion
      * @param  string $privateKey
      * @return string
      */
-    public function mutatedDecryptMessageMobile($encryptedMessage){
+    public function mutatedDecryptMessageMobile($encryptedMessage)
+    {
         return parent::decryptMessageMobile($encryptedMessage);
     }
 
@@ -1471,7 +1499,8 @@ class Usuarios extends Conexion
      * 
      * @return array
      */
-    public function mutatedGenerateAPIKey($ci){
+    public function mutatedGenerateAPIKey($ci)
+    {
         return parent::generateAPIKey($ci);
     }
 
@@ -1531,7 +1560,7 @@ class Usuarios extends Conexion
             $savedToken = $_SESSION['recovery_token'];
             $savedTimestamp = $_SESSION['recovery_token_timestamp'];
 
-            if ($savedToken !== $token ) {
+            if ($savedToken !== $token) {
 
                 throw new Exception("El token que estas enviando no es valido ", 422);
             }
@@ -1583,21 +1612,4 @@ class Usuarios extends Conexion
 
         return $password;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

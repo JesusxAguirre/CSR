@@ -106,7 +106,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Nombre</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="20" placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
+                                            <input maxlength="12" placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede contener letras </p>
                                     </div>
@@ -114,7 +114,7 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Apellido</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="20" placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
+                                            <input maxlength="12" placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
                                         </div>
                                         <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo puede contener letras </p>
                                     </div>
