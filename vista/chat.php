@@ -7,10 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Virtual</title>
     <!-- Espacio para CSS -->
-	<?php require_once './resources/View_Components/importCSS.php' ?>
+    <?php require_once './resources/View_Components/importCSS.php' ?>
     <link rel="stylesheet" href="./resources/css/chat.css">
-	<!-- Espacio para los JS -->
-	<?php require_once './resources/View_Components/importJS.php' ?>
+    <!-- Espacio para los JS -->
+    <?php require_once './resources/View_Components/importJS.php' ?>
 </head>
 
 <body>
@@ -25,63 +25,62 @@
     ?>
     <!-- sidebar.php -->
 
-    <main style="height: 100vh" class="pt-3">
+    <main class="pt-3">
         <div class="container-fluid">
             <div class="row d-flex justify-content-center">
-                <div class="col-xs-9 col-md-9 col-lg-8">
+                <div class="col-xs-12 col-md-10 col-lg-10">
 
-                    <div class="chatCont">
-                        <span class="d-none" id="usuarioSocket">
-                            <?php echo $_SESSION['nombre'] ?>
-                        </span>
-                        <span class="d-none" id="cedulaSocket">
-                            <?php echo $_SESSION['cedula'] ?>
-                        </span>
-                        <div class="d-grid bg-primary">
-                            <div class="text-center text-white fst-italic h4 fw-bold">Chat Global</div>
+                    <div class="card shadow bg-body rounded">
+                        <div class="card-header" style="background: #313a46">
+                            <span class="d-none" id="usuarioSocket">
+                                <?php echo $_SESSION['nombre'] ?>
+                            </span>
+                            <span class="d-none" id="cedulaSocket">
+                                <?php echo $_SESSION['cedula'] ?>
+                            </span>
+
+                            <h4 class="text-center text-white fw-bold">CHAT GLOBAL</h4>
                         </div>
-                        <div class="chatArea" id="areaChat">
-                            <!-- Aqui van los mensajes -->
-                            <?php
-                            foreach ($chat_datos as $key) {
-                                if ($_SESSION['cedula'] == $key['user']) {
-                                    $from = 'Me';
-                                    $class1 = "d-flex justify-content-start";
-                                    $class2 = "msgStyle alert alert-primary";
-                                } else {
-                                    $from = $key['nombre'] . ' ' . $key['apellido'];
-                                    $class1 = "d-flex justify-content-end";
-                                    $class2 = "msgStyle alert alert-secondary";
-                                }
-                                echo '<div class="' . $class1 . '">
+                        <div class="card-body">
+                            <div class="chatArea" id="areaChat">
+                                <!-- Aqui van los mensajes -->
+                                <?php
+                                foreach ($chat_datos as $key) {
+                                    if ($_SESSION['cedula'] == $key['user']) {
+                                        $from = 'Me';
+                                        $class1 = "d-flex justify-content-start";
+                                        $class2 = "msgStyle alert alert-primary";
+                                    } else {
+                                        $from = $key['nombre'] . ' ' . $key['apellido'];
+                                        $class1 = "d-flex justify-content-end";
+                                        $class2 = "msgStyle alert alert-secondary";
+                                    }
+                                    echo '<div class="' . $class1 . '">
                                     <div class="' . $class2 . '">
                                         ' . $key['msg'] . '
                                         <div class="divisorMsg"></div>
                                         <span class="msgInfo d-flex justify-content-between"><i class="me-5"><b>' . $from . ':</b></i> ' . $key['hora_msg'] . '</span>
                                     </div>
                                   </div>';
-                            }
-                            ?>
-                            <!-- <div class="d-flex justify-content-end">
-                        <div class="msgStyle alert alert-warning">
-                            A simple primary alert—csdsdasdasdasdasdasdasdasdasdasd
-                            <div class="divisorMsg"></div>
-                            <span class="msgInfo d-flex justify-content-between"><i><b>Me</b></i> 12:27PM</span>
-                        </div>
-                    </div> -->
-
-                        </div>
-                        <form id="chatForm">
-                            <div class="mensajeArea">
-                                <div class="mensajeDiv">
-                                    <textarea name="mensaje" id="mensajeChat" class="form-control w-100"
-                                        placeholder="Escribe el mensaje"></textarea>
-                                </div>
-                                <div class="enviarDiv"><button disabled type="submit" id="enviarMensajeChat"
-                                        class="btn btn-primary">ENVIAR</button></div>
+                                }
+                                ?>
                             </div>
-                        </form>
+                        </div>
+                        <div class="card-footer">
+                            <form id="chatForm">
+                                <div class="mensajeArea">
+                                    <div class="mensajeDiv">
+                                        <textarea name="mensaje" id="mensajeChat" class="form-control w-100"
+                                            placeholder="Escribe el mensaje"></textarea>
+                                    </div>
+                                    <div class="enviarDiv"><button disabled type="submit" id="enviarMensajeChat"
+                                            class="btn btn-primary">ENVIAR</button></div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
