@@ -346,9 +346,11 @@ $('#agregar_asistencias').submit(function (event) {
     })
   } else {
     $.ajax({
+      type: "POST",
       url: "?pagina=listar-celula-discipulado",
       data: $(this).serialize(),
       success: function (response) {
+        console.log(response);
         document.getElementById("agregar_asistencias").reset()
 
         campos.asistentes = false

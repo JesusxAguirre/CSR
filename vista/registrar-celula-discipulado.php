@@ -134,7 +134,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridZip">Dirección de la celula</label>
                         <i class="input-icon2  fs-5"></i>
-                        <input maxlength="15" name="direccion" type="text" name="direccion" placeholder="" id="" class="form-control">
+                        <input maxlength="50" name="direccion" type="text" name="direccion" placeholder="" id="" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede quedar vacio</p>
                     </div>
