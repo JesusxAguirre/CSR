@@ -3,7 +3,7 @@
   <div class="offcanvas-body p-0">
     <nav class="navbar-dark">
       <ul class="navbar-nav">
-        <li>
+        <li class="pt-3">
           <div style="color: white;" class=" small fw-bold text-uppercase px-3 ">
             HOME
           </div>
@@ -18,14 +18,15 @@
         <?php  endif ;?>
         <li>
           <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
-            <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
+            <span class="me-1 "><i class="bi bi-calendar-event"></i></span>
             <span class="h5">Gestionar Agenda</span>
           </a>
         </li>
-        <li class="my-4">
+        <li>
           <hr class="dropdown-divider" />
         </li>
-        <li>
+
+        <li class="pt-2 pb-2">
           <div style="color: white;" class=" small fw-bold text-uppercase px-3">
             Interfaces
           </div>

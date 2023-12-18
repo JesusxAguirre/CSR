@@ -11,9 +11,7 @@ $(document).ready(function (e) {
         var element = document.getElementById("areaChat");
         element.scrollTop = element.scrollHeight;
     }
-    window.onload = function() {
-        scrollFinal();
-    }
+    scrollFinal();
 
     //Capturando datos del usuario
     let timeSocket = new Date();

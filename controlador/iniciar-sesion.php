@@ -14,7 +14,6 @@ $objRoles = new Roles();
 //APLICACION MOVIL
 $headers = apache_request_headers();
 //if para aplicacion movil
-//if (isset($headers['api-key']) && $headers['api-key'] == 'dc7c8b7d-6baa-4fd2-b707-894d3d9c09b4') {
 if (isset($headers['get-token'])) {
 
 	//OBTENER TOKEN

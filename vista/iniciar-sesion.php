@@ -13,7 +13,7 @@
 
     <script src="resources/js/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
-        var onloadCallback = function() {
+        var onloadCallback = function () {
             grecaptcha.render('recaptcha', {
                 'sitekey': '6Lf5JignAAAAAMz8yLvcaelCJNS9lf6_liUy2P_Z'
             });
@@ -22,46 +22,64 @@
 </head>
 
 <body>
-    <div class="container image">
-        <div class="row">
-            <div class="col-5 d-none d-md-block">
-            </div>
-            <div class="col loginCard">
-                <div class="text-center">
-                    <img class="img-fluid" src="./resources/img/casawhite.png" width="300" height="210" alt="logo" srcset="">
-                </div>
-                <div class="text-center">
-                    <h3>BIENVENIDO</h3>
-                </div>
-                <hr>
-                <!-- INICIO FORMULARIO -->
-                <form id="formulario3" action="?pagina=iniciar-sesion" method="post">
-                    <input type="hidden" name="token" value="<?php echo $token; ?>">
-                    <div id="grupo__email" class="mb-4">
-                        <div class="relative">
-                            <label for="email">Correo electronico</label>
-                            <i class="input-icon fs-5"></i>
-                            <input type="text" name="email" class="form-control inputF" placeholder="casasobrelaroca@gmail.com">
+    <div class="container-fluid">
+        <div class="row" id="contenedorCarta">
+
+            <div class="col-sm-11 col-md-10 col-lg-8 bg-white d-flex justify-content-end image">
+                <div class="col-sm-12 col-md-12 col-lg-7 loginCard">
+                    <div class="text-center">
+                        <img class="img-fluid" src="./resources/img/casawhite.png" width="300" height="210" alt="logo"
+                            srcset="">
+                    </div>
+                    <div class="text-center">
+                        <h3>BIENVENIDO</h3>
+                    </div>
+                    <hr>
+                    <!-- INICIO FORMULARIO -->
+                    <form id="formulario3" action="?pagina=iniciar-sesion" method="post">
+                        <input type="hidden" name="token" value="<?php echo $token; ?>">
+                        <div id="grupo__email" class="mb-4">
+                            <div class="relative">
+                                <label for="email">Correo electronico</label>
+                                <i class="input-icon fs-5"></i>
+                                <input type="text" name="email" class="form-control inputF"
+                                    placeholder="casasobrelaroca@gmail.com">
+                            </div>
+                            <p id="mensaje_correo" style="color: yellow" class=" d-none">El formato de correo es
+                                ejemplo@gmail.com </p>
+
                         </div>
-                        <p id="mensaje_correo" style="color: yellow" class=" d-none">El formato de correo es ejemplo@gmail.com </p>
+                        <div class="mb-4">
+                            <label for="password">Contraseña</label>
+                            <input type="password" name="password" id="clave" class="form-control inputF"
+                                placeholder="********">
+                        </div>
 
-                    </div>
-                    <div class="mb-4">
-                        <label for="password">Contraseña</label>
-                        <input type="password" name="password" id="clave" class="form-control inputF" placeholder="********">
-                    </div>
+                        <div class="d-grid">
 
-                    <div class="d-grid">
+                            <button name="enviar" value="enviar" type="submit"
+                                class="btn btn-outline-primary botonLogin">INCIAR SESION</button>
+                        </div>
 
-                        <button name="enviar" value="enviar" type="submit" class="btn btn-outline-primary botonLogin">INCIAR SESION</button>
-                    </div>
-
-                    <div class="text-center mt-2">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#registrar" class="small btn btn-link text-white mb-5 pb-lg-2" href="?pagina=iniciar-sesion">¿No tienes usuario?</button>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#recuperar" class="small btn btn-link text-white mb-5 pb-lg-2" href="?pagina=iniciar-sesion">Recuperar Contraseña</button>
-                    </div>
-                </form>
+                        <div class="text-center mt-3 d-flex">
+                            <div class="col">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#registrar"
+                                    class="small btn btn-link text-white" href="?pagina=iniciar-sesion">¿No
+                                    tienes usuario?
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#recuperar"
+                                    class="small btn btn-link text-white" href="?pagina=iniciar-sesion">Recuperar
+                                    Contraseña
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
+
+
 
         </div>
     </div>
@@ -106,25 +124,39 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Nombre</label>
                                             <i class="input-icon fs-5"></i>
+<<<<<<< HEAD
                                             <input maxlength="12" placeholder="Juan" id="nombre" name="nombre" type="text" class="form-control">
+=======
+                                            <input maxlength="20" placeholder="Juan" id="nombre" name="nombre"
+                                                type="text" class="form-control">
+>>>>>>> 243d26ddfbbf54a271067a8e8ac3460887555720
                                         </div>
-                                        <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede contener letras </p>
+                                        <p class="text-danger d-none">El nombre que ser de 3 a 20 dígitos y solo puede
+                                            contener letras </p>
                                     </div>
                                     <div id="grupo__apellido" class="col-sm col-md-3 ">
                                         <div class="relative">
                                             <label class="form-label fw-bold">Primer Apellido</label>
                                             <i class="input-icon fs-5"></i>
+<<<<<<< HEAD
                                             <input maxlength="12" placeholder="Jimenez" id="apellido" name="apellido" type="text" class="form-control">
+=======
+                                            <input maxlength="20" placeholder="Jimenez" id="apellido" name="apellido"
+                                                type="text" class="form-control">
+>>>>>>> 243d26ddfbbf54a271067a8e8ac3460887555720
                                         </div>
-                                        <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo puede contener letras </p>
+                                        <p class="text-danger d-none">El apellido deben ser de 3 a 20 dígitos y solo
+                                            puede contener letras </p>
                                     </div>
                                     <div id="grupo__cedula" class="col-sm col-md-3 ">
                                         <div class="relative">
                                             <label class="form-label fw-bold" ">Cedula</label>    
                                         <i class=" input-icon fs-5"></i>
-                                                <input maxlength="8" placeholder="22222222" id="cedula" name="cedula" class="form-control">
+                                                <input maxlength="8" placeholder="22222222" id="cedula" name="cedula"
+                                                    class="form-control">
                                         </div>
-                                        <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a 8 dígitos y solo puede contener numeros </p>
+                                        <p id="mensaje_cedula" class="text-danger d-none">La cedula deben de ser de 7 a
+                                            8 dígitos y solo puede contener numeros </p>
                                     </div>
                                     <div id="grupo__edad" class="col-sm col-md-3 ">
                                         <div class="relative">
@@ -132,7 +164,8 @@
 
                                             <input id="edad" name="edad" class="form-control" type="date" />
                                         </div>
-                                        <p class="text-danger d-none">Este campo no puede estar vacio. debes ser mayor de edad</p>
+                                        <p class="text-danger d-none">Este campo no puede estar vacio. debes ser mayor
+                                            de edad</p>
                                     </div>
                                 </div>
                                 <div class="mb-3 row">
@@ -140,7 +173,8 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Sexo</label>
                                             <i class="input-icon fs-5"></i>
-                                            <select name="sexo" id="sexo" class="form-select form-select" aria-label=".form-select-sm example">
+                                            <select name="sexo" id="sexo" class="form-select form-select"
+                                                aria-label=".form-select-sm example">
                                                 <option value=''>Escoge</option>
                                                 <option value="hombre">Hombre</option>
                                                 <option value="mujer">Mujer</option>
@@ -152,7 +186,8 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Estado civil</label>
                                             <i class="input-icon fs-5"></i>
-                                            <select name="civil" id="civil" class="form-select form-select" aria-label=".form-select-sm example">
+                                            <select name="civil" id="civil" class="form-select form-select"
+                                                aria-label=".form-select-sm example">
                                                 <option value="">Escoge tu estado civil</option>
                                                 <option value="soltero">Soltero</option>
                                                 <option value="soltera">Soltera</option>
@@ -165,7 +200,8 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Nacionalidad</label>
                                             <i class="input-icon fs-5"></i>
-                                            <select id="nacionalidad" name="nacionalidad" class="form-select form-select" aria-label=".form-select-sm example">
+                                            <select id="nacionalidad" name="nacionalidad"
+                                                class="form-select form-select" aria-label=".form-select-sm example">
                                                 <option value="">Escoge tu nacionalidad</option>
                                                 <option value="venezolana">Venezolana</option>
                                                 <option value="colombiana">Colombiana</option>
@@ -177,7 +213,8 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Estado en el que vive</label>
                                             <i class="input-icon fs-5"></i>
-                                            <select id="estado" name="estado" class="form-select form-select" aria-label=".form-select-sm example">
+                                            <select id="estado" name="estado" class="form-select form-select"
+                                                aria-label=".form-select-sm example">
                                                 <option selected value="">Escoge tu estado</option>
                                                 <option value="amazonas">Amazonas</option>
                                                 <option value="anzoategui">Anzoátegui</option>
@@ -213,27 +250,34 @@
                                         <div class="relative">
                                             <label class="form-label fw-bold">Telefono</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="11" id="telefono" placeholder=" XXXXXXXX" name="telefono" class="form-control">
+                                            <input maxlength="11" id="telefono" placeholder=" XXXXXXXX" name="telefono"
+                                                class="form-control">
                                         </div>
-                                        <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (11 números) </p>
+                                        <p class="text-danger d-none">el formato de telefono debe ser 0412xxxxxxx (11
+                                            números) </p>
                                     </div>
                                     <div id="grupo__correo" class="col-sm col-md-3 ">
                                         <div class="relative">
                                             <label class="form-label fw-bold">Correo</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="60" id="correo" placeholder=" example@gmail.com" name="correo" class="form-control">
+                                            <input maxlength="60" id="correo" placeholder=" example@gmail.com"
+                                                name="correo" class="form-control">
                                         </div>
-                                        <p id="mensaje_correo" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                                        <p id="mensaje_correo" class="text-danger d-none">El formato de correo es
+                                            ejemplo@gmail.com </p>
 
                                     </div>
                                     <div id="grupo__clave" class="col-sm col-md-3 ">
                                         <div class="relative">
                                             <label class="form-label fw-bold">Clave</label>
                                             <i class="input-icon fs-5"></i>
-                                            <input maxlength="20" type="password" placeholder="******" name="clave" class="form-control">
+                                            <input maxlength="20" type="password" placeholder="******" name="clave"
+                                                class="form-control">
                                         </div>
-                                        <p class="text-danger d-none">La clave debe contener un caracter especial y un numero.
-                                            Minimo 6 caracteres y maximo 16. los caracteres permitidos son [!@#$%^&*] </p>
+                                        <p class="text-danger d-none">La clave debe contener un caracter especial y un
+                                            numero.
+                                            Minimo 6 caracteres y maximo 16. los caracteres permitidos son [!@#$%^&*]
+                                        </p>
 
                                     </div>
                                 </div>
@@ -250,7 +294,8 @@
         </div>
     </div>
     <!-- Modal -->
-    <div class="modal fade " id="recuperar" data-bs-backdrop="false" tabindex="-1" aria-labelledby="" aria-hidden="true">
+    <div class="modal fade " id="recuperar" data-bs-backdrop="false" tabindex="-1" aria-labelledby=""
+        aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content ">
                 <div class="modal-header bg-primary text-white">
@@ -273,7 +318,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p id="mensaje_correo_recuperar" class="text-danger d-none">El formato de correo es ejemplo@gmail.com </p>
+                                    <p id="mensaje_correo_recuperar" class="text-danger d-none">El formato de correo es
+                                        ejemplo@gmail.com </p>
                                 </div>
                             </div>
 
@@ -281,7 +327,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" id="boton_submit_recuperar" name="recuperar" class="btn btn-primary">Enviar correo</button>
+                        <button type="submit" id="boton_submit_recuperar" name="recuperar"
+                            class="btn btn-primary">Enviar correo</button>
                     </div>
                 </form>
             </div>
@@ -290,7 +337,8 @@
 
     <!-- CONTANDOR PARA ENVIO DE TOKEN 5 MINUTOS -->
     <div class="fixed-top top-2 end-0 mt-3 p-3">
-        <div id="countdown-toast" class="toast hide " role="alert" data-bs-delay="300000" aria-live="assertive" aria-atomic="true">
+        <div id="countdown-toast" class="toast hide " role="alert" data-bs-delay="300000" aria-live="assertive"
+            aria-atomic="true">
             <div class="toast-header">
                 <strong class="me-auto">El token de recuperacion fue enviado a tu correo</strong>
             </div>

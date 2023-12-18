@@ -1,22 +1,30 @@
 body{
     background-color: wheat;
     background-image: url('../img/sky.jpg');
-    background-size: cover;
+    background-size: auto;
+    background-repeat: no-repeat;
 }
 .image{
     background-image: url('../img/paisaje.jpg');
     background-size: cover;
-    width: 60% !important;
     border-radius: 6px;
-    margin: 130px auto;
     box-shadow: 0px 0px 30px black;
+    margin: 0;
+    padding: 0;
+    height: 550px;
+}
+#contenedorCarta{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
 }
 .loginCard{
+    padding: 15px;
     backdrop-filter: blur(3px);
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 6px;
+    border-radius: 0 6px 6px 0;
     color: white;
-    height: 540px;
 }
 .inputF{
     color: white;

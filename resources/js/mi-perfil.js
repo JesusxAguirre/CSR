@@ -479,6 +479,7 @@ formulario2.addEventListener("submit", (e) => {
       title: "Lo siento ",
       text: "Registra el formulario correctamente ",
     });
+    return;
   }
   var formData = new FormData(formulario2);
   formData.append("actualizar_imagen", "imagen");
@@ -492,7 +493,7 @@ formulario2.addEventListener("submit", (e) => {
 
     success: function (response) {
       formulario2.reset();
-
+      campos.imagen = false;
       Swal.fire({
         icon: "success",
         title: "Imagen actualizada correctamente",
@@ -509,7 +510,7 @@ formulario2.addEventListener("submit", (e) => {
     },
     error: function (xhr, status, error) {
       // Código a ejecutar si se produjo un error al realizar la solicitud
-
+      campos.imagen = false;
       var response;
       try {
         response = JSON.parse(xhr.responseText);

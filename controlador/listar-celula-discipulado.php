@@ -137,7 +137,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
 
         //registrar asistencia
-        if (isset($_POST['agregar_asistencia'])) {
+        if (isset($_POST['asistentes'])) {
             $fecha = trim($_POST['fecha']);
             $asistentes = $_POST['asistentes'];
             $id = trim($_POST['id']);
@@ -153,6 +153,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
             $objeto->registrar_asistencias();
             $registrar_asistencia = false;
+            die();
         }
 
         if (isset($_POST['cedula_discipulo'])) {

@@ -297,7 +297,8 @@ class LaRoca extends Conexion
                     $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
 
                     if ($diferenciaMinutos < 15) {
-                        throw new Exception("Estás intentando registrar un horario de CSR que choca con otro horario. La diferencia debe ser de al menos 15 minutos.", 422);
+                        throw new Exception("Estás intentando registrar un horario de CSR que choca con otro horario. 
+                        La diferencia debe ser de al menos 15 minutos.", 422);
                     }
                 }
             }

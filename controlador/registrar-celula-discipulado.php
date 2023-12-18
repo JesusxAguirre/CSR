@@ -93,7 +93,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $cedula_anfitrion = explode('-', $cedula_anfitrion)[0];
             $cedula_asistente = explode('-', $cedula_asistente)[0];
 
-            $objeto->security_validation_cedula([$cedula_lider, $cedula_anfitrion, $cedula_asistentes]);
+            $objeto->security_validation_cedula([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
 
             $objeto->security_validation_caracteres([$dia, $direccion]);
             $objeto->security_validation_hora($hora);

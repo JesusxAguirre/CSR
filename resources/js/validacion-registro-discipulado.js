@@ -98,7 +98,8 @@ const ValidarCodigo = (codigo_array, input, campo) => {
 
 
 const ValidarDia = (input, campo) => {
-  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
+  let valor = input.value.toLowerCase()
+  if (valor === "lunes" || valor === "martes" || valor === "miercoles" || valor === "jueves" || valor === "viernes" || valor === "sabado" || valor === "domingo") {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
     document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
 
@@ -219,7 +220,7 @@ $(document).on('submit', '#formulario', function (event) {
       } catch (e) {
         response = {};
       }
-      console.log(response)
+      
       switch (response.status_code) {
         case 409:
           response.ErrorType = "Hay conflicto con los horarios de visitas de casa sobre la roca"

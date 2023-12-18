@@ -67,7 +67,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $hora = trim($_POST['hora']);
             $cantidad_integrantes = trim($_POST['integrantes']);
 
-            $objeto->security_validation_inyeccion_sql([$cedula_lider, $dia, str_replace(" ", "", $nombre_anfitrion), $telefono_anfitrion, $cantidad_integrantes, str_replace(" ", "", $direccion)]);
+            $objeto->security_validation_inyeccion_sql([$cedula_lider, $dia, str_replace(" ", "", $nombre_anfitrion), 
+            $telefono_anfitrion, $cantidad_integrantes, str_replace(" ", "", $direccion)]);
             $objeto->security_validation_cedula($cedula_lider);
             $objeto->security_validation_caracteres([$dia, $nombre_anfitrion]);
             $objeto->security_validation_hora($hora);
@@ -80,7 +81,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->registrar_CSR();
         }
 
-        //Aqui habia un bug que era que no le habia agregado isset
+        
         if (isset($_GET['getLideres'])) {
             $matriz_lider = $objeto->listar_usuarios_N2();
             echo json_encode($matriz_lider);

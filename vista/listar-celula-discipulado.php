@@ -325,13 +325,14 @@
                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                  <form class="form" method="post" id="agregar_asistencias" action="?pagina=listar-celula-discipulado">
+                  <form class="form" method="post" id="agregar_asistencias" name="agregar_asistencias" action="?pagina=listar-celula-discipulado">
                     <div class="mb-3 row">
                       <div id="grupo__asistentes" class="col-sm ">
+                        <input class="d-none" type="hidden" name="agregar_asistencias">
                         <div class="relative">
                           <label class="form-label fw-bold" for="">Agregar discipulos que si asistieron</label>
 
-                          <select name="asistentes[]" id="asistentes" class="form-control" multiple>
+                          <select multiple name="asistentes[]" id="asistentes" class="form-control">
 
                           </select>
                         </div>
@@ -355,8 +356,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  <button type="submit" name="agregar_asistencia" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
-
+                  <button type="submit" name="agregar_asistencias" class="btn btn-primary" form="agregar_asistencias">Guardar</button>
                 </div>
               </div>
             </div>
