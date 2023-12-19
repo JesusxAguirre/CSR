@@ -138,7 +138,8 @@
 
   .highlight {
     margin-bottom: 0;
-    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-gray-200);
+    background-color: var(--bs-gray-800);
     border-radius: .5rem;
 
     pre {
@@ -152,7 +153,7 @@
 
   .btn-clipboard {
     top: .5em;
-    background-color: var(--bs-tertiary-bg);
+    background-color: var(--bs-gray-800);
   }
 
   .btn {

@@ -5,11 +5,26 @@
   <title>Reporte Casa Sobre La Roca</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-  <!-- Espacio para CSS -->
-  <?php require_once './resources/View_Components/importCSS.php' ?>
+
+
+  <!-- Bostrap 5 -->
+  <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./resources/css/style.css">
+  <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="./resources/css/consolidacion.css">
-  <!-- Espacio para los JS -->
-  <?php require_once './resources/View_Components/importJS.php' ?>
+
+  <!-- Js boostrap -->
+  <script src="./resources/js/bootstrap.min.js"></script>
+
+
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+  <script src="resources/js/sweetalert2.js"></script>
+
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -44,12 +59,10 @@
                     <div class="relative">
                       <label class="form-label fw-bold" for="">Selecciona la CSR que deseas reportar</label>
                       <i class="input-icon fs-5"></i>
-                      <select name="CSR" id="CSR" class="form-control">
+                      <select name="CSR[]" id="CSR" class="form-control">
                         <option value="">Seleccione una opcion</option>
-                        <?php foreach ($matriz_csr as $csr): ?>
-                          <option value="<?php echo $csr['id']; ?>">
-                            <?php echo $csr['codigo']; ?>
-                          </option>
+                        <?php foreach ($matriz_csr as $csr) : ?>
+                          <option value="<?php echo $csr['id']; ?>"> <?php echo $csr['codigo']; ?></option>
                         <?php endforeach; ?>
                       </select>
                     </div>
@@ -61,7 +74,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold" for="formGridEmail">Número de Hombres que asistieron</label>
                       <i class="input-icon fs-5"></i>
-                      <input maxlength="2" placeholder="1" type="text" id="hombres" name="hombres" class="form-control">
+                      <input placeholder="1" type="text" id="hombres" name="hombres" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -69,7 +82,7 @@
                     <div class="relative">
                       <label class="form-label fw-bold">Número de Mujeres que asistieron</label>
                       <i class="input-icon fs-5"></i>
-                      <input maxlength="2" placeholder="2" type="text" name="mujeres" id="mujeres" class="form-control">
+                      <input placeholder="2" type="text" name="mujeres" id="mujeres" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -78,7 +91,7 @@
                       <label class="form-label fw-bold">
                         Número de Niños que asistieron</label>
                       <i class="input-icon fs-5"></i>
-                      <input maxlength="2" placeholder="1" type="text" id="niños" name="niños" class="form-control">
+                      <input placeholder="1" type="text" id="niños" name="niños" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -89,8 +102,7 @@
                       <label class="form-label fw-bold">
                         Confensiones de fe en la ultima visita </label>
                       <i class="input-icon fs-5"></i>
-                      <input maxlength="2" placeholder="1" type="text" id="confesiones" name="confesiones"
-                        class="form-control">
+                      <input placeholder="1" type="text" id="confesiones" name="confesiones" class="form-control">
                     </div>
                     <p class="text-danger d-none">Este campo solo acepta Números</p>
                   </div>
@@ -109,5 +121,4 @@
   </script>
   <script src="resources/js/validacion-reporte-csr.js"></script>
 </body>
-
 </html>

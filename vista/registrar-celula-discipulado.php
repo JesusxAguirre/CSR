@@ -5,11 +5,27 @@
   <title>Registrar Celula Discipulado</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-  <!-- Espacio para CSS -->
-	<?php require_once './resources/View_Components/importCSS.php' ?>
+
+
+  <!-- Bostrap 5 -->
+  <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./resources/css/style.css">
+  <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+
+
+  <!-- Js boostrap -->
+  <script src="./resources/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="./resources/css/consolidacion.css">
-	<!-- Espacio para los JS -->
-	<?php require_once './resources/View_Components/importJS.php' ?>
+
+
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>
@@ -45,8 +61,8 @@
                     <div id="grupo__codigoLider" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de lider de la celula</label>
-                       
-                        <input maxlength="345" name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
+                        <i class="input-icon2 fs-5"></i>
+                        <input name="codigoLider" class="form-control" list="lider" id="codigoLider" placeholder="Escribe para buscar...">
                         <datalist id="lider">
                           <?php
                           foreach ($matriz_lideres as $lider) :
@@ -63,8 +79,8 @@
                     <div id="grupo__codigoAnfitrion" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de Anfitrion</label>
-                       
-                        <input maxlength="345" class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
+                        <i class="input-icon2 fs-5"></i>
+                        <input class="form-control" list="anfitrion" name="codigoAnfitrion" id="codigoAnfitrion" placeholder=" Escribe para buscar...">
                         <datalist id="anfitrion">
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
@@ -80,8 +96,8 @@
                     <div id="grupo__codigoAsistente" class="col-sm col-md-4">
                       <div class="relative">
                         <label class="form-label fw-bold" for="">Codigo de Asistente</label>
-                       
-                        <input maxlength="345" class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
+                        <i class="input-icon2 fs-5"></i>
+                        <input class="form-control" list="asistente" name="codigoAsistente" id="codigoAsistente" placeholder=" Escribe para buscar...">
                         <datalist id="asistente">
                           <?php
                           foreach ($matriz_usuarios as $usuario) :
@@ -100,7 +116,7 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridCity">Dia de reunion</label>
                         <i class="input-icon fs-5"></i>
-                        <input maxlength="9" name="dia" placeholder="Jueves" id="dia" class="form-control">
+                        <input name="dia" placeholder="Jueves" id="dia" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo debe contener 5 digitos como minimo, no acepta espacios ni numeros</p>
                     </div>
@@ -134,12 +150,12 @@
                       <div class="relative">
                         <label class="form-label fw-bold" for="formGridZip">Dirección de la celula</label>
                         <i class="input-icon2  fs-5"></i>
-                        <input maxlength="50" name="direccion" type="text" name="direccion" placeholder="" id="" class="form-control">
+                        <input name="direccion" type="text" name="direccion" placeholder="" id="" class="form-control">
                       </div>
                       <p class="text-danger d-none">Este campo no puede quedar vacio</p>
                     </div>
                   </div>
-                            <input type="hidden" name="registrar">
+
                   <div class="mb-3" id="formGridCheckbox">
                   </div><button id="registrar" name="registrar" type="submit" class="btn btn-primary">Enviar</button>
                 </form>
@@ -151,7 +167,9 @@
 
     </div>
   </main>
-
+  <script type="text/javascript">
+        error = <?php echo ($error) ? 'true' : 'false' ; ?>
+    </script>
   <script src="resources/js/validacion-registro-discipulado.js"></script>
 </body>
 </html>

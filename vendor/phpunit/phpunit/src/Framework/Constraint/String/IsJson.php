@@ -62,9 +62,21 @@ final class IsJson extends Constraint
             return 'an empty string is valid JSON';
         }
 
+<<<<<<< HEAD
         return sprintf(
             'a string is valid JSON (%s)',
             $this->determineJsonError($other),
+=======
+        json_decode($other);
+        $error = (string) JsonMatchesErrorMessageProvider::determineJsonError(
+            (string) json_last_error()
+        );
+
+        return sprintf(
+            '%s is valid JSON (%s)',
+            $this->exporter()->shortenedExport($other),
+            $error
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 

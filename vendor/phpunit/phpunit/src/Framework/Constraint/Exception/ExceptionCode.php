@@ -48,8 +48,13 @@ final class ExceptionCode extends Constraint
     {
         return sprintf(
             '%s is equal to expected exception code %s',
+<<<<<<< HEAD
             Exporter::export($other, true),
             Exporter::export($this->expectedCode, true),
+=======
+            $this->exporter()->export($other->getCode()),
+            $this->exporter()->export($this->expectedCode)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 }

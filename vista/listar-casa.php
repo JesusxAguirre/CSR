@@ -5,35 +5,38 @@
   <title>Listar CSR</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-  <!-- Espacio para CSS -->
-  <?php require_once './resources/View_Components/importCSS.php' ?>
+
+
+  <!-- Bostrap 5 -->
+  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="resources/css/style.css">
+  <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+
+  <!-- Jquery-->
+  <script src="resources/js/jquery-3.6.0.min.js"></script>
+
+  <!-- Js boostrap -->
+  <script src="resources/js/bootstrap.min.js"></script>
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+  <!-- Estilos de validacion-->
   <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
-  <link href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.css" rel="stylesheet" />
-  <!-- Espacio para los JS -->
-  <?php require_once './resources/View_Components/importJS.php' ?>
-  <style>
-    .btn-success {
-      background-color: darkgrey;
-    }
+  <!-- Sweet alert 2-->
+  <script src="resources/js/sweetalert2.js"></script>
 
-    .btn-success:hover {
-      color: #fff;
-      background-color: grey;
-      border-color: #146c43;
-    }
+  <!-- DATATABLES CSS -->
+  <link rel="stylesheet" href="resources/library/dataTables/css/jquery.dataTables.min.css">
 
-    .text-title {
-      color: #747579;
-
-    }
-  </style>
+  <!-- JS de DataTables --> 
+  <script src="resources/library/dataTables/js/jquery.dataTables.min.js"></script>
 </head>
 
 <body>
 
   <!-- Menu.php -->
   <?php
-  require_once("resources/View_Components/Menu.php")
+  require_once ("resources/View_Components/Menu.php")
   ?>
   <!-- Menu.php -->
   <!-- sidebar.php -->
@@ -55,112 +58,63 @@
           <div class="card">
             <div class="card-body">
               <h4 class="header-title mb-3 fw-bold">Casas sobre la roca</h4>
+
+              <div class=""><span class="d-flex align-items-center">Buscar : <input id="caja_busqueda" placeholder="codigo, dia_reunion, etc" class="form-control w-auto ms-1" value=""></span></div>
               <div class="table-responsive mt-4">
-                <div id="tabla_usuarios_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <table role='table' class="table table-bordered table-striped dataTable dtr-inline" id="mi_tabla">
-                        <thead>
+                <table role='table' class='table table-centered' id="mi_tabla">
+                  <thead>
 
-                        </thead>
+                    <tr role='row'>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Codigo de celula</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Dia de reunion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Hora</th>
+                      <th colspan='1' role='columnheader' class='sortable' style='cursor: pointer;' class=''>Codigo de lider</th>
 
-                        <tbody id="datos" role='rowgroup'>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Nombre anfitrion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Telefono anfitrion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Cantidad de personas en el hogar</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Direccion</th>
+                      <th colspan='1' role='columnheader' title='Toggle SortBy' class='sortable' style='cursor: pointer;'>Acciones</th>
+                    </tr>
+                  </thead>
 
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-  </main>
-
-  <!-- Modal ver -->
-
-  <!-- HTML del modal -->
-  <div class="modal" id="view" tabindex="-1" aria-labelledby="modalUsuarioLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header bg-light">
-          <h5 class="modal-title" id="modalUsuarioLabel">Informacion de la CSR</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          <div class="card-body">
-
-            <!-- Agregar la imagen aquí -->
-         
-        
-            <!-- Information START -->
-            <div class="row">
-            
-              <!-- Information item -->
-              <div class="col-md-6">
-                <ul class="list-group list-group-borderless">
-                  <li class="list-group-item">
-                    <span class="text-title">Codigo de CSR: </span>
-                    <span id="codigo_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                  </li>
-
-                  <li class="list-group-item">
-                    <span class="text-title">Dia de visita: </span>
-                    <span class="text-capitalize h6 mb-0 font-weight-bold" id="dia_ver"></span>
-                  </li>
-
-
-
-                  <li class="list-group-item">
-                    <span class="text-title">Hora: </span>
-                    <span id="hora_ver" class="h6 mb-0 font-weight-bold"></span>
-                  </li>
-                  <li class="list-group-item">
-                    <span class="text-title">Direccion: </span>
-                    <span id="direccion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Information item -->
-              <div class="col-md-6">
-                <ul class="list-group list-group-borderless">
-                  <li class="list-group-item">
-                    <span class="text-title">Codigo de lider de CSR: </span>
-                    <span id="codigo_lider_ver" class="h6 mb-0 font-weight-bold"></span>
-                  </li>
-
-                  <li class="list-group-item">
-                    <span class="text-title">Nombre de anfitrion: </span>
-                    <span id="anfitrion_ver" class="h6 mb-0 font-weight-bold text-capitalize"></span>
-                  </li>
-
-                  <li class="list-group-item">
-                    <span class="text-title">Telefono de anfitrion: </span>
-                    <span id="telefono_ver" class="h6 mb-0 font-weight-bold"></span>
-                  </li>
-                  <li class="list-group-item">
-                    <span class="text-title">Cantidad de personas en el hogar: </span>
-                    <span id="cantidad_ver" class="h6 mb-0 font-weight-bold"></span>
-                  </li>
-                </ul>
+                  <tbody id="datos" role='rowgroup'>
+                    <?php if (!empty($matriz_csr)) {
+                      foreach ($matriz_csr as $csr) : ?>
+                      <tr role='row'>
+                        <td hidden class="id" role='cell'><?php echo $csr['id'] ?></td>
+                        <td class="codigo" role='cell'><?php echo $csr['codigo'] ?></td>
+                        <td class="dia" role='cell'><?php echo  $csr['dia_visita'] ?></td>
+                        <td class="hora" role='cell'><?php $hora = substr($csr['hora_pautada'], 0, -3);
+                                                      echo $hora; ?></td>
+                        <td class="lider" role='cell'><?php echo  $csr['codigo_lider'] ?></td>
+                        <td class="nombre_anfitrion" role='cell'><?php echo  $csr['nombre_anfitrion'] ?></td>
+                        <td class="telefono_anfitrion" role='cell'><?php echo  $csr['telefono_anfitrion'] ?></td>
+                        <td class="cantidad" role='cell'><?php echo  $csr['cantidad_personas_hogar'] ?></td>
+                        <td class="direccion" role='cell'><?php echo  $csr['direccion'] ?></td>
+                        <td class="" role="cell">
+                          <button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
+                        </td>
+                      </tr>
+                    <?php endforeach;
+                    }else{ ?>
+                      <tr role="row">
+                        <td><h5><em>Aun no hay CSR registradas</em></h5></td>
+                      </tr>
+                    <?php } ?>
+                  </tbody>
+                </table>
               </div>
 
             </div>
-            <ul>
-
-
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
           </div>
         </div>
       </div>
     </div>
+
+    </div>
+  </main>
   </div>
   <!-- Modal editar -->
   <div class="modal fade edit-modal" id="editar" tabindex="-1" aria-labelledby="ModalEditar" aria-hidden="true">
@@ -179,9 +133,9 @@
                     Dia de reunion
                   </label>
                   <i class="input-icon fs-5"></i>
-                  <input maxlength="7" type="text" name="dia" id="diaInput" class="form-control text-capitalize" placeholder="">
+                  <input type="text" name="dia" id="diaInput" class="form-control" placeholder="">
                 </div>
-                <p class="text-danger d-none">Escriba un dia de la semana, todo en minuscula </p>
+                <p class="text-danger d-none">Escriba un dia de la semana, con la primera letra Mayuscula Ej: Lunes </p>
               </div>
             </div>
             <div class="mb-3">
@@ -218,8 +172,8 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Nombre de Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input class="form-control text-capitalize" name="anfitrion" id="anfitrion" placeholder="Luis Jimenez...">
-
+                  <input class="form-control" name="anfitrion" id="anfitrion" placeholder="Luis Jimenez...">
+                 
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
@@ -227,30 +181,30 @@
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Telefono Anfitrion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input maxlength="11" class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
-
+                  <input class="form-control" name="telefono_anfitrion" id="telefono_anfitrion" placeholder="...">
+                 
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
               </div>
             </div>
-            <div class="mb-3 row">
+            <div class="mb-3 row">  
               <div id="grupo__cantidad" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Cantidad de personas en hogar</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input maxlength="2" class="form-control" name="cantidad" id="cantidad" />
+                  <input class="form-control" name="cantidad" id="cantidad" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>
+              </div>              
               <div id="grupo__direccion" class="col-sm col-md-4">
                 <div class="relative">
                   <label class="form-label fw-bold" for="">Direccion</label>
                   <i class="input-icon2 fs-5"></i>
-                  <input maxlength="20" class="form-control text-capitalize" name="direccion" id="direccion" />
+                  <input class="form-control" name="direccion" id="direccion" />
                 </div>
                 <p class="text-danger d-none">No puede dejar este campo vacio </p>
-              </div>
-              <input type="hidden" name="id" id="idInput">
+              </div>              
+            <input type="hidden" name="id" id="idInput">
           </form>
         </div>
         <div class="modal-footer">
@@ -261,13 +215,12 @@
       </div>
     </div>
   </div>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-  <script src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.13.4/b-2.3.6/b-colvis-2.3.6/b-html5-2.3.6/b-print-2.3.6/r-2.4.1/sl-1.6.2/datatables.min.js"></script>
+ 
 
+  <script type="text/javascript">
+    actualizar = <?php echo ($actualizar) ? 'true' : 'false'; ?>;
 
-
-
+  </script>
   <script src="resources/js/listar-casa.js"></script>
-
+  
 </body>

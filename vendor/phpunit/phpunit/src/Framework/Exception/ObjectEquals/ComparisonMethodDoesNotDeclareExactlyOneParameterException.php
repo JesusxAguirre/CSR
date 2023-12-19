@@ -22,8 +22,13 @@ final class ComparisonMethodDoesNotDeclareExactlyOneParameterException extends E
             sprintf(
                 'Comparison method %s::%s() does not declare exactly one parameter.',
                 $className,
-                $methodName,
+                $methodName
             ),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Exception/ObjectEquals/ComparisonMethodDoesNotDeclareExactlyOneParameterException.php
+=======
+            0,
+            null
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Exception/ComparisonMethodDoesNotDeclareExactlyOneParameterException.php
         );
     }
 }

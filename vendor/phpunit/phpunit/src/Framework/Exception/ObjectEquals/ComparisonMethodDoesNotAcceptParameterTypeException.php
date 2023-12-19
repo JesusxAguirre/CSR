@@ -23,8 +23,13 @@ final class ComparisonMethodDoesNotAcceptParameterTypeException extends Exceptio
                 '%s is not an accepted argument type for comparison method %s::%s().',
                 $type,
                 $className,
-                $methodName,
+                $methodName
             ),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Exception/ObjectEquals/ComparisonMethodDoesNotAcceptParameterTypeException.php
+=======
+            0,
+            null
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Exception/ComparisonMethodDoesNotAcceptParameterTypeException.php
         );
     }
 }

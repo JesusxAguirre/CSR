@@ -66,7 +66,61 @@ use Traversable;
  */
 final class Generator
 {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
     use TemplateLoader;
+=======
+    private const MOCKED_CLONE_METHOD_WITH_VOID_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait MockedCloneMethodWithVoidReturnType
+{
+    public function __clone(): void
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+    }
+}
+EOT;
+
+    private const MOCKED_CLONE_METHOD_WITHOUT_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait MockedCloneMethodWithoutReturnType
+{
+    public function __clone()
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+    }
+}
+EOT;
+
+    private const UNMOCKED_CLONE_METHOD_WITH_VOID_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait UnmockedCloneMethodWithVoidReturnType
+{
+    public function __clone(): void
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+
+        parent::__clone();
+    }
+}
+EOT;
+
+    private const UNMOCKED_CLONE_METHOD_WITHOUT_RETURN_TYPE_TRAIT = <<<'EOT'
+namespace PHPUnit\Framework\MockObject;
+
+trait UnmockedCloneMethodWithoutReturnType
+{
+    public function __clone()
+    {
+        $this->__phpunit_invocationMocker = clone $this->__phpunit_getInvocationHandler();
+
+        parent::__clone();
+    }
+}
+EOT;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
     /**
      * @var array
@@ -113,8 +167,44 @@ final class Generator
             $this->ensureKnownType($type, $callAutoload);
         }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
         $this->ensureValidMethods($methods);
         $this->ensureMockedClassDoesNotAlreadyExist($mockClassName);
+=======
+        if (!$allowMockingUnknownTypes && !class_exists($type, $callAutoload) && !interface_exists($type, $callAutoload)) {
+            throw new UnknownTypeException($type);
+        }
+
+        if (null !== $methods) {
+            foreach ($methods as $method) {
+                if (!preg_match('~[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*~', (string) $method)) {
+                    throw new InvalidMethodNameException((string) $method);
+                }
+            }
+
+            if ($methods !== array_unique($methods)) {
+                throw new DuplicateMethodException($methods);
+            }
+        }
+
+        if ($mockClassName !== '' && class_exists($mockClassName, false)) {
+            try {
+                $reflector = new ReflectionClass($mockClassName);
+                // @codeCoverageIgnoreStart
+            } catch (\ReflectionException $e) {
+                throw new ReflectionException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+
+            if (!$reflector->implementsInterface(MockObject::class)) {
+                throw new ClassAlreadyExistsException($mockClassName);
+            }
+        }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
         if (!$callOriginalConstructor && $callOriginalMethods) {
             throw new OriginalConstructorInvocationRequiredException;
@@ -128,7 +218,7 @@ final class Generator
             $callOriginalClone,
             $callAutoload,
             $cloneArguments,
-            $callOriginalMethods,
+            $callOriginalMethods
         );
 
         $object = $this->getObject(
@@ -138,7 +228,7 @@ final class Generator
             $arguments,
             $callOriginalMethods,
             $proxyTarget,
-            $returnValueGeneration,
+            $returnValueGeneration
         );
 
         assert($object instanceof $type);
@@ -195,7 +285,7 @@ final class Generator
             $intersectionName = sprintf(
                 'Intersection_%s_%s',
                 implode('_', $unqualifiedNames),
-                substr(md5((string) mt_rand()), 0, 8),
+                substr(md5((string) mt_rand()), 0, 8)
             );
         } while (interface_exists($intersectionName, false));
 
@@ -205,7 +295,7 @@ final class Generator
             [
                 'intersection' => $intersectionName,
                 'interfaces'   => implode(', ', $interfaces),
-            ],
+            ]
         );
 
         eval($template->render());
@@ -238,8 +328,24 @@ final class Generator
     {
         if (class_exists($originalClassName, $callAutoload) ||
             interface_exists($originalClassName, $callAutoload)) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
             $reflector = $this->reflectClass($originalClassName);
             $methods   = $mockedMethods;
+=======
+            try {
+                $reflector = new ReflectionClass($originalClassName);
+                // @codeCoverageIgnoreStart
+            } catch (\ReflectionException $e) {
+                throw new ReflectionException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+
+            $methods = $mockedMethods;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
             foreach ($reflector->getMethods() as $method) {
                 if ($method->isAbstract() && !in_array($method->getName(), $methods ?? [], true)) {
@@ -260,7 +366,7 @@ final class Generator
                 $callOriginalConstructor,
                 $callOriginalClone,
                 $callAutoload,
-                $cloneArguments,
+                $cloneArguments
             );
 
             assert($mockObject instanceof $originalClassName);
@@ -304,7 +410,7 @@ final class Generator
         $className = $this->generateClassName(
             $traitName,
             '',
-            'Trait_',
+            'Trait_'
         );
 
         $classTemplate = $this->loadTemplate('trait_class.tpl');
@@ -314,7 +420,7 @@ final class Generator
                 'prologue'   => 'abstract ',
                 'class_name' => $className['className'],
                 'trait_name' => $traitName,
-            ],
+            ]
         );
 
         $mockTrait = new MockTrait($classTemplate->render(), $className['className']);
@@ -343,7 +449,7 @@ final class Generator
         $className = $this->generateClassName(
             $traitName,
             $traitClassName,
-            'Trait_',
+            'Trait_'
         );
 
         $classTemplate = $this->loadTemplate('trait_class.tpl');
@@ -353,17 +459,22 @@ final class Generator
                 'prologue'   => '',
                 'class_name' => $className['className'],
                 'trait_name' => $traitName,
-            ],
+            ]
         );
 
         return $this->getObject(
             new MockTrait(
                 $classTemplate->render(),
-                $className['className'],
+                $className['className']
             ),
             '',
             $callOriginalConstructor,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
             $arguments,
+=======
+            $callAutoload,
+            $arguments
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
         );
     }
 
@@ -389,7 +500,7 @@ final class Generator
                 $callOriginalClone,
                 $callAutoload,
                 $cloneArguments,
-                $callOriginalMethods,
+                $callOriginalMethods
             );
         }
 
@@ -399,7 +510,7 @@ final class Generator
             serialize($methods) .
             serialize($callOriginalClone) .
             serialize($cloneArguments) .
-            serialize($callOriginalMethods),
+            serialize($callOriginalMethods)
         );
 
         if (!isset(self::$cache[$key])) {
@@ -411,7 +522,7 @@ final class Generator
                 $callOriginalClone,
                 $callAutoload,
                 $cloneArguments,
-                $callOriginalMethods,
+                $callOriginalMethods
             );
         }
 
@@ -441,7 +552,7 @@ final class Generator
             throw new RuntimeException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
 
@@ -461,7 +572,7 @@ final class Generator
             if (empty($methods) || in_array($name, $methods, true)) {
                 $arguments = explode(
                     ',',
-                    str_replace(')', '', substr($method, $nameEnd + 1)),
+                    str_replace(')', '', substr($method, $nameEnd + 1))
                 );
 
                 foreach (range(0, count($arguments) - 1) as $i) {
@@ -477,8 +588,13 @@ final class Generator
                 $methodTemplate->setVar(
                     [
                         'method_name' => $name,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                         'arguments'   => implode(', ', $arguments),
                     ],
+=======
+                        'arguments'   => implode(', ', $args),
+                    ]
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
                 );
 
                 $methodsBuffer .= $methodTemplate->render();
@@ -509,7 +625,7 @@ final class Generator
                 'wsdl'       => $wsdlFile,
                 'options'    => $optionsBuffer,
                 'methods'    => $methodsBuffer,
-            ],
+            ]
         );
 
         return $classTemplate->render();
@@ -518,11 +634,60 @@ final class Generator
     /**
      * @throws ReflectionException
      *
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
      * @psalm-return list<MockMethod>
      */
     public function mockClassMethods(string $className, bool $callOriginalMethods, bool $cloneArguments): array
     {
         $class   = $this->reflectClass($className);
+=======
+     * @return string[]
+     */
+    public function getClassMethods(string $className): array
+    {
+        try {
+            $class = new ReflectionClass($className);
+            // @codeCoverageIgnoreStart
+        } catch (\ReflectionException $e) {
+            throw new ReflectionException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+
+        $methods = [];
+
+        foreach ($class->getMethods() as $method) {
+            if ($method->isPublic() || $method->isAbstract()) {
+                $methods[] = $method->getName();
+            }
+        }
+
+        return $methods;
+    }
+
+    /**
+     * @throws ReflectionException
+     *
+     * @return MockMethod[]
+     */
+    public function mockClassMethods(string $className, bool $callOriginalMethods, bool $cloneArguments): array
+    {
+        try {
+            $class = new ReflectionClass($className);
+            // @codeCoverageIgnoreStart
+        } catch (\ReflectionException $e) {
+            throw new ReflectionException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
         $methods = [];
 
         foreach ($class->getMethods() as $method) {
@@ -535,6 +700,37 @@ final class Generator
     }
 
     /**
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
+=======
+     * @throws ReflectionException
+     *
+     * @return MockMethod[]
+     */
+    public function mockInterfaceMethods(string $interfaceName, bool $cloneArguments): array
+    {
+        try {
+            $class = new ReflectionClass($interfaceName);
+            // @codeCoverageIgnoreStart
+        } catch (\ReflectionException $e) {
+            throw new ReflectionException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+
+        $methods = [];
+
+        foreach ($class->getMethods() as $method) {
+            $methods[] = MockMethod::fromReflection($method, false, $cloneArguments);
+        }
+
+        return $methods;
+    }
+
+    /**
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
      * @psalm-param class-string $interfaceName
      *
      * @throws ReflectionException
@@ -543,8 +739,24 @@ final class Generator
      */
     private function userDefinedInterfaceMethods(string $interfaceName): array
     {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
         $interface = $this->reflectClass($interfaceName);
         $methods   = [];
+=======
+        try {
+            // @codeCoverageIgnoreStart
+            $interface = new ReflectionClass($interfaceName);
+        } catch (\ReflectionException $e) {
+            throw new ReflectionException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+
+        $methods = [];
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
         foreach ($interface->getMethods() as $method) {
             if (!$method->isUserDefined()) {
@@ -564,10 +776,62 @@ final class Generator
     private function getObject(MockType $mockClass, string $type = '', bool $callOriginalConstructor = false, array $arguments = [], bool $callOriginalMethods = false, object $proxyTarget = null, bool $returnValueGeneration = true): object
     {
         $className = $mockClass->generate();
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
         $object    = $this->instantiate($className, $callOriginalConstructor, $arguments);
 
         if ($callOriginalMethods) {
             $this->instantiateProxyTarget($proxyTarget, $object, $type, $arguments);
+=======
+
+        if ($callOriginalConstructor) {
+            if (count($arguments) === 0) {
+                $object = new $className;
+            } else {
+                try {
+                    $class = new ReflectionClass($className);
+                    // @codeCoverageIgnoreStart
+                } catch (\ReflectionException $e) {
+                    throw new ReflectionException(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+
+                $object = $class->newInstanceArgs($arguments);
+            }
+        } else {
+            try {
+                $object = (new Instantiator)->instantiate($className);
+            } catch (InstantiatorException $e) {
+                throw new RuntimeException($e->getMessage());
+            }
+        }
+
+        if ($callOriginalMethods) {
+            if (!is_object($proxyTarget)) {
+                if (count($arguments) === 0) {
+                    $proxyTarget = new $type;
+                } else {
+                    try {
+                        $class = new ReflectionClass($type);
+                        // @codeCoverageIgnoreStart
+                    } catch (\ReflectionException $e) {
+                        throw new ReflectionException(
+                            $e->getMessage(),
+                            $e->getCode(),
+                            $e
+                        );
+                    }
+                    // @codeCoverageIgnoreEnd
+
+                    $proxyTarget = $class->newInstanceArgs($arguments);
+                }
+            }
+
+            $object->__phpunit_setOriginalObject($proxyTarget);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
         }
 
         if ($object instanceof StubInternal) {
@@ -599,7 +863,11 @@ final class Generator
         $_mockClassName = $this->generateClassName(
             $type,
             $mockClassName,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
             $testDoubleClassPrefix,
+=======
+            'Mock_'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
         );
 
         if (class_exists($_mockClassName['fullClassName'], $callAutoload)) {
@@ -621,10 +889,22 @@ final class Generator
 
             $doubledCloneMethod = true;
         } else {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
             $class = $this->reflectClass($_mockClassName['fullClassName']);
 
             if ($class->isEnum()) {
                 throw new ClassIsEnumerationException($_mockClassName['fullClassName']);
+=======
+            try {
+                $class = new ReflectionClass($_mockClassName['fullClassName']);
+                // @codeCoverageIgnoreStart
+            } catch (\ReflectionException $e) {
+                throw new ReflectionException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
             }
 
             if ($class->isFinal()) {
@@ -640,13 +920,42 @@ final class Generator
                 $actualClassName        = Exception::class;
                 $additionalInterfaces[] = $class->getName();
                 $isInterface            = false;
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                 $class                  = $this->reflectClass($actualClassName);
+=======
+
+                try {
+                    $class = new ReflectionClass($actualClassName);
+                    // @codeCoverageIgnoreStart
+                } catch (\ReflectionException $e) {
+                    throw new ReflectionException(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
                 foreach ($this->userDefinedInterfaceMethods($_mockClassName['fullClassName']) as $method) {
                     $methodName = $method->getName();
 
                     if ($class->hasMethod($methodName)) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                         $classMethod = $class->getMethod($methodName);
+=======
+                        try {
+                            $classMethod = $class->getMethod($methodName);
+                            // @codeCoverageIgnoreStart
+                        } catch (\ReflectionException $e) {
+                            throw new ReflectionException(
+                                $e->getMessage(),
+                                $e->getCode(),
+                                $e
+                            );
+                        }
+                        // @codeCoverageIgnoreEnd
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
                         if (!$this->canMethodBeDoubled($classMethod)) {
                             continue;
@@ -654,14 +963,18 @@ final class Generator
                     }
 
                     $mockMethods->addMethods(
-                        MockMethod::fromReflection($method, $callOriginalMethods, $cloneArguments),
+                        MockMethod::fromReflection($method, $callOriginalMethods, $cloneArguments)
                     );
                 }
 
                 $_mockClassName = $this->generateClassName(
                     $actualClassName,
                     $_mockClassName['className'],
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                     $testDoubleClassPrefix,
+=======
+                    'Mock_'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
                 );
             }
 
@@ -672,12 +985,26 @@ final class Generator
                 $additionalInterfaces[] = Iterator::class;
 
                 $mockMethods->addMethods(
-                    ...$this->mockClassMethods(Iterator::class, $callOriginalMethods, $cloneArguments),
+                    ...$this->mockClassMethods(Iterator::class, $callOriginalMethods, $cloneArguments)
                 );
             }
 
             if ($class->hasMethod('__clone')) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                 $cloneMethod = $class->getMethod('__clone');
+=======
+                try {
+                    $cloneMethod = $class->getMethod('__clone');
+                    // @codeCoverageIgnoreStart
+                } catch (\ReflectionException $e) {
+                    throw new ReflectionException(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
                 if (!$cloneMethod->isFinal()) {
                     if ($callOriginalClone && !$isInterface) {
@@ -693,24 +1020,42 @@ final class Generator
 
         if ($isClass && $explicitMethods === []) {
             $mockMethods->addMethods(
-                ...$this->mockClassMethods($_mockClassName['fullClassName'], $callOriginalMethods, $cloneArguments),
+                ...$this->mockClassMethods($_mockClassName['fullClassName'], $callOriginalMethods, $cloneArguments)
             );
         }
 
         if ($isInterface && ($explicitMethods === [] || $explicitMethods === null)) {
             $mockMethods->addMethods(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                 ...$this->interfaceMethods($_mockClassName['fullClassName'], $cloneArguments),
+=======
+                ...$this->mockInterfaceMethods($_mockClassName['fullClassName'], $cloneArguments)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
             );
         }
 
         if (is_array($explicitMethods)) {
             foreach ($explicitMethods as $methodName) {
                 if ($class !== null && $class->hasMethod($methodName)) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
                     $method = $class->getMethod($methodName);
+=======
+                    try {
+                        $method = $class->getMethod($methodName);
+                        // @codeCoverageIgnoreStart
+                    } catch (\ReflectionException $e) {
+                        throw new ReflectionException(
+                            $e->getMessage(),
+                            $e->getCode(),
+                            $e
+                        );
+                    }
+                    // @codeCoverageIgnoreEnd
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
 
                     if ($this->canMethodBeDoubled($method)) {
                         $mockMethods->addMethods(
-                            MockMethod::fromReflection($method, $callOriginalMethods, $cloneArguments),
+                            MockMethod::fromReflection($method, $callOriginalMethods, $cloneArguments)
                         );
                     }
                 } else {
@@ -718,8 +1063,8 @@ final class Generator
                         MockMethod::fromName(
                             $_mockClassName['fullClassName'],
                             $methodName,
-                            $cloneArguments,
-                        ),
+                            $cloneArguments
+                        )
                     );
                 }
             }
@@ -777,18 +1122,23 @@ final class Generator
                     $mockObject,
                     $_mockClassName,
                     $isInterface,
-                    $additionalInterfaces,
+                    $additionalInterfaces
                 ),
                 'use_statements'  => $useStatements,
                 'mock_class_name' => $_mockClassName['className'],
                 'mocked_methods'  => $mockedMethods,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/Generator.php
             ],
+=======
+                'method'          => $method,
+            ]
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Generator.php
         );
 
         return new MockClass(
             $classTemplate->render(),
             $_mockClassName['className'],
-            $configurable,
+            $configurable
         );
     }
 
@@ -839,7 +1189,7 @@ final class Generator
             $buffer .= sprintf(
                 '%s implements %s',
                 $mockClassName['className'],
-                $interfaces,
+                $interfaces
             );
 
             if (!in_array($mockClassName['originalClassName'], $additionalInterfaces, true)) {
@@ -857,7 +1207,7 @@ final class Generator
                 $mockClassName['className'],
                 !empty($mockClassName['namespaceName']) ? $mockClassName['namespaceName'] . '\\' : '',
                 $mockClassName['originalClassName'],
-                $interfaces,
+                $interfaces
             );
         }
 
@@ -955,7 +1305,7 @@ final class Generator
                 throw new ReflectionException(
                     $e->getMessage(),
                     $e->getCode(),
-                    $e,
+                    $e
                 );
             }
             // @codeCoverageIgnoreEnd

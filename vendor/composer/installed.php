@@ -3,7 +3,11 @@
         'name' => 'csr/modelo',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => '97d0a381adf43d0973885871c032d10ff3d5cafa',
+=======
+        'reference' => '46502cb0b2806a81dd40a6cc3f496f7a733306ee',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,25 +26,41 @@
         'csr/modelo' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => '97d0a381adf43d0973885871c032d10ff3d5cafa',
+=======
+            'reference' => '46502cb0b2806a81dd40a6cc3f496f7a733306ee',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+=======
+        'doctrine/instantiator' => array(
+            'pretty_version' => '2.0.0',
+            'version' => '2.0.0.0',
+            'reference' => 'c6222283fa3f4ac679f8b9ced9a4e23f163e80d0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../doctrine/instantiator',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         'evenement/evenement' => array(
-            'pretty_version' => 'v3.0.2',
-            'version' => '3.0.2.0',
-            'reference' => '0a16b0d71ab13284339abb99d9d2bd813640efbc',
+            'pretty_version' => 'v3.0.1',
+            'version' => '3.0.1.0',
+            'reference' => '531bfb9d15f8aa57454f5f0285b18bec903b8fb7',
             'type' => 'library',
             'install_path' => __DIR__ . '/../evenement/evenement',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'guzzlehttp/psr7' => array(
-            'pretty_version' => '2.6.1',
-            'version' => '2.6.1.0',
-            'reference' => 'be45764272e8873c72dbe3d2edcfdfcc3bc9f727',
+            'pretty_version' => '2.4.4',
+            'version' => '2.4.4.0',
+            'reference' => '3cf1b6d4f0c820a2cf8bcaec39fc698f3443b5cf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../guzzlehttp/psr7',
             'aliases' => array(),
@@ -53,16 +73,22 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../myclabs/deep-copy',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'nikic/php-parser' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v4.18.0',
             'version' => '4.18.0.0',
             'reference' => '1bcbb2179f97633e98bbbc87044ee2611c7d7999',
+=======
+            'pretty_version' => 'v4.15.4',
+            'version' => '4.15.4.0',
+            'reference' => '6bb5176bc4af8bcb7d926f88718db9b96a2d4290',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../nikic/php-parser',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phar-io/manifest' => array(
             'pretty_version' => '2.0.3',
@@ -71,7 +97,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phar-io/manifest',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phar-io/version' => array(
             'pretty_version' => '3.2.1',
@@ -80,25 +106,31 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phar-io/version',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.8.1',
-            'version' => '6.8.1.0',
-            'reference' => 'e88da8d679acc3824ff231fdc553565b802ac016',
+            'pretty_version' => 'v6.8.0',
+            'version' => '6.8.0.0',
+            'reference' => 'df16b615e371d81fb79e506277faea67a1be18f1',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpmailer/phpmailer',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'phpunit/php-code-coverage' => array(
+<<<<<<< HEAD
             'pretty_version' => '10.1.10',
             'version' => '10.1.10.0',
             'reference' => '599109c8ca6bae97b23482d557d2874c25a65e59',
+=======
+            'pretty_version' => '9.2.26',
+            'version' => '9.2.26.0',
+            'reference' => '443bc6912c9bd5b409254a40f4b0f4ced7c80ea1',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/php-code-coverage',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpunit/php-file-iterator' => array(
             'pretty_version' => '4.1.0',
@@ -107,7 +139,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/php-file-iterator',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpunit/php-invoker' => array(
             'pretty_version' => '4.0.0',
@@ -116,7 +148,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/php-invoker',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpunit/php-text-template' => array(
             'pretty_version' => '3.0.1',
@@ -125,7 +157,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/php-text-template',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpunit/php-timer' => array(
             'pretty_version' => '6.0.0',
@@ -134,21 +166,27 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/php-timer',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'phpunit/phpunit' => array(
+<<<<<<< HEAD
             'pretty_version' => '10.5.3',
             'version' => '10.5.3.0',
             'reference' => '6fce887c71076a73f32fd3e0774a6833fc5c7f19',
+=======
+            'pretty_version' => '9.6.5',
+            'version' => '9.6.5.0',
+            'reference' => '86e761949019ae83f49240b2f2123fb5ab3b2fc5',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpunit/phpunit',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'psr/http-factory' => array(
-            'pretty_version' => '1.0.2',
-            'version' => '1.0.2.0',
-            'reference' => 'e616d01114759c4c489f93b099585439f795fe35',
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => '12ac7fcd07e5b077433f5f2bee95b3a771bf61be',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/http-factory',
             'aliases' => array(),
@@ -161,9 +199,9 @@
             ),
         ),
         'psr/http-message' => array(
-            'pretty_version' => '2.0',
-            'version' => '2.0.0.0',
-            'reference' => '402d35bcb92c70c026d1a6a9883f06b2ead23d71',
+            'pretty_version' => '1.0.1',
+            'version' => '1.0.1.0',
+            'reference' => 'f6561bf28d520154e4b0ec72be95418abe6d9363',
             'type' => 'library',
             'install_path' => __DIR__ . '/../psr/http-message',
             'aliases' => array(),
@@ -203,45 +241,54 @@
             'dev_requirement' => false,
         ),
         'react/dns' => array(
-            'pretty_version' => 'v1.11.0',
-            'version' => '1.11.0.0',
-            'reference' => '3be0fc8f1eb37d6875cd6f0c6c7d0be81435de9f',
+            'pretty_version' => 'v1.10.0',
+            'version' => '1.10.0.0',
+            'reference' => 'a5427e7dfa47713e438016905605819d101f238c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../react/dns',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'react/event-loop' => array(
-            'pretty_version' => 'v1.4.0',
-            'version' => '1.4.0.0',
-            'reference' => '6e7e587714fff7a83dcc7025aee42ab3b265ae05',
+            'pretty_version' => 'v1.3.0',
+            'version' => '1.3.0.0',
+            'reference' => '187fb56f46d424afb6ec4ad089269c72eec2e137',
             'type' => 'library',
             'install_path' => __DIR__ . '/../react/event-loop',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'react/promise' => array(
-            'pretty_version' => 'v3.0.0',
-            'version' => '3.0.0.0',
-            'reference' => 'c86753c76fd3be465d93b308f18d189f01a22be4',
+            'pretty_version' => 'v2.9.0',
+            'version' => '2.9.0.0',
+            'reference' => '234f8fd1023c9158e2314fa9d7d0e6a83db42910',
             'type' => 'library',
             'install_path' => __DIR__ . '/../react/promise',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'react/promise-timer' => array(
+            'pretty_version' => 'v1.9.0',
+            'version' => '1.9.0.0',
+            'reference' => 'aa7a73c74b8d8c0f622f5982ff7b0351bc29e495',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../react/promise-timer',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'react/socket' => array(
-            'pretty_version' => 'v1.14.0',
-            'version' => '1.14.0.0',
-            'reference' => '21591111d3ea62e31f2254280ca0656bc2b1bda6',
+            'pretty_version' => 'v1.12.0',
+            'version' => '1.12.0.0',
+            'reference' => '81e1b4d7f5450ebd8d2e9a95bb008bb15ca95a7b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../react/socket',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'react/stream' => array(
-            'pretty_version' => 'v1.3.0',
-            'version' => '1.3.0.0',
-            'reference' => '6fbc9672905c7d5a885f2da2fc696f65840f4a66',
+            'pretty_version' => 'v1.2.0',
+            'version' => '1.2.0.0',
+            'reference' => '7a423506ee1903e89f1e08ec5f0ed430ff784ae9',
             'type' => 'library',
             'install_path' => __DIR__ . '/../react/stream',
             'aliases' => array(),
@@ -254,7 +301,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/cli-parser',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/code-unit' => array(
             'pretty_version' => '2.0.0',
@@ -263,7 +310,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/code-unit',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/code-unit-reverse-lookup' => array(
             'pretty_version' => '3.0.0',
@@ -272,7 +319,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/code-unit-reverse-lookup',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/comparator' => array(
             'pretty_version' => '5.0.1',
@@ -281,7 +328,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/comparator',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/complexity' => array(
             'pretty_version' => '3.1.0',
@@ -290,16 +337,22 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/complexity',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/diff' => array(
+<<<<<<< HEAD
             'pretty_version' => '5.0.3',
             'version' => '5.0.3.0',
             'reference' => '912dc2fbe3e3c1e7873313cc801b100b6c68c87b',
+=======
+            'pretty_version' => '4.0.4',
+            'version' => '4.0.4.0',
+            'reference' => '3461e3fccc7cfdfc2720be910d3bd73c69be590d',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/diff',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/environment' => array(
             'pretty_version' => '6.0.1',
@@ -308,7 +361,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/environment',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/exporter' => array(
             'pretty_version' => '5.1.1',
@@ -317,16 +370,22 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/exporter',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/global-state' => array(
+<<<<<<< HEAD
             'pretty_version' => '6.0.1',
             'version' => '6.0.1.0',
             'reference' => '7ea9ead78f6d380d2a667864c132c2f7b83055e4',
+=======
+            'pretty_version' => '5.0.5',
+            'version' => '5.0.5.0',
+            'reference' => '0ca8db5a5fc9c8646244e629625ac486fa286bf2',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/global-state',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/lines-of-code' => array(
             'pretty_version' => '2.0.1',
@@ -335,7 +394,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/lines-of-code',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/object-enumerator' => array(
             'pretty_version' => '5.0.0',
@@ -344,7 +403,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/object-enumerator',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/object-reflector' => array(
             'pretty_version' => '3.0.0',
@@ -353,7 +412,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/object-reflector',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/recursion-context' => array(
             'pretty_version' => '5.0.0',
@@ -362,8 +421,20 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/recursion-context',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
+<<<<<<< HEAD
+=======
+        'sebastian/resource-operations' => array(
+            'pretty_version' => '3.0.3',
+            'version' => '3.0.3.0',
+            'reference' => '0f4443cb3a1d92ce809899753bc0d5d5a8dd19a8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../sebastian/resource-operations',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         'sebastian/type' => array(
             'pretty_version' => '4.0.0',
             'version' => '4.0.0.0',
@@ -371,7 +442,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/type',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'sebastian/version' => array(
             'pretty_version' => '4.0.1',
@@ -380,57 +451,57 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'symfony/deprecation-contracts' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v3.4.0',
             'version' => '3.4.0.0',
             'reference' => '7c3aff79d10325257a001fcf92d991f24fc967cf',
+=======
+            'pretty_version' => 'v3.2.1',
+            'version' => '3.2.1.0',
+            'reference' => 'e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/deprecation-contracts',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/http-foundation' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v6.4.0',
             'version' => '6.4.0.0',
             'reference' => '44a6d39a9cc11e154547d882d5aac1e014440771',
+=======
+            'pretty_version' => 'v6.2.7',
+            'version' => '6.2.7.0',
+            'reference' => '5fc3038d4a594223f9ea42e4e985548f3fcc9a3b',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/http-foundation',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'symfony/polyfill-mbstring' => array(
-            'pretty_version' => 'v1.28.0',
-            'version' => '1.28.0.0',
-            'reference' => '42292d99c55abe617799667f454222c54c60e229',
+            'pretty_version' => 'v1.27.0',
+            'version' => '1.27.0.0',
+            'reference' => '8ad114f6b39e2c98a8b0e3bd907732c207c2b534',
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/polyfill-mbstring',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'symfony/polyfill-php80' => array(
-            'pretty_version' => 'v1.28.0',
-            'version' => '1.28.0.0',
-            'reference' => '6caa57379c4aec19c0a12a38b59b26487dcfe4b5',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/polyfill-php80',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'symfony/polyfill-php83' => array(
-            'pretty_version' => 'v1.28.0',
-            'version' => '1.28.0.0',
-            'reference' => 'b0f46ebbeeeda3e9d2faebdfbf4b4eae9b59fa11',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../symfony/polyfill-php83',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
         'symfony/routing' => array(
+<<<<<<< HEAD
             'pretty_version' => 'v6.4.1',
             'version' => '6.4.1.0',
             'reference' => '0c95c164fdba18b12523b75e64199ca3503e6d40',
+=======
+            'pretty_version' => 'v6.2.7',
+            'version' => '6.2.7.0',
+            'reference' => 'fa643fa4c56de161f8bc8c0492a76a60140b50e4',
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/routing',
             'aliases' => array(),
@@ -443,12 +514,12 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../theseer/tokenizer',
             'aliases' => array(),
-            'dev_requirement' => true,
+            'dev_requirement' => false,
         ),
         'twbs/bootstrap-icons' => array(
-            'pretty_version' => 'v1.10.5',
-            'version' => '1.10.5.0',
-            'reference' => '648aa8238437d9da9227f6273cc163ec5841382d',
+            'pretty_version' => 'v1.10.3',
+            'version' => '1.10.3.0',
+            'reference' => '817d780a476dbb24b269a89ba56ff1d0d4125132',
             'type' => 'library',
             'install_path' => __DIR__ . '/../twbs/bootstrap-icons',
             'aliases' => array(),

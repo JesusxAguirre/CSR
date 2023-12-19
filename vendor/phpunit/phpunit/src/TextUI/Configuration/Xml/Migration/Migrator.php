@@ -33,11 +33,20 @@ final class Migrator
                 sprintf(
                     '"%s" is not a valid PHPUnit XML configuration file that can be migrated',
                     $filename,
-                ),
+                )
             );
         }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrator.php
         $configurationDocument = (new XmlLoader)->loadFile($filename);
+=======
+        $configurationDocument = (new XmlLoader)->loadFile(
+            $filename,
+            false,
+            true,
+            true
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrator.php
 
         foreach ((new MigrationBuilder)->build($origin->version()) as $migration) {
             $migration->migrate($configurationDocument);

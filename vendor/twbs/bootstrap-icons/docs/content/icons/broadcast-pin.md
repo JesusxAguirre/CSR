@@ -7,5 +7,4 @@ tags:
   - "radio wave"
   - amplify
   - wavelength
-  - podcast
 ---

@@ -27,4 +27,17 @@ final class ReturnReference implements Stub
     {
         return $this->reference;
     }
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Stub/ReturnReference.php
+=======
+
+    public function toString(): string
+    {
+        $exporter = new Exporter;
+
+        return sprintf(
+            'return user-specified reference %s',
+            $exporter->export($this->reference)
+        );
+    }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Stub/ReturnReference.php
 }

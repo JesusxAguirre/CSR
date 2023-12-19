@@ -91,7 +91,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    protected function doDestroy(#[\SensitiveParameter] string $sessionId): bool
+    protected function doDestroy(string $sessionId): bool
     {
         $write = new BulkWrite();
         $write->delete(
@@ -115,7 +115,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return $result->getDeletedCount() ?? false;
     }
 
-    protected function doWrite(#[\SensitiveParameter] string $sessionId, string $data): bool
+    protected function doWrite(string $sessionId, string $data): bool
     {
         $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
         $expiry = $this->getUTCDateTime($ttl);
@@ -138,7 +138,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    public function updateTimestamp(#[\SensitiveParameter] string $sessionId, string $data): bool
+    public function updateTimestamp(string $sessionId, string $data): bool
     {
         $ttl = ($this->ttl instanceof \Closure ? ($this->ttl)() : $this->ttl) ?? \ini_get('session.gc_maxlifetime');
         $expiry = $this->getUTCDateTime($ttl);
@@ -158,7 +158,7 @@ class MongoDbSessionHandler extends AbstractSessionHandler
         return true;
     }
 
-    protected function doRead(#[\SensitiveParameter] string $sessionId): string
+    protected function doRead(string $sessionId): string
     {
         $cursor = $this->manager->executeQuery($this->namespace, new Query([
             $this->options['id_field'] => $sessionId,

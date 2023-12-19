@@ -129,7 +129,17 @@ final class IsType extends Constraint
     public function __construct(string $type)
     {
         if (!isset(self::KNOWN_TYPES[$type])) {
+<<<<<<< HEAD
             throw new UnknownTypeException($type);
+=======
+            throw new \PHPUnit\Framework\Exception(
+                sprintf(
+                    'Type specified for PHPUnit\Framework\Constraint\IsType <%s> ' .
+                    'is not a valid type.',
+                    $type
+                )
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         $this->type = $type;
@@ -141,8 +151,13 @@ final class IsType extends Constraint
     public function toString(): string
     {
         return sprintf(
+<<<<<<< HEAD
             'is of type %s',
             $this->type,
+=======
+            'is of type "%s"',
+            $this->type
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 

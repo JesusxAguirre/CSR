@@ -17,6 +17,24 @@ use function mkdir;
  */
 final class Filesystem
 {
+<<<<<<< HEAD
+=======
+    /**
+     * Maps class names to source file names.
+     *
+     *   - PEAR CS:   Foo_Bar_Baz -> Foo/Bar/Baz.php
+     *   - Namespace: Foo\Bar\Baz -> Foo/Bar/Baz.php
+     */
+    public static function classNameToFilename(string $className): string
+    {
+        return str_replace(
+            ['_', '\\'],
+            DIRECTORY_SEPARATOR,
+            $className
+        ) . '.php';
+    }
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     public static function createDirectory(string $directory): bool
     {
         return !(!is_dir($directory) && !@mkdir($directory, 0o777, true) && !is_dir($directory));

@@ -22,10 +22,17 @@ final class IncompatibleReturnValueException extends \PHPUnit\Framework\Exceptio
         parent::__construct(
             sprintf(
                 'Method %s may not return value of type %s, its declared return type is "%s"',
+<<<<<<< HEAD
                 $method->name(),
                 get_debug_type($value),
                 $method->returnTypeDeclaration(),
             ),
+=======
+                $method->getName(),
+                is_object($value) ? get_class($value) : gettype($value),
+                $method->getReturnTypeDeclaration()
+            )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 }

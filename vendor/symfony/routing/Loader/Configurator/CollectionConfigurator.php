@@ -118,9 +118,12 @@ class CollectionConfigurator
         return $this;
     }
 
+<<<<<<< HEAD
     /**
      * This method overrides the one from LocalizedRouteTrait.
      */
+=======
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     private function createRoute(string $path): Route
     {
         return (clone $this->route)->setPath($path);

@@ -60,7 +60,11 @@ final class IsEmpty extends Constraint
             '%s %s %s',
             str_starts_with($type, 'a') || str_starts_with($type, 'o') ? 'an' : 'a',
             $type,
+<<<<<<< HEAD
             $this->toString(true),
+=======
+            $this->toString()
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 }

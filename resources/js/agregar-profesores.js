@@ -17,7 +17,7 @@ function choices3() {
 function listarProfesores2() {
     let div = document.getElementById('listarProfesores');
   
-    $.post("index.php?pagina=agregar-profesores", {listarProfesores2: 'listarProfesores2'},
+    $.post("controlador/ajax/CRUD-materias.php", {listarProfesores2: 'listarProfesores2'},
       function (data) {
         div.innerHTML= data;
       },
@@ -27,7 +27,7 @@ function listarProfesores2() {
   function listarFuturosProfesores() {
     let div = document.getElementById('verProfesoresFuturos');
   
-    $.post("index.php?pagina=agregar-profesores", {listarFuturosProfesores: 'listarFuturosProfesores'},
+    $.post("controlador/ajax/CRUD-materias.php", {listarFuturosProfesores: 'listarFuturosProfesores'},
       function (data) {
         div.innerHTML= data;
         choices3();
@@ -56,7 +56,7 @@ $(document).on('click', '.eliminarProfEcam', function () {
       confirmButtonText: 'Estoy seguro, proceder'
     }).then((result) => {
       if (result.isConfirmed) {
-        $.post("index.php?pagina=agregar-profesores", data,
+        $.post("controlador/ajax/CRUD-materias.php", data,
         function (response) {
           let resp = JSON.parse(response);
 
@@ -107,7 +107,7 @@ $('#crearProfesores').click(function (e) {
         timer: 2000,
       })
     }else{
-      $.post("index.php?pagina=agregar-profesores", data, function (data) {
+      $.post("controlador/ajax/CRUD-materias.php", data, function (data) {
         listarFuturosProfesores();
         listarProfesores2();
         Swal.fire({

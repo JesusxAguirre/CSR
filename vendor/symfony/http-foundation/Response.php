@@ -212,11 +212,6 @@ class Response
     ];
 
     /**
-     * Tracks headers already sent in informational responses.
-     */
-    private array $sentHeaders;
-
-    /**
      * @param int $status The HTTP status code (200 "OK" by default)
      *
      * @throws \InvalidArgumentException When the HTTP status code is not valid
@@ -286,7 +281,7 @@ class Response
             $charset = $this->charset ?: 'UTF-8';
             if (!$headers->has('Content-Type')) {
                 $headers->set('Content-Type', 'text/html; charset='.$charset);
-            } elseif (0 === stripos($headers->get('Content-Type') ?? '', 'text/') && false === stripos($headers->get('Content-Type') ?? '', 'charset')) {
+            } elseif (0 === stripos($headers->get('Content-Type'), 'text/') && false === stripos($headers->get('Content-Type'), 'charset')) {
                 // add the charset
                 $headers->set('Content-Type', $headers->get('Content-Type').'; charset='.$charset);
             }
@@ -331,26 +326,23 @@ class Response
     /**
      * Sends HTTP headers.
      *
+<<<<<<< HEAD
      * @param positive-int|null $statusCode The status code to use, override the statusCode property if set and not null
      *
+=======
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
      * @return $this
      */
-    public function sendHeaders(/* int $statusCode = null */): static
+    public function sendHeaders(): static
     {
         // headers have already been sent by the developer
         if (headers_sent()) {
             return $this;
         }
 
-        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
-        $informationalResponse = $statusCode >= 100 && $statusCode < 200;
-        if ($informationalResponse && !\function_exists('headers_send')) {
-            // skip informational responses if not supported by the SAPI
-            return $this;
-        }
-
         // headers
         foreach ($this->headers->allPreserveCaseWithoutCookies() as $name => $values) {
+<<<<<<< HEAD
             $newValues = $values;
             $replace = false;
 
@@ -373,11 +365,11 @@ class Response
             }
 
             foreach ($newValues as $value) {
+=======
+            $replace = 0 === strcasecmp($name, 'Content-Type');
+            foreach ($values as $value) {
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                 header($name.': '.$value, $replace, $this->statusCode);
-            }
-
-            if ($informationalResponse) {
-                $this->sentHeaders[$name] = $values;
             }
         }
 
@@ -386,16 +378,8 @@ class Response
             header('Set-Cookie: '.$cookie, false, $this->statusCode);
         }
 
-        if ($informationalResponse) {
-            headers_send($statusCode);
-
-            return $this;
-        }
-
-        $statusCode ??= $this->statusCode;
-
         // status
-        header(sprintf('HTTP/%s %s %s', $this->version, $statusCode, $this->statusText), true, $statusCode);
+        header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), true, $this->statusCode);
 
         return $this;
     }

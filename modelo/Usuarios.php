@@ -5,9 +5,7 @@ namespace Csr\Modelo;
 use Csr\Modelo\Conexion;
 use PDO;
 use Exception;
-use Csr\Modelo\Correo;
-
-use Throwable;
+use React\Dns\Query\ExecutorInterface;
 
 class Usuarios extends Conexion
 {
@@ -18,6 +16,7 @@ class Usuarios extends Conexion
 
     private $id_modulo;
 
+    private $usuario;
     private $clave;
     private $cedula;
     private $nombre;
@@ -26,7 +25,8 @@ class Usuarios extends Conexion
     private $telefono;
     private $estado;
     private $nacionalidad;
-
+    private $permisos;
+    private $listar;
     private $arreglo_n1;
     private $arreglo_n2;
 
@@ -48,64 +48,11 @@ class Usuarios extends Conexion
     private $carpeta_destino;
 
     //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
-
-
-    private $estados_venezuela = [
-        'amazonas',
-        'anzoategui',
-        'apure',
-        'aragua',
-        'barinas',
-        'bolivar',
-        'carabobo',
-        'cojedes',
-        'delta amacuro',
-        'distrito capital',
-        'falcon',
-        'guarico',
-        'lara',
-        'merida',
-        'miranda',
-        'monagas',
-        'nueva esparta',
-        'portuguesa',
-        'sucre',
-        'tachira',
-        'trujillo',
-        'vargas',
-        'yaracuy',
-        'zulia'
-    ];
-
-    private $nacionalidades = ["venezolana", "colombiana", "española"];
-
-    private $estados_civiles = ["soltero", "soltera", "matrimonio"];
-
-    private $sexos = ["hombre", "mujer"];
-
-
-
-
-    //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
-    private $expresion_clave = "/^(?=.*[!@#$%^&*])(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{6,20}$/";
+    private $expresion_clave = "/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/";
 
     private $expresion_correo = "/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i";
 
     private $expresion_telefono = "/^[0-9]{11}$/";
-
-    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
-
-    private $expresion_cedula = "/^[0-9]{7,8}$/";
-
-    private $expresion_numero = "/^[0-9]$/";
-
-    private $expresion_imagen = "/^image\/(pjpeg|jpeg|png|gif|bmp)$/";
-
-
-    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,12}$/";
-
-
-
 
     public function __construct()
     {
@@ -116,12 +63,10 @@ class Usuarios extends Conexion
     //BUSCAR ID DE ROL DE USUARIO
     public function getIdRol($usuario)
     {
-        $sql = "SELECT usuarios.id_rol FROM usuarios WHERE usuarios.usuario = :usuario";
-
-
+        $sql = "SELECT usuarios.id_rol FROM usuarios WHERE usuarios.usuario = '$usuario'";
 
         $stmt = $this->conexion->prepare($sql);
-        $stmt->execute(array(":usuario" => $usuario));
+        $stmt->execute();
 
         $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -148,56 +93,36 @@ class Usuarios extends Conexion
 
         return $bitacora;
     }
-
-
     //VALIDACION DE ENTRADA PARA USUARIOS
     public function validar()
     {
         try {
             $usuario = $_SESSION['usuario'];
             $clave = $_SESSION['clave'];
-
+            $ok = 0;
             $sql = ("SELECT usuario,password FROM usuarios WHERE  usuario= :usuario ");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":usuario" => $usuario));
 
-            if ($stmt->rowCount() > 0) {
-                while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
-                    if (password_verify($clave, $resultado['password'])) {
-
-                        //Generacion de API-KEY una vez confirmado los datos
-                        $sentence = "SELECT `cedula` FROM `usuarios` WHERE `usuario` = :usuario";
-                        $execute = $this->conexion()->prepare($sentence);
-                        $execute->execute(array(":usuario" => $usuario));
-                        $result = $execute->fetch(PDO::FETCH_ASSOC);
-                        $ci = $result['cedula'];
-                        $apiKey = $this->mutatedGenerateAPIKey($ci);
-                        $_SESSION['api-key'] = $apiKey;
-
-                        http_response_code(200);
-                        header('Content-Type: application/json');
-                        echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "apikey" => $apiKey, "status_code" => 200));
-                    } else {
-                        throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
-                    }
+                if (password_verify($clave, $resultado['password'])) {
+                    $ok++;
                 }
-            } else {
-                throw new Exception("Este correo no existe en la base de datos", 404);
             }
-        } catch (Throwable $ex) {
 
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+            return $ok;
+        } catch (Exception $e) {
 
-            die();
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
         }
     }
-
-
     //BUSCAR DATOS DE USUARIO PARA COLOCARLOS EN LA VISTA DE MI PERFIL
     public function mi_perfil()
     {
@@ -207,7 +132,6 @@ class Usuarios extends Conexion
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(":usuario" => $usuario));
-
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -215,38 +139,28 @@ class Usuarios extends Conexion
     public function listar()
     {
 
-        $resultado = [];
-        $sql = ("SELECT  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.ruta_imagen, usuarios.apellido, usuarios.telefono,
+        $consulta = ("SELECT usuarios.usuario,  usuarios.cedula, usuarios.codigo, usuarios.nombre, usuarios.apellido, usuarios.telefono,
          usuarios.sexo, usuarios.estado_civil, usuarios.nacionalidad, usuarios.estado, usuarios.fecha_nacimiento,
          roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
         INNER JOIN roles ON usuarios.id_rol = roles.id");
 
-        $stmt = $this->conexion()->prepare($sql);
+        $sql = $this->conexion()->prepare($consulta);
 
-        $stmt->execute(array());
-
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $resultado[] = $filas;
+        $sql->execute(array());
+        
+        while ($filas = $sql->fetch(PDO::FETCH_ASSOC)) {
+            $this->usuario[] = $filas;
         }
 
         /*$accion = "Listar todos los usuarios";
         $usuario = $_SESSION['cedula'];
         parent::registrar_bitacora($usuario, $accion, $this->id_modulo);*/
 
-        return $resultado;
+        return $this->usuario;
+       
     }
-
-
-    //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO    
-    /**
-     * buscar_cedula
-     *
-     * Metodo de la clase usuarios que sirve para verificar si la cedula que se envia por parametro
-     * existe en la base de datos. Si existe envia una Exception.
-     * @param  mixed $cedula
-     * @return void
-     */
+    //BUSCAR CEDULA SI EXISTE EN REGISTRAR USUARIO
     public function buscar_cedula($cedula)
     {
         try {
@@ -258,16 +172,10 @@ class Usuarios extends Conexion
 
             $resultado = $stmt->rowCount();
 
-            if ($resultado > 0) {
-                throw new Exception("Este usuario ya existe en la base de datos", 409);
-            }
-        } catch (Throwable $ex) {
+            return $resultado;
+        } catch (Exception $e) {
 
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
+            return false;
         }
     }
     //BUSCAR SI CEDULA YA EXISTE EN MENU PERFIL
@@ -296,8 +204,6 @@ class Usuarios extends Conexion
             return false;
         }
     }
-
-
     //BUSCAR CORREO EN REGISTRAR USUARIOS
     public function buscar_correo($correo)
     {
@@ -311,49 +217,10 @@ class Usuarios extends Conexion
 
             $resultado = $stmt->rowCount();
 
-            if ($resultado > 0) {
-                throw new Exception($mensaje = "Este correo ya existe en la base de datos", 409);
-            }
-        } catch (Throwable $ex) {
+            return $resultado;
+        } catch (Exception $e) {
 
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
-        }
-    }
-
-    /**
-     * validar_correo_existe
-     *
-     * Este Metodo se usa para validar si el correo realmente existe en la base de datos 
-     * este metodo es muy parecido al anterior pero la validacion es a la inversa. si no existe se arroja una Exception
-     * @param  mixed $correo
-     * @return void
-     */
-    public function validar_correo_existe($correo)
-    {
-        try {
-
-            $sql = ("SELECT usuario FROM usuarios WHERE usuario = :correo");
-
-            $stmt = $this->conexion()->prepare($sql);
-
-            $stmt->execute(array(":correo" => $correo));
-
-            $resultado = $stmt->rowCount();
-
-            if ($resultado != 1) {
-                throw new Exception($mensaje = "Este correo no existe en la base de datos", 404);
-            }
-        } catch (Throwable $ex) {
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
+            return false;
         }
     }
 
@@ -428,7 +295,7 @@ class Usuarios extends Conexion
         $resultado = [];
         $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT usuarios.cedula,usuarios.codigo,usuarios.nombre,usuarios.apellido,usuarios.telefono,usuarios.sexo,usuarios.estado_civil,
-        usuarios.nacionalidad,usuarios.estado,usuarios.fecha_nacimiento, roles.id AS id_rol ,roles.nombre AS nombre_rol
+        usuarios.nacionalidad,usuarios.estado,usuarios.edad, roles.id AS id_rol ,roles.nombre AS nombre_rol
         FROM usuarios 
         INNER JOIN roles ON usuarios.id_rol = roles.id
         WHERE usuarios.codigo LIKE '%" . $busqueda . "%' 
@@ -473,8 +340,8 @@ class Usuarios extends Conexion
 
 
             $sql = "INSERT INTO usuarios (cedula,id_rol,
-            codigo,nombre,apellido,fecha_nacimiento,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password, ruta_imagen) 
-            VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass, :img)";
+            codigo,nombre,apellido,edad,sexo,estado_civil,nacionalidad,estado,usuario,telefono,password) 
+            VALUES(:ced,:id,:cod,:nom,:ape,:edad,:sexo,:estdc,:nacionalidad,:estado,:usuario,:telefono,:pass)";
 
             //ENCRIPTANDO CLAVE
             $stmt = $this->conexion->prepare($sql);
@@ -488,18 +355,17 @@ class Usuarios extends Conexion
                 ":estdc" => $this->civil, ":nacionalidad" => $this->nacionalidad,
                 ":estado" => $this->estado, ":usuario" => $this->correo,
                 ":telefono" => $this->telefono,
-                ":pass" => $this->clave,
-                ":img" => 'resources/img/nothingPhoto.png'
+                ":pass" => $this->clave
             ));
 
-            http_response_code(200);
-            echo json_encode(array("msj" => "Se registro exitosamente", "status_code" => 200));
-            die();
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code(500);
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
+            return true;
+        } catch (Exception $e) {
+
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return $e;
         }
     }
 
@@ -516,7 +382,6 @@ class Usuarios extends Conexion
             $estado = strtoupper($estado2);
             $sexo = strtoupper($sexo2);
             $estadoc = strtoupper($estadoc2);
-
             //buscando codigo viejo para suplantarlo por el nuevo
             $sql = ("SELECT codigo FROM usuarios WHERE cedula= :cedula_antigua");
 
@@ -585,12 +450,33 @@ class Usuarios extends Conexion
             ));
 
 
-            //Actualizando todos los datos menos el codigo que se hizo mas arriba
+            //cambiando datos ingresados con mayusculas o minisculas
+            $this->nombre = strtolower($this->nombre);
+
+            $this->nombre = ucfirst($this->nombre);
+            //lo mismo con el apellido
+            $this->apellido = strtolower($this->apellido);
+
+            $this->apellido = ucfirst($this->apellido);
+            //Lo mismo con la nacionalidad
+            $this->nacionalidad = strtolower($this->nacionalidad);
+
+            $this->nacionalidad = ucfirst($this->nacionalidad);
+            //Lo mismo con la estado
+            $this->estado = strtolower($this->estado);
+
+            $this->estado = ucfirst($this->estado);
+
+            //actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, id_rol = :rol, nombre = :nombre, apellido = :apellido, 
-            fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc, nacionalidad = :nacionalidad , estado = :estado,
+            fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc ,nacionalidad = :nacionalidad , estado = :estado,
             telefono = :telf WHERE cedula = :ced");
 
+
+
             $stmt = $this->conexion()->prepare($sql);
+
+
 
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
@@ -603,21 +489,18 @@ class Usuarios extends Conexion
             ));
 
 
-            $accion = "Editar datos de usuario";
+
+            /*$accion = "Editar datos de usuario";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return true;*/
+        } catch (Exception $e) {
 
-            //Respuesta para el manejo de respuesta HTTP
-            http_response_code(202);
-            echo json_encode(array("msj" => "Se han actualizado los datos correctamente", "status_code" => 202));
-            die();
-        } catch (Throwable $ex) {
+            echo $e->getMessage();
 
-            $errorType = basename(get_class($ex));
-            http_response_code(500);
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            //$this->deleteRecoveryToken();
-            die();
+            echo "Linea del error: " . $e->getLine();
+
+            return $e;
         }
     }
 
@@ -702,11 +585,11 @@ class Usuarios extends Conexion
 
             //actualizando todos los datos menos el codigo que se hizo mas arriba
             $sql = ("UPDATE usuarios SET cedula = :cedula, nombre = :nombre, apellido = :apellido, fecha_nacimiento = :edad, sexo = :sexo, estado_civil = :estadoc 
-            , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario WHERE cedula = :ced");
+        , nacionalidad = :nacionalidad , estado = :estado , telefono = :telefono, usuario = :usuario WHERE cedula = :ced");
 
             $stmt = $this->conexion()->prepare($sql);
 
-            //$this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
+            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
             $stmt->execute(array(
                 ":cedula" => $this->cedula,
@@ -718,29 +601,22 @@ class Usuarios extends Conexion
                 ":usuario" => $this->correo,
             ));
 
-
-            http_response_code(202);
-            echo json_encode(array("msj" => "Se han actualizado tus datos correctamente", "status_code" => 202));
-            die();
-
-            //Respaldo por si sale mal jeje
-            /*echo "<script>
+            /*session_destroy();
+            echo "<script>
             alert('Sesion Cerrada');
             window.location= 'index.php'
         </script>";
             return true;*/
-        } catch (Throwable $ex) {
+        } catch (Exception $e) {
 
-            $errorType = basename(get_class($ex));
-            http_response_code(500);
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            $this->deleteRecoveryToken();
-            die();
+            echo $e->getMessage();
+
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
         }
     }
 
-
-    //Actualizar foto de perfil
     public function actualizar_foto()
     {
         try {
@@ -762,17 +638,14 @@ class Usuarios extends Conexion
             $accion = "Editar foto de usuario";
             $usuario = $_SESSION['cedula'];
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
 
-            http_response_code(202);
-            echo json_encode(array("msj" => "Se ha actualizado la imagen", "status_code" => 202));
-            die();
-        } catch (Throwable $ex) {
+            echo $e->getMessage();
 
-            $errorType = basename(get_class($ex));
-            http_response_code(500);
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            $this->deleteRecoveryToken();
-            die();
+            echo "Linea del error: " . $e->getLine();
+
+            return false;
         }
     }
 
@@ -784,46 +657,29 @@ class Usuarios extends Conexion
 
 
     //RECUPERAR CONTRASEÑA
-    private function recuperar_password()
+    public function recuperar_password()
     {
         try {
-
             //consulta update
             $sql = ("UPDATE usuarios SET password = :password
-            WHERE usuario = :usuario");
-
+         WHERE cedula = :usuario");
 
             $stmt = $this->conexion()->prepare($sql);
 
-
-
-            $new_clave = $this->generateRandomPassword();
-
-            $this->clave = password_hash($new_clave, PASSWORD_DEFAULT);
+            $this->clave = password_hash($this->clave, PASSWORD_DEFAULT);
 
             $stmt->execute(array(
                 ":password" => $this->clave,
-                ":usuario" => $_SESSION['recovery_email']
+                ":usuario" => $this->cedula
             ));
+            return true;
+        } catch (Exception $e) {
 
+            echo $e->getMessage();
 
-            $objeto_correo = new Correo();
+            echo "Linea del error: " . $e->getLine();
 
-            $objeto_correo->enviar_nueva_password($_SESSION['recovery_email'], $new_clave);
-
-            $this->deleteRecoveryToken();
-
-            http_response_code(202);
-
-            echo json_encode(array("msj" => "Se ha actualizado correctamente la contraseña", "status_code" => 200));
-            die();
-        } catch (Throwable $ex) {
-
-            $errorType = basename(get_class($ex));
-            http_response_code(500);
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            $this->deleteRecoveryToken();
-            die();
+            return false;
         }
     }
 
@@ -951,6 +807,9 @@ class Usuarios extends Conexion
         $this->estado = $estado;
         $this->telefono = $telefono;
         $this->rol = $rol;
+
+        $this->cedula = trim($this->cedula);
+        $this->cedula_antigua = trim($this->cedula_antigua);
     }
     //METODO SETTER PARA ACTUALIZAR USUARIO PERO SIN ID DE ROL
     public function setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $edad, $sexo, $civil, $nacionalidad, $estado, $telefono, $correo)
@@ -970,426 +829,25 @@ class Usuarios extends Conexion
     //METODO SETTER PARA ACTUALIZAR FOTO DE USUARIO
     public function setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen)
     {
+
         $this->cedula = $cedula;
+
         $this->carpeta_destino = $carpeta_destino;
         $this->nombre_imagen = $nombre_imagen;
         $this->tipo_imagen = $tipo_imagen;
         $this->tamaño_imagen = $tamaño_imagen;
     }
-
-
-
-    //METODO PARA ACUTALIZAR CONTRASENIA
-    public function actualizar_password($clave_nueva)
+    //METODO SETTER PARA RECUPERAR CONTRASENIA
+    public function setRecuperar($cedula, $clave)
     {
-        try {
-            $cedula = $_SESSION['cedula'];
-            $sql = "UPDATE `usuarios` SET `password` = :pass WHERE `usuarios`.`cedula` = :cedula";
-            $stmt = $this->conexion()->prepare($sql);
-            $clave_encriptada = password_hash($clave_nueva, PASSWORD_DEFAULT);
-
-            $stmt->execute(array(":pass" => $clave_encriptada, ":cedula" => $cedula));
-
-            session_destroy();
-            http_response_code(200);
-            echo json_encode(array("msj" => "La contraseña se actualizo exitosamente", "status_code" => 200));
-            die();
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-    //Validacion de contrasena al actualizar
-    public function validar_contraseña_actual($clave_antigua)
-    {
-        try {
-            $cedula = $_SESSION['cedula'];
-
-            $sql = "SELECT `password` FROM `usuarios` WHERE `cedula` = :cedula";
-            $stmt = $this->conexion()->prepare($sql);
-            $stmt->execute(array(":cedula" => $cedula));
-
-            //Encriptamos la clave
-            $clave_encriptada = password_hash($clave_antigua, PASSWORD_DEFAULT);
-
-            if ($stmt->rowCount() > 0) {
-                while ($resultado = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-                    if (password_verify($clave_antigua, $resultado['password'])) {
-                    } else {
-                        throw new Exception("La clave que has ingresado no coincide con la actual", 422);
-                    }
-                }
-            } else {
-                throw new Exception("Este usuario no existe en la BD", 404);
-            }
-        } catch (Throwable $ex) {
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
+        $this->cedula = $cedula;
+        $this->clave = $clave;
     }
 
     public function setEliminar($cedula)
     {
         $this->cedula = $cedula;
     }
-
-
-    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
-
-    //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
-
-
-    //VALIDAR FECHA DE NACIMIENTO    
-    /**
-     * security_validation_fecha_nacimiento
-     *
-     * Metodo que valida la fecha de nacimiento , los casos aceptados son mayor a 18 años y menor a 99 años en el caso de que esto no se cumpla
-     * se arroja una Exception
-     * @param  mixed $fecha_nacimiento
-     * @return void
-     */
-    public function security_validation_fecha_nacimiento($fecha_nacimiento)
-    {
-        try {
-
-            $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
-            $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
-
-            $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
-
-            if ($fecha_nacimiento_ts > $mayoria_edad && $fecha_nacimiento_ts < $maxima_edad) {
-                //dguardar datos de hacker
-
-                throw new Exception("La fecha de nacimiento no cumple con los requerimientos", 422);
-            }
-        } catch (Throwable $ex) {
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-    //VALIDACION INYECCION SQL    
-    /**
-     * security_validation_sql
-     * 
-     * Funcion que valida un array donde cada indice contiene una cadeba de texto
-     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
-     * Si alguno de estos casos se cumple arroja una Exception.
-     *
-     * @param  mixed $array
-     * @return void
-     */
-    public function security_validation_inyeccion_sql($array)
-    {
-        try {
-            for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_especial, $array[$i]);
-
-                if ($response > 0) {
-                    //guardar en base de datos hacker
-
-
-                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
-                }
-
-                if ($array[$i] == "") {
-                    //guardar en base de datos de hacker
-
-
-                    throw new Exception("Estas enviando datos vacios", 422);
-                }
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-    //VALIDACION CEDULA    
-    /**
-     * validar_cedula
-     *
-     * Funcion que valida la cedula con una expresion regular, si no coicide captura un error
-     * @param  mixed $cedula
-     * @return void
-     */
-    public function security_validation_cedula($cedula)
-    {
-        try {
-            $response = preg_match($this->expresion_cedula, $cedula);
-
-            if ($response == 0) {
-                //guardar ataque de hacker
-
-                throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ", $cedula), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-
-            http_response_code($ex->getCode());
-
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-    /**
-     * security_validation_caracteres
-     *
-     * Metodo que recibe un array donde cada indice es una cadena de texto este metodo verifica
-     * que cada indice del array sea un caracter, es decir sin numeros o caracteres especiales.
-     * si no es una cadena de texto, arroja una Exception
-     * 
-     * @param  mixed $array
-     * @return void
-     */
-    public function security_validation_caracteres($array)
-    {
-        try {
-            for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_caracteres, $array[$i]);
-
-                if ($response == 0) {
-                    //guardar datos de hacker
-
-                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto-> '%s", $array[$i]), 422);
-                }
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-    /**
-     * security_validation_estado
-     *
-     * Metodo que valida que el estado exista en el atributo ya definido al principio del archivo, es decir
-     * comprueba que la variable estado exista en el array estados de venezuela. Si no existe en el array 
-     * arroja una Exception
-     * @param  mixed $estado
-     * @return void
-     */
-    public function security_validation_estado($estado)
-    {
-
-        try {
-            if (!in_array($estado, $this->estados_venezuela)) {
-                //guardar datos de hacker
-
-                throw new Exception(sprintf("El estado que enviaste no existe en los estados de venezuela. estado-> '%s' ", $estado), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-    //VALIDACION DE TELEFONO
-
-    /**
-     * security_validation_telefono
-     *
-     * Metodo que valida una cadena de texto con una expresion regular de telefono.si no cumple con la expresion regular
-     * Se arroja una Exception.
-     * @param  mixed $telefono
-     * @return void
-     */
-    public function security_validation_telefono($telefono)
-    {
-        try {
-            $response = preg_match($this->expresion_telefono, $telefono);
-
-            if ($response == 0) {
-                //guardar datos de hacker
-
-                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ", $telefono), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-    //VALIDACION DE CORREO
-    public function security_validation_correo($correo)
-    {
-        try {
-            $response = preg_match($this->expresion_correo, $correo);
-
-
-            if ($response == 0) {
-                //registrar ataque informatico de hacker
-
-
-                throw new Exception(sprintf("El correo que enviaste  no cumple el formato de correo. Correo-> '%s' ", $correo), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-    //VALIDACION DE SEGURIDAD DE CLAVE    
-    /**
-     * security_validation_clave
-     *
-     * Metodo que valida que la clave cumpla con los parametros de seguridad. Si no los cumple se arroja una Exception
-     * @param  mixed $clave
-     * @return void
-     */
-    public function security_validation_clave($clave)
-    {
-        try {
-            $response = preg_match($this->expresion_clave, $clave);
-
-            if ($response == 0) {
-                //registrar ataque informatico de hacker
-
-                throw new Exception(sprintf("La clave que estas enviado no cumple con los requisitos de seguridad. clave-> '%s' ", $clave), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-    //VALIDACION DE SEXO
-
-    /**
-     * security_validation_sexo
-     *
-     * Este Metodo valida que el sexo enviado sea hombre o mujer de lo contrario se arroja una Exception.
-     * @param  mixed $sexo
-     * @return void
-     */
-    public function security_validation_sexo($sexo)
-    {
-
-        try {
-
-            if (!in_array($sexo, $this->sexos)) {
-                //guardar datos de hacker
-
-                throw new Exception(sprintf("El sexo que estas enviando es invalido. sexo-> '%s'", $sexo), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-
-    //VALIDACION DE ESTADO CIVIL
-
-    /**
-     * security_validation_estado_civil
-     *
-     * Este metodo valida que el estado civil enviado este dentro de los admitidos en el sistema. De lo contrario arroja una Exception
-     * @param  mixed $civil
-     * @return void
-     */
-    public function security_validation_estado_civil($civil)
-    {
-        try {
-
-
-            if (!in_array($civil, $this->estados_civiles)) {
-                //guardar datos de hacker
-
-                throw new Exception(sprintf("El estado civil que estas enviado es invalido. estado_civil-> '%s'", $civil), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-
-
-    //VALIDACION NACIONALIDAD
-
-    public function security_validation_nacionalidad($nacionalidad)
-    {
-        try {
-
-            if (!in_array($nacionalidad, $this->nacionalidades)) {
-                //guardar datos de hacker
-
-                throw new Exception(sprintf("La nacioliadad que estas enviando no esta permitida en el sistema. nacionalidad-> '%s'", $nacionalidad), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-    //VALIDACION IMAGEN
-
-    public function security_validation_imagen($image_type)
-    {
-        try {
-            $response = preg_match($this->expresion_imagen, $image_type);
-
-            if ($response == 0) {
-                //registrar ataque informatico de hacker
-
-                throw new Exception(sprintf('La imagen que estas enviando no cumple con el formato de imagen'), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-
 
 
     ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
@@ -1402,214 +860,166 @@ class Usuarios extends Conexion
     }
 
 
-
     ///////////////////////////////////////////////////////////// SECCION DE VALIDACIONES BACKEND ///////////////////////////////////////////////////////////////
 
-
-    public function check_requests_danger()
+    //VALIDAR INYECCION SQL Y DATOS VACIOS
+    public function security_validation_sql($array)
     {
-        //Creo que el error esta aqui
-        // Obtener la IP del cliente
 
-        parent::check_requests_danger();
+        parent::validar_inyeccion($array);
     }
 
-    public function check_blacklist()
+    //VALIDACION DE CARACTERES
+    public function security_validation_caracteres($array)
     {
 
-        parent::check_blacklist();
+        parent::validar_caracteres($array);
     }
 
-    public function insert_ip_blacklist()
+    //VALIDAR CEDULA
+
+    public function security_validation_cedula($cedula)
     {
-        parent::insert_ip_blacklist();
+
+        parent::validar_cedula($cedula);
     }
 
-    public function generate_csrf_token()
+    //VALIDAR FECHA DE NACIMIENTO
+    public function security_validation_fecha_nacimiento($fecha_nacimiento)
     {
-        //esto devuelve un token
-        return parent::generate_csrf_token();
-    }
 
 
-    ////////////////////////////////////////////////////// CIFRADO ASIMETRICO ////////////////////////////////////////////
+        $mayoria_edad = strtotime('-18 years'); // fecha actual menos 18 años
+        $maxima_edad = strtotime('-99 years'); // fecha actual menos 99 años
 
+        $fecha_nacimiento_ts = strtotime($fecha_nacimiento); // fecha de nacimiento en formato de tiempo
 
+        if ($fecha_nacimiento_ts > $mayoria_edad && $fecha_nacimiento_ts < $maxima_edad) {
+            //dguardar datos de hacker
 
-    /**
-     * mutatedGenerateAsymmetricKeys
-     *
-     * Metodo mutador que llama a la generacion de las llaves publica y privada de forma dinamica con openssl
-     * 
-     * @return array
-     */
-    public function mutatedGenerateAsymmetricKeys()
-    {
-        return parent::generateAsymmetricKeys();
-    }
-
-    /**
-     * mutatedEncryptMessage
-     *
-     * Metodo mutador que llama la encriiptacion del mensaje con llave publica
-     * 
-     * @param  string $message
-     * @param  string $publicKey
-     * @return string
-     */
-    public function  mutatedEncryptMessage($message, $publicKey)
-    {
-        return parent::encryptMessage($message, $publicKey);
-    }
-
-    /**
-     * mutatedDecryptMessage
-     *
-     * Metodo mutador que llama a la funcion que desencripta el mensaje con la llave privada
-     * 
-     * @param  string $encryptedMessage
-     * @param  string $privateKey
-     * @return string
-     */
-    public function mutatedDecryptMessage($encryptedMessage, $privateKey)
-    {
-        return parent::decryptMessage($encryptedMessage, $privateKey);
-    }
-    /**
-     * mutatedDecryptMessage2
-     *
-     * Metodo mutador que llama a la funcion que desencripta el mensaje con la llave privada
-     * 
-     * @param  string $encryptedMessage
-     * @param  string $privateKey
-     * @return string
-     */
-    public function mutatedDecryptMessageMobile($encryptedMessage)
-    {
-        return parent::decryptMessageMobile($encryptedMessage);
-    }
-
-
-
-    ///////////// SECCION PARA GENERAR API-KEY
-    /**
-     * mutatedGenerateAPIKey($ci)
-     *
-     * Metodo mutador que llama a la generacion de las llaves publica y privada de forma dinamica con openssl
-     * 
-     * @return array
-     */
-    public function mutatedGenerateAPIKey($ci)
-    {
-        return parent::generateAPIKey($ci);
-    }
-
-
-    //////////////////////////////////////////////////////////// SECCION DE ENVIO DE RECUPERAR CONTRASEÑA //////////////////////////////////////////////////////////
-
-    public function generate_token_message_password($correo)
-    {
-        $token = $this->generateRecoveryToken($correo);
-
-        $objeto_correo = new Correo();
-
-        $objeto_correo->enviar_token($correo, $token);
-    }
-
-    // Generar un token único
-    private function generateToken($length = 32)
-    {
-        $token = bin2hex(random_bytes($length));
-        return $token;
-    }
-
-    // Generar un token de recuperación y guardar la marca de tiempo en variables de sesión
-    private function generateRecoveryToken($correo)
-    {
-        $token = $this->generateToken();
-        $timestamp = time();
-
-        // Guardar el token y la marca de tiempo en variables de sesión
-        $_SESSION['recovery_token'] = $token;
-        $_SESSION['recovery_token_timestamp'] = $timestamp;
-        $_SESSION['recovery_email'] = $correo;
-        return $_SESSION['recovery_token'];
-    }
-
-    // Verificar si un token de recuperación es válido    
-    /**
-     * verifyRecoveryToken
-     *realiza varias verificaciones entre esas que las variables de session existan y los tokens coicindan 
-     * en caso contrario lanza una excepcion
-     * 
-     * @param  mixed $token se supone que es el token enviado al correo
-     * @return void
-     */
-    public function verifyRecoveryToken($token)
-    {
-        try {
-
-
-
-            if (isset($_SESSION['recovery_token']) != true || isset($_SESSION['recovery_token_timestamp']) != true) {
-
-                throw new Exception("Ha ocurrido un error con el sistema notifique a los administradores", 404);
-            }
-
-
-            $savedToken = $_SESSION['recovery_token'];
-            $savedTimestamp = $_SESSION['recovery_token_timestamp'];
-
-            if ($savedToken !== $token) {
-
-                throw new Exception("El token que estas enviando no es valido ", 422);
-            }
-
-            $expirationTime = 5 * 60; // 5 minutos en segundos
-            $currentTime = time();
-
-            // Verificar si ha pasado más de 5 minutos desde la marca de tiempo
-            if (($currentTime - $savedTimestamp) >= $expirationTime) {
-
-
-                throw new Exception("Se expiro el token de recuperar contraseña", 408);
-            }
-
-            $this->recuperar_password();
-        } catch (Throwable $ex) {
-
-            $this->deleteRecoveryToken();
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
+            die("fecha invalida por back end ");
         }
     }
 
-    // Eliminar el token de recuperación de las variables de sesión
-    private function deleteRecoveryToken()
+    //VALIDACION DE SEXO
+
+    public function security_validation_sexo($sexo)
     {
-        unset($_SESSION['recovery_token']);
-        unset($_SESSION['recovery_token_timestamp']);
-        unset($_SESSION['recivery_email']);
+        $sexos = ["hombre", "mujer"];
+
+
+        if (!in_array($sexo, $sexos)) {
+            //guardar datos de hacker
+
+            die("sexo invalido");
+        }
     }
 
-    private function generateRandomPassword()
+    //VALIDACION DE ESTADO CIVIL
+
+    public function security_validation_estado_civil($civil)
+    {
+        $estados_civiles = ["soltero", "soltera", "matrimonio"];
+
+        if (!in_array($civil, $estados_civiles)) {
+            //guardar datos de hacker
+
+            die("estado civil invalido");
+        }
+    }
+
+    //VALIDACION NACIONALIDAD
+
+    public function security_validation_nacionalidad($nacionalidad)
+    {
+        $nacionalidades = ["venezolana", "colombiana", "española"];
+
+        if (!in_array($nacionalidad, $nacionalidades)) {
+            //guardar datos de hacker
+
+            die("datos invalidos nacionalidad");
+        }
+    }
+
+    //VALIDACION ESTADO EN EL QUE VIVE SOLO VENEZUELA
+
+    public function security_validation_estado($estado)
+    {
+        $estados_venezuela = [
+            'amazonas',
+            'anzoategui',
+            'apure',
+            'aragua',
+            'barinas',
+            'bolivar',
+            'carabobo',
+            'cojedes',
+            'delta amacuro',
+            'distrito capital',
+            'falcon',
+            'guarico',
+            'lara',
+            'merida',
+            'miranda',
+            'monagas',
+            'nueva esparta',
+            'portuguesa',
+            'sucre',
+            'tachira',
+            'trujillo',
+            'vargas',
+            'yaracuy',
+            'zulia'
+        ];
+
+        if (!in_array($estado, $estados_venezuela)) {
+            //guardar datos de hacker
+
+            die("estado invalido");
+        }
+    }
+
+    //VALIDACION DE TELEFONO
+
+    public function security_validation_telefono($telefono)
     {
 
-        do {
-            $password = '';
-            $length = mt_rand(6, 16); // Generar una longitud aleatoria entre 6 y 16 caracteres
+        $response = preg_match_all($this->expresion_telefono, $telefono);
 
-            // Generar caracteres aleatorios hasta alcanzar la longitud deseada
-            while (strlen($password) < $length) {
-                $character = chr(mt_rand(33, 126)); // Generar un caracter ASCII aleatorio
-                $password .= $character;
-            }
-        } while (!preg_match($this->expresion_clave, $password));
+        if ($response == 0) {
+            //guardar datos de hacker
 
-        return $password;
+            die("telefono invalido");
+        }
+    }
+
+
+    //VALIDACION DE CORREO
+    public function security_validation_correo($correo)
+    {
+
+        $response = preg_match_all($this->expresion_correo, $correo);
+
+
+        if ($response == 0) {
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos de correo");
+        }
+    }
+
+    //VALIDACION DE SEGURIDAD DE CLAVE
+    public function security_validation_clave($clave)
+    {
+        $response = preg_match_all($this->expresion_clave, $clave);
+
+        if ($response == 0) {
+
+            //registrar ataque informatico de hacker
+
+
+            die("datos invalidos clave");
+        }
     }
 }

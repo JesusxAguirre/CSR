@@ -149,8 +149,14 @@ abstract class AbstractPhpProcess
 
         $this->processChildResult(
             $test,
+<<<<<<< HEAD
             $processResult,
             $_result['stderr'],
+=======
+            $result,
+            $_result['stdout'],
+            $_result['stderr']
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 
@@ -166,16 +172,28 @@ abstract class AbstractPhpProcess
         if ($runtime->hasPCOV()) {
             $settings = array_merge(
                 $settings,
+<<<<<<< HEAD
                 $runtime->getCurrentSettings(
                     array_keys(ini_get_all('pcov')),
                 ),
+=======
+                $this->runtime->getCurrentSettings(
+                    array_keys(ini_get_all('pcov'))
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         } elseif ($runtime->hasXdebug()) {
             $settings = array_merge(
                 $settings,
+<<<<<<< HEAD
                 $runtime->getCurrentSettings(
                     array_keys(ini_get_all('xdebug')),
                 ),
+=======
+                $this->runtime->getCurrentSettings(
+                    array_keys(ini_get_all('xdebug'))
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -232,6 +250,7 @@ abstract class AbstractPhpProcess
     private function processChildResult(Test $test, string $stdout, string $stderr): void
     {
         if (!empty($stderr)) {
+<<<<<<< HEAD
             $exception = new Exception(trim($stderr));
 
             assert($test instanceof TestCase);
@@ -242,6 +261,115 @@ abstract class AbstractPhpProcess
             );
 
             return;
+=======
+            $result->addError(
+                $test,
+                new Exception(trim($stderr)),
+                $time
+            );
+        } else {
+            set_error_handler(
+                /**
+                 * @throws ErrorException
+                 */
+                static function ($errno, $errstr, $errfile, $errline): void
+                {
+                    throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
+                }
+            );
+
+            try {
+                if (strpos($stdout, "#!/usr/bin/env php\n") === 0) {
+                    $stdout = substr($stdout, 19);
+                }
+
+                $childResult = unserialize(str_replace("#!/usr/bin/env php\n", '', $stdout));
+                restore_error_handler();
+
+                if ($childResult === false) {
+                    $result->addFailure(
+                        $test,
+                        new AssertionFailedError('Test was run in child process and ended unexpectedly'),
+                        $time
+                    );
+                }
+            } catch (ErrorException $e) {
+                restore_error_handler();
+                $childResult = false;
+
+                $result->addError(
+                    $test,
+                    new Exception(trim($stdout), 0, $e),
+                    $time
+                );
+            }
+
+            if ($childResult !== false) {
+                if (!empty($childResult['output'])) {
+                    $output = $childResult['output'];
+                }
+
+                /* @var TestCase $test */
+
+                $test->setResult($childResult['testResult']);
+                $test->addToAssertionCount($childResult['numAssertions']);
+
+                $childResult = $childResult['result'];
+                assert($childResult instanceof TestResult);
+
+                if ($result->getCollectCodeCoverageInformation()) {
+                    $result->getCodeCoverage()->merge(
+                        $childResult->getCodeCoverage()
+                    );
+                }
+
+                $time           = $childResult->time();
+                $notImplemented = $childResult->notImplemented();
+                $risky          = $childResult->risky();
+                $skipped        = $childResult->skipped();
+                $errors         = $childResult->errors();
+                $warnings       = $childResult->warnings();
+                $failures       = $childResult->failures();
+
+                if (!empty($notImplemented)) {
+                    $result->addError(
+                        $test,
+                        $this->getException($notImplemented[0]),
+                        $time
+                    );
+                } elseif (!empty($risky)) {
+                    $result->addError(
+                        $test,
+                        $this->getException($risky[0]),
+                        $time
+                    );
+                } elseif (!empty($skipped)) {
+                    $result->addError(
+                        $test,
+                        $this->getException($skipped[0]),
+                        $time
+                    );
+                } elseif (!empty($errors)) {
+                    $result->addError(
+                        $test,
+                        $this->getException($errors[0]),
+                        $time
+                    );
+                } elseif (!empty($warnings)) {
+                    $result->addWarning(
+                        $test,
+                        $this->getException($warnings[0]),
+                        $time
+                    );
+                } elseif (!empty($failures)) {
+                    $result->addFailure(
+                        $test,
+                        $this->getException($failures[0]),
+                        $time
+                    );
+                }
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         set_error_handler(
@@ -313,4 +441,40 @@ abstract class AbstractPhpProcess
             print $output;
         }
     }
+<<<<<<< HEAD
+=======
+
+    /**
+     * Gets the thrown exception from a PHPUnit\Framework\TestFailure.
+     *
+     * @see https://github.com/sebastianbergmann/phpunit/issues/74
+     */
+    private function getException(TestFailure $error): Exception
+    {
+        $exception = $error->thrownException();
+
+        if ($exception instanceof __PHP_Incomplete_Class) {
+            $exceptionArray = [];
+
+            foreach ((array) $exception as $key => $value) {
+                $key                  = substr($key, strrpos($key, "\0") + 1);
+                $exceptionArray[$key] = $value;
+            }
+
+            $exception = new SyntheticError(
+                sprintf(
+                    '%s: %s',
+                    $exceptionArray['_PHP_Incomplete_Class_Name'],
+                    $exceptionArray['message']
+                ),
+                $exceptionArray['code'],
+                $exceptionArray['file'],
+                $exceptionArray['line'],
+                $exceptionArray['trace']
+            );
+        }
+
+        return $exception;
+    }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 }

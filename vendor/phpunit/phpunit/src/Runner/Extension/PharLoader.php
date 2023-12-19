@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Runner\Extension;
 
+<<<<<<< HEAD
 use function count;
 use function explode;
 use function extension_loaded;
@@ -16,6 +17,9 @@ use function implode;
 use function is_file;
 use function sprintf;
 use function str_contains;
+=======
+use function is_file;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 use PharIo\Manifest\ApplicationName;
 use PharIo\Manifest\Exception as ManifestException;
 use PharIo\Manifest\ManifestLoader;
@@ -65,7 +69,7 @@ final class PharLoader
 
             try {
                 $applicationName = new ApplicationName('phpunit/phpunit');
-                $version         = new PharIoVersion($this->phpunitVersion());
+                $version         = new PharIoVersion(Version::series());
                 $manifest        = ManifestLoader::fromFile('phar://' . $file . '/manifest.xml');
 
                 if (!$manifest->isExtensionFor($applicationName)) {
@@ -128,6 +132,7 @@ final class PharLoader
 
         return $loadedExtensions;
     }
+<<<<<<< HEAD
 
     private function phpunitVersion(): string
     {
@@ -145,4 +150,6 @@ final class PharLoader
 
         return implode('.', $parts);
     }
+=======
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 }

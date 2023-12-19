@@ -44,8 +44,13 @@ class DefaultPhpProcess extends AbstractPhpProcess
         if ($this->stdin || $this->useTemporaryFile()) {
             if (!($this->tempFile = tempnam(sys_get_temp_dir(), 'phpunit_')) ||
                 file_put_contents($this->tempFile, $job) === false) {
+<<<<<<< HEAD
                 throw new PhpProcessException(
                     'Unable to write temporary file',
+=======
+                throw new Exception(
+                    'Unable to write temporary file'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                 );
             }
 
@@ -100,12 +105,17 @@ class DefaultPhpProcess extends AbstractPhpProcess
             $pipeSpec,
             $pipes,
             null,
-            $env,
+            $env
         );
 
         if (!is_resource($process)) {
+<<<<<<< HEAD
             throw new PhpProcessException(
                 'Unable to spawn worker process',
+=======
+            throw new Exception(
+                'Unable to spawn worker process'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -126,7 +136,71 @@ class DefaultPhpProcess extends AbstractPhpProcess
         if (isset($pipes[2])) {
             $stderr = stream_get_contents($pipes[2]);
 
+<<<<<<< HEAD
             fclose($pipes[2]);
+=======
+                if ($n === false) {
+                    break;
+                }
+
+                if ($n === 0) {
+                    proc_terminate($process, 9);
+
+                    throw new Exception(
+                        sprintf(
+                            'Job execution aborted after %d seconds',
+                            $this->timeout
+                        )
+                    );
+                }
+
+                if ($n > 0) {
+                    foreach ($r as $pipe) {
+                        $pipeOffset = 0;
+
+                        foreach ($pipes as $i => $origPipe) {
+                            if ($pipe === $origPipe) {
+                                $pipeOffset = $i;
+
+                                break;
+                            }
+                        }
+
+                        if (!$pipeOffset) {
+                            break;
+                        }
+
+                        $line = fread($pipe, 8192);
+
+                        if ($line === '' || $line === false) {
+                            fclose($pipes[$pipeOffset]);
+
+                            unset($pipes[$pipeOffset]);
+                        } elseif ($pipeOffset === 1) {
+                            $stdout .= $line;
+                        } else {
+                            $stderr .= $line;
+                        }
+                    }
+
+                    if (empty($pipes)) {
+                        break;
+                    }
+                }
+            }
+        } else {
+            if (isset($pipes[1])) {
+                $stdout = stream_get_contents($pipes[1]);
+
+                fclose($pipes[1]);
+            }
+
+            if (isset($pipes[2])) {
+                $stderr = stream_get_contents($pipes[2]);
+
+                fclose($pipes[2]);
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         if (isset($handles[1])) {

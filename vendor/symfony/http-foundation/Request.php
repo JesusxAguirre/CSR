@@ -89,8 +89,6 @@ class Request
     /**
      * Request body parameters ($_POST).
      *
-     * @see getPayload() for portability between content types
-     *
      * @var InputBag
      */
     public $request;
@@ -241,9 +239,6 @@ class Request
         self::HEADER_X_FORWARDED_PREFIX => 'X_FORWARDED_PREFIX',
     ];
 
-    /** @var bool */
-    private $isIisRewrite = false;
-
     /**
      * @param array                $query      The GET parameters
      * @param array                $request    The POST parameters
@@ -270,8 +265,6 @@ class Request
      * @param array                $files      The FILES parameters
      * @param array                $server     The SERVER parameters
      * @param string|resource|null $content    The raw body data
-     *
-     * @return void
      */
     public function initialize(array $query = [], array $request = [], array $attributes = [], array $cookies = [], array $files = [], array $server = [], $content = null)
     {
@@ -349,10 +342,6 @@ class Request
         $server['REQUEST_METHOD'] = strtoupper($method);
 
         $components = parse_url($uri);
-        if (false === $components) {
-            trigger_deprecation('symfony/http-foundation', '6.3', 'Calling "%s()" with an invalid URI is deprecated.', __METHOD__);
-            $components = [];
-        }
         if (isset($components['host'])) {
             $server['SERVER_NAME'] = $components['host'];
             $server['HTTP_HOST'] = $components['host'];
@@ -430,8 +419,6 @@ class Request
      * This is mainly useful when you need to override the Request class
      * to keep BC with an existing system. It should not be used for any
      * other purpose.
-     *
-     * @return void
      */
     public static function setFactory(?callable $callable)
     {
@@ -536,8 +523,6 @@ class Request
      *
      * It overrides $_GET, $_POST, $_REQUEST, $_SERVER, $_COOKIE.
      * $_FILES is never overridden, see rfc1867
-     *
-     * @return void
      */
     public function overrideGlobals()
     {
@@ -578,8 +563,6 @@ class Request
      *
      * @param array $proxies          A list of trusted proxies, the string 'REMOTE_ADDR' will be replaced with $_SERVER['REMOTE_ADDR']
      * @param int   $trustedHeaderSet A bit field of Request::HEADER_*, to set which headers to trust from your proxies
-     *
-     * @return void
      */
     public static function setTrustedProxies(array $proxies, int $trustedHeaderSet)
     {
@@ -621,12 +604,12 @@ class Request
      * You should only list the hosts you manage using regexs.
      *
      * @param array $hostPatterns A list of trusted host patterns
-     *
-     * @return void
      */
     public static function setTrustedHosts(array $hostPatterns)
     {
-        self::$trustedHostPatterns = array_map(fn ($hostPattern) => sprintf('{%s}i', $hostPattern), $hostPatterns);
+        self::$trustedHostPatterns = array_map(function ($hostPattern) {
+            return sprintf('{%s}i', $hostPattern);
+        }, $hostPatterns);
         // we need to reset trusted hosts on trusted host patterns change
         self::$trustedHosts = [];
     }
@@ -669,8 +652,6 @@ class Request
      * If these methods are not protected against CSRF, this presents a possible vulnerability.
      *
      * The HTTP method can only be overridden when the real HTTP method is POST.
-     *
-     * @return void
      */
     public static function enableHttpMethodParameterOverride()
     {
@@ -756,9 +737,6 @@ class Request
         return null !== $this->session && (!$skipIfUninitialized || $this->session instanceof SessionInterface);
     }
 
-    /**
-     * @return void
-     */
     public function setSession(SessionInterface $session)
     {
         $this->session = $session;
@@ -769,7 +747,7 @@ class Request
      *
      * @param callable(): SessionInterface $factory
      */
-    public function setSessionFactory(callable $factory): void
+    public function setSessionFactory(callable $factory)
     {
         $this->session = $factory(...);
     }
@@ -1179,8 +1157,6 @@ class Request
 
     /**
      * Sets the request method.
-     *
-     * @return void
      */
     public function setMethod(string $method)
     {
@@ -1302,8 +1278,6 @@ class Request
      * Associates a format with mime types.
      *
      * @param string|string[] $mimeTypes The associated mime types (the preferred one must be the first as it will be used as the content type)
-     *
-     * @return void
      */
     public function setFormat(?string $format, string|array $mimeTypes)
     {
@@ -1334,8 +1308,6 @@ class Request
 
     /**
      * Sets the request format.
-     *
-     * @return void
      */
     public function setRequestFormat(?string $format)
     {
@@ -1366,8 +1338,6 @@ class Request
 
     /**
      * Sets the default locale.
-     *
-     * @return void
      */
     public function setDefaultLocale(string $locale)
     {
@@ -1388,8 +1358,6 @@ class Request
 
     /**
      * Sets the locale.
-     *
-     * @return void
      */
     public function setLocale(string $locale)
     {
@@ -1512,37 +1480,7 @@ class Request
     }
 
     /**
-     * Gets the decoded form or json request body.
-     *
-     * @throws JsonException When the body cannot be decoded to an array
-     */
-    public function getPayload(): InputBag
-    {
-        if ($this->request->count()) {
-            return clone $this->request;
-        }
-
-        if ('' === $content = $this->getContent()) {
-            return new InputBag([]);
-        }
-
-        try {
-            $content = json_decode($content, true, 512, \JSON_BIGINT_AS_STRING | \JSON_THROW_ON_ERROR);
-        } catch (\JsonException $e) {
-            throw new JsonException('Could not decode request body.', $e->getCode(), $e);
-        }
-
-        if (!\is_array($content)) {
-            throw new JsonException(sprintf('JSON content was expected to decode to an array, "%s" returned.', get_debug_type($content)));
-        }
-
-        return new InputBag($content);
-    }
-
-    /**
      * Gets the request body decoded as array, typically from a JSON payload.
-     *
-     * @see getPayload() for portability between content types
      *
      * @throws JsonException When the body cannot be decoded to an array
      */
@@ -1745,17 +1683,15 @@ class Request
      * Copyright (c) 2005-2010 Zend Technologies USA Inc. (https://www.zend.com/)
      */
 
-    /**
-     * @return string
-     */
     protected function prepareRequestUri()
     {
         $requestUri = '';
 
-        if ($this->isIisRewrite() && '' != $this->server->get('UNENCODED_URL')) {
+        if ('1' == $this->server->get('IIS_WasUrlRewritten') && '' != $this->server->get('UNENCODED_URL')) {
             // IIS7 with URL Rewrite: make sure we get the unencoded URL (double slash problem)
             $requestUri = $this->server->get('UNENCODED_URL');
             $this->server->remove('UNENCODED_URL');
+            $this->server->remove('IIS_WasUrlRewritten');
         } elseif ($this->server->has('REQUEST_URI')) {
             $requestUri = $this->server->get('REQUEST_URI');
 
@@ -1915,8 +1851,6 @@ class Request
 
     /**
      * Initializes HTTP request formats.
-     *
-     * @return void
      */
     protected static function initializeFormats()
     {
@@ -1954,13 +1888,7 @@ class Request
      */
     private function getUrlencodedPrefix(string $string, string $prefix): ?string
     {
-        if ($this->isIisRewrite()) {
-            // ISS with UrlRewriteModule might report SCRIPT_NAME/PHP_SELF with wrong case
-            // see https://github.com/php/php-src/issues/11981
-            if (0 !== stripos(rawurldecode($string), $prefix)) {
-                return null;
-            }
-        } elseif (!str_starts_with(rawurldecode($string), $prefix)) {
+        if (!str_starts_with(rawurldecode($string), $prefix)) {
             return null;
         }
 
@@ -2099,21 +2027,5 @@ class Request
 
         // Now the IP chain contains only untrusted proxies and the client IP
         return $clientIps ? array_reverse($clientIps) : [$firstTrustedIp];
-    }
-
-    /**
-     * Is this IIS with UrlRewriteModule?
-     *
-     * This method consumes, caches and removed the IIS_WasUrlRewritten env var,
-     * so we don't inherit it to sub-requests.
-     */
-    private function isIisRewrite(): bool
-    {
-        if (1 === $this->server->getInt('IIS_WasUrlRewritten')) {
-            $this->isIisRewrite = true;
-            $this->server->remove('IIS_WasUrlRewritten');
-        }
-
-        return $this->isIisRewrite;
     }
 }

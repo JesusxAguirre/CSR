@@ -71,6 +71,7 @@ final class TestSuiteMapper
                         continue;
                     }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/TestSuiteMapper.php
                     $files = array_merge(
                         $files,
                         (new Facade)->getFilesAsArray(
@@ -79,6 +80,13 @@ final class TestSuiteMapper
                             $directory->prefix(),
                             $exclude,
                         ),
+=======
+                    $files = (new Facade)->getFilesAsArray(
+                        $directory->path(),
+                        $directory->suffix(),
+                        $directory->prefix(),
+                        $exclude
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/TestSuiteMapper.php
                     );
                 }
 
@@ -108,7 +116,7 @@ final class TestSuiteMapper
             throw new RuntimeException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
     }

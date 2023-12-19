@@ -3,7 +3,6 @@ title: Person badge
 categories:
   - People
 tags:
-  - member
   - human
   - individual
   - avatar

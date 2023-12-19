@@ -5,12 +5,43 @@
     <title>||Listar Secciones||</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.6">
-    <!-- Espacio para CSS -->
-	<?php require_once './resources/View_Components/importCSS.php' ?>
+
+    <!-- Bostrap 5 -->
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./resources/css/style.css">
+    <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- MIS CSS -->
     <link rel="stylesheet" href="./resources/css/crear-seccion.css">
-	<!-- Espacio para los JS -->
-	<?php require_once './resources/View_Components/importJS.php' ?>
+
+    <!-- DATATABLES CSS -->
+    <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
+
+    <!-- Jquery-->
+    <script src="./resources/js/jquery-3.6.0.min.js"></script>
+    <!-- JS de DataTables -->
+    <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
+
+
+
+    <!-- Js boostrap -->
+    <script src="./resources/js/bootstrap.min.js"></script>
+
+
+    <!-- CHOICE 2 -->
+    <link rel="stylesheet" href="./resources/library/choice/public/assets/styles/choices.min.css">
+    <script src="./resources/library/choice/public/assets/scripts/choices.min.js"></script>
+
+    <!-- SELECT2 -->
+    <link rel="stylesheet" href="./resources/library/Select2/css/select2.css">
+    <link rel="stylesheet" href="./resources/library/Select2/css/select2-bootstrap4.min.css">
+    <script src="./resources/library/Select2/js/select2.full.min.js"></script>
+
+    <!-- Sweet alert 2-->
+    <script src="resources/js/sweetalert2.js"></script>
 </head>
+
+
 <body>
     <!-- Menu.php -->
     <?php
@@ -23,17 +54,11 @@
     ?>
     <!-- sidebar.php -->
 
-    <script>
-        const permisos = {
-            crear: <?php echo $_SESSION['permisos']['secciones']['crear'] ? 1 : 0 ?>,
-            listar: <?php echo $_SESSION['permisos']['secciones']['listar'] ? 1 : 0 ?>,
-            actualizar: <?php echo $_SESSION['permisos']['secciones']['actualizar'] ? 1 : 0 ?>,
-            eliminar: <?php echo $_SESSION['permisos']['secciones']['eliminar'] ? 1 : 0 ?>,
-        }
-    </script>
-
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
+            <div class="row text-center">
+                <h4><em>LISTAR SECCIONES</em></h4>
+            </div>
             <div class="row mt-3">
 
                 <!-- LISTAR TODAS LAS SECCIONES CREADAS -->
@@ -212,6 +237,7 @@
         </div>
     </div>
     <!-- FINAL DEL MODAL PARA EDITAR LOS ESTUDIANTES QUE ESTAN EN LA SECCION -->
+
     <script src="./resources/js/listar-secciones.js"></script>
 </body>
 

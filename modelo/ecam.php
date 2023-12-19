@@ -272,7 +272,7 @@ class ecam extends Conexion
 
         return $estudiantes;
     }
-
+    
     //VER LAS NOTAS DE LAS MATERIAS DEL ESTUDIANTES SELECCIONADO O QUE EL PUEDA VER SUS NOTAS
     public function ver_misNotasMaterias($cedula, $seccion)
     {
@@ -336,7 +336,7 @@ class ecam extends Conexion
                     $listarEstudiantes_nivel1[] = $filas;
                 }
                 return $listarEstudiantes_nivel1;
-
+            
             case 2:
                 $sql = "SELECT `usuarios`.`cedula`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido` FROM `usuarios` 
                 INNER JOIN notafinal_estudiantes as ntf on ntf.cedulaEstudiante = usuarios.cedula and ntf.nivelAcademico = 1 and ntf.notaFinal >= 16 
@@ -484,7 +484,7 @@ class ecam extends Conexion
 
         if ($nivel == $datos['nivelAcademico']) {
             return $resultado;
-        } else {
+        }else{
 
             if ($resultado == 0) {
                 $sql3 = "SELECT * FROM `notamateria_estudiantes` WHERE id_materia = :id_materia";
@@ -494,7 +494,7 @@ class ecam extends Conexion
 
                 if ($matriz > 0) {
                     return 'denegado';
-                } else {
+                }else{
                     $sql4 = "DELETE FROM `secciones-materias-profesores` WHERE id_materia = :id_materia";
                     $stmt4 = $this->conexion->prepare($sql4);
                     $stmt4->execute(array(":id_materia" => $id_materia));
@@ -505,7 +505,7 @@ class ecam extends Conexion
 
                     return $resultado;
                 }
-            } else {
+            }else{
                 return $resultado;
             }
         }
@@ -619,7 +619,7 @@ class ecam extends Conexion
             $cedula = $_SESSION['cedula'];
             $accion = "Ha desvinculado a " . $filas['codigo'] . " " . $filas['nombre'] . " " . $filas['apellido'] . " como profesor en la ECAM";
             parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
-
+          
             return true;
         } catch (Exception $e) {
 
@@ -982,7 +982,7 @@ class ecam extends Conexion
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////APARTADO DE SECCIONES/////////////////////////////////////////////////
-
+    
     //Validar que no exista los datos ingresados de la seccion para ser creada
     public function validar_seccion($nombre, $nivel)
     {
@@ -1023,9 +1023,9 @@ class ecam extends Conexion
         $resultado = $stmt1->rowCount();
 
         if ($nivel == $seccion[0]['nivel_academico']) { //Si el nivel es igual, retornara la coincidencia de la seccion
-
+            
             return $resultado;
-        } else { //Si el nivel es diferente se hara lo siguiente
+        }else{ //Si el nivel es diferente se hara lo siguiente
 
             //Condicion para consultar que la coincidencia sea 0 para seguir el proceso.
             if ($resultado == 0) {
@@ -1033,10 +1033,10 @@ class ecam extends Conexion
                 $stmt3 = $this->conexion->prepare($sql3);
                 $stmt3->execute(array(":id_seccion" => $id_seccion,));
                 $matriz = $stmt3->rowCount();
-
+    
                 if ($matriz > 0) {
                     return 'denegado';
-                } else {
+                }else{
                     $sql4 = "DELETE FROM `notamateria_estudiantes` WHERE id_seccion = :id_seccion";
                     $stmt4 = $this->conexion->prepare($sql4);
                     $stmt4->execute(array(":id_seccion" => $id_seccion));
@@ -1051,126 +1051,69 @@ class ecam extends Conexion
 
                     return $resultado;
                 }
-            } else {
+            }else{
                 return $resultado;
             }
         }
     }
     public function crearSeccion()
     {
-        try {
+        $sql = "INSERT INTO `secciones` (`id_seccion`, `nombre`, `nivel_academico`, `status_seccion`, `fecha_creacion`, `fecha_cierre`) 
+        VALUES (NULL, :nomSeccion, :nivAc, '1', CURDATE(), :fechaCierre)";
 
-            $sql = "INSERT INTO `secciones` (`id_seccion`, `nombre`, `nivel_academico`, `status_seccion`, `fecha_creacion`, `fecha_cierre`) 
-            VALUES (NULL, :nomSeccion, :nivAc, '1', CURDATE(), :fechaCierre)";
+        $stmt = $this->conexion->prepare($sql);
+        $stmt->execute(
+            array(
+                ":nomSeccion" => $this->nombreSeccion,
+                ":nivAc" => $this->nivelSeccion,
+                ":fechaCierre" => $this->fechaCierreSeccion,
+            )
+        );
 
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->execute(
+        //AGREGANDO ESTUDIANTES A LA SECCION
+        foreach ($this->cedulaEstSeccion as $cedulaEst) {
+            $sql2 = "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones), `id_rol` = 4 WHERE `usuarios`.`cedula` = :cedulaEst";
+            $stmt2 = $this->conexion->prepare($sql2);
+            $stmt2->execute(
                 array(
-                    ":nomSeccion" => $this->nombreSeccion,
-                    ":nivAc" => $this->nivelSeccion,
-                    ":fechaCierre" => $this->fechaCierreSeccion,
+                    ":cedulaEst" => $cedulaEst,
                 )
             );
-        } catch (\Throwable $ex) {
+        } //Fin del  Foreach
+        //Estudiantes vinculados con la seccion
 
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+        $sql4 = ("SELECT MAX(id_seccion) AS id FROM secciones");
 
-            die();
+        $stmt4 = $this->conexion()->prepare($sql4);
+        $stmt4->execute(array());
+        $contador = $stmt4->fetch(PDO::FETCH_ASSOC);
+        $id = $contador['id'];
+
+        foreach ($this->idMateriaSeccion as $key) {
+            $idSec[] = $key;
+        }
+        foreach ($this->cedulaProfSeccion as $key2) {
+            $idP[] = $key2;
         }
 
-        $validationErrors = [];
-        //Validaciones
-        try {
-            if (!is_array($this->cedulaEstSeccion)) {
-                $validationErrors[] = "El tipo de dato de estudiantes es invalido";
-            }
-            if (!is_array($this->idMateriaSeccion)) {
-                $validationErrors[] = "El tipo de dato de materia es invalido";
-            }
-            if (!is_array($this->cedulaProfSeccion)) {
-                $validationErrors[] = "El tipo de dato de profesores es invalido";
-            }
-
-            if (!empty($validationErrors)) {
-                throw new Exception("Datos invalidos", 422);
-            }
-        } catch (\Throwable $ex) {
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            $msj = '';
-            foreach ($validationErrors as $key) {
-                $msj = $key.", ";
-            }
-            echo json_encode(array("msj" => $validationErrors, "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
+        //AGREGANDO MATERIAS CON LOS PROFESORES
+        for ($i = 0; $i < count($this->idMateriaSeccion); $i++) {
+            $sql3 = "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`) VALUES (:idSec, :idMat, :ciProf)";
+            $stmt3 = $this->conexion->prepare($sql3);
+            $stmt3->execute(
+                array(
+                    ":idSec" => $id,
+                    ":idMat" => $idSec[$i],
+                    ":ciProf" => $idP[$i],
+                )
+            );
         }
-
-
-        try {
-            //AGREGANDO ESTUDIANTES A LA SECCION
-            foreach ($this->cedulaEstSeccion as $cedulaEst) {
-                $sql2 = "UPDATE `usuarios` SET `id_seccion` = (SELECT MAX(id_seccion) FROM secciones), `id_rol` = 4 WHERE `usuarios`.`cedula` = :cedulaEst";
-                $stmt2 = $this->conexion->prepare($sql2);
-                $stmt2->execute(
-                    array(
-                        ":cedulaEst" => $cedulaEst,
-                    )
-                );
-            } //Fin del  Foreach
-            //Estudiantes vinculados con la seccion
-        } catch (\Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
-        }
-
-        try {
-            $sql4 = ("SELECT MAX(id_seccion) AS id FROM secciones");
-
-            $stmt4 = $this->conexion()->prepare($sql4);
-            $stmt4->execute(array());
-            $contador = $stmt4->fetch(PDO::FETCH_ASSOC);
-            $id = $contador['id'];
-
-            foreach ($this->idMateriaSeccion as $key) {
-                $idSec[] = $key;
-            }
-            foreach ($this->cedulaProfSeccion as $key2) {
-                $idP[] = $key2;
-            }
-
-            //AGREGANDO MATERIAS CON LOS PROFESORES
-            for ($i = 0; $i < count($this->idMateriaSeccion); $i++) {
-                $sql3 = "INSERT INTO `secciones-materias-profesores` (`id_seccion`, `id_materia`, `cedulaProf`) VALUES (:idSec, :idMat, :ciProf)";
-                $stmt3 = $this->conexion->prepare($sql3);
-                $stmt3->execute(
-                    array(
-                        ":idSec" => $id,
-                        ":idMat" => $idSec[$i],
-                        ":ciProf" => $idP[$i],
-                    )
-                );
-            }
-        } catch (\Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
-        }
-
 
         $cedula = $_SESSION['cedula'];
         $accion = "Ha creado una seccion nueva llamada " . $this->nombreSeccion;
         parent::registrar_bitacora($cedula, $accion, $this->id_modulo);
 
-        http_response_code(200);
-        echo json_encode(array("msj" => "Se ha creado correctamente la seccion", 'status_code' => 200));
+        return $id;
     } //FIN DEL CREAR SECCION
 
 
@@ -2131,7 +2074,7 @@ class ecam extends Conexion
 
     //Desvincular profesor de la seccion
     public function validar_eliminar_profesorMateria($id_seccion, $id_materia)
-    {
+    {   
         $sql = "SELECT * FROM `notamateria_estudiantes` AS `nte` WHERE nte.id_seccion = :id_seccion AND nte.id_materia = :id_materia";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
@@ -2145,7 +2088,7 @@ class ecam extends Conexion
 
     //Desvincular profesor de la materia
     public function validar_desvincular_profesorMateria($cedula_profesor, $id_materia)
-    {
+    {   
         $sql = "SELECT * FROM `secciones-materias-profesores` WHERE `cedulaProf` = :cedula_profesor AND `id_materia` = :id_materia";
         $stmt = $this->conexion()->prepare($sql);
         $stmt->execute(array(
@@ -2191,7 +2134,7 @@ class ecam extends Conexion
 
         if ($estudiantes_seccion == $estudiantes_nota) {
             return 'true';
-        } else {
+        }else{
             $valor = ($estudiantes_seccion - $estudiantes_nota);
             return $valor;
         }
@@ -2238,7 +2181,7 @@ class ecam extends Conexion
 
         if ($validacion == $validacion2 && $validacion2 == $validacion3) {
             return 'true';
-        } else {
+        }else{
             return 'stop';
         }
     }
@@ -2264,7 +2207,7 @@ class ecam extends Conexion
 
         if ($validacion == $validacion2) {
             return 'start';
-        } else {
+        }else{
             return 'stop';
         }
     }
@@ -2282,7 +2225,7 @@ class ecam extends Conexion
         $validacion = $stmt->rowCount();
         return $validacion;
     }
-
+    
     //Validar que la seccion este abierta para poder eliminar la nota final
     public function validar_eliminar_notaFinal($seccion)
     {
@@ -2318,7 +2261,7 @@ class ecam extends Conexion
 
         if ($validacion1 == $validacion2) {
             return '0';
-        } else {
+        }else{
             return ($validacion1 - $validacion2);
         }
     }

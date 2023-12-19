@@ -33,7 +33,13 @@ final class Json
         $decodedJson = json_decode($json, false);
 
         if (json_last_error()) {
+<<<<<<< HEAD
             throw new InvalidJsonException;
+=======
+            throw new Exception(
+                'Cannot prettify invalid json'
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         return json_encode($decodedJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);

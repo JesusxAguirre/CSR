@@ -18,6 +18,11 @@ final class ActualValueIsNotAnObjectException extends Exception
     {
         parent::__construct(
             'Actual value is not an object',
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Exception/ObjectEquals/ActualValueIsNotAnObjectException.php
+=======
+            0,
+            null
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php
         );
     }
 }

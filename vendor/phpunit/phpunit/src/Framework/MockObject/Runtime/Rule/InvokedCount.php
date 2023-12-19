@@ -59,10 +59,15 @@ final class InvokedCount extends InvocationOrder
                 sprintf(
                     'Method was expected to be called %d time%s, actually called %d time%s.',
                     $this->expectedCount,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Rule/InvokedCount.php
                     $this->expectedCount !== 1 ? 's' : '',
                     $actualCount,
                     $actualCount !== 1 ? 's' : '',
                 ),
+=======
+                    $count
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Rule/InvokedCount.php
             );
         }
     }
@@ -77,6 +82,7 @@ final class InvokedCount extends InvocationOrder
         if ($count > $this->expectedCount) {
             $message = $invocation->toString() . ' ';
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Rule/InvokedCount.php
             $message .= match ($this->expectedCount) {
                 0       => 'was not expected to be called.',
                 1       => 'was not expected to be called more than once.',
@@ -85,6 +91,25 @@ final class InvokedCount extends InvocationOrder
                     $this->expectedCount,
                 ),
             };
+=======
+            switch ($this->expectedCount) {
+                case 0:
+                    $message .= 'was not expected to be called.';
+
+                    break;
+
+                case 1:
+                    $message .= 'was not expected to be called more than once.';
+
+                    break;
+
+                default:
+                    $message .= sprintf(
+                        'was not expected to be called more than %d times.',
+                        $this->expectedCount
+                    );
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Rule/InvokedCount.php
 
             throw new ExpectationFailedException($message);
         }

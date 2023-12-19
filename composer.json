@@ -4,14 +4,13 @@
     "type": "project",
     "require": {
         "phpmailer/phpmailer": "^6.7",
+        "phpunit/phpunit": "^9.6",
         "twbs/bootstrap-icons": "^1.10",
         "cboden/ratchet": "^0.4.4"
     },
     "autoload": {
     	"psr-4": {
             "Csr\\Modelo\\": "modelo/",
-            "Csr\\Helpers\\": "helpers/",
-            "Csr\\Exception\\Usuarios\\": "exception/usuarios/",
             "MyApp\\": "src"
     	}
     },
@@ -21,8 +20,12 @@
             "name": "Jesus Aguirre & Jesus Canelon"
         }
     ],
+<<<<<<< HEAD
     "minimum-stability": "stable",
     "require-dev": {
         "phpunit/phpunit": "*"
     }
+=======
+    "minimum-stability": "stable"
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 }

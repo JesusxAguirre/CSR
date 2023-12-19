@@ -17,8 +17,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/sebastianbergmann/phpunit/issues",
-        "security": "https://github.com/sebastianbergmann/phpunit/security/policy"
+        "issues": "https://github.com/sebastianbergmann/phpunit/issues"
     },
     "prefer-stable": true,
     "require": {

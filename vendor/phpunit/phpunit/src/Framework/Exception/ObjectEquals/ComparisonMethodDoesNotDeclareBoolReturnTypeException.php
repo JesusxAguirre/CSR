@@ -22,8 +22,13 @@ final class ComparisonMethodDoesNotDeclareBoolReturnTypeException extends Except
             sprintf(
                 'Comparison method %s::%s() does not declare bool return type.',
                 $className,
-                $methodName,
+                $methodName
             ),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Exception/ObjectEquals/ComparisonMethodDoesNotDeclareBoolReturnTypeException.php
+=======
+            0,
+            null
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Exception/ComparisonMethodDoesNotDeclareBoolReturnTypeException.php
         );
     }
 }

@@ -9,8 +9,14 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
+<<<<<<< HEAD
 use function str_starts_with;
 use PHPUnit\Framework\EmptyStringException;
+=======
+use function strlen;
+use function strpos;
+use PHPUnit\Framework\InvalidArgumentException;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -24,8 +30,13 @@ final class StringStartsWith extends Constraint
      */
     public function __construct(string $prefix)
     {
+<<<<<<< HEAD
         if ($prefix === '') {
             throw new EmptyStringException;
+=======
+        if (strlen($prefix) === 0) {
+            throw InvalidArgumentException::create(1, 'non-empty string');
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         $this->prefix = $prefix;

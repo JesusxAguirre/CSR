@@ -56,13 +56,13 @@ final class IsEqualWithDelta extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
-                $other,
+                $other
             );
 
             $comparator->assertEquals(
                 $this->value,
                 $other,
-                $this->delta,
+                $this->delta
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -71,7 +71,7 @@ final class IsEqualWithDelta extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
-                $f,
+                $f
             );
         }
 
@@ -85,8 +85,13 @@ final class IsEqualWithDelta extends Constraint
     {
         return sprintf(
             'is equal to %s with delta <%F>',
+<<<<<<< HEAD
             Exporter::export($this->value, $exportObjects),
             $this->delta,
+=======
+            $this->exporter()->export($this->value),
+            $this->delta
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 }

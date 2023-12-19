@@ -91,9 +91,15 @@ final class Matcher
         }
 
         if ($this->afterMatchBuilderId !== null) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Matcher.php
             $matcher = $invocation->object()
                 ->__phpunit_getInvocationHandler()
                 ->lookupMatcher($this->afterMatchBuilderId);
+=======
+            $matcher = $invocation->getObject()
+                                  ->__phpunit_getInvocationHandler()
+                                  ->lookupMatcher($this->afterMatchBuilderId);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Matcher.php
 
             if (!$matcher) {
                 throw new MatchBuilderNotFoundException($this->afterMatchBuilderId);
@@ -110,9 +116,9 @@ final class Matcher
                     "Expectation failed for %s when %s\n%s",
                     $this->methodNameRule->toString(),
                     $this->invocationRule->toString(),
-                    $e->getMessage(),
+                    $e->getMessage()
                 ),
-                $e->getComparisonFailure(),
+                $e->getComparisonFailure()
             );
         }
 
@@ -132,9 +138,15 @@ final class Matcher
     public function matches(Invocation $invocation): bool
     {
         if ($this->afterMatchBuilderId !== null) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Matcher.php
             $matcher = $invocation->object()
                 ->__phpunit_getInvocationHandler()
                 ->lookupMatcher($this->afterMatchBuilderId);
+=======
+            $matcher = $invocation->getObject()
+                                  ->__phpunit_getInvocationHandler()
+                                  ->lookupMatcher($this->afterMatchBuilderId);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Matcher.php
 
             if (!$matcher) {
                 throw new MatchBuilderNotFoundException($this->afterMatchBuilderId);
@@ -163,9 +175,9 @@ final class Matcher
                     "Expectation failed for %s when %s\n%s",
                     $this->methodNameRule->toString(),
                     $this->invocationRule->toString(),
-                    $e->getMessage(),
+                    $e->getMessage()
                 ),
-                $e->getComparisonFailure(),
+                $e->getComparisonFailure()
             );
         }
 
@@ -202,8 +214,13 @@ final class Matcher
                     "Expectation failed for %s when %s.\n%s",
                     $this->methodNameRule->toString(),
                     $this->invocationRule->toString(),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Matcher.php
                     ThrowableToStringMapper::map($e),
                 ),
+=======
+                    TestFailure::exceptionToString($e)
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Matcher.php
             );
         }
     }

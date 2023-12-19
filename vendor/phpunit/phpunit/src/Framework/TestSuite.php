@@ -77,8 +77,17 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
      */
     public static function empty(string $name): static
     {
+<<<<<<< HEAD
         return new static($name);
     }
+=======
+        if (!is_string($theClass) && !$theClass instanceof ReflectionClass) {
+            throw InvalidArgumentException::create(
+                1,
+                'ReflectionClass object or string'
+            );
+        }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     /**
      * @psalm-param class-string $className
@@ -89,8 +98,23 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
         $class = new ReflectionClass($className);
 
+<<<<<<< HEAD
         return static::fromClassReflector($class);
     }
+=======
+                try {
+                    $theClass = new ReflectionClass($theClass);
+                } catch (ReflectionException $e) {
+                    throw new Exception(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+            } else {
+                $this->setName($theClass);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     public static function fromClassReflector(ReflectionClass $class): static
     {
@@ -98,12 +122,35 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
         $constructor = $class->getConstructor();
 
+<<<<<<< HEAD
         if ($constructor !== null && !$constructor->isPublic()) {
             Event\Facade::emitter()->testRunnerTriggeredWarning(
                 sprintf(
                     'Class "%s" has no public constructor.',
                     $class->getName(),
                 ),
+=======
+            return;
+        }
+
+        if ($name !== '') {
+            $this->setName($name);
+        } else {
+            $this->setName($theClass->getName());
+        }
+
+        $constructor = $theClass->getConstructor();
+
+        if ($constructor !== null &&
+            !$constructor->isPublic()) {
+            $this->addTest(
+                new WarningTestCase(
+                    sprintf(
+                        'Class "%s" has no public constructor.',
+                        $theClass->getName()
+                    )
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
 
             return $testSuite;
@@ -125,12 +172,23 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
             $testSuite->addTestMethod($class, $method);
         }
 
+<<<<<<< HEAD
         if (count($testSuite) === 0) {
             Event\Facade::emitter()->testRunnerTriggeredWarning(
                 sprintf(
                     'No tests found in class "%s".',
                     $class->getName(),
                 ),
+=======
+        if (empty($this->tests)) {
+            $this->addTest(
+                new WarningTestCase(
+                    sprintf(
+                        'No tests found in class "%s".',
+                        $theClass->getName()
+                    )
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -158,7 +216,21 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
      */
     public function addTest(Test $test, array $groups = []): void
     {
+<<<<<<< HEAD
         $class = new ReflectionClass($test);
+=======
+        try {
+            $class = new ReflectionClass($test);
+            // @codeCoverageIgnoreStart
+        } catch (ReflectionException $e) {
+            throw new Exception(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
         if (!$class->isAbstract()) {
             $this->tests[] = $test;
@@ -193,6 +265,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
      */
     public function addTestSuite(ReflectionClass $testClass): void
     {
+<<<<<<< HEAD
         if ($testClass->isAbstract()) {
             throw new Exception(
                 sprintf(
@@ -213,6 +286,69 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
         }
 
         $this->addTest(self::fromClassReflector($testClass));
+=======
+        if (!(is_object($testClass) || (is_string($testClass) && class_exists($testClass)))) {
+            throw InvalidArgumentException::create(
+                1,
+                'class name or object'
+            );
+        }
+
+        if (!is_object($testClass)) {
+            try {
+                $testClass = new ReflectionClass($testClass);
+                // @codeCoverageIgnoreStart
+            } catch (ReflectionException $e) {
+                throw new Exception(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+        }
+
+        if ($testClass instanceof self) {
+            $this->addTest($testClass);
+        } elseif ($testClass instanceof ReflectionClass) {
+            $suiteMethod = false;
+
+            if (!$testClass->isAbstract() && $testClass->hasMethod(BaseTestRunner::SUITE_METHODNAME)) {
+                try {
+                    $method = $testClass->getMethod(
+                        BaseTestRunner::SUITE_METHODNAME
+                    );
+                    // @codeCoverageIgnoreStart
+                } catch (ReflectionException $e) {
+                    throw new Exception(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+
+                if ($method->isStatic()) {
+                    $this->addTest(
+                        $method->invoke(null, $testClass->getName())
+                    );
+
+                    $suiteMethod = true;
+                }
+            }
+
+            if (!$suiteMethod && !$testClass->isAbstract() && $testClass->isSubclassOf(TestCase::class)) {
+                $this->addTest(new self($testClass));
+            }
+        } else {
+            throw new Exception;
+        }
+    }
+
+    public function addWarning(string $warning): void
+    {
+        $this->warnings[] = $warning;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 
     /**
@@ -239,6 +375,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
             return;
         }
 
+<<<<<<< HEAD
         try {
             $this->addTestSuite(
                 (new TestSuiteLoader)->load($filename),
@@ -246,6 +383,137 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
         } catch (RunnerException $e) {
             Event\Facade::emitter()->testRunnerTriggeredWarning(
                 $e->getMessage(),
+=======
+        $numTests = count($this->tests);
+
+        // The given file may contain further stub classes in addition to the
+        // test class itself. Figure out the actual test class.
+        $filename   = FileLoader::checkAndLoad($filename);
+        $newClasses = array_slice(get_declared_classes(), $this->declaredClassesPointer);
+
+        // The diff is empty in case a parent class (with test methods) is added
+        // AFTER a child class that inherited from it. To account for that case,
+        // accumulate all discovered classes, so the parent class may be found in
+        // a later invocation.
+        if (!empty($newClasses)) {
+            // On the assumption that test classes are defined first in files,
+            // process discovered classes in approximate LIFO order, so as to
+            // avoid unnecessary reflection.
+            $this->foundClasses           = array_merge($newClasses, $this->foundClasses);
+            $this->declaredClassesPointer = count(get_declared_classes());
+        }
+
+        // The test class's name must match the filename, either in full, or as
+        // a PEAR/PSR-0 prefixed short name ('NameSpace_ShortName'), or as a
+        // PSR-1 local short name ('NameSpace\ShortName'). The comparison must be
+        // anchored to prevent false-positive matches (e.g., 'OtherShortName').
+        $shortName      = basename($filename, '.php');
+        $shortNameRegEx = '/(?:^|_|\\\\)' . preg_quote($shortName, '/') . '$/';
+
+        foreach ($this->foundClasses as $i => $className) {
+            if (preg_match($shortNameRegEx, $className)) {
+                try {
+                    $class = new ReflectionClass($className);
+                    // @codeCoverageIgnoreStart
+                } catch (ReflectionException $e) {
+                    throw new Exception(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+
+                if ($class->getFileName() == $filename) {
+                    $newClasses = [$className];
+                    unset($this->foundClasses[$i]);
+
+                    break;
+                }
+            }
+        }
+
+        foreach ($newClasses as $className) {
+            try {
+                $class = new ReflectionClass($className);
+                // @codeCoverageIgnoreStart
+            } catch (ReflectionException $e) {
+                throw new Exception(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+
+            if (dirname($class->getFileName()) === __DIR__) {
+                continue;
+            }
+
+            if ($class->isAbstract() && $class->isSubclassOf(TestCase::class)) {
+                $this->addWarning(
+                    sprintf(
+                        'Abstract test case classes with "Test" suffix are deprecated (%s)',
+                        $class->getName()
+                    )
+                );
+            }
+
+            if (!$class->isAbstract()) {
+                if ($class->hasMethod(BaseTestRunner::SUITE_METHODNAME)) {
+                    try {
+                        $method = $class->getMethod(
+                            BaseTestRunner::SUITE_METHODNAME
+                        );
+                        // @codeCoverageIgnoreStart
+                    } catch (ReflectionException $e) {
+                        throw new Exception(
+                            $e->getMessage(),
+                            $e->getCode(),
+                            $e
+                        );
+                    }
+                    // @codeCoverageIgnoreEnd
+
+                    if ($method->isStatic()) {
+                        $this->addTest($method->invoke(null, $className));
+                    }
+                } elseif ($class->implementsInterface(Test::class)) {
+                    // Do we have modern namespacing ('Foo\Bar\WhizBangTest') or old-school namespacing ('Foo_Bar_WhizBangTest')?
+                    $isPsr0            = (!$class->inNamespace()) && (strpos($class->getName(), '_') !== false);
+                    $expectedClassName = $isPsr0 ? $className : $shortName;
+
+                    if (($pos = strpos($expectedClassName, '.')) !== false) {
+                        $expectedClassName = substr(
+                            $expectedClassName,
+                            0,
+                            $pos
+                        );
+                    }
+
+                    if ($class->getShortName() !== $expectedClassName) {
+                        $this->addWarning(
+                            sprintf(
+                                "Test case class not matching filename is deprecated\n               in %s\n               Class name was '%s', expected '%s'",
+                                $filename,
+                                $class->getShortName(),
+                                $expectedClassName
+                            )
+                        );
+                    }
+
+                    $this->addTestSuite($class);
+                }
+            }
+        }
+
+        if (count($this->tests) > ++$numTests) {
+            $this->addWarning(
+                sprintf(
+                    "Multiple test case classes per file is deprecated\n               in %s",
+                    $filename
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
     }
@@ -297,8 +565,16 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
     public function groups(): array
     {
         return array_map(
+<<<<<<< HEAD
             'strval',
             array_keys($this->groups),
+=======
+            static function ($key): string
+            {
+                return (string) $key;
+            },
+            array_keys($this->groups)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 
@@ -326,8 +602,63 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
         $emitter->testSuiteStarted($testSuiteValueObjectForEvents);
 
+<<<<<<< HEAD
         if (!$this->invokeMethodsBeforeFirstTest($emitter, $testSuiteValueObjectForEvents)) {
             return;
+=======
+        $test = null;
+
+        if ($this->testCase && class_exists($this->name, false)) {
+            try {
+                foreach ($hookMethods['beforeClass'] as $beforeClassMethod) {
+                    if (method_exists($this->name, $beforeClassMethod)) {
+                        if ($missingRequirements = TestUtil::getMissingRequirements($this->name, $beforeClassMethod)) {
+                            $this->markTestSuiteSkipped(implode(PHP_EOL, $missingRequirements));
+                        }
+
+                        call_user_func([$this->name, $beforeClassMethod]);
+                    }
+                }
+            } catch (SkippedTestSuiteError|SkippedTestError $error) {
+                foreach ($this->tests() as $test) {
+                    $result->startTest($test);
+                    $result->addFailure($test, $error, 0);
+                    $result->endTest($test, 0);
+                }
+
+                $result->endTestSuite($this);
+
+                return $result;
+            } catch (Throwable $t) {
+                $errorAdded = false;
+
+                foreach ($this->tests() as $test) {
+                    if ($result->shouldStop()) {
+                        break;
+                    }
+
+                    $result->startTest($test);
+
+                    if (!$errorAdded) {
+                        $result->addError($test, $t, 0);
+
+                        $errorAdded = true;
+                    } else {
+                        $result->addFailure(
+                            $test,
+                            new SkippedTestError('Test skipped because of an error in hook method'),
+                            0
+                        );
+                    }
+
+                    $result->endTest($test, 0);
+                }
+
+                $result->endTestSuite($this);
+
+                return $result;
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         foreach ($this as $test) {
@@ -439,7 +770,7 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
                 $this->requiredTests = ExecutionOrderDependency::mergeUnique(
                     ExecutionOrderDependency::filterInvalid($this->requiredTests),
-                    $test->requires(),
+                    $test->requires()
                 );
             }
 
@@ -502,13 +833,21 @@ class TestSuite implements IteratorAggregate, Reorderable, SelfDescribing, Test
 
         if ($test instanceof TestCase || $test instanceof DataProviderTestSuite) {
             $test->setDependencies(
+<<<<<<< HEAD
                 Dependencies::dependencies($class->getName(), $methodName),
+=======
+                TestUtil::getDependencies($class->getName(), $methodName)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
         $this->addTest(
             $test,
+<<<<<<< HEAD
             (new Groups)->groups($class->getName(), $methodName),
+=======
+            TestUtil::getGroups($class->getName(), $methodName)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 

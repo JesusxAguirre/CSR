@@ -27,7 +27,8 @@ use SebastianBergmann\Environment\Console;
 final class Help
 {
     private const LEFT_MARGIN = '  ';
-    private const HELP_TEXT   = [
+
+    private const HELP_TEXT = [
         'Usage' => [
             ['text' => 'phpunit [options] <directory|file> ...'],
         ],
@@ -254,8 +255,16 @@ final class Help
                     $arg = Color::colorize('fg-green', str_pad($option['arg'], $this->lengthOfLongestOptionName));
                     $arg = preg_replace_callback(
                         '/(<[^>]+>)/',
+<<<<<<< HEAD
                         static fn ($matches) => Color::colorize('fg-cyan', $matches[0]),
                         $arg,
+=======
+                        static function ($matches)
+                        {
+                            return Color::colorize('fg-cyan', $matches[0]);
+                        },
+                        $arg
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                     );
 
                     $desc = explode(PHP_EOL, wordwrap($option['desc'], $this->columnsAvailableForDescription, PHP_EOL));

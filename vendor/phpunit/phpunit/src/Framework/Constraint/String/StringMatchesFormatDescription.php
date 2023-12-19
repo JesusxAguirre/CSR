@@ -28,8 +28,16 @@ final class StringMatchesFormatDescription extends Constraint
 
     public function __construct(string $formatDescription)
     {
+<<<<<<< HEAD
         $this->formatDescription = $formatDescription;
     }
+=======
+        parent::__construct(
+            $this->createPatternFromFormat(
+                $this->convertNewlines($string)
+            )
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     public function toString(): string
     {
@@ -42,6 +50,7 @@ final class StringMatchesFormatDescription extends Constraint
      */
     protected function matches(mixed $other): bool
     {
+<<<<<<< HEAD
         $other = $this->convertNewlines($other);
 
         $matches = preg_match(
@@ -49,6 +58,10 @@ final class StringMatchesFormatDescription extends Constraint
                 $this->convertNewlines($this->formatDescription),
             ),
             $other,
+=======
+        return parent::matches(
+            $this->convertNewlines($other)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         return $matches > 0;
@@ -97,7 +110,7 @@ final class StringMatchesFormatDescription extends Constraint
                 '%x' => '[0-9a-fA-F]+',
                 '%f' => '[+-]?\.?\d+\.?\d*(?:[Ee][+-]?\d+)?',
                 '%c' => '.',
-            ],
+            ]
         );
 
         return '/^' . $string . '$/s';

@@ -147,7 +147,16 @@ final class ExcludeList
     public static function addDirectory(string $directory): void
     {
         if (!is_dir($directory)) {
+<<<<<<< HEAD
             throw new InvalidDirectoryException($directory);
+=======
+            throw new Exception(
+                sprintf(
+                    '"%s" is not a directory',
+                    $directory
+                )
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         self::$directories[] = realpath($directory);

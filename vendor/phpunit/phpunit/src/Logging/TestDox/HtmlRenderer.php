@@ -111,6 +111,7 @@ EOT;
         foreach ($tests as $prettifiedClassName => $_tests) {
             $buffer .= sprintf(
                 self::CLASS_HEADER,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Logging/TestDox/HtmlRenderer.php
                 $prettifiedClassName,
             );
 
@@ -126,6 +127,11 @@ EOT;
         }
 
         return $buffer . self::PAGE_FOOTER;
+=======
+                $this->currentTestClassPrettified
+            )
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/TestDox/HtmlResultPrinter.php
     }
 
     /**
@@ -133,7 +139,18 @@ EOT;
      */
     private function reduce(TestResultCollection $tests): array
     {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Logging/TestDox/HtmlRenderer.php
         $result = [];
+=======
+        $this->write(
+            sprintf(
+                "            <li class=\"%s\">%s</li>\n",
+                $success ? 'success' : 'defect',
+                $name
+            )
+        );
+    }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/TestDox/HtmlResultPrinter.php
 
         foreach ($tests as $test) {
             $prettifiedMethodName = $test->test()->testDox()->prettifiedMethodName();

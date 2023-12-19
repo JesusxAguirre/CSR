@@ -5,5 +5,4 @@ categories:
 tags:
   - doc
   - document
-  - page
 ---

@@ -5,12 +5,27 @@
     <title>Agenda</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.6">
-    
-    <!-- Espacio para CSS -->
-	<?php require_once './resources/View_Components/importCSS.php' ?>
+
+
+    <!-- Bostrap 5 -->
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./resources/css/style.css">
+    <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+
+    <!-- Jquery -->
+    <script src="./resources/js/jquery-3.6.0.min.js"></script>
+
+    <!-- Js boostrap -->
+    <script src="./resources/js/bootstrap.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <script type="text/javascript" src="resources/js/sweetalert2.js"></script>
+
+    <!-- FullCalendar.io -->
+    <link rel="stylesheet" href="resources/library/fullcalendar/lib/main.min.css">
     <link rel="stylesheet" href="resources/css/agenda.css">
-	<!-- Espacio para los JS -->
-	<?php require_once './resources/View_Components/importJS.php' ?>
+    <script src="resources/library/fullcalendar/lib/main.min.js"></script>
+    <script src="resources/library/fullcalendar/lib/locales/es.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

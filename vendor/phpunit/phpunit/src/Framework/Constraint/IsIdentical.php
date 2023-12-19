@@ -59,7 +59,7 @@ final class IsIdentical extends Constraint
                     $this->value,
                     $other,
                     sprintf("'%s'", $this->value),
-                    sprintf("'%s'", $other),
+                    sprintf("'%s'", $other)
                 );
             }
 
@@ -68,8 +68,13 @@ final class IsIdentical extends Constraint
                 $f = new ComparisonFailure(
                     $this->value,
                     $other,
+<<<<<<< HEAD
                     Exporter::export($this->value, true),
                     Exporter::export($other, true),
+=======
+                    $this->exporter()->export($this->value),
+                    $this->exporter()->export($other)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                 );
             }
 

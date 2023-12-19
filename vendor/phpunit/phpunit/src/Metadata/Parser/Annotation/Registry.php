@@ -63,7 +63,7 @@ final class Registry
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
         // @codeCoverageIgnoreEnd
@@ -90,7 +90,7 @@ final class Registry
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
         // @codeCoverageIgnoreEnd

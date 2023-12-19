@@ -35,6 +35,7 @@ final class TestBuilder
     {
         $className = $theClass->getName();
 
+<<<<<<< HEAD
         $data = (new DataProvider)->providedData(
             $className,
             $methodName,
@@ -82,20 +83,157 @@ final class TestBuilder
 
         foreach ($data as $_dataName => $_data) {
             $_test = new $className($methodName);
+=======
+        if (!$theClass->isInstantiable()) {
+            return new ErrorTestCase(
+                sprintf('Cannot instantiate class "%s".', $className)
+            );
+        }
+
+        $backupSettings = TestUtil::getBackupSettings(
+            $className,
+            $methodName
+        );
+
+        $preserveGlobalState = TestUtil::getPreserveGlobalStateSettings(
+            $className,
+            $methodName
+        );
+
+        $runTestInSeparateProcess = TestUtil::getProcessIsolationSettings(
+            $className,
+            $methodName
+        );
+
+        $runClassInSeparateProcess = TestUtil::getClassProcessIsolationSettings(
+            $className,
+            $methodName
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
             assert($_test instanceof TestCase);
 
             $_test->setData($_dataName, $_data);
 
+<<<<<<< HEAD
+=======
+        $parameters = $constructor->getParameters();
+
+        // TestCase() or TestCase($name)
+        if (count($parameters) < 2) {
+            $test = $this->buildTestWithoutData($className);
+        } // TestCase($name, $data)
+        else {
+            try {
+                $data = TestUtil::getProvidedData(
+                    $className,
+                    $methodName
+                );
+            } catch (IncompleteTestError $e) {
+                $message = sprintf(
+                    "Test for %s::%s marked incomplete by data provider\n%s",
+                    $className,
+                    $methodName,
+                    $this->throwableToString($e)
+                );
+
+                $data = new IncompleteTestCase($className, $methodName, $message);
+            } catch (SkippedTestError $e) {
+                $message = sprintf(
+                    "Test for %s::%s skipped by data provider\n%s",
+                    $className,
+                    $methodName,
+                    $this->throwableToString($e)
+                );
+
+                $data = new SkippedTestCase($className, $methodName, $message);
+            } catch (Throwable $t) {
+                $message = sprintf(
+                    "The data provider specified for %s::%s is invalid.\n%s",
+                    $className,
+                    $methodName,
+                    $this->throwableToString($t)
+                );
+
+                $data = new ErrorTestCase($message);
+            }
+
+            // Test method with @dataProvider.
+            if (isset($data)) {
+                $test = $this->buildDataProviderTestSuite(
+                    $methodName,
+                    $className,
+                    $data,
+                    $runTestInSeparateProcess,
+                    $preserveGlobalState,
+                    $runClassInSeparateProcess,
+                    $backupSettings
+                );
+            } else {
+                $test = $this->buildTestWithoutData($className);
+            }
+        }
+
+        if ($test instanceof TestCase) {
+            $test->setName($methodName);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             $this->configureTestCase(
                 $_test,
                 $runTestInSeparateProcess,
                 $preserveGlobalState,
                 $runClassInSeparateProcess,
-                $backupSettings,
+                $backupSettings
             );
 
+<<<<<<< HEAD
             $dataProviderTestSuite->addTest($_test, $groups);
+=======
+        return $test;
+    }
+
+    /** @psalm-param class-string $className */
+    private function buildTestWithoutData(string $className)
+    {
+        return new $className;
+    }
+
+    /** @psalm-param class-string $className */
+    private function buildDataProviderTestSuite(
+        string $methodName,
+        string $className,
+        $data,
+        bool $runTestInSeparateProcess,
+        ?bool $preserveGlobalState,
+        bool $runClassInSeparateProcess,
+        array $backupSettings
+    ): DataProviderTestSuite {
+        $dataProviderTestSuite = new DataProviderTestSuite(
+            $className . '::' . $methodName
+        );
+
+        $groups = TestUtil::getGroups($className, $methodName);
+
+        if ($data instanceof ErrorTestCase ||
+            $data instanceof SkippedTestCase ||
+            $data instanceof IncompleteTestCase) {
+            $dataProviderTestSuite->addTest($data, $groups);
+        } else {
+            foreach ($data as $_dataName => $_data) {
+                $_test = new $className($methodName, $_data, $_dataName);
+
+                assert($_test instanceof TestCase);
+
+                $this->configureTestCase(
+                    $_test,
+                    $runTestInSeparateProcess,
+                    $preserveGlobalState,
+                    $runClassInSeparateProcess,
+                    $backupSettings
+                );
+
+                $dataProviderTestSuite->addTest($_test, $groups);
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         return $dataProviderTestSuite;
@@ -124,12 +262,19 @@ final class TestBuilder
             $test->setBackupGlobals(ConfigurationRegistry::get()->backupGlobals());
         }
 
+<<<<<<< HEAD
         $test->setBackupGlobalsExcludeList($backupSettings['backupGlobalsExcludeList']);
 
         if ($backupSettings['backupStaticProperties'] !== null) {
             $test->setBackupStaticProperties($backupSettings['backupStaticProperties']);
         } else {
             $test->setBackupStaticProperties(ConfigurationRegistry::get()->backupStaticProperties());
+=======
+        if ($backupSettings['backupStaticAttributes'] !== null) {
+            $test->setBackupStaticAttributes(
+                $backupSettings['backupStaticAttributes']
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         $test->setBackupStaticPropertiesExcludeList($backupSettings['backupStaticPropertiesExcludeList']);
@@ -168,6 +313,7 @@ final class TestBuilder
             }
         }
 
+<<<<<<< HEAD
         foreach ($metadataForClassAndMethod->isExcludeGlobalVariableFromBackup() as $metadata) {
             assert($metadata instanceof ExcludeGlobalVariableFromBackup);
 
@@ -265,5 +411,21 @@ final class TestBuilder
     private function shouldAllTestMethodsOfTestClassBeRunInSingleSeparateProcess(string $className): bool
     {
         return MetadataRegistry::parser()->forClass($className)->isRunClassInSeparateProcess()->isNotEmpty();
+=======
+        if ($t instanceof InvalidDataSetException) {
+            return sprintf(
+                "%s\n%s",
+                $message,
+                Filter::getFilteredStacktrace($t)
+            );
+        }
+
+        return sprintf(
+            "%s: %s\n%s",
+            get_class($t),
+            $message,
+            Filter::getFilteredStacktrace($t)
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 }

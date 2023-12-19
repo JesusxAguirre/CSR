@@ -103,7 +103,13 @@ final class TestSuiteSorter
         ];
 
         if (!in_array($order, $allowedOrders, true)) {
+<<<<<<< HEAD
             throw new InvalidOrderException;
+=======
+            throw new Exception(
+                '$order must be one of TestSuiteSorter::ORDER_[DEFAULT|REVERSED|RANDOMIZED|DURATION|SIZE]'
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         $allowedOrderDefects = [
@@ -112,7 +118,13 @@ final class TestSuiteSorter
         ];
 
         if (!in_array($orderDefects, $allowedOrderDefects, true)) {
+<<<<<<< HEAD
             throw new InvalidOrderException;
+=======
+            throw new Exception(
+                '$orderDefects must be one of TestSuiteSorter::ORDER_DEFAULT, TestSuiteSorter::ORDER_DEFECTS_FIRST'
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         if ($isRootTestSuite) {
@@ -207,7 +219,17 @@ final class TestSuiteSorter
     {
         usort(
             $tests,
+<<<<<<< HEAD
             fn ($left, $right) => $this->cmpDefectPriorityAndTime($left, $right),
+=======
+            /**
+             * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+             */
+            function ($left, $right)
+            {
+                return $this->cmpDefectPriorityAndTime($left, $right);
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         return $tests;
@@ -217,7 +239,17 @@ final class TestSuiteSorter
     {
         usort(
             $tests,
+<<<<<<< HEAD
             fn ($left, $right) => $this->cmpDuration($left, $right),
+=======
+            /**
+             * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+             */
+            function ($left, $right)
+            {
+                return $this->cmpDuration($left, $right);
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         return $tests;
@@ -227,7 +259,17 @@ final class TestSuiteSorter
     {
         usort(
             $tests,
+<<<<<<< HEAD
             fn ($left, $right) => $this->cmpSize($left, $right),
+=======
+            /**
+             * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+             */
+            function ($left, $right)
+            {
+                return $this->cmpSize($left, $right);
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         return $tests;

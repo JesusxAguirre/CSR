@@ -44,7 +44,7 @@ final class InputBag extends ParameterBag
     /**
      * Replaces the current input values by a new set.
      */
-    public function replace(array $inputs = []): void
+    public function replace(array $inputs = [])
     {
         $this->parameters = [];
         $this->add($inputs);
@@ -53,7 +53,7 @@ final class InputBag extends ParameterBag
     /**
      * Adds input values.
      */
-    public function add(array $inputs = []): void
+    public function add(array $inputs = [])
     {
         foreach ($inputs as $input => $value) {
             $this->set($input, $value);
@@ -65,7 +65,7 @@ final class InputBag extends ParameterBag
      *
      * @param string|int|float|bool|array|null $value
      */
-    public function set(string $key, mixed $value): void
+    public function set(string $key, mixed $value)
     {
         if (null !== $value && !\is_scalar($value) && !\is_array($value) && !$value instanceof \Stringable) {
             throw new \InvalidArgumentException(sprintf('Expected a scalar, or an array as a 2nd argument to "%s()", "%s" given.', __METHOD__, get_debug_type($value)));
@@ -74,6 +74,7 @@ final class InputBag extends ParameterBag
         $this->parameters[$key] = $value;
     }
 
+<<<<<<< HEAD
     /**
      * Returns the parameter value converted to an enum.
      *
@@ -102,6 +103,8 @@ final class InputBag extends ParameterBag
         return (string) $this->get($key, $default);
     }
 
+=======
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     public function filter(string $key, mixed $default = null, int $filter = \FILTER_DEFAULT, mixed $options = []): mixed
     {
         $value = $this->has($key) ? $this->all()[$key] : $default;
@@ -119,22 +122,6 @@ final class InputBag extends ParameterBag
             throw new \InvalidArgumentException(sprintf('A Closure must be passed to "%s()" when FILTER_CALLBACK is used, "%s" given.', __METHOD__, get_debug_type($options['options'] ?? null)));
         }
 
-        $options['flags'] ??= 0;
-        $nullOnFailure = $options['flags'] & \FILTER_NULL_ON_FAILURE;
-        $options['flags'] |= \FILTER_NULL_ON_FAILURE;
-
-        $value = filter_var($value, $filter, $options);
-
-        if (null !== $value || $nullOnFailure) {
-            return $value;
-        }
-
-        $method = debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS | \DEBUG_BACKTRACE_PROVIDE_OBJECT, 2)[1];
-        $method = ($method['object'] ?? null) === $this ? $method['function'] : 'filter';
-        $hint = 'filter' === $method ? 'pass' : 'use method "filter()" with';
-
-        trigger_deprecation('symfony/http-foundation', '6.3', 'Ignoring invalid values when using "%s::%s(\'%s\')" is deprecated and will throw a "%s" in 7.0; '.$hint.' flag "FILTER_NULL_ON_FAILURE" to keep ignoring them.', $this::class, $method, $key, BadRequestException::class);
-
-        return false;
+        return filter_var($value, $filter, $options);
     }
 }

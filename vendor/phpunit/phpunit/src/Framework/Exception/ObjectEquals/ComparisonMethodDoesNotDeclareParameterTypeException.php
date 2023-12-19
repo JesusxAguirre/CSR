@@ -22,8 +22,13 @@ final class ComparisonMethodDoesNotDeclareParameterTypeException extends Excepti
             sprintf(
                 'Parameter of comparison method %s::%s() does not have a declared type.',
                 $className,
-                $methodName,
+                $methodName
             ),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Exception/ObjectEquals/ComparisonMethodDoesNotDeclareParameterTypeException.php
+=======
+            0,
+            null
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Exception/ComparisonMethodDoesNotDeclareParameterTypeException.php
         );
     }
 }

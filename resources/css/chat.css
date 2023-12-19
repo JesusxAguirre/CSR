@@ -17,8 +17,7 @@
 
 .chatArea{
     padding: 10px;
-    height: 440px;
-    max-height: 440px;
+    height: 85%;
     width: 100%;
     overflow-y: scroll;
 }

@@ -22,8 +22,13 @@ final class ComparisonMethodDoesNotExistException extends Exception
             sprintf(
                 'Comparison method %s::%s() does not exist.',
                 $className,
-                $methodName,
+                $methodName
             ),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Exception/ObjectEquals/ComparisonMethodDoesNotExistException.php
+=======
+            0,
+            null
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Exception/ComparisonMethodDoesNotExistException.php
         );
     }
 }

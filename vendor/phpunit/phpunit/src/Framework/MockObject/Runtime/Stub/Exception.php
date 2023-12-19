@@ -31,4 +31,17 @@ final class Exception implements Stub
     {
         throw $this->exception;
     }
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Stub/Exception.php
+=======
+
+    public function toString(): string
+    {
+        $exporter = new Exporter;
+
+        return sprintf(
+            'raise user-specified exception %s',
+            $exporter->export($this->exception)
+        );
+    }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Stub/Exception.php
 }

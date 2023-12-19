@@ -46,6 +46,7 @@ final class InvokedAtLeastCount extends InvocationOrder
 
         if ($actualInvocations < $this->requiredInvocations) {
             throw new ExpectationFailedException(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Rule/InvokedAtLeastCount.php
                 sprintf(
                     'Expected invocation at least %d time%s but it occurred %d time%s.',
                     $this->requiredInvocations,
@@ -53,6 +54,10 @@ final class InvokedAtLeastCount extends InvocationOrder
                     $actualInvocations,
                     $actualInvocations !== 1 ? 's' : '',
                 ),
+=======
+                'Expected invocation at least ' . $this->requiredInvocations .
+                ' times but it occurred ' . $count . ' time(s).'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Rule/InvokedAtLeastCount.php
             );
         }
     }

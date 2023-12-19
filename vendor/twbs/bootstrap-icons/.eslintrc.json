@@ -5,8 +5,7 @@
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module"
+    "ecmaVersion": 2019
   },
   "extends": "eslint:recommended",
   "rules": {
@@ -21,17 +20,5 @@
       "never"
     ],
     "strict": "error"
-  },
-  "overrides": [
-    {
-      "files": "docs/**",
-      "env": {
-        "browser": true,
-        "node": false
-      },
-      "parserOptions": {
-        "sourceType": "module"
-      }
-    }
-  ]
+  }
 }

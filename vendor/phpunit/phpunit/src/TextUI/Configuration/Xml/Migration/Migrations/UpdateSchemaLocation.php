@@ -28,7 +28,11 @@ final class UpdateSchemaLocation implements Migration
         $root->setAttributeNS(
             'http://www.w3.org/2001/XMLSchema-instance',
             'xsi:noNamespaceSchemaLocation',
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Migration/Migrations/UpdateSchemaLocation.php
             'https://schema.phpunit.de/' . Version::series() . '/phpunit.xsd',
+=======
+            'https://schema.phpunit.de/9.3/phpunit.xsd'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Migration/Migrations/UpdateSchemaLocationTo93.php
         );
     }
 }

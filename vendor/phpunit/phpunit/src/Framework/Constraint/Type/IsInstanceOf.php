@@ -51,9 +51,15 @@ final class IsInstanceOf extends Constraint
     public function toString(): string
     {
         return sprintf(
+<<<<<<< HEAD
             'is an instance of %s %s',
             $this->type,
             $this->name,
+=======
+            'is instance of %s "%s"',
+            $this->getType(),
+            $this->className
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 
@@ -74,6 +80,29 @@ final class IsInstanceOf extends Constraint
      */
     protected function failureDescription(mixed $other): string
     {
+<<<<<<< HEAD
         return $this->valueToTypeStringFragment($other) . $this->toString(true);
+=======
+        return sprintf(
+            '%s is an instance of %s "%s"',
+            $this->exporter()->shortenedExport($other),
+            $this->getType(),
+            $this->className
+        );
+    }
+
+    private function getType(): string
+    {
+        try {
+            $reflection = new ReflectionClass($this->className);
+
+            if ($reflection->isInterface()) {
+                return 'interface';
+            }
+        } catch (ReflectionException $e) {
+        }
+
+        return 'class';
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 }

@@ -30,10 +30,21 @@ final class Factory
      */
     public function addTestIdFilter(array $testIds): void
     {
+<<<<<<< HEAD
         $this->filters[] = [
             new ReflectionClass(TestIdFilterIterator::class), $testIds,
         ];
     }
+=======
+        if (!$filter->isSubclassOf(RecursiveFilterIterator::class)) {
+            throw new Exception(
+                sprintf(
+                    'Class "%s" does not extend RecursiveFilterIterator',
+                    $filter->name
+                )
+            );
+        }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     /**
      * @psalm-param list<non-empty-string> $groups

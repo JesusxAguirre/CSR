@@ -2,18 +2,14 @@ name: Tests
 
 on:
   push:
-    branches:
-      - main
-      - "!dependabot/**"
+    branches-ignore:
+      - "dependabot/**"
   pull_request:
   workflow_dispatch:
 
 env:
   FORCE_COLOR: 2
   NODE: 18
-
-permissions:
-  contents: read
 
 jobs:
   test:
@@ -39,8 +35,8 @@ jobs:
       - name: Build the icons
         run: npm run icons
 
-      - name: Build and test docs
-        run: npm run docs-test
+      - name: Run tests
+        run: npm test
 
       - name: Run linkinator
         uses: JustinBeckwith/linkinator-action@v1

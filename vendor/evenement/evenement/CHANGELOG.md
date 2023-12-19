@@ -32,4 +32,4 @@ CHANGELOG
 
 * v1.0.0 (2012-05-30)
 
-  * Initial stable release
+  * Inital stable release

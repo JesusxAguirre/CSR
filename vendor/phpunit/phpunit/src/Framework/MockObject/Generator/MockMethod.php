@@ -111,7 +111,7 @@ final class MockMethod
             $reference,
             $callOriginalMethod,
             $method->isStatic(),
-            $deprecation,
+            $deprecation
         );
     }
 
@@ -134,7 +134,7 @@ final class MockMethod
             '',
             false,
             false,
-            null,
+            null
         );
     }
 
@@ -175,11 +175,24 @@ final class MockMethod
     public function generateCode(): string
     {
         if ($this->static) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/MockMethod.php
             $templateFile = 'doubled_static_method.tpl';
         } else {
             $templateFile = sprintf(
                 '%s_method.tpl',
                 $this->callOriginalMethod ? 'proxied' : 'doubled',
+=======
+            $templateFile = 'mocked_static_method.tpl';
+        } elseif ($this->returnType->isNever() || $this->returnType->isVoid()) {
+            $templateFile = sprintf(
+                '%s_method_never_or_void.tpl',
+                $this->callOriginalMethod ? 'proxied' : 'mocked'
+            );
+        } else {
+            $templateFile = sprintf(
+                '%s_method.tpl',
+                $this->callOriginalMethod ? 'proxied' : 'mocked'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/MockMethod.php
             );
         }
 
@@ -201,7 +214,7 @@ EOT;
             $deprecationTemplate->setVar(
                 [
                     'deprecation' => var_export($deprecation, true),
-                ],
+                ]
             );
 
             $deprecation = $deprecationTemplate->render();
@@ -222,8 +235,12 @@ EOT;
                 'reference'          => $this->reference,
                 'clone_arguments'    => $this->cloneArguments ? 'true' : 'false',
                 'deprecation'        => $deprecation,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/MockMethod.php
                 'return_result'      => $returnResult,
             ],
+=======
+            ]
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/MockMethod.php
         );
 
         return $template->render();
@@ -242,12 +259,28 @@ EOT;
         return $this->defaultParameterValues;
     }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Generator/MockMethod.php
     /**
      * @psalm-return non-negative-int
      */
     public function numberOfParameters(): int
     {
         return $this->numberOfParameters;
+=======
+        if (!isset(self::$templates[$filename])) {
+            try {
+                self::$templates[$filename] = new Template($filename);
+            } catch (TemplateException $e) {
+                throw new RuntimeException(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+        }
+
+        return self::$templates[$filename];
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/MockMethod.php
     }
 
     /**
@@ -348,18 +381,18 @@ EOT;
                 substr(
                     substr(
                         $parameterAsString,
-                        strpos($parameterAsString, '<optional> ') + strlen('<optional> '),
+                        strpos($parameterAsString, '<optional> ') + strlen('<optional> ')
                     ),
                     0,
-                    -2,
-                ),
+                    -2
+                )
             )[1];
             // @codeCoverageIgnoreStart
         } catch (\ReflectionException $e) {
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
         // @codeCoverageIgnoreEnd

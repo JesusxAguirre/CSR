@@ -56,8 +56,13 @@ final class ObjectEquals extends Constraint
 
         if (!$object->hasMethod($this->method)) {
             throw new ComparisonMethodDoesNotExistException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -65,8 +70,13 @@ final class ObjectEquals extends Constraint
 
         if (!$method->hasReturnType()) {
             throw new ComparisonMethodDoesNotDeclareBoolReturnTypeException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -74,29 +84,49 @@ final class ObjectEquals extends Constraint
 
         if (!$returnType instanceof ReflectionNamedType) {
             throw new ComparisonMethodDoesNotDeclareBoolReturnTypeException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
         if ($returnType->allowsNull()) {
             throw new ComparisonMethodDoesNotDeclareBoolReturnTypeException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
         if ($returnType->getName() !== 'bool') {
             throw new ComparisonMethodDoesNotDeclareBoolReturnTypeException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
         if ($method->getNumberOfParameters() !== 1 || $method->getNumberOfRequiredParameters() !== 1) {
             throw new ComparisonMethodDoesNotDeclareExactlyOneParameterException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -104,8 +134,13 @@ final class ObjectEquals extends Constraint
 
         if (!$parameter->hasType()) {
             throw new ComparisonMethodDoesNotDeclareParameterTypeException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -113,8 +148,13 @@ final class ObjectEquals extends Constraint
 
         if (!$type instanceof ReflectionNamedType) {
             throw new ComparisonMethodDoesNotDeclareParameterTypeException(
+<<<<<<< HEAD
                 $other::class,
                 $this->method,
+=======
+                get_class($other),
+                $this->method
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -128,7 +168,11 @@ final class ObjectEquals extends Constraint
             throw new ComparisonMethodDoesNotAcceptParameterTypeException(
                 $other::class,
                 $this->method,
+<<<<<<< HEAD
                 $this->expected::class,
+=======
+                get_class($this->expected)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 

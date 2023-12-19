@@ -19,11 +19,19 @@ final class InvalidDirectoryException extends RuntimeException implements Except
 {
     public function __construct(string $directory)
     {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Util/Exception/InvalidDirectoryException.php
         parent::__construct(
             sprintf(
                 '"%s" is not a directory',
                 $directory,
             ),
+=======
+        return ErrorHandler::invokeIgnoringWarnings(
+            static function () use ($pattern, $subject)
+            {
+                return preg_match($pattern, $subject);
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/RegularExpression.php
         );
     }
 }

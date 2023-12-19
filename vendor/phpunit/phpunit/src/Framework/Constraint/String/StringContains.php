@@ -51,10 +51,15 @@ final class StringContains extends Constraint
         }
 
         return sprintf(
+<<<<<<< HEAD
             'contains "%s" [%s](length: %s)',
             $needle,
             $this->getDetectedEncoding($needle),
             strlen($needle),
+=======
+            'contains "%s"',
+            $string
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 

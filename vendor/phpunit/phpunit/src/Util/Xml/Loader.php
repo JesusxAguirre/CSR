@@ -37,9 +37,15 @@ final class Loader
         if ($contents === false) {
             throw new XmlException(
                 sprintf(
+<<<<<<< HEAD
                     'Could not read XML from file "%s"',
                     $filename,
                 ),
+=======
+                    'Could not read "%s".',
+                    $filename
+                )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -105,8 +111,13 @@ final class Loader
                     sprintf(
                         'Could not load "%s"%s',
                         $filename,
+<<<<<<< HEAD
                         $message !== '' ? ":\n" . $message : '',
                     ),
+=======
+                        $message !== '' ? "\n" . $message : ''
+                    )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                 );
             }
 

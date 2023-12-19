@@ -35,6 +35,7 @@ final class TimeEfficientLongestCommonSubsequenceCalculator implements LongestCo
             $matrix[$j * $width] = 0;
         }
 
+<<<<<<< HEAD
         for ($i = 1; $i <= $fromLength; $i++) {
             for ($j = 1; $j <= $toLength; $j++) {
                 $o = ($j * $width) + $i;
@@ -55,6 +56,16 @@ final class TimeEfficientLongestCommonSubsequenceCalculator implements LongestCo
                         $matrix[$o] = $matrix[$o - $width];
                     }
                 }
+=======
+        for ($i = 1; $i <= $fromLength; ++$i) {
+            for ($j = 1; $j <= $toLength; ++$j) {
+                $o          = ($j * $width) + $i;
+                $matrix[$o] = max(
+                    $matrix[$o - 1],
+                    $matrix[$o - $width],
+                    $from[$i - 1] === $to[$j - 1] ? $matrix[$o - $width - 1] + 1 : 0
+                );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             }
         }
 

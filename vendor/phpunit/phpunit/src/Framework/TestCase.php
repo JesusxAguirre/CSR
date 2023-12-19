@@ -143,7 +143,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private int|string $dataName = '';
 
     /**
+<<<<<<< HEAD
      * @psalm-var non-empty-string
+=======
+     * @var bool
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
      */
     private string $name;
 
@@ -159,7 +163,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private array $dependencyInput = [];
 
     /**
+<<<<<<< HEAD
      * @psalm-var array<string,string>
+=======
+     * @var bool
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
      */
     private array $iniSettings = [];
     private array $locale      = [];
@@ -188,7 +196,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     private bool $wasPrepared                                = false;
 
     /**
+<<<<<<< HEAD
      * @psalm-var array<class-string, true>
+=======
+     * @var bool
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
      */
     private array $failureTypes = [];
 
@@ -216,7 +228,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     final public static function atLeast(int $requiredInvocations): InvokedAtLeastCountMatcher
     {
         return new InvokedAtLeastCountMatcher(
-            $requiredInvocations,
+            $requiredInvocations
         );
     }
 
@@ -258,7 +270,30 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      * @deprecated Use <code>$double->willReturn()</code> instead of <code>$double->will($this->returnValue())</code>
      * @see https://github.com/sebastianbergmann/phpunit/issues/5423
      */
+<<<<<<< HEAD
     final public static function returnValue(mixed $value): ReturnStub
+=======
+    public static function at(int $index): InvokedAtIndexMatcher
+    {
+        $stack = debug_backtrace();
+
+        while (!empty($stack)) {
+            $frame = array_pop($stack);
+
+            if (isset($frame['object']) && $frame['object'] instanceof self) {
+                $frame['object']->addWarning(
+                    'The at() matcher has been deprecated. It will be removed in PHPUnit 10. Please refactor your test to not rely on the order in which methods are invoked.'
+                );
+
+                break;
+            }
+        }
+
+        return new InvokedAtIndexMatcher($index);
+    }
+
+    public static function returnValue($value): ReturnStub
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     {
         return new ReturnStub($value);
     }
@@ -381,10 +416,29 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      */
     public function toString(): string
     {
+<<<<<<< HEAD
         $buffer = sprintf(
             '%s::%s',
             (new ReflectionClass($this))->getName(),
             $this->name,
+=======
+        try {
+            $class = new ReflectionClass($this);
+            // @codeCoverageIgnoreStart
+        } catch (ReflectionException $e) {
+            throw new Exception(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+
+        $buffer = sprintf(
+            '%s::%s',
+            $class->name,
+            $this->getName(false)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         return $buffer . $this->dataSetAsStringWithData();
@@ -485,8 +539,155 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             return;
         }
 
+<<<<<<< HEAD
         if (!$this->shouldRunInSeparateProcess()) {
             (new TestRunner)->run($this);
+=======
+        if (!$this instanceof ErrorTestCase && !$this instanceof WarningTestCase) {
+            $this->setTestResultObject($result);
+        }
+
+        if (!$this instanceof ErrorTestCase &&
+            !$this instanceof WarningTestCase &&
+            !$this instanceof SkippedTestCase &&
+            !$this->handleDependencies()) {
+            return $result;
+        }
+
+        if ($this->runInSeparateProcess()) {
+            $runEntireClass = $this->runClassInSeparateProcess && !$this->runTestInSeparateProcess;
+
+            try {
+                $class = new ReflectionClass($this);
+                // @codeCoverageIgnoreStart
+            } catch (ReflectionException $e) {
+                throw new Exception(
+                    $e->getMessage(),
+                    $e->getCode(),
+                    $e
+                );
+            }
+            // @codeCoverageIgnoreEnd
+
+            if ($runEntireClass) {
+                $template = new Template(
+                    __DIR__ . '/../Util/PHP/Template/TestCaseClass.tpl'
+                );
+            } else {
+                $template = new Template(
+                    __DIR__ . '/../Util/PHP/Template/TestCaseMethod.tpl'
+                );
+            }
+
+            if ($this->preserveGlobalState) {
+                $constants     = GlobalState::getConstantsAsString();
+                $globals       = GlobalState::getGlobalsAsString();
+                $includedFiles = GlobalState::getIncludedFilesAsString();
+                $iniSettings   = GlobalState::getIniSettingsAsString();
+            } else {
+                $constants = '';
+
+                if (!empty($GLOBALS['__PHPUNIT_BOOTSTRAP'])) {
+                    $globals = '$GLOBALS[\'__PHPUNIT_BOOTSTRAP\'] = ' . var_export($GLOBALS['__PHPUNIT_BOOTSTRAP'], true) . ";\n";
+                } else {
+                    $globals = '';
+                }
+
+                $includedFiles = '';
+                $iniSettings   = '';
+            }
+
+            $coverage                                   = $result->getCollectCodeCoverageInformation() ? 'true' : 'false';
+            $isStrictAboutTestsThatDoNotTestAnything    = $result->isStrictAboutTestsThatDoNotTestAnything() ? 'true' : 'false';
+            $isStrictAboutOutputDuringTests             = $result->isStrictAboutOutputDuringTests() ? 'true' : 'false';
+            $enforcesTimeLimit                          = $result->enforcesTimeLimit() ? 'true' : 'false';
+            $isStrictAboutTodoAnnotatedTests            = $result->isStrictAboutTodoAnnotatedTests() ? 'true' : 'false';
+            $isStrictAboutResourceUsageDuringSmallTests = $result->isStrictAboutResourceUsageDuringSmallTests() ? 'true' : 'false';
+
+            if (defined('PHPUNIT_COMPOSER_INSTALL')) {
+                $composerAutoload = var_export(PHPUNIT_COMPOSER_INSTALL, true);
+            } else {
+                $composerAutoload = '\'\'';
+            }
+
+            if (defined('__PHPUNIT_PHAR__')) {
+                $phar = var_export(__PHPUNIT_PHAR__, true);
+            } else {
+                $phar = '\'\'';
+            }
+
+            $codeCoverage               = $result->getCodeCoverage();
+            $codeCoverageFilter         = null;
+            $cachesStaticAnalysis       = 'false';
+            $codeCoverageCacheDirectory = null;
+            $driverMethod               = 'forLineCoverage';
+
+            if ($codeCoverage) {
+                $codeCoverageFilter = $codeCoverage->filter();
+
+                if ($codeCoverage->collectsBranchAndPathCoverage()) {
+                    $driverMethod = 'forLineAndPathCoverage';
+                }
+
+                if ($codeCoverage->cachesStaticAnalysis()) {
+                    $cachesStaticAnalysis       = 'true';
+                    $codeCoverageCacheDirectory = $codeCoverage->cacheDirectory();
+                }
+            }
+
+            $data                       = var_export(serialize($this->data), true);
+            $dataName                   = var_export($this->dataName, true);
+            $dependencyInput            = var_export(serialize($this->dependencyInput), true);
+            $includePath                = var_export(get_include_path(), true);
+            $codeCoverageFilter         = var_export(serialize($codeCoverageFilter), true);
+            $codeCoverageCacheDirectory = var_export(serialize($codeCoverageCacheDirectory), true);
+            // must do these fixes because TestCaseMethod.tpl has unserialize('{data}') in it, and we can't break BC
+            // the lines above used to use addcslashes() rather than var_export(), which breaks null byte escape sequences
+            $data                       = "'." . $data . ".'";
+            $dataName                   = "'.(" . $dataName . ").'";
+            $dependencyInput            = "'." . $dependencyInput . ".'";
+            $includePath                = "'." . $includePath . ".'";
+            $codeCoverageFilter         = "'." . $codeCoverageFilter . ".'";
+            $codeCoverageCacheDirectory = "'." . $codeCoverageCacheDirectory . ".'";
+
+            $configurationFilePath = $GLOBALS['__PHPUNIT_CONFIGURATION_FILE'] ?? '';
+
+            $var = [
+                'composerAutoload'                           => $composerAutoload,
+                'phar'                                       => $phar,
+                'filename'                                   => $class->getFileName(),
+                'className'                                  => $class->getName(),
+                'collectCodeCoverageInformation'             => $coverage,
+                'cachesStaticAnalysis'                       => $cachesStaticAnalysis,
+                'codeCoverageCacheDirectory'                 => $codeCoverageCacheDirectory,
+                'driverMethod'                               => $driverMethod,
+                'data'                                       => $data,
+                'dataName'                                   => $dataName,
+                'dependencyInput'                            => $dependencyInput,
+                'constants'                                  => $constants,
+                'globals'                                    => $globals,
+                'include_path'                               => $includePath,
+                'included_files'                             => $includedFiles,
+                'iniSettings'                                => $iniSettings,
+                'isStrictAboutTestsThatDoNotTestAnything'    => $isStrictAboutTestsThatDoNotTestAnything,
+                'isStrictAboutOutputDuringTests'             => $isStrictAboutOutputDuringTests,
+                'enforcesTimeLimit'                          => $enforcesTimeLimit,
+                'isStrictAboutTodoAnnotatedTests'            => $isStrictAboutTodoAnnotatedTests,
+                'isStrictAboutResourceUsageDuringSmallTests' => $isStrictAboutResourceUsageDuringSmallTests,
+                'codeCoverageFilter'                         => $codeCoverageFilter,
+                'configurationFilePath'                      => $configurationFilePath,
+                'name'                                       => $this->getName(false),
+            ];
+
+            if (!$runEntireClass) {
+                $var['methodName'] = $this->name;
+            }
+
+            $template->setVar($var);
+
+            $php = AbstractPhpProcess::factory();
+            $php->runTestJob($template->render(), $this, $result);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         } else {
             (new TestRunner)->runInSeparateProcess(
                 $this,
@@ -551,7 +752,11 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
     {
         return (new Groups)->size(
             static::class,
+<<<<<<< HEAD
             $this->name,
+=======
+            $this->getName(false)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 
@@ -661,6 +866,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         } catch (IncompleteTest $e) {
             $this->status = TestStatus::incomplete($e->getMessage());
 
+<<<<<<< HEAD
             $emitter->testMarkedAsIncomplete(
                 $this->valueObjectForEvents(),
                 Event\Code\ThrowableBuilder::from($e),
@@ -678,6 +884,14 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
                 $emitter->testPreparationFailed(
                     $this->valueObjectForEvents(),
+=======
+            if (!empty($this->warnings)) {
+                throw new Warning(
+                    implode(
+                        "\n",
+                        array_unique($this->warnings)
+                    )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                 );
             }
 
@@ -1108,6 +1322,15 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      */
     protected function runTest(): mixed
     {
+<<<<<<< HEAD
+=======
+        if (trim($this->name) === '') {
+            throw new Exception(
+                'PHPUnit\Framework\TestCase::$name must be a non-blank string.'
+            );
+        }
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         $testArguments = array_merge($this->data, $this->dependencyInput);
 
         $this->registerMockObjectsFromTestArguments($testArguments);
@@ -1119,12 +1342,99 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 throw $exception;
             }
 
+<<<<<<< HEAD
             $this->verifyExceptionExpectations($exception);
 
             return null;
         }
 
         $this->expectedExceptionWasNotRaised();
+=======
+            if ($this->expectedException !== null) {
+                if ($this->expectedException === Error::class) {
+                    $this->assertThat(
+                        $exception,
+                        LogicalOr::fromConstraints(
+                            new ExceptionConstraint(Error::class),
+                            new ExceptionConstraint(\Error::class)
+                        )
+                    );
+                } else {
+                    $this->assertThat(
+                        $exception,
+                        new ExceptionConstraint(
+                            $this->expectedException
+                        )
+                    );
+                }
+            }
+
+            if ($this->expectedExceptionMessage !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionMessage(
+                        $this->expectedExceptionMessage
+                    )
+                );
+            }
+
+            if ($this->expectedExceptionMessageRegExp !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionMessageRegularExpression(
+                        $this->expectedExceptionMessageRegExp
+                    )
+                );
+            }
+
+            if ($this->expectedExceptionCode !== null) {
+                $this->assertThat(
+                    $exception,
+                    new ExceptionCode(
+                        $this->expectedExceptionCode
+                    )
+                );
+            }
+
+            return;
+        }
+
+        if ($this->expectedException !== null) {
+            $this->assertThat(
+                null,
+                new ExceptionConstraint(
+                    $this->expectedException
+                )
+            );
+        } elseif ($this->expectedExceptionMessage !== null) {
+            $this->numAssertions++;
+
+            throw new AssertionFailedError(
+                sprintf(
+                    'Failed asserting that exception with message "%s" is thrown',
+                    $this->expectedExceptionMessage
+                )
+            );
+        } elseif ($this->expectedExceptionMessageRegExp !== null) {
+            $this->numAssertions++;
+
+            throw new AssertionFailedError(
+                sprintf(
+                    'Failed asserting that exception with message matching "%s" is thrown',
+                    $this->expectedExceptionMessageRegExp
+                )
+            );
+        } elseif ($this->expectedExceptionCode !== null) {
+            $this->numAssertions++;
+
+            throw new AssertionFailedError(
+                sprintf(
+                    'Failed asserting that exception with code "%s" is thrown',
+                    $this->expectedExceptionCode
+                )
+            );
+        }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
         return $testResult;
     }
@@ -1149,8 +1459,8 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 sprintf(
                     'INI setting "%s" could not be set to "%s".',
                     $varName,
-                    $newValue,
-                ),
+                    $newValue
+                )
             );
         }
     }
@@ -1187,7 +1497,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             throw new Exception(
                 'The locale functionality is not implemented on your platform, ' .
                 'the specified locale does not exist or the category name is ' .
-                'invalid.',
+                'invalid.'
             );
         }
     }
@@ -1284,6 +1594,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      */
     protected function createPartialMock(string $originalClassName, array $methods): MockObject
     {
+<<<<<<< HEAD
         $partialMock = $this->getMockBuilder($originalClassName)
             ->disableOriginalConstructor()
             ->disableOriginalClone()
@@ -1298,6 +1609,45 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
 
         return $partialMock;
+=======
+        try {
+            $reflector = new ReflectionClass($originalClassName);
+            // @codeCoverageIgnoreStart
+        } catch (ReflectionException $e) {
+            throw new Exception(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+        // @codeCoverageIgnoreEnd
+
+        $mockedMethodsThatDontExist = array_filter(
+            $methods,
+            static function (string $method) use ($reflector)
+            {
+                return !$reflector->hasMethod($method);
+            }
+        );
+
+        if ($mockedMethodsThatDontExist) {
+            $this->addWarning(
+                sprintf(
+                    'createPartialMock() called with method(s) %s that do not exist in %s. This will not be allowed in future versions of PHPUnit.',
+                    implode(', ', $mockedMethodsThatDontExist),
+                    $originalClassName
+                )
+            );
+        }
+
+        return $this->getMockBuilder($originalClassName)
+                    ->disableOriginalConstructor()
+                    ->disableOriginalClone()
+                    ->disableArgumentCloning()
+                    ->disallowMockingUnknownTypes()
+                    ->setMethods(empty($methods) ? null : $methods)
+                    ->getMock();
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 
     /**
@@ -1316,14 +1666,32 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      */
     protected function createTestProxy(string $originalClassName, array $constructorArguments = []): MockObject
     {
+<<<<<<< HEAD
         $testProxy = $this->getMockBuilder($originalClassName)
             ->setConstructorArgs($constructorArguments)
             ->enableProxyingToOriginalMethods()
             ->getMock();
+=======
+        return $this->getMockBuilder($originalClassName)
+                    ->setConstructorArgs($constructorArguments)
+                    ->enableProxyingToOriginalMethods()
+                    ->getMock();
+    }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
         Event\Facade::emitter()->testCreatedTestProxy(
             $originalClassName,
+<<<<<<< HEAD
             $constructorArguments,
+=======
+            $methods,
+            $arguments,
+            $mockClassName,
+            $callOriginalConstructor,
+            $callOriginalClone,
+            $callAutoload,
+            $cloneArguments
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         return $testProxy;
@@ -1355,7 +1723,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $callOriginalClone,
             $callAutoload,
             $mockedMethods,
-            $cloneArguments,
+            $cloneArguments
         );
 
         $this->registerMockObject($mockObject);
@@ -1388,7 +1756,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                     $wsdlFile,
                     $originalClassName,
                     $methods,
-                    $options,
+                    $options
                 )
             );
         }
@@ -1401,7 +1769,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $mockClassName,
             $callOriginalConstructor,
             false,
-            false,
+            false
         );
 
         Event\Facade::emitter()->testCreatedMockObjectFromWsdl(
@@ -1442,7 +1810,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $callOriginalClone,
             $callAutoload,
             $mockedMethods,
-            $cloneArguments,
+            $cloneArguments
         );
 
         $this->registerMockObject($mockObject);
@@ -1468,7 +1836,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $traitClassName,
             $callAutoload,
             $callOriginalConstructor,
-            $arguments,
+            $arguments
         );
     }
 
@@ -1498,7 +1866,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             }
 
             $mockObject->__phpunit_verify(
-                $this->shouldInvocationMockerBeReset($mockObject),
+                $this->shouldInvocationMockerBeReset($mockObject)
             );
         }
     }
@@ -1514,7 +1882,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
         $missingRequirements = (new Requirements)->requirementsNotSatisfiedFor(
             static::class,
-            $this->name,
+            $this->name
         );
 
         if (!empty($missingRequirements)) {
@@ -1567,11 +1935,25 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 return false;
             }
 
+<<<<<<< HEAD
             if ($passedTests->isGreaterThan($dependencyTarget, $this->size())) {
                 Event\Facade::emitter()->testConsideredRisky(
                     $this->valueObjectForEvents(),
                     'This test depends on a test that is larger than itself',
                 );
+=======
+            if (isset($passed[$dependencyTarget])) {
+                if ($passed[$dependencyTarget]['size'] != \PHPUnit\Util\Test::UNKNOWN &&
+                    $this->getSize() != \PHPUnit\Util\Test::UNKNOWN &&
+                    $passed[$dependencyTarget]['size'] > $this->getSize()) {
+                    $this->result->addError(
+                        $this,
+                        new SkippedTestError(
+                            'This test depends on a test that is larger than itself.'
+                        ),
+                        0
+                    );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
                 return false;
             }
@@ -1611,6 +1993,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             );
         }
 
+<<<<<<< HEAD
         $exception = new InvalidDependencyException($message);
 
         Event\Facade::emitter()->testErrored(
@@ -1619,6 +2002,57 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         );
 
         $this->status = TestStatus::error($message);
+=======
+        $this->result->addError(
+            $this,
+            new SkippedTestError(
+                'This method has an invalid @depends annotation.'
+            ),
+            0
+        );
+
+        $this->result->endTest($this, 0);
+    }
+
+    private function markSkippedForMissingDependency(ExecutionOrderDependency $dependency): void
+    {
+        $this->status = BaseTestRunner::STATUS_SKIPPED;
+
+        $this->result->startTest($this);
+
+        $this->result->addError(
+            $this,
+            new SkippedTestError(
+                sprintf(
+                    'This test depends on "%s" to pass.',
+                    $dependency->getTarget()
+                )
+            ),
+            0
+        );
+
+        $this->result->endTest($this, 0);
+    }
+
+    private function markWarningForUncallableDependency(ExecutionOrderDependency $dependency): void
+    {
+        $this->status = BaseTestRunner::STATUS_WARNING;
+
+        $this->result->startTest($this);
+
+        $this->result->addWarning(
+            $this,
+            new Warning(
+                sprintf(
+                    'This test depends on "%s" which does not exist.',
+                    $dependency->getTarget()
+                )
+            ),
+            0
+        );
+
+        $this->result->endTest($this, 0);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 
     /**
@@ -1665,9 +2099,14 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 ob_end_clean();
             }
 
+<<<<<<< HEAD
             Event\Facade::emitter()->testConsideredRisky(
                 $this->valueObjectForEvents(),
                 $message,
+=======
+            throw new RiskyTestError(
+                'Test code or tested code did not (only) close its own output buffers'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
 
             $this->status = TestStatus::risky($message);
@@ -1704,11 +2143,23 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             return;
         }
 
+<<<<<<< HEAD
         if (ConfigurationRegistry::get()->beStrictAboutChangesToGlobalState()) {
             $this->compareGlobalStateSnapshots(
                 $this->snapshot,
                 $this->createGlobalStateSnapshot($this->backupGlobals === true),
             );
+=======
+        if ($this->beStrictAboutChangesToGlobalState) {
+            try {
+                $this->compareGlobalStateSnapshots(
+                    $this->snapshot,
+                    $this->createGlobalStateSnapshot($this->backupGlobals === true)
+                );
+            } catch (RiskyTestError $rte) {
+                // Intentionally left empty
+            }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         $restorer = new Restorer;
@@ -1758,7 +2209,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             false,
             false,
             false,
-            false,
+            false
         );
     }
 
@@ -1773,21 +2224,27 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $this->compareGlobalStateSnapshotPart(
                 $before->globalVariables(),
                 $after->globalVariables(),
-                "--- Global variables before the test\n+++ Global variables after the test\n",
+                "--- Global variables before the test\n+++ Global variables after the test\n"
             );
 
             $this->compareGlobalStateSnapshotPart(
                 $before->superGlobalVariables(),
                 $after->superGlobalVariables(),
-                "--- Super-global variables before the test\n+++ Super-global variables after the test\n",
+                "--- Super-global variables before the test\n+++ Super-global variables after the test\n"
             );
         }
 
         if ($this->backupStaticProperties) {
             $this->compareGlobalStateSnapshotPart(
+<<<<<<< HEAD
                 $before->staticProperties(),
                 $after->staticProperties(),
                 "--- Static properties before the test\n+++ Static properties after the test\n",
+=======
+                $before->staticAttributes(),
+                $after->staticAttributes(),
+                "--- Static attributes before the test\n+++ Static attributes after the test\n"
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
     }
@@ -1801,6 +2258,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
             $differ   = new Differ(new UnifiedDiffOutputBuilder($header));
             $exporter = new Exporter;
 
+<<<<<<< HEAD
             Event\Facade::emitter()->testConsideredRisky(
                 $this->valueObjectForEvents(),
                 'This test modified global state but was not expected to do so' . PHP_EOL .
@@ -1810,6 +2268,15 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                         $exporter->export($after),
                     ),
                 ),
+=======
+            $diff = $differ->diff(
+                $exporter->export($before),
+                $exporter->export($after)
+            );
+
+            throw new RiskyTestError(
+                $diff
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
     }
@@ -1851,14 +2318,34 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                     $context->add($testArgument);
 
                     $this->registerMockObjectsFromTestArguments(
+<<<<<<< HEAD
                         $testArgumentCopy,
                         $context,
+=======
+                        $testArgument,
+                        $visited
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                     );
                 }
             }
         }
     }
 
+<<<<<<< HEAD
+=======
+    private function setDoesNotPerformAssertionsFromAnnotation(): void
+    {
+        $annotations = TestUtil::parseTestMethodAnnotations(
+            static::class,
+            $this->name
+        );
+
+        if (isset($annotations['method']['doesNotPerformAssertions'])) {
+            $this->doesNotPerformAssertions = true;
+        }
+    }
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     private function unregisterCustomComparators(): void
     {
         $factory = ComparatorFactory::getInstance();
@@ -1911,7 +2398,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
                 throw new Exception(
                     $e->getMessage(),
                     $e->getCode(),
-                    $e,
+                    $e
                 );
             }
             // @codeCoverageIgnoreEnd
@@ -2245,6 +2732,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
      */
     protected static function createStub(string $originalClassName): Stub
     {
+<<<<<<< HEAD
         $stub = (new MockGenerator)->testDouble(
             $originalClassName,
             true,
@@ -2298,5 +2786,13 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
         }
 
         return $o;
+=======
+        return $this->getMockBuilder($originalClassName)
+                    ->disableOriginalConstructor()
+                    ->disableOriginalClone()
+                    ->disableArgumentCloning()
+                    ->disallowMockingUnknownTypes()
+                    ->getMock();
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 }

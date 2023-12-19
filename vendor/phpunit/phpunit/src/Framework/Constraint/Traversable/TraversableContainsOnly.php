@@ -27,7 +27,13 @@ final class TraversableContainsOnly extends Constraint
         if ($isNativeType) {
             $this->constraint = new IsType($type);
         } else {
+<<<<<<< HEAD
             $this->constraint = new IsInstanceOf($type);
+=======
+            $this->constraint = new IsInstanceOf(
+                $type
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         $this->type = $type;

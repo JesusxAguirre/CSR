@@ -1,6 +1,7 @@
 CHANGELOG
 =========
 
+<<<<<<< HEAD
 6.4
 ---
 
@@ -25,10 +26,11 @@ CHANGELOG
  * Deprecate conversion of invalid values in `ParameterBag::getInt()` and `ParameterBag::getBoolean()`,
  * Deprecate ignoring invalid values when using `ParameterBag::filter()`, unless flag `FILTER_NULL_ON_FAILURE` is set
 
+=======
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 6.2
 ---
 
- * Add `StreamedJsonResponse` class for efficient JSON streaming
  * The HTTP cache store uses the `xxh128` algorithm
  * Deprecate calling `JsonResponse::setCallback()`, `Response::setExpires/setLastModified/setEtag()`, `MockArraySessionStorage/NativeSessionStorage::setMetadataBag()`, `NativeSessionStorage::setSaveHandler()` without arguments
  * Add request matchers under the `Symfony\Component\HttpFoundation\RequestMatcher` namespace

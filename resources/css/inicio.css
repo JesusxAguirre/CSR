@@ -11512,9 +11512,10 @@ html {
     width: 250px;
     margin: auto;
     margin-bottom: 20px;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.70);
     border-radius: 40px;
     border: none;
-    color: 'white';
 }
 .botonF:hover{
     background-color: rgb(38, 38, 38);

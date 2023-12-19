@@ -54,14 +54,23 @@ final class ExceptionMessageIsOrContains extends Constraint
         if ($this->expectedMessage === '') {
             return sprintf(
                 "exception message is empty but is '%s'",
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessageIsOrContains.php
                 $other,
+=======
+                $other->getMessage()
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessage.php
             );
         }
 
         return sprintf(
             "exception message '%s' contains '%s'",
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessageIsOrContains.php
             $other,
             $this->expectedMessage,
+=======
+            $other->getMessage(),
+            $this->expectedMessage
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessage.php
         );
     }
 }

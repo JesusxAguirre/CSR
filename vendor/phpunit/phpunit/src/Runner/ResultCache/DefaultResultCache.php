@@ -92,7 +92,7 @@ final class DefaultResultCache implements ResultCache
 
         $data = json_decode(
             file_get_contents($this->cacheFilename),
-            true,
+            true
         );
 
         if ($data === null) {
@@ -124,6 +124,7 @@ final class DefaultResultCache implements ResultCache
     public function persist(): void
     {
         if (!Filesystem::createDirectory(dirname($this->cacheFilename))) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Runner/ResultCache/DefaultResultCache.php
             throw new DirectoryCannotBeCreatedException($this->cacheFilename);
         }
 
@@ -135,12 +136,31 @@ final class DefaultResultCache implements ResultCache
 
         foreach ($this->defects as $test => $status) {
             $data['defects'][$test] = $status->asInt();
+=======
+            throw new Exception(
+                sprintf(
+                    'Cannot create directory "%s" for result cache file',
+                    $this->cacheFilename
+                )
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Runner/DefaultTestResultCache.php
         }
 
         file_put_contents(
             $this->cacheFilename,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Runner/ResultCache/DefaultResultCache.php
             json_encode($data),
             LOCK_EX,
+=======
+            json_encode(
+                [
+                    'version' => self::VERSION,
+                    'defects' => $this->defects,
+                    'times'   => $this->times,
+                ]
+            ),
+            LOCK_EX
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Runner/DefaultTestResultCache.php
         );
     }
 }

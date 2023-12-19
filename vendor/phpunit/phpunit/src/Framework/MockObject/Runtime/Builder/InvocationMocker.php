@@ -252,6 +252,7 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
             throw new MethodNameAlreadyConfiguredException;
         }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Builder/InvocationMocker.php
         if (is_string($constraint)) {
             $this->configurableMethodNames ??= array_flip(
                 array_map(
@@ -259,6 +260,15 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
                     $this->configurableMethods,
                 ),
             );
+=======
+        $configurableMethodNames = array_map(
+            static function (ConfigurableMethod $configurable)
+            {
+                return strtolower($configurable->getName());
+            },
+            $this->configurableMethods
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Builder/InvocationMocker.php
 
             if (!array_key_exists(strtolower($constraint), $this->configurableMethodNames)) {
                 throw new MethodCannotBeConfiguredException($constraint);
@@ -317,7 +327,7 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
             if (!$configuredMethod->mayReturn($value)) {
                 throw new IncompatibleReturnValueException(
                     $configuredMethod,
-                    $value,
+                    $value
                 );
             }
         }

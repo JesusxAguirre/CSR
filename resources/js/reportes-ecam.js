@@ -33,7 +33,7 @@ function grafico1(ctxRef, refNombres, refCantidad, colores) {
 
 function infoSecciones() {
   $.post(
-    "index.php?pagina=reportes-ecam",
+    "controlador/ajax/generar-reportes-ecam.php",
     { grafico1: "grafico1" },
     function (response) {
       var json = JSON.parse(response);
@@ -84,7 +84,7 @@ function grafico2(ctxRef, meses, cantidad, colores) {
 function infoCantidad_graduandos() {
   var ctx = document.getElementById("graduandosDeHoy").getContext("2d");
 
-  $.post("index.php?pagina=reportes-ecam", {grafico2: 'grafico2'},
+  $.post("controlador/ajax/generar-reportes-ecam.php", {grafico2: 'grafico2'},
     function (data) {
       let respuesta = JSON.parse(data);
       let meses= [];

@@ -56,6 +56,7 @@ class StreamedResponse extends Response
         return $this;
     }
 
+<<<<<<< HEAD
     public function getCallback(): ?\Closure
     {
         if (!isset($this->callback)) {
@@ -70,20 +71,22 @@ class StreamedResponse extends Response
      *
      * @param positive-int|null $statusCode The status code to use, override the statusCode property if set and not null
      *
+=======
+    /**
+     * This method only sends the headers once.
+     *
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
      * @return $this
      */
-    public function sendHeaders(/* int $statusCode = null */): static
+    public function sendHeaders(): static
     {
         if ($this->headersSent) {
             return $this;
         }
 
-        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
-        if ($statusCode < 100 || $statusCode >= 200) {
-            $this->headersSent = true;
-        }
+        $this->headersSent = true;
 
-        return parent::sendHeaders($statusCode);
+        return parent::sendHeaders();
     }
 
     /**

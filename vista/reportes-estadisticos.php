@@ -5,11 +5,37 @@
   <title>Reporte Casa Sobre La Roca</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-  <!-- Espacio para CSS -->
-	<?php require_once './resources/View_Components/importCSS.php' ?>
+
+
+  <!-- Bostrap 5 -->
+  <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./resources/css/style.css">
+  <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+
+
+  <!-- Fontawesone css -->
+  <link rel="stylesheet" href="./resources/library/fontawesome/css/all.css">
+  <!-- Js boostrap -->
+  <script src="./resources/js/bootstrap.min.js"></script>
+
+  <!-- Js fontawesone -->
+  <script src="./resources/library/fontawesone/js/all.js"></script>
+
+  <!-- estilos del archivo-->
   <link rel="stylesheet" href="resources/css/reportes-estadisticos.css">
-	<!-- Espacio para los JS -->
-	<?php require_once './resources/View_Components/importJS.php' ?>
+  <link rel="stylesheet" href="node_modules\highcharts\css\highcharts.css">
+
+
+  <!-- CHOICE 2 -->
+  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+
+  <!-- JQUERY -->
+  <script src="./resources/js/jquery-3.6.0.min.js"></script>
+
+
+  <!-- SWEETT ALERT-->
+  <script src="resources/js/sweetalert2.js"></script>
 </head>
 
 <body>

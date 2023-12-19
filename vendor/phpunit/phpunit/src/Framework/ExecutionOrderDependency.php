@@ -69,8 +69,16 @@ final class ExecutionOrderDependency implements Stringable
         return array_values(
             array_filter(
                 $dependencies,
+<<<<<<< HEAD
                 static fn (self $d) => $d->isValid(),
             ),
+=======
+                static function (self $d)
+                {
+                    return $d->isValid();
+                }
+            )
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 
@@ -83,8 +91,16 @@ final class ExecutionOrderDependency implements Stringable
     public static function mergeUnique(array $existing, array $additional): array
     {
         $existingTargets = array_map(
+<<<<<<< HEAD
             static fn ($dependency) => $dependency->getTarget(),
             $existing,
+=======
+            static function ($dependency)
+            {
+                return $dependency->getTarget();
+            },
+            $existing
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         foreach ($additional as $dependency) {
@@ -117,8 +133,16 @@ final class ExecutionOrderDependency implements Stringable
 
         $diff         = [];
         $rightTargets = array_map(
+<<<<<<< HEAD
             static fn ($dependency) => $dependency->getTarget(),
             $right,
+=======
+            static function ($dependency)
+            {
+                return $dependency->getTarget();
+            },
+            $right
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
 
         foreach ($left as $dependency) {

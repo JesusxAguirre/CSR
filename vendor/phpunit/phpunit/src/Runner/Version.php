@@ -34,7 +34,11 @@ final class Version
         }
 
         if (self::$version === '') {
+<<<<<<< HEAD
             self::$version = (new VersionId('10.5.3', dirname(__DIR__, 2)))->asString();
+=======
+            self::$version = (new VersionId('9.6.5', dirname(__DIR__, 2)))->getVersion();
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
 
         return self::$version;

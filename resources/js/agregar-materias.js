@@ -4,7 +4,7 @@ listarProfesores();
 function listarProfesores() {
     let div = document.getElementById('profesoresAgregar');
   
-    $.post("index.php?pagina=agregar-materias", {listarProfesores: 'listarProfesores'},
+    $.post("controlador/ajax/CRUD-materias.php", {listarProfesores: 'listarProfesores'},
       function (data) {
         div.innerHTML= data;
         choices1();
@@ -39,7 +39,7 @@ $("#agregarMateria").on("click", function (e) {
     };
   
     if (campos[0] && campos[1] && campos[2]) {
-      $.post("index.php?pagina=agregar-materias", data, function (response) {
+      $.post("controlador/ajax/CRUD-materias.php", data, function (response) {
         var resp = JSON.parse(response);
 
         if (resp == 'true') {

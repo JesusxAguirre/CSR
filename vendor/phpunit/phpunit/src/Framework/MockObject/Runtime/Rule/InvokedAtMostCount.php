@@ -46,6 +46,7 @@ final class InvokedAtMostCount extends InvocationOrder
 
         if ($actualInvocations > $this->allowedInvocations) {
             throw new ExpectationFailedException(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Rule/InvokedAtMostCount.php
                 sprintf(
                     'Expected invocation at most %d time%s but it occurred %d time%s.',
                     $this->allowedInvocations,
@@ -53,6 +54,10 @@ final class InvokedAtMostCount extends InvocationOrder
                     $actualInvocations,
                     $actualInvocations !== 1 ? 's' : '',
                 ),
+=======
+                'Expected invocation at most ' . $this->allowedInvocations .
+                ' times but it occurred ' . $count . ' time(s).'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Rule/InvokedAtMostCount.php
             );
         }
     }

@@ -32,6 +32,20 @@ final class ConsecutiveCalls implements Stub
             $value = $value->invoke($invocation);
         }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Stub/ConsecutiveCalls.php
         return $value;
+=======
+        return $this->value;
+    }
+
+    public function toString(): string
+    {
+        $exporter = new Exporter;
+
+        return sprintf(
+            'return user-specified value %s',
+            $exporter->export($this->value)
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Stub/ConsecutiveCalls.php
     }
 }

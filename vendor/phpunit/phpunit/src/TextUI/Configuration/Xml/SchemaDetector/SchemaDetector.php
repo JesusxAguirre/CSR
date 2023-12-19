@@ -22,7 +22,16 @@ final class SchemaDetector
      */
     public function detect(string $filename): SchemaDetectionResult
     {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/SchemaDetector/SchemaDetector.php
         $document = (new Loader)->loadFile($filename);
+=======
+        $document = (new Loader)->loadFile(
+            $filename,
+            false,
+            true,
+            true
+        );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/Xml/SchemaDetector.php
 
         foreach (['10.0', '9.5', '9.2', '8.5'] as $candidate) {
             $schema = (new SchemaFinder)->find($candidate);

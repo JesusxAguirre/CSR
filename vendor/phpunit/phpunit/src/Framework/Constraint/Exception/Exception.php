@@ -32,7 +32,7 @@ final class Exception extends Constraint
     {
         return sprintf(
             'exception of type "%s"',
-            $this->className,
+            $this->className
         );
     }
 
@@ -59,6 +59,10 @@ final class Exception extends Constraint
             return sprintf(
                 'exception of type "%s" is thrown',
                 $this->className,
+<<<<<<< HEAD
+=======
+                $message
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 
@@ -70,10 +74,15 @@ final class Exception extends Constraint
         }
 
         return sprintf(
+<<<<<<< HEAD
             'exception of type "%s" matches expected exception "%s"%s',
             $other::class,
             $this->className,
             $message,
+=======
+            'exception of type "%s" is thrown',
+            $this->className
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 }

@@ -4,16 +4,15 @@ on:
   release:
     types:
       - published
-  workflow_dispatch:
 
 env:
   FORCE_COLOR: 2
   NODE: 18
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    if: github.repository == 'twbs/icons' && startsWith(github.ref, 'refs/tags/v')
+    if: github.repository == 'twbs/icons'
 
     steps:
       - name: Clone repository
@@ -30,8 +29,11 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
-      - name: Prepare release
-        run: npm run release
+      - name: Build the icons
+        run: npm run icons
+
+      - name: Build the docs
+        run: npm run docs-build
 
       - name: Deploy docs
         uses: peaceiris/actions-gh-pages@v3
@@ -42,10 +44,8 @@ jobs:
           publish_dir: ./_site/
 
   publish:
-    needs: build
+    needs: deploy
     runs-on: ubuntu-latest
-    if: github.repository == 'twbs/icons' && startsWith(github.ref, 'refs/tags/v')
-
     steps:
       - name: Clone repository
         uses: actions/checkout@v3

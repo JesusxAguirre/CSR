@@ -110,7 +110,69 @@ final class NamePrettifier
         return $result;
     }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Logging/TestDox/NamePrettifier.php
     public function prettifyTestMethodName(string $name): string
+=======
+    /**
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public function prettifyTestCase(TestCase $test): string
+    {
+        $annotations = Test::parseTestMethodAnnotations(
+            get_class($test),
+            $test->getName(false)
+        );
+
+        $annotationWithPlaceholders = false;
+
+        $callback = static function (string $variable): string
+        {
+            return sprintf('/%s(?=\b)/', preg_quote($variable, '/'));
+        };
+
+        if (isset($annotations['method']['testdox'][0])) {
+            $result = $annotations['method']['testdox'][0];
+
+            if (strpos($result, '$') !== false) {
+                $annotation   = $annotations['method']['testdox'][0];
+                $providedData = $this->mapTestMethodParameterNamesToProvidedDataValues($test);
+                $variables    = array_map($callback, array_keys($providedData));
+
+                $result = trim(preg_replace($variables, $providedData, $annotation));
+
+                $annotationWithPlaceholders = true;
+            }
+        } else {
+            $result = $this->prettifyTestMethod($test->getName(false));
+        }
+
+        if (!$annotationWithPlaceholders && $test->usesDataProvider()) {
+            $result .= $this->prettifyDataSet($test);
+        }
+
+        return $result;
+    }
+
+    public function prettifyDataSet(TestCase $test): string
+    {
+        if (!$this->useColor) {
+            return $test->getDataSetAsString(false);
+        }
+
+        if (is_int($test->dataName())) {
+            $data = Color::dim(' with data set ') . Color::colorize('fg-cyan', (string) $test->dataName());
+        } else {
+            $data = Color::dim(' with ') . Color::colorize('fg-cyan', Color::visualizeWhitespace((string) $test->dataName()));
+        }
+
+        return $data;
+    }
+
+    /**
+     * Prettifies the name of a test method.
+     */
+    public function prettifyTestMethod(string $name): string
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/TestDox/NamePrettifier.php
     {
         $buffer = '';
 
@@ -168,6 +230,7 @@ final class NamePrettifier
 
     public function prettifyTestCase(TestCase $test, bool $colorize): string
     {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Logging/TestDox/NamePrettifier.php
         $annotationWithPlaceholders = false;
         $methodLevelTestDox         = MetadataRegistry::parser()->forMethod($test::class, $test->name())->isTestDox()->isMethodLevel();
 
@@ -196,6 +259,17 @@ final class NamePrettifier
             }
         } else {
             $result = $this->prettifyTestMethodName($test->name());
+=======
+        try {
+            $reflector = new ReflectionMethod(get_class($test), $test->getName(false));
+            // @codeCoverageIgnoreStart
+        } catch (ReflectionException $e) {
+            throw new UtilException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/TestDox/NamePrettifier.php
         }
 
         if (!$annotationWithPlaceholders && $test->usesDataProvider()) {
@@ -233,7 +307,21 @@ final class NamePrettifier
 
         foreach ($reflector->getParameters() as $parameter) {
             if (!array_key_exists($i, $providedDataValues) && $parameter->isDefaultValueAvailable()) {
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Logging/TestDox/NamePrettifier.php
                 $providedDataValues[$i] = $parameter->getDefaultValue();
+=======
+                try {
+                    $providedDataValues[$i] = $parameter->getDefaultValue();
+                    // @codeCoverageIgnoreStart
+                } catch (ReflectionException $e) {
+                    throw new UtilException(
+                        $e->getMessage(),
+                        $e->getCode(),
+                        $e
+                    );
+                }
+                // @codeCoverageIgnoreEnd
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Util/TestDox/NamePrettifier.php
             }
 
             $value = $providedDataValues[$i++] ?? null;

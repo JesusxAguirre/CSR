@@ -39,8 +39,13 @@ abstract class GroupFilterIterator extends RecursiveFilterIterator
         foreach ($suite->groupDetails() as $group => $tests) {
             if (in_array((string) $group, $groups, true)) {
                 $testHashes = array_map(
+<<<<<<< HEAD
                     'spl_object_id',
                     $tests,
+=======
+                    'spl_object_hash',
+                    $tests
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
                 );
 
                 array_push($this->groupTests, ...$testHashes);

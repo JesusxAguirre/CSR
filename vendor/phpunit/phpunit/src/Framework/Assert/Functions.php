@@ -1126,6 +1126,7 @@ if (!function_exists('PHPUnit\Framework\assertNan')) {
     }
 }
 
+<<<<<<< HEAD
 if (!function_exists('PHPUnit\Framework\assertObjectHasProperty')) {
     /**
      * Asserts that an object has a specified property.
@@ -1155,6 +1156,117 @@ if (!function_exists('PHPUnit\Framework\assertObjectNotHasProperty')) {
     function assertObjectNotHasProperty(string $propertyName, object $object, string $message = ''): void
     {
         Assert::assertObjectNotHasProperty(...func_get_args());
+=======
+if (!function_exists('PHPUnit\Framework\assertClassHasAttribute')) {
+    /**
+     * Asserts that a class has a specified attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     *
+     * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+     *
+     * @see Assert::assertClassHasAttribute
+     */
+    function assertClassHasAttribute(string $attributeName, string $className, string $message = ''): void
+    {
+        Assert::assertClassHasAttribute(...func_get_args());
+    }
+}
+
+if (!function_exists('PHPUnit\Framework\assertClassNotHasAttribute')) {
+    /**
+     * Asserts that a class does not have a specified attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     *
+     * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+     *
+     * @see Assert::assertClassNotHasAttribute
+     */
+    function assertClassNotHasAttribute(string $attributeName, string $className, string $message = ''): void
+    {
+        Assert::assertClassNotHasAttribute(...func_get_args());
+    }
+}
+
+if (!function_exists('PHPUnit\Framework\assertClassHasStaticAttribute')) {
+    /**
+     * Asserts that a class has a specified static attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     *
+     * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+     *
+     * @see Assert::assertClassHasStaticAttribute
+     */
+    function assertClassHasStaticAttribute(string $attributeName, string $className, string $message = ''): void
+    {
+        Assert::assertClassHasStaticAttribute(...func_get_args());
+    }
+}
+
+if (!function_exists('PHPUnit\Framework\assertClassNotHasStaticAttribute')) {
+    /**
+     * Asserts that a class does not have a specified static attribute.
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     *
+     * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+     *
+     * @see Assert::assertClassNotHasStaticAttribute
+     */
+    function assertClassNotHasStaticAttribute(string $attributeName, string $className, string $message = ''): void
+    {
+        Assert::assertClassNotHasStaticAttribute(...func_get_args());
+    }
+}
+
+if (!function_exists('PHPUnit\Framework\assertObjectHasAttribute')) {
+    /**
+     * Asserts that an object has a specified attribute.
+     *
+     * @param object $object
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     *
+     * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+     *
+     * @see Assert::assertObjectHasAttribute
+     */
+    function assertObjectHasAttribute(string $attributeName, $object, string $message = ''): void
+    {
+        Assert::assertObjectHasAttribute(...func_get_args());
+    }
+}
+
+if (!function_exists('PHPUnit\Framework\assertObjectNotHasAttribute')) {
+    /**
+     * Asserts that an object does not have a specified attribute.
+     *
+     * @param object $object
+     *
+     * @throws ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws Exception
+     *
+     * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
+     *
+     * @see Assert::assertObjectNotHasAttribute
+     */
+    function assertObjectNotHasAttribute(string $attributeName, $object, string $message = ''): void
+    {
+        Assert::assertObjectNotHasAttribute(...func_get_args());
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 }
 
@@ -2596,7 +2708,7 @@ if (!function_exists('PHPUnit\Framework\atLeast')) {
     function atLeast(int $requiredInvocations): InvokedAtLeastCountMatcher
     {
         return new InvokedAtLeastCountMatcher(
-            $requiredInvocations,
+            $requiredInvocations
         );
     }
 }

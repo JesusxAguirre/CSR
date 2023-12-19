@@ -123,7 +123,12 @@ final class Builder
         'log-events-verbose-text=',
         'version',
     ];
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php
     private const SHORT_OPTIONS = 'd:c:h';
+=======
+
+    private const SHORT_OPTIONS = 'd:c:hv';
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/CliArguments/Builder.php
 
     /**
      * @throws Exception
@@ -134,13 +139,17 @@ final class Builder
             $options = (new CliParser)->parse(
                 $parameters,
                 self::SHORT_OPTIONS,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php
                 self::LONG_OPTIONS,
+=======
+                array_merge(self::LONG_OPTIONS, $additionalLongOptions)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/CliArguments/Builder.php
             );
         } catch (CliParserException $e) {
             throw new Exception(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
 
@@ -916,10 +925,14 @@ final class Builder
             $displayWarnings,
             $version,
             $coverageFilter,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Cli/Builder.php
             $logEventsText,
             $logEventsVerboseText,
             $printerTeamCity,
             $printerTestDox,
+=======
+            $xdebugFilterFile
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/CliArguments/Builder.php
         );
     }
 }

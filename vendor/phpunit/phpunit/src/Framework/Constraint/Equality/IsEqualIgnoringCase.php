@@ -56,7 +56,7 @@ final class IsEqualIgnoringCase extends Constraint
         try {
             $comparator = $comparatorFactory->getComparatorFor(
                 $this->value,
-                $other,
+                $other
             );
 
             $comparator->assertEquals(
@@ -64,7 +64,7 @@ final class IsEqualIgnoringCase extends Constraint
                 $other,
                 0.0,
                 false,
-                true,
+                true
             );
         } catch (ComparisonFailure $f) {
             if ($returnResult) {
@@ -73,7 +73,7 @@ final class IsEqualIgnoringCase extends Constraint
 
             throw new ExpectationFailedException(
                 trim($description . "\n" . $f->getMessage()),
-                $f,
+                $f
             );
         }
 
@@ -92,13 +92,17 @@ final class IsEqualIgnoringCase extends Constraint
 
             return sprintf(
                 "is equal to '%s'",
-                $this->value,
+                $this->value
             );
         }
 
         return sprintf(
             'is equal to %s',
+<<<<<<< HEAD
             Exporter::export($this->value, $exportObjects),
+=======
+            $this->exporter()->export($this->value)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         );
     }
 }

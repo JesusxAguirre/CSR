@@ -27,4 +27,17 @@ final class ReturnStub implements Stub
     {
         return $this->value;
     }
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/MockObject/Runtime/Stub/ReturnStub.php
+=======
+
+    public function toString(): string
+    {
+        $exporter = new Exporter;
+
+        return sprintf(
+            'return user-specified value %s',
+            $exporter->export($this->value)
+        );
+    }
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/MockObject/Stub/ReturnStub.php
 }

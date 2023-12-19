@@ -104,7 +104,7 @@ final class MockBuilder
             $this->callOriginalMethods,
             $this->proxyTarget,
             $this->allowMockingUnknownTypes,
-            $this->returnValueGeneration,
+            $this->returnValueGeneration
         );
 
         assert($object instanceof $this->type);
@@ -136,7 +136,7 @@ final class MockBuilder
             $this->originalClone,
             $this->autoload,
             $this->methods,
-            $this->cloneArguments,
+            $this->cloneArguments
         );
 
         assert($object instanceof MockObject);
@@ -169,7 +169,7 @@ final class MockBuilder
             $this->originalClone,
             $this->autoload,
             $this->methods,
-            $this->cloneArguments,
+            $this->cloneArguments
         );
 
         assert($object instanceof MockObject);
@@ -204,7 +204,7 @@ final class MockBuilder
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
             // @codeCoverageIgnoreEnd
         }
@@ -248,7 +248,7 @@ final class MockBuilder
             throw new ReflectionException(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
             // @codeCoverageIgnoreEnd
         }
@@ -265,6 +265,26 @@ final class MockBuilder
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * Specifies the subset of methods to not mock. Default is to mock all of them.
+     *
+     * @deprecated https://github.com/sebastianbergmann/phpunit/pull/3687
+     *
+     * @throws ReflectionException
+     */
+    public function setMethodsExcept(array $methods = []): self
+    {
+        return $this->setMethods(
+            array_diff(
+                $this->generator->getClassMethods($this->type),
+                $methods
+            )
+        );
+    }
+
+    /**
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
      * Specifies the arguments for the constructor.
      *
      * @return $this

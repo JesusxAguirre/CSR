@@ -6,9 +6,6 @@ use Csr\Modelo\Conexion;
 
 use PDO;
 use Exception;
-use DateTime;
-
-use Throwable;
 
 class Discipulado extends Conexion
 {
@@ -25,25 +22,8 @@ class Discipulado extends Conexion
     private $cedula_lider;
     private $cedula_anfitrion;
     private $cedula_asistente;
+    private $busqueda;
 
-
-    //PROPIEDADES PARA EXPRESIONES REGULARES DE REGISTRAR USUARIO
-
-
-    private $expresion_telefono = "/^[0-9]{11}$/";
-
-    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
-
-    private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
-
-    private $expresion_cedula = "/^[0-9]{7,8}$/";
-
-
-    private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
-
-    private $expresion_hora = "/^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/";
-
-    private $expresion_fecha = "/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/";
 
 
     public function __construct()
@@ -53,7 +33,6 @@ class Discipulado extends Conexion
     }
     public function buscar_discipulado($busqueda)
     {
-        $resultado = [];
         $busqueda = '%' . $busqueda . '%';
         $sql = ("SELECT *, lider.codigo 'cod_lider', anfitrion.codigo 'cod_anfitrion', asistente.codigo 'cod_asistente', lider.cedula 'ced_lider', anfitrion.cedula 'ced_anfitrion', asistente.cedula 'ced_asistente' 
         FROM celula_discipulado 
@@ -85,11 +64,11 @@ class Discipulado extends Conexion
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
 
-                $resultado[] = $filas;
+                $this->busqueda[] = $filas;
             }
         }
 
-        return $resultado;
+        return $this->busqueda;
     }
 
     public function listar_usuarios_N2()
@@ -164,12 +143,13 @@ class Discipulado extends Conexion
     {
         try {
             $participantes = [];
-            $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
-                    AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
-                    FROM celula_discipulado 
-                    INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
-                    INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
-                    WHERE celula_discipulado.id = :id_discipulado");
+            $sql = ("SELECT celula_discipulado.id, celula_discipulado.codigo_celula_discipulado AS codigo_celula,
+        discipulos.cedula AS participantes_cedula, discipulos.nombre AS participantes_nombre,discipulos.apellido 
+        AS participantes_apellido, discipulos.codigo AS participantes_codigo, discipulos.telefono AS participantes_telefono
+        FROM celula_discipulado 
+        INNER JOIN discipulos AS participantes ON celula_discipulado.id = participantes.id_discipulado
+        INNER JOIN usuarios AS discipulos ON participantes.cedula = discipulos.cedula
+        WHERE celula_discipulado.id = :id_discipulado");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -288,80 +268,27 @@ class Discipulado extends Conexion
     //------------------------------------------------------Registrar Asitencias de discipulado ----------------------//
     public function registrar_asistencias()
     {
-        try {
+        $sql = "INSERT INTO reporte_celula_discipulado (id_discipulado,cedula_participante,fecha) 
+        VALUES(:id_discipulado,:cedula_participante,:fecha)";
 
-            $sql = "INSERT INTO reporte_celula_discipulado (id_discipulado,cedula_participante,fecha) 
-            VALUES(:id_discipulado,:cedula_participante,:fecha)";
+        $stmt = $this->conexion->prepare($sql);
+        //recorriendo arreglo de asistentes
+        foreach ($this->asistentes as $asistente) {
+            $stmt->execute(array(
+                ":id_discipulado" => $this->id,
+                ":cedula_participante" => $asistente,
+                ":fecha" => $this->fecha
+            ));
+        } //fin del foeach
 
-            $stmt = $this->conexion->prepare($sql);
-            //recorriendo arreglo de asistentes
-            foreach ($this->asistentes as $asistente) {
-                $stmt->execute(array(
-                    ":id_discipulado" => $this->id,
-                    ":cedula_participante" => $asistente,
-                    ":fecha" => $this->fecha
-                ));
-            } //fin del foeach
-
-            if (isset($_SESSION['cedula'])) {
-                $accion = "Registrar Asistencias de celula de discipulado";
-                $usuario = $_SESSION['cedula'];
-                parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-            }
-
-
-
-            http_response_code(200);
-            echo json_encode(array("msj" => "Se han registrado correctamente las asistencias", 'status_code' => 200));
-            die();
-        } catch (Throwable $ex) {
-
-            if ($this->conexion()->inTransaction()) {
-                $this->conexion()->rollBack();
-            }
-
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
-        }
+        $accion = "Registrar Asistencias de celula de discipulado";
+        $usuario = $_SESSION['cedula'];
+        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
     }
     //------------------------------------------------------Registrar discipulado ----------------------//
     public function registrar_discipulado()
     {
         try {
-
-            if ($this->cedula_lider == $this->cedula_anfitrion or $this->cedula_lider == $this->cedula_asistente) {
-                throw new Exception("La cedula del lider no puede ser igual a la del anfitrion o el asistente ", 422);
-            }
-
-
-            //VALIDANDO QUE LAS FECHAS SEAN CON MEDIA HORA DE DIFERENCIA
-            $sql = ("SELECT hora,dia_reunion AS dia FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
-
-            $stmt = $this->conexion()->prepare($sql);
-
-            $hora = DateTime::createFromFormat('H:i', $this->hora);
-
-
-            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                if ($filas['dia'] == $this->dia) {
-
-                    $hora_filas_formateada = substr($filas['hora'], 0, 5);
-
-                    $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
-
-                    //calculando la diferencia entre horarios
-                    $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
-
-                    if ($diferenciaMinutos < 15) {
-                        throw new Exception("Estás intentando registrar un horario de celula de discipulado que choca con otro horario. La diferencia debe ser de al menos 15 minutos.", 422);
-                    }
-                }
-            }
-
             //buscando ultimo id agregando
             $sql = ("SELECT MAX(id) AS id FROM celula_discipulado");
 
@@ -372,17 +299,12 @@ class Discipulado extends Conexion
             $contador = $stmt->fetch(PDO::FETCH_ASSOC);
 
             $id = $contador['id'];
-
-
             //sumandole un numero para que sea dinamico 
             $id++;
 
-
-
-
             $sql = "INSERT INTO celula_discipulado (codigo_celula_discipulado,cedula_lider,
-            cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
-            VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direc)";
+        cedula_anfitrion,cedula_asistente,dia_reunion,fecha,hora,direccion) 
+        VALUES(:codigo,:cedula_lider,:cedula_anfitrion,:cedula_asistente,:dia,:fecha,:hora,:direc)";
 
             $stmt = $this->conexion->prepare($sql);
 
@@ -398,9 +320,9 @@ class Discipulado extends Conexion
             //primero vamos a buscar el id que queremos pasar como clave foranea
 
             $sql = ("SELECT id FROM celula_discipulado 
-            WHERE cedula_lider= :cedula_lider
-            AND cedula_anfitrion = :cedula_anfitrion
-            AND cedula_asistente = :cedula_asistente");
+        WHERE cedula_lider= :cedula_lider
+        AND cedula_anfitrion = :cedula_anfitrion
+        AND cedula_asistente = :cedula_asistente");
 
             $stmt = $this->conexion()->prepare($sql);
 
@@ -529,27 +451,16 @@ class Discipulado extends Conexion
                 ));
             } //fin del else si el asitente de la celula y el anfitrion son distintos
 
+            $accion = "Registrar  celula de discipulado";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
-            if (isset($_SESSION['cedula'])) {
-                $accion = "Registrar  celula de discipulado";
-                $usuario = $_SESSION['cedula'];
-                parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-            }
+            return true;
+        } catch (Exception $e) {
+            echo $e->getMessage();
 
-
-
-            http_response_code(200);
-            echo json_encode(array("msj" => "Se ha registrado correctamente la cedula de discipulado", 'status_code' => 200));
-            die();
-        } catch (Throwable $ex) {
-
-
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
+            echo "Linea del error: " . $e->getLine();
+            return false;
         }
     }
 
@@ -557,70 +468,21 @@ class Discipulado extends Conexion
     public function actualizar_discipulado()
     {
         try {
-
-
-            if ($this->cedula_lider == $this->cedula_anfitrion or $this->cedula_lider == $this->cedula_asistente) {
-                throw new Exception("La cedula del lider no puede ser igual a la del anfitrion o el asistente ", 422);
-            }
-
-            //VALIDANDO QUE LAS FECHAS SEAN CON 15 MINUTOS DE DIFERENCIA
-            $sql = ("SELECT hora,dia_reunion as dia, id FROM celula_discipulado WHERE cedula_lider = :cedula_lider");
-
-            $stmt = $this->conexion()->prepare($sql);
-
-            $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
-
-            $hora = DateTime::createFromFormat('H:i', $this->hora);
-
-
-            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                if ($filas['dia'] == $this->dia and $filas['id'] != $this->id) {
-
-                    $hora_filas_formateada = substr($filas['hora'], 0, 5);
-
-                    $horas_base_de_datos = DateTime::createFromFormat('H:i', $hora_filas_formateada);
-
-                    //calculando la diferencia entre horarios
-                    $diferenciaMinutos = $hora->diff($horas_base_de_datos)->format('%i');
-
-                    if ($diferenciaMinutos < 15) {
-                        throw new Exception("Estás intentando registrar un horario de celula de discipulado que choca con otro horario. La diferencia debe ser de al menos 15 minutos.", 422);
-                    }
-                }
-            }
-
-
             //buscando las cedulas de los usuarios por id de celula
             $sql = ("SELECT  celula_discipulado.codigo_celula_discipulado AS codigo_celula,  
-            lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
-            anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
-            asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente
-            FROM celula_discipulado 
-            INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
-            INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
-            INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
-            WHERE celula_discipulado.id = :id");
+        lider.codigo AS codigo_lider, lider.cedula AS cedula_lider,  
+        anfitrion.codigo AS codigo_anfitrion, anfitrion.cedula AS cedula_anfitrion, 
+        asistente.codigo AS codigo_asistente, asistente.cedula AS cedula_asistente
+        FROM celula_discipulado 
+        INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
+        INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
+        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
+        WHERE celula_discipulado.id = :id");
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":id" => $this->id));
-
-            if ($stmt->rowCount() < 1) {
-                throw new Exception("Esta celula de discipulado no existe en la base de datos", 404);
-            }
-
             //guardando en un array asociativo las cedulas
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
-            
-            if (
-                $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['cedula_anfitrion'] == $this->cedula_anfitrion and
-                $cedulas['dia_reunion'] == $this->dia and $cedulas['cedula_asistente'] == $this->cedula_asistente and
-                $cedulas['dia_visita'] == $this->dia and $cedulas['hora'] == $this->hora and $cedulas['direccion'] == $this->direccion
-            ) {
-                throw new Exception("Estas enviando la solicitud sin modificar los datos", 422);
-            }
-
 
             $codigo = $cedulas['codigo_celula'];
             $codigo1 = $cedulas['codigo_celula'];
@@ -637,14 +499,11 @@ class Discipulado extends Conexion
             if ($codigo_lider_antiguo != $this->cedula_lider) {
 
                 $codigo1 = '-' . $codigo;
-                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,':codigo1','') WHERE cedula = :cedula_lider_antiguo");
+                $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo1','') WHERE cedula = :cedula_lider_antiguo");
 
                 $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array(
-                    ":codigo" => $codigo1,
-                    ":cedula_lider_antiguo" => $cedula_lider_antiguo
-                ));
+                $stmt->execute(array(":cedula_lider_antiguo" => $cedula_lider_antiguo));
                 //agregando el codigo a el usuario nuevo
                 $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
@@ -667,14 +526,11 @@ class Discipulado extends Conexion
                 if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
 
                     $codigo2 = '-' . $codigo;
-                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,':codigo2','') WHERE cedula = :cedula_anfitrion_antiguo");
+                    $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = :cedula_anfitrion_antiguo");
 
                     $stmt = $this->conexion()->prepare($sql);
 
-                    $stmt->execute(array(
-                        ":codigo2" => $codigo2,
-                        ":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo
-                    ));
+                    $stmt->execute(array(":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo));
                     //agregando el codigo a el usuario nuevo
                     $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
 
@@ -711,14 +567,11 @@ class Discipulado extends Conexion
                 if ($codigo_anfitrion_antiguo != $this->cedula_anfitrion) {
                     if ($codigo_anfitrion_antiguo != $this->cedula_asistente) {
                         $codigo2 = '-' . $codigo;
-                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,':codigo2','') WHERE cedula = :cedula_anfitrion_antiguo");
+                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo2','') WHERE cedula = :cedula_anfitrion_antiguo");
 
                         $stmt = $this->conexion()->prepare($sql);
 
-                        $stmt->execute(array(
-                            ":codigo2" => $codigo2,
-                            ":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo
-                        ));
+                        $stmt->execute(array(":cedula_anfitrion_antiguo" => $cedula_anfitrion_antiguo));
                     }
                     //agregando el codigo a el usuario nuevo
                     $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_anfitrion");
@@ -756,14 +609,11 @@ class Discipulado extends Conexion
                     if ($codigo_asistente_antiguo != $this->cedula_anfitrion) {
 
                         $codigo3 = '-' . $codigo;
-                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,':codigo3','') WHERE cedula = :cedula_asistente_antiguo");
+                        $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,'$codigo3','') WHERE cedula = :cedula_asistente_antiguo");
 
                         $stmt = $this->conexion()->prepare($sql);
 
-                        $stmt->execute(array(
-                            ":codigo3" => $codigo3,
-                            ":cedula_asistente_antiguo" => $cedula_asistente_antiguo
-                        ));
+                        $stmt->execute(array(":cedula_asistente_antiguo" => $cedula_asistente_antiguo));
                     }
                     //agregando el codigo a el usuario nuevo
                     $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_asistente");
@@ -799,7 +649,7 @@ class Discipulado extends Conexion
             }
 
             $sql = ("UPDATE celula_discipulado SET  cedula_lider = :cedula_lider , 
-            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, hora = :hora,
+            cedula_anfitrion = :cedula_anfitrion, cedula_asistente = :cedula_asistente, dia_reunion = :dia, fecha = :fecha , hora = :hora,
             direccion = :direc WHERE id= :id");
 
             $stmt = $this->conexion()->prepare($sql);
@@ -807,63 +657,37 @@ class Discipulado extends Conexion
             $stmt->execute(array(
                 ":cedula_lider" => $this->cedula_lider,
                 ":cedula_anfitrion" => $this->cedula_anfitrion, "cedula_asistente" => $this->cedula_asistente,
-                ":dia" => $this->dia, ":hora" => $this->hora, ":direc" => $this->direccion,
+                ":dia" => $this->dia, ":fecha" => $this->fecha, ":hora" => $this->hora, ":direc" => $this->direccion,
                 ":id" => $this->id
             ));
 
-            if (isset($_SESSION['cedula'])) {
-                $accion = "Edicion de celula de discipulado";
-                $usuario = $_SESSION['cedula'];
-                parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
-            }
+            $accion = "Editar datos de celula de discipulado";
+            $usuario = $_SESSION['cedula'];
+            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            return true;
+        } catch (Exception $e) {
+            echo $e->getMessage();
 
+            echo "Linea del error: " . $e->getLine();
 
-
-            http_response_code(200);
-            echo json_encode(array("msj" => "Se ha actualizado correctamente los datos de la cedula de discipulado", 'status_code' => 200));
-            die();
-        } catch (Throwable $ex) {
-
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
+            return false;
         }
     }
 
 
     public function agregar_participantes()
     {
-        try {
+        $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
 
+        foreach ($this->participantes as $participantes) {
 
-            $sql = ("INSERT INTO discipulos (cedula,id_discipulado) VALUES (:cedula,:id)");
+            $stmt = $this->conexion()->prepare($sql);
 
-            foreach ($this->participantes as $participantes) {
+            $stmt->execute(array(
+                ":cedula" => $participantes,
+                ":id" => $this->id
 
-                $stmt = $this->conexion()->prepare($sql);
-
-                $stmt->execute(array(
-                    ":cedula" => $participantes,
-                    ":id" => $this->id
-
-                ));
-            }
-
-
-            http_response_code(200);
-            echo json_encode(array("msj" => "Se ha registrado correctamente todos los nuevos participantes", 'status_code' => 200));
-            die();
-        } catch (Throwable $ex) {
-
-
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-
-            die();
+            ));
         } //fin del foreach
 
     }
@@ -905,17 +729,40 @@ class Discipulado extends Conexion
     {
         try {
 
+            /*  $sql = ("SELECT id_discipulado FROM discipulos WHERE cedula = :cedula_participante");
 
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(
+                ":cedula_participante"=>$cedula_participante,
+            ));
+            $id_discipulado =$stmt->fetch(PDO::FETCH_ASSOC);
+
+            $sql = ("SELECT codigo FROM celula_discipulado WHERE id = :id");
+
+            $stmt=  $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(":id"=>$id_discipulado['id_discipulado']));
+
+            $codigo_celula = $stmt->fetch(PDO::FETCH_ASSOC);
+            
+            $codigo_celula = "-" . $codigo_celula;
+            
+            $sql = ("UPDATE usuarios SET codigo = REPLACE(codigo,:codigo_discipulado,'') WHERE cedula = :cedula_participante");
+            
+            $stmt = $this->conexion()->prepare($sql);
+
+            $stmt->execute(array(
+                ":codigo_disicpulado "=>$codigo_celula,
+                ":cedula_participante"=>$cedula_participante
+            ));
+ */
             $sql = ("DELETE FROM discipulos WHERE cedula = :cedula_participante");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(":cedula_participante" => $cedula_participante));
 
-            http_response_code(200);
-            echo json_encode(array("msj" => "Se ha eliminado correctamente el discipulo",));
-            die();
-
+            return true;
         } catch (Exception $e) {
             echo $e->getMessage();
 
@@ -1156,251 +1003,6 @@ class Discipulado extends Conexion
             echo "Linea del error: " . $e->getLine();
 
             return false;
-        }
-    }
-
-
-
-    ///////////////////////////////////////////////////////////// SECCION DE FUNCIONES QUE SE REUTILIZAN EN EL BACKEND ///////////////////////////////////////
-
-    //AQUI CONMIEZNAN LOS METODOS DE LA CLASE
-
-
-
-    //VALIDACION INYECCION SQL    
-    /**
-     * security_validation_sql
-     * 
-     * Funcion que valida un array donde cada indice contiene una cadeba de texto
-     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
-     * Si alguno de estos casos se cumple arroja una Exception.
-     *
-     * @param  mixed $array
-     * @return void
-     */
-    public function security_validation_inyeccion_sql($array)
-    {
-        try {
-            for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_especial, $array[$i]);
-
-                if ($response > 0) {
-                    //guardar en base de datos hacker
-
-
-                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
-                }
-
-                if ($array[$i] == "") {
-                    //guardar en base de datos de hacker
-
-
-                    throw new Exception("Estas enviando datos vacios", 422);
-                }
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-    //VALIDACION INYECCION SQL    
-    /**
-     * security_validation_sql
-     * 
-     * Funcion que valida un array donde cada indice contiene una cadeba de texto
-     * por cada indicie verifica que ese cadena no contenga un caracter especial y luego valida si es vacio
-     * Si alguno de estos casos se cumple arroja una Exception.
-     *
-     * @param  mixed $array
-     * @return void
-     */
-    public function security_validation_codigo($array)
-    {
-        try {
-            for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_codigo, $array[$i]);
-
-                if ($response > 0) {
-                    //guardar en base de datos hacker
-
-
-                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
-                }
-
-                if ($array[$i] == "") {
-                    //guardar en base de datos de hacker
-
-
-                    throw new Exception("Estas enviando datos vacios", 422);
-                }
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-    //VALIDACION CEDULA    
-    /**
-     * validar_cedula
-     *
-     * Funcion que valida la cedula con una expresion regular, si no coicide captura un error
-     * @param  mixed $cedula
-     * @return void
-     */
-    public function security_validation_cedula($array)
-    {
-        try {
-            for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_cedula, $array[$i]);
-
-                if ($response == 0) {
-                    //guardar ataque de hacker
-
-                    throw new Exception(sprintf("Estas enviando una cedula invalida. cedula-> '%s' ", $array[$i]), 422);
-                }
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-
-            http_response_code($ex->getCode());
-
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-    /**
-     * security_validation_caracteres
-     *
-     * Metodo que recibe un array donde cada indice es una cadena de texto este metodo verifica
-     * que cada indice del array sea un caracter, es decir sin numeros o caracteres especiales.
-     * si no es una cadena de texto, arroja una Exception
-     * 
-     * @param  mixed $array
-     * @return void
-     */
-    public function security_validation_caracteres($array)
-    {
-        try {
-            for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_caracteres, $array[$i]);
-
-                if ($response == 0) {
-                    //guardar datos de hacker
-
-                    throw new Exception(sprintf("El dato que estas enviando debe ser una cadena de texto con solo letras. cadena de texto. no mayor a 19 caracteres-> '%s", $array[$i]), 422);
-                }
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-    //VALIDACION DE TELEFONO
-
-    /**
-     * security_validation_telefono
-     *
-     * Metodo que valida una cadena de texto con una expresion regular de telefono.si no cumple con la expresion regular
-     * Se arroja una Exception.
-     * @param  mixed $telefono
-     * @return void
-     */
-    public function security_validation_telefono($telefono)
-    {
-        try {
-            $response = preg_match($this->expresion_telefono, $telefono);
-
-            if ($response == 0) {
-                //guardar datos de hacker
-
-                throw new Exception(sprintf("El telefono que enviaste no cumple con el formato de telefono adecuado. telefono-> '%s' ", $telefono), 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-
-
-    /**
-     * security_validation_hora
-     * 
-     * Función que valida un array donde cada índice contiene una cadena de texto en formato de hora.
-     * Verifica si cada cadena cumple con el formato de hora deseado (HH:MM:SS).
-     * Si alguna cadena no cumple con el formato o está vacía, arroja una excepción.
-     *
-     * @param array $array
-     * @return void
-     */
-    public function security_validation_hora($hora)
-    {
-        try {
-
-
-            $response = preg_match($this->expresion_hora, $hora);
-
-            if ($response === false) {
-                // Error en la expresión regular
-                throw new Exception("Error en la expresión regular de hora", 500);
-            }
-
-            if ($response === 0) {
-                // La cadena no cumple con el formato de hora
-                throw new Exception(sprintf("El formato de hora es inválido: '%s'", $hora), 422);
-            }
-
-            if ($hora === "") {
-                // La cadena está vacía
-                throw new Exception("La hora no puede estar vacía", 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
-        }
-    }
-
-    public function security_validation_fecha($fecha)
-    {
-        try {
-
-
-            $response = preg_match($this->expresion_fecha, $fecha);
-
-            if ($response === false) {
-                // Error en la expresión regular
-                throw new Exception("Error en el envio de decha", 422);
-            }
-
-            if ($response === 0) {
-                // La cadena no cumple con el formato de hora
-                throw new Exception(sprintf("El formato de hora es inválido: '%s'", $fecha), 422);
-            }
-
-            if ($fecha === "") {
-                // La cadena está vacía
-                throw new Exception("La fecha no puede estar vacía", 422);
-            }
-        } catch (Throwable $ex) {
-            $errorType = basename(get_class($ex));
-            http_response_code($ex->getCode());
-            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
-            die();
         }
     }
 }

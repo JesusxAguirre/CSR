@@ -89,7 +89,7 @@ final class Loader
             throw new Exception(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
 
@@ -101,7 +101,7 @@ final class Loader
             throw new Exception(
                 $e->getMessage(),
                 $e->getCode(),
-                $e,
+                $e
             );
         }
 
@@ -114,10 +114,19 @@ final class Loader
             $this->source($configurationFileRealpath, $xpath),
             $this->codeCoverage($configurationFileRealpath, $xpath),
             $this->groups($xpath),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
             $this->logging($configurationFileRealpath, $xpath),
             $this->php($configurationFileRealpath, $xpath),
             $this->phpunit($configurationFileRealpath, $document),
             $this->testSuite($configurationFileRealpath, $xpath),
+=======
+            $this->testdoxGroups($xpath),
+            $this->listeners($filename, $xpath),
+            $this->logging($filename, $xpath),
+            $this->php($filename, $xpath),
+            $this->phpunit($filename, $document),
+            $this->testSuite($filename, $xpath)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         );
     }
 
@@ -131,12 +140,29 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
+=======
+        $text    = null;
+        $element = $this->element($xpath, 'logging/text');
+
+        if ($element) {
+            $text = new Text(
+                new File(
+                    $this->toAbsolutePath(
+                        $filename,
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
+            );
+        }
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         $teamCity = null;
         $element  = $this->element($xpath, 'logging/teamcity');
 
@@ -145,9 +171,9 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
@@ -159,9 +185,9 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
@@ -173,17 +199,38 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
+=======
+        $testDoxXml = null;
+        $element    = $this->element($xpath, 'logging/testdoxXml');
+
+        if ($element) {
+            $testDoxXml = new TestDoxXml(
+                new File(
+                    $this->toAbsolutePath(
+                        $filename,
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
+            );
+        }
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         return new Logging(
             $junit,
             $teamCity,
             $testDoxHtml,
             $testDoxText,
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
+=======
+            $testDoxXml
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         );
     }
 
@@ -202,9 +249,94 @@ final class Loader
                 $parameters[$parameter->getAttribute('name')] = $parameter->getAttribute('value');
             }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
             $extensionBootstrappers[] = new ExtensionBootstrap(
                 $bootstrap->getAttribute('class'),
                 $parameters,
+=======
+            $target = $this->toAbsolutePath($filename, $target);
+
+            switch ($type) {
+                case 'plain':
+                    $text = new Text(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'junit':
+                    $junit = new Junit(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'teamcity':
+                    $teamCity = new TeamCity(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'testdox-html':
+                    $testDoxHtml = new TestDoxHtml(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'testdox-text':
+                    $testDoxText = new TestDoxText(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'testdox-xml':
+                    $testDoxXml = new TestDoxXml(
+                        new File($target)
+                    );
+
+                    break;
+            }
+        }
+
+        return new Logging(
+            $junit,
+            $text,
+            $teamCity,
+            $testDoxHtml,
+            $testDoxText,
+            $testDoxXml
+        );
+    }
+
+    private function extensions(string $filename, DOMXPath $xpath): ExtensionCollection
+    {
+        $extensions = [];
+
+        foreach ($xpath->query('extensions/extension') as $extension) {
+            assert($extension instanceof DOMElement);
+
+            $extensions[] = $this->getElementConfigurationParameters($filename, $extension);
+        }
+
+        return ExtensionCollection::fromArray($extensions);
+    }
+
+    private function getElementConfigurationParameters(string $filename, DOMElement $element): Extension
+    {
+        /** @psalm-var class-string $class */
+        $class     = (string) $element->getAttribute('class');
+        $file      = '';
+        $arguments = $this->getConfigurationArguments($filename, $element->childNodes);
+
+        if ($element->getAttribute('file')) {
+            $file = $this->toAbsolutePath(
+                $filename,
+                (string) $element->getAttribute('file'),
+                true
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
             );
         }
 
@@ -313,32 +445,41 @@ final class Loader
 
             if ($cacheDirectory !== null) {
                 $cacheDirectory = new Directory(
-                    $this->toAbsolutePath($filename, $cacheDirectory),
+                    $this->toAbsolutePath($filename, $cacheDirectory)
                 );
             }
 
             $pathCoverage = $this->getBooleanAttribute(
                 $element,
                 'pathCoverage',
-                false,
+                false
             );
 
             $includeUncoveredFiles = $this->getBooleanAttribute(
                 $element,
                 'includeUncoveredFiles',
-                true,
+                true
             );
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
+=======
+            $processUncoveredFiles = $this->getBooleanAttribute(
+                $element,
+                'processUncoveredFiles',
+                false
+            );
+
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
             $ignoreDeprecatedCodeUnits = $this->getBooleanAttribute(
                 $element,
                 'ignoreDeprecatedCodeUnits',
-                false,
+                false
             );
 
             $disableCodeCoverageIgnore = $this->getBooleanAttribute(
                 $element,
                 'disableCodeCoverageIgnore',
-                false,
+                false
             );
         }
 
@@ -350,9 +491,9 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
@@ -364,9 +505,9 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
@@ -378,10 +519,10 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
                 ),
-                $this->getIntegerAttribute($element, 'threshold', 30),
+                $this->getIntegerAttribute($element, 'threshold', 30)
             );
         }
 
@@ -396,9 +537,10 @@ final class Loader
                 new Directory(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputDirectory'),
-                    ),
+                        (string) $this->getStringAttribute($element, 'outputDirectory')
+                    )
                 ),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
                 $this->getIntegerAttribute($element, 'lowUpperBound', $defaultThresholds->lowUpperBound()),
                 $this->getIntegerAttribute($element, 'highLowerBound', $defaultThresholds->highLowerBound()),
                 $this->getStringAttributeWithDefault($element, 'colorSuccessLow', $defaultColors->successLow()),
@@ -407,6 +549,10 @@ final class Loader
                 $this->getStringAttributeWithDefault($element, 'colorWarning', $defaultColors->warning()),
                 $this->getStringAttributeWithDefault($element, 'colorDanger', $defaultColors->danger()),
                 $this->getStringAttribute($element, 'customCssFile'),
+=======
+                $this->getIntegerAttribute($element, 'lowUpperBound', 50),
+                $this->getIntegerAttribute($element, 'highLowerBound', 90)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
             );
         }
 
@@ -418,9 +564,9 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
+                )
             );
         }
 
@@ -432,11 +578,11 @@ final class Loader
                 new File(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputFile'),
-                    ),
+                        (string) $this->getStringAttribute($element, 'outputFile')
+                    )
                 ),
                 $this->getBooleanAttribute($element, 'showUncoveredFiles', false),
-                $this->getBooleanAttribute($element, 'showOnlySummary', false),
+                $this->getBooleanAttribute($element, 'showOnlySummary', false)
             );
         }
 
@@ -448,9 +594,9 @@ final class Loader
                 new Directory(
                     $this->toAbsolutePath(
                         $filename,
-                        (string) $this->getStringAttribute($element, 'outputDirectory'),
-                    ),
-                ),
+                        (string) $this->getStringAttribute($element, 'outputDirectory')
+                    )
+                )
             );
         }
 
@@ -470,11 +616,161 @@ final class Loader
             $html,
             $php,
             $text,
-            $xml,
+            $xml
         );
     }
 
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
     private function getBoolean(string $value, bool|string $default): bool|string
+=======
+    /**
+     * @deprecated
+     */
+    private function legacyCodeCoverage(string $filename, DOMXPath $xpath, DOMDocument $document): CodeCoverage
+    {
+        $ignoreDeprecatedCodeUnits = $this->getBooleanAttribute(
+            $document->documentElement,
+            'ignoreDeprecatedCodeUnitsFromCodeCoverage',
+            false
+        );
+
+        $disableCodeCoverageIgnore = $this->getBooleanAttribute(
+            $document->documentElement,
+            'disableCodeCoverageIgnore',
+            false
+        );
+
+        $includeUncoveredFiles = true;
+        $processUncoveredFiles = false;
+
+        $element = $this->element($xpath, 'filter/whitelist');
+
+        if ($element) {
+            if ($element->hasAttribute('addUncoveredFilesFromWhitelist')) {
+                $includeUncoveredFiles = (bool) $this->getBoolean(
+                    (string) $element->getAttribute('addUncoveredFilesFromWhitelist'),
+                    true
+                );
+            }
+
+            if ($element->hasAttribute('processUncoveredFilesFromWhitelist')) {
+                $processUncoveredFiles = (bool) $this->getBoolean(
+                    (string) $element->getAttribute('processUncoveredFilesFromWhitelist'),
+                    false
+                );
+            }
+        }
+
+        $clover    = null;
+        $cobertura = null;
+        $crap4j    = null;
+        $html      = null;
+        $php       = null;
+        $text      = null;
+        $xml       = null;
+
+        foreach ($xpath->query('logging/log') as $log) {
+            assert($log instanceof DOMElement);
+
+            $type   = (string) $log->getAttribute('type');
+            $target = (string) $log->getAttribute('target');
+
+            if (!$target) {
+                continue;
+            }
+
+            $target = $this->toAbsolutePath($filename, $target);
+
+            switch ($type) {
+                case 'coverage-clover':
+                    $clover = new Clover(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'coverage-cobertura':
+                    $cobertura = new Cobertura(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'coverage-crap4j':
+                    $crap4j = new Crap4j(
+                        new File($target),
+                        $this->getIntegerAttribute($log, 'threshold', 30)
+                    );
+
+                    break;
+
+                case 'coverage-html':
+                    $html = new CodeCoverageHtml(
+                        new Directory($target),
+                        $this->getIntegerAttribute($log, 'lowUpperBound', 50),
+                        $this->getIntegerAttribute($log, 'highLowerBound', 90)
+                    );
+
+                    break;
+
+                case 'coverage-php':
+                    $php = new CodeCoveragePhp(
+                        new File($target)
+                    );
+
+                    break;
+
+                case 'coverage-text':
+                    $text = new CodeCoverageText(
+                        new File($target),
+                        $this->getBooleanAttribute($log, 'showUncoveredFiles', false),
+                        $this->getBooleanAttribute($log, 'showOnlySummary', false)
+                    );
+
+                    break;
+
+                case 'coverage-xml':
+                    $xml = new CodeCoverageXml(
+                        new Directory($target)
+                    );
+
+                    break;
+            }
+        }
+
+        return new CodeCoverage(
+            null,
+            $this->readFilterDirectories($filename, $xpath, 'filter/whitelist/directory'),
+            $this->readFilterFiles($filename, $xpath, 'filter/whitelist/file'),
+            $this->readFilterDirectories($filename, $xpath, 'filter/whitelist/exclude/directory'),
+            $this->readFilterFiles($filename, $xpath, 'filter/whitelist/exclude/file'),
+            false,
+            $includeUncoveredFiles,
+            $processUncoveredFiles,
+            $ignoreDeprecatedCodeUnits,
+            $disableCodeCoverageIgnore,
+            $clover,
+            $cobertura,
+            $crap4j,
+            $html,
+            $php,
+            $text,
+            $xml
+        );
+    }
+
+    /**
+     * If $value is 'false' or 'true', this returns the value that $value represents.
+     * Otherwise, returns $default, which may be a string in rare cases.
+     *
+     * @see \PHPUnit\TextUI\XmlConfigurationTest::testPHPConfigurationIsReadCorrectly
+     *
+     * @param bool|string $default
+     *
+     * @return bool|string
+     */
+    private function getBoolean(string $value, $default)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
     {
         if (strtolower($value) === 'false') {
             return false;
@@ -502,8 +798,14 @@ final class Loader
 
             $directories[] = new FilterDirectory(
                 $this->toAbsolutePath($filename, $directoryPath),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
                 $directoryNode->hasAttribute('prefix') ? $directoryNode->getAttribute('prefix') : '',
                 $directoryNode->hasAttribute('suffix') ? $directoryNode->getAttribute('suffix') : '.php',
+=======
+                $directoryNode->hasAttribute('prefix') ? (string) $directoryNode->getAttribute('prefix') : '',
+                $directoryNode->hasAttribute('suffix') ? (string) $directoryNode->getAttribute('suffix') : '.php',
+                $directoryNode->hasAttribute('group') ? (string) $directoryNode->getAttribute('group') : 'DEFAULT'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
             );
         }
 
@@ -546,7 +848,7 @@ final class Loader
 
         return new Groups(
             GroupCollection::fromArray($include),
-            GroupCollection::fromArray($exclude),
+            GroupCollection::fromArray($exclude)
         );
     }
 
@@ -557,8 +859,13 @@ final class Loader
         }
 
         return (bool) $this->getBoolean(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
             $element->getAttribute($attribute),
             false,
+=======
+            (string) $element->getAttribute($attribute),
+            false
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         );
     }
 
@@ -569,8 +876,13 @@ final class Loader
         }
 
         return $this->getInteger(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
             $element->getAttribute($attribute),
             $default,
+=======
+            (string) $element->getAttribute($attribute),
+            $default
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         );
     }
 
@@ -621,8 +933,13 @@ final class Loader
             assert($ini instanceof DOMElement);
 
             $iniSettings[] = new IniSetting(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
                 $ini->getAttribute('name'),
                 $ini->getAttribute('value'),
+=======
+                (string) $ini->getAttribute('name'),
+                (string) $ini->getAttribute('value')
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
             );
         }
 
@@ -634,8 +951,13 @@ final class Loader
             $value = $const->getAttribute('value');
 
             $constants[] = new Constant(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
                 $const->getAttribute('name'),
                 $this->getBoolean($value, $value),
+=======
+                (string) $const->getAttribute('name'),
+                $this->getBoolean($value, $value)
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
             );
         }
 
@@ -842,9 +1164,13 @@ final class Loader
             $this->getBooleanAttribute($document->documentElement, 'backupGlobals', false),
             $backupStaticProperties,
             $this->getBooleanAttribute($document->documentElement, 'registerMockObjectsFromTestArgumentsRecursively', false),
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/TextUI/Configuration/Xml/Loader.php
             $this->getBooleanAttribute($document->documentElement, 'testdox', false),
             $this->getBooleanAttribute($document->documentElement, 'controlGarbageCollector', false),
             $this->getIntegerAttribute($document->documentElement, 'numberOfTestsBeforeGarbageCollection', 100),
+=======
+            $conflictBetweenPrinterClassAndTestdox
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/TextUI/XmlConfiguration/Loader.php
         );
     }
 
@@ -935,7 +1261,7 @@ final class Loader
                     $prefix,
                     $suffix,
                     $phpVersion,
-                    $phpVersionOperator,
+                    $phpVersionOperator
                 );
             }
 
@@ -965,7 +1291,7 @@ final class Loader
                 $files[] = new TestFile(
                     $this->toAbsolutePath($filename, $file),
                     $phpVersion,
-                    $phpVersionOperator,
+                    $phpVersionOperator
                 );
             }
 
@@ -977,7 +1303,7 @@ final class Loader
                 $name,
                 TestDirectoryCollection::fromArray($directories),
                 TestFileCollection::fromArray($files),
-                FileCollection::fromArray($exclude),
+                FileCollection::fromArray($exclude)
             );
         }
 

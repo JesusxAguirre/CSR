@@ -69,10 +69,24 @@ final class CodeCoverage
     /**
      * @psalm-var list<class-string>
      */
+<<<<<<< HEAD
     private array $parentClassesExcludedFromUnintentionallyCoveredCodeCheck = [];
     private ?FileAnalyser $analyser                                         = null;
     private ?string $cacheDirectory                                         = null;
     private ?Directory $cachedReport                                        = null;
+=======
+    private $parentClassesExcludedFromUnintentionallyCoveredCodeCheck = [];
+
+    /**
+     * @var ?FileAnalyser
+     */
+    private $analyser;
+
+    /**
+     * @var ?string
+     */
+    private $cacheDirectory;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     public function __construct(Driver $driver, Filter $filter)
     {
@@ -87,11 +101,7 @@ final class CodeCoverage
      */
     public function getReport(): Directory
     {
-        if ($this->cachedReport === null) {
-            $this->cachedReport = (new Builder($this->analyser()))->build($this);
-        }
-
-        return $this->cachedReport;
+        return (new Builder($this->analyser()))->build($this);
     }
 
     /**
@@ -99,11 +109,17 @@ final class CodeCoverage
      */
     public function clear(): void
     {
+<<<<<<< HEAD
         $this->currentId    = null;
         $this->currentSize  = null;
         $this->data         = new ProcessedCodeCoverageData;
         $this->tests        = [];
         $this->cachedReport = null;
+=======
+        $this->currentId = null;
+        $this->data      = new ProcessedCodeCoverageData;
+        $this->tests     = [];
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
     }
 
     /**
@@ -170,8 +186,6 @@ final class CodeCoverage
         $this->currentSize = $size;
 
         $this->driver->start();
-
-        $this->cachedReport = null;
     }
 
     /**
@@ -188,9 +202,13 @@ final class CodeCoverage
 
         $this->append($data, null, $append, $status, $linesToBeCovered, $linesToBeUsed, $linesToBeIgnored);
 
+<<<<<<< HEAD
         $this->currentId    = null;
         $this->currentSize  = null;
         $this->cachedReport = null;
+=======
+        $this->currentId = null;
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
         return $data;
     }
@@ -212,6 +230,7 @@ final class CodeCoverage
             throw new TestIdMissingException;
         }
 
+<<<<<<< HEAD
         $this->cachedReport = null;
 
         if ($status === null) {
@@ -224,6 +243,8 @@ final class CodeCoverage
             $size = TestSize::unknown();
         }
 
+=======
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         $this->applyFilter($rawData);
 
         $this->applyExecutableLinesFilter($rawData);
@@ -273,8 +294,6 @@ final class CodeCoverage
         $this->data->merge($that->data);
 
         $this->tests = array_merge($this->tests, $that->getTests());
-
-        $this->cachedReport = null;
     }
 
     public function enableCheckForUnintentionallyCoveredCode(): void
@@ -620,9 +639,7 @@ final class CodeCoverage
         if ($this->cachesStaticAnalysis()) {
             $this->analyser = new CachingFileAnalyser(
                 $this->cacheDirectory,
-                $this->analyser,
-                $this->useAnnotationsForIgnoringCode,
-                $this->ignoreDeprecatedCode
+                $this->analyser
             );
         }
 

@@ -1,4 +1,21 @@
-let spanish = {
+listarBitacora();
+
+function listarBitacora() {
+    let div = document.getElementById('datosBitacora');
+    
+    $.post("controlador/ajax/dinamica-bitacora-usuario.php", {activarDatatableBitacora: 'activar'},
+        function (data) {
+            div.innerHTML= data;
+        },
+    );
+}
+
+setTimeout(() => {
+/////////////////////////////////
+/////APARTADO DE DATATABLES/////
+
+//IDIOMA DEL DATATABLES
+let spanish= {
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -241,35 +258,9 @@ let spanish = {
     }
 };
 
-//APARTADO DE INICIALIZACION DATATABLES JS
-$(document).ready(function () {
-    const dataTable_bitacora = $('#bitacora').DataTable({
-        responsive: true,
-        ajax: {
-            method: "POST",
-            url: 'index.php?pagina=bitacora-usuario',
-            data: { cargar: 'cargar' }
-        },
-        columns: [
-            {
-                data: null, // Esto significa que la columna puede acceder a todos los datos.
-                render: function(data, type, row) {
-                    return `
-                    <div class="d-flex align-items-center">
-                        <div class="fs-2 me-3"><i class="bi bi-person"></i></div>
-                        <div class="mb-0">
-                            <h6 class="mb-0 fst-italic fw-bold">${data.codigo}</h6>
-                            <p class="mb-0">${data.nombre} ${data.apellido}</p>
-                        </div>
-                    </div>`;
-                }
-            },
-            { data: 'nombreModulo' },
-            { data: 'fecha_registro' },
-            { data: 'hora_registro' },
-            { data: 'accion_realizada' },
-        ],
-        language: spanish,
-        ordering: false,
-    });
+//DATATABLES LISTA DE SECCIONES INICIALIZACION
+let dataTableSec= $('#bitacora').DataTable({
+    language: spanish,
+    ordering: false,
 });
+}, 100);

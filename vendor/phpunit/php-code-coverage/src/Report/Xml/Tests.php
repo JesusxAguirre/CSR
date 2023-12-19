@@ -18,7 +18,22 @@ use DOMElement;
  */
 final class Tests
 {
+<<<<<<< HEAD
     private readonly DOMElement $contextNode;
+=======
+    private $contextNode;
+
+    private $codeMap = [
+        -1 => 'UNKNOWN',    // PHPUnit_Runner_BaseTestRunner::STATUS_UNKNOWN
+        0  => 'PASSED',     // PHPUnit_Runner_BaseTestRunner::STATUS_PASSED
+        1  => 'SKIPPED',    // PHPUnit_Runner_BaseTestRunner::STATUS_SKIPPED
+        2  => 'INCOMPLETE', // PHPUnit_Runner_BaseTestRunner::STATUS_INCOMPLETE
+        3  => 'FAILURE',    // PHPUnit_Runner_BaseTestRunner::STATUS_FAILURE
+        4  => 'ERROR',      // PHPUnit_Runner_BaseTestRunner::STATUS_ERROR
+        5  => 'RISKY',      // PHPUnit_Runner_BaseTestRunner::STATUS_RISKY
+        6  => 'WARNING',     // PHPUnit_Runner_BaseTestRunner::STATUS_WARNING
+    ];
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     public function __construct(DOMElement $context)
     {

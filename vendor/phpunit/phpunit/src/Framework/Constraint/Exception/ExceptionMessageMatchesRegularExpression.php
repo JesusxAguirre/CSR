@@ -44,10 +44,14 @@ final class ExceptionMessageMatchesRegularExpression extends Constraint
 
         if ($match === false) {
             throw new \PHPUnit\Framework\Exception(
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessageMatchesRegularExpression.php
                 sprintf(
                     'Invalid expected exception message regular expression given: %s',
                     $this->regularExpression,
                 ),
+=======
+                "Invalid expected exception message regex given: '{$this->expectedMessageRegExp}'"
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessageRegularExpression.php
             );
         }
 
@@ -64,8 +68,13 @@ final class ExceptionMessageMatchesRegularExpression extends Constraint
     {
         return sprintf(
             "exception message '%s' matches '%s'",
+<<<<<<< HEAD:vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessageMatchesRegularExpression.php
             $other,
             $this->regularExpression,
+=======
+            $other->getMessage(),
+            $this->expectedMessageRegExp
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas):vendor/phpunit/phpunit/src/Framework/Constraint/Exception/ExceptionMessageRegularExpression.php
         );
     }
 }

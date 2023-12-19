@@ -6,11 +6,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agregar Materias</title>
-    <!-- Espacio para CSS -->
-    <?php require_once './resources/View_Components/importCSS.php' ?>
+
+    <!-- Bostrap 5 -->
+    <link rel="stylesheet" href="./resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="resources/css/style.css">
+
+    <!-- Mis CSS -->
     <link rel="stylesheet" href="./resources/css/materias.css">
-    <!-- Espacio para los JS -->
-    <?php require_once './resources/View_Components/importJS.php' ?>
+
+    <!-- Jquery-->
+    <script src="./resources/js/jquery-3.6.0.min.js"></script>
+    <!-- Js boostrap -->
+    <script src="./resources/js/bootstrap.min.js"></script>
+
+    <!-- CHOICE 2 -->
+    <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
+    <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
+    <!-- Sweet alert 2-->
+    <script src="resources/js/sweetalert2.js"></script>
+
 </head>
 
 <body>
@@ -25,23 +40,26 @@
     ?>
     <!-- sidebar.php -->
 
-    <script>
-        const permisos = {
-            crear: <?php echo $_SESSION['permisos']['materias']['crear'] ? 1 : 0 ?>,
-            listar: <?php echo $_SESSION['permisos']['materias']['listar'] ? 1 : 0 ?>,
-            actualizar: <?php echo $_SESSION['permisos']['materias']['actualizar'] ? 1 : 0 ?>,
-            eliminar: <?php echo $_SESSION['permisos']['materias']['eliminar'] ? 1 : 0 ?>,
-        }
-    </script>
-
     <main style="height: 100vh" class="pt-3">
         <div class="container-fluid">
+            <div class="row d-flex justify-content-center">
+                <div class="col-sm col-lg-8">
+                    <div class="titulo text-center mt-5">
+                        <h3><em>Agregar Materias</em></h3>
+                    </div><br>
+                </div>
+            </div>
+
             <div class="row d-flex justify-content-center">
                 <!--INICIO DEl FORMULARIO PARA AGREGAR MATERIAS -->
                 <div class="col-sm col-lg-8">
                     <div class="row">
                         <div class="col">
                             <div class="card sombra">
+                                <!-- <div class="card-header text-center">
+                                    <label class="form-label fw-bold">AGREGAR MATERIAS</label>
+                                </div> -->
+
                                 <div class="card-body">
                                     <form id="formularioMateria">
                                         <div class="row">

@@ -53,7 +53,12 @@ final class Restorer
         foreach ($snapshot->staticProperties() as $className => $staticProperties) {
             foreach ($staticProperties as $name => $value) {
                 $reflector = new ReflectionProperty($className, $name);
+<<<<<<< HEAD
                 $reflector->setValue(null, $value);
+=======
+                $reflector->setAccessible(true);
+                $reflector->setValue($value);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             }
         }
 
@@ -76,7 +81,12 @@ final class Restorer
                     continue;
                 }
 
+<<<<<<< HEAD
                 $property->setValue(null, $defaults[$name]);
+=======
+                $attribute->setAccessible(true);
+                $attribute->setValue($defaults[$name]);
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             }
         }
     }

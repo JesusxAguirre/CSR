@@ -35,13 +35,13 @@ class Correo extends Conexion
       $mail->isSMTP();                                            //Send using SMTP
       $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
       $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-      $mail->Username   = 'proyectocasasobrelaroca@gmail.com';                     //SMTP username
-      $mail->Password   = 'henxaswwjnitgjqf';                               //SMTP password
+      $mail->Username   = 'quijess6@gmail.com';                     //SMTP username
+      $mail->Password   = 'dgjdhloqzaxxfqyf';                               //SMTP password
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
       //Recipients
-      $mail->setFrom('proyectocasasobrelaroca@gmail.com', '');
+      $mail->setFrom('quijess6@gmail.com', '');
       $mail->addAddress($destinatario, '');     //Add a recipient
       //$mail->addAddress('ellen@example.com');               //Name is optional
       //$mail->addReplyTo('info@example.com', 'Information');
@@ -59,10 +59,7 @@ class Correo extends Conexion
       $mail->send();
 
     } catch (Exception $e) {
-      http_response_code(404);
-
-      echo json_encode( array("msj"=>"Message could not be sent. Mailer Error: {$mail->ErrorInfo}"));
-      die();
+      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
        $accion = "Envio de correo";
         $usuario = $_SESSION['cedula'];
@@ -85,7 +82,7 @@ class Correo extends Conexion
         return $resultado;
   }
 
-  public function enviar_token($destinatario,$token){
+  public function enviar_nueva_password($destinatario,$nueva_password){
     $mail = new PHPMailer(true);
     try {
       //Server settings
@@ -93,64 +90,31 @@ class Correo extends Conexion
       $mail->isSMTP();                                            //Send using SMTP
       $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
       $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-      $mail->Username   = 'proyectocasasobrelaroca@gmail.com';                     //SMTP username
-      $mail->Password   = 'henxaswwjnitgjqf';                               //SMTP password
+      $mail->Username   = 'quijess6@gmail.com';                     //SMTP username
+      $mail->Password   = 'dgjdhloqzaxxfqyf';                               //SMTP password
       $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
       $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
       //Recipients
-      $mail->setFrom('proyectocasasobrelaroca@gmail.com', '');
+      $mail->setFrom('quijess6@gmail.com', '');
       $mail->addAddress($destinatario, '');     //Add a recipient
-    
+      //$mail->addAddress('ellen@example.com');               //Name is optional
+      //$mail->addReplyTo('info@example.com', 'Information');
+     // $mail->addCC('cc@example.com');
+      //$mail->addBCC('bcc@example.com');
+
       $mail->AddEmbeddedImage('./resources/img/casawhite.jpg', 'csr');
 
       //Content
       $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject =  "Este es el token de verificacion para recueperar tu contraseña";
-      $mail->Body  = "<img src=\"cid:csr\" /> <p> El token es:  <b>" .$token ."</b></p>";
+      $mail->Subject =  "Se ha reseteado tu contraseña";
+      $mail->Body  = "<img src=\"cid:csr\" /> <p> tu nueva contraseña es:  <b>" .$nueva_password ."</b></p>";
      
 
       $mail->send();
 
     } catch (Exception $e) {
-      http_response_code(404);
-
-      echo json_encode( array("msj"=>"Message could not be sent. Mailer Error: {$mail->ErrorInfo}"));
-      die();
-    }
-  }
-  public function enviar_nueva_password($destinatario,$password){
-    $mail = new PHPMailer(true);
-    try {
-      //Server settings
-      $mail->SMTPDebug = 0;                      //Enable verbose debug output
-      $mail->isSMTP();                                            //Send using SMTP
-      $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-      $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-      $mail->Username   = 'proyectocasasobrelaroca@gmail.com';                     //SMTP username
-      $mail->Password   = 'henxaswwjnitgjqf';                               //SMTP password
-      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-      $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-
-      //Recipients
-      $mail->setFrom('proyectocasasobrelaroca@gmail.com', '');
-      $mail->addAddress($destinatario, '');     //Add a recipient
-    
-      $mail->AddEmbeddedImage('./resources/img/casawhite.jpg', 'csr');
-
-      //Content
-      $mail->isHTML(true);                                  //Set email format to HTML
-      $mail->Subject =  "Password reset";
-      $mail->Body  = "<img src=\"cid:csr\" /> <p> tu nueva password es:  <b>" . $password ."</b></p>";
-     
-
-      $mail->send();
-
-    } catch (Exception $e) {
-      http_response_code(404);
-
-      echo json_encode( array("msj"=>"Message could not be sent. Mailer Error: {$mail->ErrorInfo}"));
-      die();
+      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
   }
 

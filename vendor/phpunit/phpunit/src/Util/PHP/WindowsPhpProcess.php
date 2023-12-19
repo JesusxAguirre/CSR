@@ -26,8 +26,13 @@ final class WindowsPhpProcess extends DefaultPhpProcess
     protected function getHandles(): array
     {
         if (false === $stdout_handle = tmpfile()) {
+<<<<<<< HEAD
             throw new PhpProcessException(
                 'A temporary file could not be created; verify that your TEMP environment variable is writable',
+=======
+            throw new Exception(
+                'A temporary file could not be created; verify that your TEMP environment variable is writable'
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
             );
         }
 

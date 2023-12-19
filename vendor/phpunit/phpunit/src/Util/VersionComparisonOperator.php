@@ -51,7 +51,16 @@ final class VersionComparisonOperator
     private function ensureOperatorIsValid(string $operator): void
     {
         if (!in_array($operator, ['<', 'lt', '<=', 'le', '>', 'gt', '>=', 'ge', '==', '=', 'eq', '!=', '<>', 'ne'], true)) {
+<<<<<<< HEAD
             throw new InvalidVersionOperatorException($operator);
+=======
+            throw new Exception(
+                sprintf(
+                    '"%s" is not a valid version_compare() operator',
+                    $operator
+                )
+            );
+>>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
         }
     }
 }
