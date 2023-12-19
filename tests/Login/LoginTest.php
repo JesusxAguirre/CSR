@@ -44,7 +44,7 @@ final class LoginTest extends TestCase
   }
 
   /** @test **/
-  /*public function test_recuperar_password()
+  public function test_recuperar_password()
   {
     //Init
     $correo = "example@gmail.com";
@@ -57,5 +57,5 @@ final class LoginTest extends TestCase
 
     //Asert
     $this->assertEquals($expected, $response);
-  }*/
+  }
 }
