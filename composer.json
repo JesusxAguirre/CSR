@@ -1,0 +1,21 @@
+{
+    "name": "csr/modelo",
+    "description": "Proyecto casa sobre la roca",
+    "type": "project",
+    "autoload": {
+    	"psr-4": {
+            "Csr\\Modelo\\": "modelo/",
+            "MyApp\\": "src"
+    	}
+    },
+    "license": "001",
+    "authors": [
+        {
+            "name": "Jesus Aguirre & Jesus Canelon"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "phpunit/phpunit": "^10.5"
+    }
+}
