@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="vendor/autoload.php" colors="true" stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" cacheDirectory=".phpunit.cache">
-  <testsuites>
-    <testsuite name="pruebas_csr">
-      <file>tests/Usuarios/MiPerfilEditar.php</file>
-      <!-- <file>tests/Integracion/Login/LoginTest.php</file>
+<?xml version="1.0" encoding="utf-8" ?>
+<phpunit bootstrap="vendor/autoload.php"
+         colors="true"
+         verbose="true"
+         stopOnFailure="false">
+    <testsuites>
+        <testsuite name="pruebas_csr">
+            <file>tests/Usuarios/MiPerfilEditar.php</file>
+            <!-- <file>tests/Integracion/Login/LoginTest.php</file>
             <file>tests/Integracion/Usuarios/UsuariosTest.php</file>
             <file>tests/Integracion/Consolidacion/ConsolidacionTest.php</file>
             <file>tests/Integracion/Discipulado/DiscipuladoTest.php</file>
@@ -17,6 +20,6 @@
             <file>tests/Integracion/Ecam/SeccionesTest/vaciarSeccion.php</file>
             <file>tests/Integracion/Ecam/SeccionesCerradas/Secciones_cerradas.php</file>
             <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file> -->
-    </testsuite>
-  </testsuites>
+        </testsuite>
+    </testsuites>
 </phpunit>
