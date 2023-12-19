@@ -268,7 +268,7 @@
           <p>Se eliminará el usuario <b id="deleteParticipanteName"></b> <b id="deleteParticipanteApellido"></b> permanetemente.</p>
           <form method="post" id="deleteForm">
             <input type="hidden" name="cedula_participante" class="cedula_participante">
-
+            <input type="hidden" class="d-none" name="deleteParticipante">
           </form>
         </div>
         <div class="modal-footer">

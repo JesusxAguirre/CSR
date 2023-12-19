@@ -102,8 +102,8 @@ enviar.addEventListener('click', (e) => {
           fecha_inicio: fecha_inicio2,
           fecha_final: fecha_final2,
         },
-        url: "controlador/ajax/buscar-asistencias-discipulado.php",
-        type: "get",
+        url: "?pagina=reporte-celula-discipulado",
+        type: "POST",
       }).done(data => {
         respuesta.innerHTML = data
       })

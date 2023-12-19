@@ -14,7 +14,7 @@ class Roles extends Conexion {
 
 	//Variables para validaciones
 	private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
-	private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'°]{3,100}$/";
+	private $expresion_caracteres = "/^[\p{L}\s]{3,100}$/u";
 
 	public function __construct() {
 		$this->conexion = parent::conexion();
@@ -118,6 +118,9 @@ class Roles extends Conexion {
 			$stmt->bindParam(':id', $idRol);
 
 			$stmt->execute();
+
+			http_response_code(200);
+            echo json_encode(array("msj" => "El rol se ha actualizado correctamente"));
 
 			return true;
 		} catch (PDOException $e) {

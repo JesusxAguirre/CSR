@@ -612,6 +612,7 @@ class Discipulado extends Conexion
             $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
+            
             if (
                 $cedulas['cedula_lider'] == $this->cedula_lider and $cedulas['cedula_anfitrion'] == $this->cedula_anfitrion and
                 $cedulas['dia_reunion'] == $this->dia and $cedulas['cedula_asistente'] == $this->cedula_asistente and
@@ -819,7 +820,7 @@ class Discipulado extends Conexion
 
 
             http_response_code(200);
-            echo json_encode(array("msj" => "Se ha registrado correctamente la cedula de discipulado", 'status_code' => 200));
+            echo json_encode(array("msj" => "Se ha actualizado correctamente los datos de la cedula de discipulado", 'status_code' => 200));
             die();
         } catch (Throwable $ex) {
 
@@ -911,7 +912,10 @@ class Discipulado extends Conexion
 
             $stmt->execute(array(":cedula_participante" => $cedula_participante));
 
-            return true;
+            http_response_code(200);
+            echo json_encode(array("msj" => "Se ha eliminado correctamente el discipulo",));
+            die();
+
         } catch (Exception $e) {
             echo $e->getMessage();
 

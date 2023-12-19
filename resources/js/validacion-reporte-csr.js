@@ -44,8 +44,8 @@ const ValidarFormulario = (e) => {
     case "confesiones":
       ValidarCampo(expresiones.cantidad, e.target, 'confesiones');
       break;
-    case "CSR[]":
-      ValidarSelect(csr_array,e.target, 'CSR');
+    case "CSR":
+      ValidarSelect(csr_array, e.target, 'csr');
       break;
   }
 }
@@ -54,16 +54,16 @@ const ValidarFormulario = (e) => {
 
 const ValidarSelect = (codigo_array, input, campo) => {
 	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
-		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+		document.querySelector(`#grupo__CSR p`).classList.remove('d-block');
+		document.querySelector(`#grupo__CSR select`).classList.remove('is-invalid')
 
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		document.querySelector(`#grupo__CSR p`).classList.add('d-none');
 		campos[campo] = true;
 	} else {
-		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+		document.querySelector(`#grupo__CSR p`).classList.remove('d-none');
 
-		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+		document.querySelector(`#grupo__CSR p`).classList.add('d-block');
+		document.querySelector(`#grupo__CSR select`).classList.add('is-invalid')
 		campos[campo] = false;
 	}
 }
@@ -98,6 +98,8 @@ csr.addEventListener('hideDropdown', ValidarFormulario);
 
 $(document).on('submit', '#formulario', function (e) {
   e.preventDefault();
+  console.log($(this).serialize());
+  
   if (!(campos.mujeres && campos.niños && campos.confesiones && campos.csr && campos.hombres)) {
     e.preventDefault();
     Swal.fire({
@@ -111,7 +113,7 @@ $(document).on('submit', '#formulario', function (e) {
 			url: window.location.href,
 			data: $(this).serialize(),// Obtiene los datos del formulario
 			success: function (response) {
-				
+        console.log(response);
         document.getElementById("formulario").reset()
         
         for(let campo in campos){

@@ -141,8 +141,8 @@ form.addEventListener("submit", (event) => {
 			url: "?pagina=listar-roles",
 			data: {
 				create: 'create',
-				nombre: document.getElementById('crearInput').value,
-				descripcion: document.getElementById('crearDescription').value
+				nombre: document.getElementById('input_nombreCrear').value,
+				descripcion: document.getElementById('input_descripcionCrear').value
 			},
 			success: function (response) {
 				let data = JSON.parse(response);

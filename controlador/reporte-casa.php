@@ -50,9 +50,9 @@ if ($_SESSION['verdadero'] > 0) {
         $objeto = new LaRoca();
         $matriz_csr = $objeto->listar_casas_la_roca_por_usuario();
 
-        if (isset($_POST['registrar'])) {
+        if (isset($_POST['CSR'])) {
 
-            $CSR = $_POST['CSR'][0];
+            $CSR = $_POST['CSR'];
             $hombres = trim($_POST['hombres']);
             $mujeres = trim($_POST['mujeres']);
             $niños = trim($_POST['niños']);
@@ -65,12 +65,12 @@ if ($_SESSION['verdadero'] > 0) {
 
             $objeto->security_validation_cantidad([$hombres, $mujeres, $niños, $confesiones]);
 
-
-
             $objeto->setReporte($CSR, $hombres, $mujeres, $niños, $confesiones);
 
             $objeto->registrar_reporte_CSR();
+            die();
         }
+
         require_once 'vista/' . $pagina . '.php';
     }
 } else {

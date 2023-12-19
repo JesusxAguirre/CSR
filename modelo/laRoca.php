@@ -36,14 +36,14 @@ class LaRoca extends Conexion
 
     private $expresion_telefono = "/^[0-9]{11}$/";
 
-    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
+    private $expresion_especial = "/[^a-zA-Z0-9!@#$%^&*]/";
 
-    private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
+    private $expresion_codigo = "/^([^a-zA-Z0-9!@#$%^&-*])$/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
     private $expresion_numero = "/^[0-9]{1,200}$/";
-    
+
     private $expresion_cantidad = "/^[0-9]{1,20}$/";
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
@@ -185,13 +185,13 @@ class LaRoca extends Conexion
                 $listar[] = $filas;
             }
 
-            if(isset($_SESSION['cedula'])){
+            if (isset($_SESSION['cedula'])) {
 
-            $accion = "Listar casas sobre la roca";
-            $usuario = $_SESSION['cedula'];
-            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+                $accion = "Listar casas sobre la roca";
+                $usuario = $_SESSION['cedula'];
+                parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
             }
-            
+
             return $listar;
         } catch (Exception $e) {
 
@@ -237,25 +237,29 @@ class LaRoca extends Conexion
     {
         try {
             $resultado = [];
-            $sql = ("SELECT casas_la_roca.id, casas_la_roca.codigo
-        FROM casas_la_roca 
-        WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = :usuario) AND casas_la_roca.status = 1 ");
+            $sql = "SELECT casas_la_roca.id, casas_la_roca.codigo, casas_la_roca.cedula_lider, casas_la_roca.nombre_anfitrion, 
+            casas_la_roca.telefono_anfitrion,casas_la_roca.cantidad_personas_hogar,casas_la_roca.dia_visita,
+            casas_la_roca.fecha,casas_la_roca.hora_pautada,casas_la_roca.direccion, lider.codigo AS codigo_lider, lider.ruta_imagen 
+            FROM casas_la_roca 
+            INNER JOIN usuarios AS lider ON lider.cedula = :cedulalider 
+            WHERE casas_la_roca.status = 1 
+            AND casas_la_roca.cedula_lider = :cedulalider";
+
+            //$sql = ("SELECT * FROM casas_la_roca WHERE casas_la_roca.cedula_lider = (SELECT cedula FROM usuarios WHERE usuario = :usuario) AND casas_la_roca.status = 1 ");
 
             $stmt = $this->conexion()->prepare($sql);
 
             $stmt->execute(array(
-                ":usuario" => $_SESSION['usuario']
+                ":cedulalider" => $_SESSION['cedula']
             ));
 
             while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
                 $resultado[] = $filas;
             }
+
             return $resultado;
+
         } catch (Throwable $ex) {
-
-
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
@@ -324,32 +328,32 @@ class LaRoca extends Conexion
             //foreach ($this->cedula_lider as $cedula_lider) {
 
 
-                $stmt->execute(array(
-                    ":codigo" => 'CSR' . $id,
-                    ":cedula_lider" => $this->cedula_lider, ":nombre" => $this->nombre_anfitrion,
-                    ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
-                    ":dia" => $this->dia,
-                    ":fecha" => $this->fecha, ":hora" => $this->hora,
-                    ":direc" => $this->direccion,
-                    ":status" => '1'
-                ));
-                //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
+            $stmt->execute(array(
+                ":codigo" => 'CSR' . $id,
+                ":cedula_lider" => $this->cedula_lider, ":nombre" => $this->nombre_anfitrion,
+                ":telefono" => $this->telefono, ":cantidad" => $this->cantidad_integrantes,
+                ":dia" => $this->dia,
+                ":fecha" => $this->fecha, ":hora" => $this->hora,
+                ":direc" => $this->direccion,
+                ":status" => '1'
+            ));
+            //---------pasando codigo de CSR a lider de la casa sobre la roca------------------------//
 
-                $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
+            $sql = ("SELECT codigo FROM usuarios WHERE cedula = :cedula_lider");
 
-                $stmt = $this->conexion()->prepare($sql);
-                $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
-                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt = $this->conexion()->prepare($sql);
+            $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
+            $codigo_lider = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-                $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
+            $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
 
-                $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-                $stmt->execute(array(
-                    ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
-                    ":cedula" => $this->cedula_lider
-                ));
+            $stmt->execute(array(
+                ":codigo" => $codigo_lider['codigo'] . '-' . 'CSR' . $id,
+                ":cedula" => $this->cedula_lider
+            ));
             //} //fin del foreach
 
             $accion = "Registrar casas sobre la roca";
@@ -401,7 +405,7 @@ class LaRoca extends Conexion
             }
 
             //guardando en un array asociativo la CSR
-            $cedulas  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $cedulas = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //COMPROBANDO QUE SE ENVIAN DATOS DIFERENTES
             if (
@@ -464,7 +468,7 @@ class LaRoca extends Conexion
 
                 $stmt = $this->conexion()->prepare($sql);
                 $stmt->execute(array(":cedula_lider" => $this->cedula_lider));
-                $codigo_lider  = $stmt->fetch(PDO::FETCH_ASSOC);
+                $codigo_lider = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
                 $sql = ("UPDATE usuarios SET codigo = :codigo WHERE cedula = :cedula");
@@ -562,17 +566,19 @@ class LaRoca extends Conexion
     {
         try {
 
-            $sql = "INSERT INTO reportes_casas (id_casa,cantidad_h,
-        cantidad_m,cantidad_n,confesiones,fecha) 
-        VALUES(:id_casa,:hombres,:mujeres,:n,:confesiones,:fecha)";
+            $sql = "INSERT INTO reportes_casas (id_casa, cantidad_h,
+            cantidad_m, cantidad_n, confesiones, fecha) 
+            VALUES(:id_casa, :hombres, :mujeres, :cantidad_n, :confesiones, CURDATE())";
 
             $stmt = $this->conexion->prepare($sql);
 
             $stmt->execute(array(
                 ":id_casa" => $this->CSR,
-                ":hombres" => $this->hombres, ":mujeres" => $this->mujeres,
-                ":n" => $this->niños, ":confesiones" => $this->confesiones,
-                ":fecha" => $this->fecha
+                ":hombres" => $this->hombres, 
+                ":mujeres" => $this->mujeres,
+                ":cantidad_n" => $this->niños, 
+                ":confesiones" => $this->confesiones
+                //":fecha" => $this->fecha
             ));
 
             $accion = "Registar reporte casa sobre la roca";
@@ -580,11 +586,9 @@ class LaRoca extends Conexion
             parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
             http_response_code(200);
-            echo json_encode(array("msj"=>"Registro de reporte exitoso"));
+            echo json_encode(array("msj" => "Registro de reporte exitoso"));
             die();
         } catch (Throwable $ex) {
-
-
 
             $errorType = basename(get_class($ex));
             http_response_code($ex->getCode());
@@ -627,7 +631,7 @@ class LaRoca extends Conexion
         $this->niños = $niños;
         $this->confesiones = $confesiones;
 
-        $this->fecha = gmdate("y-m-d", time());
+        //$this->fecha = gmdate("y-m-d", time());
     }
 
     //------------------------------------------------------Reportes estadisticos consultas ----------------------//

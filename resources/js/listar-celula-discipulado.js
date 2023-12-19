@@ -208,7 +208,8 @@ const ValidarCampo = (expresion, input, campo) => {
 }
 
 $('#editForm').submit(function (event) {
-
+  console.log($(this).serialize());
+  
   event.preventDefault(); // Evita que el formulario se envíe automáticamente event.preventDefault();
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora && campos.codigo)) {
     Swal.fire({
@@ -401,6 +402,7 @@ $('#agregar_asistencias').submit(function (event) {
 
 
 $("#EditarNivelForm").submit(function (e) {
+  
   e.preventDefault()
   if (!(campos.nivel)) {
     Swal.fire({
@@ -475,10 +477,13 @@ const deleteButton = document.getElementById('deleteButton')
 
 deleteButton.addEventListener('click', () => {
   let participante_cedula = document.querySelector('#deleteForm .cedula_participante').value
-  console.log(participante_cedula)
+
   $.ajax({
-    data: 'participante_cedula=' + participante_cedula,
-    url: "controlador/ajax/eliminar-participante-discipulado.php",
+    data: {
+      deleteParticipante: 'deleteParticipante',
+      participante_cedula: participante_cedula
+    },
+    url: "?pagina=listar-celula-discipulado",
     type: "post",
   }).done(data => {
     if (data == '1') {
@@ -488,7 +493,9 @@ deleteButton.addEventListener('click', () => {
       fireAlert('error', 'El Discipulo que intenta eliminar no existe')
     }
   }).then(() => {
-    setTimeout(recarga, 2000);
+    //setTimeout(recarga, 2000);
+    listarDiscipulos(rowDinamica)
+    $('#eliminar').modal('hide')
   })
 })
 
@@ -507,9 +514,6 @@ function recarga() {
 
 
 function addEvents() {
-
-
-
 
   //EDITAR NIVEL DE COLOCAR CAMPOS OCULTOS
   const editar_nivel_buttons = document.querySelectorAll('table td .edit-nivel-btn')
@@ -545,10 +549,6 @@ $('#tabla_discipulos tbody').on('click', '.btn-edit', function () {
   const editButtons = document.querySelectorAll('table td .btn-edit')
 
   let row = $(this).closest('tr');
-
-
-
-
 
   const idInput = document.getElementById('idInput')
   const diaInput = document.getElementById('diaInput')
@@ -688,28 +688,32 @@ $('#tabla_discipulos tbody').on('click', '.btn-add-date', function () {
     }
   });
 
-
-
-
-
-
 })
+
+
+// Funcionalidad para recargar lista de discipulos al eliminar
+let rowDinamica
 
 $('#tabla_discipulos tbody').on('click', '.modal-btn', function () {
   let row = $(this).closest('tr');
+  rowDinamica = row.find('td:eq(0)').text()
+  listarDiscipulos(rowDinamica)
+  var v_modal = $('#eliminar_usuario').modal({ show: false });
+  v_modal.modal("show");
+})
 
+function listarDiscipulos(rowDinamica) {
   $.ajax({
-    data: 'busqueda=' + row.find('td:eq(0)').text(),
+    data: {busqueda: rowDinamica},
     url: "controlador/ajax/buscar-participante-discipulado.php",
     type: "get"
   }).done(data => {
+    modal_eliminar_participates.innerHTML = ''
     modal_eliminar_participates.innerHTML = data
-    var v_modal = $('#eliminar_usuario').modal({ show: false });
-
-    v_modal.modal("show");
   })
+}
+/////////////////////////////////////////////////////////////////////
 
-})
 
 
 $('#tabla_participantes tbody').on('click', '.delete-btn', function () {
@@ -766,7 +770,7 @@ function solicitar_tabla() {
                 <button type="button" data-bs-toggle="modal" data-bs-target="#agregar_asistencia" class="btn btn-outline-primary btn-add-date"> 
               <i class=" fs-5 bi bi-calendar-date-fill"></i> 
               </button>
-              <button type="button" class="btn btn-outline-danger modal-btn ">
+              <button type="button" class="btn btn-outline-danger modal-btn">
                 <i class="fs-5 bi bi bi-person-dash-fill"></i>
               </button>
               `,

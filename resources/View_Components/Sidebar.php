@@ -308,7 +308,7 @@
               <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
                 <span class="me-2">
                   <i class="bi bi-clipboard-data-fill fs-3"></i></span>
-                <span>Gestionar Reportes Estadisticos de Celulas </span>
+                <span>Gestionar Reportes Estadisticos de Iglesia</span>
 
               </a>
             </li>

@@ -73,6 +73,7 @@ if ($_SESSION['verdadero'] > 0) {
             }
         }
 
+
         // Crear rol
         if (isset($_POST['create'])) {
             $nombreRol = strtolower(trim($_POST['nombre']));
@@ -92,6 +93,7 @@ if ($_SESSION['verdadero'] > 0) {
             die();
         }
 
+
         // Editar rol
         if (isset($_POST['edit'])) {
             $idRol = trim($_POST['id']);
@@ -99,7 +101,7 @@ if ($_SESSION['verdadero'] > 0) {
             $descripcionRol = strtolower(trim($_POST['descripcion']));
 
             $objeto->security_validation_caracteres([$nombreRol, $descripcionRol]);
-            $objeto->security_validation_inyeccion_sql([$nombreRol, $descripcionRol]);
+            $objeto->security_validation_inyeccion_sql([$nombreRol]);
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
@@ -111,7 +113,9 @@ if ($_SESSION['verdadero'] > 0) {
                 $alert['status'] = true;
                 $alert['msg'] = "Rol modificado correctamente";
             }
+            die();
         }
+
 
         if (isset($_POST['delete'])) {
             $id = $_POST['id'];
@@ -127,6 +131,7 @@ if ($_SESSION['verdadero'] > 0) {
             die();
         }
 
+        
         $roles   = $objeto->get_roles();
         $modulos = $objeto->get_modulos();
 

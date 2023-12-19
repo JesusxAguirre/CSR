@@ -60,8 +60,6 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
         if (isset($_POST['registrar'])) {
 
-
-
             $cedula_lider = trim($_POST['codigoLider']);
             $cedula_anfitrion = trim($_POST['codigoAnfitrion']);
             $cedula_asistente = trim($_POST['codigoAsistente']);
@@ -83,21 +81,16 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             }
 
             $objeto->security_validation_inyeccion_sql([$dia, str_replace(" ", "", $direccion)]);
-
-
             $objeto->security_validation_codigo($participantes);
             $objeto->security_validation_codigo([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
-
 
             $cedula_lider = explode('-', $cedula_lider)[0];
             $cedula_anfitrion = explode('-', $cedula_anfitrion)[0];
             $cedula_asistente = explode('-', $cedula_asistente)[0];
 
             $objeto->security_validation_cedula([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
-
             $objeto->security_validation_caracteres([$dia, $direccion]);
             $objeto->security_validation_hora($hora);
-
 
             $objeto->setDiscipulado($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $participantes);
 

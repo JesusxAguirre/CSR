@@ -57,10 +57,9 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
         $objeto = new Discipulado();
 
-
-
         $matriz_lideres = $objeto->listar_usuarios_N2();
         $matriz_usuarios = $objeto->listar_no_participantes();
+
 
         //actualizar celula
 
@@ -77,12 +76,12 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
             $objeto->security_validation_codigo([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
 
-
-
             $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id);
 
             $objeto->actualizar_discipulado();
+            die();
         }
+
 
         if (isset($_GET['listar_celula_disicpulado'])) {
             $matriz_celula = $objeto->listar_celula_discipulado();
@@ -97,7 +96,6 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
         if (isset($_GET['buscar_participantes'])) {
             $matriz_usuarios = $objeto->listar_no_participantes();
-
 
             http_response_code(200);
 
@@ -129,7 +127,6 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->security_validation_inyeccion_sql([$id]);
             $objeto->security_validation_codigo($participantes);
 
-
             $objeto->setParticipantes($participantes, $id);
 
             $objeto->agregar_participantes();
@@ -142,11 +139,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $asistentes = $_POST['asistentes'];
             $id = trim($_POST['id']);
 
-
             $objeto->security_validation_inyeccion_sql([$id]);
-
             $objeto->security_validation_fecha($fecha);
-
             $objeto->security_validation_codigo($asistentes);
 
             $objeto->setAsistencias($asistentes, $id, $fecha);
@@ -155,6 +149,16 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $registrar_asistencia = false;
             die();
         }
+
+
+        //Eliminar discipulo
+        if(isset($_POST['deleteParticipante'])) {
+            $cedula_participante = $_POST['participante_cedula'];
+
+            echo $objeto->eliminar_participantes($cedula_participante);
+            die();
+        }
+
 
         if (isset($_POST['cedula_discipulo'])) {
 

@@ -71,10 +71,7 @@ if ($_SESSION['verdadero'] > 0) {
                     $json['data'][] = $key;
                 }
             } else {
-                $json['data']['id_seccion'] = null;
-                $json['data']['nombre'] = null;
-                $json['data']['nivel_academico'] = null;
-                $json['data']['fecha_cierre'] = null;
+                $json['data'] = array();
             }
             echo json_encode($json);
 
