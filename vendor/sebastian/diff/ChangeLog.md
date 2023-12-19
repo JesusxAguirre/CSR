@@ -2,7 +2,6 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-<<<<<<< HEAD
 ## [5.0.3] - 2023-05-01
 
 ### Changed
@@ -31,8 +30,6 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * Removed support for PHP 7.3, PHP 7.4, and PHP 8.0
 
-=======
->>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 ## [4.0.4] - 2020-10-26
 
 ### Fixed
@@ -107,13 +104,10 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 * This component is no longer supported on PHP 5.6
 
-<<<<<<< HEAD
 [5.0.3]: https://github.com/sebastianbergmann/diff/compare/5.0.2...5.0.3
 [5.0.2]: https://github.com/sebastianbergmann/diff/compare/5.0.1...5.0.2
 [5.0.1]: https://github.com/sebastianbergmann/diff/compare/5.0.0...5.0.1
 [5.0.0]: https://github.com/sebastianbergmann/diff/compare/4.0.4...5.0.0
-=======
->>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 [4.0.4]: https://github.com/sebastianbergmann/diff/compare/4.0.3...4.0.4
 [4.0.3]: https://github.com/sebastianbergmann/diff/compare/4.0.2...4.0.3
 [4.0.2]: https://github.com/sebastianbergmann/diff/compare/4.0.1...4.0.2

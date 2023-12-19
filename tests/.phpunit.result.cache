@@ -1,0 +1,1 @@
+{"version":1,"defects":{"LoginTest::test_login_admin":8,"LoginTest::test_recuperar_password":8,"UsuariosTest::test_registrar_usuario":8,"UsuariosTest::test_editar_usuario":1,"UsuariosTest::test_eliminar_usuario":1},"times":{"UsuariosTest::test_editar_usuario":0,"UsuariosTest::test_eliminar_usuario":0}}
