@@ -6,7 +6,7 @@ session_start();
 $time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
-    
+
     // Regenera el ID de sesión antes de destruirla
     session_regenerate_id(true);
 
@@ -97,18 +97,20 @@ if ($_SESSION['verdadero'] > 0) {
         // Editar rol
         if (isset($_POST['edit'])) {
             $idRol = trim($_POST['id']);
-            $nombreRol = strtolower(trim($_POST['nombre']));
-            $descripcionRol = strtolower(trim($_POST['descripcion']));
+            $nombreRol = strtolower($_POST['nombre']);
+            $descripcionRol = strtolower($_POST['descripcion']);
 
             $objeto->security_validation_caracteres([$nombreRol, $descripcionRol]);
             $objeto->security_validation_inyeccion_sql([$nombreRol]);
+            //$objeto->security_validation_caracteres([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
+            //$objeto->security_validation_inyeccion_sql([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
                 $alert['status'] = 'false';
                 $alert['msg'] = "El rol ingresado ya existe";
             } else {
-                $objeto->setDatos($nombreRol, $descripcionRol);
+                $objeto->setUpdatedRol($nombreRol, $descripcionRol);
                 $objeto->update_rol($idRol);
                 $alert['status'] = true;
                 $alert['msg'] = "Rol modificado correctamente";
@@ -146,4 +148,3 @@ if ($_SESSION['verdadero'] > 0) {
     window.location= 'error.php'
     </script>";
 }
-?>

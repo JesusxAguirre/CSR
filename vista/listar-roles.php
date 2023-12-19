@@ -4,7 +4,7 @@
 <head>
 	<title>Listar Roles</title>
 	<meta charset="utf-8">
-	<meta name ="viewport" content="width=device-width, initial-scale=0.6">
+	<meta name="viewport" content="width=device-width, initial-scale=0.6">
 	<!-- Espacio para CSS -->
 	<?php require_once './resources/View_Components/importCSS.php' ?>
 	<!-- Espacio para los JS -->
@@ -53,8 +53,8 @@
 									<thead class="">
 										<tr role="row">
 											<th colspan="1" role="columnheader" title="Toggle SortBy" class="sortable" style="cursor: pointer;">#</th>
-											<th colspan="1" role="columnheader" title="Toggle SortBy" class="sortable" style="cursor: pointer;">Rol</th>
-											<th colspan="1" role="columnheader" title="Toggle SortBy" class="sortable" style="cursor: pointer;">Descripción</th>
+											<th colspan="1" role="columnheader" title="Toggle SortBy" class="sortable text-capitalize" style="cursor: pointer;">Rol</th>
+											<th colspan="1" role="columnheader" title="Toggle SortBy" class="sortable text-capitalize" style="cursor: pointer;">Descripción</th>
 											<th colspan="1" role="columnheader" class="">Acciones</th>
 										</tr>
 									</thead>
@@ -63,8 +63,8 @@
 										<?php foreach ($roles as $rol) : ?>
 											<tr role="row">
 												<td role="cell" class="fs-5 id"><?php echo $rol['id'] ?></td>
-												<td role="cell" class="fs-5 nombre"><?php echo $rol['nombre'] ?></td>
-												<td role="cell" class="fs-5 descripcion"><?php echo ($rol['descripcion'] != '') ? $rol['descripcion'] : '<em>Sin descripción</em>'; ?></td>
+												<td role="cell" class="fs-5 nombre text-capitalize"><?php echo $rol['nombre'] ?></td>
+												<td role="cell" class="fs-5 descripcion text-capitalize"><?php echo ($rol['descripcion'] != '') ? $rol['descripcion'] : '<em>Sin descripción</em>'; ?></td>
 												<td class="" role="cell">
 													<button type="button" data-bs-toggle="modal" data-bs-target="#permisos<?php echo ($rol['nombre']) ?>" class="btn btn-outline-secondary"><i class="fs-5 bi bi-key-fill"></i></button>
 													<button type="button" data-bs-toggle="modal" data-bs-target="#editar" class="btn btn-outline-primary edit-btn"><i class="fs-5 bi bi-pencil-fill"></i></button>
@@ -96,7 +96,7 @@
 							<label class="form-label fw-bold" for="editarInput">
 								Nombre del Rol
 							</label>
-							<input type="text" name="nombre" id="input_nombreEditar" class="form-control" placeholder="Ejp: Administrador">
+							<input type="text" name="nombre" id="input_nombreEditar" class="form-control text-capitalize" placeholder="Ejp: Administrador">
 							<div id="msj_alertNombreEditar" class="alert alert-danger d-none" role="alert">
 								Este campo no deberia estar vacio. Adicional, solo puedes ingresar un maximo de 20 caracteres. Estos caracteres pueden incluir letras y solo uso de caracteres especiales como guion o guion bajo
 							</div>
@@ -274,7 +274,7 @@
 		</div>
 	</div>
 	<!-- FIN Modal Eliminar -->
-	
+
 
 	<script type="text/javascript">
 		alertStatus = <?php echo $alert['status'] ?? '""'; ?>;

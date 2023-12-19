@@ -68,9 +68,9 @@ $(document).ready(function () {
 			case "cedula":
 				ValidarCampo(expresiones.cedula, e.target, 'cedula');
 				break;
-			/* case "nombre":
+			case "nombre":
 				ValidarCampo(expresiones.nombre, e.target, 'nombre');
-				break; */
+				break;
 			case "apellido":
 				ValidarCampo(expresiones.nombre, e.target, 'apellido');
 				break;

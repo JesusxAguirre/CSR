@@ -7,7 +7,7 @@ session_start();
 $time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 3600 segundos = 1 hora
 if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
     // El tiempo de sesión ha expirado
-    
+
     // Regenera el ID de sesión antes de destruirla
     session_regenerate_id(true);
 
@@ -62,7 +62,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         $objeto = new Usuarios();
         //Generando Token
         $token = $objeto->generate_csrf_token();
-        
+
         $matriz_usuario = $objeto->mi_perfil();
 
         $cedula = $_SESSION['cedula'];
@@ -75,7 +75,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             //Se chequea estos metodos de seguridad
             $objeto->check_blacklist();
             $objeto->check_requests_danger();
-        
+
             //Ahora si procedemos a seguir con la actualizacion
             $nombre = trim($_POST['nombre']);
             $apellido = trim($_POST['apellido']);
@@ -88,7 +88,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $estado = strtolower(trim($_POST['estado']));
             $telefono = trim($_POST['telefono']);
             $correo = strtolower(trim($_POST['correo']));
-        
+
             //Validaciones
             $objeto->security_validation_inyeccion_sql([$nombre, $apellido, $cedula, $sexo, $estado_civil, $nacionalidad, $telefono]);
             $objeto->security_validation_caracteres([$nombre, $apellido]);
@@ -99,14 +99,13 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->security_validation_nacionalidad($nacionalidad);
             $objeto->security_validation_estado($estado);
             $objeto->security_validation_correo($correo);
-        
+
             //Sanitizacion
             $nombre = $objeto->sanitizar_cadenas($nombre);
             $apellido = $objeto->sanitizar_cadenas($apellido);
-        
+
             $objeto->setUpdate_sin_rol($nombre, $apellido, $cedula, $cedula_antigua, $fecha_nacimiento, $sexo, $estado_civil, $nacionalidad, $estado, $telefono, $correo);
             $objeto->update_usuarios_sin_rol();
-            
         }
 
         //Cargar todos los datos del usuario en el perfil
@@ -118,9 +117,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         }
 
 
-        //Actualizar datos del perfil del usuario
-        $actualizar = true;
-        
+
+
 
         //Actualizar imagen de perfil de usuario
         if (isset($_POST["actualizar_imagen"])) {
@@ -128,12 +126,14 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $tipo_imagen = $_FILES['imagen']['type'];
             $tamaño_imagen = $_FILES['imagen']['size'];
             $cedula = $_POST['cedula_antigua'];
+
+            //validate is only image like photo
+            $objeto->security_validation_imagen($tipo_imagen);
             //ruta de la carpeta destinoen servidor
             $carpeta_destino =  $_SERVER['DOCUMENT_ROOT'] . '/CSR/resources/imagenes-usuarios/';
 
             $objeto->setActualizarFoto($cedula, $carpeta_destino, $nombre_imagen, $tipo_imagen, $tamaño_imagen);
             $objeto->actualizar_foto();
-            $actualizar = false;
         }
 
         if (isset($_POST['actualizar_clave'])) {
@@ -153,16 +153,16 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 }
 
 //Funcion para comprobar la integridad del token
-function verified_token_csrf(){
-	if (!isset($_REQUEST['token'])) {
+function verified_token_csrf()
+{
+    if (!isset($_REQUEST['token'])) {
 
-		return false;
-	} else {
-		 if ($_REQUEST['token'] !== $_SESSION['csrf_token']) {
-		 	return false;
-		 }
+        return false;
+    } else {
+        if ($_REQUEST['token'] !== $_SESSION['csrf_token']) {
+            return false;
+        }
 
-		 return true;
-	}
+        return true;
+    }
 }
-?>
