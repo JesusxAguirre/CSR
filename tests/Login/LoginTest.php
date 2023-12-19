@@ -21,7 +21,7 @@ final class LoginTest extends TestCase
     $correo = "";
     $clave = "";
     $expected = 200;
-    
+    $no =0;
     //Act  
 
     $this->assertEquals('',$this->objeto_usuarios->security_validation_correo($correo));
