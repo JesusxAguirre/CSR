@@ -5,31 +5,10 @@
   <title>Bitacora de usuario</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=0.6">
-
-
-  <!-- Bostrap 5 -->
-  <link rel="stylesheet" href="resources/css/bootstrap.min.css">
-  <link rel="stylesheet" href="resources/css/style.css">
-  <link rel="stylesheet" href="vendor/twbs/bootstrap-icons/font/bootstrap-icons.css">
-
-  <!-- DATATABLES CSS -->
-  <link rel="stylesheet" href="./resources/library/dataTables/css/jquery.dataTables.min.css">
-
-  <!-- Jquery-->
-  <script src="resources/js/jquery-3.6.0.min.js"></script>
-
-  <!-- JS de DataTables -->
-  <script src="./resources/library/dataTables/js/jquery.dataTables.min.js"></script>
-
-  <!-- Js boostrap -->
-  <script src="resources/js/bootstrap.min.js"></script>
-  <!-- CHOICE 2 -->
-  <link rel="stylesheet" href="resources/library/choice/public/assets/styles/choices.min.css">
-  <script src="resources/library/choice/public/assets/scripts/choices.min.js"></script>
-  <!-- Estilos de validacion-->
-  <link rel="stylesheet" href="resources/css/listar-consolidacion.css">
-  <!-- Sweet alert 2-->
-  <script src="resources/js/sweetalert2.js"></script>
+  <!-- Espacio para CSS -->
+  <?php require_once './resources/View_Components/importCSS.php' ?>
+  <!-- Espacio para los JS -->
+  <?php require_once './resources/View_Components/importJS.php' ?>
 </head>
 
 <body>
@@ -83,4 +62,5 @@
 
 </body>
 <script src="resources/js/bitacora-usuario.js"></script>
+
 </html>

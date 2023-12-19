@@ -79,36 +79,38 @@ const ValidarFormulario = (e) => {
 
   }
 }
-
 const ValidarCodigo = (codigo_array, input, campo) => {
   if (codigo_array.indexOf(input.value) >= 0) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+
     campos[campo] = true;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
+
+
 const ValidarDia = (input, campo) => {
-  if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
-    console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+  let valor = input.value.toLowerCase()
+  if (valor === "lunes" || valor === "martes" || valor === "miercoles" || valor === "jueves" || valor === "viernes" || valor === "sabado" || valor === "domingo") {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -117,6 +119,7 @@ const ValidarHora = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
 
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
@@ -125,38 +128,40 @@ const ValidarHora = (expresion, input, campo) => {
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
 
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
 const ValidarSelect = (select, campo) => {
-  if (select.value == '') {
+  if (select.value != '') {
 
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
+  } else {
+    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+    campos[campo] = false;
   }
 }
 
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -171,15 +176,78 @@ inputs.forEach((input) => {
 participantes.addEventListener('hideDropdown', ValidarFormulario);
 
 
-formulario.addEventListener('submit', (e) => {
+$(document).on('submit', '#formulario', function (event) {
+
+  event.preventDefault()
+
+
   if (!(campos.codigoAnfitrion && campos.codigoAsistente && campos.codigoLider && campos.dia && campos.hora)) {
-    e.preventDefault();
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
+
+    return false
   }
+
+
+  $.ajax({
+    type: 'POST',
+    url: window.location.href,
+    data: $(this).serialize(),// Obtiene los datos del formulario
+    success: function (response) {
+
+
+      document.getElementById("formulario").reset()
+
+      for (let campo in campos) {
+        campos[campo] = false
+      }
+      Swal.fire({
+        icon: 'success',
+        title: 'Se ha registrado correctamente la celula de discipulado',
+        text: response.msj
+      })
+    },
+    error: function (xhr, status, error) {
+      // Código a ejecutar si se produjo un error al realizar la solicitud
+
+
+      var response;
+      try {
+        response = JSON.parse(xhr.responseText);
+      } catch (e) {
+        response = {};
+      }
+      
+      switch (response.status_code) {
+        case 409:
+          response.ErrorType = "Hay conflicto con los horarios de visitas de casa sobre la roca"
+          break;
+        case 422:
+          response.ErrorType = "Invalid Data"
+          break;
+        case 404:
+          response.ErrorType = "Hubo algun error en la base de datos intente de nuevo"
+          break;
+        default:
+          response.ErrorType = 'Hubo un error desconocido contacte con los administradores'
+          break;
+      }
+
+      Swal.fire({
+        icon: 'error',
+        title: response.ErrorType,
+        text: response.msj
+      })
+
+
+
+    }
+  });
+
+
 })
 
 //probando elimnar option value
@@ -191,16 +259,16 @@ $("#codigoLider").on('change', function () {
 
 
   let codigo = $('#codigoLider').val();
-  console.log(codigo)
+
 
   $('#anfitrion option').each(function () {
-    console.log('entra a la funcion')
+
     if ($(this).val() == codigo) {
       $(this).remove();
     }
   });
   $('#asistente option').each(function () {
-    console.log('entra a la funcion')
+
     if ($(this).val() == codigo) {
       $(this).remove();
     }
@@ -208,16 +276,41 @@ $("#codigoLider").on('change', function () {
 
 
 });
+$("#codigoAnfitrion").on('change', function () {
+  var val = $('#codigoAnfitrion').val();
+  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
 
 
-if (error == false) {
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro la celula correctamente'
-  })
-  const myTimeout = setTimeout(recarga, 2000);
 
-  function recarga() {
-    window.location = "index.php?pagina=registrar-celula-discipulado";
-  }
-}
+  let codigo = $('#codigoAnfitrion').val();
+
+
+  $('#lider option').each(function () {
+
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  });
+
+
+});
+$("#codigoAsistente").on('change', function () {
+  var val = $('#codigoAsistente').val();
+  var cedula = $('#lider').find('option[value="' + val + '"]').data('ejemplo');
+
+
+
+  let codigo = $('#codigoAsistente').val();
+
+
+  $('#lider option').each(function () {
+
+    if ($(this).val() == codigo) {
+      $(this).remove();
+    }
+  });
+
+
+});
+
+

@@ -22,10 +22,16 @@ final class LoginTest extends TestCase
     $_SESSION['clave'] = "Hola!000";
     $expected = 1;
     //Act  
-    $response = $this->objeto_usuarios->validar();
+
+    $this->assertEquals('',$this->objeto_usuarios->security_validation_correo($correo));
+
+    $this->assertEquals('',$this->objeto_usuarios->security_validation_clave($clave));
+
+    $response =  $this->objeto_usuarios->validar();
 
     //Asert
-    $this->assertEquals($expected, $response);
+
+    $this->assertEquals($expected, $response['status_code']);
   }
 
   /** @test **/

@@ -47,21 +47,18 @@ module:
     - source:           node_modules/bootstrap/scss
       target:           assets/scss/bootstrap
     - source:           node_modules/bootstrap/dist/js/bootstrap.bundle.min.js
-      target:           assets/js/vendor/bootstrap.bundle.min.js
-    - source:           node_modules/clipboard/dist/clipboard.min.js
-      target:           assets/js/vendor/clipboard.min.js
-    - source:           node_modules/list.js/dist/list.min.js
-      target:           assets/js/vendor/list.min.js
+      target:           static/assets/js/vendor/bootstrap.bundle.min.js
 
 params:
   description:          "Official open source SVG icon library for Bootstrap"
   social_image_path:    /assets/img/bootstrap-icons-social.png
 
-  version:              "1.10.3"
+  version:              "1.10.5"
   docs_version:         "5.3"
 
   main:                 "https://getbootstrap.com"
   github_org:           "https://github.com/twbs"
+  icons_repo:           "https://github.com/twbs/icons"
   repo:                 "https://github.com/twbs/bootstrap"
   twitter:              "getbootstrap"
   opencollective:       "https://opencollective.com/bootstrap"

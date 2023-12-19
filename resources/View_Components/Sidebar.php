@@ -3,7 +3,7 @@
   <div class="offcanvas-body p-0">
     <nav class="navbar-dark">
       <ul class="navbar-nav">
-        <li>
+        <li class="pt-3">
           <div style="color: white;" class=" small fw-bold text-uppercase px-3 ">
             HOME
           </div>
@@ -18,14 +18,15 @@
         <?php  endif ;?>
         <li>
           <a href="?pagina=agenda" class="nav-link px-3 active fs-4">
-            <span class="me-1 "><i class="bi bi-house-door-fill"></i></span>
+            <span class="me-1 "><i class="bi bi-calendar-event"></i></span>
             <span class="h5">Gestionar Agenda</span>
           </a>
         </li>
-        <li class="my-4">
+        <li>
           <hr class="dropdown-divider" />
         </li>
-        <li>
+
+        <li class="pt-2 pb-2">
           <div style="color: white;" class=" small fw-bold text-uppercase px-3">
             Interfaces
           </div>
@@ -77,7 +78,7 @@
           </li>
         <?php endif; ?>
             
-        <?php if (!$_SESSION['rol'] <= 2) { ?>
+        <?php if ($_SESSION['permisos']['ecam']['listar'] > 0) : ?>
           <li>
             <a style="padding-left: 17.5px" class="nav-link sidebar-link pe-3" data-bs-toggle="collapse" href="#ecam" role="button" aria-expanded="false" aria-controls="collapseExample">
               <span class="me-2 fs-4">
@@ -91,7 +92,7 @@
             <div class="collapse" id="ecam">
               <div>
                 <ul class="navbar-nav ps-3">
-                  <?php if ($_SESSION['rol'] == 4) { ?>
+                <?php if ($_SESSION['permisos']['aula_virtual_estudiantes']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=aula-virtual-Est" class="nav-link px-3">
                         <span class="me-2">
@@ -100,15 +101,15 @@
                         <span>Aula Virtual Estudiantes</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif ?>
 
-                  <?php if ($_SESSION['rol'] == 4) { ?>
+                  <?php if ($_SESSION['permisos']['boletin_notas']['listar'] > 0) : ?>
                     <li id="boletinNotas">
                       <!-- Aqui se mostrata el boletin de notas cuando llegue la fecha de cierre de la seccion -->
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['status_profesor'] == 1) { ?>
+                  <?php if ($_SESSION['status_profesor'] == 1 && $_SESSION['permisos']['aula_virtual_profesores']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=aula-virtual-Prof" class="nav-link px-3">
                         <span class="me-2">
@@ -117,9 +118,9 @@
                         <span>Aula Virtual Profesores</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['materias']['crear'] > 0) : ?>
                     <li>
                       <a href="?pagina=agregar-materias" class="nav-link px-3">
                         <span class="me-2">
@@ -127,9 +128,9 @@
                         <span>Agregar Materias</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['materias']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=listar-materias" class="nav-link px-3">
                         <span class="me-2">
@@ -137,9 +138,9 @@
                         <span>Listar Materias ECAM</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['profesores']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=agregar-profesores" class="nav-link px-3">
                         <span class="me-2">
@@ -147,9 +148,9 @@
                         <span>Profesores de la ECAM</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['secciones']['crear'] > 0) : ?>
                     <li>
                       <a href="?pagina=crear-secciones" class="nav-link px-3">
                         <span class="me-2">
@@ -157,9 +158,9 @@
                         <span>Crear Secciones</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['secciones']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=listar-secciones" class="nav-link px-3">
                         <span class="me-2">
@@ -167,9 +168,9 @@
                         <span>Listar Secciones</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['secciones']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=listar-secciones-cerradas" class="nav-link px-3">
                         <span class="me-2">
@@ -177,9 +178,9 @@
                         <span>Listar Secciones Cerradas</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
 
-                  <?php if ($_SESSION['rol'] <= 2) { ?>
+                  <?php if ($_SESSION['permisos']['control_notas']['listar'] > 0) : ?>
                     <li>
                       <a href="?pagina=control-notas" class="nav-link px-3">
                         <span class="me-2">
@@ -187,12 +188,12 @@
                         <span>Control de Notas</span>
                       </a>
                     </li>
-                  <?php } ?>
+                  <?php endif; ?>
                 </ul>
               </div>
             </div>
           </li>
-        <?php } ?>
+        <?php endif; ?>
 
 
 
@@ -302,42 +303,36 @@
         </li>
         <?php endif; ?>
 
-        <?php if (isset($_SESSION['permisos']['reporte_estadistico_celulas']['listar'])) {
-          if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) { ?>
+        <?php if ($_SESSION['permisos']['reporte_estadistico_celulas']['listar'] > 0) : ?>
             <li>
               <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-estadisticos">
                 <span class="me-2">
                   <i class="bi bi-clipboard-data-fill fs-3"></i></span>
-                <span>Gestionar Reportes Estadisticos de Celulas </span>
+                <span>Gestionar Reportes Estadisticos de Iglesia</span>
 
               </a>
             </li>
-        <?php }
-        } ?>
+        <?php endif; ?>
 
-        <?php if (isset($_SESSION['permisos']['reporte_estadistico_ecam']['listar'])) {
-          if ($_SESSION['permisos']['reporte_estadistico_ecam']['listar'] > 0) { ?>
+        <?php if ($_SESSION['permisos']['reporte_estadistico_ecam']['listar'] > 0) : ?>
             <li>
-              <a href="?pagina=reportes-ecam" class="nav-link px-3">
+              <a class="nav-link px-3 sidebar-link" href="?pagina=reportes-ecam">
                 <span class="me-2">
                   <i class="bi bi-bar-chart-line"></i></span>
                 <span>Gestionar Reportes Estadisticos ECAM</span>
               </a>
             </li>
-        <?php }
-        } ?>
+        <?php endif; ?>
 
-        <?php if (isset($_SESSION['permisos']['envio_correo']['listar'])) {
-          if ($_SESSION['permisos']['envio_correo']['listar'] > 0) { ?>
+        <?php if ($_SESSION['permisos']['envio_correo']['listar'] > 0) : ?>
             <li>
-              <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo" role="button">
+              <a class="nav-link px-3 sidebar-link" href="?pagina=envio-correo">
                 <span class="me-2">
                   <i class="bi bi-envelope-fill fs-3"></i>
                   <span>Gestionar Envio de Correo</span>
               </a>
             </li>
-        <?php }
-        } ?>
+        <?php endif; ?>
 
         <?php if ($_SESSION['permisos']['seguridad']['listar'] > 0) { ?>
           <li>

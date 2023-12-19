@@ -10,7 +10,7 @@ buscarMateria.addEventListener("keyup", () => {
     data: {
       buscarMateria: document.getElementById("buscarMateria").value,
     },
-    url: "controlador/ajax/buscar-materias.php",
+    url: "index.php?pagina=listar-materias",
     type: "post",
   }).done((data) => {
     datosMaterias.innerHTML = data;
@@ -40,10 +40,11 @@ function listarProfesoresMateria(idMateriaP) {
 
   $.ajax({
     data: {
+      listar_profesores_materia: 'listar_profesores_materia',
       idMateriaProf: idMateriaP,
     },
     type: "post",
-    url: "controlador/ajax/listar-profesoresMateria.php",
+    url: "index.php?pagina=listar-materias",
   }).done((data) => {
     listadoProfesores.innerHTML = data;
   });
@@ -59,7 +60,7 @@ function consultaDeProfesores(idNoMateria) {
       botonEditarProfM: 'botonEditarProfM',
     },
     type: "post",
-    url: "controlador/ajax/CRUD-materias.php",
+    url: "index.php?pagina=listar-materias",
   }).done((data) => {
     listadoCDP.innerHTML = data;
     choices2();
@@ -106,7 +107,7 @@ $(document).on('click', '#actualizarProfesores', function (e) {
       text: 'No seleccionaste ninguno de los profesores disponibles',
     });
   } else {
-    $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
+    $.post("index.php?pagina=listar-materias", data2, function (response) {
       listarProfesoresMateria(data2.idMateriaV);
       $('#formularioVincularProf').trigger('reset');
       consultaDeProfesores(data2.idMateriaV);
@@ -140,7 +141,7 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
     denyButtonColor: 'grey'
   }).then((result) => {
     if (result.isConfirmed) {
-      $.post("controlador/ajax/CRUD-materias.php", {
+      $.post("index.php?pagina=listar-materias", {
         cedulaProf,
         idMateria2,
         eliminarProfMat
@@ -175,8 +176,9 @@ $(document).on('click', '#eliminarProfesorMateria', function () {
 function listarMaterias() {
   let listadoMaterias = document.getElementById("datosMaterias");
   $.ajax({
+    data: {listar_materias: 'listar_materias'},
     type: "post",
-    url: "controlador/ajax/listar-materias.php",
+    url: "index.php?pagina=listar-materias",
   }).done((data) => {
     listadoMaterias.innerHTML = data;
   });
@@ -202,7 +204,7 @@ $(document).on('click', '#eliminarMateria', function () {
     denyButtonColor: 'grey'
   }).then((result) => {
     if (result.isConfirmed) {
-      $.post("controlador/ajax/CRUD-materias.php", {idMateria, botonEliminar}, function (response) {
+      $.post("index.php?pagina=listar-materias", {idMateria, botonEliminar}, function (response) {
         let resp = JSON.parse(response);
 
         if (resp == 'true') {
@@ -272,7 +274,7 @@ $("#actualizarMateria").on("click", function (e) {
 
   if (campos2[0] && campos2[1]) {
 
-    $.post("controlador/ajax/CRUD-materias.php", data2, function (response) {
+    $.post("index.php?pagina=listar-materias", data2, function (response) {
       var resp = JSON.parse(response);
 
       //Primero validamos que los datos de la seccion no existan al actualizar

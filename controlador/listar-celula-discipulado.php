@@ -1,12 +1,51 @@
 <?php
 
-use Csr\Modelo\Discipulado;
-use PhpParser\Node\Stmt\Else_;
-
 //destruye la sesion si se tenia una abierta
 session_start();
 
-if ($_SESSION['verdadero'] > 0) {
+// Verificar la expiración del tiempo de la sesiónx
+$time_limit = 3600;  // Establecemos el límite de tiempo en segundos, por ejemplo, 1800 segundos = 30 minutos
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > $time_limit)) {
+    // El tiempo de sesión ha expirado
+
+    // Regenera el ID de sesión antes de destruirla
+    session_regenerate_id(true);
+
+    // Desestablece todas las variables de sesión
+    $_SESSION = array();
+
+    session_destroy();  // Destruye la sesión
+    echo "<script>
+    alert('La sesión ha expirado');
+    window.location= 'index.php'
+    </script>";
+
+    http_response_code(403);
+    echo json_encode(array("msj" => "Sesion expirada", "status_code" => 403));
+    die();
+}
+
+$_SESSION['LAST_ACTIVITY'] = time();  // Actualiza el último momento de actividad
+
+use Csr\Modelo\Discipulado;
+use PhpParser\Node\Stmt\Else_;
+
+if (isset($_POST['cerrar'])) {
+
+    // Regenera el ID de sesión antes de destruirla
+    session_regenerate_id(true);
+
+    // Desestablece todas las variables de sesión
+    $_SESSION = array();
+
+    session_destroy();
+
+    http_response_code(200);
+    echo json_encode(array('msj' => 'Ha cerrado sesion con correctamente. Vuelva pronto', 'status' => 200));
+    die();
+}
+
+if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
     if (is_file('vista/' . $pagina . '.php')) {
 
         if (!$_SESSION['permisos']['celula_discipulado']['listar']) {
@@ -18,63 +57,115 @@ if ($_SESSION['verdadero'] > 0) {
 
         $objeto = new Discipulado();
 
-        $matriz_celula = $objeto->listar_celula_discipulado();
-
+        $matriz_lideres = $objeto->listar_usuarios_N2();
         $matriz_usuarios = $objeto->listar_no_participantes();
 
-        $matriz_lideres = $objeto->listar_usuarios_N2();
+
         //actualizar celula
-        $actualizar = true;
 
         if (isset($_POST['update'])) {
             $cedula_lider = trim($_POST['codigoLider']);
             $cedula_anfitrion = trim($_POST['codigoAnfitrion']);
             $cedula_asistente = trim($_POST['codigoAsistente']);
-            $dia = trim($_POST['dia']);
+            $dia = strtolower(trim($_POST['dia']));
             $hora = trim($_POST['hora']);
-            $direccion = trim($_POST['direccion']);
+            $direccion = strtolower($_POST['direccion']);
             $id = trim($_POST['id']);
 
+            $objeto->security_validation_inyeccion_sql([$id, $dia, str_replace(" ", "", $direccion)]);
+
+            $objeto->security_validation_codigo([$cedula_lider, $cedula_anfitrion, $cedula_asistente]);
 
             $objeto->setActualizar($cedula_lider, $cedula_anfitrion, $cedula_asistente, $dia, $hora, $direccion, $id);
 
             $objeto->actualizar_discipulado();
-            $actualizar = false;
+            die();
+        }
+
+
+        if (isset($_GET['listar_celula_disicpulado'])) {
+            $matriz_celula = $objeto->listar_celula_discipulado();
+
+            echo json_encode($matriz_celula);
+
+            die();
+        }
+
+
+        //BUSCAR PARTICIPANTES DE CELULA
+
+        if (isset($_GET['buscar_participantes'])) {
+            $matriz_usuarios = $objeto->listar_no_participantes();
+
+            http_response_code(200);
+
+            echo json_encode($matriz_usuarios);
+            die();
+        }
+
+
+        //BUSCAR PARTICIPANTES PARA ASISTENCIAS DE CELULA
+
+        if (isset($_GET['buscar_participantes_asistencia'])) {
+
+            $busqueda = $_GET['busqueda'];
+            $matriz_posibles_asistentes = $objeto->listar_participantes($busqueda);
+
+            http_response_code(200);
+
+            echo json_encode($matriz_posibles_asistentes);
+
+            die();
         }
 
         //agregar participantes
-        $registrar_participante = true;
-        if (isset($_POST['agregar_participantes'])) {
+        if (isset($_POST['participantes'])) {
 
-            $participantes = trim($_POST['participantes']);
+            $participantes = $_POST['participantes'];
             $id = trim($_POST['id']);
+
+            $objeto->security_validation_inyeccion_sql([$id]);
+            $objeto->security_validation_codigo($participantes);
 
             $objeto->setParticipantes($participantes, $id);
 
             $objeto->agregar_participantes();
-            $registrar_participante = false;
         }
 
 
         //registrar asistencia
-        $registrar_asistencia = true;
-        if (isset($_POST['agregar_asistencia'])) {
+        if (isset($_POST['asistentes'])) {
             $fecha = trim($_POST['fecha']);
-            $asistentes = trim($_POST['asistentes']);
+            $asistentes = $_POST['asistentes'];
             $id = trim($_POST['id']);
+
+            $objeto->security_validation_inyeccion_sql([$id]);
+            $objeto->security_validation_fecha($fecha);
+            $objeto->security_validation_codigo($asistentes);
 
             $objeto->setAsistencias($asistentes, $id, $fecha);
 
             $objeto->registrar_asistencias();
             $registrar_asistencia = false;
+            die();
         }
+
+
+        //Eliminar discipulo
+        if(isset($_POST['deleteParticipante'])) {
+            $cedula_participante = $_POST['participante_cedula'];
+
+            echo $objeto->eliminar_participantes($cedula_participante);
+            die();
+        }
+
 
         if (isset($_POST['cedula_discipulo'])) {
 
             $cedula_discipulo = trim($_POST['cedula_discipulo']);
             $nivel = trim($_POST['nivel']);
             $nivel_actual = trim($_POST['codigo_discipulo']);
-            
+
             if (ctype_digit($cedula_discipulo) && ($nivel == "N1" or $nivel == "N2") && ($nivel_actual == "N1" or $nivel_actual == "N2")) {
 
                 $response = $objeto->editar_discipulo_nivel($cedula_discipulo, $nivel_actual, $nivel);
@@ -89,14 +180,8 @@ if ($_SESSION['verdadero'] > 0) {
         require_once 'vista/' . $pagina . '.php';
     }
 } else {
-    echo "<script>
-           window.location= 'error.php'
-</script>";
-}
-if (isset($_POST['cerrar'])) {
-    session_destroy();
-    echo "<script>
-    alert('Sesion Cerrada');
-    window.location= 'index.php'
-</script>";
+
+    require_once 'error.php';
+
+    http_response_code(403);
 }

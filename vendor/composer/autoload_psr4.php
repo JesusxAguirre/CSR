@@ -6,12 +6,13 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Symfony\\Polyfill\\Php83\\' => array($vendorDir . '/symfony/polyfill-php83'),
+    'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Routing\\' => array($vendorDir . '/symfony/routing'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'React\\Stream\\' => array($vendorDir . '/react/stream/src'),
     'React\\Socket\\' => array($vendorDir . '/react/socket/src'),
-    'React\\Promise\\Timer\\' => array($vendorDir . '/react/promise-timer/src'),
     'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'React\\EventLoop\\' => array($vendorDir . '/react/event-loop/src'),
     'React\\Dns\\' => array($vendorDir . '/react/dns/src'),
@@ -23,7 +24,10 @@ return array(
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'MyApp\\' => array($baseDir . '/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
+    'Evenement\\' => array($vendorDir . '/evenement/evenement/src'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
     'Csr\\Modelo\\' => array($baseDir . '/modelo'),
+    'Csr\\Helpers\\' => array($baseDir . '/helpers'),
+    'Csr\\Exception\\Usuarios\\' => array($baseDir . '/exception/usuarios'),
 );

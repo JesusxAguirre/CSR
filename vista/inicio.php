@@ -277,7 +277,7 @@
         </div>
     </div>
 
-    <a href="?pagina=iniciar-sesion" class="btn btn-primary fixed-bottom botonF">
+    <a href="?pagina=iniciar-sesion" class="btn btn-dark fixed-bottom botonF">
 
         <div class="row">
             <div class="col-2">

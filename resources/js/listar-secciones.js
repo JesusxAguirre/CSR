@@ -2,7 +2,7 @@
 /////APARTADO DE DATATABLES/////
 
 //IDIOMA DEL DATATABLES
-let spanish= {
+let spanish = {
     "processing": "Procesando...",
     "lengthMenu": "Mostrar _MENU_ registros",
     "zeroRecords": "No se encontraron resultados",
@@ -246,23 +246,37 @@ let spanish= {
 };
 
 //DATATABLES LISTA DE SECCIONES INICIALIZACION
-let activarDatatableSeccion= 'activarsec';
-let dataTableSec= $('#listaSecciones').DataTable({
-    ajax:{
+let activarDatatableSeccion = 'activarsec';
+let dataTableSec = $('#listaSecciones').DataTable({
+    ajax: {
         method: "POST",
-        url: "controlador/ajax/dinamica-seccion.php",
-        data: {activarDatatableSeccion: activarDatatableSeccion},
+        url: "index.php?pagina=listar-secciones",
+        data: { activarDatatableSeccion: activarDatatableSeccion },
     },
     columns: [
-        {data: 'id_seccion'},
-        {data: 'nombre'},
-        {data: 'nivel_academico'},
-        {data: 'fecha_cierre'},
-        {defaultContent: 
-        '<button type="button" class="btn btn-outline-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-fill fs-5"></i></button>'  
-        +'<button type="button" class="btn btn-outline-primary editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill fs-5"></i></button>'
-        +'<button type="button" class="btn btn-outline-primary editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill fs-5"></i></button>' 
-        +'<i type="button" class="eliminarSeccion mx-1 bi bi-x-lg btn btn-danger fs-5" title="Cerrar seccion"></i>'},
+        { data: 'id_seccion' },
+        { data: 'nombre' },
+        { data: 'nivel_academico' },
+        { data: 'fecha_cierre' },
+        {
+            data: null,
+            render: function (data, type, row, meta) {
+    
+              let botonesEditar = permisos.actualizar ? `<button type="button" class="btn btn-outline-primary editarDatosSeccion mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarDatosSeccion" title="Editar datos de la seccion"><i class="bi bi-pencil-fill fs-5"></i></button>
+              <button type="button" class="btn btn-outline-primary editardatosEstudiantes mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarEstudiantesSeccion" title="Ver y editar estudiantes"><i class="bi bi-person-lines-fill fs-5"></i></button>
+              <button type="button" class="btn btn-outline-primary editardatosProfesores mx-1" data-bs-toggle="modal" data-bs-target="#modalEditarProfesoresSeccion" title="Ver y editar profesores"><i class="bi bi-people-fill fs-5"></i></button>` : '';
+    
+              let botonEliminar = permisos.eliminar ? `<i type="button" class="eliminarSeccion mx-1 bi bi-x-lg btn btn-danger fs-5" title="Cerrar seccion"></i>` : '';
+    
+              let div = `
+              <div class="d-flex justify-content-center gap-1">
+                        ${botonesEditar}
+                        ${botonEliminar}
+              </div>
+              `
+              return div;
+            }
+          },
     ],
     language: spanish,
 });
@@ -278,38 +292,38 @@ dataTableSec.column(0).visible(false);
 
 
 /////LISTAR PROFESORES DE LA SECCION SELECCIONADA/////
-function listarProfesoresSeccion() { 
-    let idSMConsulta= $('#idSeccionProfMatU').val();
-    var div= document.getElementById("listaProfDatos"); //PARA ACTUALIZAR LA LISTA DE MATERIAS Y PROFESORES TAMBIEN
+function listarProfesoresSeccion() {
+    let idSMConsulta = $('#idSeccionProfMatU').val();
+    var div = document.getElementById("listaProfDatos"); //PARA ACTUALIZAR LA LISTA DE MATERIAS Y PROFESORES TAMBIEN
     $.ajax({
         data: {
             activarTablaProf: 'activarTablaProf',
             idSMConsulta: idSMConsulta,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
     });
 }
 
 
-campo_MatProf={
+campo_MatProf = {
     mat: false,
     prof: false,
 }
 
 //SELECT DE LOS PROFESORES PARA AGREGAR A LA MATERIA (LISTA)
 function selectMasMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCION SELECCIONADA
-    campo_MatProf[0]= false;
-    campo_MatProf[1]= false;
-    
+    campo_MatProf[0] = false;
+    campo_MatProf[1] = false;
+
     document.querySelector("#seleccionarProfesoresAdicionales").setAttribute("disabled", "disabled");
 
     let div = document.getElementById("select1");
-    let idSeccionRef4= $('#idSeccionProfMatU').val();
-    let nivDoctrinaRef4= $('#nivDoctrinaSeccionProfMatU').text();
-    
+    let idSeccionRef4 = $('#idSeccionProfMatU').val();
+    let nivDoctrinaRef4 = $('#nivDoctrinaSeccionProfMatU').text();
+
     $.ajax({
         data: {
             verMateriasAdicionales: 'verMateriasAdicionales',
@@ -320,7 +334,7 @@ function selectMasMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCION SELECCI
         url: "controlador/ajax/dinamica-seccion.php",
     }).done((data) => {
         div.innerHTML = data;
-        masMateriasChoices= new Choices(document.querySelector('#seleccionarMateriasAdicionales'), {
+        masMateriasChoices = new Choices(document.querySelector('#seleccionarMateriasAdicionales'), {
             allowHTML: true,
             removeItems: true,
             removeItemButton: true,
@@ -328,21 +342,21 @@ function selectMasMaterias() { //PARA ACTUALIZAR EL SELECT DE LA SECCION SELECCI
             noChoicesText: "No hay materias disponibles",
             placeholder: true,
             placeholderValue: "Buscar materia",
-      });
-        
+        });
+
     });
 }
 
 /////ENTRAR AL MODAL PROFESORES-MATERIAS Y LISTAR LOS PROFESORES-MATERIAS DE LA SECCION SELECCIONADA/////
-$('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
+$('#listaSecciones tbody').on('click', '.editardatosProfesores', function () {
 
-    let idSeccionRef3= dataTableSec.row($(this).parents()).data().id_seccion;
-    let nivDoctrinaSeccionRef3= dataTableSec.row($(this).parents()).data().nivel_academico;
-    let nombreSeccionRef3= dataTableSec.row($(this).parents()).data().nombre;
+    let idSeccionRef3 = dataTableSec.row($(this).parents()).data().id_seccion;
+    let nivDoctrinaSeccionRef3 = dataTableSec.row($(this).parents()).data().nivel_academico;
+    let nombreSeccionRef3 = dataTableSec.row($(this).parents()).data().nombre;
     $('#idSeccionProfMatU').val(idSeccionRef3);
     $('#nivDoctrinaSeccionProfMatU').text(nivDoctrinaSeccionRef3);
     $('#nombreSeccionProMatfU').text(nombreSeccionRef3);
-    
+
     let div = document.getElementById("listaProfDatos");
 
     $.ajax({
@@ -351,7 +365,7 @@ $('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
             idSMConsulta: idSeccionRef3,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
         selectMasMaterias();
@@ -360,22 +374,22 @@ $('#listaSecciones tbody').on('click', '.editardatosProfesores', function() {
 
 //LISTAR Y VALIDAR PROFESORES DE LA MATERIA SELECCIONADA AL AGREGAR MAS MATERIAS Y PROFESORES
 $(document).on('change', '#seleccionarMateriasAdicionales', function () {
-    
-    let div= document.getElementById('seleccionarProfesoresAdicionales');
-    let seminario= document.getElementById('seleccionarMateriaSeminario');
+
+    let div = document.getElementById('seleccionarProfesoresAdicionales');
+    let seminario = document.getElementById('seleccionarMateriaSeminario');
 
     if ($(this)[0].value == 'ninguno' || $(this)[0].value == '') {
         document.querySelector("#seleccionarProfesoresAdicionales").setAttribute("disabled", "disabled");
-        document.querySelector("#seleccionarProfesoresAdicionales").value= 'ninguno';
-        campo_MatProf[0]= false;
-    }else{
-        campo_MatProf[0]= true;
-        let materiaSeleccionada= $(this)[0].value;
-        $.post("controlador/ajax/dinamica-seccion.php", {verProfesoresMateriaAdicional: 'verProfesoresMateriaAdicional', materiaSeleccionada: materiaSeleccionada}, function (data) {
-            div.innerHTML= data;
+        document.querySelector("#seleccionarProfesoresAdicionales").value = 'ninguno';
+        campo_MatProf[0] = false;
+    } else {
+        campo_MatProf[0] = true;
+        let materiaSeleccionada = $(this)[0].value;
+        $.post("controlador/ajax/dinamica-seccion.php", { verProfesoresMateriaAdicional: 'verProfesoresMateriaAdicional', materiaSeleccionada: materiaSeleccionada }, function (data) {
+            div.innerHTML = data;
             document.querySelector("#seleccionarProfesoresAdicionales").removeAttribute("disabled");
-        } );
-        
+        });
+
     }
 });
 
@@ -384,10 +398,10 @@ $(document).on('change', '#seleccionarProfesoresAdicionales', function () {
 
     if ($(this)[0].value == 'ninguno' || $(this)[0].value == '') {
         document.querySelector(".alertaSelect2").removeAttribute("hidden");
-        campo_MatProf[1]= false;
-    }else{
+        campo_MatProf[1] = false;
+    } else {
         document.querySelector(".alertaSelect2").setAttribute("hidden", "hidden");
-        campo_MatProf[1]= true;
+        campo_MatProf[1] = true;
     }
 });
 
@@ -395,15 +409,15 @@ $(document).on('change', '#seleccionarProfesoresAdicionales', function () {
 //AGREGAR MATERIAS CON PROFESORES ASIGNADOS ADICIONALES AL QUERER EDITAR EN EL MODAL
 $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVOS
     e.preventDefault();
-    if (campo_MatProf[0] == true  && campo_MatProf[1] == true) {
-        const data= {
+    if (campo_MatProf[0] == true && campo_MatProf[1] == true) {
+        const data = {
             actualizarMP: 'actualizarMP',
             idMateriaAdicional: $('#seleccionarMateriasAdicionales').val(),
             cedulaProfesorAdicional: $('#seleccionarProfesoresAdicionales').val(),
             idSeccionRef5: $("#idSeccionProfMatU").val(),
         };
-    
-        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+
+        $.post("index.php?pagina=listar-secciones", data, function (response) {
             listarProfesoresSeccion();
             $('#seleccionarProfesoresAdicionales').val('ninguno')
             selectMasMaterias();
@@ -414,7 +428,7 @@ $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVO
                 timer: 1700,
             })
         });
-    }else{
+    } else {
         Swal.fire({
             icon: 'error',
             title: '¡No dejes ningun campo vacio!',
@@ -427,18 +441,18 @@ $('#agregarEditado3').click(function (e) { //AGREGAR MATERIAS Y PROFESORES NUEVO
 //ELIMINAR MATERIAS Y PROFESOR DE LA SECCION SELECCIONADA
 $(document).on('click', '#eliminarMP_ON', function (e) {
     e.preventDefault();
-    let elemento= $(this)[0].parentElement.parentElement;
-    let idMateriaSec= elemento.querySelector('.idMateriaProfON').textContent;
-    let cedulaProfSec= elemento.querySelector('.cedulaProfON').textContent;
-    let idSeccionMatProfSec= $('#idSeccionProfMatU').val();
+    let elemento = $(this)[0].parentElement.parentElement;
+    let idMateriaSec = elemento.querySelector('.idMateriaProfON').textContent;
+    let cedulaProfSec = elemento.querySelector('.cedulaProfON').textContent;
+    let idSeccionMatProfSec = $('#idSeccionProfMatU').val();
 
-    const data= {
+    const data = {
         eliminarMateriaProf: 'eliminarMateriaProf',
         idMateriaSec: idMateriaSec,
         cedulaProfSec: cedulaProfSec,
         idSeccionMatProfSec: idSeccionMatProfSec,
     }
-    
+
     Swal.fire({
         icon: 'warning',
         iconColor: 'red',
@@ -449,45 +463,45 @@ $(document).on('click', '#eliminarMP_ON', function (e) {
         confirmButtonColor: '#0059FF',
         denyButtonText: `Cancelar`,
         denyButtonColor: 'grey',
-      }).then((result) => {
+    }).then((result) => {
         if (result.isConfirmed) {
-          $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-            var resp = JSON.parse(response);
-            console.log(resp);
-            if (resp == 'true') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'DENEGADO',
-                    text: 'No puedes eliminar estos datos de la seccion mientras existan notas asociadas a los estudiantes',
-                    confirmButtonColor: '#0059FF'
-                })
-            }else{
-                listarProfesoresSeccion();
-                selectMasMaterias();
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Eliminados correctamente!',
-                    showConfirmButton: false,
-                    timer: 1700,
-                })
-            }
-          })
+            $.post("index.php?pagina=listar-secciones", data, function (response) {
+                var resp = JSON.parse(response);
+                console.log(resp);
+                if (resp == 'true') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'DENEGADO',
+                        text: 'No puedes eliminar estos datos de la seccion mientras existan notas asociadas a los estudiantes',
+                        confirmButtonColor: '#0059FF'
+                    })
+                } else {
+                    listarProfesoresSeccion();
+                    selectMasMaterias();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Eliminados correctamente!',
+                        showConfirmButton: false,
+                        timer: 1700,
+                    })
+                }
+            })
         }
-      })
+    })
 })
 
 
 
 /////LISTAR ESTUDIANTES DE LA SECCION SELECCIONADA/////
 function listarEstudiantesSeccion(idSeccionVer) { //Este parametro es para que la funcion liste los estudiantes de la seccion correspondiente. Un parametro de referencia
-    var div= document.getElementById("listaEstDatos");
+    var div = document.getElementById("listaEstDatos");
     $.ajax({
         data: {
             activarTablaEst: 'listar',
             idSeccionConsulta: idSeccionVer,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
     });
@@ -497,7 +511,7 @@ function listarEstudiantesSeccion(idSeccionVer) { //Este parametro es para que l
 function selectEstudiantesOFF() {
     let div = document.getElementById("selectMasEstudiantes");
     let verEstudiantes2 = "ver";
-    let nivelAcademicoRef= $('#nivelAcademicoRef').val();
+    let nivelAcademicoRef = $('#nivelAcademicoRef').val();
 
     $.ajax({
         data: {
@@ -515,7 +529,7 @@ function selectEstudiantesOFF() {
 //GUARDAR EL AGREGADO DE MAS ESTUDIANTES A LA SECCION
 $("#agregarEditado2").on("click", function (e) {
     e.preventDefault();
-    let campo= document.getElementById('seleccionarEstudiantesAdicionales');
+    let campo = document.getElementById('seleccionarEstudiantesAdicionales');
     if (campo.value == '') {
         Swal.fire({
             icon: 'error',
@@ -523,14 +537,14 @@ $("#agregarEditado2").on("click", function (e) {
             showConfirmButton: false,
             timer: 2000,
         });
-    }else{
+    } else {
         const data = {
             actualizarEstudiantes: 'actualizarEstudiantes',
             idSeccionV: $("#idSeccionRef2").val(),
             estudiantesNuevos: $("#seleccionarEstudiantesAdicionales").val(),
-          };
+        };
 
-        $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
+        $.post("index.php?pagina=listar-secciones", data, function (response) {
             console.log(response);
             listarEstudiantesSeccion(data.idSeccionV);
             selectEstudiantesOFF();
@@ -542,15 +556,15 @@ $("#agregarEditado2").on("click", function (e) {
             });
         });
     }
-    
+
 });
 
 /////ELIMINAR ESTUDIANTE DE LA SECCION SELECCIONADA/////
 $(document).on('click', '#eliminarEstON', function () {
     let elemento = $(this)[0].parentElement.parentElement;
-    let cedulaEstborrar= elemento.querySelector('#cedulaEstON').textContent;
-    let idSeccionRef= $("#idSeccionRef2").val();
-    
+    let cedulaEstborrar = elemento.querySelector('#cedulaEstON').textContent;
+    let idSeccionRef = $("#idSeccionRef2").val();
+
     const data = {
         eliminarEstSeccion: 'eliminarEstSeccion',
         cedulaEstborrar: cedulaEstborrar,
@@ -568,29 +582,29 @@ $(document).on('click', '#eliminarEstON', function () {
         denyButtonText: `Cancelar`,
         denyButtonColor: 'grey',
     }).then((result) => {
-            if (result.isConfirmed) {
-                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    var resp = JSON.parse(response);
+        if (result.isConfirmed) {
+            $.post("index.php?pagina=listar-secciones", data, function (response) {
+                var resp = JSON.parse(response);
 
-                    if (resp == 'true') {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'DENEGADO',
-                            text: 'No puedes eliminar al estudiante de la seccion porque existen notas asociadas a el/ella',
-                            confirmButtonColor: '#0059FF'
-                        })
-                    }else{
-                        listarEstudiantesSeccion(idSeccionRef);
-                        selectEstudiantesOFF();
-                        Swal.fire({
-                            icon: 'success',
-                            title: '¡Estudiante eliminado correctamente!',
-                            showConfirmButton: false,
-                            timer: 1500,
-                        });
-                    }
-                });
-            }
+                if (resp == 'true') {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'DENEGADO',
+                        text: 'No puedes eliminar al estudiante de la seccion porque existen notas asociadas a el/ella',
+                        confirmButtonColor: '#0059FF'
+                    })
+                } else {
+                    listarEstudiantesSeccion(idSeccionRef);
+                    selectEstudiantesOFF();
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Estudiante eliminado correctamente!',
+                        showConfirmButton: false,
+                        timer: 1500,
+                    });
+                }
+            });
+        }
     })
 })
 
@@ -600,43 +614,43 @@ $(document).on('click', '#eliminarEstON', function () {
 
 ////////////////////////////////////////////////////////////////
 ////////////////////FUNCIONES CHOICES SELECT////////////////////
-function choices1 () {
+function choices1() {
     var estudiantesOFF = document.getElementById('seleccionarEstudiantesAdicionales');
     new Choices(estudiantesOFF, {
-      allowHTML: true,
-      maxItemText: 3,
-      removeItems: true,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay estudiantes disponibles',
-      placeholderValue: 'Buscar estudiantes',
+        allowHTML: true,
+        maxItemText: 3,
+        removeItems: true,
+        removeItemButton: true,
+        noResultsText: 'No hay coicidencias',
+        noChoicesText: 'No hay estudiantes disponibles',
+        placeholderValue: 'Buscar estudiantes',
     });
 }
 
-function choices2 () {
+function choices2() {
     var estudiantesON = document.getElementById('seleccionarEstudiantes');
     new Choices(estudiantesON, {
-      position: 'top',
-      allowHTML: true,
-      removeItems: true,
-      maxItemCount: 40,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay estudiantes disponibles',
-      placeholderValue: 'Buscar estudiantes',
+        position: 'top',
+        allowHTML: true,
+        removeItems: true,
+        maxItemCount: 40,
+        removeItemButton: true,
+        noResultsText: 'No hay coicidencias',
+        noChoicesText: 'No hay estudiantes disponibles',
+        placeholderValue: 'Buscar estudiantes',
     });
 }
 
-function choices3 () {
+function choices3() {
     var estudiantesON = document.getElementById('estudiante');
     new Choices(estudiantesON, {
-      position: 'bottom',
-      allowHTML: true,
-      removeItems: true,
-      removeItemButton: true,
-      noResultsText: 'No hay coicidencias',
-      noChoicesText: 'No hay estudiantes disponibles',
-      placeholderValue: 'Buscar estudiantes',
+        position: 'bottom',
+        allowHTML: true,
+        removeItems: true,
+        removeItemButton: true,
+        noResultsText: 'No hay coicidencias',
+        noChoicesText: 'No hay estudiantes disponibles',
+        placeholderValue: 'Buscar estudiantes',
     });
 }
 ////////////////////////////////////////////////////////////////////
@@ -649,8 +663,8 @@ function choices3 () {
 //////////////////////APARTADO DE RELLENO DE DATOS///////////////////
 
 //RELLENANDO MODAL PARA EDITAR INFORMACION DE LA SECCION
-$('#listaSecciones tbody').on('click', '.editarDatosSeccion', function() {
-    let data= dataTableSec.row($(this).parents()).data();
+$('#listaSecciones tbody').on('click', '.editarDatosSeccion', function () {
+    let data = dataTableSec.row($(this).parents()).data();
     $('#idSeccionRefU').val(data.id_seccion);
     $('#nombreSeccionEdit').val(data.nombre);
     $('#nivelDoctrinaEdit').val(data.nivel_academico);
@@ -665,10 +679,10 @@ $('#listaSecciones tbody').on('click', '.editarDatosSeccion', function() {
 
 
 /////ENTRAR AL MODAL ESTUDIANTES Y LISTAR LOS ESTUDIANTES DE LA SECCION SELECCIONADA/////
-$('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
-    
-    let idSeccionRef= dataTableSec.row($(this).parents()).data().id_seccion;
-    let nivelAcademicoRef= dataTableSec.row($(this).parents()).data().nivel_academico;
+$('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function () {
+
+    let idSeccionRef = dataTableSec.row($(this).parents()).data().id_seccion;
+    let nivelAcademicoRef = dataTableSec.row($(this).parents()).data().nivel_academico;
     let div = document.getElementById("listaEstDatos");
     let activarTablaEst = "activarTablaEst";
 
@@ -681,7 +695,7 @@ $('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
             idSeccionConsulta: idSeccionRef,
         },
         type: "post",
-        url: "controlador/ajax/dinamica-seccion.php",
+        url: "index.php?pagina=listar-secciones",
     }).done((data) => {
         div.innerHTML = data;
         selectEstudiantesOFF();
@@ -690,9 +704,9 @@ $('#listaSecciones tbody').on('click', '.editardatosEstudiantes', function() {
 
 
 /////CERRAR SECCION DE LA DATATABLE SECCION/////
-$('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
-    let idSeccionRef= dataTableSec.row($(this).parents()).data().id_seccion;
-    let data= {
+$('#listaSecciones tbody').on('click', '.eliminarSeccion', function () {
+    let idSeccionRef = dataTableSec.row($(this).parents()).data().id_seccion;
+    let data = {
         eliminarSeccion: 'eliminarSeccion',
         idSeccionEliminar: idSeccionRef,
     }
@@ -706,30 +720,30 @@ $('#listaSecciones tbody').on('click', '.eliminarSeccion', function() {
         denyButtonText: `Cancelar`,
         denyButtonColor: 'grey',
     }).then((result) => {
-            if (result.isConfirmed) {
-                $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                    let resp = JSON.parse(response);
+        if (result.isConfirmed) {
+            $.post("index.php?pagina=listar-secciones", data, function (response) {
+                let resp = JSON.parse(response);
 
-                    if (resp == 'true') {
-                        dataTableSec.ajax.reload();
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Seccion cerrada correctamente!',
-                            showConfirmButton: false,
-                            timer: 2000,
-                        });
-                    }else{
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'DENEGADO',
-                            text: 'No puedes cerrar esta seccion porque aun faltan '+resp+' estudiantes por agregarle su nota final',
-                            confirmButtonColor: '#0059FF'
-                        });
-                    }
-                })
-            }
-        })
-    
+                if (resp == 'true') {
+                    dataTableSec.ajax.reload();
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Seccion cerrada correctamente!',
+                        showConfirmButton: false,
+                        timer: 2000,
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'DENEGADO',
+                        text: 'No puedes cerrar esta seccion porque aun faltan ' + resp + ' estudiantes por agregarle su nota final',
+                        confirmButtonColor: '#0059FF'
+                    });
+                }
+            })
+        }
+    })
+
 })
 
 
@@ -749,21 +763,21 @@ var camposEdit_1 = {
     fechaCierre: false,
 }
 
-    
+
 //VALIDAR NOMBRE DE LA SECCION AL EDITAR
 $('#nombreSeccionEdit').on('keyup blur', function (e) {
-    
+
     if (expresionesSecciones.nombreSeccion.test($(this)[0].value)) {
         document.getElementById('nombreSeccionEdit').classList.remove('validarMal');
         document.getElementById('nombreSeccionEdit').classList.add('validarBien');
         document.getElementById("alertaEditNombre").setAttribute("hidden", "hidden");
         camposEdit_1[0] = true;
-      } else {
+    } else {
         document.getElementById('nombreSeccionEdit').classList.remove('validarBien');
         document.getElementById('nombreSeccionEdit').classList.add('validarMal');
         document.getElementById("alertaEditNombre").removeAttribute("hidden");
         camposEdit_1[0] = false;
-      }
+    }
 });
 
 //VALIDAR NIVEL DE SECCION AL EDITAR
@@ -774,13 +788,13 @@ $('#nivelDoctrinaEdit').on('change blur', function (e) {
         document.getElementById('nivelDoctrinaEdit').classList.add('validarBien');
         document.getElementById("alertaEditNivel").setAttribute("hidden", "hidden");
         camposEdit_1[1] = true;
-      } else {
+    } else {
         document.getElementById('nivelDoctrinaEdit').classList.remove('validarBien');
         document.getElementById('nivelDoctrinaEdit').classList.add('validarMal');
         document.getElementById("alertaEditNivel").removeAttribute("hidden");
         camposEdit_1[1] = false;
-      }
-    
+    }
+
 });
 
 //VALIDAR FECHA DE SECCION AL EDITAR
@@ -790,17 +804,17 @@ $('#fechaCierreEdit').on('change blur', function (e) {
         document.getElementById('fechaCierreEdit').classList.add('validarMal');
         document.getElementById("alertaFechaEdit").removeAttribute("hidden");
         camposEdit_1[2] = false;
-      }else{
+    } else {
         document.getElementById('fechaCierreEdit').classList.remove('validarMal');
         document.getElementById('fechaCierreEdit').classList.add('validarBien');
         document.getElementById("alertaFechaEdit").setAttribute("hidden", "hidden");
         camposEdit_1[2] = true;
-      }
-    
+    }
+
 });
 
 /////ACTUALIZAR DATOS DE LA SECCION/////
-$('#guardarEditado1').click(function (e) { 
+$('#guardarEditado1').click(function (e) {
     e.preventDefault();
 
     if (camposEdit_1[0] && camposEdit_1[1] && camposEdit_1[2]) {
@@ -811,7 +825,7 @@ $('#guardarEditado1').click(function (e) {
             idSeccionRefU: $("#idSeccionRefU").val(),
             fechaCierreRefU: $("#fechaCierreEdit").val(),
         }
-    
+
         Swal.fire({
             background: 'white',
             icon: 'warning',
@@ -823,38 +837,38 @@ $('#guardarEditado1').click(function (e) {
             denyButtonText: `Cancelar`,
             denyButtonColor: 'grey',
         }).then((result) => {
-                if (result.isConfirmed) {
-                    $.post("controlador/ajax/CRUD-seccion.php", data, function (response) {
-                        let resp = JSON.parse(response);
-                        
-                        //VALIDANDO que no exista otra seccion con los mismos datos
-                        if (resp == 'encontrada') {
-                            Swal.fire({
-                                icon: 'error',
-                                title: '¡La seccion ya existe!',
-                                showConfirmButton: false,
-                                timer: 2000,
-                            });
-                        }else if (resp == 'denegado'){
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'DENEGADO',
-                                text: 'No puedes cambiar el nivel de la seccion porque ya se encuentran notas asociadas al nivel academico de la seccion',
-                                showConfirmButton: true,
-                            });
-                        }else if (resp == 'actualizada'){
-                            dataTableSec.ajax.reload();
-                            Swal.fire({
-                                icon: 'success',
-                                title: '¡Datos actualizados correctamente!',
-                                showConfirmButton: false,
-                                timer: 2000,
-                            });
-                        }
-                    });
-                }
+            if (result.isConfirmed) {
+                $.post("index.php?pagina=listar-secciones", data, function (response) {
+                    let resp = JSON.parse(response);
+
+                    //VALIDANDO que no exista otra seccion con los mismos datos
+                    if (resp == 'encontrada') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡La seccion ya existe!',
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                    } else if (resp == 'denegado') {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'DENEGADO',
+                            text: 'No puedes cambiar el nivel de la seccion porque ya se encuentran notas asociadas al nivel academico de la seccion',
+                            showConfirmButton: true,
+                        });
+                    } else if (resp == 'actualizada') {
+                        dataTableSec.ajax.reload();
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Datos actualizados correctamente!',
+                            showConfirmButton: false,
+                            timer: 2000,
+                        });
+                    }
+                });
+            }
         })
-    }else{
+    } else {
         Swal.fire({
             icon: 'error',
             title: '¡Verifique de haber hecho cambios correctos!',
@@ -875,6 +889,6 @@ $('#guardarEditado1').click(function (e) {
 
 
 
-    
+
 
 

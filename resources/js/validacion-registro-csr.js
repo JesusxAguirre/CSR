@@ -1,6 +1,11 @@
 const formulario = document.getElementById('formulario'); //declarando una constante con la id formulario
+ 
 
 var lideres = document.getElementById('lider');
+
+var lideres_array = Array.prototype.map.call(lideres.options, function (option) { //retornando array con id de lideres
+	return option.value;
+});
 var choices1 = new Choices(lideres, {
   allowHTML: true,
   removeItems: true,
@@ -14,6 +19,7 @@ const inputs = document.querySelectorAll('#formulario input'); //declarando una 
 const selects = document.querySelectorAll('#formulario select'); //declarando una constante con todos los inputs dentro de la id formulario
 
 const campos = {
+  lider: false,
   dia: false,
   hora: false,
   direccion: false,
@@ -22,14 +28,14 @@ const campos = {
   integrantes: false,
 }
 
+
 const expresiones = { //objeto con varias expresiones regulares
 
-  direccion: /^[A-Za-z0-9\s]{10,200}$/, // Letras y espacios, pueden llevar acentos.
+  direccion: /^(?=[a-zA-Z0-9 .]{5,150}$)[a-zA-Z0-9 .]+$/, // Letras y espacios, pueden llevar acentos.
+  // Letras y espacios, pueden llevar acentos.
   hora: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/, //formato de hora
-  codigo: /^[a-zA-Z\-0-9]{20,200}$/, //expresion regular de codigo de usuario
-  nombre: /^[a-zA-ZÀ-ÿ\s]{3,20}$/,
+  nombre: /^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,12}$/, // Letras y espacios, pueden llevar acentos.
   telefono: /^[0-9]{11}$/,
-  direccion: /^[A-Za-z0-9\s]{10,200}$/,
   integrantes: /^[0-9]{1,2}$/,
   //expresion regular de codigo de usuario
 }
@@ -53,7 +59,7 @@ const ValidarFormulario = (e) => {
       break;
 
     case "lider[]":
-      ValidarSelect(e.target, 'lider');
+      ValidarSelect(lideres_array,e.target, 'lider');
       break;
     case "direccion":
       ValidarCampo(expresiones.direccion, e.target, 'direccion');
@@ -65,51 +71,51 @@ const ValidarFormulario = (e) => {
 
 const ValidarDia = (input, campo) => {
   if (input.value === "Lunes" || input.value === "Martes" || input.value === "Miercoles" || input.value === "Jueves" || input.value === "Viernes" || input.value === "Sabado" || input.value === "Domingo") {
-    console.log("entra en la funcion DE DIA");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    console.log("entra en la funcion else");
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
 
-const ValidarSelect = (select, campo) => {
-  if (select.value == '') {
+const ValidarSelect = (codigo_array, input, campo) => {
+	if (codigo_array.indexOf(input.value) >= 0 && input.value != 0) {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.remove('is-invalid')
 
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
-    campos[campo] = false;
-  } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
-    document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
-    campos[campo] = true;
-  }
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
+		campos[campo] = true;
+	} else {
+		document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
+
+		document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+		document.querySelector(`#grupo__${campo} select`).classList.add('is-invalid')
+		campos[campo] = false;
+	}
 }
+
 
 const ValidarCampo = (expresion, input, campo) => {
   if (expresion.test(input.value)) {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-block');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
+    document.querySelector(`#grupo__${campo} input`).classList.remove('is-invalid')
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-none');
     campos[campo] = true;
   } else {
-    document.querySelector(`#grupo__${campo} i`).classList.remove('bi', 'bi-check-circle-fill', 'text-check', 'input-icon2');
     document.querySelector(`#grupo__${campo} p`).classList.remove('d-none');
-    document.querySelector(`#grupo__${campo} i`).classList.add('bi', 'bi-exclamation-triangle-fill', 'text-danger', 'input-icon');
+
     document.querySelector(`#grupo__${campo} p`).classList.add('d-block');
+    document.querySelector(`#grupo__${campo} input`).classList.add('is-invalid')
     campos[campo] = false;
   }
 }
@@ -124,27 +130,76 @@ inputs.forEach((input) => {
 lideres.addEventListener('hideDropdown', ValidarFormulario);
 
 
-formulario.addEventListener('submit', (e) => {
-  if (!(campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
-    e.preventDefault();
+$(document).on('submit', '#formulario', function (e) {
+  e.preventDefault();
+  if (!(campos.lider && campos.dia && campos.direccion && campos.hora && campos.integrantes && campos.nombre && campos.telefono)) {
+   
     Swal.fire({
       icon: 'error',
       title: 'Lo siento ',
       text: 'Registra el formulario correctamente'
     })
+  }else{
+    $.ajax({
+			type: 'POST',
+			url: window.location.href,
+			data: {
+        lider: document.getElementById('lider').value,
+        direccion: document.getElementById('direccion').value,
+        nombre: document.getElementById('nombreAnfitrion').value,
+        telefono: document.getElementById('telefonoAnfitrion').value,
+        dia: document.getElementById('diaVisita').value,
+        hora: document.getElementById('horaVisita').value,
+        integrantes: document.getElementById('nroPersonas').value,
+      },// Obtiene los datos del formulario
+			success: function (response) {
+				console.log(response)
+				
+        document.getElementById("formulario").reset()
+        
+        for(let campo in campos){
+          campos[campo] = false
+        }
+				Swal.fire({
+					icon: 'success',
+					title: 'Se ha registrado correctamente la CSR',
+					text: response.msj
+				})
+			},
+			error: function (xhr, status, error) {
+				// Código a ejecutar si se produjo un error al realizar la solicitud
+
+        console.log(xhr)
+				var response;
+				try {
+					response = JSON.parse(xhr.responseText);
+				} catch (e) {
+					response = {};
+				}
+        console.log(response)
+				switch (response.status_code) {
+					case 409:
+						response.ErrorType = "Hay conflicto con los horarios de visitas de casa sobre la roca"
+						break;
+					case 422:
+						response.ErrorType = "Invalid Data"
+						break;
+					case 404:
+						response.ErrorType = "Hubo algun error en la base de datos intente de nuevo"
+						break;
+					default:
+						break;
+				}
+
+				Swal.fire({
+					icon: 'error',
+					title: response.ErrorType,
+					text: response.msj
+				})
+			}
+		});
   }
 })
 
 
 
-if (error == false) { 
-  Swal.fire({
-    icon: 'success',
-    title: 'Se registro la casa sobre la roca correctamente'
-  })
-  const myTimeout = setTimeout(recarga, 2000);
-
-  function recarga() {
-    window.location = "index.php?pagina=registrar-casa";
-  }
-}
