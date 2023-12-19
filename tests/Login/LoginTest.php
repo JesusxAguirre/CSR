@@ -23,7 +23,6 @@ final class LoginTest extends TestCase
 
     $expected = 1;
     //Act  
-<<<<<<< HEAD
 
     $this->objeto_usuario->security_validation_correo($correo);
 
@@ -39,9 +38,6 @@ final class LoginTest extends TestCase
 
     $response = $this->objeto_usuario->validar();
 
-=======
-    $response = $this->objeto_usuarios->validar();
->>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 
     //Asert
     $this->assertEquals($expected, $response);

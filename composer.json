@@ -20,12 +20,8 @@
             "name": "Jesus Aguirre & Jesus Canelon"
         }
     ],
-<<<<<<< HEAD
     "minimum-stability": "stable",
     "require-dev": {
         "phpunit/phpunit": "*"
     }
-=======
-    "minimum-stability": "stable"
->>>>>>> parent of 97d0a381 (Merge branch 'aplicacion_asincronica' into Pruebas)
 }
