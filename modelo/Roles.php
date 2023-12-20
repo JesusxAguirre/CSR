@@ -125,7 +125,6 @@ class Roles extends Conexion
 			));
 
 			echo json_encode(array("msj" => "Se ha actualizado el Rol", "status_code" => 200));
-			
 			die();
 		} catch (Throwable $ex) {
 			$errorType = basename(get_class($ex));
