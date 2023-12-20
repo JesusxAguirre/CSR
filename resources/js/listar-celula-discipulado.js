@@ -486,7 +486,9 @@ deleteButton.addEventListener('click', () => {
     url: "?pagina=listar-celula-discipulado",
     type: "post",
   }).done(data => {
-    if (data == '1') {
+    let dato = JSON.parse(data)
+
+    if (dato.status_code == 200) {
       fireAlert('success', 'Discipulo  eliminado correctamente')
     } else {
       console.log(data)

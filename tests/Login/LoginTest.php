@@ -12,27 +12,30 @@ final class LoginTest extends TestCase
 
   public function setUp(): void
   {
-    $this->objeto_usuarios   = new Usuarios();
+    $this->objeto_usuario = new Usuarios();
   }
+
   /** @test **/
   public function test_login_admin()
   {
     //Init
-    $correo = "";
-    $clave = "";
+    $correo = "examplejeje@gmail.com";
+    $clave = "Hola!000";
     $expected = 200;
-    $no =0;
+
     //Act  
+    $this->objeto_usuario->security_validation_correo($correo);
 
-    $this->assertEquals('',$this->objeto_usuarios->security_validation_correo($correo));
+    $this->objeto_usuario->security_validation_clave($clave);
 
-    $this->assertEquals('',$this->objeto_usuarios->security_validation_clave($clave));
+    $_SESSION['usuario'] = $correo;
 
-    $response =  $this->objeto_usuarios->validar();
+    $_SESSION['clave'] = $clave;
+
+    $response = $this->objeto_usuario->validar();
 
     //Asert
-
-    $this->assertEquals($expected, $response['status_code']);
+    $this->assertEquals($expected, $response);
   }
 
 

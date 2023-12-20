@@ -6,8 +6,8 @@
  * Licensed under MIT (https://github.com/twbs/icons/blob/main/LICENSE)
  */
 
-const { execFile } = require('node:child_process')
-const fs = require('node:fs').promises
+import { execFile } from 'node:child_process'
+import fs from 'node:fs/promises'
 
 const VERBOSE = process.argv.includes('--verbose')
 const DRY_RUN = process.argv.includes('--dry') || process.argv.includes('--dry-run')
@@ -16,7 +16,7 @@ const DRY_RUN = process.argv.includes('--dry') || process.argv.includes('--dry-r
 const FILES = [
   'build/font/css.hbs',
   'build/font/scss.hbs',
-  'config.yml'
+  'hugo.yml'
 ]
 
 // Blame TC39... https://github.com/benjamingr/RegExp.escape/issues/37

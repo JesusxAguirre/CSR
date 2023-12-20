@@ -363,8 +363,8 @@ class LaRoca extends Conexion
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha registrado correctamente la casa sobre la roca", "status_code" => 200));
-
             die();
+            
         } catch (Throwable $ex) {
 
             $errorType = basename(get_class($ex));
@@ -502,6 +502,7 @@ class LaRoca extends Conexion
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se han actualizado correctamente los datos", "status_code" => 200, "filas afecadas" => $stmt->rowCount()));
+            
             die();
         } catch (Throwable $ex) {
 
@@ -560,6 +561,9 @@ class LaRoca extends Conexion
             }
         }
     }
+
+
+
     //---------registrar reporte de CSR------------------------//
 
     public function registrar_reporte_CSR()
@@ -957,7 +961,7 @@ class LaRoca extends Conexion
                 if ($response == 0) {
                     //guardar datos de hacker
 
-                    throw new Exception(sprintf("El id que enviaste no cumple con el formato de id adecuado. id-> '%s' ", $array[$i]), 422);
+                    throw new Exception(sprintf("La cantidad que enviaste no cumple con el formato adecuado. cantidad enviada-> '%s' ", $array[$i]), 422);
                 }
             }
         } catch (Throwable $ex) {

@@ -141,9 +141,9 @@ if (isset($_POST['respuesta'])) {
 //validando datos de usuario para entrar al sistema
 if (isset($_POST['email'])) {
 
-	/*if (!verified_token_csrf()) {
+	if (!verified_token_csrf()) {
 		$objeto_usuario->insert_ip_blacklist();
-	}*/
+	}
 	$correo = strtolower(trim($_POST['email']));
 
 	$clave = trim($_POST['password']);

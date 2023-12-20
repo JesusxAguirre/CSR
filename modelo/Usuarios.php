@@ -93,7 +93,7 @@ class Usuarios extends Conexion
 
     private $expresion_telefono = "/^[0-9]{11}$/";
 
-    private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
+    private $expresion_especial = "/[^a-zA-Z0-9!@#$%^&*]/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
 
@@ -133,20 +133,31 @@ class Usuarios extends Conexion
     //LISTAR BITACORA
     public function listar_bitacora()
     {
-        //$cedula= $_SESSION['cedula'];
-        $sql = "SELECT `modulos`.`nombre` AS `nombreModulo`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` 
-        FROM `bitacora_usuario` INNER JOIN `usuarios` ON `bitacora_usuario`.`cedula_usuario` = `usuarios`.`cedula` INNER JOIN `modulos` ON `modulos`.`id` = `bitacora_usuario`.`id_modulo` 
-        ORDER BY `bitacora_usuario`.`fecha_registro` DESC, `bitacora_usuario`.`hora_registro` DESC";
+        try {
+            $sql = "SELECT `modulos`.`nombre` AS `nombreModulo`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` 
+            FROM `bitacora_usuario` INNER JOIN `usuarios` ON `bitacora_usuario`.`cedula_usuario` = `usuarios`.`cedula` INNER JOIN `modulos` ON `modulos`.`id` = `bitacora_usuario`.`id_modulo` 
+            ORDER BY `bitacora_usuario`.`fecha_registro` DESC, `bitacora_usuario`.`hora_registro` DESC";
 
-        $stmt = $this->conexion()->prepare($sql);
+            $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+            $stmt->execute(array());
 
-        while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-            $bitacora[] = $filas;
+            while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $bitacora[] = $filas;
+            }
+
+            http_response_code(200);
+            
+            return $bitacora;
+
+        } catch (Throwable $ex) {
+            $errorType = basename(get_class($ex));
+            http_response_code($ex->getCode());
+            echo json_encode(array("msj" => $ex->getMessage(), "status_code" => $ex->getCode(), "ErrorType" => $errorType));
+
+            die();
         }
 
-        return $bitacora;
     }
 
 
@@ -180,6 +191,7 @@ class Usuarios extends Conexion
                         http_response_code(200);
                         header('Content-Type: application/json');
                         echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "apikey" => $apiKey, "status_code" => 200));
+                        return 200;
                     } else {
                         throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
                     }
@@ -458,7 +470,7 @@ class Usuarios extends Conexion
     }
 
     //REGISTRO DE USUARIOS
-    public  function registrar_usuarios()
+    public function registrar_usuarios()
     {
         try {
             //ESTAS FUNCIONES DE SUBTR ES PARA HACER EL CODIGO DE CADA USUARIO
@@ -494,7 +506,7 @@ class Usuarios extends Conexion
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se registro exitosamente", "status_code" => 200));
-            die();
+            //die();
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));
             http_response_code(500);
@@ -522,7 +534,7 @@ class Usuarios extends Conexion
 
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(":cedula_antigua" => $this->cedula_antigua));
-            $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $codigo_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
             $longitud_cedula_antigua = strlen($this->cedula_antigua);
@@ -639,7 +651,7 @@ class Usuarios extends Conexion
 
             $stmt = $this->conexion()->prepare($sql);
             $stmt->execute(array(":cedula_antigua" => $this->cedula_antigua));
-            $codigo_usuario  = $stmt->fetch(PDO::FETCH_ASSOC);
+            $codigo_usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
             //funcion para comprobar la longitud de la cedula dependiendo de eso la funcion substr cambia 
             $longitud_cedula_antigua = strlen($this->cedula_antigua);
@@ -1457,7 +1469,7 @@ class Usuarios extends Conexion
      * @param  string $publicKey
      * @return string
      */
-    public function  mutatedEncryptMessage($message, $publicKey)
+    public function mutatedEncryptMessage($message, $publicKey)
     {
         return parent::encryptMessage($message, $publicKey);
     }

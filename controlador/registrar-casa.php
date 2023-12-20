@@ -74,8 +74,8 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
             $objeto->security_validation_hora($hora);
             $objeto->security_validation_telefono($telefono_anfitrion);
             
-            //Aqui hay un bug, por eso esta comentado
-            //$objeto->security_validation_cantidad($cantidad_integrantes);
+            //Aqui hay un bug, por eso esta comentado OJO AQUI (En prueba)
+            $objeto->security_validation_cantidad([$cantidad_integrantes]);
 
             $objeto->setCSR($cedula_lider, $direccion, $nombre_anfitrion, $telefono_anfitrion, $dia, $hora, $cantidad_integrantes);
             $objeto->registrar_CSR();

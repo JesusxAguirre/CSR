@@ -34,10 +34,10 @@ class Discipulado extends Conexion
 
     private $expresion_especial =  "/[^a-zA-Z0-9!@#$%^&*]/";
 
-    private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
+    //private $expresion_codigo =  "/^([^a-zA-Z0-9!@#$%^&-*])$/";
+    private $expresion_codigo =  "/^[a-zA-Z0-9\-\s]+$/";
 
     private $expresion_cedula = "/^[0-9]{7,8}$/";
-
 
     private $expresion_caracteres = "/^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]{3,19}$/";
 
@@ -143,21 +143,20 @@ class Discipulado extends Conexion
         FROM celula_discipulado 
         INNER JOIN usuarios AS lider  ON   celula_discipulado.cedula_lider = lider.cedula
         INNER JOIN usuarios AS anfitrion  ON   celula_discipulado.cedula_anfitrion = anfitrion.cedula
-        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula");
+        INNER JOIN usuarios AS asistente  ON   celula_discipulado.cedula_asistente = asistente.cedula
+        WHERE celula_discipulado.cedula_lider = :cedula");
 
         $stmt = $this->conexion()->prepare($sql);
 
-        $stmt->execute(array());
+        $stmt->execute(array(":cedula" => $_SESSION['cedula']));
 
         while ($filas = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
-
             $resultado[] = $filas;
         }
 
         $accion = "Listar Celula de discipulado";
         $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        //parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
     public function listar_participantes($id_discipulado)
@@ -255,8 +254,8 @@ class Discipulado extends Conexion
         }
 
         $accion = "Reporte de Asistencias de celula de discipulado";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        //$usuario = $_SESSION['cedula'];
+        //parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
         return $resultado;
     }
 
@@ -540,6 +539,7 @@ class Discipulado extends Conexion
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha registrado correctamente la cedula de discipulado", 'status_code' => 200));
+            return true;
             die();
         } catch (Throwable $ex) {
 
@@ -818,10 +818,10 @@ class Discipulado extends Conexion
             }
 
 
-
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha actualizado correctamente los datos de la cedula de discipulado", 'status_code' => 200));
             die();
+
         } catch (Throwable $ex) {
 
 
@@ -855,6 +855,7 @@ class Discipulado extends Conexion
 
             http_response_code(200);
             echo json_encode(array("msj" => "Se ha registrado correctamente todos los nuevos participantes", 'status_code' => 200));
+            return true;
             die();
         } catch (Throwable $ex) {
 
@@ -913,7 +914,8 @@ class Discipulado extends Conexion
             $stmt->execute(array(":cedula_participante" => $cedula_participante));
 
             http_response_code(200);
-            echo json_encode(array("msj" => "Se ha eliminado correctamente el discipulo",));
+            echo json_encode(array("msj" => "Se ha eliminado correctamente el discipulo", 'status_code' => 200));
+            
             die();
 
         } catch (Exception $e) {
@@ -1220,21 +1222,12 @@ class Discipulado extends Conexion
     {
         try {
             for ($i = 0; $i < count($array); $i++) {
-                $response = preg_match($this->expresion_codigo, $array[$i]);
 
-                if ($response > 0) {
-                    //guardar en base de datos hacker
-
-
-                    throw new Exception(sprintf("Estas intentando enviar caracteres invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
-                }
-
-                if ($array[$i] == "") {
+                if (empty($array[$i]) || !preg_match($this->expresion_codigo, $array[$i])) {
                     //guardar en base de datos de hacker
-
-
-                    throw new Exception("Estas enviando datos vacios", 422);
+                    throw new Exception(sprintf("Estas enviando datos invalidos. caracter invalido-> '%s' ", $array[$i]), 422);
                 }
+
             }
         } catch (Throwable $ex) {
             $errorType = basename(get_class($ex));

@@ -154,6 +154,7 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
         //Eliminar discipulo
         if(isset($_POST['deleteParticipante'])) {
             $cedula_participante = $_POST['participante_cedula'];
+            $objeto->security_validation_codigo([$cedula_participante]);
 
             echo $objeto->eliminar_participantes($cedula_participante);
             die();
