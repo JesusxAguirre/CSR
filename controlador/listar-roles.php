@@ -79,8 +79,10 @@ if ($_SESSION['verdadero'] > 0) {
             $nombreRol = strtolower(trim($_POST['nombre']));
             $descripcionRol = strtolower(trim($_POST['descripcion']));
 
-            $objeto->security_validation_caracteres([$nombreRol]);
-            $objeto->security_validation_inyeccion_sql([$nombreRol]);
+
+            $objeto->security_validation_caracteres([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
+
+            $objeto->security_validation_inyeccion_sql([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
@@ -100,20 +102,16 @@ if ($_SESSION['verdadero'] > 0) {
             $nombreRol = strtolower($_POST['nombre']);
             $descripcionRol = strtolower($_POST['descripcion']);
 
-            $objeto->security_validation_caracteres([$nombreRol, $descripcionRol]);
-            $objeto->security_validation_inyeccion_sql([$nombreRol]);
-            //$objeto->security_validation_caracteres([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
-            //$objeto->security_validation_inyeccion_sql([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
+
+            $objeto->security_validation_caracteres([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
+            $objeto->security_validation_inyeccion_sql([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
-                $alert['status'] = 'false';
-                $alert['msg'] = "El rol ingresado ya existe";
+                echo json_encode(array('status' => 422, 'msj' => 'El rol ingresado ya existe'));
             } else {
                 $objeto->setUpdatedRol($nombreRol, $descripcionRol);
                 $objeto->update_rol($idRol);
-                $alert['status'] = true;
-                $alert['msg'] = "Rol modificado correctamente";
             }
             die();
         }
@@ -133,7 +131,7 @@ if ($_SESSION['verdadero'] > 0) {
             die();
         }
 
-        
+
         $roles   = $objeto->get_roles();
         $modulos = $objeto->get_modulos();
 
