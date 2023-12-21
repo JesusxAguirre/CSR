@@ -243,8 +243,8 @@ class Usuarios extends Conexion
         }
 
         $accion = "Listar todos los usuarios";
-        $usuario = $_SESSION['cedula'];
-        parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+        //$usuario = $_SESSION['cedula'];
+        //parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
         return $resultado;
     }
@@ -616,8 +616,8 @@ class Usuarios extends Conexion
 
 
             $accion = "Editar datos de usuario";
-            $usuario = $_SESSION['cedula'];
-            parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
+            //$usuario = $_SESSION['cedula'];
+            //parent::registrar_bitacora($usuario, $accion, $this->id_modulo);
 
             //Respuesta para el manejo de respuesta HTTP
             http_response_code(202);
@@ -733,14 +733,9 @@ class Usuarios extends Conexion
 
             http_response_code(202);
             echo json_encode(array("msj" => "Se han actualizado tus datos correctamente", "status_code" => 202));
+            return true;
             die();
-
-            //Respaldo por si sale mal jeje
-            /*echo "<script>
-            alert('Sesion Cerrada');
-            window.location= 'index.php'
-        </script>";
-            return true;*/
+            
         } catch (Throwable $ex) {
 
             $errorType = basename(get_class($ex));
