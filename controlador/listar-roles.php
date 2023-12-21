@@ -86,11 +86,16 @@ if ($_SESSION['verdadero'] > 0) {
             $validacion = $objeto->validar_crear_rol($nombreRol);
 
             if ($validacion > 0) {
-                echo json_encode(array('status' => 'false', 'msj' => 'El rol ingresado ya existe'));
+
+                http_response_code(422);
+
+                echo json_encode(array('status_code' => 422, 'msj' => 'El rol ingresado ya existe'));
             } else {
                 $objeto->setDatos($nombreRol, $descripcionRol);
                 $objeto->create_rol();
-                echo json_encode(array('status' => 'true', 'msj' => 'Rol creado exitosamente'));
+
+                http_response_code(200);
+                echo json_encode(array('status_code' => 200, 'msj' => 'Rol creado exitosamente'));
             }
             die();
         }

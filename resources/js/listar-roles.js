@@ -222,40 +222,68 @@ editForm.addEventListener("submit", (event) => {
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
-	if (initialValidation.name && initialValidation.description) {
-		$.ajax({
-			type: "POST",
-			url: "?pagina=listar-roles",
-			data: {
-				create: 'create',
-				nombre: document.getElementById('input_nombreCrear').value,
-				descripcion: document.getElementById('input_descripcionCrear').value
-			},
-			success: function (response) {
-				let data = JSON.parse(response);
-
-        if (data.status == "true") {
-          fireAlert("success", data.msj);
-          location.reload();
-        } else {
-          fireAlert("error", data.msj);
-        }
-      },
-      error: function (xhr, status, error) {
-        // Código a ejecutar si se produjo un error al realizar la solicitud
-        var response;
-        try {
-          response = JSON.parse(xhr.responseText);
-        } catch (e) {
-          response = {};
-        }
-
-        fire_alerta("Algo esta mal en la BD", response.msg, "error");
-      },
-    });
-  } else {
+  if (!(initialValidation.name && initialValidation.description)) {
     fireAlert("error", "Algunos campos no son validos");
+    return;
   }
+  $.ajax({
+    type: "POST",
+    url: "?pagina=listar-roles",
+    data: {
+      create: "create",
+      nombre: document.getElementById("input_nombreCrear").value,
+      descripcion: document.getElementById("input_descripcionCrear").value,
+    },
+    success: function (response) {
+      Swal.fire({
+        icon: "success",
+        title: "Rol Actualizado correctamente",
+        text: response.msj,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.replace(window.location.href);
+        }
+      });
+
+      setTimeout(function () {
+        window.location.replace(window.location.href);
+      }, 4000);
+    },
+    error: function (xhr, status, error) {
+      // Código a ejecutar si se produjo un error al realizar la solicitud
+
+      initialValidation.name2 = false;
+      initialValidation.description2 = false;
+      var response;
+      try {
+        response = JSON.parse(xhr.responseText);
+      } catch (e) {
+        response = {};
+      }
+
+      switch (response.status_code) {
+        case 403:
+          response.ErrorType = "DENIED";
+        case 409:
+          response.ErrorType = "User Already Exist";
+          break;
+        case 422:
+          response.ErrorType = "Invalid Data";
+          break;
+        case 404:
+          response.ErrorType = "User Not Exist";
+          break;
+        default:
+          break;
+      }
+
+      Swal.fire({
+        icon: "error",
+        title: response.ErrorType,
+        text: response.msj,
+      });
+    },
+  });
 });
 
 inputCrearNombre.addEventListener("keyup", (event) => {

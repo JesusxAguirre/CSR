@@ -124,7 +124,8 @@ class Roles extends Conexion
 				':id' => $idRol
 			));
 
-			echo json_encode(array("msj" => "Se ha actualizado el Rol", "status_code" => 200));
+			http_response_code(202);
+			echo json_encode(array("array" => "Se ha actualizado el Rol", "status_code" => 200));
 
 			die();
 		} catch (Throwable $ex) {
