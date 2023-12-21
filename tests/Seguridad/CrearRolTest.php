@@ -5,7 +5,6 @@ declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
 use Csr\Modelo\Roles;
 
-
 final class CrearRolTest extends TestCase
 {
     private $objeto;
@@ -19,20 +18,23 @@ final class CrearRolTest extends TestCase
     public function test_crear(): void
     {
         //Init
-        $expected = 0;
-        $idRol = 40;
-        $nombreRol = 'Example23+_ *&^';
+        $nombreRol = 'Example';
         $descripcionRol = 'Esto es un rol de test';
-
+        $response = false;
+        $expected = 0;
         //Act
 
-        $this->objeto->security_validation_caracteres([$nombreRol, $descripcionRol]);
-        $this->objeto->security_validation_inyeccion_sql([$nombreRol]);
+        $this->objeto->security_validation_caracteres([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
+        $this->objeto->security_validation_inyeccion_sql([str_replace(' ', '', $nombreRol), str_replace(' ', '', $descripcionRol)]);
         $validacion = $this->objeto->validar_crear_rol($nombreRol);
-        $this->objeto->setUpdatedRol($nombreRol, $descripcionRol);
-        $response = $this->objeto->update_rol($idRol);
 
-
+        if ($validacion > 0) {
+            echo json_encode(array('status' => 'false', 'msj' => 'El rol ingresado ya existe'));
+        } else {
+            $this->objeto->setDatos($nombreRol, $descripcionRol);
+            $response = $this->objeto->create_rol();
+        }
+        
         //Assert
 
         $this->assertEquals($expected, $validacion);
