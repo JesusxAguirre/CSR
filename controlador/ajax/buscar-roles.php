@@ -1,6 +1,6 @@
 <?php
 require_once("../../vendor/autoload.php");
-
+session_start();
 use Csr\Modelo\Roles;
 $objeto = new Roles();
 $busqueda = $_GET['busqueda'];
