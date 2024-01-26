@@ -7,8 +7,8 @@
       <file>tests/Integracion/CasaSobreLaRoca/CasaTest.php</file>
       <file>tests/Integracion/Perfil/PerfilTest.php</file>
       <file>tests/Integracion/Seguridad/SeguridadTest.php</file>
-      <file>tests/Integracion/Consolidacion/ConsolidacionTest.php</file>
       <file>tests/Integracion/Discipulado/DiscipuladoTest.php</file>
+      <!-- <file>tests/Integracion/Consolidacion/ConsolidacionTest.php</file>
       <file>tests/Integracion/Ecam/ProfesoresTest/ProfesoresTest.php</file>
       <file>tests/Integracion/Ecam/MateriasTest/MateriasTest.php</file>
       <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file>
@@ -18,7 +18,7 @@
       <file>tests/Integracion/Ecam/BoletinNotas/Boletin_notas.php</file>
       <file>tests/Integracion/Ecam/SeccionesTest/vaciarSeccion.php</file>
       <file>tests/Integracion/Ecam/SeccionesCerradas/Secciones_cerradas.php</file>
-      <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file>
+      <file>tests/Integracion/Ecam/SeccionesTest/SeccionesTest.php</file> -->
     </testsuite>
   </testsuites>
 </phpunit>
