@@ -191,10 +191,11 @@ if (isset($_POST['email'])) {
 		$_SESSION['permisos'] = $objRoles->get_permisos($idRol);
 
 		// Regenera el ID de sesión para vaciar rastros de las anteriores
-		session_regenerate_id(true);
+		//session_regenerate_id(true);
 
 		return true;
 	}
+	
 }
 
 //validando datos de usuario para entrar al sistema

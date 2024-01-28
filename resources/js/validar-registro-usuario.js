@@ -406,7 +406,6 @@ $(document).ready(function () {
 				error: function (xhr, status, error) {
 					// Código a ejecutar si se produjo un error al realizar la solicitud
 
-
 					var response;
 					try {
 						response = JSON.parse(xhr.responseText);
