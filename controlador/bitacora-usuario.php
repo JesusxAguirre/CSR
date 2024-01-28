@@ -64,7 +64,7 @@ if ($_SESSION['verdadero'] > 0) {
                     $json['data'][] = $key;
                 }
             } else {
-                $json['data']['accion_realizada'] = null;
+                $json['data'] = array();
             }
             echo json_encode($json);
             die();
@@ -78,4 +78,3 @@ if ($_SESSION['verdadero'] > 0) {
            window.location= 'error.php'
 </script>";
 }
-?>

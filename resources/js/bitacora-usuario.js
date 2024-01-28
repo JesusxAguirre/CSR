@@ -242,7 +242,6 @@ let spanish = {
 };
 
 //APARTADO DE INICIALIZACION DATATABLES JS
-$(document).ready(function () {
     const dataTable_bitacora = $('#bitacora').DataTable({
         responsive: true,
         ajax: {
@@ -272,4 +271,3 @@ $(document).ready(function () {
         language: spanish,
         ordering: false,
     });
-});

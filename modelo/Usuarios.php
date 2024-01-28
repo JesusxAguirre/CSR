@@ -134,6 +134,7 @@ class Usuarios extends Conexion
     public function listar_bitacora()
     {
         try {
+            $bitacora = [];
             $sql = "SELECT `modulos`.`nombre` AS `nombreModulo`, `usuarios`.`codigo`, `usuarios`.`nombre`, `usuarios`.`apellido`, `fecha_registro`, `hora_registro`, `accion_realizada` 
             FROM `bitacora_usuario` INNER JOIN `usuarios` ON `bitacora_usuario`.`cedula_usuario` = `usuarios`.`cedula` INNER JOIN `modulos` ON `modulos`.`id` = `bitacora_usuario`.`id_modulo` 
             ORDER BY `bitacora_usuario`.`fecha_registro` DESC, `bitacora_usuario`.`hora_registro` DESC";
@@ -192,7 +193,7 @@ class Usuarios extends Conexion
                         header('Content-Type: application/json');
                         echo json_encode(array("msj" => "Has Iniciado sesion correctamente", "apikey" => $apiKey, "status_code" => 200));
                         
-                        die();
+                        return 200;
                     } else {
                         throw new Exception("Algo esta equivocado en la clave o el usuario", 422);
                     }
@@ -220,6 +221,9 @@ class Usuarios extends Conexion
         $stmt = $this->conexion()->prepare($sql);
 
         $stmt->execute(array(":usuario" => $usuario));
+
+        $accion = 'El usuario ha entrado a "Mi Perfil"';
+        //$this->bitacora($_SESSION['cedula'], $accion, $this->id_modulo);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
@@ -734,7 +738,6 @@ class Usuarios extends Conexion
 
             http_response_code(202);
             echo json_encode(array("msj" => "Se han actualizado tus datos correctamente", "status_code" => 202));
-            return true;
             die();
             
         } catch (Throwable $ex) {

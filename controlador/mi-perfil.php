@@ -65,11 +65,6 @@ if (isset($_SESSION['verdadero']) && $_SESSION['verdadero'] > 0) {
 
         $matriz_usuario = $objeto->mi_perfil();
 
-        $cedula = $_SESSION['cedula'];
-        $id_modulo = 1;
-        $accion = 'El usuario ha entrado a "Mi Perfil"';
-        $objeto->bitacora($cedula, $accion, $id_modulo);
-
         if (isset($_POST['update'])) {
 
             //Se chequea estos metodos de seguridad
